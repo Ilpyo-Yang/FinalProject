@@ -30,7 +30,7 @@
   }
 
   .lside {
-    margin-top: 50px;
+    margin-top:50px;
     padding:10px 0 10px 70px;
   }
 
