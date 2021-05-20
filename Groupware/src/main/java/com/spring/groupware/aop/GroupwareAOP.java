@@ -20,36 +20,37 @@ import com.spring.groupware.common.MyUtil;
 @Component
 public class GroupwareAOP {
 
-	// == Pointcut (ÁÖ¾÷¹«) ¼³Á¤ == //
+	// == Pointcut (ì£¼ì—…ë¬´) ì„¤ì • == //
 	@Pointcut("execution(public * com.spring..*Controller.requiredLogin_*(..))")
-	public void requiredLogin() { }
+	public void requiredLogin() {
+	}
 
-	
-	
-	// == Before Advice (°øÅë¾÷¹«) ±¸Çö == //
+	// == Before Advice (ê³µí†µì—…ë¬´) êµ¬í˜„ == //
 
-	// ·Î±×ÀÎ À¯¹« °Ë»çÇÏ´Â ¸Ş¼Òµå
+	// ë¡œê·¸ì¸ ìœ ë¬´ ê²€ì‚¬í•˜ëŠ” ë©”ì†Œë“œ
 	@Before("requiredLogin()")
 	public void loginCheck(JoinPoint joinPoint) {
 
-		HttpServletRequest request = (HttpServletRequest) joinPoint.getArgs()[0]; // ÁÖ¾÷¹« ¸Ş¼ÒµåÀÇ Ã¹¹øÂ° ÆÄ¶ó¹ÌÅÍ¸¦ ¾ò¾î¿À±â
-		HttpServletResponse response = (HttpServletResponse) joinPoint.getArgs()[1]; // ÁÖ¾÷¹« ¸Ş¼ÒµåÀÇ µÎ¹øÂ° ÆÄ¶ó¹ÌÅÍ¸¦ ¾ò¾î¿À±â
+		HttpServletRequest request = (HttpServletRequest) joinPoint.getArgs()[0]; // ì£¼ì—…ë¬´ ë©”ì†Œë“œì˜ ì²«ë²ˆì§¸ íŒŒë¼ë¯¸í„°ë¥¼ ì–»ì–´ì˜¤ê¸°
+		HttpServletResponse response = (HttpServletResponse) joinPoint.getArgs()[1]; // ì£¼ì—…ë¬´ ë©”ì†Œë“œì˜ ë‘ë²ˆì§¸ íŒŒë¼ë¯¸í„°ë¥¼ ì–»ì–´ì˜¤ê¸°
 
-		// ·Î±×ÀÎ À¯¹«¸¦ È®ÀÎÇÏ±â À§ÇØ session °¡Á®¿À±â
+		// ë¡œê·¸ì¸ ìœ ë¬´ë¥¼ í™•ì¸í•˜ê¸° ìœ„í•´ session ê°€ì ¸ì˜¤ê¸°
 		HttpSession session = request.getSession();
+		
 
 		if (session.getAttribute("loginuser") == null) {
-			String message = "¸ÕÀú ·Î±×ÀÎ ÇÏ¼¼¿ä~~~";
+			String message = "ë¨¼ì € ë¡œê·¸ì¸ í•˜ì„¸ìš”~~~";
 			String loc = request.getContextPath() + "/login.action";
 
 			request.setAttribute("message", message);
 			request.setAttribute("loc", loc);
+			
+			// ë¡œê·¸ì¸ ì„±ê³µ í›„ ë¡œê·¸ì¸ í•˜ê¸°ì „ í˜ì´ì§€ë¡œ ëŒì•„ê°€ê¸° ìœ„í•œ ì‘ì—…
+			String url = MyUtil.getCurrentURL(request); // í˜„ì¬ í˜ì´ì§€ ì£¼ì†Œ(URL) ì•Œì•„ì˜¤ê¸°
+			System.out.println("~~~í™•ì¸ìš© url => "+ url);
 
-			// ·Î±×ÀÎ ¼º°ø ÈÄ ·Î±×ÀÎ ÇÏ±âÀü ÆäÀÌÁö·Î µ¹¾Æ°¡±â À§ÇÑ ÀÛ¾÷
-			String url = MyUtil.getCurrentURL(request); // ÇöÀç ÆäÀÌÁö ÁÖ¼Ò(URL) ¾Ë¾Æ¿À±â
-//			System.out.println("~~~È®ÀÎ¿ë url => "+ url);
-
-			session.setAttribute("goBackURL", url); // ¼¼¼Ç¿¡ url Á¤º¸¸¦ ÀúÀå
+			session.setAttribute("goBackURL", url); // ì„¸ì…˜ì— url ì •ë³´ë¥¼ ì €ì¥
+			
 
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/msg.jsp");
 			try {
