@@ -54,7 +54,7 @@ public class GroupwareController {
 	@RequestMapping(value="/login.action")
 	public String login(HttpServletRequest request) {
 
-		return "home";
+		return "login";
 	}
 	
 	// loginEnd test
