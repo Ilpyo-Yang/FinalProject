@@ -3,6 +3,7 @@
 
 <% String ctxPath = request.getContextPath(); %>
 
+<jsp:include page="index.jsp"/>
 <style>
 
   #sideMenu {
