@@ -38,7 +38,7 @@ body {margin:0}
 <body>
 
 <div class="icon-bar">
-  <a class="active" href="<%=ctxPath%>/index.action"><i class="fab fa-pinterest-square"></i></a> 
+  <a class="active" href="<%=ctxPath%>/index.opis"><i class="fab fa-pinterest-square"></i></a> 
   <a href="#"><i class="fas fa-user-alt"></i></a> 
   <a href="#"><i class="fas fa-user-slash"></i></a> 
   <a href="#"><i class="fa fa-home"></i></a> 
