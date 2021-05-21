@@ -7,36 +7,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../../css/login.css">
 
-<style>
-	div#login_container {
-		margin: 12% auto;
-		width: 30%;
-		text-align: center;
-	}
-	h1 {
-		font-size: 50pt;
-		color: green;
-		margin-bottom: 70px;
-	}
-	label.inputName {
-		font-weight: bold;
-		font-size: 15pt;
-		width: 30%;
-	    display: inline-block;
-	    margin-bottom: 10px;
-	    margin-right: 15px;
-	    text-align: right;
-	}
-	input {
-		width: 55%;
-	}
-	button {
-		margin-top: 15px;
-		width: 345px;
-	}
-</style>
 <script type="text/javascript">
 	
 </script>
