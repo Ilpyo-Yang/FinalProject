@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ==== #29. mapper 기본설정 ==== -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- ==== #29. 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
+<mapper namespace="board">
+   
+   
+   <!-- === 글쓰기 === -->
+   <insert id="add" parameterType="com.spring.groupware.board.model.BoardVO">
+   		insert into tbl_comnotice(cnotice_seq, fk_boardno, fk_mbr_seq, ctitle, ccontent, cwritedate, chit)
+   		values(cnotice_seq.nextval, 1, #{name}, #{fk_mbr_seq}, #{ctitle}, #{ccontent}, default, default)
+   </insert>
+   
+   	<!-- === 전체 글목록 보여주기 == -->
+   	<select id="boardListNoSearch" resultType="com.spring.groupware.board.model.BoardVO">
+	   	select cnotice_seq, fk_mbr_seq, ctitle, ccontent, to_char(cwritedate, 'yyyy-mm-dd hh24:mi:ss') as cwritedate, chit
+		from tbl_comnotice
+		order by cnotice_seq desc
+   	</select>
+   
+   	<!-- === 글조회수 1증가 하기  === -->
+   	<update id="setAddReadCount" parameterType="String">
+   		update tbl_comnotice set chit = chit+1
+   		where cnotice_seq = #{cnotice_seq} 
+   	</update>
+   	
+   	<!--  == 글 1개 보여주기  ==  -->
+   	<select id="getView" parameterType="String" resultType="com.spring.groupware.board.model.BoardVO">
+	   	select previousseq, previoustitle    
+	     , cnotice_seq, fk_mbr_seq, ctitle, ccontent, cwritedate, chit
+	     , nextseq, nexttitle
+		from
+		(
+		    select lag(cnotice_seq,1) over (order by cnotice_seq desc) as previousseq
+		         , lag(ctitle,1) over (order by cnotice_seq desc) as previoustitle
+		         
+		         , cnotice_seq, fk_mbr_seq, ctitle, ccontent
+		         , to_char(cwritedate, 'yyyy-mm-dd hh24:mi:ss') as cwritedate, chit
+		         
+		         , lead(cnotice_seq,1) over (order by cnotice_seq desc) as nextseq
+		         , lead(ctitle,1) over (order by cnotice_seq desc) as nexttitle
+		         
+		    from tbl_comnotice
+		) V
+		where V.cnotice_seq = #{cnotice_seq}
+   	</select>
+   	
+   	<!-- === 1개글 삭제하기 === -->
+   	<delete id="del" parameterType="HashMap">
+   		delete from tbl_comnotice
+   		where cnotice_seq=#{cnotice_seq}
+   	</delete>
+   	
+</mapper>
