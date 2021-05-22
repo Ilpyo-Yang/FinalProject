@@ -24,13 +24,14 @@
 <body>
 	<div id="mycontainer">
       
+      <div id="myindexinfo">
+         <tiles:insertAttribute name="indexinfo" />
+      </div>
+      
       <div id="mycontent">
          <tiles:insertAttribute name="content" />
       </div>
       
-      <div id="myindexinfo">
-         <tiles:insertAttribute name="indexinfo" />
-      </div>
       
    </div>
 </body>
