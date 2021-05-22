@@ -47,7 +47,7 @@ public class GroupwareAOP {
 			
 			// 로그인 성공 후 로그인 하기전 페이지로 돌아가기 위한 작업
 			String url = MyUtil.getCurrentURL(request); // 현재 페이지 주소(URL) 알아오기
-			System.out.println("~~~확인용 url => "+ url);
+//			System.out.println("~~~확인용 url => "+ url);
 
 			session.setAttribute("goBackURL", url); // 세션에 url 정보를 저장
 			
