@@ -1,5 +1,10 @@
 package com.spring.groupware.schedule.service;
 
-public class ScheduleService {
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+@Component
+@Service
+public class ScheduleService implements InterScheduleService{
 
 }
