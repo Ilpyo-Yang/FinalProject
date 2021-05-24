@@ -27,11 +27,54 @@ input {
 }
 button {
 	margin-top: 15px;
-	width: 345px;
+	width: 89%;
 }
+div#result {
+	color: red;
+	font-weight: bold;
+	font-size: 12pt;
+	margin-top: 15px;
+}
+
 
 /* ============ changepwd.jsp ============== */
 
+div#changePwdContainer {
+	padding-top:100px;
+	width: 70%;
+	margin: 0 auto;
+}
+div#alert {
+	font-weight: bold;
+	margin: 0 0 50px 10%;
+	font-size: 18pt;
+}
+div#changePwd {
+	margin-left: 20%;
+}
+.loginWidth {
+	width:240px;
+}
+label#letter {
+	width: 150px;
+	font-weight: bold;
+}
+button.changePwd {
+	margin: 10px 0 0 150px;
+
+}
+
+input.loginWidth {
+	margin-right: 30px;
+	margin-bottom: 10px;
+}
+.confirm {
+	display: inline-block;
+	margin-left: 15px;
+	font-weight: bold;
+	font-size: 11pt;
+	color: red;
+}
 
 
 
