@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>전체공지</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -26,7 +26,7 @@
 		
 	}); // end of $(document).ready(function(){})---------------------------------------
 
-	function goView(seq){
+	function goView(cnotice_seq){
 		
 		location.href="<%=ctxPath%>/view.opis?cnotice_seq="+cnotice_seq;
 		
@@ -35,7 +35,7 @@
 </script>
 </head>
 <body>
-<div class="container" style="padding-left: 3%;">        
+<div class="container">        
   <table class="table table-striped">
     <thead>
       <tr>

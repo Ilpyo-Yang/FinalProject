@@ -48,7 +48,7 @@
       </tr>
     </thead>
     <tbody>
-      <c:forEach var="boardvo" items="${requestScope.boardList}" varStatus="status">
+      <c:forEach var="dnoticevo" items="${requestScope.boardList}" varStatus="status">
       	<tr>
 			<td align="center">${dnoticevo.dnotice_seq}</td>
 			<td align="left">
