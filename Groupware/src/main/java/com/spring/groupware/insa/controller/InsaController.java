@@ -1,4 +1,4 @@
-package com.spring.groupware.controller;
+package com.spring.groupware.insa.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,35 +12,39 @@ import com.spring.groupware.service.InterGroupwareService;
 
 @Component
 @Controller
-public class GroupwareControllerHyejin {
+public class InsaController {
 	@Autowired	// Type에 따라 알아서 Bean 을 주입해준다.
 	private InterGroupwareService service;
 	
-	
-	// === index 페이지 요청 === //
-	@RequestMapping(value="index.opis")
-	public String index() {
-		
-		return "index";
-	}
 	
 	// === insa 페이지 요청 === //
 	@RequestMapping(value="insa.opis")
 	public ModelAndView insa(ModelAndView mav, HttpServletRequest request) {
 		
+		mav.setViewName("/tiles1/insa/insa");
+		
 		return mav;
 	}
 
-	// === insa 페이지 요청 === //
-	@RequestMapping(value="insaDetail.opis")
-	public ModelAndView insaDetail(ModelAndView mav, HttpServletRequest request) {
-		
+	// === insa detail1페이지 요청 === //
+	@RequestMapping(value="insaDetail1.opis")
+	public ModelAndView insaDetail1(ModelAndView mav, HttpServletRequest request) {
+
+		mav.setViewName("/tiles1/insa/insaDetail1");
+		return mav;
+	}
+	// === insa detail2페이지 요청 === //
+	@RequestMapping(value="insaDetail2.opis")
+	public ModelAndView insaDetail2(ModelAndView mav, HttpServletRequest request) {
+
+		mav.setViewName("/tiles1/insa/insaDetail2");
 		return mav;
 	}
 	// === 급여 페이지 요청 === //
 	@RequestMapping(value="payment.opis")
 	public ModelAndView payment(ModelAndView mav, HttpServletRequest request) {
-		
+
+		mav.setViewName("/tiles1/insa/payment");
 		return mav;
 	}
 }
