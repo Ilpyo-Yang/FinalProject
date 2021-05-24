@@ -56,14 +56,19 @@
 	          initialView: 'dayGridMonth'
 	        });
 	        calendar.render();
-	      });
+	      }); 
 		
 	});// end of $(document).ready(function(){})-----------------------------
+<<<<<<< HEAD
 
 	
+=======
+	
+	
+>>>>>>> refs/heads/Jiwoo-Kim
 </script>
 
-<div id="sideMenu">
+<div id="sideMenu">s
   	<div id="menuTitle">게시판</div>
   	<div><button type="button" id="btnReg">게시글 등록</button></div>
 

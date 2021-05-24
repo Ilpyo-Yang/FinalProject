@@ -16,7 +16,7 @@ public class ScheduleController {
 	
 	// 접속자별 일정페이지 보여주기
 	@RequestMapping(value="/myscd.opis")
-	public ModelAndView requiredLogin_myScd(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	public ModelAndView myscd(ModelAndView mav) {
 		
 		mav.setViewName("schedule/myscd.tiles1");
 		// /WEB-INF/views/tiles1/schedule/myscd.jsp
