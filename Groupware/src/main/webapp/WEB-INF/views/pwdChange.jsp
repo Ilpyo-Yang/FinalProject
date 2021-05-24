@@ -120,7 +120,7 @@
 		    <label for="newPwd" id="letter">변경 비밀번호 확인</label>
 		    <input type="password" name="newPwd2" id="newPwd2" class="loginWidth" placeholder="변경 비밀번호 확인"/> 
 		    <div id="newPwd2" class="confirm"></div><br>	 	      	 	
-	  	    <button type="button" name="changePwd" id="changePwd" class="btn btn-primary loginWidth changePwd" >비밀번호 변경하기</button><br>
+	  	    <button type="button" name="changePwd" id="changePwd" class="btn btn-success loginWidth changePwd" >비밀번호 변경하기</button><br>
 	  	    <button type="button" name="changePwd" id="laterChangePwd" class="btn btn-outline-secondary loginWidth changePwd" >다음에 변경하기</button> 
 	   </div> 	
 	</form>        	   
