@@ -15,21 +15,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.spring.groupware.board.model.BoardVO;
-import com.spring.groupware.board.service.InterBoardService;
+import com.spring.groupware.board.model.CnoticeVO;
+import com.spring.groupware.board.service.InterCnoticeService;
 import com.spring.groupware.model.MemberVO;
 
 @Controller
-public class BoardController {
+public class CnoticeController {
 
    @Autowired // Type에 따라 알아서 Bean 을 주입해준다.
-   private InterBoardService service;
+   private InterCnoticeService service;
       
       // === 게시판 글쓰기 폼 페이지 요청 === //
-      @RequestMapping(value="/add.opis")
+      @RequestMapping(value="/cnotice_add.opis")
       public ModelAndView requiredLogin_add(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
     	  
-    	  mav.setViewName("board/add.tiles1");
+    	  mav.setViewName("board/cnotice_add.tiles1");
     	  //	/WEB-INF/views/tiles1/board/add.jsp 파일을 생성한다.
     	  
     	  return mav;
@@ -37,14 +37,14 @@ public class BoardController {
       
       
       // === 게시판 글쓰기 폼 페이지 요청 === //
-      @RequestMapping(value="/addEnd.opis", method= {RequestMethod.POST})
-      public ModelAndView addEnd(ModelAndView mav, BoardVO boardvo) {
+      @RequestMapping(value="/cnotice_addEnd.opis", method= {RequestMethod.POST})
+      public ModelAndView addEnd(ModelAndView mav, CnoticeVO cnoticevo) {
     	  
 
-    	  int n = service.add(boardvo); // <== 파일첨부가 없는 글쓰기
+    	  int n = service.add(cnoticevo); // <== 파일첨부가 없는 글쓰기
     	  
     	  if(n==1) {
-    		  mav.setViewName("redirect:/list.opis");
+    		  mav.setViewName("redirect:/cnotice_list.opis");
     		  //   list.action 페이지로 redirect(페이지이동)해라는 말이다.
     		  
     	  }
@@ -58,10 +58,10 @@ public class BoardController {
   
       
       // === 글목록 보기 페이지 요청 === //
-      @RequestMapping(value="/list.opis")
+      @RequestMapping(value="/cnotice_list.opis")
       public ModelAndView list(ModelAndView mav, HttpServletRequest request) {
     	  
-    	  List<BoardVO> boardList = null; 
+    	  List<CnoticeVO> boardList = null; 
     	  
     	  // == 페이징 처리를 안한 검색어가 없는 전체 글목록 보여주기 == //
     	  boardList = service.boardListNoSearch();
@@ -71,13 +71,13 @@ public class BoardController {
     	  session.setAttribute("readCountPermission", "yes");
 
     	  mav.addObject("boardList", boardList);
-    	  mav.setViewName("board/list.tiles1");
+    	  mav.setViewName("board/cnotice_list.tiles1");
     	  
     	  return mav;
       }
       
       // === 글1개를 보여주는 페이지 요청 === //
-      @RequestMapping(value="/view.opis")
+      @RequestMapping(value="/cnotice_view.opis")
       public ModelAndView view(HttpServletRequest request, ModelAndView mav) {
     	  
     	  // 조회하고자 하는 글번호 받아오기
@@ -93,23 +93,23 @@ public class BoardController {
     		  // login_userid 는 로그인 되어진 사용자의 userid 이다.
     	  }   	  
     	  
-    	  BoardVO boardvo = null;
+    	  CnoticeVO cnoticevo = null;
     	  
     	  if("yes".equals(session.getAttribute("readCountPermission"))) {// 글목록보기를 클릭한 다음에 특정글을 조회해온 경우
     		
-    		  boardvo = service.getView(cnotice_seq, login_userid);
+    		  cnoticevo = service.getView(cnotice_seq, login_userid);
         	  // 글조회수 증가와 함께 글1개를 조회
         	  
     		  session.removeAttribute("readCountPermission");
     		  // session 에 저장된 readCountPermission 을 삭제
     	  }
     	  else {// 웹브라우저에서 새로고침(F5)을 클릭한 경우    		  
-    		  boardvo = service.getViewWithNoAddCount(cnotice_seq);
+    		  cnoticevo = service.getViewWithNoAddCount(cnotice_seq);
     		  // 글조회수 증가는 없고 단순히 글1개 조회만을 해주는 것이다.
     	  }
     	  
-    	  mav.addObject("boardvo", boardvo);
-    	  mav.setViewName("board/view.tiles1");
+    	  mav.addObject("cnoticevo", cnoticevo);
+    	  mav.setViewName("board/cnotice_view.tiles1");
     	  
     	  return mav;
       }
@@ -140,13 +140,13 @@ public class BoardController {
       }
       
       // === 글삭제 페이지 요청 === //
-      @RequestMapping(value="/del.opis")
+      @RequestMapping(value="/cnotice_del.opis")
       public ModelAndView requiredLogin_del(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
     	  
     	  // 삭제해야 할 글번호 가져오기
     	  String cnotice_seq = request.getParameter("cnotice_seq");
     	  
-    	  BoardVO boardvo = service.getViewWithNoAddCount(cnotice_seq);
+    	  CnoticeVO cnoticevo = service.getViewWithNoAddCount(cnotice_seq);
     	  // 글조회수(readCount) 증가 없이 단순히 글1개만 조회 해주는 것이다.
     	  
     	  HttpSession session = request.getSession();
@@ -155,14 +155,14 @@ public class BoardController {
           if( loginuser.getUserid().equals("admin") ) { // 로그인한 유저가 관리자일 때만
              
         	  mav.addObject("cnotice_seq", cnotice_seq);
-        	  mav.setViewName("board/del.tiles1");
+        	  mav.setViewName("board/cnotice_del.tiles1");
         	  
           }
     	  return mav;
       }
       
       // === 글삭제 페이지 완료 === // 
-      @RequestMapping(value="/delEnd.opis", method= {RequestMethod.POST})
+      @RequestMapping(value="/cnotice_delEnd.opis", method= {RequestMethod.POST})
       public ModelAndView delEnd(ModelAndView mav, HttpServletRequest request) {
     	  
 

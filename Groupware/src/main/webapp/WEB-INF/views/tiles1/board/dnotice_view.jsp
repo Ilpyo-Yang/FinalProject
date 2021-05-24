@@ -9,7 +9,7 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
-
+<jsp:include page="../../sideMenu.jsp" />
 <style type="text/css">
    table, th, td, input, textarea {border: solid gray 1px;}
    
