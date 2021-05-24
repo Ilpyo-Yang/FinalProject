@@ -1,4 +1,4 @@
-package com.spring.groupware.model;
+package com.spring.groupware.member.model;
 
 public class TestVO {
 
