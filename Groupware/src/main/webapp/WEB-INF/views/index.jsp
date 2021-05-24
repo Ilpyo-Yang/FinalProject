@@ -10,9 +10,9 @@
 body {margin:0}
 
 .icon-bar {
-  width: 90px;
+  width: 60px;
   background-color: #555;
-  height: 750px;
+  height: 755px;
 }
 
 .icon-bar a {
@@ -21,7 +21,7 @@ body {margin:0}
   padding: 16px;
   transition: all 0.3s ease;
   color: white;
-  font-size: 36px;
+  font-size: 20px;
 }
 
 .icon-bar a:hover {
