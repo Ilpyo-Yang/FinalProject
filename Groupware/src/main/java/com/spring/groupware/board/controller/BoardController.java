@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.groupware.board.model.BoardVO;
 import com.spring.groupware.board.service.InterBoardService;
-import com.spring.groupware.model.MemberVO;
+import com.spring.groupware.member.model.MemberVO;
 
 @Controller
 public class BoardController {

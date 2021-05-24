@@ -11,8 +11,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -31,21 +30,31 @@ div.checkWorkStatus > input {
 	width: 50px;
 	text-align: center;
 }
+
+
+.ui-datepicker-trigger, 
+.searchImg {
+	width: 25px;
+	height: 25px;
+	margin-left: 5px;
+}
 </style>
 
 
 <script>
 	$(function() {
+		
+		
 		$("#datepicker_reg").datepicker({
 			showOn : "button",
-			buttonImage : "/resources/images/icon_calendar.png",
+			buttonImage : "<%=request.getContextPath()%>/resources/images/icon_calendar.png",
 			buttonImageOnly : true,
 			buttonText : "Select date"
 		});
 		
 		$("#datepicker_dead").datepicker({
 			showOn : "button",
-			buttonImage : "/resources/images/icon_calendar.png",
+			buttonImage : "<%=request.getContextPath()%>/resources/images/icon_calendar.png",
 			buttonImageOnly : true,
 			buttonText : "Select date"
 		});
@@ -95,7 +104,7 @@ div.checkWorkStatus > input {
   	
   	<li>
   		<input type="text" id="search" />
-  		<img src="" alt="searchImg"/>
+  		<img class="searchImg" src="<%=request.getContextPath()%>/resources/images/icon_search.png" alt="searchImg"/>
   	</li>
   </ul>
             
