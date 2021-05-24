@@ -29,7 +29,7 @@ public class GroupwareController {
 		return "index";
 	}
 	
-	@RequestMapping(value="/test.action")
+	@RequestMapping(value="/test.opis")
 	public ModelAndView login(ModelAndView mav) {
 		
 		mav.setViewName("test.tiles2");
@@ -41,24 +41,24 @@ public class GroupwareController {
 	
 	
 	///////////// AOP 테스트 부분 ////////////////
-	// aopTestStart.action -> requiredLogin() 로그인 검사 -> login.action -> loginEnd.action -> aopTestStart.action 
-	// loginEnd.action 에서 임의로 loginuser 값을 생성함.
+	// aopTestStart.opis -> requiredLogin() 로그인 검사 -> login.opis -> loginEnd.opis -> aopTestStart.opis 
+	// loginEnd.opis 에서 임의로 loginuser 값을 생성함.
 	
-	@RequestMapping(value="/aopTestStart.action")
+	@RequestMapping(value="/aopTestStart.opis")
 	public String requiredLogin_aopTestStart(HttpServletRequest request, HttpServletResponse response) {
 	
 		return "aopTestStart";
 	}
 	
 	// login test
-	@RequestMapping(value="/login.action")
+	@RequestMapping(value="/login.opis")
 	public String login(HttpServletRequest request) {
 
-		return "home";
+		return "login";
 	}
 	
 	// loginEnd test
-	@RequestMapping(value="/loginEnd.action")
+	@RequestMapping(value="/loginEnd.opis")
 	public ModelAndView loginEnd(HttpServletRequest request, ModelAndView mav) {
 		
 		// login 성공했다고 가정하고 테스트
@@ -73,7 +73,7 @@ public class GroupwareController {
 			session.removeAttribute("goBackURL"); // 세션에서 반드시 제거해주어야 한다.
 		}
 		else {
-			mav.setViewName("redirect:/index.action");
+			mav.setViewName("redirect:/index.opis");
 		}
 		
 		return mav;

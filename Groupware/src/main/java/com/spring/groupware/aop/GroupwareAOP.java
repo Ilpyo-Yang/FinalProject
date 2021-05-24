@@ -40,7 +40,7 @@ public class GroupwareAOP {
 
 		if (session.getAttribute("loginuser") == null) {
 			String message = "먼저 로그인 하세요~~~";
-			String loc = request.getContextPath() + "/login.action";
+			String loc = request.getContextPath() + "/login.opis";
 
 			request.setAttribute("message", message);
 			request.setAttribute("loc", loc);
