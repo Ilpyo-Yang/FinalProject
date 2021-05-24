@@ -6,32 +6,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-<style>
-body {margin:0}
-
-.icon-bar {
-  width: 90px;
-  background-color: #555;
-  height: 750px;
-}
-
-.icon-bar a {
-  display: block;
-  text-align: center;
-  padding: 16px;
-  transition: all 0.3s ease;
-  color: white;
-  font-size: 36px;
-}
-
-.icon-bar a:hover {
-  background-color: #000;
-}
-
-.active {
-  background-color: #04AA6D;
-}
-</style>
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
 <body>

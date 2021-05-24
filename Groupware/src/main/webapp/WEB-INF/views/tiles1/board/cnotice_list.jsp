@@ -12,47 +12,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<style>
-
-  #sideMenu {
-	width:20%;
-	height:750px;
-    background-color: #f2f2f2;
-    display: inline-block;
-  }
-
-  #btnReg {
-    margin: 30px 40px;
-    padding: 15px 50px;
-    font-size: 15pt;
-    box-shadow: 3px 3px 3px gray;
-  }
-
-  #menuTitle {
-    height:80px;
-    width:400px;
-    background-color:black;
-    color:white;
-    font-size: 20pt;
-    text-align: center;
-    display:table-cell;
-    vertical-align:middle;
-  }
-
-  .lside {
-    margin-top:50px;
-    padding:10px 0 10px 70px;
-  }
-
-  .side {
-    color: black;
-    font-size:25px;
-    text-decoration: none;
-    font-weigth: bold;
-  }
-	
-</style>
-
+  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />		
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
@@ -76,8 +36,8 @@
 </head>
 <body>
 
-<div style="display: inline-block; border: 1px solid black; width: 1400px;"> 
-    <div id="sideMenu" style="display : inline-block; float:left;">
+<div style="display: inline-block; width: 1400px;"> 
+    <div id="sideMenu">
 	  	<div id="menuTitle">게시판</div>
 	  	<div><button type="button" id="btnReg">게시글 등록</button></div>
 	
