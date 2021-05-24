@@ -20,13 +20,16 @@
 
 	$(document).ready(function(){
 		
-
+		$("button#btnReg").click(function(){
+			location.href="<%=ctxPath%>/dnotice_add.opis";
+		});
+		
 		
 	}); // end of $(document).ready(function(){})---------------------------------------
 
 	function goView(seq){
 		
-		location.href="<%=ctxPath%>/view.opis?cnotice_seq="+cnotice_seq;
+		location.href="<%=ctxPath%>/view.opis?dnotice_seq="+dnotice_seq;
 		
 	} // end of function goView(seq)---------------------------------------------------- 
 	
@@ -47,13 +50,13 @@
     <tbody>
       <c:forEach var="boardvo" items="${requestScope.boardList}" varStatus="status">
       	<tr>
-			<td align="center">${boardvo.cnotice_seq}</td>
+			<td align="center">${dnoticevo.dnotice_seq}</td>
 			<td align="left">
-				<span class="title" onclick="goView('${boardvo.cnotice_seq}')">${boardvo.ctitle}</span>
+				<span class="title" onclick="goView('${dnoticevo.dnotice_seq}')">${dnoticevo.dtitle}</span>
 			</td>
 			<td align="center">관리자</td>
-			<td align="center">${boardvo.cwritedate}</td>
-			<td align="center">${boardvo.chit}</td>      	
+			<td align="center">${dnoticevo.cwritedate}</td>
+			<td align="center">${dnoticevo.chit}</td>      	
       	</tr>		
       </c:forEach>
     </tbody>

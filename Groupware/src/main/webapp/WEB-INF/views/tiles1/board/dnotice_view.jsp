@@ -44,24 +44,24 @@
 <div style="padding-left: 10%;">
    <h1>글내용보기</h1>
    
-   <c:if test="${not empty requestScope.boardvo}">
+   <c:if test="${not empty requestScope.dnoticevo}">
    	 <table id="table">
    		<tr>
             <th>글번호</th>
-            <td>${requestScope.boardvo.seq}</td>
+            <td>${requestScope.dnoticevo.dnotice_seq}</td>
          </tr>
          <tr>
             <th>성명</th>
-            <td>${requestScope.boardvo.name}</td>
+            <td>${requestScope.dnoticevo.fk_mbr_seq}</td>
          </tr>
          <tr>
             <th>제목</th>
-            <td>${requestScope.boardvo.subject}</td>
+            <td>${requestScope.dnoticevo.dtitle}</td>
          </tr>
          <tr>
             <th>내용</th>
             <td>
-            	<p style="word-break: break-all;">${requestScope.boardvo.content}</p>
+            	<p style="word-break: break-all;">${requestScope.dnoticevo.dcontent}</p>
             <%-- 
                   style="word-break: break-all; 은 공백없는 긴영문일 경우 width 크기를 뚫고 나오는 것을 막는 것임. 
                                     그런데 style="word-break: break-all; 나 style="word-wrap: break-word; 은
@@ -72,25 +72,25 @@
          </tr>
          <tr>
             <th>조회수</th>
-            <td>${requestScope.boardvo.readCount}</td>
+            <td>${requestScope.dnoticevo.dhit}</td>
          </tr>
          <tr>
             <th>날짜</th>
-            <td>${requestScope.boardvo.regDate}</td>
+            <td>${requestScope.dnoticevo.dwritedate}</td>
          </tr>
    	 </table>
    	 
-   	 <div style="margin-bottom:1%">이전글제목&nbsp;&nbsp;<span class="move" onclick="javascript:location.href='view.action?seq=${requestScope.boardvo.previousseq}'">${requestScope.boardvo.previoussubject}</span></div>
-   	 <div style="margin-bottom:1%">다음글제목&nbsp;&nbsp;<span class="move" onclick="javascript:location.href='view.action?seq=${requestScope.boardvo.nextseq}'">${requestScope.boardvo.nextsubject}</span></div>   	 
+   	 <div style="margin-bottom:1%">이전글제목&nbsp;&nbsp;<span class="move" onclick="javascript:location.href='dnotoce_view.opis?seq=${requestScope.dnoticevo.previousseq}'">${requestScope.dnoticevo.previoustitle}</span></div>
+   	 <div style="margin-bottom:1%">다음글제목&nbsp;&nbsp;<span class="move" onclick="javascript:location.href='dnotoce_view.opis?seq=${requestScope.dnoticevo.nextseq}'">${requestScope.dnoticevo.nexttitle}</span></div>   	 
    	 
    </c:if>
    
-   <c:if test="${empty requestScope.boardvo}">   		
+   <c:if test="${empty requestScope.dnoticevo}">   		
       <div style="padding: 50px 0; font-size: 16pt; color: red;">존재하지 않습니다</div>
    </c:if>
    
-   <button type="button" onclick="javascript:location.href='<%=ctxPath%>/list.action'">전체목록보기</button>
-   <button type="button" onclick="javascript:location.href='<%=ctxPath%>/edit.action?seq=${requestScope.boardvo.seq}'">수정</button>
-   <button type="button" onclick="javascript:location.href='<%=ctxPath%>/del.action?seq=${requestScope.boardvo.seq}'">삭제</button>
+   <button type="button" onclick="javascript:location.href='<%=ctxPath%>/dnotoce_list.opis'">전체목록보기</button>
+   <button type="button" onclick="javascript:location.href='<%=ctxPath%>/dnotoce_edit.opis?dnotice_seq=${requestScope.dnoticevo.dnotice_seq}'">수정</button>
+   <button type="button" onclick="javascript:location.href='<%=ctxPath%>/dnotoce_del.opis?dnotice_seq=${requestScope.dnoticevo.dnotice_seq}'">삭제</button>
    
 </div>

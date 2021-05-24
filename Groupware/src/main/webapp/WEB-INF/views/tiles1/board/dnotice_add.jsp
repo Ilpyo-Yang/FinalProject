@@ -24,7 +24,7 @@
       $("button#btnWrite").click(function(){
          
           // 글제목 유효성 검사
-         var subjectVal = $("input#subject").val().trim();
+         var subjectVal = $("input#dtitle").val().trim();
          if(subjectVal == "") {
             alert("글제목을 입력하세요!!");
             return;
@@ -32,7 +32,7 @@
          
          // 글내용 유효성 검사(스마트에디터 사용 안 할시)
         
-         var contentVal = $("textarea#content").val().trim();
+         var contentVal = $("textarea#dcontent").val().trim();
          if(contentVal == "") {
             alert("글내용을 입력하세요!!");
             return;
@@ -41,7 +41,7 @@
          // 폼(form) 을 전송(submit)
          var frm = document.addFrm;
          frm.method = "POST";
-         frm.action = "<%= ctxPath%>/addEnd.opis";
+         frm.action = "<%= ctxPath%>/dnotice_addEnd.opis";
          frm.submit();   
       });
            
@@ -64,13 +64,13 @@
          <tr>
             <th>제목</th>
             <td>
-               <input type="text" name="subject" id="subject" class="long" />       
+               <input type="text" name="dtitle" id="dtitle" class="long" />       
             </td>
          </tr>
          <tr>
             <th>내용</th>
             <td>
-               <textarea rows="10" cols="100" style="width: 95%; height: 612px;" name="content" id="content"></textarea>       
+               <textarea rows="10" cols="100" style="width: 95%; height: 612px;" name="dcontent" id="dcontent"></textarea>       
             </td>
          </tr>
      
