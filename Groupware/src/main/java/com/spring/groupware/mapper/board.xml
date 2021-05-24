@@ -6,28 +6,29 @@
 <!-- ==== #29. 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
 <mapper namespace="board">
    
+   <!-- ========================= 전체공지 ============================== -->  
    
    <!-- === 글쓰기 === -->
-   <insert id="add" parameterType="com.spring.groupware.board.model.BoardVO">
+   <insert id="comAdd" parameterType="com.spring.groupware.board.model.CnoticeVO">
    		insert into tbl_comnotice(cnotice_seq, fk_boardno, fk_mbr_seq, ctitle, ccontent, cwritedate, chit)
    		values(cnotice_seq.nextval, 1, #{name}, #{fk_mbr_seq}, #{ctitle}, #{ccontent}, default, default)
    </insert>
    
    	<!-- === 전체 글목록 보여주기 == -->
-   	<select id="boardListNoSearch" resultType="com.spring.groupware.board.model.BoardVO">
+   	<select id="comListNoSearch" resultType="com.spring.groupware.board.model.CnoticeVO">
 	   	select cnotice_seq, fk_mbr_seq, ctitle, ccontent, to_char(cwritedate, 'yyyy-mm-dd hh24:mi:ss') as cwritedate, chit
 		from tbl_comnotice
 		order by cnotice_seq desc
    	</select>
    
    	<!-- === 글조회수 1증가 하기  === -->
-   	<update id="setAddReadCount" parameterType="String">
+   	<update id="setComAddHit" parameterType="String">
    		update tbl_comnotice set chit = chit+1
    		where cnotice_seq = #{cnotice_seq} 
    	</update>
    	
    	<!--  == 글 1개 보여주기  ==  -->
-   	<select id="getView" parameterType="String" resultType="com.spring.groupware.board.model.BoardVO">
+   	<select id="getComView" parameterType="String" resultType="com.spring.groupware.board.model.CnoticeVO">
 	   	select previousseq, previoustitle    
 	     , cnotice_seq, fk_mbr_seq, ctitle, ccontent, cwritedate, chit
 	     , nextseq, nexttitle
@@ -48,9 +49,58 @@
    	</select>
    	
    	<!-- === 1개글 삭제하기 === -->
-   	<delete id="del" parameterType="HashMap">
+   	<delete id="delCom" parameterType="HashMap">
    		delete from tbl_comnotice
    		where cnotice_seq=#{cnotice_seq}
    	</delete>
+   
+   
+   <!-- ========================= 부서공지 ============================== -->  
+
+   <!-- === 글쓰기 === -->
+   <insert id="deptAdd" parameterType="com.spring.groupware.board.model.DnoticeVO">
+   		insert into tbl_deptnotice(dnotice_seq, fk_boardno, fk_mbr_seq, dtitle, dcontent, dwritedate, dhit)
+   		values(dnotice_seq.nextval, 1, #{name}, #{fk_mbr_seq}, #{dtitle}, #{dcontent}, default, default)
+   </insert>
+   
+   	<!-- === 전체 글목록 보여주기 == -->
+   	<select id="deptListNoSearch" resultType="com.spring.groupware.board.model.DnoticeVO">
+	   	select dnotice_seq, fk_mbr_seq, dtitle, dcontent, to_char(dwritedate, 'yyyy-mm-dd hh24:mi:ss') as dwritedate, dhit
+		from tbl_deptnotice
+		order by dnotice_seq desc
+   	</select>
+   
+   	<!-- === 글조회수 1증가 하기  === -->
+   	<update id="setDeptAddHit" parameterType="String">
+   		update tbl_deptnotice set dhit = dhit+1
+   		where dnotice_seq = #{dnotice_seq} 
+   	</update>
    	
+   	<!--  == 글 1개 보여주기  ==  -->
+   	<select id="getDeptView" parameterType="String" resultType="com.spring.groupware.board.model.DnoticeVO">
+	   	select previousseq, previoustitle    
+	     , dnotice_seq, fk_mbr_seq, dtitle, dcontent, dwritedate, dhit
+	     , nextseq, nexttitle
+		from
+		(
+		    select lag(dnotice_seq,1) over (order by dnotice_seq desc) as previousseq
+		         , lag(dtitle,1) over (order by dnotice_seq desc) as previoustitle
+		         
+		         , dnotice_seq, fk_mbr_seq, dtitle, dcontent
+		         , to_char(dwritedate, 'yyyy-mm-dd hh24:mi:ss') as dwritedate, dhit
+		         
+		         , lead(dnotice_seq,1) over (order by dnotice_seq desc) as nextseq
+		         , lead(dtitle,1) over (order by dnotice_seq desc) as nexttitle
+		         
+		    from tbl_deptnotice
+		) V
+		where V.dnotice_seq = #{dnotice_seq}
+   	</select>
+   	
+   	<!-- === 1개글 삭제하기 === -->
+   	<delete id="delDept" parameterType="HashMap">
+   		delete from tbl_deptnotice
+   		where dnotice_seq=#{dnotice_seq}
+   	</delete>
+      	
 </mapper>

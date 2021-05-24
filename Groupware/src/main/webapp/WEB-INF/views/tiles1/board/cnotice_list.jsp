@@ -2,12 +2,13 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <% String ctxPath = request.getContextPath(); %>
+
+<jsp:include page="../../sideMenu.jsp" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>전체공지</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -19,11 +20,13 @@
 
 	$(document).ready(function(){
 		
-
+		$("button#btnReg").click(function(){
+			location.href="<%=ctxPath%>/cnotice_add.opis";
+		});
 		
 	}); // end of $(document).ready(function(){})---------------------------------------
 
-	function goView(seq){
+	function goView(cnotice_seq){
 		
 		location.href="<%=ctxPath%>/view.opis?cnotice_seq="+cnotice_seq;
 		
@@ -32,7 +35,7 @@
 </script>
 </head>
 <body>
-<div class="container" style="padding-left: 3%;">        
+<div class="container">        
   <table class="table table-striped">
     <thead>
       <tr>
@@ -44,15 +47,15 @@
       </tr>
     </thead>
     <tbody>
-      <c:forEach var="boardvo" items="${requestScope.boardList}" varStatus="status">
+      <c:forEach var="cnoticevo" items="${requestScope.boardList}" varStatus="status">
       	<tr>
-			<td align="center">${boardvo.cnotice_seq}</td>
+			<td align="center">${cnoticevo.cnotice_seq}</td>
 			<td align="left">
-				<span class="title" onclick="goView('${boardvo.cnotice_seq}')">${boardvo.ctitle}</span>
+				<span class="title" onclick="goView('${cnoticevo.cnotice_seq}')">${cnoticevo.ctitle}</span>
 			</td>
 			<td align="center">관리자</td>
-			<td align="center">${boardvo.cwritedate}</td>
-			<td align="center">${boardvo.chit}</td>      	
+			<td align="center">${cnoticevo.cwritedate}</td>
+			<td align="center">${cnoticevo.chit}</td>      	
       	</tr>		
       </c:forEach>
     </tbody>

@@ -1,7 +1,7 @@
 package com.spring.groupware.board.model;
 
 
-public class BoardVO {
+public class CnoticeVO {
 	
 	private String cnotice_seq;     // 글번호 
 	private String fk_boardno;    	// 게시판번호
@@ -16,9 +16,9 @@ public class BoardVO {
 	private String nextseq;         // 다음글번호
 	private String nexttitle;      	// 다음글제목   
 	   
-	public BoardVO() {}
+	public CnoticeVO() {}
 	
-	public BoardVO(String cnotice_seq, String fk_boardno, String fk_mbr_seq, String ctitle, String ccontent, 
+	public CnoticeVO(String cnotice_seq, String fk_boardno, String fk_mbr_seq, String ctitle, String ccontent, 
 				   String chit, String cwritedate) {
 		super();
 		this.cnotice_seq = cnotice_seq;
