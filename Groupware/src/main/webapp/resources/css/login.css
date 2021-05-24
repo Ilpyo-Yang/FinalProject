@@ -29,7 +29,12 @@ button {
 	margin-top: 15px;
 	width: 89%;
 }
-
+div#result {
+	color: red;
+	font-weight: bold;
+	font-size: 12pt;
+	margin-top: 15px;
+}
 
 
 /* ============ changepwd.jsp ============== */

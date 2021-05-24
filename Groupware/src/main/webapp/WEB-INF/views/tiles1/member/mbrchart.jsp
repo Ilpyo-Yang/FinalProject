@@ -1,7 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
 
-<% String ctxPath = request.getContextPath(); %>
 
 <style>
 
@@ -9,7 +8,6 @@
 	width:20%;
 	height:750px;
     background-color: #f2f2f2;
-    display: inline-block;
   }
 
   #btnReg {
@@ -35,7 +33,7 @@
     padding:10px 0 10px 70px;
   }
 
-  .side {
+  a {
     color: black;
     font-size:25px;
     text-decoration: none;
@@ -45,11 +43,12 @@
 </style>
 
     <div id="sideMenu">
-  	<div id="menuTitle">ê²Œì‹œíŒ</div>
-  	<div><button type="button" id="btnReg">ê²Œì‹œê¸€ ë“±ë¡</button></div>
+  	<div id="menuTitle">°Ô½ÃÆÇ</div>
+  	<div><button type="button" id="btnReg">°Ô½Ã±Û µî·Ï</button></div>
 
-  		<div class="lside"><a class="side" href="#">ì „ì²´ê³µì§€ì‚¬í•­</a></div>
-  		<div class="lside"><a class="side" href="#">ë¶€ì„œê³µì§€ì‚¬í•­</a></div>
-  		<div class="lside"><a class="side" href="#">ê³µí†µì„œì‹</a></div>
+  		<div class="lside"><a href="#">ÀüÃ¼°øÁö»çÇ×</a></div>
+  		<div class="lside"><a href="#">ºÎ¼­°øÁö»çÇ×</a></div>
+  		<div class="lside"><a href="#">°øÅë¼­½Ä</a></div>
 
   	</div>
+
