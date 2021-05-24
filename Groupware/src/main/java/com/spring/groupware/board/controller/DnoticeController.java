@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.groupware.board.model.DnoticeVO;
 import com.spring.groupware.board.service.InterDnoticeService;
-import com.spring.groupware.model.MemberVO;
+import com.spring.groupware.member.model.MemberVO;
 
 @Controller
 public class DnoticeController {
