@@ -12,7 +12,7 @@ body {margin:0}
 .icon-bar {
   width: 90px;
   background-color: #555;
-  height: 100%;
+  height: 750px;
 }
 
 .icon-bar a {
@@ -33,7 +33,6 @@ body {margin:0}
 }
 </style>
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-
 
 <body>
 
