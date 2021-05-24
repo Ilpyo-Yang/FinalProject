@@ -1,0 +1,107 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+<style type="text/css">
+table.workRegtable {
+	
+}
+
+table.workRegtable tr>td:nth-child(1) {
+	background: #f2f2f2;
+	text-align: right;
+}
+
+table.workRegtable tr>td:nth-child(2) {
+	background: white;
+}
+
+span.star {
+	color: red;
+	margin-right: 2px;
+}
+
+.ui-datepicker-trigger {
+	width: 25px;
+	height: 25px;
+	margin-left: 5px;
+}
+
+tr#workRegBtn > td {
+	text-align: right;
+	background: none;
+}
+</style>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#datepicker_deadline").datepicker({
+			showOn : "button",
+			buttonImage : "<%=request.getContextPath()%>/resources/images/icon_calendar.png",
+			buttonImageOnly : true,
+			buttonText : "Select date"
+		});
+	});
+</script>
+
+<div class="container workRegcontainer">
+	<h2>업무 등록</h2>
+	
+	<form id="workRegFrm">
+		<table class="table table-striped workRegtable">
+			<tbody>
+				<tr>
+					<td><span class="star">*</span>제목</td>
+					<td><input /></td>
+				</tr>
+				<tr>
+					<td><span class="star">*</span>업무형태</td>
+					<td>
+						<input type="radio" id="mytodo" /> 
+						<label for="mytodo">나의 할일</label> 
+							
+						<input type="radio" id="workRequest" /> 
+						<label for="workRequest">업무 요청</label>
+	
+						<input type="radio" id="workReport" />
+						<label for="workReport">업무 보고</label>
+					</td>
+				</tr>
+				<tr>
+					<td><span class="star">*</span>업무기한</td>
+					<td><input type="text" id="datepicker_deadline" /></td>
+				</tr>
+				<tr>
+					<td><span class="star">*</span>담당자</td>
+					<td><input placeholder="사용자" /></td>
+				</tr>
+				<tr>
+					<td>참조자</td>
+					<td><input placeholder="사용자" /></td>
+				</tr>
+				<tr>
+					<td>파일 업로드</td>
+					<td><button type="button">파일추가</button></td>
+				</tr>
+				<tr>
+					<td>내용</td>
+					<td><textarea cols="60" rows="10"></textarea></td>
+				</tr>
+				<tr id="workRegBtn">
+					<td colspan="2">
+						<button type="button">저장</button>
+						<button type="button">취소</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		
+	</form>
+</div>

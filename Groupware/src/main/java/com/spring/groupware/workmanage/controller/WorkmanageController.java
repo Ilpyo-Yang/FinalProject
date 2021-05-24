@@ -10,14 +10,17 @@ import org.springframework.web.servlet.ModelAndView;
 public class WorkmanageController {
 
 
-//	@RequestMapping(value="/todolist.action")
-//	public String index() {
-//		return "index";
-//	}
-	
+	// == 할 일 리스트 보여주기 == //   
 	@RequestMapping(value="/todolist.opis")
 	public ModelAndView todolist(ModelAndView mav) {
-		mav.setViewName("workmanage/todolist");
+		mav.setViewName("workmanage/todolist.tiles1");
+		return mav;
+	}
+	
+	// == 업무 등록 하기 == //
+	@RequestMapping(value="/worklistRegister.opis")
+	public ModelAndView worklistRegister(ModelAndView mav) {
+		mav.setViewName("workmanage/worklistRegister.tiles1");
 		return mav;
 	}
 }
