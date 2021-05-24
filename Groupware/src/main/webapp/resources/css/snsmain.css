@@ -1,0 +1,119 @@
+@charset "UTF-8";
+
+div.snsmaincontainer {
+	border: 1px solid black;
+	display: inline-block;
+	width: 400px;
+	height: 600px;
+}
+div.userinfo {
+	<!--border: 1px solid blue;-->
+	display: inline-block;
+	width:400px;
+	height: 100px;
+	background-color:  #66ff66;
+}
+
+div.menu {
+	border: 0px solid yellow;
+	width: 400px;
+	height: 50px;
+	background-color: #66ff66;
+	display: inline-block;
+}
+
+div.input-group {
+	
+	background-color: #66ff66;
+}
+
+div.tflist {
+	<!--border: 1px solid green;-->
+	width:400px;
+	height: 395px;
+}
+
+div.userinfoside {
+	border: 0px solid black;
+	float: left;
+	width: 100px;
+	height: 100px;
+}
+
+div.userinfotop {
+	border: 0px solid blue;
+	margin-left: 100px;
+	width: 300px;
+	height: 50px;
+	padding-top: 20px;
+}
+
+div.userinfobottom {
+	border: 0px solid yellow;
+	margin-left: 100px;
+	width: 300px;
+	height: 50px;
+	padding-top: 10px;
+}
+
+div.dropdown {
+	border: 0px solid yellow;
+	float: right;
+	margin-left: 200px;
+}
+
+img.mainuserimg {
+	<!--border: 1px solid yellow;-->
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+}
+
+span.username {
+	<!--border: 1px solid black;-->
+	font-weight: bold;
+	font-size: 15pt;
+}
+
+span.userjobgrade {
+	<!--border: 1px solid black;-->
+	font-weight: bold;
+	font-size: 10pt;
+}
+
+span.usermessage {
+	padding-left: 30;
+}
+
+div.menubtn {
+	width: 50px;
+	height: 50px;
+}
+
+img.menuimg {
+	width: 50px;
+	height: 50px;
+}
+
+div.dropdown {
+	float: right;
+}
+
+div.well {
+	width: 200px;
+	font-size: 15px;
+	margin: auto;
+	margin-left: 0;
+}
+
+input.form-control {
+	
+	margin-left: 20px;
+	width: 300px;
+}
+
+button.btn-default {
+	
+	margin-right: 40px;
+	float: right;
+}
