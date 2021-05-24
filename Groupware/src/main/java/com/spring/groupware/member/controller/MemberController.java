@@ -28,11 +28,16 @@ public class MemberController {
     	  
     	  int n = service.loginCheck(id, pwd);
     	  
-    	  
-    	  
     	  return mav;
+      }      
+      
+      
+      // === 조직도 === //
+      @RequestMapping(value="/mbrchart.opis")
+      public ModelAndView mbrchart(HttpServletRequest request, ModelAndView mav) {   	  
+    	 mav.setViewName("member/mbrchart.tiles1");
+    	 return mav;
       }
       
-      
-      
+
 }
