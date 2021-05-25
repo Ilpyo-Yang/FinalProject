@@ -3,13 +3,13 @@
 
 <% String ctxPath = request.getContextPath(); %>
 
-<jsp:include page="index.jsp"/>
 <style>
 
   #sideMenu {
 	width:20%;
 	height:750px;
     background-color: #f2f2f2;
+    display: inline-block;
   }
 
   #btnReg {
@@ -35,7 +35,7 @@
     padding:10px 0 10px 70px;
   }
 
-  a {
+  .side {
     color: black;
     font-size:25px;
     text-decoration: none;
@@ -48,8 +48,8 @@
   	<div id="menuTitle">게시판</div>
   	<div><button type="button" id="btnReg">게시글 등록</button></div>
 
-  		<div class="lside"><a href="#">전체공지사항</a></div>
-  		<div class="lside"><a href="#">부서공지사항</a></div>
-  		<div class="lside"><a href="#">공통서식</a></div>
+  		<div class="lside"><a class="side" href="#">전체공지사항</a></div>
+  		<div class="lside"><a class="side" href="#">부서공지사항</a></div>
+  		<div class="lside"><a class="side" href="#">공통서식</a></div>
 
   	</div>
