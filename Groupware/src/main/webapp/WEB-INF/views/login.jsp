@@ -14,7 +14,9 @@
 	
 	$(function(){
 		$("div#result").hide();
-		$("input#companyInput").html("");
+
+		
+		
 	});// end of $(function() ------------------------------------------------------------
 	
 			
@@ -57,7 +59,7 @@
 		<h1>Opistachio</h1>
 		
 		<label for="companyInput" class="inputName">COMPANY</label>
-		<input type="text" id="companyInput" name="companyInput" readonly />
+		<input type="text" id="companyInput" name="companyInput" value="${com_name}" readonly />
 		<br>
 		<label for="idInput" class="inputName">ID</label>
 		<input type="text" id="idInput" name="idInput" />

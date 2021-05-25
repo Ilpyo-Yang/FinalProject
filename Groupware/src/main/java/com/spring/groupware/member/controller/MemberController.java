@@ -20,7 +20,17 @@ public class MemberController {
    private InterMemberService service;
       
    
-      // === 로그인하기 === //
+	   // === 로그인 메인에 회사명 띄우기 === //
+	   @RequestMapping(value="/login.opis")
+	   public ModelAndView login(HttpServletRequest request, ModelAndView mav) {
+		 String com_name = service.getCompanyName();
+		 mav.addObject("com_name",com_name);
+		 mav.setViewName("login");
+	 	 return mav;
+	   }
+	   
+   
+   	  // === 로그인하기 === //
       @RequestMapping(value="/loginCheck.opis", method= {RequestMethod.POST})
       public ModelAndView loginCheck(HttpServletRequest request, ModelAndView mav) {
     	  String id = request.getParameter("idInput");
@@ -32,9 +42,17 @@ public class MemberController {
       }      
       
       
+     // === 비밀번호 변경요청 === //
+      @RequestMapping(value="/pwdChange.opis")
+      public ModelAndView pwdChange(ModelAndView mav) {   	  
+    	 mav.setViewName("pwdChange.tiles1");
+    	 return mav;
+      }
+      
+      
       // === 조직도 === //
       @RequestMapping(value="/mbrchart.opis")
-      public ModelAndView mbrchart(HttpServletRequest request, ModelAndView mav) {   	  
+      public ModelAndView mbrchart(ModelAndView mav) {   	  
     	 mav.setViewName("member/mbrchart.tiles1");
     	 return mav;
       }

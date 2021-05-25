@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<% String ctxPath = request.getContextPath(); %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<jsp:include page="../../sideMenu.jsp" />
 <style>
 	header#insaBar{
 		height: 77px;
@@ -141,6 +143,7 @@
 	}
 </style>
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 	/* When the user clicks on the button,
 	toggle between hiding and showing the dropdown content */
@@ -208,7 +211,7 @@
 			<td class="departmentButton" style="background-color: #e6e6e6">영업</td>
 			<td class="departmentButton" style="background-color: #e6e6e6">마케팅</td>
 			<td class="departmentButton" style="background-color: #a6a6a6">미등록</td>
-			<td class="departmentButton" style="background-color: #d7efd7">신규</td>
+			<td class="departmentButton" style="background-color: #d7efd7" onclick="javascript:location.href='<%=ctxPath%>/insaRegister.opis'">신규&nbsp;<i class="fa fa-plus-circle"></i></td>
 		</tr>
 		</table>
 		<div id="midBoxGray">

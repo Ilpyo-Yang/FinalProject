@@ -49,13 +49,15 @@ public class GroupwareController {
 	
 		return "aopTestStart";
 	}
-	
-	// login test
-	@RequestMapping(value="/login.opis")
-	public String login(HttpServletRequest request) {
 
-		return "login";
-	}
+	/*
+	 * // login test
+	 * 
+	 * @RequestMapping(value="/login.opis") public String login(HttpServletRequest
+	 * request) {
+	 * 
+	 * return "login"; }
+	 */	
 	
 	// loginEnd test
 	@RequestMapping(value="/loginEnd.opis")
