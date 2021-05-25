@@ -4,7 +4,7 @@
 /* ============ login.jsp ============== */
 
 div#login_container {
-	margin: 12% auto;
+	margin: 10% auto;
 	width: 30%;
 	text-align: center;
 }
@@ -41,8 +41,9 @@ div#result {
 
 div#changePwdContainer {
 	padding-top:100px;
+	padding-left: 5%;
 	width: 70%;
-	margin: 0 auto;
+	margin: 2% auto;
 }
 div#alert {
 	font-weight: bold;

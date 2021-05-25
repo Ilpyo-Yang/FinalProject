@@ -42,6 +42,14 @@ public class MemberController {
       }      
       
       
+     // === 비밀번호 변경요청 === //
+      @RequestMapping(value="/pwdChange.opis")
+      public ModelAndView pwdChange(ModelAndView mav) {   	  
+    	 mav.setViewName("pwdChange.tiles1");
+    	 return mav;
+      }
+      
+      
       // === 조직도 === //
       @RequestMapping(value="/mbrchart.opis")
       public ModelAndView mbrchart(ModelAndView mav) {   	  
