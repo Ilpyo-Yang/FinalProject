@@ -3,5 +3,9 @@
 
 <mapper namespace="member">
 
+	<select id="companyName_select" resultType="String">
+		select com_name
+		from tbl_company 
+	</select>
 	
 </mapper>

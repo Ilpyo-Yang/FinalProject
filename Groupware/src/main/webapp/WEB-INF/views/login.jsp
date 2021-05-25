@@ -14,7 +14,9 @@
 	
 	$(function(){
 		$("div#result").hide();
-		$("input#companyInput").html("");
+		$("input#companyInput").html("${com_name}");
+		
+		
 	});// end of $(function() ------------------------------------------------------------
 	
 			
