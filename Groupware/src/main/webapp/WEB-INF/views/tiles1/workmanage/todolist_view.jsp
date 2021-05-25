@@ -6,15 +6,27 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<jsp:include page="./workmanage_sidebar.jsp" />
 
 <style type="text/css">
+div.tdcontainer {
+	 border: 1px solid blue;
+	 margin-left: 280px;
+}
+
 ul#todoSelectCondition {
 	list-style-type: none;
+	display: table;
 }
 
 ul#todoSelectCondition>li {
 	display: inline-block;
 	margin-right: 20px;
+	vertical-align: middle;
+}
+
+ul#todoSelectCondition input[type=text] {
+	width: 150px;
 }
 
 div.checkWorkStatus>label, div.checkWorkStatus>input {
@@ -48,7 +60,6 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 		});
 	});
 </script>
-
 
 <div class="container tdcontainer">
 	<h2>나의 할 일</h2>

@@ -13,14 +13,14 @@ public class WorkmanageController {
 	// == 할 일 리스트 보여주기 == //   
 	@RequestMapping(value="/todolist.opis")
 	public ModelAndView todolist(ModelAndView mav) {
-		mav.setViewName("workmanage/todolist.tiles1");
+		mav.setViewName("workmanage/todolist_view.tiles1");
 		return mav;
 	}
 	
 	// == 업무 등록 하기 == //
-	@RequestMapping(value="/worklistRegister.opis")
-	public ModelAndView worklistRegister(ModelAndView mav) {
-		mav.setViewName("workmanage/worklistRegister.tiles1");
+	@RequestMapping(value="/worklistAdd.opis")
+	public ModelAndView worklistAdd(ModelAndView mav) {
+		mav.setViewName("workmanage/worklist_add.tiles1");
 		return mav;
 	}
 }

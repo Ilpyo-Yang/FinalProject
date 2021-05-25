@@ -7,10 +7,12 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<jsp:include page="./workmanage_sidebar.jsp" />
 
 <style type="text/css">
-table.workRegtable {
-	
+div.workRegcontainer {
+	 border: 1px solid blue;
+	 margin-left: 280px;
 }
 
 table.workRegtable tr>td:nth-child(1) {
@@ -36,6 +38,10 @@ span.star {
 tr#workRegBtn > td {
 	text-align: right;
 	background: none;
+}
+
+input[name=workType] {
+	margin-left: 10px;
 }
 </style>
 
@@ -67,6 +73,8 @@ tr#workRegBtn > td {
 
 <div class="container workRegcontainer">
 	<h2>업무 등록</h2>
+	
+	<br>
 	
 	<form id="workRegFrm">
 		<table class="table table-striped workRegtable">
