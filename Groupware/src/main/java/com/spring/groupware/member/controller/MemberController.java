@@ -24,7 +24,7 @@ public class MemberController {
 	   @RequestMapping(value="/login.opis")
 	   public ModelAndView login(HttpServletRequest request, ModelAndView mav) {
 		 String com_name = service.getCompanyName();
-		 request.setAttribute("com_name", com_name);
+		 mav.addObject("com_name",com_name);
 		 mav.setViewName("login");
 	 	 return mav;
 	   }
