@@ -38,13 +38,26 @@ button.accBtn {
 	</div>
 
 	<div class="lside">
-		<a class="side" href="#">전체공지사항</a>
+		<button class="accBtn side">To Do</button>
+		<ul>
+			<li><a class="" href="<%=ctxPath%>/todolist.opis">나의 할 일</a></li>
+		</ul>
 	</div>
 	<div class="lside">
-		<a class="side" href="#">부서공지사항</a>
+		<button class="accBtn side">업무 요청</button>
+		<ul>
+			<li><a class="" href="<%=ctxPath%>/sendWorkRequest.opis">내가 한 업무 요청</a></li>
+			<li><a class="" href="#">수신 업무 요청</a></li>
+			<li><a class="" href="#">참조 업무 요청</a></li>
+		</ul>
 	</div>
 	<div class="lside">
-		<a class="side" href="#">공통서식</a>
+		<button class="accBtn side">업무 보고</button>
+		<ul>
+			<li><a class="" href="<%=ctxPath%>/sendWorkReport.opis">내가 한 업무 보고</a></li>
+			<li><a class="" href="#">수신 업무 보고</a></li>
+			<li><a class="" href="#">참조 업무 보고</a></li>
+		</ul>
 	</div>
 
 </div>

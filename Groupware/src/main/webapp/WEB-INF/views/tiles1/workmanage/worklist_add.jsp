@@ -72,7 +72,7 @@ input[name=workType] {
 </script>
 
 <div class="container workRegcontainer">
-	<h2>업무 등록</h2>
+	<h3>업무 등록</h3>
 	
 	<br>
 	

@@ -39,6 +39,17 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 	height: 25px;
 	margin-left: 5px;
 }
+
+button.workStatus {
+	width: 100px;
+	border: none;
+}
+
+button.readCheck {
+	background-color: white;
+	border-style: groove;
+	border: solid 1px;
+}
 </style>
 
 
@@ -62,7 +73,7 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 </script>
 
 <div class="container tdcontainer">
-	<h3>나의 할 일</h3>
+	<h3>내가 한 업무 보고</h3>
 
 	<hr>
 
@@ -76,10 +87,10 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 		</li>
 
 		<li>전체 <span>3</span></li>
-
+		
 		<li style="width: 50px;">
-			<label for="checkImp">중요</label>
-			<input type="checkbox" id="checkImp" />
+			<label for="checkImp" hidden>중요</label>
+			<input type="checkbox" id="checkImp" hidden/>
 		</li>
 
 		<li>
@@ -111,31 +122,44 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 			<tr>
 				<th><input type="checkbox" /></th>
 				<th>번호</th>
-				<th>중요 ▲</th>
 				<th>제목 ▲</th>
-				<th>등록일 ▲</th>
+				<th>수신자 ▲</th>	
+				<th>요청일 ▲</th>
 				<th>마감일 ▲</th>
 				<th>상태</th>
+				<th>확인</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
 				<td><input type="checkbox" /></td>
 				<td>1</td>
-				<td><img src="" alt="" /></td>
 				<td>계약서 작성요청</td>
+				<td>박관리</td>
 				<td>2021.04.21</td>
 				<td>2021.05.01</td>
-				<td><button type="button">미완료</button></td>
+				<td><button type="button" class="workStatus" style="background-color: #ffcc00;">반려</button></td>
+				<td><button type="button" class="readCheck">읽음확인</button></td>
 			</tr>
 			<tr>
 				<td><input type="checkbox" /></td>
 				<td>2</td>
-				<td><img src="" alt="" /></td>
 				<td>6월 1일 오늘 할 일</td>
+				<td>박관리</td>
 				<td>2021.04.21</td>
 				<td>2021.05.01</td>
-				<td><button type="button">미완료</button></td>
+				<td><button type="button" class="workStatus" style="background-color: white; border: 1px solid ">승인</button></td>
+				<td><button type="button" class="readCheck">읽음확인</button></td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" /></td>
+				<td>3</td>
+				<td>6월 1일 오늘 할 일</td>
+				<td>이두나</td>
+				<td>2021.04.21</td>
+				<td>2021.05.01</td>
+				<td><button type="button" class="workStatus" style="background-color:  #66ccff;">미확인</button></td>
+				<td><button type="button" class="readCheck">읽음확인</button></td>
 			</tr>
 		</tbody>
 	</table>
