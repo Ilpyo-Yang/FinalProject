@@ -1,8 +1,5 @@
 package com.spring.groupware.schedule.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -26,5 +23,7 @@ public class ScheduleController {
 		// /WEB-INF/views/tiles1/schedule/myscd.jsp
 		return mav;
 	}
+	
+	
 	
 }
