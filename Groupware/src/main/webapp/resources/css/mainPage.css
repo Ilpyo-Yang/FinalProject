@@ -1,0 +1,76 @@
+@charset "EUC-KR";
+
+
+/* ============ mainPage.jsp ============== */
+
+div#mainPageContainer {
+	margin: 7% auto;
+	width: 80%;
+	text-align: center;
+}
+div#calendar {
+	margin: auto;
+	width: 30%;
+	display:inline-block;
+}
+div#mainMenu {
+	margin: auto;
+	width: 60%;
+	float: right;
+}
+div.menu {
+	width: 20%;
+	text-align: center;	
+	display:inline-block;
+	margin: 2% 2%;
+	border: solid 1px gray;
+	font-weight: bold;
+	font-size: 12pt;
+	padding: 5%;
+	
+}
+.icon {
+	display:block;	
+	margin-bottom: 20px;
+	color: #676767;
+}
+
+
+
+/* ============ calendar ============== */
+.custom_calendar_table td {
+    text-align: center;
+}
+
+.custom_calendar_table thead.cal_date th {
+    font-size: 1.5rem;
+}
+
+.custom_calendar_table thead.cal_date th button {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+}
+
+.custom_calendar_table thead.cal_week th {
+    background-color: #288CFF;
+    color: #fff;
+}
+
+.custom_calendar_table tbody td {
+    cursor: pointer;
+}
+
+.custom_calendar_table tbody td:nth-child(1) {
+    color: red;
+}
+
+.custom_calendar_table tbody td:nth-child(7) {
+    color: #288CFF;
+}
+
+.custom_calendar_table tbody td.select_day {
+    background-color: #288CFF;
+    color: #fff;
+}
+
