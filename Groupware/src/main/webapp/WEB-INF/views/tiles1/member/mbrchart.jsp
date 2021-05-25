@@ -1,54 +1,51 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<% String ctxPath = request.getContextPath(); %>
 
 
-<style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>::: Opistachio :::</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />		
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-  #sideMenu {
-	width:20%;
-	height:750px;
-    background-color: #f2f2f2;
-  }
+	<script type="text/javascript">
 
-  #btnReg {
-    margin: 30px 40px;
-    padding: 15px 50px;
-    font-size: 15pt;
-    box-shadow: 3px 3px 3px gray;
-  }
-
-  #menuTitle {
-    height:80px;
-    width:400px;
-    background-color:black;
-    color:white;
-    font-size: 20pt;
-    text-align: center;
-    display:table-cell;
-    vertical-align:middle;
-  }
-
-  .lside {
-    margin-top:50px;
-    padding:10px 0 10px 70px;
-  }
-
-  a {
-    color: black;
-    font-size:25px;
-    text-decoration: none;
-    font-weigth: bold;
-  }
+	$(document).ready(function(){
 	
-</style>
+		
+	}); // end of $(document).ready(function(){})---------------------------------------
+	
+</script>
+</head>
+<body>
 
+<div style="display: inline-block; width: 1400px;"> 
     <div id="sideMenu">
-  	<div id="menuTitle">°Ô½ÃÆÇ</div>
-  	<div><button type="button" id="btnReg">°Ô½Ã±Û µî·Ï</button></div>
+	  	<div id="menuTitle">ì¡°ì§ë„</div>
+	
+  		<div class="lside"><a class="side" href="#">ì „ì²´</a></div>
+  		<div class="lside"><a class="side" href="#">ì˜ì—…íŒ€</a></div>
+  		<div class="lside"><a class="side" href="#">ì¸ì‚¬íŒ€</a></div>
+  		<div class="lside"><a class="side" href="#">í™ë³´íŒ€</a></div>
+  		<div class="lside"><a class="side" href="#">ITíŒ€</a></div>
+  		<div class="lside"><a class="side" href="#">íšŒê³„íŒ€</a></div>
+	</div>
+	
+<div class="container" style="float: right; width: 700px; margin: 50px 200px; ">        
 
-  		<div class="lside"><a href="#">ÀüÃ¼°øÁö»çÇ×</a></div>
-  		<div class="lside"><a href="#">ºÎ¼­°øÁö»çÇ×</a></div>
-  		<div class="lside"><a href="#">°øÅë¼­½Ä</a></div>
 
-  	</div>
-
+</div>
+	  	
+	
+	
+</div>
+</body>
+</html>

@@ -1,5 +1,10 @@
 package com.spring.groupware.schedule.model;
 
-public class ScheduleDAO {
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
+@Component
+@Repository
+public class ScheduleDAO implements InterScheduleDAO {
 
 }
