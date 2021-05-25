@@ -43,7 +43,7 @@
 </style>
 
     <div id="sideMenu">
-  	<div id="menuTitle">게시판</div>
+  	<div id="menuTitle"></div>
   	<div><button type="button" id="btnReg">게시글 등록</button></div>
 
   		<div class="lside"><a href="#">전체공지사항</a></div>
