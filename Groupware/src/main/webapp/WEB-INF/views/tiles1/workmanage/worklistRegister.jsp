@@ -47,7 +47,22 @@ tr#workRegBtn > td {
 			buttonImageOnly : true,
 			buttonText : "Select date"
 		});
+		
+		
 	});
+	
+	function checkStar() {
+		
+	}
+	
+	
+	function submitWorkRegFrm() {
+		var frm = document.workRegFrm;
+		
+		frm.action = "";
+		frm.method = "post";
+		frm.submit();
+	}
 </script>
 
 <div class="container workRegcontainer">
@@ -58,45 +73,45 @@ tr#workRegBtn > td {
 			<tbody>
 				<tr>
 					<td><span class="star">*</span>제목</td>
-					<td><input /></td>
+					<td><input name="subject"/></td>
 				</tr>
 				<tr>
 					<td><span class="star">*</span>업무형태</td>
 					<td>
-						<input type="radio" id="mytodo" /> 
+						<input type="radio" id="mytodo" value="0" name="workType"/> 
 						<label for="mytodo">나의 할일</label> 
 							
-						<input type="radio" id="workRequest" /> 
+						<input type="radio" id="workRequest" value="1" name="workType"/> 
 						<label for="workRequest">업무 요청</label>
 	
-						<input type="radio" id="workReport" />
+						<input type="radio" id="workReport" value="2" name="workType"/>
 						<label for="workReport">업무 보고</label>
 					</td>
 				</tr>
 				<tr>
 					<td><span class="star">*</span>업무기한</td>
-					<td><input type="text" id="datepicker_deadline" /></td>
+					<td><input type="text" name="deadline" id="datepicker_deadline" /></td>
 				</tr>
 				<tr>
 					<td><span class="star">*</span>담당자</td>
-					<td><input placeholder="사용자" /></td>
+					<td><input name="manager" placeholder="사용자" /></td>
 				</tr>
 				<tr>
 					<td>참조자</td>
-					<td><input placeholder="사용자" /></td>
+					<td><input name="referrer" placeholder="사용자" /></td>
 				</tr>
 				<tr>
 					<td>파일 업로드</td>
-					<td><button type="button">파일추가</button></td>
+					<td><button name="addfile" type="button">파일추가</button></td>
 				</tr>
 				<tr>
 					<td>내용</td>
-					<td><textarea cols="60" rows="10"></textarea></td>
+					<td><textarea name="content" cols="60" rows="10"></textarea></td>
 				</tr>
 				<tr id="workRegBtn">
 					<td colspan="2">
-						<button type="button">저장</button>
-						<button type="button">취소</button>
+						<button type="button" onclick="submitWorkRegFrm()">저장</button>
+						<button type="button" >취소</button>
 					</td>
 				</tr>
 			</tbody>
