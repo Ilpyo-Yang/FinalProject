@@ -26,17 +26,6 @@ public class DnoticeController {
    private InterDnoticeService service;
       
       // === 게시판 글쓰기 폼 페이지 요청 === //
-      @RequestMapping(value="/dnotice_add.opis")
-      public ModelAndView requiredLogin_add(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-    	  
-    	  mav.setViewName("board/dnotice_add.tiles1");
-    	  //	/WEB-INF/views/tiles1/board/add.jsp 파일을 생성한다.
-    	  
-    	  return mav;
-      }
-      
-      
-      // === 게시판 글쓰기 폼 페이지 요청 === //
       @RequestMapping(value="/dnotice_addEnd.opis", method= {RequestMethod.POST})
       public ModelAndView addEnd(ModelAndView mav, DnoticeVO dnoticevo) {
     	  
@@ -45,12 +34,10 @@ public class DnoticeController {
     	  
     	  if(n==1) {
     		  mav.setViewName("redirect:/dnotice_list.opis");
-    		  //   list.action 페이지로 redirect(페이지이동)해라는 말이다.
     		  
     	  }
     	  else {
     		  mav.setViewName("board/error/add_error.tiles1");
-    		  //	/WEB-INF/views/tiles1/board/error/add_error.jsp 파일을 생성한다.
     	  }
     	  
     	  return mav;
@@ -83,13 +70,13 @@ public class DnoticeController {
     	  // 조회하고자 하는 글번호 받아오기
     	  String dnotice_seq = request.getParameter("dnotice_seq");
     	  
-    	  String login_userid = null;
+    	  String login_mbrid = null;
     	  
     	  HttpSession session = request.getSession();
     	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
     	  
     	  if(loginuser != null) {
-    		  login_userid = loginuser.getUserid();
+    		  login_mbrid = loginuser.getMbr_id();
     		  // login_userid 는 로그인 되어진 사용자의 userid 이다.
     	  }   	  
     	  
@@ -97,7 +84,7 @@ public class DnoticeController {
     	  
     	  if("yes".equals(session.getAttribute("readCountPermission"))) {// 글목록보기를 클릭한 다음에 특정글을 조회해온 경우
     		
-    		  dnoticevo = service.getView(dnotice_seq, login_userid);
+    		  dnoticevo = service.getView(dnotice_seq, login_mbrid);
         	  // 글조회수 증가와 함께 글1개를 조회
         	  
     		  session.removeAttribute("readCountPermission");
@@ -152,7 +139,7 @@ public class DnoticeController {
     	  HttpSession session = request.getSession();
           MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
           
-          if( loginuser.getUserid().equals("admin") ) { // 로그인한 유저가 관리자일 때만
+          if( loginuser.getMbr_id().equals("admin") ) { // 로그인한 유저가 관리자일 때만
              
         	  mav.addObject("dnotice_seq", dnotice_seq);
         	  mav.setViewName("board/dnotice_del.tiles1");

@@ -21,7 +21,7 @@
 	$(document).ready(function(){
 		
 		$("button#btnReg").click(function(){
-			location.href="<%=ctxPath%>/cnotice_add.opis";
+			location.href="<%=ctxPath%>/add.opis";
 		});
 		
 	}); // end of $(document).ready(function(){})---------------------------------------
@@ -36,17 +36,22 @@
 </head>
 <body>
 
-<div style="display: inline-block; width: 1400px;"> 
+<div style="display: inline-block; width: 1460px;"> 
+	<!-- 사이드메뉴 -->
     <div id="sideMenu">
 	  	<div id="menuTitle">게시판</div>
 	  	<div><button type="button" id="btnReg">게시글 등록</button></div>
 	
-	  		<div class="lside"><a class="side" href="#">전체공지사항</a></div>
-	  		<div class="lside"><a class="side" href="#">부서공지사항</a></div>
+	  		<div class="lside"><a class="side" href="/groupware/cnotice_list.opis">전체공지사항</a></div>
+	  		<div class="lside"><a class="side" href="/groupware/dnotice_list.opis">부서공지사항</a></div>
 	  		<div class="lside"><a class="side" href="#">공통서식</a></div>
 	</div>
-	
-<div class="container" style=" border: 1px solid blue; float: right; width: 700px; margin: 50px 200px; ">        
+	<!-- 게시판제목 -->
+	<div style="padding: 15px; font-size: 25px; font-weight: 600; height: 60px; width: 100%; background-color: #f2f2f2; color: #555;">
+	&nbsp;&nbsp;전체 공지사항
+	</div>
+	<!-- 본문(게시판) -->
+	<div class="container" style=" border: 1px solid blue; float: right; width: 700px; margin: 50px 200px; ">        
 	  <table class="table table-striped">
 	    <thead>
 	      <tr>
@@ -72,8 +77,7 @@
 	    </tbody>
 	  </table>
 
-  	</div>
-	  	
+  	</div>	  	
 	
 	
 </div>

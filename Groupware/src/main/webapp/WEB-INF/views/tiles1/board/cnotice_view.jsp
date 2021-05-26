@@ -9,7 +9,8 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
-<jsp:include page="../../sideMenu.jsp" />
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />		
+
 <style type="text/css">
    table, th, td, input, textarea {border: solid gray 1px;}
    
@@ -41,9 +42,21 @@
 
 </script>
 
-<div style="padding-left: 10%;">
-   <h1>글내용보기</h1>
-   
+<div style="width: 1460px; padding-left: 10%;">
+	<!-- 사이드메뉴 -->
+    <div id="sideMenu">
+	  	<div id="menuTitle">게시판</div>
+	  	<div><button type="button" id="btnReg">게시글 등록</button></div>
+	
+	  		<div class="lside"><a class="side" href="/groupware/cnotice_list.opis">전체공지사항</a></div>
+	  		<div class="lside"><a class="side" href="/groupware/dnotice_list.opis">부서공지사항</a></div>
+	  		<div class="lside"><a class="side" href="#">공통서식</a></div>
+	</div>
+	<!-- 게시판제목 -->
+	<div style="padding: 15px; font-size: 25px; font-weight: 600; height: 60px; width: 100%; background-color: #f2f2f2; color: #555;">
+	&nbsp;&nbsp;전체 공지사항
+	</div>
+	<!-- 글내용 -->
    <c:if test="${not empty requestScope.cnoticevo}">
    	 <table id="table">
    		<tr>
