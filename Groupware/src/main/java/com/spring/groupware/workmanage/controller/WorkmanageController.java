@@ -18,6 +18,20 @@ import com.spring.groupware.workmanage.model.WorkManageVO;
 @Component
 @Controller
 public class WorkmanageController {
+	
+	List<WorkManageVO> workList;
+	
+	public WorkmanageController() {
+		workList = new ArrayList<>();
+		
+		WorkManageVO wmvo1 = new WorkManageVO("1", "1", "이두나", "김관리", "계약서 작성요청1", "계약서 좀 빨리 작성해주세요", "2021.04.21", "2021.05.21", "0", "", "0");
+		WorkManageVO wmvo2 = new WorkManageVO("2", "1", "이두나", "김관리", "계약서 작성요청2", "계약서 좀 빨리 작성해주세요!", "2021.04.22", "2021.05.21", "0", "", "1");
+		WorkManageVO wmvo3 = new WorkManageVO("3", "1", "이두나", "김관리", "계약서 작성요청3", "계약서 좀 빨리 작성해주세요!!", "2021.04.23", "2021.05.21", "0", "", "2");
+		
+		workList.add(wmvo1);
+		workList.add(wmvo2);
+		workList.add(wmvo3);
+	}
 
 	// == 업무 등록 하기 == //
 	@RequestMapping(value = "/worklistAdd.opis")
@@ -36,16 +50,6 @@ public class WorkmanageController {
 	// == 내가 한 업무 요청 리스트 보여주기 == //
 	@RequestMapping(value = "/sendWorkRequest.opis")
 	public ModelAndView sendWorkRequest(ModelAndView mav) {
-		
-		List<WorkManageVO> workList = new ArrayList<>();
-		
-		WorkManageVO wmvo1 = new WorkManageVO("1", "1", "이두나", "김관리", "계약서 작성요청1", "계약서 좀 빨리 작성해주세요", "2021.04.21", "2021.05.21", "0", "", "0");
-		WorkManageVO wmvo2 = new WorkManageVO("2", "1", "이두나", "김관리", "계약서 작성요청2", "계약서 좀 빨리 작성해주세요", "2021.04.22", "2021.05.21", "0", "", "1");
-		WorkManageVO wmvo3 = new WorkManageVO("3", "1", "이두나", "김관리", "계약서 작성요청3", "계약서 좀 빨리 작성해주세요", "2021.04.23", "2021.05.21", "0", "", "2");
-		
-		workList.add(wmvo1);
-		workList.add(wmvo2);
-		workList.add(wmvo3);
 		
 		mav.addObject("workList", workList);
 		mav.setViewName("workmanage/sendWorkRequest_view.tiles1");
@@ -81,7 +85,13 @@ public class WorkmanageController {
 	
 	// == 업무 요청 조회 페이지 == //
 	@RequestMapping(value="/showDetailWork.opis")
-	public ModelAndView showDetailWork(ModelAndView mav) {
+	public ModelAndView showDetailWork(ModelAndView mav, HttpServletRequest request) {
+		
+		int wmno = Integer.parseInt(request.getParameter("wmno")); // 업무고유 번호 받아오기
+		WorkManageVO wmvo = workList.get(wmno-1); // 추후 DB 에서 wmno 로 정보 가져오기
+		
+		mav.addObject("wmvo", wmvo);
+		
 		mav.setViewName("workmanage/showDetailWork.tiles1");
 		return mav;
 	}

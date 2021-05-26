@@ -43,6 +43,8 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 
 button.workStatus {
 	width: 100px;
+	height: 25px;
+	color: white;
 	border: none;
 }
 
@@ -172,7 +174,7 @@ button.readCheck {
 										data-subject="${work.subject}" data-receiver="${work.fk_receiver_seq}" data-stat="${work.fk_statno == 0}">미완료</button></td>
 						</c:when>
 						<c:when test="${work.fk_statno == 2}">
-							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: white; border: 1px solid "
+							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: white; border: 1px solid black; color: black;"
 										data-subject="${work.subject}" data-receiver="${work.fk_receiver_seq}" data-stat="${work.fk_statno == 0}">완료</button></td>
 						</c:when>
 					</c:choose>
