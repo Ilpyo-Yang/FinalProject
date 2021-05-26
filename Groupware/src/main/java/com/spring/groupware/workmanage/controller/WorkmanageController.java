@@ -43,22 +43,22 @@ public class WorkmanageController {
 	}
 
 	// == 업무 등록 하기 == //
-	@RequestMapping(value = "/worklistAdd.opis")
-	public ModelAndView worklistAdd(ModelAndView mav) {
-		mav.setViewName("workmanage/worklist_add.tiles1");
+	@RequestMapping(value = "/workListAdd.opis")
+	public ModelAndView workListAdd(ModelAndView mav) {
+		mav.setViewName("workmanage/workListAdd.tiles1");
 		return mav;
 	}
 
 	// == 할 일 리스트 보여주기 == //
-	@RequestMapping(value = "/todolist.opis")
-	public ModelAndView todolist(ModelAndView mav) {
-		mav.setViewName("workmanage/todolist_view.tiles1");
+	@RequestMapping(value = "/todoList.opis")
+	public ModelAndView todoList(ModelAndView mav) {
+		mav.setViewName("workmanage/todoList.tiles1");
 		return mav;
 	}
 
 	// == 내가 한 업무 리스트 보여주기 == //
-	@RequestMapping(value = "/sendWorkList.opis")
-	public ModelAndView sendWorkList(ModelAndView mav, HttpServletRequest request) {
+	@RequestMapping(value = "/workList.opis")
+	public ModelAndView workList(ModelAndView mav, HttpServletRequest request) {
 		
 		String fk_wtno = request.getParameter("fk_wtno"); // 추후 DB 에서 fk_wtno 를 가지고 타입에 맞는 데이터를 가져올 것 
 		String type = request.getParameter("type"); // 추후 DB 에서 type 에 맞는  데이터를 가져올 것 (발신자, 수신자, 참조자)
@@ -75,7 +75,7 @@ public class WorkmanageController {
 		mav.addObject("type", type); 
 		mav.addObject("workList", newWorkList); // fk_wtno 에 해당하는 데이터 리스트
 		
-		mav.setViewName("workmanage/sendWorkList.tiles1");
+		mav.setViewName("workmanage/workList.tiles1");
 		return mav;
 	}
 
