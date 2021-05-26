@@ -9,14 +9,14 @@
 	</insert> -->
 	 
 	<select id="memberList" parameterType="HashMap" resultType="com.spring.groupware.member.model.MemberVO">
-		select mbr_seq, mbr_name, fk_dept_no, fk_rank_no, mbr_registerday, mbr_retireday, eduLevel
+		select M.mbr_seq, M.mbr_name, M.fk_dept_no, M.fk_rank_no, M.mbr_registerday, M.mbr_retireday, E.eduLevel
 		from tbl_mbr M JOIN tbl_edu E
+		on M.mbr_seq = E.mbr_seq
 		<if test="category == 6">
 		
 		</if>
 		<if test="category != 6">
 			where fk_dept_no = to_number(#{category})
 		</if>
-		on M.mbr_seq = E.mbr_seq;
 	</select>
 </mapper>
