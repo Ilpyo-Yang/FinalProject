@@ -21,14 +21,16 @@ public class InsaService implements InterInsaService {
 
 	@Autowired
 	private InterInsaDAO idao;
+
 	
 	// 인사정보 등록하기
 	@Override
-	public int insaRegisterEnd(MemberVO membervo) {
-		int n = idao.insaRegisterEnd(membervo);
+	public int insaRegister1End(MemberVO membervo) {
+		int n = idao.insaRegister1End(membervo);
 		return n;
 	}
 
+	
 	
 
 	

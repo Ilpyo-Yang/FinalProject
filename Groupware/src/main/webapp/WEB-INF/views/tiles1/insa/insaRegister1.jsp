@@ -4,7 +4,6 @@
 <% String ctxPath = request.getContextPath(); %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<jsp:include page="../../sideMenu.jsp" />
 <style>
 	div#insaBar{
 		height: 77px;
@@ -72,7 +71,7 @@
 		margin-top: 10px;
 		background-color: #e6e6e6;
 		width: 100%;
-		height: 600px;
+		height: 700px;
 		text-align: center;
 		padding: 40px;
 				}
@@ -95,7 +94,7 @@
 		height: 30px;
 	}
 	table#insaDetail1{
-		margin-left:100px;
+		margin-left:50px;
 	}
 	table#insaDetail2{
 		margin-left: 60px;
@@ -105,10 +104,15 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		var frm = document.insaRegister1Frm;
-		frm.method = "post";
-		frm.action = "<%=ctxPath%>/insaRegisterEnd.opis";
-		frm.submit();
+		
+		$("input#registerBtn").click(function(){
+			var frm = document.insaRegister1Frm;
+			frm.method = "post";
+			frm.action = "<%=ctxPath%>/insaRegisterEnd.opis";
+			frm.submit();
+			
+		});
+		
 	});
 </script>
 
@@ -129,7 +133,7 @@
 			</tr>
 		</table>
 	</div>
-	<div style="width: 90%; padding-left: 2%;">
+	<div style="width: 100%; ">
 		<table id="insaDetailButton">
 		<tr id="insaDetailButton">
 			<td class="insaDetailButton" style="background-color: #68b658">인적사항</td>

@@ -4,7 +4,6 @@
 <% String ctxPath = request.getContextPath(); %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<jsp:include page="../../sideMenu.jsp" />
 <style>
 	header#insaBar{
 		height: 77px;
@@ -211,7 +210,7 @@
 			<td class="departmentButton" style="background-color: #e6e6e6">영업</td>
 			<td class="departmentButton" style="background-color: #e6e6e6">마케팅</td>
 			<td class="departmentButton" style="background-color: #a6a6a6">미등록</td>
-			<td class="departmentButton" style="background-color: #d7efd7" onclick="javascript:location.href='<%=ctxPath%>/insaRegister.opis'">신규&nbsp;<i class="fa fa-plus-circle"></i></td>
+			<td class="departmentButton" style="background-color: #d7efd7" onclick="javascript:location.href='<%=ctxPath%>/insaRegister1.opis'">신규&nbsp;<i class="fa fa-plus-circle"></i></td>
 		</tr>
 		</table>
 		<div id="midBoxGray">

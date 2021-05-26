@@ -24,7 +24,7 @@ public class InsaDAO implements InterInsaDAO {
 	
 	// 인사정보 등록하기
 	@Override
-	public int insaRegisterEnd(MemberVO membervo) {
+	public int insaRegister1End(MemberVO membervo) {
 		/* int n = sqlsession.insert("insa.insaRegisterEnd", membervo); */
 		return 1;
 	}

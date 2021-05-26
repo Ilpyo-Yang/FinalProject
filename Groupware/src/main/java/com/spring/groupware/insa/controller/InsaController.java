@@ -25,47 +25,54 @@ public class InsaController {
 	@RequestMapping(value="/insa.opis")
 	public ModelAndView insa(ModelAndView mav, HttpServletRequest request) {
 		
-		mav.setViewName("/tiles1/insa/insa");
+		mav.setViewName("/insa/insa.tiles1");
 		
 		return mav;
 	}
 
 	// === insa 등록페이지 요청 === //
-	@RequestMapping(value="/insaRegister.opis")
-	public ModelAndView insaRegister(ModelAndView mav) {
+	@RequestMapping(value="/insaRegister1.opis")
+	public ModelAndView insaRegister1(ModelAndView mav) {
 
-		mav.setViewName("/tiles1/insa/insaRegister");
+		mav.setViewName("/insa/insaRegister1.tiles1");
 		return mav;
 	}
 
-	@RequestMapping(value="/insaRegisterEnd.opis.opis", method= {RequestMethod.POST})
-	public ModelAndView insaRegisterEnd(ModelAndView mav, HttpServletRequest request, MemberVO membervo) {
-		int n = service.insaRegisterEnd(membervo);
+	@RequestMapping(value="/insaRegister1End.opis", method= {RequestMethod.POST})
+	public ModelAndView insaRegister1End(ModelAndView mav, HttpServletRequest request, MemberVO membervo) {
+	
+		int n = service.insaRegister1End(membervo);
+		String path="";
 		if(n==1) {
 			System.out.println("등록성공");
+			path ="/insa/insaView1.tiles1";
 		}
 		else {
 
 			System.out.println("등록실패");
+			path ="/insa/insa.tiles1";
 		}
-		mav.setViewName("/tiles1/insa/insa");
+		mav.setViewName("path");
 		return mav;
 	}
 	
 	
 	
-	// === insa detail2페이지 요청 === //
-	@RequestMapping(value="/insaDetail2.opis")
-	public ModelAndView insaDetail2(ModelAndView mav, HttpServletRequest request) {
+	// === insa view1페이지 요청 === //
+	@RequestMapping(value="/insaView1.opis")
+	public ModelAndView insaView1(ModelAndView mav, HttpServletRequest request) {
 
-		mav.setViewName("/tiles1/insa/insaDetail2");
+		mav.setViewName("/insa/insaView1.tiles1");
 		return mav;
 	}
+	
+	
+	
 	// === 급여 페이지 요청 === //
 	@RequestMapping(value="/payment.opis")
 	public ModelAndView payment(ModelAndView mav, HttpServletRequest request) {
 
-		mav.setViewName("/tiles1/insa/payment");
+		mav.setViewName("/insa/payment.tiles1");
 		return mav;
 	}
 }

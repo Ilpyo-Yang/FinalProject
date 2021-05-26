@@ -5,7 +5,7 @@
 <mapper namespace="insa">
 	<insert id="insaRegisterEnd" parameterType="com.spring.groupware.member.model.MemberVO">
 		insert into tbl_mbr(mbr_seq, fk_power_no, fk_dpet_no, mrb_id, mbr_pwd, mbr_name, mbr_email, mbr_com_number, mbr_phone_number, mbr_gender, mbr_birthday,mbr_registerday, mbr_retireday, mbr_pwd_changeday, mbr_status,mbt_photo,mbr_sign )
-		values(#{mbr_seq}, #{fk_power_no}, #{fk_dpet_no}, mrb_id, mbr_pwd, mbr_name, mbr_email, mbr_com_number, mbr_phone_number, mbr_gender, mbr_birthday,mbr_registerday, mbr_retireday, mbr_pwd_changeday, mbr_status,mbt_photo,z);
+		values(seq_mbr.nextval, #{fk_power_no}, #{fk_dpet_no}, mrb_id, mbr_pwd, mbr_name, mbr_email, mbr_com_number, mbr_phone_number, mbr_gender, mbr_birthday,mbr_registerday, mbr_retireday, mbr_pwd_changeday, mbr_status,mbt_photo,z);
 	</insert>
 	
 </mapper>

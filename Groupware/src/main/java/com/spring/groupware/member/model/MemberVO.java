@@ -3,251 +3,167 @@ package com.spring.groupware.member.model;
 import java.util.Calendar;
 
 public class MemberVO {
-
-	private String userid;             // 회원아이디
-	private String pwd;                // 비밀번호 (SHA-256 암호화 대상)
-	private String name;               // 회원명
-	private String email;              // 이메일 (AES-256 암호화/복호화 대상)
-	private String mobile;             // 연락처 (AES-256 암호화/복호화 대상) 
-	private String postcode;           // 우편번호
-	private String address;            // 주소
-	private String detailaddress;      // 상세주소
-	private String extraaddress;       // 참고항목
-	private String gender;             // 성별   남자:1  / 여자:2
-	private String birthday;           // 생년월일   
-	private int coin;                  // 코인액
-	private int point;                 // 포인트 
-	private String registerday;        // 가입일자 
-	private String lastpwdchangedate;  // 마지막으로 암호를 변경한 날짜  
-	private int status;                // 회원탈퇴유무   1: 사용가능(가입중) / 0:사용불능(탈퇴) 
-	private int idle;                  // 휴면유무         0: 활동중  /  1 : 휴면중 
-	                                   // 마지막으로 로그인 한 날짜시간이 현재시각으로 부터 1년이 지났으면 휴면으로 지정 
-
-	private int pwdchangegap;          // select용. 지금으로 부터 마지막으로 암호를 변경한지가 몇개월인지 알려주는 개월수(3개월 동안 암호를 변경 안 했을시 암호를 변경하라는 메시지를 보여주기 위함) 
-	private int lastlogingap;		   // select용. 지금으로 부터 마지막으로 로그인한지가 몇개월인지 알려주는 개월수(12개월 동안 로그인을 안 했을 경우 해당 로그인계정을 비활성화 시키려고 함)  
+	private int mbr_seq;
+	private int fk_power_no;
+	private int fk_rank_no;
+	private int fk_dept_no;
+	private String mbr_id;
+	private String mbr_pwd;
+	private String mbr_name;
+	private String mbr_email;
+	private String mbr_com_number;
+	private String mbr_phone_number;
+	private String mbr_gender;
+	private String mbr_birthday;
+	private String mbr_registerday;
+	private String mbr_retireday;
+	private String mbr_status; 
+	private String mbr_photo;
+	private String mbr_sign;  
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	
-	private boolean requiredPwdChange = false;
-	// 마지막으로 암호를 변경한 날짜가 현재시각으로 부터 3개월이 지났으면 true
-	// 마지막으로 암호를 변경한 날짜가 현재시각으로 부터 3개월이 지나지 않았으면 false
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public MemberVO() {}
-	
-	
-	public MemberVO(String userid, String pwd, String name, String email, String mobile, String postcode,
-			String address, String detailaddress, String extraaddress, String gender, String birthday) {
-		
-		this.userid = userid;
-		this.pwd = pwd;
-		this.name = name;
-		this.email = email;
-		this.mobile = mobile;
-		this.postcode = postcode;
-		this.address = address;
-		this.detailaddress = detailaddress;
-		this.extraaddress = extraaddress;
-		this.gender = gender;
-		this.birthday = birthday;
-	}
-	
-	
-	public MemberVO(String userid, String pwd, String name, String email, String mobile, String postcode,
-			String address, String detailaddress, String extraaddress) {
-		
-		this.userid = userid;
-		this.pwd = pwd;
-		this.name = name;
-		this.email = email;
-		this.mobile = mobile;
-		this.postcode = postcode;
-		this.address = address;
-		this.detailaddress = detailaddress;
-		this.extraaddress = extraaddress;
-	}
-	
-	
-	public String getUserid() {
-		return userid;
-	}
-	
-	public void setUserid(String userid) {
-		this.userid = userid;
-	}
-	
-	public String getPwd() {
-		return pwd;
-	}
-	
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	public String getMobile() {
-		return mobile;
-	}
-	
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-	
-	public String getPostcode() {
-		return postcode;
-	}
-	
-	public void setPostcode(String postcode) {
-		this.postcode = postcode;
-	}
-	
-	public String getAddress() {
-		return address;
-	}
-	
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	
-	public String getDetailaddress() {
-		return detailaddress;
-	}
-	
-	public void setDetailaddress(String detailaddress) {
-		this.detailaddress = detailaddress;
-	}
-	
-	public String getExtraaddress() {
-		return extraaddress;
-	}
-	
-	public void setExtraaddress(String extraaddress) {
-		this.extraaddress = extraaddress;
-	}
-	
-	public String getGender() {
-		return gender;
-	}
-	
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-	
-	public String getBirthday() {
-		return birthday;
-	}
-	
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
-	}
-	
-	public int getCoin() {
-		return coin;
-	}
-	
-	public void setCoin(int coin) {
-		this.coin = coin;
-	}
-	
-	public int getPoint() {
-		return point;
-	}
-	
-	public void setPoint(int point) {
-		this.point = point;
-	}
-	
-	public String getRegisterday() {
-		return registerday;
-	}
-	
-	public void setRegisterday(String registerday) {
-		this.registerday = registerday;
-	}
-	
-	public String getLastpwdchangedate() {
-		return lastpwdchangedate;
-	}
-	
-	public void setLastpwdchangedate(String lastpwdchangedate) {
-		this.lastpwdchangedate = lastpwdchangedate;
-	}
-	
-	public int getStatus() {
-		return status;
-	}
-	
-	public void setStatus(int status) {
-		this.status = status;
-	}
-	
-	public int getIdle() {
-		return idle;
-	}
-	
-	public void setIdle(int idle) {
-		this.idle = idle;
-	}
-	
-	////////////////////////////////////////////////////////////////////////
-		
-	public int getPwdchangegap() {
-	return pwdchangegap;
-	}
-	
-	
-	public void setPwdchangegap(int pwdchangegap) {
-	this.pwdchangegap = pwdchangegap;
-	}
-	
-	public int getLastlogingap() {
-		return lastlogingap;
+
+	public int getMbr_seq() {
+		return mbr_seq;
 	}
 
-
-	public void setLastlogingap(int lastlogingap) {
-		this.lastlogingap = lastlogingap;
+	public void setMbr_seq(int mbr_seq) {
+		this.mbr_seq = mbr_seq;
 	}
 
-	/////////////////////////////////////////////////////////////////////
-		
-	public boolean isRequiredPwdChange() {
-		return requiredPwdChange;
+	public int getFk_power_no() {
+		return fk_power_no;
 	}
 
-	public void setRequiredPwdChange(boolean requiredPwdChange) {
-		this.requiredPwdChange = requiredPwdChange;
+	public void setFk_power_no(int fk_power_no) {
+		this.fk_power_no = fk_power_no;
+	}
+
+	public int getFk_rank_no() {
+		return fk_rank_no;
+	}
+
+	public void setFk_rank_no(int fk_rank_no) {
+		this.fk_rank_no = fk_rank_no;
+	}
+
+	public int getFk_dept_no() {
+		return fk_dept_no;
+	}
+
+	public void setFk_dept_no(int fk_dept_no) {
+		this.fk_dept_no = fk_dept_no;
+	}
+
+	public String getMbr_id() {
+		return mbr_id;
+	}
+
+	public void setMbr_id(String mbr_id) {
+		this.mbr_id = mbr_id;
+	}
+
+	public String getMbr_pwd() {
+		return mbr_pwd;
+	}
+
+	public void setMbr_pwd(String mbr_pwd) {
+		this.mbr_pwd = mbr_pwd;
+	}
+
+	public String getMbr_name() {
+		return mbr_name;
+	}
+
+	public void setMbr_name(String mbr_name) {
+		this.mbr_name = mbr_name;
+	}
+
+	public String getMbr_email() {
+		return mbr_email;
+	}
+
+	public void setMbr_email(String mbr_email) {
+		this.mbr_email = mbr_email;
+	}
+
+	public String getMbr_com_number() {
+		return mbr_com_number;
+	}
+
+	public void setMbr_com_number(String mbr_com_number) {
+		this.mbr_com_number = mbr_com_number;
+	}
+
+	public String getMbr_phone_number() {
+		return mbr_phone_number;
+	}
+
+	public void setMbr_phone_number(String mbr_phone_number) {
+		this.mbr_phone_number = mbr_phone_number;
+	}
+
+	public String getMbr_gender() {
+		return mbr_gender;
+	}
+
+	public void setMbr_gender(String mbr_gender) {
+		this.mbr_gender = mbr_gender;
+	}
+
+	public String getMbr_birthday() {
+		return mbr_birthday;
+	}
+
+	public void setMbr_birthday(String mbr_birthday) {
+		this.mbr_birthday = mbr_birthday;
+	}
+
+	public String getMbr_registerday() {
+		return mbr_registerday;
+	}
+
+	public void setMbr_registerday(String mbr_registerday) {
+		this.mbr_registerday = mbr_registerday;
+	}
+
+	public String getMbr_retireday() {
+		return mbr_retireday;
+	}
+
+	public void setMbr_retireday(String mbr_retireday) {
+		this.mbr_retireday = mbr_retireday;
+	}
+
+	public String getMbr_status() {
+		return mbr_status;
+	}
+
+	public void setMbr_status(String mbr_status) {
+		this.mbr_status = mbr_status;
+	}
+
+	public String getMbr_photo() {
+		return mbr_photo;
+	}
+
+	public void setMbr_photo(String mbr_photo) {
+		this.mbr_photo = mbr_photo;
+	}
+
+	public String getMbr_sign() {
+		return mbr_sign;
+	}
+
+	public void setMbr_sign(String mbr_sign) {
+		this.mbr_sign = mbr_sign;
 	}
 	
-	/////////////////////////////////////////////////////////////////////
-	public int getAge() {
-	      int age = 0;
-	      
-	      Calendar currentDate = Calendar.getInstance(); 
-	      // 현재날짜와 시간을 얻어온다.
-	      
-	      int currentYear = currentDate.get(Calendar.YEAR);
-	      
-	      age =  currentYear - Integer.parseInt( birthday.substring(0, 4) ) + 1;
-	      
-	      return age;
-	}
+	
 	
 	
 
