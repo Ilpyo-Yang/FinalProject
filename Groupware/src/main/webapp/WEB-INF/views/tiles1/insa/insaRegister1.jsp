@@ -47,7 +47,18 @@
 		margin-right: 30px;
 		text-align: center;
 	}
-	input#registerBtn{
+	td.insaListButton{
+		display:inline-block;
+		width: 150px;
+		height: 40px;
+		border-radius: 10px;
+		font-size: 16pt;
+		font-weight: bold;
+		padding-top: 7px;
+		margin-right: 30px;
+		text-align: center;
+	}
+	button#registerBtn{
  	  margin-left: 50px;
 	  padding: 15px 25px;
 	  font-size: 24px;
@@ -60,8 +71,8 @@
 	  border-radius: 15px;
 	  box-shadow: 0 9px #999;
 	}
-	input#registerBtn:hover{ background-color: #3e8e41}
-	input#registerBtn:active{
+	button#registerBtn:hover{ background-color: #3e8e41}
+	button#registerBtn:active{
 	  background-color: #3e8e41;
 	  box-shadow: 0 5px #666;
 	  transform: translateY(4px);
@@ -105,11 +116,11 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		
-		$("input#registerBtn").click(function(){
+		$("button#registerBtn").click(function(){
 			var frm = document.insaRegister1Frm;
-			frm.method = "post";
-			frm.action = "<%=ctxPath%>/insaRegisterEnd.opis";
-			frm.submit();
+			frm.method = "POST";
+			frm.action = '<%=ctxPath%>/insaRegister1End.opis';
+			frm.submit(); 
 			
 		});
 		
@@ -137,11 +148,16 @@
 		<table id="insaDetailButton">
 		<tr id="insaDetailButton">
 			<td class="insaDetailButton" style="background-color: #68b658">인적사항</td>
-			<td class="insaDetailButton" style="background-color: #e6e6e6">서류정보</td>
+			<td class="insaDetailButton" style="background-color: #e6e6e6" onclick="javascript:location.href='<%=ctxPath%>/insaView2.opis'">서류정보</td>
+			<td class="insaDetailButton"></td>
+			<td class="insaDetailButton"></td>
+			<td class="insaDetailButton"></td>
+			<td class="insaDetailButton"></td>
+			<td class="insaListButton" style="background-color: #e6e6e6" onclick="javascript:location.href='<%=ctxPath%>/insa.opis'">사원목록</td>
 		</tr>
 		</table>
-		<form name="insaRegister1Frm">
 		<div id="midBoxGray">
+		<form name="insaRegister1Frm">
 			<table id="insaDetail1" class="insaDetail">
 				<tr>
 					<td>사원번호</td>
@@ -265,7 +281,8 @@
 					</td>
 				</tr>
 			</table>
-			<input id="registerBtn" type="submit" value="등록" >
+			<button id="registerBtn"  type="submit">등록</button>
+			
 			</form>
 		</div>
 	

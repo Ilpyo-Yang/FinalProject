@@ -127,18 +127,21 @@
 		border: solid 1px black;
 		border-collapse: collapse;
 		width: 90%;
-		height: 80%;
 	
 	}
 	table#memberListTbl tr{
 		border: solid 1px red;
 		width: 100%;
+		height: 70px;
 	}
 	table#memberListTbl td{
 		border: solid 1px black;
+		text-align: center;
 	}
 	table#memberListTbl th{
 		border: solid 1px black;
+		text-align: center;
+		font-weight: bold;
 	}
 </style>
 
@@ -182,6 +185,11 @@
 			  
 		  }
 		} 
+	function goInsaCate(category){
+		
+		location.href = "<%=ctxPath%>/insa.opis?category="+category;
+		
+	}
 	
 </script>
 
@@ -190,8 +198,8 @@
 		<table id="insaBarTable">
 			<tr>
 			<td class="insaBarMenu" style="text-align: left; width: 40%;">&nbsp;<i class="fa fa-bars"></i>&nbsp;&nbsp;인사관리</td>
-			<td class="insaBarMenu" style="text-align: center; width: 30%;">멤버</td>
-			<td class="insaBarMenu" style="text-align: center; width: 30%;">급여</td>
+			<td class="insaBarMenu" style="text-align: center; width: 30%;" onclick="javascript:location.href='<%=ctxPath%>/insa.opis'">멤버</td>
+			<td class="insaBarMenu" style="text-align: center; width: 30%;" onclick="javascript:location.href='<%=ctxPath%>/payment.opis'">급여</td>
 			</tr>
 			<tr>
 			<td class="insaBarMenu2" style="width: 40%; background-color: #68b658;"></td>
@@ -203,13 +211,12 @@
 	<body>
 		<table id="departmentButton">
 		<tr id="departmentButton">
-			<td class="departmentButton" style="background-color: #68b658">전체</td>
-			<td class="departmentButton" style="background-color: #e6e6e6">인사</td>
-			<td class="departmentButton" style="background-color: #e6e6e6">회계</td>
-			<td class="departmentButton" style="background-color: #e6e6e6">구매</td>
-			<td class="departmentButton" style="background-color: #e6e6e6">영업</td>
-			<td class="departmentButton" style="background-color: #e6e6e6">마케팅</td>
-			<td class="departmentButton" style="background-color: #a6a6a6">미등록</td>
+			<td class="departmentButton" style="background-color: #68b658" onclick="goInsaCate(6)">전체</td>
+			<td class="departmentButton" style="background-color: #e6e6e6" onclick="goInsaCate(0)">영업</td>
+			<td class="departmentButton" style="background-color: #e6e6e6" onclick="goInsaCate(1)">인사</td>
+			<td class="departmentButton" style="background-color: #e6e6e6" onclick="goInsaCate(2)">홍보</td>
+			<td class="departmentButton" style="background-color: #e6e6e6" onclick="goInsaCate(3)">IT</td>
+			<td class="departmentButton" style="background-color: #e6e6e6" onclick="goInsaCate(4)">회계</td>
 			<td class="departmentButton" style="background-color: #d7efd7" onclick="javascript:location.href='<%=ctxPath%>/insaRegister1.opis'">신규&nbsp;<i class="fa fa-plus-circle"></i></td>
 		</tr>
 		</table>
@@ -231,32 +238,56 @@
 				</tr>
 			</table>
 			<table id="memberListTbl">
-				
+					<thead>
 					<tr>
 						<th style="width: 13%;">사원번호</th>
 						<th style="width: 13%;">사원명</th>
 						<th style="width: 12%;">부서</th>
 						<th style="width: 12%;">직책</th>
-						<th style="width: 12%;">연차</th>
 						<th style="width: 14%;">입사일자</th>
 						<th style="width: 12%;">학력</th>
 						<th style="width: 12%;">재직상태</th>
 					</tr>
-			<%-- 	</thead>
+					</thead>
 					<tbody>
-					<c:forEach var="memberVO" items="${requestScope.paraMap.memberVO}">
+					<c:forEach var="memberList" items="${requestScope.memberList}">
 					<tr>
+						<td>${memberList.mbr_seq}</td>
+						<td>${memberList.mbr_name}</td>
+						<c:if test="${memberList.fk_dept_no == 0}">
+							<td>영업</td>
+						</c:if>
+						<c:if test="${memberList.fk_dept_no == 1}">
+							<td>인사</td>
+						</c:if>
+						<c:if test="${memberList.fk_dept_no == 2}">
+							<td>홍보</td>
+						</c:if>
+						<c:if test="${memberList.fk_dept_no == 3}">
+							<td>IT</td>
+						</c:if>
+						<c:if test="${memberList.fk_dept_no == 4}">
+							<td>회계</td>
+						</c:if>
+						<c:if test="${!(memberList.fk_dept_no == 4 || memberList.fk_dept_no == 3 || memberList.fk_dept_no == 2 || memberList.fk_dept_no == 1 || memberList.fk_dept_no == 0)}">
+							<td>기타</td>
+						</c:if>
+						
+						<c:if test="${memberList.fk_rank_no == 0}">
+							<td>팀장</td>
+						</c:if>						
+						<c:if test="${memberList.fk_rank_no == 1}">
+							<td>팀원</td>
+						</c:if>						
+						<c:if test="${memberList.fk_rank_no == 2}">
+							<td style="color: red;">대표</td>
+						</c:if>
+						<td>${memberList.mbr_registerday}</td>
 						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td><%-- ${memberList.mbr_retireday} --%></td>
 					</tr>
 					</c:forEach>
-				</tbody> --%>
+				</tbody>
 			</table>
 		</div>
 	

@@ -1,5 +1,10 @@
 package com.spring.groupware.insa.model;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale.Category;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -29,4 +34,13 @@ public class InsaDAO implements InterInsaDAO {
 		return 1;
 	}
 
+
+	// 멤버정보 불러오기
+	@Override
+	public List<MemberVO> getMemberList(String category) {
+		Map<String,String> paraMap = new HashMap<>();
+		paraMap.put("category", category);
+		List<MemberVO> memberList= sqlsession.selectList("insa.memberList",paraMap);
+		return memberList;
+	}
 }

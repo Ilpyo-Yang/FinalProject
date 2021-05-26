@@ -1,6 +1,8 @@
 package com.spring.groupware.insa.service;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 // import javax.annotation.Resource;
@@ -28,6 +30,13 @@ public class InsaService implements InterInsaService {
 	public int insaRegister1End(MemberVO membervo) {
 		int n = idao.insaRegister1End(membervo);
 		return n;
+	}
+
+
+	@Override
+	public List<MemberVO> getMemberList(String category) {
+		List<MemberVO> memberList = idao.getMemberList(category);
+		return memberList;
 	}
 
 	

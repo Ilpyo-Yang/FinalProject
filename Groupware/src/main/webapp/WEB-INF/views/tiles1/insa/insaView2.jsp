@@ -115,8 +115,14 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		
-		
+
+		$("button#registerBtn").click(function(){
+			var frm = document.insaRegister1Frm;
+			frm.method = "POST";
+			frm.action = '<%=ctxPath%>/insaRegister2End.opis';
+			frm.submit(); 
+			
+		});
 	});
 </script>
 
@@ -137,11 +143,11 @@
 			</tr>
 		</table>
 	</div>
-	<div style="width: 100%; ">
+	<div style="width: 100%;">
 		<table id="insaDetailButton">
 		<tr id="insaDetailButton">
-			<td class="insaDetailButton" style="background-color: #68b658">인적사항</td>
-			<td class="insaDetailButton" style="background-color: #e6e6e6" onclick="javascript:location.href='<%=ctxPath%>/insaView2.opis'">서류정보</td>
+			<td class="insaDetailButton" style="background-color: #e6e6e6" onclick="javascript:location.href='<%=ctxPath%>/insaView1.opis'">인적사항</td>
+			<td class="insaDetailButton" style="background-color: #68b658">서류정보</td>
 			<td class="insaDetailButton"></td>
 			<td class="insaDetailButton"></td>
 			<td class="insaDetailButton"></td>
@@ -149,61 +155,53 @@
 			<td class="insaListButton" style="background-color: #e6e6e6" onclick="javascript:location.href='<%=ctxPath%>/insa.opis'">사원목록</td>
 		</tr>
 		</table>
-		<form name="insaRegister1Frm">
 		<div id="midBoxGray">
+		<form name="insaRegister2Frm">
 			<table id="insaDetail1" class="insaDetail">
 				<tr>
-					<td>사원번호</td>
+					<td>최종학력</td>
 					<td></td>
 				</tr>
 				<tr>
-					<td>사원명</td>
+					<td></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td>부서</td>
+					<td></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td>직책</td>
+					<td></td>
 					<td></td>
 				</tr>
-				<tr>
-					<td>연차</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>입사일자</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>퇴사일자</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>학력</td>
-					<td></td>
-				</tr>
+				
+				
 			</table>
 			<table id="insaDetail2" class="insaDetail">
 				<tr>
 					<td>휴대전화</td>
-					<td></td>
+					<td class="insaDetail2td2"></td>
 				</tr>
 				<tr>
 					<td>회사이메일</td>
-					<td></td>
+					<td class="insaDetail2td2"></td>
+				</tr>
+				<tr>
+					<td>주소</td>
+					<td class="insaDetail2td2"></td>
 				</tr>
 				<tr>
 					<td>생년월일</td>
-					<td></td>
+					<td class="insaDetail2td2">
+			           					
+					</td>
 				</tr>
 				<tr>
 					<td>성별</td>
-					<td></td>
+					<td class="insaDetail2td2"> </td>
 				</tr>
 			</table>
-			<button id="modifyBtn" onclick="javascript:location.href='<%=ctxPath%>/insaRegister1.opis'">수정</button>
+			<button id="modifyBtn" onclick="javascript:location.href='<%=ctxPath%>/insaRegister2.opis'">수정</button>
 			</form>
 		</div>
 	
