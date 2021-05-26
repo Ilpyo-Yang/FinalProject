@@ -22,5 +22,16 @@
 		where fk_rank_no=2
 	</select>
 
+
+	<select id="adminInfo_select" resultType="com.spring.groupware.member.model.MemberVO">
+		select mbr_name, dept_detail, mbr_email, mbr_phone_number
+		from 
+		(        
+		select mbr_name, fk_dept_no, mbr_email, mbr_phone_number, fk_power_no
+		from tbl_mbr
+		)A left join tbl_dept B
+		on fk_dept_no = dept_no
+		where fk_power_no=1
+	</select>
 	
 </mapper>

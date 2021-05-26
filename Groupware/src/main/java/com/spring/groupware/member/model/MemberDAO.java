@@ -38,4 +38,11 @@ public class MemberDAO implements InterMemberDAO {
 		return ceo_name;
 	}
 
+	// 관리자 정보 가져오기
+	@Override
+	public MemberVO getAdminInfo() {
+		MemberVO mvo = sqlsession.selectOne("member.adminInfo_select");		
+		return mvo;
+	}
+
 }

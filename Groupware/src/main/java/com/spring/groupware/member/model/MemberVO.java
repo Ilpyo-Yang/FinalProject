@@ -23,9 +23,13 @@ public class MemberVO {
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	
+	private String dept_detail; 
+	
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public MemberVO() {}
+
+
 
 	public int getMbr_seq() {
 		return mbr_seq;
@@ -164,7 +168,17 @@ public class MemberVO {
 	}
 	
 	
+	///////////////////////////////////////////////////////////////////////////
 	
+	
+	public String getDept_detail() {
+		return dept_detail;
+	}
+
+
+	public void setDept_detail(String dept_detail) {
+		this.dept_detail = dept_detail;
+	}
 	
 
 

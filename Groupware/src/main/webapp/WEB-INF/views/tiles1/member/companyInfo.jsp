@@ -41,20 +41,20 @@
 			<tr>
 				<td>사업자등록번호</td>
 				<td id="registraion_num">${cvo.registraion_num}</td>
-				<td>업태/업종</td>
+				<td>업태 / 업종</td>
 				<td id="business_type">${cvo.business_type}</td>
 			</tr>
 			<tr>
 				<td>담당자명</td>
-				<td id="mbr_name"></td>
+				<td id="mbr_name">${mvo.mbr_name}</td>
 				<td>담당자 부서</td>
-				<td id="mbr_dept"></td>
+				<td id="mbr_dept">${mvo.dept_detail}</td>
 			</tr>
 			<tr>
 				<td>담당자 이메일</td>
-				<td id="mbr_email"></td>
+				<td id="mbr_email">${mvo.mbr_email}</td>
 				<td>담당자 연락처</td>
-				<td id="mbr_phone_number"></td>
+				<td id="mbr_phone_number">${mvo.mbr_phone_number}</td>
 			</tr>
 			<tr>
 				<td>회사전화</td>

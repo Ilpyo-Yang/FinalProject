@@ -13,4 +13,7 @@ public interface InterMemberDAO {
 	// 대표이름 가져오기
 	String getCeoName();
 
+	// 관리자 정보 가져오기
+	MemberVO getAdminInfo();
+
 }

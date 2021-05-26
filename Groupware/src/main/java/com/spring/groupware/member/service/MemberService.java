@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.groupware.member.model.CompanyVO;
 import com.spring.groupware.member.model.InterMemberDAO;
+import com.spring.groupware.member.model.MemberVO;
 
 
 @Component
@@ -48,6 +49,13 @@ public class MemberService implements InterMemberService {
 	public String getCeoName() {
 		String ceo_name = mdao.getCeoName();
 		return ceo_name;
+	}
+
+	// 관리자 정보 가져오기
+	@Override
+	public MemberVO getAdminInfo() {
+		MemberVO mvo = mdao.getAdminInfo();
+		return mvo;
 	}
 
 
