@@ -13,8 +13,8 @@
 <script type="text/javascript">
 	
 	$(function(){
-		if(${result}!=null){	// 로그인 실패문구 출력
-			$("div#result").html(${result});
+		if(<%=request.getAttribute("result")%>!=null){	// 로그인 실패문구 출력
+			$("div#result").html("${result}");
 			$("div#result").show();
 		}
 		$("div#result").hide();
