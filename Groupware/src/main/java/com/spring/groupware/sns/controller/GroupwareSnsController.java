@@ -14,8 +14,13 @@ public class GroupwareSnsController {
 	@Autowired	// Type에 따라 알아서 Bean 을 주입해준다.
 	private InterGroupwareService service;
 	
-	@RequestMapping(value="/sns/sns.opis")
+	@RequestMapping(value="/sns/snsmain.opis")
 	public String sns_main() {
 		return "sns/snsmain";
+	}
+	
+	@RequestMapping(value="/sns/snstalkroom.opis")
+	public String snstalkroom() {
+		return "sns/talkroom";
 	}
 }

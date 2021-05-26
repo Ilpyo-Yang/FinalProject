@@ -26,15 +26,51 @@
     margin: 30px 40px;
     padding: 15px 50px;
     font-size: 15pt;
+    border: none;
     border-radius:2pt;
+    background:#336699;
+  	color:#fff;
+  	position:relative;
+  	font-size:1.6em;
+  	cursor:pointer;
+  	transition:800ms ease all;
+  }
+	
+  #btnReg:hover {
+  	background:#f2f2f2;
+  	color:#336699;
+  }
+	
+  #btnReg:before,button:after{
+	content:'';
+	position:absolute;
+	top:0;
+	right:0;
+	height:2px;
+	width:0;
+	background: #336699;
+	transition:400ms ease all;
+	}
+
+  #btnReg:after{
+    right:inherit;
+    top:inherit;
+    left:0;
+    bottom:0;
   }
 
+  #btnReg:hover:before,#btnReg:hover:after{
+    width:100%;
+    transition:800ms ease all;
+  } 	
+  
   #menuTitle {
     height:80px;
     width:400px;
     background-color:black;
     color:white;
     font-size: 20pt;
+    font-weight: bold;
     text-align: center;
     display:table-cell;
     vertical-align:middle;
@@ -63,18 +99,24 @@
   	padding: 15px 0;  	
   }	
   
-  #btnRez {
+  #btnResv {
   	display: inline-block;
+  	border: none;
   	margin-left: 50px;
   	padding: 15px 40px;
-  	border-radius:10pt;
+  	border-radius: 2pt;
+  	font-weight: bold;
+  	background: #8cb1d9;
+  }
+  
+  #btnResv:hover {
+  	color:white;
   }
   
 </style>
 
 	
 <script src='<%=ctxPath%>/resources/fullcalendar-5.7.0/lib/main.js'></script>
-
 
 <script type="text/javascript">
 
@@ -91,6 +133,17 @@
 		        calendar.render();
 		      });
 	
+		 function scdReg() {
+			 var url = "<%=ctxPath%>/scd_register.opis";
+			 window.open(url, "scdRegister","left=350px, top=100px, width=800px, height=350px");
+		 }
+		 
+		 function mtrResv() {
+			 var url = "<%=ctxPath%>/mtr_resv.opis";
+			 window.open(url, "mtrResv","left=350px, top=100px, width=800px, height=650px");
+			 
+		 }
+		 
 </script>
 </head>
 <body>
@@ -98,8 +151,8 @@
 <div style="display: inline-block; width: 1400px;"> 
     <div id="sideMenu" style="display : inline-block; float:left;">
 	  	<div id="menuTitle">일정</div>
-	  	<div><button type="button" id="btnReg" onclick="">일정 등록</button></div>
-	
+	  	<button type="button" id="btnReg" onclick="scdReg()">일정 등록</button>	
+	      					
 	  		<div class="lside" style="font-weight:bold;">내소속</div>
 	  		<div id="teamName">구매팀</div>
 	  		<div class="lside">수락 완료된 일정(<span></span>)</div>
@@ -109,7 +162,7 @@
 		  		<div id="option"><a href="<%=ctxPath%>/">-&nbsp;선택 일정 수정</a></div>
 		  		<div id="option"><a href="<%=ctxPath%>/">-&nbsp;전체 일정 삭제</a></div>
 	  		</div>
-	  		<button type="button" onclick="goRsvdMtr()" id="btnRez">회의실 예약 ▶</button>
+	  		<button type="button" id="btnResv" onclick="mtrResv()">회의실 예약 ▶</button>
 	</div>
 	
 	<div id="headerInfo">
@@ -118,9 +171,9 @@
 				<td><img src=""/></td>
 				<td style="padding:20px 10px 0px 10px;"><span style="color:#008ae6; font-weight:bold;">${sessionScope.loginuser.name}</span>&nbsp;님의 일정</td>
 				<td id="chkboxes">
-					<input type="checkbox" value="0"/>&nbsp;전체일정
-					<input type="checkbox" value="1"/>&nbsp;부서일정
-					<input type="checkbox" value="2"/>&nbsp;개인일정
+					<input type="checkbox" value="0"/>&nbsp;전체일정&nbsp;
+					<input type="checkbox" value="1"/>&nbsp;부서일정&nbsp;
+					<input type="checkbox" value="2"/>&nbsp;개인일정&nbsp;
 				</td>
 			</tr>
 		</table>
