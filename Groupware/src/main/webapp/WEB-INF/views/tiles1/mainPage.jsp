@@ -19,13 +19,13 @@
 
 <script>
 	$(function(){
-		calendarMaker($("#calendarForm"), new Date());
+		
 	});
 </script>
 
 <div id="mainPageContainer">
 	<div id="calendar">
-		<div id="calendarForm"></div>
+		
 	</div>
 	<div id="mainMenu">
 		<div class="menu"><i class="fas fa-chalkboard fa-3x icon"></i></i>게시판</div>
