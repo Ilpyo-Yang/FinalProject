@@ -28,7 +28,7 @@
 		
 	</div>
 	<div id="mainMenu">
-		<div class="menu"><i class="fas fa-chalkboard fa-3x icon"></i></i>게시판</div>
+		<div class="menu"><i class="fas fa-chalkboard fa-3x icon"></i>게시판</div>
 		<div class="menu"><i class="fas fa-business-time fa-3x icon"></i>업무관리</div>
 		<div class="menu"><i class="fas fa-list fa-3x icon"></i>일정</div>
 		<div class="menu"><i class="far fa-address-card fa-3x icon"></i>주소록</div>

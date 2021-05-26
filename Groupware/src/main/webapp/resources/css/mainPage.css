@@ -38,3 +38,48 @@ div.menu {
 
 
 /* ============ calendar ============== */
+
+
+/* ============ personalInfo.jsp ============== */
+
+div#personalInfoContainer {
+	margin: 7% auto;
+	width: 80%;
+
+}
+span.subtitle {
+	font-size: 15pt;
+	font-weight: bold;
+	text-align: left;
+	margin-left: 30px;
+}
+hr {
+	text-align: left;
+	width: 100%;
+	border: solid 1px #676767;
+}
+table {
+	text-align: center;
+	margin: 7% auto;
+	width: 100%;
+}
+td {
+	vertical-align: middle;
+	border-top: 1px solid #676767;
+	padding: 0 auto;
+	line-height: 40px;
+} 
+td:nth-child(2n+1) {
+	background-color: #f2f2f2;
+}
+td:nth-child(2n) {
+	text-align: left;
+	padding-left: 15px;
+}
+input {
+	line-height: 20px;
+}
+.infoIcon {
+	display:block;	
+	color: #676767;
+}
