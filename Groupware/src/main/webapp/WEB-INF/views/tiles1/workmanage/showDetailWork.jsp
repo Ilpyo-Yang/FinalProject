@@ -15,7 +15,13 @@
 </style>
 
 <div class="container workcontainer">
-	<h3>내가 한 업무 요청 조회</h3>
+	<c:if test="${fk_wtno == 1}">
+		<h3>내가 한 업무 요청 조회</h3>
+	</c:if>
+	
+	<c:if test="${fk_wtno == 2}">
+		<h3>내가 한 업무 보고 조회</h3>
+	</c:if>
 
 	<br>
 	
@@ -46,11 +52,11 @@
 			</tr>
 			<tr>
 				<td>업무기한</td>
-				<td colspan="3">${wmvo.deadline}</td>
+				<td colspan="3">${wmvo.registerday} ~ ${wmvo.deadline}</td>
 			</tr>
 			<tr>
 				<td>등록일</td>
-				<td>${wmno.registerday}</td>
+				<td>${wmvo.registerday}</td>
 				
 				<td>수정일</td>
 				<td>2020.01.11 12:10</td>
@@ -74,6 +80,8 @@
 		</tbody>
 	</table>
 	
+	<%-- 업무요청 처리내역 --%>
+	<c:if test="${fk_wtno == 1}">
 	<form id="workRegFrm">
 		<table class="table table-striped workShowtable">
 			<thead>
@@ -110,5 +118,43 @@
 			</tbody>
 		</table>
 	</form>
+	</c:if>
+	
+	<%-- 업무보고 처리내역 --%>
+	<c:if test="${fk_wtno == 2}">
+	<form id="workRegFrm">
+		<table class="table table-striped workShowtable">
+			<thead>
+				<tr>
+					<th>확인내역</th>
+					<th style="text-align: right;">
+						<button type="button" class="workStatus" style="background-color: #66ccff; font-weight: normal;">처리중 40%</button>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>수신자</td>
+					<td>${wmvo.fk_receiver_seq}</td>
+				</tr>
+				<tr>
+					<td>최종수정일</td>
+					<td>2020.01.13 12:10</td>
+				</tr>
+				<tr>
+					<td>의견</td>
+					<td></td>
+				</tr>
+				
+				<tr id="workShwoBtn">
+				<td colspan="4">
+					<button type="button" onclick="submitWorkRegFrm()">저장</button>
+					<button type="button" >취소</button>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</form>
+	</c:if>
 </div>
 

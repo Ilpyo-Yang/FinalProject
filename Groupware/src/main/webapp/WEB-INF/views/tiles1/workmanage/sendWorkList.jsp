@@ -88,13 +88,18 @@ button.readCheck {
 	});
 	
 	function goDetailWork(wmno) {
-		location.href="<%=request.getContextPath()%>/showDetailWork.opis?wmno="+wmno;
+		location.href="<%=request.getContextPath()%>/showDetailWork.opis?fk_wtno="+${fk_wtno}+"&wmno="+wmno;
 	}
 </script>
 
 <div class="container tdcontainer">
-	<h3>내가 한 업무 요청</h3>
-
+	<c:if test="${fk_wtno == 1}">
+		<h3>내가 한 업무 요청</h3>
+	</c:if>
+	
+	<c:if test="${fk_wtno == 2}">
+		<h3>내가 한 업무 보고</h3>
+	</c:if>
 	<hr>
 
 	<ul id="todoSelectCondition">
@@ -143,7 +148,8 @@ button.readCheck {
 				<th><input type="checkbox" /></th>
 				<th>번호</th>
 				<th>제목 ▲</th>
-				<th>담당자</th>
+				<c:if test="${fk_wtno == 1}"><th>담당자</th></c:if>
+				<c:if test="${fk_wtno == 2}"><th>수신자</th></c:if>
 				<th>등록일 ▲</th>
 				<th>마감일 ▲</th>
 				<th>상태</th>
@@ -156,26 +162,41 @@ button.readCheck {
 				<tr>
 					<td><input type="checkbox" /></td>
 					<td>${status.count}</td>
-					<td>
-						<span class="workSubject" onclick="goDetailWork('${work.wmno}')" style="cursor: pointer;">${work.subject}</span>
-					</td>
+					<td><span class="workSubject" onclick="goDetailWork('${work.wmno}')" style="cursor: pointer;">${work.subject}</span></td>
 					
-					<td>${work.fk_receiver_seq}</td>
+					<c:if test="${fk_wtno == 1}"><td>${work.fk_receiver_seq}</td></c:if>
+					<c:if test="${fk_wtno == 2}"><td>${work.fk_requester_seq}</td></c:if>
+					
 					<td>${work.registerday}</td>
 					<td>${work.deadline}</td>
 					
 					<c:choose>
+						<%-- 업무요청 상태 종류 --%>
 						<c:when test="${work.fk_statno == 0}">
 							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: #ff3300;" 
 										data-subject="${work.subject}" data-receiver="${work.fk_receiver_seq}" data-stat="${work.fk_statno == 0}">지연<span>+2</span></button></td>		
 						</c:when>
 						<c:when test="${work.fk_statno == 1}">
 							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: #66ccff;"
-										data-subject="${work.subject}" data-receiver="${work.fk_receiver_seq}" data-stat="${work.fk_statno == 0}">미완료</button></td>
+										data-subject="${work.subject}" data-receiver="${work.fk_receiver_seq}" data-stat="${work.fk_statno == 1}">미완료</button></td>
 						</c:when>
 						<c:when test="${work.fk_statno == 2}">
 							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: white; border: 1px solid black; color: black;"
-										data-subject="${work.subject}" data-receiver="${work.fk_receiver_seq}" data-stat="${work.fk_statno == 0}">완료</button></td>
+										data-subject="${work.subject}" data-receiver="${work.fk_receiver_seq}" data-stat="${work.fk_statno == 2}">완료</button></td>
+						</c:when>
+						
+						<%-- 업무보고 상태 종류 --%>
+						<c:when test="${work.fk_statno == 3}">
+							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: #66ccff;" 
+										data-subject="${work.subject}" data-receiver="${work.fk_receiver_seq}" data-stat="${work.fk_statno == 3}">미확인</button></td>		
+						</c:when>
+						<c:when test="${work.fk_statno == 4}">
+							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: white; border: 1px solid black; color: black;"
+										data-subject="${work.subject}" data-receiver="${work.fk_receiver_seq}" data-stat="${work.fk_statno == 4}">승인완료</button></td>
+						</c:when>
+						<c:when test="${work.fk_statno == 5}">
+							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: #ffcc00"
+										data-subject="${work.subject}" data-receiver="${work.fk_receiver_seq}" data-stat="${work.fk_statno == 5}">반려</button></td>
 						</c:when>
 					</c:choose>
 					

@@ -28,9 +28,18 @@ public class WorkmanageController {
 		WorkManageVO wmvo2 = new WorkManageVO("2", "1", "이두나", "김관리", "계약서 작성요청2", "계약서 좀 빨리 작성해주세요!", "2021.04.22", "2021.05.21", "0", "", "1");
 		WorkManageVO wmvo3 = new WorkManageVO("3", "1", "이두나", "김관리", "계약서 작성요청3", "계약서 좀 빨리 작성해주세요!!", "2021.04.23", "2021.05.21", "0", "", "2");
 		
+		WorkManageVO wmvo4 = new WorkManageVO("1", "2", "김관리", "이두나", "계약서 작성요청1", "계약서 좀 빨리 작성해주세요", "2021.04.21", "2021.05.21", "0", "", "3");
+		WorkManageVO wmvo5 = new WorkManageVO("2", "2", "박관리", "이두나", "계약서 작성요청2", "계약서 좀 빨리 작성해주세요!", "2021.04.22", "2021.05.21", "0", "", "4");
+		WorkManageVO wmvo6 = new WorkManageVO("3", "2", "박관리", "이두나", "계약서 작성요청3", "계약서 좀 빨리 작성해주세요!!", "2021.04.23", "2021.05.21", "0", "", "5");
+		
+		
 		workList.add(wmvo1);
 		workList.add(wmvo2);
 		workList.add(wmvo3);
+		
+		workList.add(wmvo4);
+		workList.add(wmvo5);
+		workList.add(wmvo6);
 	}
 
 	// == 업무 등록 하기 == //
@@ -48,20 +57,25 @@ public class WorkmanageController {
 	}
 
 	// == 내가 한 업무 요청 리스트 보여주기 == //
-	@RequestMapping(value = "/sendWorkRequest.opis")
-	public ModelAndView sendWorkRequest(ModelAndView mav) {
+	@RequestMapping(value = "/sendWorkList.opis")
+	public ModelAndView sendWorkList(ModelAndView mav, HttpServletRequest request) {
 		
-		mav.addObject("workList", workList);
-		mav.setViewName("workmanage/sendWorkRequest_view.tiles1");
+		String fk_wtno = request.getParameter("fk_wtno"); 
+		List<WorkManageVO> newWorkList = new ArrayList<>();
+		
+		for (WorkManageVO wmvo : workList) {
+			if (fk_wtno.equals(wmvo.getFk_wtno())) {
+				newWorkList.add(wmvo);
+			}
+		}
+		
+		mav.addObject("fk_wtno", fk_wtno); // 추후 DB 에서 fk_wtno 를 가지고 타입에 맞는 데이터를 가져올 것
+		mav.addObject("workList", newWorkList); // fk_wtno 에 해당하는 데이터 리스트
+		
+		mav.setViewName("workmanage/sendWorkList.tiles1");
 		return mav;
 	}
 
-	// == 내가 한 업무 보고 리스트 보여주기 == //
-	@RequestMapping(value = "/sendWorkReport.opis")
-	public ModelAndView sendWorkReport(ModelAndView mav) {
-		mav.setViewName("workmanage/sendWorkReport_view.tiles1");
-		return mav;
-	}
 	
 	// == 업무상태 모달 페이지 보여주기 == //
 	@RequestMapping(value = "/workStatusModal.opis")
@@ -83,7 +97,7 @@ public class WorkmanageController {
 	}
 	
 	
-	// == 업무 요청 조회 페이지 == //
+	// == 업무 상세 조회 페이지 == //
 	@RequestMapping(value="/showDetailWork.opis")
 	public ModelAndView showDetailWork(ModelAndView mav, HttpServletRequest request) {
 		
@@ -91,6 +105,7 @@ public class WorkmanageController {
 		WorkManageVO wmvo = workList.get(wmno-1); // 추후 DB 에서 wmno 로 정보 가져오기
 		
 		mav.addObject("wmvo", wmvo);
+		mav.addObject("fk_wtno", request.getParameter("fk_wtno"));
 		
 		mav.setViewName("workmanage/showDetailWork.tiles1");
 		return mav;
