@@ -1,8 +1,5 @@
 package com.spring.groupware.schedule.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -26,5 +23,22 @@ public class ScheduleController {
 		// /WEB-INF/views/tiles1/schedule/myscd.jsp
 		return mav;
 	}
+	
+	// 일정 등록 페이지 보여주기(모달창)
+	@RequestMapping(value="/scd_register.opis")
+	public ModelAndView scdRegister(ModelAndView mav) {
+		
+		mav.setViewName("schedule_modal/scd_register");
+		return mav;
+	}
+	
+	
+	@RequestMapping(value="/mtr_resv.opis")
+	public ModelAndView mtrResv(ModelAndView mav) {
+		
+		mav.setViewName("schedule_modal/mtr_resv");
+		return mav;
+	}
+	
 	
 }
