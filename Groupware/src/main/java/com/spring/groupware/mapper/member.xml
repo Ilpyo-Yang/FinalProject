@@ -34,4 +34,22 @@
 		where fk_power_no=1
 	</select>
 	
+	
+	<select id="loginCheck" parameterType="HashMap" resultType="com.spring.groupware.member.model.MemberVO">
+		select mbr_id, mbr_name, mbr_email, mbr_com_number, mbr_phone_number, mbr_birthday
+		     , trunc((mbr_pwd_changeday-mbr_registerday)/30) as pwdChangeGap, nvl(mbr_photo,'0'), nvl(mbr_sign,'0'), rank_detail, power_detail, dept_detail
+		from 
+		(        
+		select mbr_id, mbr_name, fk_power_no, fk_rank_no, fk_dept_no, mbr_email, mbr_com_number, mbr_phone_number
+		     , mbr_birthday, mbr_pwd_changeday, mbr_photo, mbr_sign, mbr_pwd, mbr_status, mbr_registerday
+		from tbl_mbr
+		)A left join tbl_dept B
+		on fk_dept_no = dept_no
+		join tbl_rank C
+		on fk_rank_no = rank_no
+		join tbl_power D
+		on fk_power_no = power_no
+		where mbr_id=#{id} and mbr_pwd=#{pwd} and mbr_status='1'
+	</select>
+	
 </mapper>

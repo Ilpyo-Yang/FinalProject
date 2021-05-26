@@ -27,7 +27,7 @@
 			goConfirm();
 		
 			if(b_check) {
-				var real_id = "${sessionScope.loginuser.userid}";
+				var real_id = "${sessionScope.loginuser.mbr_id}";
 				$("input#real_id").val(real_id);  
 				
 				var frm = document.changePwdFrm;
@@ -52,7 +52,7 @@
 			$("div#currentPwd").html("현재 비밀번호를 입력해주세요.");
 			b_check=false;
 			return;
-		} else if(currentPwd!="${sessionScope.loginuser.pwd}"){
+		} else if(currentPwd!="${sessionScope.loginuser.mbr_pwd}"){
 				$("div#currentPwd").show();
 				$("div#currentPwd").html("현재 비밀번호와 다릅니다. 다시 입력해주세요.");
 				b_check=false;

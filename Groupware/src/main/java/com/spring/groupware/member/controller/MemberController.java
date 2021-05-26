@@ -1,5 +1,6 @@
 package com.spring.groupware.member.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,15 +35,44 @@ public class MemberController {
 	   }
 	   
    
-   	  // === 로그인하기 === //
+   	  // === 로그인 확인하기 === //
       @RequestMapping(value="/loginCheck.opis", method= {RequestMethod.POST})
       public ModelAndView loginCheck(HttpServletRequest request, ModelAndView mav) {
     	  String id = request.getParameter("idInput");
     	  String pwd = request.getParameter("pwdInput");
     	  
-    	  int n = service.loginCheck(id, pwd);
+    	  Map<String, String> paraMap = new HashMap<>();
+    	  paraMap.put("id", id);
+    	  paraMap.put("pwd", pwd);
     	  
-    	  return mav;
+    	  MemberVO loginuser = service.loginCheck(paraMap);    	  
+    	  
+    	  if(loginuser==null) {	// 일치하는 멤버가 없을 때
+    		  request.setAttribute("result","일치하는 회원이 없습니다. 다시 로그인해주세요!");
+    	      mav.setViewName("redirect:/login.opis");
+    	  }
+    	  else {	// 일치하는 멤버가 있을 때
+    		  if(Integer.parseInt(loginuser.getPwdChangeGap())>5) {	// 비밀번호 변경한지 6개월이 넘은 경우 
+        		  HttpSession session = request.getSession();
+        		  session.setAttribute("loginuser", loginuser);
+        		  mav.setViewName("pwdChange.tiles1");
+        	  }
+        	  else {
+        		  HttpSession session = request.getSession();
+        		  session.setAttribute("loginuser", loginuser);
+        		  
+    		  	  String goBackURL = (String) session.getAttribute("goBackURL");
+				 
+				  if(goBackURL != null) {
+				      mav.setViewName("redirect:/"+goBackURL);
+					  session.removeAttribute("goBackURL"); // 세션에서 반드시 제거해주어야 한다.
+				  }
+				  else {
+					  mav.setViewName("redirect:/mainPage.opis");
+				  }
+        	  }
+    	  }
+     	  return mav;
       }      
       
       
@@ -50,6 +80,14 @@ public class MemberController {
       @RequestMapping(value="/pwdChange.opis")
       public ModelAndView pwdChange(ModelAndView mav) {   	  
     	 mav.setViewName("pwdChange.tiles1");
+    	 return mav;
+      }
+      
+      
+      // === 메인페이지 === //
+      @RequestMapping(value="/mainPage.opis")
+      public ModelAndView mainPage(ModelAndView mav) {   	  
+    	 mav.setViewName("mainPage.tiles1");
     	 return mav;
       }
       

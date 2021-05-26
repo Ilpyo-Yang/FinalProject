@@ -16,4 +16,7 @@ public interface InterMemberDAO {
 	// 관리자 정보 가져오기
 	MemberVO getAdminInfo();
 
+	// 로그인 확인하기
+	MemberVO loginCheck(Map<String, String> paraMap);
+
 }

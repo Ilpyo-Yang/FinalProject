@@ -45,4 +45,12 @@ public class MemberDAO implements InterMemberDAO {
 		return mvo;
 	}
 
+	
+	// 로그인 확인하기
+	@Override
+	public MemberVO loginCheck(Map<String, String> paraMap) {
+		MemberVO loginuser = sqlsession.selectOne("member.loginCheck",paraMap);		
+		return loginuser;
+	}
+
 }

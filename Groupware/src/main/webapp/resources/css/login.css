@@ -22,8 +22,14 @@ label.inputName {
     margin-right: 15px;
     text-align: right;
 }
-input {
+input.input {
+	padding-left: 10px;
 	width: 55%;
+	height: 30px;
+	display: inline-block;
+}
+input#companyInput {
+	background-color: #e4fae6;
 }
 button {
 	margin-top: 15px;
