@@ -70,11 +70,15 @@ td {
 	line-height: 40px;
 } 
 td:nth-child(2n+1) {
+	width: 15%;
 	background-color: #f2f2f2;
 }
 td:nth-child(2n) {
 	text-align: left;
 	padding-left: 15px;
+}
+tr:last-child {
+	border-bottom: 1px solid #676767;
 }
 input {
 	line-height: 20px;
@@ -82,4 +86,13 @@ input {
 .infoIcon {
 	display:block;	
 	color: #676767;
+}
+
+
+/* ============ companyInfo.jsp ============== */
+
+div#companyInfoContainer {
+	margin: 7% auto;
+	width: 80%;
+
 }

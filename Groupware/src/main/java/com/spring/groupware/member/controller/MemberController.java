@@ -58,6 +58,14 @@ public class MemberController {
       }
    
       
+      // === 회사정보설정 === //
+      @RequestMapping(value="/companyInfo.opis")
+      public ModelAndView companyInfo(ModelAndView mav) {   	  
+    	 mav.setViewName("member/companyInfo.tiles1");
+    	 return mav;
+      }
+      
+      
       // === 조직도 === //
       @RequestMapping(value="/mbrchart.opis")
       public ModelAndView mbrchart(ModelAndView mav) {   	  
