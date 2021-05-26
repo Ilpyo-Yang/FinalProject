@@ -1,5 +1,7 @@
 package com.spring.groupware.member.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.groupware.member.model.CompanyVO;
 import com.spring.groupware.member.service.InterMemberService;
 
 
@@ -60,7 +63,9 @@ public class MemberController {
       
       // === 회사정보설정 === //
       @RequestMapping(value="/companyInfo.opis")
-      public ModelAndView companyInfo(ModelAndView mav) {   	  
+      public ModelAndView companyInfo(ModelAndView mav) {   
+    	 CompanyVO cvo = service.getCompanyInfo();
+ 		 mav.addObject("cvo",cvo);
     	 mav.setViewName("member/companyInfo.tiles1");
     	 return mav;
       }

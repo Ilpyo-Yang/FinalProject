@@ -1,5 +1,8 @@
 package com.spring.groupware.member.service;
 
+import java.util.Map;
+
+import com.spring.groupware.member.model.CompanyVO;
 
 public interface InterMemberService {
 
@@ -8,6 +11,9 @@ public interface InterMemberService {
 	
 	// 로그인확인하기
 	int loginCheck(String id, String pwd);
+
+	// 회사정보 모두 가져오기
+	CompanyVO getCompanyInfo();
 
 
 

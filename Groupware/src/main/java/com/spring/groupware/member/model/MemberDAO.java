@@ -3,6 +3,8 @@ package com.spring.groupware.member.model;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -20,6 +22,13 @@ public class MemberDAO implements InterMemberDAO {
 	public String getCompanyName() {
 		String com_name = sqlsession.selectOne("member.companyName_select");		
 		return com_name;
+	}
+
+	// 회사정보 모두 가져오기
+	@Override
+	public CompanyVO getCompanyInfo() {
+		CompanyVO cvo = sqlsession.selectOne("member.companyInfo_select");		
+		return cvo;
 	}
 
 }

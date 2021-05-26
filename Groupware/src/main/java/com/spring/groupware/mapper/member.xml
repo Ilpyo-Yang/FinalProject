@@ -8,4 +8,9 @@
 		from tbl_company 
 	</select>
 	
+	<select id="companyInfo_select" resultType="com.spring.groupware.member.model.CompanyVO">
+		select com_name, com_address, registraion_num, business_type, com_ph, com_email
+		from tbl_company 
+	</select>
+	
 </mapper>

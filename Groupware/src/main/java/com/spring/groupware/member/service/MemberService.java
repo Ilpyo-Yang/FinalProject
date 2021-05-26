@@ -1,5 +1,7 @@
 package com.spring.groupware.member.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 // import javax.annotation.Resource;
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.spring.groupware.member.model.CompanyVO;
 import com.spring.groupware.member.model.InterMemberDAO;
 
 
@@ -31,6 +34,15 @@ public class MemberService implements InterMemberService {
 		
 		return 0;
 	}
+
+
+	// 회사정보 모두 가져오기
+	@Override
+	public CompanyVO getCompanyInfo() {
+		CompanyVO cvo = mdao.getCompanyInfo();
+		return cvo;
+	}
+
 
 	
 	

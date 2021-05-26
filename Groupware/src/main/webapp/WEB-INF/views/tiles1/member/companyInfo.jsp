@@ -30,19 +30,19 @@
 		<tbody>
 			<tr>
 				<td>회사명</td>
-				<td id="com_name"></td>
+				<td id="com_name">${cvo.com_name}</td>
 				<td>대표자명</td>
 				<td id="mbr_name"></td>
 			</tr>
 			<tr>
 				<td>회사주소</td>
-				<td id="com_address" colspan="3"></td>
+				<td id="com_address" colspan="3">${cvo.com_address}</td>
 			</tr>
 			<tr>
 				<td>사업자등록번호</td>
-				<td id="registraion_num"></td>
+				<td id="registraion_num">${cvo.registraion_num}</td>
 				<td>업태/업종</td>
-				<td id="business_type"></td>
+				<td id="business_type">${cvo.business_type}</td>
 			</tr>
 			<tr>
 				<td>담당자명</td>
@@ -58,9 +58,9 @@
 			</tr>
 			<tr>
 				<td>회사전화</td>
-				<td id="com_ph"></td>
+				<td id="com_ph">${cvo.com_ph}</td>
 				<td>회사이메일</td>
-				<td id="com_email"></td>
+				<td id="com_email">${cvo.com_email}</td>
 			</tr>
 		</tbody>
 	</table>
