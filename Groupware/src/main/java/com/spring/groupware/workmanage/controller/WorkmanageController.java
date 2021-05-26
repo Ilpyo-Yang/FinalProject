@@ -56,11 +56,13 @@ public class WorkmanageController {
 		return mav;
 	}
 
-	// == 내가 한 업무 요청 리스트 보여주기 == //
+	// == 내가 한 업무 리스트 보여주기 == //
 	@RequestMapping(value = "/sendWorkList.opis")
 	public ModelAndView sendWorkList(ModelAndView mav, HttpServletRequest request) {
 		
-		String fk_wtno = request.getParameter("fk_wtno"); 
+		String fk_wtno = request.getParameter("fk_wtno"); // 추후 DB 에서 fk_wtno 를 가지고 타입에 맞는 데이터를 가져올 것 
+		String type = request.getParameter("type"); // 추후 DB 에서 type 에 맞는  데이터를 가져올 것 (발신자, 수신자, 참조자)
+		
 		List<WorkManageVO> newWorkList = new ArrayList<>();
 		
 		for (WorkManageVO wmvo : workList) {
@@ -69,7 +71,8 @@ public class WorkmanageController {
 			}
 		}
 		
-		mav.addObject("fk_wtno", fk_wtno); // 추후 DB 에서 fk_wtno 를 가지고 타입에 맞는 데이터를 가져올 것
+		mav.addObject("fk_wtno", fk_wtno);
+		mav.addObject("type", type); 
 		mav.addObject("workList", newWorkList); // fk_wtno 에 해당하는 데이터 리스트
 		
 		mav.setViewName("workmanage/sendWorkList.tiles1");
@@ -97,7 +100,7 @@ public class WorkmanageController {
 	}
 	
 	
-	// == 업무 상세 조회 페이지 == //
+	// == 내가 한 업무 상세 조회 페이지 == //
 	@RequestMapping(value="/showDetailWork.opis")
 	public ModelAndView showDetailWork(ModelAndView mav, HttpServletRequest request) {
 		
@@ -110,5 +113,6 @@ public class WorkmanageController {
 		mav.setViewName("workmanage/showDetailWork.tiles1");
 		return mav;
 	}
+	
 	
 }

@@ -46,17 +46,17 @@ button.accBtn {
 	<div class="lside">
 		<button class="accBtn side">업무 요청</button>
 		<ul>
-			<li><a class="" href="<%=ctxPath%>/sendWorkList.opis?fk_wtno=1">내가 한 업무 요청</a></li>
-			<li><a class="" href="<%=ctxPath%>/getWorkList.opis?fk_wtno=1">수신 업무 요청</a></li>
-			<li><a class="" href="#">참조 업무 요청</a></li>
+			<li><a class="" href="<%=ctxPath%>/sendWorkList.opis?fk_wtno=1&type=1">내가 한 업무 요청</a></li>
+			<li><a class="" href="<%=ctxPath%>/sendWorkList.opis?fk_wtno=1&type=2">수신 업무 요청</a></li>
+			<li><a class="" href="<%=ctxPath%>/sendWorkList.opis?fk_wtno=1&type=3">참조 업무 요청</a></li>
 		</ul>
 	</div>
 	<div class="lside">
 		<button class="accBtn side">업무 보고</button>
 		<ul>
-			<li><a class="" href="<%=ctxPath%>/sendWorkList.opis?fk_wtno=2">내가 한 업무 보고</a></li>
-			<li><a class="" href="<%=ctxPath%>/getWorkList.opis?fk_wtno=2">수신 업무 보고</a></li>
-			<li><a class="" href="#">참조 업무 보고</a></li>
+			<li><a class="" href="<%=ctxPath%>/sendWorkList.opis?fk_wtno=2&type=1">내가 한 업무 보고</a></li>
+			<li><a class="" href="<%=ctxPath%>/sendWorkList.opis?fk_wtno=2&type=2">수신 업무 보고</a></li>
+			<li><a class="" href="<%=ctxPath%>/sendWorkList.opis?fk_wtno=2&type=3">참조 업무 보고</a></li>
 		</ul>
 	</div>
 
