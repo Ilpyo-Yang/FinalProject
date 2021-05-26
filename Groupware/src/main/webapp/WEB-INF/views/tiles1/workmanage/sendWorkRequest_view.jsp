@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
@@ -69,7 +70,24 @@ button.readCheck {
 			buttonImageOnly : true,
 			buttonText : "Select date"
 		});
+		
+		$(document).on("click", ".workStatus", function () {
+		     var subject = $(this).data('subject');
+		     var receiver = $(this).data('receiver');
+		     
+		     $("h4#workStatus-title").text( subject );
+		     $("#workStatusModal").find("iframe").attr("src", "workStatusModal.opis?receiver="+receiver);
+		     
+		     // As pointed out in comments, 
+		     // it is unnecessary to have to manually call the modal.
+		     // $('#workStatusModal').modal('show');
+		});
+		
 	});
+	
+	function goDetailWork(wmno) {
+		location.href="<%=request.getContextPath()%>/showDetailWork.opis?wmno="+wmno;
+	}
 </script>
 
 <div class="container tdcontainer">
@@ -131,42 +149,67 @@ button.readCheck {
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td><input type="checkbox" /></td>
-				<td>1</td>
-				<td>계약서 작성요청</td>
-				<td>박관리</td>
-				<td>2021.04.21</td>
-				<td>2021.05.01</td>
-				<td><button type="button" class="workStatus" style="background-color: #ff3300;">지연<span>+2</span></button></td>
-				<td><button type="button" class="readCheck">읽음확인</button></td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" /></td>
-				<td>2</td>
-				<td>6월 1일 오늘 할 일</td>
-				<td>박관리</td>
-				<td>2021.04.21</td>
-				<td>2021.05.01</td>
-				<td><button type="button" class="workStatus" style="background-color: white; border: 1px solid ">완료</button></td>
-				<td><button type="button" class="readCheck">읽음확인</button></td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" /></td>
-				<td>3</td>
-				<td>6월 1일 오늘 할 일</td>
-				<td>김관리</td>
-				<td>2021.04.21</td>
-				<td>2021.05.01</td>
-				<!-- Trigger the modal with a button -->
-				<td><button type="button" class="workStatus" data-toggle="modal" data-target="#myModal" style="background-color: #66ccff;">미완료</button></td>
-				<td><button type="button" class="readCheck">읽음확인</button></td>
-			</tr>
+			
+			<c:forEach var="work" items="${requestScope.workList}" varStatus="status">
+				<tr>
+					<td><input type="checkbox" /></td>
+					<td>${status.count}</td>
+					<td>
+						<span class="workSubject" onclick="goDetailWork('${work.wmno}')" style="cursor: pointer;">${work.subject}</span>
+					</td>
+					
+					<td>${work.fk_receiver_seq}</td>
+					<td>${work.registerday}</td>
+					<td>${work.deadline}</td>
+					
+					<c:choose>
+						<c:when test="${work.fk_statno == 0}">
+							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: #ff3300;" 
+										data-subject="${work.subject}" data-receiver="${work.fk_receiver_seq}" data-stat="${work.fk_statno == 0}">지연<span>+2</span></button></td>		
+						</c:when>
+						<c:when test="${work.fk_statno == 1}">
+							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: #66ccff;"
+										data-subject="${work.subject}" data-receiver="${work.fk_receiver_seq}" data-stat="${work.fk_statno == 0}">미완료</button></td>
+						</c:when>
+						<c:when test="${work.fk_statno == 2}">
+							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: white; border: 1px solid "
+										data-subject="${work.subject}" data-receiver="${work.fk_receiver_seq}" data-stat="${work.fk_statno == 0}">완료</button></td>
+						</c:when>
+					</c:choose>
+					
+					<c:if test="${work.checkstatus == 0}">
+						<td><button type="button" class="readCheck " data-toggle="modal" data-target="#readCheckModal">읽음확인</button></td>
+					</c:if>
+					<c:if test="${work.checkstatus == 1}">
+						<td><button type="button" class="readCheck " data-toggle="modal" data-target="#readCheckModal">미확인</button></td>
+					</c:if>
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
 	
 	<!-- Modal -->
-	<div id="myModal" class="modal fade" role="dialog">
+	<div id="workStatusModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" id="workStatus-title"></h4>
+				</div>
+				<div class="modal-body">
+					<iframe style="border:none; width: 100%; height: 250px;" src="" ></iframe>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Modal -->
+	<div id="readCheckModal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
 
 			<!-- Modal content-->
@@ -176,14 +219,13 @@ button.readCheck {
 					<h4 class="modal-title">6월 1일 오늘 할 일</h4>
 				</div>
 				<div class="modal-body">
-					<iframe style="border:none; width: 100%; height: 250px;" src="workStatusModal.opis"></iframe>
+					<iframe style="border:none; width: 100%; height: 250px;" src="readCheckModal.opis"></iframe>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
 			</div>
-
 		</div>
-	</div>
+	</div>	
 </div>
 

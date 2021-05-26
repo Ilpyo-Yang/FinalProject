@@ -36,8 +36,8 @@ button {
 		</thead>
 		<tbody>
 			<tr>
-				<td>박관리 차장</td>
-				<td>2020.01.11</td>
+				<td>${requestScope.paraMap.receiver}</td>
+				<td></td>
 				<td><button type="button" class="workStatus" style="background-color: white; border: 1px solid; color: black;">완료</button></td>
 			</tr>
 			<tr>
