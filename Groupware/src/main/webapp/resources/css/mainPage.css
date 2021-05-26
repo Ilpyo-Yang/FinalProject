@@ -1,0 +1,40 @@
+@charset "EUC-KR";
+
+
+/* ============ mainPage.jsp ============== */
+
+div#mainPageContainer {
+	margin: 7% auto;
+	width: 80%;
+	text-align: center;
+}
+div#calendar {
+	margin: auto;
+	width: 30%;
+	display:inline-block;
+}
+div#mainMenu {
+	margin: auto;
+	width: 70%;
+	float: right;
+}
+div.menu {
+	width: 20%;
+	text-align: center;	
+	display:inline-block;
+	margin: 2% 2%;
+	border: solid 1px gray;
+	font-weight: bold;
+	font-size: 12pt;
+	padding: 5%;
+	
+}
+.icon {
+	display:block;	
+	margin-bottom: 20px;
+	color: #676767;
+}
+
+
+
+/* ============ calendar ============== */
