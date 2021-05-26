@@ -3,9 +3,35 @@
 
 <mapper namespace="member">
 
+
 	<select id="companyName_select" resultType="String">
 		select com_name
 		from tbl_company 
+	</select>
+
+	
+	<select id="companyInfo_select" resultType="com.spring.groupware.member.model.CompanyVO">
+		select com_name, com_address, registraion_num, business_type, com_ph, com_email
+		from tbl_company 
+	</select>
+
+	
+	<select id="ceoName_select" resultType="String">
+		select mbr_name
+		from tbl_mbr 
+		where fk_rank_no=2
+	</select>
+
+
+	<select id="adminInfo_select" resultType="com.spring.groupware.member.model.MemberVO">
+		select mbr_name, dept_detail, mbr_email, mbr_phone_number
+		from 
+		(        
+		select mbr_name, fk_dept_no, mbr_email, mbr_phone_number, fk_power_no
+		from tbl_mbr
+		)A left join tbl_dept B
+		on fk_dept_no = dept_no
+		where fk_power_no=1
 	</select>
 	
 </mapper>

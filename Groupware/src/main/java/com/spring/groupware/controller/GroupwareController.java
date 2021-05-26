@@ -25,8 +25,8 @@ public class GroupwareController {
 	
 	// === #36. 메인페이지 요청 === //
 	@RequestMapping(value="/*")
-	public String index() {
-		return "index";
+	public String mainPage() {
+		return "mainPage.tiles1";
 	}
 	
 	@RequestMapping(value="/test.opis")

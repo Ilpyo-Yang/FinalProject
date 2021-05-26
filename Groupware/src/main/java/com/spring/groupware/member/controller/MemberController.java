@@ -1,5 +1,7 @@
 package com.spring.groupware.member.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.groupware.member.model.CompanyVO;
+import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.member.service.InterMemberService;
 
 
@@ -46,6 +50,29 @@ public class MemberController {
       @RequestMapping(value="/pwdChange.opis")
       public ModelAndView pwdChange(ModelAndView mav) {   	  
     	 mav.setViewName("pwdChange.tiles1");
+    	 return mav;
+      }
+      
+      
+      // === 개인정보설정 === //
+      @RequestMapping(value="/personalInfo.opis")
+      public ModelAndView personalInfo(ModelAndView mav) {   	  
+    	 mav.setViewName("member/personalInfo.tiles1");
+    	 return mav;
+      }
+   
+      
+      // === 회사정보설정 === //
+      @RequestMapping(value="/companyInfo.opis")
+      public ModelAndView companyInfo(ModelAndView mav) {   
+    	 CompanyVO cvo = service.getCompanyInfo();
+    	 String ceo_name = service.getCeoName();
+    	 MemberVO mvo = service.getAdminInfo();
+    	 
+ 		 mav.addObject("cvo",cvo);
+ 		 mav.addObject("ceo_name",ceo_name);
+ 		 mav.addObject("mvo",mvo);
+    	 mav.setViewName("member/companyInfo.tiles1");
     	 return mav;
       }
       
