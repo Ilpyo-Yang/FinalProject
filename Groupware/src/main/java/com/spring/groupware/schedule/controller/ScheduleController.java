@@ -24,6 +24,21 @@ public class ScheduleController {
 		return mav;
 	}
 	
+	// 일정 등록 페이지 보여주기(모달창)
+	@RequestMapping(value="/scd_register.opis")
+	public ModelAndView scdRegister(ModelAndView mav) {
+		
+		mav.setViewName("schedule_modal/scd_register");
+		return mav;
+	}
+	
+	
+	@RequestMapping(value="/mtr_resv.opis")
+	public ModelAndView mtrResv(ModelAndView mav) {
+		
+		mav.setViewName("schedule_modal/mtr_resv");
+		return mav;
+	}
 	
 	
 }

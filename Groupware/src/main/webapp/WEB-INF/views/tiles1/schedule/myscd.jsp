@@ -99,7 +99,7 @@
   	padding: 15px 0;  	
   }	
   
-  #btnReg2 {
+  #btnResv {
   	display: inline-block;
   	border: none;
   	margin-left: 50px;
@@ -109,7 +109,7 @@
   	background: #8cb1d9;
   }
   
-  #btnReg2:hover {
+  #btnResv:hover {
   	color:white;
   }
   
@@ -133,8 +133,16 @@
 		        calendar.render();
 		      });
 	
+		 function scdReg() {
+			 var url = "<%=ctxPath%>/scd_register.opis";
+			 window.open(url, "scdRegister","left=350px, top=100px, width=800px, height=350px");
+		 }
 		 
-		 
+		 function mtrResv() {
+			 var url = "<%=ctxPath%>/mtr_resv.opis";
+			 window.open(url, "mtrResv","left=350px, top=100px, width=800px, height=650px");
+			 
+		 }
 		 
 </script>
 </head>
@@ -143,30 +151,8 @@
 <div style="display: inline-block; width: 1400px;"> 
     <div id="sideMenu" style="display : inline-block; float:left;">
 	  	<div id="menuTitle">일정</div>
-	  	<div><button type="button" id="btnReg" data-toggle="modal" data-target="#scdReg" data-dismiss="modal">일정 등록</button></div>
-	  	
-	  	<!-- 일정등록 모달창 띄우기 -->
-	  	  <div class="modal fade" id="scdReg" role="dialog">
-    		<div class="modal-dialog">
-	  	 		<!-- modal content -->
-	  	 			<div class="modal-content">
-        				<div class="modal-header">
-          					<button type="button" class="close myclose" data-dismiss="modal">&times;</button>
-          					<h4 class="modal-title">일정 등록하기</h4>
-          				</div>
-          				<div class="modal-body" style="height: 300px; width: 100%;">
-          					<div id="reservation">
-          						<iframe style="border: none; width: 100%; height: 280px;" src="<%=ctxPath%>">
-          						</iframe>
-          					</div>	
-          				</div>
-          				<div class="modal-footer">
-          				</div>
-          			</div>
-    		</div>
-  		</div>	
-          					
-          					
+	  	<button type="button" id="btnReg" onclick="scdReg()">일정 등록</button>	
+	      					
 	  		<div class="lside" style="font-weight:bold;">내소속</div>
 	  		<div id="teamName">구매팀</div>
 	  		<div class="lside">수락 완료된 일정(<span></span>)</div>
@@ -176,31 +162,8 @@
 		  		<div id="option"><a href="<%=ctxPath%>/">-&nbsp;선택 일정 수정</a></div>
 		  		<div id="option"><a href="<%=ctxPath%>/">-&nbsp;전체 일정 삭제</a></div>
 	  		</div>
-	  		<button type="button" id="btnReg2" data-toggle="modal" data-target="#mtrReg" data-dismiss="modal">회의실 예약 ▶</button>
-	  		
-	  		<!-- 회의실예약 모달창 띄우기 -->
-	  		<div class="modal fade" id="mtrReg" role="dialog">
-    		<div class="modal-dialog">
-	  		
-		  		<!-- Modal content-->
-	      		<div class="modal-content">
-		        	<div class="modal-header">
-		          		<button type="button" class="close myclose" data-dismiss="modal">&times;</button>
-			  				<h4 class="modal-title">회의실 예약하기</h4>
-			  		</div>
-			  	<div class="modal-body">
-         			 <div id="mtrResv">
-			  			<iframe style="border: none; width: 100%; height: 350px;" src="">  
-			          	</iframe>
-			         </div>
-			  	</div>
-	        	<div class="modal-footer">
-	        	</div>
-      		</div>
-		</div>
-  </div>	
-
-</div>
+	  		<button type="button" id="btnResv" onclick="mtrResv()">회의실 예약 ▶</button>
+	</div>
 	
 	<div id="headerInfo">
 		<table>
