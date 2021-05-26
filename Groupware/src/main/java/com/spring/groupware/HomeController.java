@@ -48,11 +48,8 @@ public class HomeController {
 	
 	
 	
-	@RequestMapping(value = "/index.action")
+	@RequestMapping(value = "/index.opis")
 	public ModelAndView home(HttpServletRequest request, ModelAndView mav) {
-	
-		
-		
 		mav.setViewName("/index");
 		
 		return mav;

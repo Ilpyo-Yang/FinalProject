@@ -11,7 +11,7 @@ public interface InterMemberService {
 	String getCompanyName();
 	
 	// 로그인확인하기
-	int loginCheck(String id, String pwd);
+	MemberVO loginCheck(Map<String, String> paraMap);
 
 	// 회사정보 모두 가져오기
 	CompanyVO getCompanyInfo();
@@ -21,6 +21,8 @@ public interface InterMemberService {
 
 	// 관리자 정보 가져오기
 	MemberVO getAdminInfo();
+
+	
 
 
 
