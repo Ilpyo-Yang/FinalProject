@@ -3,14 +3,24 @@
 
 <mapper namespace="member">
 
+
 	<select id="companyName_select" resultType="String">
 		select com_name
 		from tbl_company 
 	</select>
+
 	
 	<select id="companyInfo_select" resultType="com.spring.groupware.member.model.CompanyVO">
 		select com_name, com_address, registraion_num, business_type, com_ph, com_email
 		from tbl_company 
 	</select>
+
+	
+	<select id="ceoName_select" resultType="String">
+		select mbr_name
+		from tbl_mbr 
+		where fk_rank_no=2
+	</select>
+
 	
 </mapper>

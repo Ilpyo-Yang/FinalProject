@@ -32,7 +32,7 @@
 				<td>회사명</td>
 				<td id="com_name">${cvo.com_name}</td>
 				<td>대표자명</td>
-				<td id="mbr_name"></td>
+				<td id="mbr_name">${ceo_name}</td>
 			</tr>
 			<tr>
 				<td>회사주소</td>

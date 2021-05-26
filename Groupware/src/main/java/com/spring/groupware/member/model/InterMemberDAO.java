@@ -10,4 +10,7 @@ public interface InterMemberDAO {
 	// 회사정보 모두 가져오기
 	CompanyVO getCompanyInfo();
 
+	// 대표이름 가져오기
+	String getCeoName();
+
 }

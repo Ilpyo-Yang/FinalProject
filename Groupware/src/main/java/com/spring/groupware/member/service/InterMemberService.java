@@ -15,6 +15,9 @@ public interface InterMemberService {
 	// 회사정보 모두 가져오기
 	CompanyVO getCompanyInfo();
 
+	// 대표자 이름 가져오기
+	String getCeoName();
+
 
 
 

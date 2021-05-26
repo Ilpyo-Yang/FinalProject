@@ -65,7 +65,9 @@ public class MemberController {
       @RequestMapping(value="/companyInfo.opis")
       public ModelAndView companyInfo(ModelAndView mav) {   
     	 CompanyVO cvo = service.getCompanyInfo();
+    	 String ceo_name = service.getCeoName();
  		 mav.addObject("cvo",cvo);
+ 		 mav.addObject("ceo_name",ceo_name);
     	 mav.setViewName("member/companyInfo.tiles1");
     	 return mav;
       }

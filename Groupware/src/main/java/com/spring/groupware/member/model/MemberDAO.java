@@ -31,4 +31,11 @@ public class MemberDAO implements InterMemberDAO {
 		return cvo;
 	}
 
+	// 대표이름 가져오기
+	@Override
+	public String getCeoName() { 
+		String ceo_name = sqlsession.selectOne("member.ceoName_select");
+		return ceo_name;
+	}
+
 }
