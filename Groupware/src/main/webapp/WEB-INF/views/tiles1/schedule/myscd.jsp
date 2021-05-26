@@ -12,6 +12,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
   
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/menu.css" />
 <link href='<%=ctxPath%>/resources/fullcalendar-5.7.0/lib/main.css' rel='stylesheet' />
 <style>
 
@@ -80,13 +81,13 @@
     margin-top:20px;
     padding-left:70px;
   }
-	
+
   #teamName {
   	text-align:center;
   }
   	
   #chkboxes {
-    padding-left: 730px;
+    padding-left: 700px;
     padding-top: 20px;
   }
 
@@ -113,12 +114,21 @@
   	color:white;
   }
   
+  #user_img {
+  	padding: 0px 20px;
+  	vertical-align: bottom; 
+  }
+  
 </style>
 
 	
 <script src='<%=ctxPath%>/resources/fullcalendar-5.7.0/lib/main.js'></script>
 
 <script type="text/javascript">
+
+		$(document).ready(function(){
+			
+		});
 
 		 document.addEventListener('DOMContentLoaded', function() {
 		        var calendarEl = document.getElementById('calendar');
@@ -129,10 +139,15 @@
 		        	center: 'title',
 		        	right: 'dayGridMonth,timeGridWeek,timeGridDay'
 		        	},
+		        	contentHeight: 600,
+		        	weekNumbers:true,
+		        	navLinks: true,
+		        	locale:'ko'
 		        });
 		        calendar.render();
-		      });
+		 });// end of document.addEventListener('DOMContentLoaded', function()----------------------
 	
+		 
 		 function scdReg() {
 			 var url = "<%=ctxPath%>/scd_register.opis";
 			 window.open(url, "scdRegister","left=350px, top=100px, width=800px, height=350px");
@@ -140,7 +155,7 @@
 		 
 		 function mtrResv() {
 			 var url = "<%=ctxPath%>/mtr_resv.opis";
-			 window.open(url, "mtrResv","left=350px, top=100px, width=800px, height=650px");
+			 window.open(url, "mtrResv","left=350px, top=100px, width=800px, height=550px");
 			 
 		 }
 		 
@@ -168,7 +183,7 @@
 	<div id="headerInfo">
 		<table>
 			<tr>
-				<td><img src=""/></td>
+				<td id="user_img"><img src="<%=ctxPath%>/resources/images/menuuser.png" style="width:30px; height:30px;" /></td>
 				<td style="padding:20px 10px 0px 10px;"><span style="color:#008ae6; font-weight:bold;">${sessionScope.loginuser.name}</span>&nbsp;님의 일정</td>
 				<td id="chkboxes">
 					<input type="checkbox" value="0"/>&nbsp;전체일정&nbsp;
@@ -179,9 +194,7 @@
 		</table>
 	</div>
 	<hr>
-	
 	<div id='calendar' style="padding:20px;"></div>
-	
 </div>
 </body>
 </html>
