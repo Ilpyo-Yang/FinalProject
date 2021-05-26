@@ -1,7 +1,5 @@
 package com.spring.groupware.member.model;
 
-import java.util.Calendar;
-
 public class MemberVO {
 	private int mbr_seq;
 	private int fk_power_no;
@@ -17,19 +15,23 @@ public class MemberVO {
 	private String mbr_birthday;
 	private String mbr_registerday;
 	private String mbr_retireday;
+	private String mbr_pwd_changeday;
 	private String mbr_status; 
 	private String mbr_photo;
 	private String mbr_sign;  
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	
+	private String power_detail; 
+	private String rank_detail; 
 	private String dept_detail; 
+	private String pwdChangeGap;
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	
+
+
 	public MemberVO() {}
-
-
 
 	public int getMbr_seq() {
 		return mbr_seq;
@@ -143,6 +145,14 @@ public class MemberVO {
 		this.mbr_retireday = mbr_retireday;
 	}
 
+	public String getMbr_pwd_changeday() {
+		return mbr_pwd_changeday;
+	}
+
+	public void setMbr_pwd_changeday(String mbr_pwd_changeday) {
+		this.mbr_pwd_changeday = mbr_pwd_changeday;
+	}
+
 	public String getMbr_status() {
 		return mbr_status;
 	}
@@ -166,20 +176,43 @@ public class MemberVO {
 	public void setMbr_sign(String mbr_sign) {
 		this.mbr_sign = mbr_sign;
 	}
+
+	
+	///////////////////////////////////////////////////////////////////////////////
 	
 	
-	///////////////////////////////////////////////////////////////////////////
-	
-	
+	public String getPower_detail() {
+		return power_detail;
+	}
+
+	public void setPower_detail(String power_detail) {
+		this.power_detail = power_detail;
+	}
+
+	public String getRank_detail() {
+		return rank_detail;
+	}
+
+	public void setRank_detail(String rank_detail) {
+		this.rank_detail = rank_detail;
+	}
+
 	public String getDept_detail() {
 		return dept_detail;
 	}
-
 
 	public void setDept_detail(String dept_detail) {
 		this.dept_detail = dept_detail;
 	}
 	
+	public String getPwdChangeGap() {
+		return pwdChangeGap;
+	}
 
+	public void setPwdChangeGap(String pwdChangeGap) {
+		this.pwdChangeGap = pwdChangeGap;
+	}
 
-}
+}	
+
+	

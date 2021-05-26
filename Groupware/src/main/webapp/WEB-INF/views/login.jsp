@@ -13,10 +13,11 @@
 <script type="text/javascript">
 	
 	$(function(){
+		if(${result}!=null){	// 로그인 실패문구 출력
+			$("div#result").html(${result});
+			$("div#result").show();
+		}
 		$("div#result").hide();
-
-		
-		
 	});// end of $(function() ------------------------------------------------------------
 	
 			
@@ -59,13 +60,13 @@
 		<h1>Opistachio</h1>
 		
 		<label for="companyInput" class="inputName">COMPANY</label>
-		<input type="text" id="companyInput" name="companyInput" value="${com_name}" readonly />
+		<input type="text" id="companyInput" name="companyInput" class="form-control input" value="${com_name}" readonly />
 		<br>
 		<label for="idInput" class="inputName">ID</label>
-		<input type="text" id="idInput" name="idInput" />
+		<input type="text" id="idInput" name="idInput" class="form-control input"/>
 		<br>
 		<label for="pwdInput" class="inputName">PASSWORD</label>
-		<input type="password" id="pwdInput" name="pwdInput" 
+		<input type="password" id="pwdInput" name="pwdInput" class="form-control input"
 		onkeypress="if(event.keyCode == 13){loginCheck()}"/>
 		<br>
 	

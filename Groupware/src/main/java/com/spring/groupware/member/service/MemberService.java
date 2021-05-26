@@ -31,9 +31,9 @@ public class MemberService implements InterMemberService {
 
 	// 로그인 확인하기
 	@Override
-	public int loginCheck(String id, String pwd) {
-		
-		return 0;
+	public MemberVO loginCheck(Map<String, String> paraMap) {
+		MemberVO loginuser = mdao.loginCheck(paraMap);
+		return loginuser;
 	}
 
 
@@ -57,6 +57,8 @@ public class MemberService implements InterMemberService {
 		MemberVO mvo = mdao.getAdminInfo();
 		return mvo;
 	}
+
+	
 
 
 	
