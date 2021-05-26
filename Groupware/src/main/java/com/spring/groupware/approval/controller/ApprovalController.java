@@ -54,5 +54,13 @@ public class ApprovalController {
     	 return mav;
       }
       
+      
+      // === 서명관리 === //
+      @RequestMapping(value="/sign.opis")
+      public ModelAndView sign(ModelAndView mav) {   	  
+    	 mav.setViewName("approval/sign.tiles1");
+    	 return mav;
+      }
+      
 
 }

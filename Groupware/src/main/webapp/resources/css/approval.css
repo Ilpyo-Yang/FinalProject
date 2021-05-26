@@ -132,4 +132,20 @@ select#vacationType {
 }
 
 
-
+/* ============ sign.jsp ============== */
+span#signHelp {
+	font-weight: bold;
+}
+div#signForm {
+	margin: 50px 10%;
+	width: 60%;
+}
+div#signImg {
+	margin: 50px auto;
+	width: 70%;
+}
+i#basicImg {
+	width: 50px;
+	margin: 10px 100px;
+	display: inline-block;
+}
