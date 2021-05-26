@@ -24,28 +24,6 @@
 		width: 70px;
 	}
 	
-	.btn {
-	position: relative;
-	z-index: 2;
-	background-color: #fff;
-	border: 2px solid #333;
-	color: #333;
-	line-height: 48px;
-	}
-	
-	.btn:after {
-		top: 4px;
-		left: 4px;
-		width: 188px;
-		height: 42px;
-		border: 2px solid #333;
-		opacity: 0;
-	}
-	
-	.btn:hoverz:after {
-		opacity: 1;
-	}
-	
 </style>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -75,8 +53,6 @@
 		        isRTL: false,
 		        showMonthAfterYear: true,
 		        yearSuffix: '',
-		        showOn: 'both',
-		        buttonText: "달력",
 		        changeMonth: true,
 		        changeYear: true,
 		        showButtonPanel: true,
