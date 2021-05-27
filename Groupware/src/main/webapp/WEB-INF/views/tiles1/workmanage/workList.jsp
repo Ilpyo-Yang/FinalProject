@@ -88,7 +88,7 @@ button.readCheck {
 	});
 	
 	function goDetailWork(wmno) {
-		location.href="<%=request.getContextPath()%>/showDetailWork.opis?fk_wtno="+${fk_wtno}+"&wmno="+wmno;
+		location.href="<%=request.getContextPath()%>/showDetailWork.opis?fk_wtno="+${fk_wtno}+"&type="+${type}+"&wmno="+wmno;
 	}
 </script>
 

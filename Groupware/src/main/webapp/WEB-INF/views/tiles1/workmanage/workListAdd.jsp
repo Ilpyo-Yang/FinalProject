@@ -29,7 +29,7 @@
 		
 	});
 	
-	// == 업무 요청, 업무 보고 일 경우에만 담당자, 참조자  input 보여주기 ==
+	// == 업무 요청, 업무 보고 일 경우에만 담당자, 참조자  input 보여주기 == //
 	function onlyWorkInput(item) {
 		var checkVal = $(item).val();
 		
@@ -109,8 +109,6 @@
 					</td>
 				</tr>
 			</tbody>
-		</table>
-		
-		
+		</table>	
 	</form>
 </div>

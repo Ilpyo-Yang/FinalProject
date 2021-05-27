@@ -123,8 +123,12 @@ public class WorkmanageController {
 		int wmno = Integer.parseInt(request.getParameter("wmno")); // 업무고유 번호 받아오기
 		WorkManageVO wmvo = workList.get(wmno-1); // 추후 DB 에서 wmno 로 정보 가져오기
 		
+		String fk_wtno = request.getParameter("fk_wtno"); // 추후 DB 에서 fk_wtno 를 가지고 타입에 맞는 데이터를 가져올 것 
+		String type = request.getParameter("type"); // 추후 DB 에서 type 에 맞는  데이터를 가져올 것 (발신자, 수신자, 참조자)
+		
+		mav.addObject("type", type); 
+		mav.addObject("fk_wtno", fk_wtno);
 		mav.addObject("wmvo", wmvo);
-		mav.addObject("fk_wtno", request.getParameter("fk_wtno"));
 		
 		mav.setViewName("workmanage/showDetailWork.tiles1");
 		return mav;
