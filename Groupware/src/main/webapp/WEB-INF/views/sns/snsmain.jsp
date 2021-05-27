@@ -39,8 +39,8 @@ String ctxPath = request.getContextPath();
 			
 			</div>
 			<div class=userinfotop>
-			<span class=username >이순신</span>
-			<span class=userjobgrade>사원</span>
+			<span class=username >${requestScope.memberVO.mbr_name}</span>
+			<span class=userjobgrade>${requestScope.memberVO.fk_rank_no}</span>
 		    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="margin-left: 10px;">유저상태
 		    <span class="caret"></span></button>
 		    <ul class="dropdown-menu">

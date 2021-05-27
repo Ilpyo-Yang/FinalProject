@@ -16,6 +16,8 @@ public class GroupwareSnsController {
 	
 	@RequestMapping(value="/sns/snsmain.opis")
 	public String sns_main() {
+		
+		
 		return "sns/snsmain";
 	}
 	
