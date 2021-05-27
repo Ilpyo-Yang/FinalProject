@@ -5,9 +5,17 @@
 
 <!-- ==== #29. 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
 <mapper namespace="schedule">
+	
+	<!-- === 일정 추가하기 === -->
+	<insert id="scdAdd" parameterType="com.spring.groupware.schedule.model.ScheduleVO">
+		insert into tbl_schedule(scdno, fk_scdno2, fk_mbr_seq, scdsubject, scdstartdate, scdenddate, attendance)
+		values(schedule_seq.nextval, #{fk_scdno2}, #{fk_mbr_seq}, #{scdsubject}, #{scdstartdate}, #{scdenddate}, #{attendance})
+	</insert>
 
-
-
+	<!-- === 등록된 일정 상세 내용 조회 === -->
+	<select id="getViewScd" parameterType="int" resultType="com.spring.groupware.model.ScheduleVO">
+		select 
+	</select>
 
 
 

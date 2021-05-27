@@ -10,20 +10,49 @@
 
 <style type="text/css">
 	
+	h2 {
+		margin-bottom:30px;
+	}
+	
 	#container {
 		margin: 20px;
 	}
 	
-	.schedule {
-		margin: 20px 0;
+	table {
+		border-collapse: collapse;
+		margin-top: 10px; 
+	}
+	
+	td {
+		padding: 10px 0;
 	}
 
 	#title {
-		font-size: 11pt;
-		display: inline-block;
-		width: 70px;
+		padding:0 20px 0 10px;
+		font-weight: bold;
+		border-right: 3px solid #8cb1d9;
+		text-align:right;
 	}
 	
+	#contents {
+		padding-left:10px;
+	}
+	
+	.btn {
+		border: none;
+		box-shadow: 2px 2px 2px gray;
+		width: 70px;
+		height:40px;
+		border-radius: 2pt;
+		cursor: pointer;
+		font-size: 13pt;
+		font-weight: bold;
+	}
+	
+	#btnScdReg {
+		background: #0099cc;
+		color: white;
+	}
 </style>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -72,67 +101,103 @@
 		        $("#from").datepicker( "option", "maxDate", selectedDate );
 		    });
 		
+		    $("button#btnScdReg").click(function(){
+		    	
+		    	var calendar = new Calendar(calendarEl, {
+		    		
+		    	
+		    	})
+		    	
+		    	var frm = document.scdRegFrm;
+			    frm.method = "POST";
+			    frm.action = "<%=ctxPath%>/scdRegEnd.opis";
+			    frm.submit();
+		    });
+		    
+		    
 	});// end of $(document).ready(function(){}---------------------------------
 	
 	function mtrResv() {
 		 var url = "<%=ctxPath%>/mtr_resv.opis";
 		 window.open(url, "mtrResv","left=350px, top=100px, width=800px, height=650px");
-		 
 	 }
-			
+	
+	
+	
+	
 </script>
 
 <div id="container">
-<h3>일정 등록하기</h3>
-<hr>
+<h2>일정 등록하기</h2>
 
 <form name="scdRegFrm">
-	<div class="subject schedule">
-		<span id="title">제목</span>
-		<input type="text" name="subject" id="subject" size="30" placeholder="제목을 입력하세요." autocomplete="off" required />
-	</div>
+	<table>
+		<tr class="division schedule">
+			<td id="title">일정 구분</td>
+			<td id="contents">
+				<select>
+					<option>구분 선택</option>
+					<c:if test="${sessionScope.loginuser.userid eq 'admin'}">
+						<option value="0">전체일정</option>
+					</c:if>
+					<option value="1">부서일정</option>
+					<option value="2">개인일정</option>
+				</select>
+			</td>
+		</tr>
+		<tr class="subject schedule">
+			<td id="title">제목</td>
+			<td id="contents"><input type="text" name="subject" id="subject" size="30" placeholder="제목을 입력하세요." autocomplete="off" required /></td>
+		</tr>
+		<tr class="date schedule">
+			<td id="title">일자</td>
+			<td id="contents">
+				<label for="from" id="start">시작일</label>
+				<input type="text" id="from" name="from"/>
+				<span>&nbsp;~&nbsp;</span>
+				<label for="to" id="end">종료일</label>
+				<input type="text" id="to" name="to"/>
+			</td>
+		</tr>
+		<tr class="time schedule">
+			<td id="title">시간</td>
+			<td id="contents">
+				<select id="time1" name="time1">
+				<c:forEach var="i" begin="9" end="18">
+					<c:set var="startTm" value="${i>9?i:'0'}${i>9?'':i}"/>
+					<option value="${i>9?i:'0'}${i>9?'':i}00" <c:if test="${data.startDispTm eq startTm}">selected</c:if>>${i>9?i:'0'}${i>9?'':i}:00</option>
+				</c:forEach>
+				</select>
+				<span>&nbsp;부터</span>
+				<select id="time2" name="time2">
+					<c:forEach var="i" begin="10" end="18">
+						<c:set var="endTm" value="${i>9?i:'0'}${i>9?'':i}"/>
+						<option value="${i>9?i:'0'}${i>9?'':i}00" <c:if test="${data.endDispTm eq endTm}">selected</c:if>>${i>9?i:'0'}${i>9?'':i}:00</option>
+					</c:forEach>
+				</select>
+				<span>&nbsp;까지&nbsp;</span>
+			</td>
+		</tr>
+		<tr class="place schedule">
+			<td id="title">장소</td>
+			<td id="contents">
+				<input type="text"/>
+				<button type="button" onclick="mtrResv()">예약하기</button>
+			</td>
+		</tr>
+		<tr class="attandance schedule">
+			<td id="title">참석자</td>
+			<td id="contents">
+				<input type="text" />
+				<button type="button">주소록</button>
+			</td>
+		</tr>
+	</table>
 	
-	<div class="date schedule">
-		<label for="from" id="title">시작일자</label>
-		<input type="text" id="from" name="from"/>
-		<label for="to" id="title">종료일자</label>
-		<input type="text" id="to" name="to"/>
-	</div>
-	
-	<div class="time schedule">
-		<span id="title">시간</span>
-		<select id="time1" name="time1">
-			<c:forEach var="i" begin="9" end="18">
-				<c:set var="startTm" value="${i>9?i:'0'}${i>9?'':i}"/>
-				<option value="${i>9?i:'0'}${i>9?'':i}00" <c:if test="${data.startDispTm eq startTm}">selected</c:if>>${i>9?i:'0'}${i>9?'':i}:00</option>
-			</c:forEach>
-		</select>
-		
-		<span id="title">&nbsp;부터</span>
-		<select id="time2" name="time2">
-			<c:forEach var="i" begin="10" end="18">
-				<c:set var="endTm" value="${i>9?i:'0'}${i>9?'':i}"/>
-				<option value="${i>9?i:'0'}${i>9?'':i}00" <c:if test="${data.endDispTm eq endTm}">selected</c:if>>${i>9?i:'0'}${i>9?'':i}:00</option>
-			</c:forEach>
-		</select>
-		<span>&nbsp;까지&nbsp;</span>
-	</div>
-	
-	<div class="place schedule">
-		<span id="title">장소</span>
-		<input type="text"/>
-		<button type="button" onclick="mtrResv()">예약하기</button>
-	</div>
-	
-	<div class="attandance schedule">
-		<span id="title">참석자</span>
-		<input type="text" />
-		<button type="button">주소록</button>
-	</div>
 
 	<div style="float:right;">
-		<button type="submit" class="btn">등록</button>
-		<button type="button" class="btn">취소</button>
+		<button type="submit" id="btnScdReg" class="btn">등록</button>
+		<button type="reset" class="btn">취소</button>
 	</div>
 
 </form>
