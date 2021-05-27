@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/workmanage.css" />  
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -39,17 +41,6 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 	height: 25px;
 	margin-left: 5px;
 }
-
-button.workStatus {
-	width: 100px;
-	border: none;
-}
-
-button.readCheck {
-	background-color: white;
-	border-style: groove;
-	border: solid 1px;
-}
 </style>
 
 
@@ -70,10 +61,14 @@ button.readCheck {
 			buttonText : "Select date"
 		});
 	});
+	
+	function goDetailTodo(tdno) {
+		location.href="<%=request.getContextPath()%>/showDetailTodo.opis?tdno="+tdno;
+	}
 </script>
 
 <div class="container tdcontainer">
-	<h3>내가 한 업무 요청</h3>
+	<h3>나의 할 일</h3>
 
 	<hr>
 
@@ -87,10 +82,10 @@ button.readCheck {
 		</li>
 
 		<li>전체 <span>3</span></li>
-		
+
 		<li style="width: 50px;">
-			<label for="checkImp" hidden>중요</label>
-			<input type="checkbox" id="checkImp" hidden/>
+			<label for="checkImp">중요</label>
+			<input type="checkbox" id="checkImp" />
 		</li>
 
 		<li>
@@ -122,68 +117,39 @@ button.readCheck {
 			<tr>
 				<th><input type="checkbox" /></th>
 				<th>번호</th>
+				<th>중요 ▲</th>
 				<th>제목 ▲</th>
-				<th>담당자</th>
 				<th>등록일 ▲</th>
 				<th>마감일 ▲</th>
 				<th>상태</th>
-				<th>확인</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td><input type="checkbox" /></td>
-				<td>1</td>
-				<td>계약서 작성요청</td>
-				<td>박관리</td>
-				<td>2021.04.21</td>
-				<td>2021.05.01</td>
-				<td><button type="button" class="workStatus" style="background-color: #ff3300;">지연<span>+2</span></button></td>
-				<td><button type="button" class="readCheck">읽음확인</button></td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" /></td>
-				<td>2</td>
-				<td>6월 1일 오늘 할 일</td>
-				<td>박관리</td>
-				<td>2021.04.21</td>
-				<td>2021.05.01</td>
-				<td><button type="button" class="workStatus" style="background-color: white; border: 1px solid ">완료</button></td>
-				<td><button type="button" class="readCheck">읽음확인</button></td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" /></td>
-				<td>3</td>
-				<td>6월 1일 오늘 할 일</td>
-				<td>김관리</td>
-				<td>2021.04.21</td>
-				<td>2021.05.01</td>
-				<!-- Trigger the modal with a button -->
-				<td><button type="button" class="workStatus" data-toggle="modal" data-target="#myModal" style="background-color: #66ccff;">미완료</button></td>
-				<td><button type="button" class="readCheck">읽음확인</button></td>
-			</tr>
+			<c:forEach var="todo" items="${requestScope.todoList}" varStatus="status">
+				<tr>
+					<td><input type="checkbox" /></td>
+					<td>${status.count}</td>
+					<td><img src="" alt="" /></td>
+					<td><span class="todoSubject" onclick="goDetailTodo('${todo.tdno}')" style="cursor: pointer;">${todo.subject}</span></td>
+					<td>${todo.registerday}</td>
+					<td>${todo.deadline}</td>
+					<td>
+					<c:choose>
+						<%-- 나의 할일 상태 종류 --%>
+						<c:when test="${todo.fk_statno == 0}">
+							<button type="button" class="workStatus" style="background-color: #ff3300;">지연<span>+2</span></button>	
+						</c:when>
+						<c:when test="${todo.fk_statno == 1}">
+							<button type="button" class="workStatus" style="background-color: #66ccff;">미완료</button>
+						</c:when>
+						<c:when test="${todo.fk_statno == 2}">
+							<button type="button" class="workStatus" style="background-color: white; border: 1px solid black; color: black;">완료</button>
+						</c:when>
+					</c:choose>
+					</td>	
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
-	
-	<!-- Modal -->
-	<div id="myModal" class="modal fade" role="dialog">
-		<div class="modal-dialog">
-
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">6월 1일 오늘 할 일</h4>
-				</div>
-				<div class="modal-body">
-					<iframe style="border:none; width: 100%; height: 250px;" src="workStatusModal.opis"></iframe>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-
-		</div>
-	</div>
 </div>
 

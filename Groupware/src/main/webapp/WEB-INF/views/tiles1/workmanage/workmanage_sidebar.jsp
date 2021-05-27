@@ -23,7 +23,7 @@ button.accBtn {
 	$(document).ready(function(){
 		
 		$("button#btnReg").click(function(){
-			location.href="<%=ctxPath%>/worklistAdd.opis";
+			location.href="<%=ctxPath%>/workListAdd.opis";
 		});
 		
 	}); 
@@ -40,23 +40,23 @@ button.accBtn {
 	<div class="lside">
 		<button class="accBtn side">To Do</button>
 		<ul>
-			<li><a class="" href="<%=ctxPath%>/todolist.opis">나의 할 일</a></li>
+			<li><a class="" href="<%=ctxPath%>/todoList.opis">나의 할 일</a></li>
 		</ul>
 	</div>
 	<div class="lside">
 		<button class="accBtn side">업무 요청</button>
 		<ul>
-			<li><a class="" href="<%=ctxPath%>/sendWorkRequest.opis">내가 한 업무 요청</a></li>
-			<li><a class="" href="#">수신 업무 요청</a></li>
-			<li><a class="" href="#">참조 업무 요청</a></li>
+			<li><a class="" href="<%=ctxPath%>/workList.opis?fk_wtno=1&type=1">내가 한 업무 요청</a></li>
+			<li><a class="" href="<%=ctxPath%>/workList.opis?fk_wtno=1&type=2">수신 업무 요청</a></li>
+			<li><a class="" href="<%=ctxPath%>/workList.opis?fk_wtno=1&type=3">참조 업무 요청</a></li>
 		</ul>
 	</div>
 	<div class="lside">
 		<button class="accBtn side">업무 보고</button>
 		<ul>
-			<li><a class="" href="<%=ctxPath%>/sendWorkReport.opis">내가 한 업무 보고</a></li>
-			<li><a class="" href="#">수신 업무 보고</a></li>
-			<li><a class="" href="#">참조 업무 보고</a></li>
+			<li><a class="" href="<%=ctxPath%>/workList.opis?fk_wtno=2&type=1">내가 한 업무 보고</a></li>
+			<li><a class="" href="<%=ctxPath%>/workList.opis?fk_wtno=2&type=2">수신 업무 보고</a></li>
+			<li><a class="" href="<%=ctxPath%>/workList.opis?fk_wtno=2&type=3">참조 업무 보고</a></li>
 		</ul>
 	</div>
 
