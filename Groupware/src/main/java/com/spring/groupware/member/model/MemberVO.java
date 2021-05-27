@@ -18,7 +18,10 @@ public class MemberVO {
 	private String mbr_pwd_changeday;
 	private String mbr_status; 
 	private String mbr_photo;
-	private String mbr_sign;  
+	private String mbr_sign;
+	private String mbr_stsmsg;
+	private String mbr_stsconnect;
+	private String mbr_img;
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -224,6 +227,32 @@ public class MemberVO {
 	public void setEduLevel(int eduLevel) {
 		this.eduLevel = eduLevel;
 	}
+
+	public String getMbr_stsmsg() {
+		return mbr_stsmsg;
+	}
+
+	public void setMbr_stsmsg(String mbr_stsmsg) {
+		this.mbr_stsmsg = mbr_stsmsg;
+	}
+
+	public String getMbr_stsconnect() {
+		return mbr_stsconnect;
+	}
+
+	public void setMbr_stsconnect(String mbr_stsconnect) {
+		this.mbr_stsconnect = mbr_stsconnect;
+	}
+
+	public String getMbr_img() {
+		return mbr_img;
+	}
+
+	public void setMbr_img(String mbr_img) {
+		this.mbr_img = mbr_img;
+	}
+	
+	
 
 }	
 

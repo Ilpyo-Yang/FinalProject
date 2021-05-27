@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
  <%
 String ctxPath = request.getContextPath();
 %>
@@ -15,11 +15,6 @@ String ctxPath = request.getContextPath();
 
 <script type="text/javascript">
 
-	$(document).ready(function(){
-		
-		 window.resizeTo(400, 600); // 지정한 크기로 창이 뜨게함
-		
-	});
 
 </script>
 
@@ -33,14 +28,15 @@ String ctxPath = request.getContextPath();
 	<!-- 주소는 <span style="color: blue;">${requestScope.address}</span> 입니다. -->
 	<div class=snsmaincontainer>
 		<div class=userinfo>
-		
 			<div class=userinfoside>
-			<img class=mainuserimg src="<%= ctxPath%>/resources/images/nomaluserimg.png" style="margin-top: 20px; margin-left: 20px;"/>
+			<img class=mainuserimg src="<%= ctxPath%>/resources/images/${sessionScope.loginuser.mbr_img}" style="margin-top: 20px; margin-left: 20px;"/>
 			
 			</div>
 			<div class=userinfotop>
-			<span class=username >이순신</span>
-			<span class=userjobgrade>사원</span>
+			<span class=username >${sessionScope.loginuser.mbr_name}</span>
+			<c:if test="${sessionScope.loginuser.fk_rank_no == 0}"><span class=userjobgrade> 팀원</span></c:if>
+			<c:if test="${sessionScope.loginuser.fk_rank_no == 1}"><span class=userjobgrade> 팀장</span></c:if>
+			<c:if test="${sessionScope.loginuser.fk_rank_no == 2}"><span class=userjobgrade> 대표</span></c:if> 
 		    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="margin-left: 10px;">유저상태
 		    <span class="caret"></span></button>
 		    <ul class="dropdown-menu">
@@ -51,7 +47,7 @@ String ctxPath = request.getContextPath();
 			<img src="<%= ctxPath%>/resources/images/pencel.png" style="width: 25px; height: 25px; float: right; margin-right:  60px;"/>
 			</div>
 			<div class=userinfobottom>
-				<div class="well">상태메시지</div>
+				<div class="well">${sessionScope.loginuser.mbr_stsmsg}</div>
 			</div>
 			
 			
