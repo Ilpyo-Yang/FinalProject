@@ -34,19 +34,26 @@
 	     , nextseq, nexttitle
 		from
 		(
-		    select lag(cnotice_seq,1) over (order by cnotice_seq desc) as previousseq
-		         , lag(ctitle,1) over (order by cnotice_seq desc) as previoustitle
+		    select lag(cnotice_seq,1) over (order by cnotice_seq desc) as nextseq
+		         , lag(ctitle,1) over (order by cnotice_seq desc) as nexttitle
 		         
 		         , cnotice_seq, fk_mbr_seq, ctitle, ccontent
 		         , to_char(cwritedate, 'yyyy-mm-dd hh24:mi:ss') as cwritedate, chit
 		         
-		         , lead(cnotice_seq,1) over (order by cnotice_seq desc) as nextseq
-		         , lead(ctitle,1) over (order by cnotice_seq desc) as nexttitle
+		         , lead(cnotice_seq,1) over (order by cnotice_seq desc) as previousseq
+		         , lead(ctitle,1) over (order by cnotice_seq desc) as previoustitle
 		         
 		    from tbl_comnotice
 		) V
 		where V.cnotice_seq = #{cnotice_seq}
    	</select>
+   	
+   	<!-- === 1개글 수정하기 === -->
+   	<update id="editCom" parameterType="com.spring.groupware.board.model.CnoticeVO">
+   		update tbl_comnotice set ctitle = #{ctitle}
+   						   	   , ccontent = #{ccontent}
+		where cnotice_seq = #{cnotice_seq}
+   	</update>
    	
    	<!-- === 1개글 삭제하기 === -->
    	<delete id="delCom" parameterType="HashMap">
@@ -59,14 +66,15 @@
 
    <!-- === 글쓰기 === -->
    <insert id="deptAdd" parameterType="com.spring.groupware.board.model.DnoticeVO">
-   		insert into tbl_deptnotice(dnotice_seq, fk_boardno, fk_mbr_seq, dtitle, dcontent, dwritedate, dhit)
-   		values(dnotice_seq.nextval, 1, #{name}, #{fk_mbr_seq}, #{dtitle}, #{dcontent}, default, default)
+   		insert into tbl_deptnotice(dnotice_seq, fk_boardno, fk_mbr_id, fk_dept_no, dtitle, dcontent, dwritedate, dhit)
+   		values(dnotice_seq.nextval, 2, #{name}, #{fk_mbr_id}, #{fk_dept_no}, #{dtitle}, #{dcontent}, default, default)
    </insert>
    
    	<!-- === 전체 글목록 보여주기 == -->
    	<select id="deptListNoSearch" resultType="com.spring.groupware.board.model.DnoticeVO">
-	   	select dnotice_seq, fk_mbr_seq, dtitle, dcontent, to_char(dwritedate, 'yyyy-mm-dd hh24:mi:ss') as dwritedate, dhit
-		from tbl_deptnotice
+	   	select dnotice_seq, fk_mbr_id, fk_dept_no, dept_detail, dtitle, dcontent, to_char(dwritedate, 'yyyy-mm-dd hh24:mi:ss') as dwritedate, dhit
+		from tbl_deptnotice N JOIN tbl_dept D
+		on N.fk_dept_no = d.dept_no
 		order by dnotice_seq desc
    	</select>
    
@@ -79,28 +87,89 @@
    	<!--  == 글 1개 보여주기  ==  -->
    	<select id="getDeptView" parameterType="String" resultType="com.spring.groupware.board.model.DnoticeVO">
 	   	select previousseq, previoustitle    
-	     , dnotice_seq, fk_mbr_seq, dtitle, dcontent, dwritedate, dhit
+	     , dnotice_seq, fk_mbr_id, fk_dept_no, dtitle, dcontent, dwritedate, dhit
 	     , nextseq, nexttitle
 		from
 		(
-		    select lag(dnotice_seq,1) over (order by dnotice_seq desc) as previousseq
-		         , lag(dtitle,1) over (order by dnotice_seq desc) as previoustitle
+		    select lag(dnotice_seq,1) over (order by dnotice_seq desc) as nextseq
+		         , lag(dtitle,1) over (order by dnotice_seq desc) as nexttitle
 		         
-		         , dnotice_seq, fk_mbr_seq, dtitle, dcontent
+		         , dnotice_seq, fk_mbr_id, fk_dept_no, dtitle, dcontent
 		         , to_char(dwritedate, 'yyyy-mm-dd hh24:mi:ss') as dwritedate, dhit
 		         
-		         , lead(dnotice_seq,1) over (order by dnotice_seq desc) as nextseq
-		         , lead(dtitle,1) over (order by dnotice_seq desc) as nexttitle
+		         , lead(dnotice_seq,1) over (order by dnotice_seq desc) as previousseq
+		         , lead(dtitle,1) over (order by dnotice_seq desc) as previoustitle
 		         
 		    from tbl_deptnotice
 		) V
 		where V.dnotice_seq = #{dnotice_seq}
    	</select>
    	
+   	<!-- === 1개글 수정하기 === -->
+   	<update id="editDept" parameterType="com.spring.groupware.board.model.DnoticeVO">
+   		update tbl_deptnotice set dtitle = #{dtitle}
+   						   	   , dcontent = #{dcontent}
+		where dnotice_seq = #{dnotice_seq}
+   	</update>
+   	
    	<!-- === 1개글 삭제하기 === -->
    	<delete id="delDept" parameterType="HashMap">
    		delete from tbl_deptnotice
    		where dnotice_seq=#{dnotice_seq}
    	</delete>
-      	
+
+
+   <!-- ========================= 공통서식 ============================== -->  
+
+   <!-- === 글쓰기 === -->
+   <insert id="formAdd" parameterType="com.spring.groupware.board.model.FormboardVO">
+   		insert into tbl_formboard(form_seq, fk_boardno, fk_mbr_seq, ftitle, fcontent, fwritedate, fhit)
+   		values(form_seq.nextval, 3, #{fk_mbr_seq}, #{ftitle}, #{fcontent}, default, default)
+   </insert>
+   
+   <!-- === 파일 첨부하기 === 
+   <insert id="formFileAdd" parameterType="com.spring.groupware.board.model.FormfileVO">
+   		insert into tbl_formboard(fk_form_seq, ffile_seq, ffilename, ffilepath, ffilesize, fuploaddate)
+   		values(#{fk_form_seq}, ffile_seq.nextval, #{filename}, #{ffilepath}, #{ffilesize}, default)
+   </insert>	-->
+      
+   	<!-- === 전체 글목록 보여주기 == -->
+   	<select id="formListNoSearch" resultType="com.spring.groupware.board.model.FormboardVO">
+	   	select form_seq, fk_mbr_seq, ftitle, fcontent, to_char(fwritedate, 'yyyy-mm-dd hh24:mi:ss') as fwritedate, fhit
+		from tbl_formboard
+		order by form_seq desc
+   	</select>
+   
+   	<!-- === 글조회수 1증가 하기  === -->
+   	<update id="setFormAddHit" parameterType="String">
+   		update tbl_formboard set fhit = fhit+1
+   		where form_seq = #{form_seq} 
+   	</update>
+   	
+   	<!--  == 글 1개 보여주기  ==  -->
+   	<select id="getFormView" parameterType="String" resultType="com.spring.groupware.board.model.FormboardVO">
+	   	select previousseq, previoustitle    
+	     , form_seq, fk_mbr_seq, ftitle, fcontent, fwritedate, fhit
+	     , nextseq, nexttitle
+		from
+		(
+		    select lag(form_seq,1) over (order by form_seq desc) as previousseq
+		         , lag(ftitle,1) over (order by form_seq desc) as previoustitle
+		         
+		         , form_seq, fk_mbr_seq, ftitle, fcontent
+		         , to_char(fwritedate, 'yyyy-mm-dd hh24:mi:ss') as fwritedate, fhit
+		         
+		         , lead(form_seq,1) over (order by form_seq desc) as nextseq
+		         , lead(ftitle,1) over (order by form_seq desc) as nexttitle
+		         
+		    from tbl_formboard
+		) V
+		where V.form_seq = #{form_seq}
+   	</select>
+   	
+   	<!-- === 1개글 삭제하기 === -->
+   	<delete id="delForm" parameterType="HashMap">
+   		delete from tbl_formboard
+   		where form_seq=#{form_seq}
+   	</delete>      	
 </mapper>

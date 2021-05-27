@@ -27,7 +27,7 @@ public class CnoticeController {
       
       // === 게시판 글쓰기 폼 페이지 요청 === //
       @RequestMapping(value="/add.opis")
-//    public ModelAndView requiredLogin_add(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+//      public ModelAndView requiredLogin_add(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
       public ModelAndView add(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
     	  
     	  mav.setViewName("board/add.tiles1");
@@ -126,7 +126,7 @@ public class CnoticeController {
             out.println("<h1>오류발생</h1>");
             out.printf("<div><span style='font-weight: bold;'>오류메시지</span><br><span style='color: red;'>%s</span></div>", e.getMessage());
             out.printf("<div style='margin: 20px; color: blue; font-weight: bold; font-size: 26pt;'>%s</div>", "장난금지");
-            out.println("<a href='/board/index.action'>홈페이지로 가기</a>");
+            out.println("<a href='/groupware/index.opis'>홈페이지로 가기</a>");
             out.println("</body>");
             out.println("</html>");
             
@@ -137,51 +137,83 @@ public class CnoticeController {
          
       }
       
-      // === 글삭제 페이지 요청 === //
-      @RequestMapping(value="/cnotice_del.opis")
-      public ModelAndView requiredLogin_del(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-    	  
-    	  // 삭제해야 할 글번호 가져오기
+      // === 글수정 페이지 요청 === //
+      @RequestMapping(value="/cnotice_edit.opis")
+//      public ModelAndView requiredLogin_edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+      public ModelAndView edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+
+    	  // 수정해야 할 글번호 가져오기
     	  String cnotice_seq = request.getParameter("cnotice_seq");
     	  
-    	  CnoticeVO cnoticevo = service.getViewWithNoAddCount(cnotice_seq);
     	  // 글조회수(readCount) 증가 없이 단순히 글1개만 조회 해주는 것이다.
-    	  
-    	  HttpSession session = request.getSession();
-          MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+    	  CnoticeVO cnoticevo = service.getViewWithNoAddCount(cnotice_seq);
+
+//    	  HttpSession session = request.getSession();
+//        MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
           
-          if( loginuser.getMbr_id().equals("admin") ) { // 로그인한 유저가 관리자일 때만
+/*        if( loginuser.getFk_power_no() == 0 ) {
+             String message = "관리자 외 수정 불가합니다.";
+             String loc = "javascript:history.back()";
              
-        	  mav.addObject("cnotice_seq", cnotice_seq);
-        	  mav.setViewName("board/cnotice_del.tiles1");
-        	  
+             mav.addObject("message", message);
+             mav.addObject("loc", loc);
+             mav.setViewName("msg");
           }
+          else {	*/
+        	 // 자신의 글을 수정할 경우
+        	 // 가져온 1개글을 글수정할 폼이 있는 view 단으로 보내준다.
+        	 mav.addObject("cnoticevo", cnoticevo);
+        	 mav.setViewName("board/cnotice_edit.tiles1");
+   
+//          }
     	  return mav;
       }
       
-      // === 글삭제 페이지 완료 === // 
-      @RequestMapping(value="/cnotice_delEnd.opis", method= {RequestMethod.POST})
+      // === #72. 글 수정 페이지 완료하기 === //
+      @RequestMapping(value="/cnotice_editEnd.opis", method= {RequestMethod.POST})
+      public ModelAndView editEnd(ModelAndView mav, CnoticeVO cnoticevo, HttpServletRequest request) {
+    	  
+    	  int n = service.edit(cnoticevo);
+    	  // n 이 1 이라면 정상적으로 변경됨, n 이 0 이라면 글수정에 필요한 글암호가 틀린경우 
+    	  
+    	  if(n == 0) {
+	         mav.addObject("message", "글 수정을 실패했습니다.");
+	      }
+	      else {
+	         mav.addObject("message", "글을 성공적으로 수정했습니다.");
+	      }
+	  
+          mav.addObject("loc", request.getContextPath()+"/cnotice_view.opis?cnotice_seq="+cnoticevo.getCnotice_seq());
+          mav.setViewName("msg");
+    	  
+          return mav;
+      }
+
+      // === 글 삭제  === // 
+      @RequestMapping(value="/cnotice_delEnd.opis", method= {RequestMethod.GET})
       public ModelAndView delEnd(ModelAndView mav, HttpServletRequest request) {
     	  
-
+    	  // 삭제해야 할 글번호 가져오기
     	  String cnotice_seq = request.getParameter("cnotice_seq");
           
           Map<String,String> paraMap = new HashMap<>();
           paraMap.put("cnotice_seq", cnotice_seq);
           
           int n = service.del(paraMap); 
-          // n 이 1 이라면 정상적으로 삭제
-          // n 이 0 이라면 글삭제 실패
+          // n 이 1 이라면 정상적으로 삭제, n 이 0 이라면 글삭제 실패
           
           if(n == 0) {
               mav.addObject("message", "글 삭제를 실패했습니다.");
-              mav.addObject("loc", request.getContextPath()+"/view.opis");
+              mav.addObject("loc", request.getContextPath()+"/cnotice_view.opis?cnotice_seq="+cnotice_seq);
           }
           else {
-             mav.addObject("message", "글삭제 성공!!");
-             mav.addObject("loc", request.getContextPath()+"/list.opis");
+             mav.addObject("message", "글을 성공적으로 삭제했습니다.");
+             mav.addObject("loc", request.getContextPath()+"/cnotice_list.opis");
           }
           
-    	  return mav;
+          mav.setViewName("msg");
+
+          return mav;
+
       }
 }

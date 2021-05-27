@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>부서공지사항</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -26,9 +26,9 @@
 		
 	}); // end of $(document).ready(function(){})---------------------------------------
 
-	function goView(seq){
+	function goView(dnotice_seq){
 		
-		location.href="<%=ctxPath%>/view.opis?dnotice_seq="+dnotice_seq;
+		location.href="<%=ctxPath%>/dnotice_view.opis?dnotice_seq="+dnotice_seq;
 		
 	} // end of function goView(seq)---------------------------------------------------- 
 	
@@ -44,7 +44,7 @@
 
   		<div class="lside"><a class="side" href="/groupware/cnotice_list.opis">전체공지사항</a></div>
   		<div class="lside"><a class="side" href="/groupware/dnotice_list.opis">부서공지사항</a></div>
-  		<div class="lside"><a class="side" href="#">공통서식</a></div>
+  		<div class="lside"><a class="side" href="/groupware/formboard_list.opis">공통서식</a></div>
 	</div>
 	
 	<!-- 게시판제목 -->
@@ -53,15 +53,15 @@
 	</div>
 	
 	<!-- 본문(게시판) -->       
-	<div class="container" style=" border: 1px solid blue; float: right; width: 700px; margin: 50px 200px; ">
+	<div class="container" style="float: right; width: 80%; margin-top: 50px;">
 	  <table class="table table-striped">
 	    <thead>
 	      <tr>
-	        <th style="width: 70px;  text-align: center;">번호</th>
-	        <th style="width: 360px; text-align: center;">제목</th>
-	        <th style="width: 70px;  text-align: center;">등록자</th>
+	        <th style="width: 70px; text-align: center;">번호</th>
+	        <th style="width: 400px; text-align: center;">제목</th>
+	        <th style="width: 100px; text-align: center;">등록자</th>
 	        <th style="width: 150px; text-align: center;">등록일</th>
-	        <th style="width: 70px;  text-align: center;">조회수</th>
+	        <th style="width: 100px; text-align: center;">조회수</th>
 	      </tr>
 	    </thead>
 	    <tbody>
@@ -71,9 +71,9 @@
 				<td align="left">
 					<span class="title" onclick="goView('${dnoticevo.dnotice_seq}')">${dnoticevo.dtitle}</span>
 				</td>
-				<td align="center">관리자</td>
-				<td align="center">${dnoticevo.cwritedate}</td>
-				<td align="center">${dnoticevo.chit}</td>      	
+				<td align="center">${dnoticevo.fk_mbr_id}</td>
+				<td align="center">${dnoticevo.dwritedate}</td>
+				<td align="center">${dnoticevo.dhit}</td>      	
 	      	</tr>		
 	      </c:forEach>
 	    </tbody>

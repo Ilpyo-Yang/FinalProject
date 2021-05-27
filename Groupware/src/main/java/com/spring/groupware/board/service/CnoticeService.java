@@ -62,5 +62,12 @@ public class CnoticeService implements InterCnoticeService {
 		int n = cdao.del(paraMap);
 		return n;
 	}
+
+	// === 1개글 수정하기 === //
+	@Override
+	public int edit(CnoticeVO cnoticevo) {
+		int n = cdao.edit(cnoticevo);
+		return n;
+	}
 	
 }

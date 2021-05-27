@@ -138,10 +138,10 @@
                <input type="text" name="ctitle" id="ctitle" class="long" />       
             </td>
          </tr>
-         <tr>
+<!--          <tr>
          	<th scope="row">첨부파일</th>
             <td><input type="file" id="files[0]" name="files[0]" value=""></td>
-         </tr>
+         </tr>	 -->
          <tr>
             <th>내용</th>
             <td>
