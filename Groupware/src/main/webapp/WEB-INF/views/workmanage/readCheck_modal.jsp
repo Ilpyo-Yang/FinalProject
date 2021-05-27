@@ -30,20 +30,20 @@ button {
 		<thead>
 			<tr style="border-top: solid 2px #f2f2f2;">
 				<th>담당자</th>
-				<th>최종수정일</th>
-				<th>상태</th>
+				<th>구분</th>
+				<th>확인일시</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td>${requestScope.paraMap.receiver}</td>
-				<td></td>
-				<td><button type="button" class="workStatus" style="background-color: white; border: 1px solid; color: black;">완료</button></td>
+				<td>박관리 차장</td>
+				<td>담당자</td>
+				<td>2018.01.11</td>
 			</tr>
 			<tr>
 				<td>이용우 사장</td>
+				<td>담당자</td>
 				<td>2020.01.11</td>
-				<td><button type="button" class="workStatus" style="background-color: #ff3300; border: 1px solid ">처리중 40%</button></td>
 			</tr>
 		</tbody>
 	</table>
