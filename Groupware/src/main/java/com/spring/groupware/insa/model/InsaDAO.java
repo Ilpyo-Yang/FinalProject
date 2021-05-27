@@ -30,8 +30,9 @@ public class InsaDAO implements InterInsaDAO {
 	// 인사정보 등록하기
 	@Override
 	public int insaRegister1End(MemberVO membervo) {
-		/* int n = sqlsession.insert("insa.insaRegisterEnd", membervo); */
-		return 1;
+		int n = sqlsession.insert("insa.insaRegisterEnd", membervo);
+		System.out.println("mem=>"+membervo.getMbr_id());
+		return n;
 	}
 
 
@@ -43,4 +44,5 @@ public class InsaDAO implements InterInsaDAO {
 		List<MemberVO> memberList= sqlsession.selectList("insa.memberList",paraMap);
 		return memberList;
 	}
+
 }

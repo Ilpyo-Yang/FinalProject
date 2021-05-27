@@ -116,10 +116,10 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 
-		$("button#registerBtn").click(function(){
+		$("button#modifyBtn").click(function(){
 			var frm = document.insaRegister1Frm;
 			frm.method = "POST";
-			frm.action = '<%=ctxPath%>/insaRegister2End.opis';
+			frm.action = '<%=ctxPath%>/insaRegister2.opis';
 			frm.submit(); 
 			
 		});

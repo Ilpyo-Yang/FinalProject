@@ -40,7 +40,7 @@ public class InsaController {
 	// === insa 등록페이지 요청 === //
 	@RequestMapping(value="/insaRegister1.opis")
 	public ModelAndView insaRegister1(ModelAndView mav) {
-
+		System.out.println("인사요청");
 		mav.setViewName("insa/insaRegister1.tiles1");
 		return mav;
 	}
@@ -48,19 +48,36 @@ public class InsaController {
 	// === insa 등록완료페이지 요청 === //
 	@RequestMapping(value="/insaRegister1End.opis", method= {RequestMethod.POST})
 	public ModelAndView insaRegister1End(ModelAndView mav, HttpServletRequest request, MemberVO membervo) {
+		/*
+		membervo.setFk_power_no(Integer.parseInt(request.getParameter("fk_power_no")));
+		System.out.println(membervo.getFk_power_no());
+		
+		membervo.setFk_dept_no(Integer.parseInt(request.getParameter("fk_dept_no")));
+		membervo.setMbr_id(request.getParameter("mbr_id"));
+		membervo.setMbr_pwd(request.getParameter("mbr_pwd"));
+		membervo.setMbr_name(request.getParameter("mbr_name"));
+		membervo.setMbr_email(request.getParameter("mbr_email"));
+		membervo.setMbr_com_number(request.getParameter("mbr_com_number"));
+		membervo.setMbr_phone_number(request.getParameter("mbr_phone_number"));
+		membervo.setMbr_gender(request.getParameter("mbr_gender"));
+		membervo.setMbr_registerday(request.getParameter("mbr_registerday"));
+		membervo.setMbr_retireday(request.getParameter("mbr_retireday"));
+		membervo.setMbr_status(request.getParameter("mbr_status"));*/
+		
+		
+		System.out.println("인사끝");
 
-		int n = service.insaRegister1End(membervo);
-		String path="";
+		int n = 1;//service.insaRegister1End(membervo);
+		
 		if(n==1) {
 			System.out.println("등록성공");
-			path ="insa/insaView1.tiles1";
+			mav.setViewName("insa/insaView1.tiles1");
 		}
 		else {
 
 			System.out.println("등록실패");
-			path ="insa/insa.tiles1";
+			mav.setViewName("insa/insa.tiles1");
 		}
-		mav.setViewName(path);
 		return mav;
 	}
 	
