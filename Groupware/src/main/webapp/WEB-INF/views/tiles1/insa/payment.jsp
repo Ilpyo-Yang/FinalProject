@@ -49,12 +49,13 @@
 		text-align: center;
 	}
 	div#midBoxGray{
-		margin-top: 30px;
+		display: inline-block;
+		margin-top: 10px;
 		background-color: #e6e6e6;
 		margin-left: 1%;
-		width: 98%;
+		width: 100%;
 		height: 700px;
-		text-align: center;
+		padding: 40px;
 		overflow: auto;
 	}
 	
@@ -103,6 +104,25 @@
 	/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 	.show {display:block;}
 	
+	button.paymentInfoBtn{
+ 	  margin-left: 20px;
+	  padding: 10px 20px;
+	  font-size: 15px;
+	  text-align: center;
+	  cursor: pointer;
+	  outline: none;
+	  color: #fff;
+	  background-color: #04AA6D;
+	  border: none;
+	  border-radius: 15px;
+	  box-shadow: 0 9px #999;
+	}
+	button.paymentInfoBtn:hover{ background-color: #3e8e41}
+	button.paymentInfoBtn:active{
+	  background-color: #3e8e41;
+	  box-shadow: 0 5px #666;
+	  transform: translateY(4px);
+	}
 	table#insaSearchTbl tr{
 		display: inline-block;
 		height: 50px;
@@ -123,26 +143,55 @@
 		height: 35px;
 		font-size: 12pt;
 	}
-	table#memberListTbl{
-		margin-left: 40px;
-		margin-top: 30px;
-		border: solid 1px black;
-		border-collapse: collapse;
-		width: 40%;
 	
+	table.paymentTbl{
+		border-collapse: collapse;
+		
 	}
-	table#memberListTbl tr{
-		border: solid 1px red;
-		width: 100%;
-		height: 70px;
+	div.paymentBorder{
+		display: inline-block;
+		margin-top: 20px;
+		
 	}
-	table#memberListTbl td{
+	table.paymentTbl td {
 		border: solid 1px black;
+		padding: 15px 50px;
+		font-size: 15pt;
+	}
+	table.paymentTbl th {
+		border: solid 1px black;
+		padding: 15px 50px;
+		font-size: 15pt;
+	}
+	table.paymentTbl tr{
+		border: solid 1px black;
+		vertical-align: middle;
+	}
+	table.paymentTbl input{
+		height: 30px;
+	}
+	table#memberListTbl{
+		margin-left:10px;
+	}
+	table#paymentInfo{
+		margin-left: 10px;
+	}
+	div#paymentInfoBorder{
+		border: solid 3px #68b658;
+		background-color: white;
+		width: 850px;
+		height: 400px;
+		padding-top: 30px;
+		padding-left: 20px;
+		margin-left: 20px;
 		text-align: center;
 	}
-	table#memberListTbl th{
-		border: solid 1px black;
-		text-align: center;
+	div.paymentInfoDiv{
+		display: inline-block;
+	}
+	.green{
+		background-color: #68b658; 
+		font-size: 15pt;
 		font-weight: bold;
 	}
 </style>
@@ -153,8 +202,15 @@
 	toggle between hiding and showing the dropdown content */
 
 	$(document).ready(function(){
+		$("div#paymentInfoBorder").hide();
 		$("dropdown-content").click(function(event){
 			console.log(event.text);
+		});
+
+		$("tr.clickMemberPay").click(function(){
+			$("tr.clickMemberPay").children().removeClass("green");
+			$(this).children().addClass("green");
+			$("div#paymentInfoBorder").show();
 		});
 		
 	});
@@ -182,6 +238,12 @@
 	function goPayment(category){
 		
 		location.href = "<%=ctxPath%>/payment.opis?category="+category;
+		
+	}
+	function goBackPayment(){
+		$("div#paymentInfoBorder").hide();
+		$("tr.clickMemberPay").children().removeClass("green");
+		
 		
 	}
 	
@@ -214,7 +276,7 @@
 		</tr>
 		</table>
 		<div id="midBoxGray">
-			<table id="insaSearchTbl">
+			<table id="insaSearchTbl" >
 				<tr>
 					<td>
 						<form name="form1" id="form1" action="/action_page.php">
@@ -227,15 +289,10 @@
 						 	<input type="submit" value="검색">
 						</form>
 					</td>
-					<td>
-						<form class="example" action="action_page.php" style="display: inline-block; height: 50px;">
-						  <input type="text" placeholder="Search.." name="search" style="height: 40px;">
-						  <button id="insaSearchButton" type="submit">검색</button>
-						</form>
-					</td>
 				</tr>
 			</table>
-			<table id="memberListTbl">
+			<div class='paymentBorder'  style="vertical-align: top; ">
+			<table id="memberListTbl" class="paymentTbl">
 					<thead>
 					<tr>
 						<th style="width: 25%;">사원번호</th>
@@ -246,17 +303,73 @@
 					</thead>
 					<tbody>
 					<c:forEach var="memberList" items="${requestScope.memberList}">
-					<tr>
+					<tr class="clickMemberPay">
 						<td>${memberList.mbr_seq}</td>
 						<td>${memberList.mbr_name}</td>
-						<td>${memberList.fk_dept_no}</td>
-						<td>${memberList.fk_rank_no}</td>
+						<c:if test="${memberList.fk_dept_no == 0}">
+							<td>영업</td>
+						</c:if>
+						<c:if test="${memberList.fk_dept_no == 1}">
+							<td>인사</td>
+						</c:if>
+						<c:if test="${memberList.fk_dept_no == 2}">
+							<td>홍보</td>
+						</c:if>
+						<c:if test="${memberList.fk_dept_no == 3}">
+							<td>IT</td>
+						</c:if>
+						<c:if test="${memberList.fk_dept_no == 4}">
+							<td>회계</td>
+						</c:if>
+						<c:if test="${!(memberList.fk_dept_no == 4 || memberList.fk_dept_no == 3 || memberList.fk_dept_no == 2 || memberList.fk_dept_no == 1 || memberList.fk_dept_no == 0)}">
+							<td>기타</td>
+						</c:if>
+						
+						<c:if test="${memberList.fk_rank_no == 0}">
+							<td>팀장</td>
+						</c:if>						
+						<c:if test="${memberList.fk_rank_no == 1}">
+							<td>팀원</td>
+						</c:if>							
+						<c:if test="${memberList.fk_rank_no == 2}">
+							<td style="color: red;">대표</td>
+						</c:if>	
 					</tr>
 					</c:forEach>
 				</tbody>
 			</table>
+			</div>
+			<div id='paymentInfoBorder' class='paymentBorder'>
+			<div class="paymentInfoDiv">
+			<table id='paymentInfo' class='paymentTbl'>
+				<tr>
+					<td>주민등록번호</td><td colspan='3'></td>
+				</tr>
+				<tr>
+					<td>입사일</td><td></td><td>퇴사일</td><td></td>
+				</tr>
+				<tr>
+				<td>급여계정과목</td><td></td><td>이달급여</td><td></td>
+				</tr>
+				<tr>
+				<td>상여계정과목</td><td></td><td>상여금</td><td></td>
+				</tr>
+				<tr>
+				<td>은행</th><th>계좌번호</td><td>예금주</td><td></td>
+				</tr>
+				<tr>
+				<td></td><td></td><td></td><td></td>
+				</tr>
+			</table>
+			</div>
+			<div class="paymentInfoDiv" style="vertical-align: top;">
+				<button id="closeBtn" class="paymentInfoBtn" onclick="goBackPayment()">닫기</button>
+				<br><br>
+				<button id="payDetailBtn" class="paymentInfoBtn" onclick="javascript:location.href='<%=ctxPath%>/paymentDetail.opis'">자세히</button>
+			</div>
+			
+			</div>
 		</div>
-	
 	</body>
 </div>
 

@@ -29,7 +29,11 @@ public class MemberVO {
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	
+	private int eduLevel;
 
+
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	
 
 	public MemberVO() {}
 
@@ -211,6 +215,14 @@ public class MemberVO {
 
 	public void setPwdChangeGap(String pwdChangeGap) {
 		this.pwdChangeGap = pwdChangeGap;
+	}
+
+	public int getEduLevel() {
+		return eduLevel;
+	}
+
+	public void setEduLevel(int eduLevel) {
+		this.eduLevel = eduLevel;
 	}
 
 }	

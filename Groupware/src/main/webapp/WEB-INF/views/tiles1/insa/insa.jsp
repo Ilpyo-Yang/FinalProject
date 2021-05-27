@@ -281,9 +281,30 @@
 						</c:if>						
 						<c:if test="${memberList.fk_rank_no == 2}">
 							<td style="color: red;">대표</td>
+						</c:if>	
+						<td>${memberList.mbr_registerday}</td>	
+									
+						<c:if test="${memberList.eduLevel == 0}">
+							<td>초졸</td>
+						</c:if>	
+						<c:if test="${memberList.eduLevel == 1}">
+							<td>중졸</td>
+						</c:if>	
+						<c:if test="${memberList.eduLevel == 2}">
+							<td>고졸</td>
+						</c:if>	
+						<c:if test="${memberList.eduLevel == 3}">
+							<td>초대졸</td>
+						</c:if>	
+						<c:if test="${memberList.eduLevel == 4}">
+							<td>학사</td>
+						</c:if>	
+						<c:if test="${memberList.eduLevel == 5}">
+							<td>석사</td>
 						</c:if>
-						<td>${memberList.mbr_registerday}</td>
-						<td></td>
+						<c:if test="${memberList.eduLevel == 6}">
+							<td>박사</td>
+						</c:if>
 						<td><%-- ${memberList.mbr_retireday} --%></td>
 					</tr>
 					</c:forEach>
