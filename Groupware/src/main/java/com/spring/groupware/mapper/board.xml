@@ -167,6 +167,13 @@
 		where V.form_seq = #{form_seq}
    	</select>
    	
+   	<!-- === 1개글 수정하기 === -->
+   	<update id="editForm" parameterType="com.spring.groupware.board.model.FormboardVO">
+   		update tbl_formboard set ftitle = #{ftitle}
+   						   	   , fcontent = #{fcontent}
+		where form_seq = #{form_seq}
+   	</update>
+   	
    	<!-- === 1개글 삭제하기 === -->
    	<delete id="delForm" parameterType="HashMap">
    		delete from tbl_formboard

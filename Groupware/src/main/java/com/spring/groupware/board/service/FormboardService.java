@@ -63,5 +63,12 @@ public class FormboardService implements InterFormboardService {
 		int n = fdao.del(paraMap);
 		return n;
 	}
+
+	// === 1개글 수정하기 === //
+	@Override
+	public int edit(FormboardVO formboardvo) {
+		int n = fdao.edit(formboardvo);
+		return n;
+	}
 	
 }

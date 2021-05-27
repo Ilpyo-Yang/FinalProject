@@ -55,4 +55,11 @@ public class FormboardDAO implements InterFormboardDAO {
 		int n = sqlsession.delete("board.delForm",paraMap);		
 		return n;
 	}
+
+	// === 1개글 수정하기 === //
+	@Override
+	public int edit(FormboardVO formboardvo) {
+		int n = sqlsession.update("board.editForm", formboardvo);
+		return n;
+	}
 }
