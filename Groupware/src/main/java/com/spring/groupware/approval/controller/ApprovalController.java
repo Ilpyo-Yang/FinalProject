@@ -55,6 +55,14 @@ public class ApprovalController {
       }
       
       
+      // === 결재진행함 === //
+      @RequestMapping(value="/approvalProcess.opis")
+      public ModelAndView approvalProcess(ModelAndView mav) {   	  
+    	 mav.setViewName("approval/approvalProcess.tiles1");
+    	 return mav;
+      }
+      
+      
       // === 서명관리 === //
       @RequestMapping(value="/sign.opis")
       public ModelAndView sign(ModelAndView mav) {   	  

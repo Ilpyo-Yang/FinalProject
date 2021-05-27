@@ -112,7 +112,7 @@ div#bottom {
 
 
 /* ============ approvalForm2.jsp ============== */
-input#formDetail {
+input.formDetail {
 	padding-left: 10px;
 	width: 20%;
 	height: 30px;
@@ -148,4 +148,50 @@ i#basicImg {
 	width: 50px;
 	margin: 10px 100px;
 	display: inline-block;
+}
+
+
+/* ============ approvalProcess.jsp ============== */
+div#searchOption {
+	background-color: #f2f2f2;
+	width: 90%;
+	margin: 3% auto;
+}
+div#searchOption > table {
+	width: 80%;
+	margin: 3% auto;
+}
+input.searchInput {
+	padding-left: 10px;
+	width: 20%;
+	height: 25px;
+	display: inline-block;
+}
+input#searchInput {
+	padding-left: 10px;
+	width: 50%;
+	height: 25px;
+	display: inline-block;
+}
+button#search {
+	display: inline-block;
+	height: 30px;
+	margin-left: 50px;
+}
+div#searchList {
+	width: 90%;
+	margin: 3% auto;
+}
+div#searchList > table {
+	width: 80%;
+	margin: 3% auto;
+}
+div#searchList > table > tr > td {
+	line-height: 30px;
+	border-top: solid 1px gray;
+}
+button#approval {
+	float: right;
+	height: 30px;
+	margin-right: 10%;
 }
