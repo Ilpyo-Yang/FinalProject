@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.groupware.member.model.CompanyVO;
 import com.spring.groupware.member.model.MemberVO;
@@ -45,15 +46,15 @@ public class MemberController {
     	  paraMap.put("id", id);
     	  paraMap.put("pwd", pwd);
     	  
-    	  MemberVO loginuser = service.loginCheck(paraMap);    	  
-    	  
+    	  MemberVO loginuser = service.loginCheck(paraMap);    	     	
+		  
     	  if(loginuser==null) {	// 일치하는 멤버가 없을 때
     		  request.setAttribute("result","일치하는 회원이 없습니다. 다시 로그인해주세요!");
     	      mav.setViewName("redirect:/login.opis");
     	  }
     	  else {	// 일치하는 멤버가 있을 때
     		  if(Integer.parseInt(loginuser.getPwdChangeGap())>5) {	// 비밀번호 변경한지 6개월이 넘은 경우 
-        		  HttpSession session = request.getSession();
+    			  HttpSession session = request.getSession();
         		  session.setAttribute("loginuser", loginuser);
         		  mav.setViewName("pwdChange.tiles1");
         	  }

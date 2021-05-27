@@ -70,7 +70,7 @@
 			b_check=false;
 			return;
 		} else {
-			if(newPwd1=="${sessionScope.loginuser.pwd}"){
+			if(newPwd1=="${sessionScope.loginuser.mbr_pwd}"){
 				$("div#newPwd1").show();
 				$("div#newPwd1").html("현재 비밀번호 같은 비밀번호로 변경은 불가합니다.");
 				b_check=false;
