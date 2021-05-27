@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.groupware.workmanage.model.TodoVO;
 import com.spring.groupware.workmanage.model.WorkManageVO;
 
 @Component
@@ -20,6 +21,7 @@ import com.spring.groupware.workmanage.model.WorkManageVO;
 public class WorkmanageController {
 	
 	List<WorkManageVO> workList;
+	List<TodoVO> todoList;
 	
 	public WorkmanageController() {
 		workList = new ArrayList<>();
@@ -40,6 +42,18 @@ public class WorkmanageController {
 		workList.add(wmvo4);
 		workList.add(wmvo5);
 		workList.add(wmvo6);
+		
+		todoList = new ArrayList<>();
+		
+		// String tdno, String fk_mbr_seq, String subject, String contents, String registerday, String deadline, String important, String fk_statno
+		TodoVO tdvo1 = new TodoVO("1", "1", "계약서 작성요청1", "계약서 좀 빨리 작성해주세요", "2021.04.21", "2021.05.21", "0", "0");
+		TodoVO tdvo2 = new TodoVO("2", "2", "계약서 작성요청2", "계약서 좀 빨리 작성해주세요!", "2021.04.22", "2021.05.21", "0", "1");
+		TodoVO tdvo3 = new TodoVO("3", "3", "계약서 작성요청3", "계약서 좀 빨리 작성해주세요!!", "2021.04.23", "2021.05.21", "0", "2");
+		
+		todoList.add(tdvo1);
+		todoList.add(tdvo2);
+		todoList.add(tdvo3);
+		
 	}
 
 	// == 업무 등록 하기 == //
@@ -51,7 +65,9 @@ public class WorkmanageController {
 
 	// == 할 일 리스트 보여주기 == //
 	@RequestMapping(value = "/todoList.opis")
-	public ModelAndView todoList(ModelAndView mav) {
+	public ModelAndView todoList(ModelAndView mav, HttpServletRequest request) {
+		
+		mav.addObject("todoList", todoList); // fk_wtno 에 해당하는 데이터 리스트
 		mav.setViewName("workmanage/todoList.tiles1");
 		return mav;
 	}
@@ -114,5 +130,16 @@ public class WorkmanageController {
 		return mav;
 	}
 	
-	
+	// == 나의 할 일 상세 조회 페이지 == //
+	@RequestMapping(value = "/showDetailTodo.opis")
+	public ModelAndView showDetailTodo(ModelAndView mav, HttpServletRequest request) {
+
+		int tdno = Integer.parseInt(request.getParameter("tdno")); // 업무고유 번호 받아오기
+		TodoVO tdvo = todoList.get(tdno - 1); // 추후 DB 에서 wmno 로 정보 가져오기
+
+		mav.addObject("tdvo", tdvo);
+
+		mav.setViewName("workmanage/showDetailTodo.tiles1");
+		return mav;
+	}
 }

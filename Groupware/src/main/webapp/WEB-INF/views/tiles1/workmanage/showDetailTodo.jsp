@@ -15,13 +15,7 @@
 </style>
 
 <div class="container workcontainer">
-	<c:if test="${fk_wtno == 1}">
-		<h3>내가 한 업무 요청 조회</h3>
-	</c:if>
-	
-	<c:if test="${fk_wtno == 2}">
-		<h3>내가 한 업무 보고 조회</h3>
-	</c:if>
+	<h3>업무조회</h3>
 
 	<br>
 	
@@ -29,49 +23,29 @@
 		<tbody>
 			<tr>
 				<td>제목</td>
-				<td>${wmvo.subject}</td>
-				
+				<td>${tdvo.subject}</td>
 				<td>상태</td>
 				<td>
 					<c:choose>
-						<c:when test="${wmvo.fk_statno == 0}">
+						<c:when test="${tdvo.fk_statno == 0}">
 							<button type="button" class="workStatus" style="background-color: #ff3300;">지연<span>+2</span></button>		
 						</c:when>
-						<c:when test="${wmvo.fk_statno == 1}">
+						<c:when test="${tdvo.fk_statno == 1}">
 							<button type="button" class="workStatus" style="background-color: #66ccff;">미완료</button>
 						</c:when>
-						<c:when test="${wmvo.fk_statno == 2}">
+						<c:when test="${tdvo.fk_statno == 2}">
 							<button type="button" class="workStatus" style="background-color: white; border: 1px solid black; color: black;">완료</button>
 						</c:when>
 					</c:choose>
 				</td>
 			</tr>
 			<tr>
-				<td>지시자</td>
-				<td colspan="3">${wmvo.fk_requester_seq}</td>
-			</tr>
-			<tr>
 				<td>업무기한</td>
-				<td colspan="3">${wmvo.registerday} ~ ${wmvo.deadline}</td>
-			</tr>
-			<tr>
-				<td>등록일</td>
-				<td>${wmvo.registerday}</td>
-				
-				<td>수정일</td>
-				<td>2020.01.11 12:10</td>
-			</tr>
-			<tr>
-				<td>수신자</td>
-				<td colspan="3">${wmvo.fk_receiver_seq}</td>
-			</tr>
-			<tr>
-				<td>참조자</td>
-				<td colspan="3"></td>
+				<td colspan="3">${tdvo.registerday} ~ ${tdvo.deadline}</td>
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td colspan="3">${wmvo.contents}</td>
+				<td colspan="3">${tdvo.contents}</td>
 			</tr>
 			<tr>
 				<td>첨부파일</td>

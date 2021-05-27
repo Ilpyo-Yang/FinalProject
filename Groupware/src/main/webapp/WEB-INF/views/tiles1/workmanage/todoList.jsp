@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/workmanage.css" />  
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -59,6 +61,10 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 			buttonText : "Select date"
 		});
 	});
+	
+	function goDetailTodo(tdno) {
+		location.href="<%=request.getContextPath()%>/showDetailTodo.opis?tdno="+tdno;
+	}
 </script>
 
 <div class="container tdcontainer">
@@ -119,24 +125,30 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td><input type="checkbox" /></td>
-				<td>1</td>
-				<td><img src="" alt="" /></td>
-				<td>계약서 작성요청</td>
-				<td>2021.04.21</td>
-				<td>2021.05.01</td>
-				<td><button type="button">미완료</button></td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" /></td>
-				<td>2</td>
-				<td><img src="" alt="" /></td>
-				<td>6월 1일 오늘 할 일</td>
-				<td>2021.04.21</td>
-				<td>2021.05.01</td>
-				<td><button type="button">미완료</button></td>
-			</tr>
+			<c:forEach var="todo" items="${requestScope.todoList}" varStatus="status">
+				<tr>
+					<td><input type="checkbox" /></td>
+					<td>${status.count}</td>
+					<td><img src="" alt="" /></td>
+					<td><span class="todoSubject" onclick="goDetailTodo('${todo.tdno}')" style="cursor: pointer;">${todo.subject}</span></td>
+					<td>${todo.registerday}</td>
+					<td>${todo.deadline}</td>
+					<td>
+					<c:choose>
+						<%-- 나의 할일 상태 종류 --%>
+						<c:when test="${todo.fk_statno == 0}">
+							<button type="button" class="workStatus" style="background-color: #ff3300;">지연<span>+2</span></button>	
+						</c:when>
+						<c:when test="${todo.fk_statno == 1}">
+							<button type="button" class="workStatus" style="background-color: #66ccff;">미완료</button>
+						</c:when>
+						<c:when test="${todo.fk_statno == 2}">
+							<button type="button" class="workStatus" style="background-color: white; border: 1px solid black; color: black;">완료</button>
+						</c:when>
+					</c:choose>
+					</td>	
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
 </div>
