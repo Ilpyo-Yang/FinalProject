@@ -43,6 +43,16 @@
 						<c:when test="${wmvo.fk_statno == 2}">
 							<button type="button" class="workStatus" style="background-color: white; border: 1px solid black; color: black;">완료</button>
 						</c:when>
+						
+						<c:when test="${wmvo.fk_statno == 3}">
+							<button type="button" class="workStatus" style="background-color: #66ccff;">미확인</button>		
+						</c:when>
+						<c:when test="${wmvo.fk_statno == 4}">
+							<button type="button" class="workStatus" style="background-color: white; border: 1px solid black; color: black;">승인완료</button>
+						</c:when>
+						<c:when test="${wmvo.fk_statno == 5}">
+							<button type="button" class="workStatus" style="background-color: #ffcc00;">반려</button>
+						</c:when>
 					</c:choose>
 				</td>
 			</tr>
@@ -127,7 +137,7 @@
 			<thead>
 				<tr>
 					<th>확인내역</th>
-					<th style="text-align: right;">
+					<th style="text-align: right;" colspan="3">
 						<button type="button" class="workStatus" style="background-color: #66ccff; font-weight: normal;">처리중 40%</button>
 					</th>
 				</tr>
@@ -136,14 +146,17 @@
 				<tr>
 					<td>수신자</td>
 					<td>${wmvo.fk_receiver_seq}</td>
+					
+					<td style="background-color: white;"></td>
+					<td></td>
 				</tr>
 				<tr>
 					<td>최종수정일</td>
-					<td>2020.01.13 12:10</td>
+					<td colspan="3">2020.01.13 12:10</td>
 				</tr>
 				<tr>
 					<td>의견</td>
-					<td></td>
+					<td colspan="3"></td>
 				</tr>
 				
 				<tr id="workShwoBtn">
