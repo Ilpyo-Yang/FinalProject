@@ -8,15 +8,16 @@
 
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
+
 <body>
 
 <div class="icon-bar">
   <a class="active" href="<%=ctxPath%>/index.opis"><i class="fab fa-pinterest-square"></i></a> 
   <a href="#"><i class="fas fa-user-alt"></i></a> 
   <a href="#"><i class="fas fa-user-slash"></i></a> 
-  <a href="#"><i class="fa fa-home"></i></a> 
+  <a href="<%=ctxPath%>/mainPage.opis"><i class="fa fa-home"></i></a> 
   <a href="#"><i class="fas fa-comments"></i></a> 
-  <a href="#"><i class="fas fa-user-circle"></i></a> 
+  <a href="<%=ctxPath%>/personalInfo.opis"><i class="fas fa-user-circle"></i></a> 
 </div>
   
 

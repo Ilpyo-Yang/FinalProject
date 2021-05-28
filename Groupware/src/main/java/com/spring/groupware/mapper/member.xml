@@ -31,7 +31,7 @@
 		from tbl_mbr
 		)A left join tbl_dept B
 		on fk_dept_no = dept_no
-		where fk_power_no=1
+		where fk_power_no=2
 	</select>
 	
 	
@@ -50,6 +50,6 @@
 		join tbl_power D
 		on fk_power_no = power_no
 		where mbr_id=#{id} and mbr_pwd=#{pwd} and mbr_status='1'
-	</select>
+	</select> 
 	
 </mapper>
