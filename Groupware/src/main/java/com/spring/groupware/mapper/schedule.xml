@@ -13,7 +13,7 @@
 	</insert>
 
 	<!-- === 등록된 일정 상세 내용 조회 === -->
-	<select id="getViewScd" parameterType="int" resultType="com.spring.groupware.model.ScheduleVO">
+	<select id="getViewScd" parameterType="int" resultType="com.spring.groupware.schedule.model.ScheduleVO">
 		select 
 	</select>
 

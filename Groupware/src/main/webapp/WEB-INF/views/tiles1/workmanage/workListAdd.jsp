@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
+<% String ctxPath = request.getContextPath(); %>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/workmanage.css" />    
+<link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/workmanage.css" />
+<link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/content.css" />     
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -19,7 +21,7 @@
 		
 		$("#datepicker_deadline").datepicker({
 			showOn : "button",
-			buttonImage : "<%=request.getContextPath()%>/resources/images/icon_calendar.png",
+			buttonImage : "<%=ctxPath%>/resources/images/icon_calendar.png",
 			buttonImageOnly : true,
 			buttonText : "Select date"
 		});
@@ -41,26 +43,64 @@
 		}
 	}
 	
+	// == 필수 입력 사항 작성했는지 확인 하기 == //
 	function checkStar() {
+		// 제목 확인
+		var subject = $("input[name=subject]").val().trim();
+		if (subject == "") {
+			alert("제목을 입력하세요");
+			return;
+		}
 		
+		// 업무기한
+		var deadline = $("input[name=deadline]").val().trim();
+		if (deadline == "") {
+			alert("업무기한을 입력하세요");
+			return;
+		}
+		
+		// 담당자
+		var workType = $("input[name=workType]:checked").val();
+		if (workType != 0) {
+			var manager = $("input[name=manager]").val().trim();
+			
+			if (manager == "") {
+				alert("담당자를 입력하세요");
+				return;
+			}
+		}
+		
+		$("input[name=fk_wtno]").val(workType);
+		
+		if (workType == 0) submitTodoRegFrm(); 
+		else submitWorkRegFrm();
 	}
 	
+	// == 업무 정보 폼 전송하기 == //
+	function submitTodoRegFrm() {
+		var frm = document.workRegFrm;
+		
+		frm.action = "<%=ctxPath%>/todoList.opis";
+		frm.method = "post";
+		frm.submit();
+	}
 	
+	// == 업무 정보 폼 전송하기 == //
 	function submitWorkRegFrm() {
 		var frm = document.workRegFrm;
 		
-		frm.action = "";
+		frm.action = "<%=ctxPath%>/workList.opis";
 		frm.method = "post";
 		frm.submit();
 	}
 </script>
 
-<div class="container workcontainer">
+<div class="container commoncontainer">
 	<h3>업무 등록</h3>
 	
 	<br>
 	
-	<form id="workRegFrm">
+	<form name="workRegFrm">
 		<table class="table table-striped workRegtable">
 			<tbody>
 				<tr>
@@ -104,11 +144,14 @@
 				</tr>
 				<tr id="workRegBtn">
 					<td colspan="2">
-						<button type="button" onclick="submitWorkRegFrm()">저장</button>
+						<button type="button" onclick="checkStar()">저장</button>
 						<button type="button" >취소</button>
 					</td>
 				</tr>
 			</tbody>
 		</table>	
+		
+		<input type="hidden" name="fk_wtno" />
+		<input type="hidden" name="type" value="1"/>
 	</form>
 </div>

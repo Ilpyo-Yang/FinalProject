@@ -30,7 +30,7 @@
 	</div>
 	
 	<div class="lside">
-		<button class="sideBtn sideHover">To Do</button>	
+		<button class="sideBtn">To Do</button>	
 		<ul class="sideUl">
 			<li><a class="" href="<%=ctxPath%>/todoList.opis">나의 할 일</a></li>
 		</ul> 
