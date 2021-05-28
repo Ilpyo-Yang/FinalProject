@@ -3,19 +3,21 @@
 
 <mapper namespace="member">
 
-
+	<!-- 로그인페이지 - 회사명 가져오기-->
 	<select id="companyName_select" resultType="String">
 		select com_name
 		from tbl_company 
 	</select>
 
 	
+	<!-- 회사정보페이지 - 회사 정보가져오기-->
 	<select id="companyInfo_select" resultType="com.spring.groupware.member.model.CompanyVO">
 		select com_name, com_address, registraion_num, business_type, com_ph, com_email
 		from tbl_company 
 	</select>
 
 	
+	<!-- 회사정보페이지 - 대표자명 가져오기-->
 	<select id="ceoName_select" resultType="String">
 		select mbr_name
 		from tbl_mbr 
@@ -23,6 +25,7 @@
 	</select>
 
 
+	<!-- 회사정보페이지 - 관리자 정보가져오기 -->
 	<select id="adminInfo_select" resultType="com.spring.groupware.member.model.MemberVO">
 		select mbr_name, dept_detail, mbr_email, mbr_phone_number
 		from 
@@ -35,12 +38,13 @@
 	</select>
 	
 	
+	<!-- 로그인페이지 - 로그인 정보 확인하기, session에 남길 로그인 정보 가져오기 -->
 	<select id="loginCheck" parameterType="HashMap" resultType="com.spring.groupware.member.model.MemberVO">
-		select mbr_id, mbr_name, mbr_email, mbr_com_number, mbr_phone_number, mbr_birthday, mbr_stsmsg, mbr_stsconnect, mbr_img
+		select mbr_seq, mbr_id, mbr_name, mbr_email, mbr_com_number, mbr_phone_number, mbr_birthday, mbr_stsmsg, mbr_stsconnect, mbr_img
 		     , trunc((mbr_pwd_changeday-mbr_registerday)/30) as pwdChangeGap, nvl(mbr_photo,'0'), nvl(mbr_sign,'0'), rank_detail, power_detail, dept_detail
 		from 
 		(        
-		select mbr_id, mbr_name, fk_power_no, fk_rank_no, fk_dept_no, mbr_email, mbr_com_number, mbr_phone_number, mbr_stsmsg, mbr_stsconnect, mbr_img
+		select mbr_seq, mbr_id, mbr_name, fk_power_no, fk_rank_no, fk_dept_no, mbr_email, mbr_com_number, mbr_phone_number, mbr_stsmsg, mbr_stsconnect, mbr_img
 		     , mbr_birthday, mbr_pwd_changeday, mbr_photo, mbr_sign, mbr_pwd, mbr_status, mbr_registerday
 		from tbl_mbr
 		)A left join tbl_dept B
@@ -51,5 +55,12 @@
 		on fk_power_no = power_no
 		where mbr_id=#{id} and mbr_pwd=#{pwd} and mbr_status='1'
 	</select> 
+	
+	
+	<!-- 로그인페이지 - 로그인 히스토리에 기록하기 -->
+	<insert id="loginHistory" parameterType="HashMap">
+		insert into tbl_loginhistory(fk_mbr_seq, login_ip)
+		values (#{mbr_seq},#{ip})
+	</insert> 
 	
 </mapper>

@@ -41,10 +41,12 @@ public class MemberController {
       public ModelAndView loginCheck(HttpServletRequest request, ModelAndView mav) {
     	  String id = request.getParameter("idInput");
     	  String pwd = request.getParameter("pwdInput");
+    	  String ip = request.getRemoteAddr();
     	  
     	  Map<String, String> paraMap = new HashMap<>();
     	  paraMap.put("id", id);
     	  paraMap.put("pwd", pwd);
+    	  paraMap.put("ip", ip);
     	  
     	  MemberVO loginuser = service.loginCheck(paraMap);    	     	
 		  

@@ -49,7 +49,11 @@ public class MemberDAO implements InterMemberDAO {
 	// 로그인 확인하기
 	@Override
 	public MemberVO loginCheck(Map<String, String> paraMap) {
-		MemberVO loginuser = sqlsession.selectOne("member.loginCheck",paraMap);		
+		MemberVO loginuser = sqlsession.selectOne("member.loginCheck",paraMap);	
+		if(loginuser!=null) {	// 로그인이 된다면, 로그인 히스토리에 기록하기
+			paraMap.put("mbr_seq", String.valueOf(loginuser.getMbr_seq()));
+			sqlsession.insert("member.loginHistory",paraMap);
+		}	
 		return loginuser;
 	}
 

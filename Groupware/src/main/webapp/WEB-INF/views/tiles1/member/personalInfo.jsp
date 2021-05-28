@@ -36,7 +36,7 @@
 		<tbody>
 			<tr>
 				<td>아이디</td>
-				<td id="mbr_id"></td>
+				<td id="mbr_id">${mbr_id}</td>
 				<td rowspan="3">사진</td>
 				<td id="mbr_photo" rowspan="3"><i class="fas fa-portrait fa-5x infoIcon"></i></td>
 			</tr>

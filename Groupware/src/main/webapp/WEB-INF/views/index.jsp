@@ -10,6 +10,7 @@
 
 <script type="text/javascript">
 	$(function(){
+		
 		if("${sessionScope.loginuser}"!=null){	// 로그인한 상태
 			$("a#login").hide();
 			$("a#logout").show();
@@ -18,6 +19,11 @@
 			$("a#logout").hide();
 			$("a#login").show();
 		}
+		
+		$("a#logout").click(function(){
+			
+		});
+		
 	});// end of $(function(){ -------------------------------------
 </script>
 
