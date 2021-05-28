@@ -37,6 +37,7 @@
 <body>
 
 <div style="display: inline-block; width: 1460px;"> 
+	
 	<!-- 사이드메뉴 -->
     <div id="sideMenu">
 	  	<div id="menuTitle">게시판</div>
@@ -46,10 +47,12 @@
 	  		<div class="lside"><a class="side" href="/groupware/dnotice_list.opis">부서공지사항</a></div>
 	  		<div class="lside"><a class="side" href="/groupware/formboard_list.opis">공통서식</a></div>
 	</div>
+	
 	<!-- 게시판제목 -->
 	<div style="padding: 15px; font-size: 25px; font-weight: 600; height: 60px; width: 100%; background-color: #f2f2f2; color: #555;">
 	&nbsp;&nbsp;공통서식
 	</div>
+	
 	<!-- 본문(게시판) -->
 	<div class="container" style="float: right; width: 80%; margin-top: 50px;">        
 	  <table class="table table-striped">
@@ -78,7 +81,6 @@
 	  </table>
 
   	</div>	  	
-	
 	
 </div>
 </body>
