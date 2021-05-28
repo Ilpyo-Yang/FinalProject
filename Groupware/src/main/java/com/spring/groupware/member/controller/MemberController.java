@@ -48,8 +48,8 @@ public class MemberController {
     	  
     	  MemberVO loginuser = service.loginCheck(paraMap);    	     	
 		  
-    	  if(loginuser==null) {	// 일치하는 멤버가 없을 때
-    		  request.setAttribute("result","일치하는 회원이 없습니다. 다시 로그인해주세요!");
+    	  if(loginuser==null) {		// 일치하는 멤버가 없을 때
+    		  mav.addObject("loginuser", loginuser);
     	      mav.setViewName("redirect:/login.opis");
     	  }
     	  else {	// 일치하는 멤버가 있을 때
