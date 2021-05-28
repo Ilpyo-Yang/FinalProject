@@ -2,6 +2,7 @@ package com.spring.groupware.insa.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,6 +27,7 @@ public class InsaService implements InterInsaService {
 
 	
 	// 인사정보 등록하기
+	
 	@Override
 	public int insaRegister1End(MemberVO membervo) {
 		int n = idao.insaRegister1End(membervo);

@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>전체공지</title>
+  <title>공통서식</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -26,9 +26,9 @@
 		
 	}); // end of $(document).ready(function(){})---------------------------------------
 
-	function goView(cnotice_seq){
+	function goView(form_seq){
 		
-		location.href="<%=ctxPath%>/cnotice_view.opis?cnotice_seq="+cnotice_seq;
+		location.href="<%=ctxPath%>/formboard_view.opis?form_seq="+form_seq;
 		
 	} // end of function goView(seq)---------------------------------------------------- 
 	
@@ -37,6 +37,7 @@
 <body>
 
 <div style="display: inline-block; width: 1460px;"> 
+	
 	<!-- 사이드메뉴 -->
     <div id="sideMenu">
 	  	<div id="menuTitle">게시판</div>
@@ -46,10 +47,12 @@
 	  		<div class="lside"><a class="side" href="/groupware/dnotice_list.opis">부서공지사항</a></div>
 	  		<div class="lside"><a class="side" href="/groupware/formboard_list.opis">공통서식</a></div>
 	</div>
+	
 	<!-- 게시판제목 -->
 	<div style="padding: 15px; font-size: 25px; font-weight: 600; height: 60px; width: 100%; background-color: #f2f2f2; color: #555;">
-	&nbsp;&nbsp;전체 공지사항
+	&nbsp;&nbsp;공통서식
 	</div>
+	
 	<!-- 본문(게시판) -->
 	<div class="container" style="float: right; width: 80%; margin-top: 50px;">        
 	  <table class="table table-striped">
@@ -63,22 +66,21 @@
 	      </tr>
 	    </thead>
 	    <tbody>
-	      <c:forEach var="cnoticevo" items="${requestScope.boardList}" varStatus="status">
+	      <c:forEach var="formboardvo" items="${requestScope.boardList}" varStatus="status">
 	      	<tr>
-				<td align="center">${cnoticevo.cnotice_seq}</td>
+				<td align="center">${formboardvo.form_seq}</td>
 				<td align="left">
-					<span class="title" onclick="goView('${cnoticevo.cnotice_seq}')">${cnoticevo.ctitle}</span>
+					<span class="title" onclick="goView('${formboardvo.form_seq}')">${formboardvo.ftitle}</span>
 				</td>
 				<td align="center">관리자</td>
-				<td align="center">${cnoticevo.cwritedate}</td>
-				<td align="center">${cnoticevo.chit}</td>      	
+				<td align="center">${formboardvo.fwritedate}</td>
+				<td align="center">${formboardvo.fhit}</td>      	
 	      	</tr>		
 	      </c:forEach>
 	    </tbody>
 	  </table>
 
   	</div>	  	
-	
 	
 </div>
 </body>

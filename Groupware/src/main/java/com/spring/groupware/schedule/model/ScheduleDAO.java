@@ -10,4 +10,20 @@ public class ScheduleDAO implements InterScheduleDAO {
 
 	private SqlSessionTemplate sqlsession;
 	
+	// 일정 등록하기
+	@Override
+	public int scdAdd(ScheduleVO schedulevo) {
+		int n = sqlsession.insert("schedule.scdAdd", schedulevo);
+		return n;
+	}
+	
+	// 등록된 일정 상세 내용 조회
+	@Override
+	public ScheduleVO getViewScd(String scdno) {
+		ScheduleVO schedulevo = sqlsession.selectOne("schedule.getViewScd", scdno);
+		return schedulevo;
+	}
+	
+	
+	
 }

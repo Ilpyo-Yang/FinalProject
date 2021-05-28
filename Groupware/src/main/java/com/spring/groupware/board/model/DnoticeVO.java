@@ -5,7 +5,8 @@ public class DnoticeVO {
 	
 	private String dnotice_seq;     // 글번호 
 	private String fk_boardno;    	// 게시판번호
-	private String fk_mbr_seq;      // 사원번호
+	private String fk_mbr_id;       // 사원아이디
+	private String fk_dept_no;		// 부서번호
 	private String dtitle;      	// 글제목
 	private String dcontent;      	// 글내용 
 	private String dhit;    		// 글조회수
@@ -18,12 +19,13 @@ public class DnoticeVO {
 	   
 	public DnoticeVO() {}
 	
-	public DnoticeVO(String dnotice_seq, String fk_boardno, String fk_mbr_seq, String dtitle, String dcontent, 
+	public DnoticeVO(String dnotice_seq, String fk_boardno, String fk_mbr_id, String fk_mbr_deptno, String dtitle, String dcontent, 
 				   String dhit, String dwritedate) {
 		super();
 		this.dnotice_seq = dnotice_seq;
 		this.fk_boardno = fk_boardno;
-		this.fk_mbr_seq = fk_mbr_seq;
+		this.fk_mbr_id = fk_mbr_id;
+		this.fk_dept_no = fk_dept_no;
 		this.dtitle = dtitle;
 		this.dcontent = dcontent;
 		this.dhit = dhit;
@@ -46,12 +48,20 @@ public class DnoticeVO {
 		this.fk_boardno = fk_boardno;
 	}
 
-	public String getFk_mbr_seq() {
-		return fk_mbr_seq;
+	public String getFk_mbr_id() {
+		return fk_mbr_id;
 	}
 
-	public void setFk_mbr_seq(String fk_mbr_seq) {
-		this.fk_mbr_seq = fk_mbr_seq;
+	public void setFk_mbr_id(String fk_mbr_id) {
+		this.fk_mbr_id = fk_mbr_id;
+	}
+
+	public String getFk_dept_no() {
+		return fk_dept_no;
+	}
+
+	public void setFk_dept_no(String fk_dept_no) {
+		this.fk_dept_no = fk_dept_no;
 	}
 
 	public String getDtitle() {

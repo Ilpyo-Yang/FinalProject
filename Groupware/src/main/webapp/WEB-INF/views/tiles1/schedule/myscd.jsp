@@ -139,9 +139,18 @@
 		        	center: 'title',
 		        	right: 'dayGridMonth,timeGridWeek,timeGridDay'
 		        	},
+		        	editable: true,
+		        	allDaySlot: false,
+		        	eventLimit: true,
 		        	contentHeight: 600,
 		        	weekNumbers:true,
+		        	businessHours: {
+		        		  daysOfWeek: [ 1, 2, 3, 4, 5 ], // 월 - 금
+						  startTime: '09:00',
+		        		  endTime: '18:00',
+		        	},
 		        	navLinks: true,
+		        	nowIndicator: true,
 		        	locale:'ko'
 		        });
 		        calendar.render();
@@ -150,7 +159,7 @@
 		 
 		 function scdReg() {
 			 var url = "<%=ctxPath%>/scd_register.opis";
-			 window.open(url, "scdRegister","left=350px, top=100px, width=800px, height=350px");
+			 window.open(url, "scdRegister","left=350px, top=100px, width=700px, height=450px");
 		 }
 		 
 		 function mtrResv() {
@@ -194,7 +203,7 @@
 		</table>
 	</div>
 	<hr>
-	<div id='calendar' style="padding:20px;"></div>
+	<div id='calendar' style="padding:10px 20px;"></div>
 </div>
 </body>
 </html>

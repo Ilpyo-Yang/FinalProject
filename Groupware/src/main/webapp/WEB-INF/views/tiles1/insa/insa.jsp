@@ -2,59 +2,17 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath = request.getContextPath(); %>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<style>
-	header#insaBar{
-		height: 77px;
-		width: 100%;
-		border: solid 1px yellow;
-	}
-	header#insaBar table {
-		width: 100%;
-		border-collapse: collapse;
-	}
-	header#insaBar tr {
-		width: 100%;
-	}
-	td.insaBarMenu{
-		background-color: #68b658;
-		font-size: 25pt;
-		font-weight: bold;
-		height: 70px;
-		margin: 0px;
-	}
-	td.insaBarMenu2{
-		height: 7px;
-	}
-	table#departmentButton{
-		margin-top: 30px;
-		text-align: center;
-		width: 100%;
-	}
-	tr#departmentButton{
-		display: inline-block;
-		text-align: center;
-	}
-	td.departmentButton{
-		display:inline-block;
-		width: 144px;
-		height: 45px;
-		border-radius: 31px;
-		font-size: 20pt;
-		font-weight: bold;
-		padding-top: 7px;
-		margin-right: 30px;
-		text-align: center;
-	}
-	div#midBoxGray{
-		margin-top: 30px;
-		background-color: #e6e6e6;
-		margin-left: 1%;
-		width: 98%;
-		height: 700px;
-		text-align: center;
-	}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />	
+<link rel="stylesheet" href="/resources/demos/style.css">	
+
+<jsp:include page="./insa_sidebar.jsp" />
+
+<style type="text/css">
+	
+	
+
 	
 	/* Dropdown Button */
 	.dropbtn {
@@ -121,31 +79,14 @@
 		height: 35px;
 		font-size: 12pt;
 	}
-	table#memberListTbl{
-		margin-left: 80px;
-		margin-top: 30px;
-		border: solid 1px black;
-		border-collapse: collapse;
-		width: 90%;
-	
-	}
-	table#memberListTbl tr{
-		border: solid 1px red;
-		width: 100%;
-		height: 70px;
-	}
-	table#memberListTbl td{
-		border: solid 1px black;
+	table#memberListaTbl td{
 		text-align: center;
 	}
-	table#memberListTbl th{
-		border: solid 1px black;
+	table#memberListaTbl th{
 		text-align: center;
-		font-weight: bold;
 	}
 </style>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 	/* When the user clicks on the button,
 	toggle between hiding and showing the dropdown content */
@@ -185,43 +126,12 @@
 			  
 		  }
 		} 
-	function goInsaCate(category){
-		
-		location.href = "<%=ctxPath%>/insa.opis?category="+category;
-		
-	}
+	
 	
 </script>
 
-<div id="insa">
-	<header id="insaBar">
-		<table id="insaBarTable">
-			<tr>
-			<td class="insaBarMenu" style="text-align: left; width: 40%;">&nbsp;<i class="fa fa-bars"></i>&nbsp;&nbsp;인사관리</td>
-			<td class="insaBarMenu" style="text-align: center; width: 30%;" onclick="javascript:location.href='<%=ctxPath%>/insa.opis'">멤버</td>
-			<td class="insaBarMenu" style="text-align: center; width: 30%;" onclick="javascript:location.href='<%=ctxPath%>/payment.opis'">급여</td>
-			</tr>
-			<tr>
-			<td class="insaBarMenu2" style="width: 40%; background-color: #68b658;"></td>
-			<td class="insaBarMenu2" style="width: 30%; background-color: black;"></td>
-			<td class="insaBarMenu2" style="width: 30%; background-color: #68b658;"></td>
-			</tr>
-		</table>
-	</header>
-	<body>
-		<table id="departmentButton">
-		<tr id="departmentButton">
-			<td class="departmentButton" style="background-color: #68b658" onclick="goInsaCate(6)">전체</td>
-			<td class="departmentButton" style="background-color: #e6e6e6" onclick="goInsaCate(0)">영업</td>
-			<td class="departmentButton" style="background-color: #e6e6e6" onclick="goInsaCate(1)">인사</td>
-			<td class="departmentButton" style="background-color: #e6e6e6" onclick="goInsaCate(2)">홍보</td>
-			<td class="departmentButton" style="background-color: #e6e6e6" onclick="goInsaCate(3)">IT</td>
-			<td class="departmentButton" style="background-color: #e6e6e6" onclick="goInsaCate(4)">회계</td>
-			<td class="departmentButton" style="background-color: #d7efd7" onclick="javascript:location.href='<%=ctxPath%>/insaRegister1.opis'">신규&nbsp;<i class="fa fa-plus-circle"></i></td>
-		</tr>
-		</table>
-		<div id="midBoxGray">
-			<table id="insaSearchTbl">
+<div id="insa" style="width: 80%; display: inline-block; margin-top: 70px; padding-left: 30px;">
+			<table style="margin-bottom: 30px;">
 				<tr>
 					<td>
 						<form name="form1" id="form1" action="/action_page.php">
@@ -237,16 +147,16 @@
 					</td>
 				</tr>
 			</table>
-			<table id="memberListTbl">
+			<table id="memberListaTbl" class="table table-striped tdtable">
 					<thead>
 					<tr>
-						<th style="width: 13%;">사원번호</th>
-						<th style="width: 13%;">사원명</th>
-						<th style="width: 12%;">부서</th>
-						<th style="width: 12%;">직책</th>
-						<th style="width: 14%;">입사일자</th>
-						<th style="width: 12%;">학력</th>
-						<th style="width: 12%;">재직상태</th>
+						<th style="width: 15%; ">사원번호</th>
+						<th style="width: 13%; ">사원명</th>
+						<th style="width: 13%; ;">부서</th>
+						<th style="width: 13%; ">직책</th>
+						<th style="width: 20%; ">입사일자</th>
+						<th style="width: 13%; ">학력</th>
+						<th style="width: 13%; ">재직상태</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -310,9 +220,6 @@
 					</c:forEach>
 				</tbody>
 			</table>
-		</div>
-	
-	</body>
 </div>
 
 
