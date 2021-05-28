@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.groupware.board.model.CnoticeVO;
 import com.spring.groupware.board.model.DnoticeVO;
 import com.spring.groupware.board.service.InterDnoticeService;
 import com.spring.groupware.member.model.MemberVO;
@@ -26,17 +27,6 @@ public class DnoticeController {
    private InterDnoticeService service;
       
       // === 게시판 글쓰기 폼 페이지 요청 === //
-      @RequestMapping(value="/dnotice_add.opis")
-      public ModelAndView requiredLogin_add(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-    	  
-    	  mav.setViewName("board/dnotice_add.tiles1");
-    	  //	/WEB-INF/views/tiles1/board/add.jsp 파일을 생성한다.
-    	  
-    	  return mav;
-      }
-      
-      
-      // === 게시판 글쓰기 폼 페이지 요청 === //
       @RequestMapping(value="/dnotice_addEnd.opis", method= {RequestMethod.POST})
       public ModelAndView addEnd(ModelAndView mav, DnoticeVO dnoticevo) {
     	  
@@ -45,12 +35,10 @@ public class DnoticeController {
     	  
     	  if(n==1) {
     		  mav.setViewName("redirect:/dnotice_list.opis");
-    		  //   list.action 페이지로 redirect(페이지이동)해라는 말이다.
     		  
     	  }
     	  else {
     		  mav.setViewName("board/error/add_error.tiles1");
-    		  //	/WEB-INF/views/tiles1/board/error/add_error.jsp 파일을 생성한다.
     	  }
     	  
     	  return mav;
@@ -83,13 +71,13 @@ public class DnoticeController {
     	  // 조회하고자 하는 글번호 받아오기
     	  String dnotice_seq = request.getParameter("dnotice_seq");
     	  
-    	  String login_userid = null;
+    	  String login_mbrid = null;
     	  
     	  HttpSession session = request.getSession();
     	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
     	  
     	  if(loginuser != null) {
-    		  login_userid = loginuser.getUserid();
+    		  login_mbrid = loginuser.getMbr_id();
     		  // login_userid 는 로그인 되어진 사용자의 userid 이다.
     	  }   	  
     	  
@@ -97,7 +85,7 @@ public class DnoticeController {
     	  
     	  if("yes".equals(session.getAttribute("readCountPermission"))) {// 글목록보기를 클릭한 다음에 특정글을 조회해온 경우
     		
-    		  dnoticevo = service.getView(dnotice_seq, login_userid);
+    		  dnoticevo = service.getView(dnotice_seq, login_mbrid);
         	  // 글조회수 증가와 함께 글1개를 조회
         	  
     		  session.removeAttribute("readCountPermission");
@@ -128,7 +116,7 @@ public class DnoticeController {
             out.println("<h1>오류발생</h1>");
             out.printf("<div><span style='font-weight: bold;'>오류메시지</span><br><span style='color: red;'>%s</span></div>", e.getMessage());
             out.printf("<div style='margin: 20px; color: blue; font-weight: bold; font-size: 26pt;'>%s</div>", "장난금지");
-            out.println("<a href='/board/index.action'>홈페이지로 가기</a>");
+            out.println("<a href='/groupware/index.opis'>홈페이지로 가기</a>");
             out.println("</body>");
             out.println("</html>");
             
@@ -139,50 +127,81 @@ public class DnoticeController {
          
       }
       
-      // === 글삭제 페이지 요청 === //
-      @RequestMapping(value="/dnotice_del.opis")
-      public ModelAndView requiredLogin_del(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-    	  
-    	  // 삭제해야 할 글번호 가져오기
+      // === 글수정 페이지 요청 === //
+      @RequestMapping(value="/dnotice_edit.opis")
+//      public ModelAndView requiredLogin_edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+      public ModelAndView edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+
+    	  // 수정해야 할 글번호 가져오기
     	  String dnotice_seq = request.getParameter("dnotice_seq");
     	  
-    	  DnoticeVO dnoticevo = service.getViewWithNoAddCount(dnotice_seq);
     	  // 글조회수(readCount) 증가 없이 단순히 글1개만 조회 해주는 것이다.
-    	  
-    	  HttpSession session = request.getSession();
-          MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+    	  DnoticeVO dnoticevo = service.getViewWithNoAddCount(dnotice_seq);
+
+//    	  HttpSession session = request.getSession();
+//        MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
           
-          if( loginuser.getUserid().equals("admin") ) { // 로그인한 유저가 관리자일 때만
+/*        if( loginuser.getFk_power_no() == 0 ) {
+             String message = "관리자 외 수정 불가합니다.";
+             String loc = "javascript:history.back()";
              
-        	  mav.addObject("dnotice_seq", dnotice_seq);
-        	  mav.setViewName("board/dnotice_del.tiles1");
-        	  
+             mav.addObject("message", message);
+             mav.addObject("loc", loc);
+             mav.setViewName("msg");
           }
+          else {	*/
+        	 // 자신의 글을 수정할 경우
+        	 // 가져온 1개글을 글수정할 폼이 있는 view 단으로 보내준다.
+        	 mav.addObject("dnoticevo", dnoticevo);
+        	 mav.setViewName("board/dnotice_edit.tiles1");
+   
+//          }
     	  return mav;
       }
       
-      // === 글삭제 페이지 완료 === // 
-      @RequestMapping(value="/dnotice_delEnd.opis", method= {RequestMethod.POST})
+      // === #72. 글 수정 페이지 완료하기 === //
+      @RequestMapping(value="/dnotice_editEnd.opis", method= {RequestMethod.POST})
+      public ModelAndView editEnd(ModelAndView mav, DnoticeVO dnoticevo, HttpServletRequest request) {
+    	  
+    	  int n = service.edit(dnoticevo);
+    	  // n 이 1 이라면 정상적으로 변경됨, n 이 0 이라면 글수정에 필요한 글암호가 틀린경우 
+    	  
+    	  if(n == 0) {
+	         mav.addObject("message", "글 수정을 실패했습니다.");
+	      }
+	      else {
+	         mav.addObject("message", "글을 성공적으로 수정했습니다.");
+	      }
+	  
+          mav.addObject("loc", request.getContextPath()+"/dnotice_view.opis?dnotice_seq="+dnoticevo.getDnotice_seq());
+          mav.setViewName("msg");
+    	  
+          return mav;
+      }
+        
+      // === 글 삭제 === // 
+      @RequestMapping(value="/dnotice_delEnd.opis", method= {RequestMethod.GET})
       public ModelAndView delEnd(ModelAndView mav, HttpServletRequest request) {
     	  
-
+    	  // 삭제해야 할 글번호 가져오기
     	  String dnotice_seq = request.getParameter("dnotice_seq");
           
           Map<String,String> paraMap = new HashMap<>();
           paraMap.put("dnotice_seq", dnotice_seq);
           
           int n = service.del(paraMap); 
-          // n 이 1 이라면 정상적으로 삭제
-          // n 이 0 이라면 글삭제 실패
+          // n 이 1 이라면 정상적으로 삭제, n 이 0 이라면 글삭제 실패
           
           if(n == 0) {
               mav.addObject("message", "글 삭제를 실패했습니다.");
-              mav.addObject("loc", request.getContextPath()+"/dnotice_view.opis");
+              mav.addObject("loc", request.getContextPath()+"/dnotice_view.opis?dnotice_seq"+dnotice_seq);
           }
           else {
-             mav.addObject("message", "글삭제 성공!!");
+             mav.addObject("message", "글을 성공적으로 삭제했습니다.");
              mav.addObject("loc", request.getContextPath()+"/dnotice_list.opis");
           }
+          
+          mav.setViewName("msg");
           
     	  return mav;
       }

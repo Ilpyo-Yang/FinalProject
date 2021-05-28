@@ -19,5 +19,8 @@ public interface InterCnoticeDAO {
 
 	// 1개글 삭제하기
 	int del(Map<String, String> paraMap);
+
+	// 1개글 수정하기
+	int edit(CnoticeVO cnoticevo);
 	
 }
