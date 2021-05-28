@@ -11,7 +11,7 @@ public interface InterCnoticeService {
 	int add(CnoticeVO cnoticevo);
 
 	// == 페이징 처리를 안한 검색어가 없는 전체 글목록 보여주기 == //
-	List<CnoticeVO> boardListNoSearch();
+	List<CnoticeVO> boardListSearch(Map<String, String> paraMap);
 
 	// 글조회수 증가와 함께 글1개를 조회해주는 것
 	CnoticeVO getView(String seq, String login_userid);
@@ -23,5 +23,15 @@ public interface InterCnoticeService {
 	int del(Map<String, String> paraMap);
 
 	// 글 수정
-	int edit(CnoticeVO cnoticevo); 
+	int edit(CnoticeVO cnoticevo);
+
+	// 글 검색
+	List<String> wordSearchShow(Map<String, String> paraMap);
+
+	// 총 게시물 수
+	int getTotalCount(Map<String, String> paraMap);
+
+	// 페이징 처리한 글 목록
+	List<CnoticeVO> boardListSearchWithPaging(Map<String, String> paraMap);
+
 }

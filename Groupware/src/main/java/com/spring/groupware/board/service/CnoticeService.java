@@ -26,13 +26,13 @@ public class CnoticeService implements InterCnoticeService {
 		return n;
 	}
 
-	// == 페이징 처리를 안한 검색어가 없는 전체 글목록 보여주기 == //
+	// == 전체 글목록 보여주기 == //
 	@Override
-	public List<CnoticeVO> boardListNoSearch() {
-		List<CnoticeVO> boardList = cdao.boardListNoSearch();
+	public List<CnoticeVO> boardListSearch(Map<String, String> paraMap) {
+		List<CnoticeVO> boardList = cdao.boardListSearch(paraMap);
 		return boardList;
 	}
-
+	
 	// === 글조회수 증가와 함께 글1개를 조회해주는 것 === //
 	@Override
 	public CnoticeVO getView(String cnotice_seq, String login_userid) {
@@ -69,5 +69,27 @@ public class CnoticeService implements InterCnoticeService {
 		int n = cdao.edit(cnoticevo);
 		return n;
 	}
+
+	// === 글 검색하기 === //
+	@Override
+	public List<String> wordSearchShow(Map<String, String> paraMap) {
+		List<String> wordList = cdao.wordSearchShow(paraMap);
+		return wordList;
+	}
+
+	// === 총 게시물 수 === //
+	@Override
+	public int getTotalCount(Map<String, String> paraMap) {
+		int n = cdao.getTotalCount(paraMap);
+		return n;
+	}
+
+	// === 페이징 처리한 글 목록 === //
+	@Override
+	public List<CnoticeVO> boardListSearchWithPaging(Map<String, String> paraMap) {
+		List<CnoticeVO> boardList = cdao.boardListSearchWithPaging(paraMap);
+	    return boardList;
+	}
+	
 	
 }

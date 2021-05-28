@@ -15,9 +15,12 @@
    </insert>
    
    	<!-- === 전체 글목록 보여주기 == -->
-   	<select id="comListNoSearch" resultType="com.spring.groupware.board.model.CnoticeVO">
+   	<select id="comListSearch" resultType="com.spring.groupware.board.model.CnoticeVO">
 	   	select cnotice_seq, fk_mbr_seq, ctitle, ccontent, to_char(cwritedate, 'yyyy-mm-dd hh24:mi:ss') as cwritedate, chit
 		from tbl_comnotice
+		<if test='searchType != "" and searchWord != ""'>
+			where lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+		</if>  
 		order by cnotice_seq desc
    	</select>
    
@@ -61,7 +64,42 @@
    		where cnotice_seq=#{cnotice_seq}
    	</delete>
    
+   <!-- === 검색하기 === -->
+    <select id="comWordSearchShow" parameterType="HashMap" resultType="String">
+	   	select ${searchType}
+		from tbl_comnotice
+		where lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+		order by cnotice_seq desc
+  	</select>
    
+
+   	 <!-- === 총 게시물 건수(totalCount) === --> 
+   	 <select id="getComTotalCount" parameterType="HashMap" resultType="int">
+   	 	select count(*)
+   	 	from tbl_comnotice
+   	 	<if test='searchWord != ""'> 
+   	 		where lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+   	 	</if>
+   	 </select>
+   	    	 
+   	    	 
+   	 <!-- === #120. 페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것) -->   	 
+   	 <select id="comListSearchWithPaging" parameterType="HashMap" resultType="com.spring.groupware.board.model.CnoticeVO">
+	   	select cnotice_seq, fk_mbr_seq, ctitle, ccontent, cwritedate, chit
+		from 
+		(
+		    select row_number() over(order by cnotice_seq desc) AS rno,
+		           cnotice_seq, fk_mbr_seq, ctitle, ccontent, chit,
+		           to_char(cwritedate, 'yyyy-mm-dd hh24:mi:ss') as cwritedate
+		    from tbl_comnotice
+		    <if test='searchWord != ""'>
+		    	where lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+			</if>
+		) V
+		where rno between #{startRno} and #{endRno}   	 
+   	 </select>
+   	 
+   	 
    <!-- ========================= 부서공지 ============================== -->  
 
    <!-- === 글쓰기 === -->
