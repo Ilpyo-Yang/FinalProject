@@ -87,6 +87,21 @@ public class MemberController {
       }
       
       
+      // === 로그아웃 하기 === //
+      @RequestMapping(value="/logout.opis")
+      public ModelAndView logout(HttpServletRequest request, ModelAndView mav) {
+    	  HttpSession session = request.getSession();
+    	  
+    	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+    	  int mbr_seq = loginuser.getMbr_seq();
+    	  
+    	  service.logout(mbr_seq);    	     	
+    	  session.removeAttribute("loginuser");
+    	  mav.setViewName("redirect:/login.opis");  // 로그인페이지로 이동  	  
+     	  return mav;
+      }      
+      
+      
       // === 메인페이지 === //
       @RequestMapping(value="/mainPage.opis")
       public ModelAndView mainPage(ModelAndView mav) {   	  

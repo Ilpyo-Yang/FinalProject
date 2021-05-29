@@ -22,6 +22,10 @@ public interface InterMemberService {
 	// 관리자 정보 가져오기
 	MemberVO getAdminInfo();
 
+	// 로그아웃 처리하기
+	void logout(int mbr_seq);
+
+
 	
 
 

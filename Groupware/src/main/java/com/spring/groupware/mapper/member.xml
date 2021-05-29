@@ -63,4 +63,11 @@
 		values (#{mbr_seq},#{ip})
 	</insert> 
 	
+	
+	<!-- 인덱스페이지 - 로그아웃 히스토리에 기록하기 -->
+	<insert id="logoutHistory" parameterType="int">
+		insert into tbl_logouthistory(fk_mbr_seq)
+		values (#{mbr_seq})
+	</insert> 
+	
 </mapper>

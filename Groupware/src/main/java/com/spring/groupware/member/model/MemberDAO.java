@@ -57,4 +57,11 @@ public class MemberDAO implements InterMemberDAO {
 		return loginuser;
 	}
 
+
+	// 로그아웃 처리하기, 로그아웃 히스토리에 기록하기
+	@Override
+	public void logout(int mbr_seq) {
+		sqlsession.insert("member.logoutHistory",mbr_seq);	
+	}
+
 }

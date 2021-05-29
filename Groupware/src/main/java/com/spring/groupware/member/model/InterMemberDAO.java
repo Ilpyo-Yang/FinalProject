@@ -19,4 +19,7 @@ public interface InterMemberDAO {
 	// 로그인 확인하기
 	MemberVO loginCheck(Map<String, String> paraMap);
 
+	// 로그아웃 처리하기
+	void logout(int mbr_seq);
+
 }
