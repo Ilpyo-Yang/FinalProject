@@ -14,13 +14,9 @@
 
 	<!-- === 등록된 일정 상세 내용 조회 === -->
 	<select id="getViewScd" parameterType="int" resultType="com.spring.groupware.schedule.model.ScheduleVO">
-<<<<<<< HEAD
-		select 
-=======
 		select fk_scdno2, scdsubject, scdstartdate, scdenddate, attendance
 		from tbl_schedule
 		where scdno = #{scdno}
->>>>>>> refs/heads/Jiwoo-Kim
 	</select>
 	
 	<!-- === 회의실 예약하기 === -->
