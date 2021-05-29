@@ -7,5 +7,8 @@ public interface InterScheduleDAO {
 	
 	// 등록된 일정 상세 내용 조회
 	ScheduleVO getViewScd(String scdno);
+	
+	// 회의실 예약하기
+	int regMtrEnd(MtrHistoryVO mtrhvo);
 
 }

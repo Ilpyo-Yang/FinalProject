@@ -1,7 +1,7 @@
 package com.spring.groupware.schedule.model;
 
 public class ScheduleVO {
-
+	
 	private String scdno; 			// 일정번호
 	private String fk_scdno2; 		// 일정구분번호
 	private String fk_mbr_seq; 		// 사원번호
@@ -9,6 +9,10 @@ public class ScheduleVO {
 	private String scdstartdate;	// 일정시작일
 	private String scdenddate;		// 일정종료일
 	private String attendance; 		// 참석자
+	
+	private String mtr;				// 회의실/장소
+	private String scdstartTm;		// 시작시간
+	private String scdendTm;		// 종료시간
 	
 	public ScheduleVO() {}
 
@@ -78,6 +82,30 @@ public class ScheduleVO {
 
 	public void setAttendance(String attendance) {
 		this.attendance = attendance;
+	}
+
+	public String getScdstartTm() {
+		return scdstartTm;
+	}
+
+	public void setScdstartTm(String scdstartTm) {
+		this.scdstartTm = scdstartTm;
+	}
+
+	public String getScdendTm() {
+		return scdendTm;
+	}
+
+	public void setScdendTm(String scdendTm) {
+		this.scdendTm = scdendTm;
+	}
+
+	public String getMtr() {
+		return mtr;
+	}
+
+	public void setMtr(String mtr) {
+		this.mtr = mtr;
 	}
 	
 	

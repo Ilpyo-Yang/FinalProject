@@ -103,10 +103,8 @@
 		
 		    $("button#btnScdReg").click(function(){
 		    	
-		    	var calendar = new Calendar(calendarEl, {
-		    		
 		    	
-		    	})
+		    	
 		    	
 		    	var frm = document.scdRegFrm;
 			    frm.method = "POST";
@@ -135,7 +133,7 @@
 		<tr class="division schedule">
 			<td id="title">일정 구분</td>
 			<td id="contents">
-				<select>
+				<select name="fk_scdno2">
 					<option>구분 선택</option>
 					<c:if test="${sessionScope.loginuser.userid eq 'admin'}">
 						<option value="0">전체일정</option>
@@ -147,29 +145,29 @@
 		</tr>
 		<tr class="subject schedule">
 			<td id="title">제목</td>
-			<td id="contents"><input type="text" name="subject" id="subject" size="30" placeholder="제목을 입력하세요." autocomplete="off" required /></td>
+			<td id="contents"><input type="text" name="scdsubject" id="subject" size="30" placeholder="제목을 입력하세요." autocomplete="off" required /></td>
 		</tr>
 		<tr class="date schedule">
 			<td id="title">일자</td>
 			<td id="contents">
-				<label for="from" id="start">시작일</label>
-				<input type="text" id="from" name="from"/>
+				<label for="scdstartdate" id="start">시작일</label>
+				<input type="text" id="from" name="scdstartdate" readonly/>
 				<span>&nbsp;~&nbsp;</span>
-				<label for="to" id="end">종료일</label>
-				<input type="text" id="to" name="to"/>
+				<label for="scdenddate" id="end">종료일</label>
+				<input type="text" id="to" name="scdenddate" readonly/>
 			</td>
 		</tr>
 		<tr class="time schedule">
 			<td id="title">시간</td>
 			<td id="contents">
-				<select id="time1" name="time1">
+				<select id="time1" name="scdstartTm">
 				<c:forEach var="i" begin="9" end="18">
 					<c:set var="startTm" value="${i>9?i:'0'}${i>9?'':i}"/>
 					<option value="${i>9?i:'0'}${i>9?'':i}00" <c:if test="${data.startDispTm eq startTm}">selected</c:if>>${i>9?i:'0'}${i>9?'':i}:00</option>
 				</c:forEach>
 				</select>
 				<span>&nbsp;부터</span>
-				<select id="time2" name="time2">
+				<select id="time2" name="scdendTm">
 					<c:forEach var="i" begin="10" end="18">
 						<c:set var="endTm" value="${i>9?i:'0'}${i>9?'':i}"/>
 						<option value="${i>9?i:'0'}${i>9?'':i}00" <c:if test="${data.endDispTm eq endTm}">selected</c:if>>${i>9?i:'0'}${i>9?'':i}:00</option>
@@ -181,15 +179,16 @@
 		<tr class="place schedule">
 			<td id="title">장소</td>
 			<td id="contents">
-				<input type="text"/>
+				<input type="text" name="mtr"/>
 				<button type="button" onclick="mtrResv()">예약하기</button>
 			</td>
 		</tr>
 		<tr class="attandance schedule">
 			<td id="title">참석자</td>
 			<td id="contents">
-				<input type="text" />
-				<button type="button">주소록</button>
+				<input type="hidden" nmae="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}" /> 
+				<input type="text" name="attendance"/>
+				<button type="button" onclick="">주소록</button>
 			</td>
 		</tr>
 	</table>

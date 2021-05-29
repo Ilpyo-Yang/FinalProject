@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.groupware.member.model.MemberVO;
+import com.spring.groupware.schedule.model.MtrHistoryVO;
 import com.spring.groupware.schedule.model.ScheduleVO;
 import com.spring.groupware.schedule.service.InterScheduleService;
 
@@ -48,26 +49,32 @@ public class ScheduleController {
 		return mav;
 	}
 	
-	// 일정 등록 완료 요청
+	// 일정 등록하기
 	@RequestMapping(value="/scdRegEnd.opis", method = {RequestMethod.POST})
 	public ModelAndView scdRegEnd(ModelAndView mav, ScheduleVO schedulevo) {
 		
 		int n = service.scdAdd(schedulevo);	// 일정 등록하기
 		
 		if(n==1) {	// 일정 등록 성공
-			mav.setViewName("redirect:/scdEnd.opis");
+			mav.setViewName("redirect:/scdDetail.opis");
 		}
 		
 		else {	// 일정 등록 실패
+			String message = "일정 등록에 실패하였습니다. 다시 시도하세요";
+			String loc = "javascript:history.back()";
 			
+			mav.addObject("message",message);
+			mav.addObject("loc",loc);
+			
+			mav.setViewName("msg");
 		}
 		
 		return mav;
 	}
 	
 	// 등록된 일정 상세 확인 페이지
-	@RequestMapping(value="/scdEnd.opis")
-	public ModelAndView scdEnd(HttpServletRequest request, ModelAndView mav) {
+	@RequestMapping(value="/scdDetail.opis")
+	public ModelAndView scdDetail(HttpServletRequest request, ModelAndView mav) {
 		
 		String scdno = request.getParameter("scdno");
 		
@@ -96,5 +103,32 @@ public class ScheduleController {
 		
 		return mav;
 	}
+	
+	// 회의실 예약하기
+	@RequestMapping(value="/regMtrEnd.opis", method = {RequestMethod.POST})
+	public ModelAndView regMtrEnd(ModelAndView mav, MtrHistoryVO mtrhvo) {
+		
+		int n = service.regMtrEnd(mtrhvo);
+		
+		if(n==1) {
+			mav.setViewName("redirect:/mtrhDetail.opis");
+		}
+		else {
+			String message = "회의실 예약에 실패하였습니다. 다시 시도하세요";
+			String loc = "javascript:history.back()";
+			
+			mav.addObject("message",message);
+			mav.addObject("loc",loc);
+			
+			mav.setViewName("msg");
+		}
+		
+		return mav;
+	}
+	 
+	// 회의실 예약상세페이지 보여주기
+	
+	
+	
 	
 }

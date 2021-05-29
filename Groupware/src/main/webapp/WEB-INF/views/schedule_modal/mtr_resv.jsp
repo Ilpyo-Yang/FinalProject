@@ -61,6 +61,20 @@
     });
 	
 	
+	$(document).ready(function(){
+		
+		$("button#btnReg_mtr").click(function(){
+			
+			var frm = document.mtr_regFrm;
+			frm.method = "POST";
+			frm.action = "<%=ctxPath%>/regMtrEnd.opis";
+			frm.submit();
+		});
+		
+		
+		
+	});
+	
 	
 </script>
 
@@ -76,7 +90,6 @@
 	
 	<div>
 		<span style="font-size:9pt;">*회의일자 변경 시 조회 버튼을 클릭하셔야 해당 날짜의 예약 리스트가 조회됩니다.</span>
-		
 		<table id="resv_tbl">
 			<thead>
 				<tr>
@@ -129,6 +142,7 @@
 		</table>
 	</div>
 
+<form name="mtr_regFrm">
 	<div id="select_section" align="right">
 		<select>
 			<option>회의실 선택</option>
@@ -158,11 +172,11 @@
 	</div>
 	
 	<div id="btn_section" align="right">
-		<button type="submit">예약하기</button>
+		<button type="button" id="btnReg_mtr">예약하기</button>
 		<button type="button">취소</button>
 	</div>
 
-
+</form>
 
 </div>
 
