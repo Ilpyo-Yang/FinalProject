@@ -268,7 +268,7 @@ public class CnoticeController {
     	  return mav;
       }
       
-      // === #72. 글 수정 페이지 완료하기 === //
+      // === 글 수정 페이지 완료하기 === //
       @RequestMapping(value="/cnotice_editEnd.opis", method= {RequestMethod.POST})
       public ModelAndView editEnd(ModelAndView mav, CnoticeVO cnoticevo, HttpServletRequest request) {
     	  

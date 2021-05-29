@@ -250,5 +250,39 @@
    	<delete id="delForm" parameterType="HashMap">
    		delete from tbl_formboard
    		where form_seq=#{form_seq}
-   	</delete>      	
+   	</delete>
+   	
+   	<!-- === 검색하기 === -->
+    <select id="formWordSearchShow" parameterType="HashMap" resultType="String">
+	   	select ${searchType}
+		from tbl_formboard
+		where lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+		order by form_seq desc
+  	</select>
+
+   	 <!-- === 총 게시물 건수(totalCount) === --> 
+   	 <select id="getFormTotalCount" parameterType="HashMap" resultType="int">
+   	 	select count(*)
+   	 	from tbl_formboard
+   	 	<if test='searchWord != ""'> 
+   	 		where lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+   	 	</if>
+   	 </select>
+   	    	 
+   	    	 
+   	 <!-- === 페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것) -->   	 
+   	 <select id="formListSearchWithPaging" parameterType="HashMap" resultType="com.spring.groupware.board.model.FormboardVO">
+	   	select form_seq, fk_mbr_seq, ftitle, fcontent, fwritedate, fhit
+		from 
+		(
+		    select row_number() over(order by form_seq desc) AS rno,
+		           form_seq, fk_mbr_seq, ftitle, fcontent, fhit,
+		           to_char(fwritedate, 'yyyy-mm-dd hh24:mi:ss') as fwritedate
+		    from tbl_formboard
+		    <if test='searchWord != ""'>
+		    	where lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+			</if>
+		) V
+		where rno between #{startRno} and #{endRno}   	 
+   	 </select>      	
 </mapper>
