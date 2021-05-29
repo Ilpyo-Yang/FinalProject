@@ -24,6 +24,13 @@ public class ScheduleDAO implements InterScheduleDAO {
 		return schedulevo;
 	}
 	
+	// 회의실 예약하기
+	@Override
+	public int regMtrEnd(MtrHistoryVO mtrhvo) {
+		int n = sqlsession.insert("schedule.regMtrEnd", mtrhvo);
+		return n;
+	}
+	
 	
 	
 }

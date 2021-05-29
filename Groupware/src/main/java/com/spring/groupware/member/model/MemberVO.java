@@ -2,33 +2,37 @@ package com.spring.groupware.member.model;
 
 public class MemberVO {
 	private int mbr_seq;
-	private int fk_power_no;
-	private int fk_rank_no;
-	private int fk_dept_no;
-	private String mbr_id;
+	
+	private int fk_power_no;	// 0: 일반사원, 1: 인사팀, 2: 관리자
+	private int fk_rank_no;		// 0: 팀원, 1: 팀장, 2: CEO
+	private int fk_dept_no;		// 0: 영업팀, 1: 인사팀, 2: 홍보팀, 3: IT팀, 4: 회계팀, 5: CEO(조직도 구분용)
+	
+	private String mbr_id;		
 	private String mbr_pwd;
 	private String mbr_name;
 	private String mbr_email;
 	private String mbr_com_number;
 	private String mbr_phone_number;
-	private String mbr_gender;
+	private String mbr_gender;		// 0: 남자, 1: 여자
 	private String mbr_birthday;
 	private String mbr_registerday;
 	private String mbr_retireday;
-	private String mbr_pwd_changeday;
-	private String mbr_status; 
+	private String mbr_pwd_changeday;	
+	private String mbr_status; 			// 사원퇴사유무   1: 사용가능(가입중) / 0:사용불능(탈퇴)
+	
 	private String mbr_photo;
 	private String mbr_sign;
+	
 	private String mbr_stsmsg;
 	private String mbr_stsconnect;
 	private String mbr_img;
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private String power_detail; 
-	private String rank_detail; 
-	private String dept_detail; 
-	private String pwdChangeGap;
+	private String power_detail; 	// 0: 일반사원, 1: 인사팀, 2: 관리자
+	private String rank_detail; 	// 0: 팀원, 1: 팀장, 2: CEO 
+	private String dept_detail; 	// 0: 영업팀, 1: 인사팀, 2: 홍보팀, 3: IT팀, 4: 회계팀, 5: CEO(조직도 구분용)
+	private String pwdChangeGap;	// 비밀번호 변경한지 6개월 이상 변경 페이지 이동하기 위함
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	

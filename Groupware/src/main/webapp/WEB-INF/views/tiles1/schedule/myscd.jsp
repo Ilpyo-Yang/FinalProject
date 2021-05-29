@@ -193,7 +193,7 @@
 		<table>
 			<tr>
 				<td id="user_img"><img src="<%=ctxPath%>/resources/images/menuuser.png" style="width:30px; height:30px;" /></td>
-				<td style="padding:20px 10px 0px 10px;"><span style="color:#008ae6; font-weight:bold;">${sessionScope.loginuser.name}</span>&nbsp;님의 일정</td>
+				<td style="padding:20px 10px 0px 10px;"><span style="color:#008ae6; font-weight:bold;">${sessionScope.loginuser.mbr_name}</span>&nbsp;님의 일정</td>
 				<td id="chkboxes">
 					<input type="checkbox" value="0"/>&nbsp;전체일정&nbsp;
 					<input type="checkbox" value="1"/>&nbsp;부서일정&nbsp;
