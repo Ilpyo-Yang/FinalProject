@@ -56,4 +56,11 @@ public class CnoticeDAO implements InterCnoticeDAO {
 		int n = sqlsession.delete("board.delCom",paraMap);		
 		return n;
 	}
+
+	// === 1개글 수정하기 === //
+	@Override
+	public int edit(CnoticeVO cnoticevo) {
+		int n = sqlsession.update("board.editCom",cnoticevo);		
+		return n;
+	}
 }
