@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.spring.groupware.schedule.model.InterScheduleDAO;
+import com.spring.groupware.schedule.model.MtrHistoryVO;
 import com.spring.groupware.schedule.model.ScheduleVO;
 
 @Component
@@ -35,6 +36,13 @@ public class ScheduleService implements InterScheduleService{
 		}
 		
 		return schedulevo;
+	}
+	
+	// 회의실 예약하기
+	@Override
+	public int regMtrEnd(MtrHistoryVO mtrhvo) {
+		int n = dao.regMtrEnd(mtrhvo);
+		return n;
 	}
 	
 }
