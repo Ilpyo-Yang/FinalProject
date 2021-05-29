@@ -59,6 +59,13 @@ public class MemberService implements InterMemberService {
 	}
 
 	
+	// 로그아웃 처리하기
+	@Override
+	public void logout(int mbr_seq) {
+		mdao.logout(mbr_seq);
+	}
+
+	
 
 
 	
