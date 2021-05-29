@@ -13,11 +13,12 @@
 <script type="text/javascript">
 	
 	$(function(){
-		if(<%=request.getAttribute("result")%>!=null){	// 로그인 실패문구 출력
-			$("div#result").html("${result}");
+		$("div#result").hide();
+		
+		if("${loginuser}"==null){	// 로그인 실패문구 출력
+			$("div#result").html("일치하는 회원이 없습니다. 다시 로그인해주세요!");
 			$("div#result").show();
 		}
-		$("div#result").hide();
 	});// end of $(function() ------------------------------------------------------------
 	
 			

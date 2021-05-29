@@ -6,7 +6,7 @@
 div#mainPageContainer {
 	margin: 7% auto;
 	width: 80%;
-	text-align: center;
+	text-align: left;
 }
 div#calendar {
 	margin: auto;
@@ -15,14 +15,14 @@ div#calendar {
 }
 div#mainMenu {
 	margin: auto;
-	width: 70%;
+	width: 60%;
 	float: right;
 }
 div.menu {
-	width: 20%;
+	width: 21%;
 	text-align: center;	
 	display:inline-block;
-	margin: 2% 2%;
+	margin: 2% 1%;
 	border: solid 1px gray;
 	font-weight: bold;
 	font-size: 12pt;

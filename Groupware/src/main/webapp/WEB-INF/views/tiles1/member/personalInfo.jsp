@@ -15,22 +15,28 @@
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
   
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/mainPage.css"/>
-<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/js/mainPage.js"/>
 
-<script>
-	$(function(){
-		
-	});
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("span#personal").click(function(){
+			location.href="<%=ctxPath%>/personalInfo.opis";
+		});
+		$("span#company").click(function(){
+			location.href="<%=ctxPath%>/companyInfo.opis";
+		});
+	}); // end of $(document).ready(function(){})---------------------------------------
 </script>
 
 <div id="personalInfoContainer">
-	<span class="subtitle">개인정보설정</span><span class="subtitle">|</span><span class="subtitle">회사정보보기</span>
+	<span class="subtitle" id="personal" style="color:#04AA6D; cursor: pointer;" >개인정보설정</span>
+	<span class="subtitle">|</span>
+	<span class="subtitle" id="company" style="cursor: pointer;">회사정보보기</span>
 	<hr>
 	<table>
 		<tbody>
 			<tr>
 				<td>아이디</td>
-				<td id="mbr_id"></td>
+				<td id="mbr_id">${mbr_id}</td>
 				<td rowspan="3">사진</td>
 				<td id="mbr_photo" rowspan="3"><i class="fas fa-portrait fa-5x infoIcon"></i></td>
 			</tr>
