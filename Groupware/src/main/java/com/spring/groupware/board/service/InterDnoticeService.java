@@ -23,5 +23,14 @@ public interface InterDnoticeService {
 	int del(Map<String, String> paraMap);
 
 	// 글 수정
-	int edit(DnoticeVO dnoticevo); 
+	int edit(DnoticeVO dnoticevo);
+
+	// 총 게시물 수
+	int getTotalCount(Map<String, String> paraMap);
+
+	// 페이징 처리한 글 목록
+	List<DnoticeVO> boardListSearchWithPaging(Map<String, String> paraMap);
+
+	// 글 검색
+	List<String> wordSearchShow(Map<String, String> paraMap); 
 }

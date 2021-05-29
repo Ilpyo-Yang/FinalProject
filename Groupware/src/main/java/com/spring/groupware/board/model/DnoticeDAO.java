@@ -23,7 +23,7 @@ public class DnoticeDAO implements InterDnoticeDAO {
 	@Resource
 	private SqlSessionTemplate sqlsession3; // 로컬 DB에 hr로 연결
 
-	// === #56. 글쓰기(파일첨부가 없는 글쓰기) === //
+	// === 글쓰기(파일첨부가 없는 글쓰기) === //
 	@Override
 	public int add(DnoticeVO dnoticevo) {
 		int n = sqlsession.insert("board.deptAdd", dnoticevo);
@@ -62,5 +62,26 @@ public class DnoticeDAO implements InterDnoticeDAO {
 	public int edit(DnoticeVO dnoticevo) {
 		int n = sqlsession.update("board.editDept",dnoticevo);		
 		return n;
+	}
+
+	// === 총 게시물 수 === //
+	@Override
+	public int getTotalCount(Map<String, String> paraMap) {
+		int n = sqlsession.selectOne("board.getDeptTotalCount", paraMap);
+		return n;
+	}
+
+	// === 페이징 처리한 글 목록 === //
+	@Override
+	public List<DnoticeVO> boardListSearchWithPaging(Map<String, String> paraMap) {
+		List<DnoticeVO> boardList = sqlsession.selectList("board.deptListSearchWithPaging", paraMap);		
+		return boardList;
+	}
+
+	// === 글 검색 === //
+	@Override
+	public List<String> wordSearchShow(Map<String, String> paraMap) {
+		List<String> boardList = sqlsession.selectList("board.deptWordSearchShow", paraMap);
+		return boardList;
 	}
 }

@@ -166,7 +166,7 @@
       <button type="button" onclick="goSearch()">검색</button>
    	</form>
    
-    <div id="displayList" style="border:solid 1px gray; width:325px; height: 100px; border-top: 0px; margin-left: 71px; overflow: auto; padding-top: 2px;"> 	
+    <div id="displayList" style="border:solid 1px gray; width:250px; height: 100px; border-top: 0px; margin-left: 71px; overflow: auto; padding-top: 2px;"> 	
     </div>
 
   	</div>	  	
