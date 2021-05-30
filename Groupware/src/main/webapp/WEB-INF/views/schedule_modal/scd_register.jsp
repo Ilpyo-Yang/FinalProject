@@ -103,9 +103,6 @@
 		
 		    $("button#btnScdReg").click(function(){
 		    	
-		    	
-		    	
-		    	
 		    	var frm = document.scdRegFrm;
 			    frm.method = "POST";
 			    frm.action = "<%=ctxPath%>/scdRegEnd.opis";
