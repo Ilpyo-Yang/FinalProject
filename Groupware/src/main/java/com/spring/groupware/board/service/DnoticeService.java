@@ -70,5 +70,26 @@ public class DnoticeService implements InterDnoticeService {
 		int n = ddao.edit(dnoticevo);
 		return n;
 	}
+
+	// === 총 게시물 수 === //
+	@Override
+	public int getTotalCount(Map<String, String> paraMap) {
+		int n = ddao.getTotalCount(paraMap);
+		return n;
+	}
+
+	// === 페이징 처리한 글 목록 === //
+	@Override
+	public List<DnoticeVO> boardListSearchWithPaging(Map<String, String> paraMap) {
+		List<DnoticeVO> boardList = ddao.boardListSearchWithPaging(paraMap);
+	    return boardList;
+	}
+
+	// === 글 검색 === //
+	@Override
+	public List<String> wordSearchShow(Map<String, String> paraMap) {
+		List<String> wordList = ddao.wordSearchShow(paraMap);
+		return wordList;
+	}
 	
 }

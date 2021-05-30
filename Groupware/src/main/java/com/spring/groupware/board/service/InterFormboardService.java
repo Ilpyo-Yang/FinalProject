@@ -23,5 +23,15 @@ public interface InterFormboardService {
 	int del(Map<String, String> paraMap);
 
 	// 글 수정
-	int edit(FormboardVO formboardvo); 
+	int edit(FormboardVO formboardvo);
+
+	// 글 검색하기
+	List<String> wordSearchShow(Map<String, String> paraMap); 
+	
+	// 총 게시물 수
+	int getTotalCount(Map<String, String> paraMap);
+
+	// 페이징 처리한 글 목록
+	List<FormboardVO> boardListSearchWithPaging(Map<String, String> paraMap);
+
 }
