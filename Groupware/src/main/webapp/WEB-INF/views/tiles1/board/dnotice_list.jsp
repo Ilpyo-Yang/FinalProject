@@ -11,17 +11,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />		
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
+  
+  <jsp:include page="./board_sidebar.jsp" />
 	<script type="text/javascript">
 
 	$(document).ready(function(){
-		
-		$("button#btnReg").click(function(){
-			location.href="<%=ctxPath%>/add.opis";
-		});
 		
 		$("input#searchWord").bind("keydown", function(event){
 			if(event.keyCode == 13){// 엔터를 했을 경우
@@ -107,15 +103,6 @@
 <body>
 
 <div style="width: 1460px;"> 
-	<!-- 사이드메뉴 -->
-    <div id="sideMenu">
-  	<div id="menuTitle">게시판</div>
-  	<div><button type="button" id="btnReg">게시글 등록</button></div>
-
-  		<div class="lside"><a class="side" href="/groupware/cnotice_list.opis">전체공지사항</a></div>
-  		<div class="lside"><a class="side" href="/groupware/dnotice_list.opis">부서공지사항</a></div>
-  		<div class="lside"><a class="side" href="/groupware/formboard_list.opis">공통서식</a></div>
-	</div>
 	
 	<!-- 게시판제목 -->
 	<div style="padding: 15px; font-size: 25px; font-weight: 600; height: 60px; width: 100%; background-color: #f2f2f2; color: #555;">
@@ -127,11 +114,11 @@
 	  <table class="table table-striped">
 	    <thead>
 	      <tr>
-	        <th style="width: 70px; text-align: center;">번호</th>
-	        <th style="width: 400px; text-align: center;">제목</th>
-	        <th style="width: 100px; text-align: center;">등록자</th>
-	        <th style="width: 150px; text-align: center;">등록일</th>
-	        <th style="width: 100px; text-align: center;">조회수</th>
+	        <th style="width: 5%; text-align: center;">번호</th>
+	        <th style="width: 13%; text-align: center;">제목</th>
+	        <th style="width: 7%; text-align: center;">등록자</th>
+	        <th style="width: 10%; text-align: center;">등록일</th>
+	        <th style="width: 5%; text-align: center;">조회수</th>
 	      </tr>
 	    </thead>
 	    <tbody>
@@ -148,7 +135,12 @@
 	      </c:forEach>
 	    </tbody>
 	  </table>
-	  
+	
+	<!-- 페이지바 -->  
+	<div align="center" style="width: 70%; border: solid 0px gray; margin: 20px auto;">
+   		${requestScope.pageBar}
+    </div>
+	  	  
 	<!-- 글 검색 -->
 	<form name="searchFrm" style="margin-top: 20px;">
       <select name="searchType" id="searchType" style="height: 26px;">
