@@ -9,6 +9,12 @@ public class MtrHistoryVO {
 	private String startdate;	// 시간
 	private String endtime; 	// 종료시간
 	
+	///////////////////////////////////////////////////////////
+	private String mtrname; // 
+	///////////////////////////////////////////////////////////
+	
+	public MtrHistoryVO() {}
+
 	public MtrHistoryVO(String usemtrno, String fk_scdno, String fk_mtrno, String regDate, String startdate,
 			String endtime) {
 		super();
@@ -67,8 +73,15 @@ public class MtrHistoryVO {
 	public void setEndtime(String endtime) {
 		this.endtime = endtime;
 	}
+
+	public String getMtrname() {
+		return mtrname;
+	}
+
+	public void setMtrname(String mtrname) {
+		this.mtrname = mtrname;
+	}
 	
-	
-	
+
 	
 }
