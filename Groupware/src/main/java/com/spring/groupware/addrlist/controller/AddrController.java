@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
@@ -12,6 +13,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -182,4 +184,84 @@ public class AddrController {
  	  
  	  return mav;
    }  
+   
+   // === 주소록 수정 페이지 요청 === //
+   @RequestMapping(value="/addr_edit.opis")
+//   public ModelAndView requiredLogin_edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+   public ModelAndView edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+
+ 	  // 수정해야 할 글번호 가져오기
+ 	  String addr_seq = request.getParameter("addr_seq");
+ 	  
+ 	  // 글조회수(readCount) 증가 없이 단순히 글1개만 조회 해주는 것이다.
+ 	  AddrVO addrvo = service.getView(addr_seq);
+
+// 	  HttpSession session = request.getSession();
+//     MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+       
+/*        if( loginuser.getFk_power_no() == 0 ) {
+          String message = "관리자 외 수정 불가합니다.";
+          String loc = "javascript:history.back()";
+          
+          mav.addObject("message", message);
+          mav.addObject("loc", loc);
+          mav.setViewName("msg");
+       }
+       else {	*/
+     	 // 자신의 글을 수정할 경우
+     	 // 가져온 1개글을 글수정할 폼이 있는 view 단으로 보내준다.
+     	 mav.addObject("addrvo", addrvo);
+     	 mav.setViewName("addrlist/addr_edit.tiles1");
+
+//       }
+ 	  return mav;
+   }
+   
+   // === 주소록 수정 페이지 완료하기 === //
+   @RequestMapping(value="/addr_editEnd.opis", method= {RequestMethod.POST})
+   public ModelAndView editEnd(ModelAndView mav, AddrVO addrvo, HttpServletRequest request) {
+ 	  
+ 	  int n = service.edit(addrvo);
+ 	  // n 이 1 이라면 정상적으로 변경됨, n 이 0 이라면 글수정에 필요한 글암호가 틀린경우 
+ 	  
+ 	  if(n == 0) {
+	         mav.addObject("message", "주소록 정보 수정을 실패했습니다.");
+	      }
+	      else {
+	         mav.addObject("message", "주소록 정보를 성공적으로 수정했습니다.");
+	      }
+	  
+       mav.addObject("loc", request.getContextPath()+"/addr_view.opis?addr_seq="+addrvo.getAddr_seq());
+       mav.setViewName("msg");
+ 	  
+       return mav;
+   }
+
+   // === 주소록 삭제  === // 
+   @RequestMapping(value="/addr_delEnd.opis", method= {RequestMethod.GET})
+   public ModelAndView delEnd(ModelAndView mav, HttpServletRequest request) {
+ 	  
+ 	  // 삭제해야 할 주소록 번호 가져오기
+ 	  String addr_seq = request.getParameter("addr_seq");
+       
+       Map<String,String> paraMap = new HashMap<>();
+       paraMap.put("addr_seq", addr_seq);
+       
+       int n = service.del(paraMap); 
+       // n 이 1 이라면 정상적으로 삭제, n 이 0 이라면 글삭제 실패
+       
+       if(n == 0) {
+           mav.addObject("message", "주소록 정보 삭제를 실패했습니다.");
+           mav.addObject("loc", request.getContextPath()+"/addr_view.opis?addr_seq="+addr_seq);
+       }
+       else {
+          mav.addObject("message", "주소록 정보를 성공적으로 삭제했습니다.");
+          mav.addObject("loc", request.getContextPath()+"/totaladdrlist.opis");
+       }
+       
+       mav.setViewName("msg");
+
+       return mav;
+   }
+   
 }

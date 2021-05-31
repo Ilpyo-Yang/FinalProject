@@ -19,4 +19,10 @@ public interface InterAddrService {
 	// 주소록 조회
 	AddrVO getView(String addr_seq);
 
+	// 주소록 정보 수정
+	int edit(AddrVO addrvo);
+
+	// 주소록 삭제
+	int del(Map<String, String> paraMap);
+
 }

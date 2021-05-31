@@ -4,7 +4,7 @@
 
 <mapper namespace="address">
 
-   	 <!-- === 총 게시물 건수(totalCount) === --> 
+   	 <!-- === 총 주소록 건수(totalCount) === --> 
    	 <select id="getAddrTotalCount" parameterType="HashMap" resultType="int">
    	 	select count(*)
    	 	from tbl_address
@@ -13,7 +13,7 @@
    	 	</if>
    	 </select>
    	 
-   	 <!-- === 페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것) -->   	 
+   	 <!-- === 페이징 처리한 주소록 목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것) -->   	 
    	 <select id="addrListSearchWithPaging" parameterType="HashMap" resultType="com.spring.groupware.addrlist.model.AddrVO">
 	   	select addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name
 		from 
@@ -36,7 +36,7 @@
 		order by addr_seq desc
   	 </select>
   	 
-  	 <!--  == 글 1개 보여주기  ==  -->
+  	 <!--  == 주소록 상세 보여주기  ==  -->
    	 <select id="getAddrView" parameterType="String" resultType="com.spring.groupware.addrlist.model.AddrVO">
 	   	select addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name,
 	   		   mbr_birthday, postcode, address, detailaddress, addrmemo	
@@ -44,4 +44,17 @@
 		where addr_seq = #{addr_seq}
    	 </select>
    	 
+   	<!-- === 주소록 정보 수정하기 === -->
+   	<update id="editAddr" parameterType="com.spring.groupware.addrlist.model.AddrVO">
+   		update tbl_address set mbr_name=#{mbr_name}, mbr_phone_number=#{mbr_phone_number}, 
+   							   mbr_email=#{mbr_email}, dept_name=#{dept_name}, position_name=#{position_name}
+		where addr_seq = #{addr_seq}
+   	</update>
+   	
+   	<!-- === 주소록 삭제하기 === -->
+   	<delete id="delAddr" parameterType="HashMap">
+   		delete from tbl_address
+   		where addr_seq=#{addr_seq}
+   	</delete>
+   
 </mapper>
