@@ -7,13 +7,16 @@ import com.spring.groupware.addrlist.model.AddrVO;
 
 public interface InterAddrService {
 
-	// 총 게시물 개수
+	// 총 주소록 개수
 	int getTotalCount(Map<String, String> paraMap);
 
 	// 페이징 처리한 리스트
 	List<AddrVO> addrListSearchWithPaging(Map<String, String> paraMap);
 
-	// 글 검색
+	// 주소록 검색
 	List<String> wordSearchShow(Map<String, String> paraMap);
+
+	// 주소록 조회
+	AddrVO getView(String addr_seq);
 
 }

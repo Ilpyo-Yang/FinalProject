@@ -35,4 +35,13 @@
 		where lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
 		order by addr_seq desc
   	 </select>
+  	 
+  	 <!--  == 글 1개 보여주기  ==  -->
+   	 <select id="getAddrView" parameterType="String" resultType="com.spring.groupware.addrlist.model.AddrVO">
+	   	select addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name,
+	   		   mbr_birthday, postcode, address, detailaddress, addrmemo	
+		from tbl_address
+		where addr_seq = #{addr_seq}
+   	 </select>
+   	 
 </mapper>

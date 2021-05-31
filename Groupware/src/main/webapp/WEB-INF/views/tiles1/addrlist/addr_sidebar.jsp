@@ -258,12 +258,12 @@
 		 </div>
   
 	<div class="lside">
-		<a class="side" href="/groupware/cnotice_list.opis">전체 주소록</a>
+		<a class="side" href="/groupware/totaladdrlist.opis">전체 주소록</a>
 	</div>
 	<div class="lside">
-		<a class="side" href="/groupware/dnotice_list.opis">개인 주소록</a>
+		<a class="side" href="/groupware/personal_addrlist.opis">개인 주소록</a>
 	</div>
 	<div class="lside">
-		<a class="side" href="/groupware/formboard_list.opis">개인 주소록 관리</a>
+		<a class="side" href="/groupware/addrlist_setting.opis">개인 주소록 관리</a>
 	</div>
 </div>

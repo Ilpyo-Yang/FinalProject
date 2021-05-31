@@ -17,7 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.groupware.addrlist.model.AddrVO;
 import com.spring.groupware.addrlist.service.InterAddrService;
+import com.spring.groupware.board.model.CnoticeVO;
 import com.spring.groupware.common.MyUtil;
+import com.spring.groupware.member.model.MemberVO;
 
 @Controller
 public class AddrController {
@@ -25,13 +27,13 @@ public class AddrController {
    @Autowired // Type에 따라 알아서 Bean 을 주입해준다.
    private InterAddrService service;
       
+   // === 주소록 목록 === //
    @RequestMapping(value="/totaladdrlist.opis")
    public ModelAndView list(ModelAndView mav, HttpServletRequest request) {
 
  	  List<AddrVO> addrList = null; 
  	  
  	  HttpSession session = request.getSession();
- 	  session.setAttribute("readCountPermission", "yes");
 
  	  
  	  String searchType = request.getParameter("searchType");
@@ -58,7 +60,7 @@ public class AddrController {
  	  int startRno = 0;           	// 시작 행번호
       int endRno = 0;             	// 끝 행번호 
        
-      // 총 게시물 건수(totalCount)
+      // 총 주소록 건수(totalCount)
       totalCount = service.getTotalCount(paraMap);
        
       totalPage = (int)Math.ceil((double)totalCount/sizePerPage);	
@@ -85,7 +87,7 @@ public class AddrController {
       paraMap.put("endRno", String.valueOf(endRno));
        
  	  addrList = service.addrListSearchWithPaging(paraMap);
- 	  // 페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것)
+ 	  // 페이징 처리한 주소록 목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것)
 	  
  	  // 검색대상 컬럼과 검색어 유지
  	  if(!"".equals(searchType) && !"".equals(searchWord)) {
@@ -138,10 +140,11 @@ public class AddrController {
  	  return mav;
    }
    
-// === 글 검색 === //
+   // === 주소록 검색 === //
    @ResponseBody
    @RequestMapping(value="/wordSearchShow.opis", produces="text/plain;charset=UTF-8")
    public String wordSearchShow(HttpServletRequest request) {
+	   
  	  String searchType = request.getParameter("searchType");
  	  String searchWord = request.getParameter("searchWord");
  	  
@@ -164,4 +167,19 @@ public class AddrController {
  	  
  	  return jsonArr.toString();
    }
+   
+   // === 주소록 1개를 보여주는 페이지 요청 === //
+   @RequestMapping(value="/addr_view.opis")
+   public ModelAndView view(HttpServletRequest request, ModelAndView mav) {
+ 	  
+ 	  // 조회하고자 하는 주소혹 번호 받아오기
+ 	  String addr_seq = request.getParameter("addr_seq");
+
+ 	  AddrVO addrvo = service.getView(addr_seq);
+
+ 	  mav.addObject("addrvo", addrvo);
+ 	  mav.setViewName("addrlist/addr_view.tiles1");
+ 	  
+ 	  return mav;
+   }  
 }

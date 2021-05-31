@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>전체 주소록</title>
+  <title>개인 주소록</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -109,7 +109,7 @@
 	
 	<!-- 게시판제목 -->
 	<div style="padding: 15px; font-size: 25px; font-weight: 600; height: 60px; width: 100%; background-color: #f2f2f2; color: #555;">
-	&nbsp;&nbsp;전체 주소록
+	&nbsp;&nbsp;개인 주소록
 	</div>
 	
 	<div class="container" style="float: right; width: 80%; margin-top: 50px;">        
@@ -146,8 +146,8 @@
 				</td>
 				<td align="left">${addrvo.mbr_phone_number}</td>
 				<td align="center">${addrvo.mbr_email}</td>
-				<td align="center">${addrvo.dept_name}</td>
-				<td align="center">${addrvo.position_name}</td>      	
+				<td align="center">${addrvo.fk_dept_no}</td>
+				<td align="center">${addrvo.fk_rank_no}</td>      	
 	      	</tr>		
 	      </c:forEach>
 	      

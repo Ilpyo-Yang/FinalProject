@@ -43,4 +43,10 @@ public class AddrDAO implements InterAddrDAO {
 		return addrList;
 	}
 
+	@Override
+	public AddrVO getView(String addr_seq) {
+		AddrVO addrvo = sqlsession.selectOne("address.getAddrView", addr_seq);
+		return addrvo;
+	}
+
 }

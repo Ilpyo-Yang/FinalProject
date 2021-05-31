@@ -18,25 +18,32 @@ public class AddrService implements InterAddrService {
 	@Autowired
 	private InterAddrDAO adao;
 
-	// === 총 게시물 수 === //
+	// === 총 주소록 수 === //
 	@Override
 	public int getTotalCount(Map<String, String> paraMap) {
 		int n = adao.getTotalCount(paraMap);
 		return n;
 	}
 
-	// === 페이징 처리한 글 목록 === //
+	// === 페이징 처리한 주소록 목록 === //
 	@Override
 	public List<AddrVO> addrListSearchWithPaging(Map<String, String> paraMap) {
 		List<AddrVO> addrList = adao.addrListSearchWithPaging(paraMap);
 	    return addrList;
 	}
 
-	// === 글 검색 === //
+	// === 주소록 검색 === //
 	@Override
 	public List<String> wordSearchShow(Map<String, String> paraMap) {
 		List<String> wordList = adao.wordSearchShow(paraMap);
 		return wordList;
+	}
+
+	// === 주소록 상세 보기 === //
+	@Override
+	public AddrVO getView(String addr_seq) {
+		AddrVO addrvo = adao.getView(addr_seq);
+		return addrvo;
 	}
 	
 }
