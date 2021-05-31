@@ -8,19 +8,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>공통서식</title>
+  <title>전체 주소록</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
- 
+  
+  <jsp:include page="./addr_sidebar.jsp" />
 
-    <jsp:include page="./board_sidebar.jsp" />
 	<script type="text/javascript">
 
 	$(document).ready(function(){
-		
+
 		$("input#searchWord").bind("keydown", function(event){
 			if(event.keyCode == 13){// 엔터를 했을 경우
 				goSearch();
@@ -39,7 +39,7 @@
 			}
 			else{
 				$.ajax({
-					url:"<%= ctxPath%>/fwordSearchShow.opis",
+					url:"<%= ctxPath%>/wordSearchShow.opis",
 					type:"get",
 					data:{"searchType":$("select#searchType").val()
 						 ,"searchWord":$("input#searchWord").val()},
@@ -63,10 +63,10 @@
 							   $("div#displayList").show();
 						   }
 	
-							},
+					},
 					error: function(request, status, error){
 		                  	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-		                	}
+		              }
 				
 				});
 			}
@@ -86,17 +86,17 @@
 		
 	}); // end of $(document).ready(function(){})---------------------------------------
 
-	function goView(form_seq){
+	function goView(addr_seq){
 		
-		location.href="<%=ctxPath%>/formboard_view.opis?form_seq="+form_seq;
+		location.href="<%=ctxPath%>/addr_view.opis?addr_seq="+addr_seq;
 		
-	} // end of function goView(seq)---------------------------------------------------- 
+	} // end of function goView(cnotice_seq)---------------------------------------------------- 
 	
 	function goSearch(){
 		
 		var frm = document.searchFrm;
 		frm.method = "get";
-		frm.action = "<%=ctxPath%>/formboard_list.opis";
+		frm.action = "<%=ctxPath%>/totaladdrlist.opis";
 		frm.submit();
 		
 	} // end of goSearch(){}------------------------------------------------------------
@@ -105,58 +105,62 @@
 </head>
 <body>
 
-<div style="width: 1460px;"> 
+<div style="width: 1460px"> 
 	
 	<!-- 게시판제목 -->
 	<div style="padding: 15px; font-size: 25px; font-weight: 600; height: 60px; width: 100%; background-color: #f2f2f2; color: #555;">
-	&nbsp;&nbsp;공통서식
+	&nbsp;&nbsp;전체 주소록
 	</div>
 	
-	<!-- 본문(게시판) -->
 	<div class="container" style="float: right; width: 80%; margin-top: 50px;">        
+
+  	<!-- 검색 -->
+		<form name="searchFrm" style="margin-top: 20px;">
+	      <select name="searchType" id="searchType" style="height: 26px;">
+	         <option value="dept">부서</option>
+	         <option value="name">이름</option>
+	      </select>
+	      <input type="text" name="searchWord" id="searchWord" size="30" autocomplete="off" /> 
+	      <button type="button" onclick="goSearch()">검색</button>
+	   	</form>
+	   
+	    <div id="displayList" style="border:solid 1px gray; width:250px; height: 100px; border-top: 0px; margin-left: 71px; overflow: auto; padding-top: 2px;"> 	
+	    </div>
+
+	<!-- 본문(게시판) -->
 	  <table class="table table-striped">
 	    <thead>
 	      <tr>
-	        <th style="width: 5%;  text-align: center;">번호</th>
-	        <th style="width: 13%; text-align: center;">제목</th>
-	        <th style="width: 7%;  text-align: center;">등록자</th>
-	        <th style="width: 10%; text-align: center;">등록일</th>
-	        <th style="width: 5%;  text-align: center;">조회수</th>
+	        <th style="width: 7%;  text-align: center;">이름</th>
+	        <th style="width: 13%; text-align: center;">전화번호</th>
+	        <th style="width: 13%;  text-align: center;">이메일</th>
+	        <th style="width: 7%; text-align: center;">부서</th>
+	        <th style="width: 7%;  text-align: center;">직책</th>
 	      </tr>
 	    </thead>
 	    <tbody>
-	      <c:forEach var="formboardvo" items="${requestScope.boardList}" varStatus="status">
+ 	      <c:forEach var="addrvo" items="${requestScope.addrList}" varStatus="status">
 	      	<tr>
-				<td align="center">${formboardvo.form_seq}</td>
-				<td align="left">
-					<span class="title" onclick="goView('${formboardvo.form_seq}')">${formboardvo.ftitle}</span>
+				<td align="center">
+					<span class="name" onclick="goView('${addrvo.addr_seq}')">${addrvo.mbr_name}</span>
 				</td>
-				<td align="center">관리자</td>
-				<td align="center">${formboardvo.fwritedate}</td>
-				<td align="center">${formboardvo.fhit}</td>      	
+				<td align="left">${addrvo.mbr_phone_number}</td>
+				<td align="center">${addrvo.mbr_email}</td>
+				<td align="center">${addrvo.dept_name}</td>
+				<td align="center">${addrvo.position_name}</td>      	
 	      	</tr>		
 	      </c:forEach>
+	      
 	    </tbody>
 	  </table>
-
+	  
 	<!-- 페이지바 -->  
 	<div align="center" style="width: 70%; border: solid 0px gray; margin: 20px auto;">
    		${requestScope.pageBar}
     </div>
-	  
-	<!-- 글 검색 -->
-	<form name="searchFrm" style="margin-top: 20px;">
-      <select name="searchType" id="searchType" style="height: 26px;">
-         <option value="ftitle">글제목</option>
-      </select>
-      <input type="text" name="searchWord" id="searchWord" size="30" autocomplete="off" /> 
-      <button type="button" onclick="goSearch()">검색</button>
-   	</form>
-   
-    <div id="displayList" style="border:solid 1px gray; width:250px; height: 100px; border-top: 0px; margin-left: 71px; overflow: auto; padding-top: 2px;"> 	
-    </div>
 
-  	</div>	  	  	
+  	</div>	  	
+	
 	
 </div>
 </body>
