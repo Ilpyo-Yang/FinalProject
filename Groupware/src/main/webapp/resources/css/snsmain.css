@@ -31,6 +31,7 @@ div.tflist {
 	<!--border: 1px solid green;-->
 	width:400px;
 	height: 395px;
+	overflow:auto;
 }
 
 div.userinfoside {
@@ -63,20 +64,20 @@ div.dropdown {
 }
 
 img.mainuserimg {
-	<!--border: 1px solid yellow;-->
+	<!--border: 0px solid yellow;-->
 	width: 60px;
 	height: 60px;
 	border-radius: 50%;
 }
 
 span.username {
-	<!--border: 1px solid black;-->
+	<!--border: 0px solid black;-->
 	font-weight: bold;
 	font-size: 15pt;
 }
 
 span.userjobgrade {
-	<!--border: 1px solid black;-->
+	<!--border: 0px solid black;-->
 	font-weight: bold;
 	font-size: 10pt;
 }
@@ -104,10 +105,10 @@ div.well {
 	font-size: 15px;
 	margin: auto;
 	margin-left: 0;
+	height: 50px;
 }
 
 input.form-control {
-	
 	margin-left: 20px;
 	width: 300px;
 }
@@ -116,4 +117,32 @@ button.btn-default {
 	
 	margin-right: 40px;
 	float: right;
+}
+
+div.memberList {
+	border-bottom: 1px solid gray;
+	width: 379px;
+	height: 100px;
+	
+}
+
+div.constatus {
+	border-bottom: 0px solid red;
+	width: 10px;
+	height: 100px;
+	padding-top:30px;
+	float: left;
+}
+
+div.userinforightside {
+	border-bottom: 0px solid red;
+	width: 120px;
+	float: right;
+}
+
+img.constatus {
+	border: solie 3px black
+;	width: 5px;
+	height: 5px;
+	border-radius: 50%;
 }
