@@ -15,7 +15,7 @@
 	$(document).ready(function(){
 		
 		$("button#btnReg").click(function(){
-			location.href="<%=ctxPath%>/workListAdd.opis";
+			location.href="<%=ctxPath%>/workAdd.opis";
 		});
 		
 	}); 

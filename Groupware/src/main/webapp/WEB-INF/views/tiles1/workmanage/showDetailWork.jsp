@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	  
+<% String ctxPath = request.getContextPath(); %>  
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/content.css" />   
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/workmanage.css" />  
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -13,7 +15,7 @@
 <style type="text/css">
 </style>
 
-<div class="container workcontainer">
+<div class="container commoncontainer">
 	<c:if test="${workType == 1}">
 		<h3>내가 한 업무 요청 조회</h3>
 	</c:if>

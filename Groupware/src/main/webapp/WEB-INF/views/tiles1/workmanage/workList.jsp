@@ -1,20 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
+<% String ctxPath = request.getContextPath(); %>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
+<link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/content.css" />   
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <jsp:include page="./workmanage_sidebar.jsp" />
 
 <style type="text/css">
-div.tdcontainer {
-	 border: 1px solid blue;
-	 margin-left: 280px;
-}
-
 ul#todoSelectCondition {
 	list-style-type: none;
 	display: table;
@@ -92,7 +90,7 @@ button.readCheck {
 	}
 </script>
 
-<div class="container tdcontainer">
+<div class="container commoncontainer">
 	<c:if test="${workType == 1}">
 		<c:choose>
 			<c:when test="${workRole == 1}"><h3>내가 한 업무 요청</h3></c:when>

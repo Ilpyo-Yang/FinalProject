@@ -57,9 +57,9 @@ public class WorkmanageController {
 	}
 
 	// == 업무 등록 하기 == //
-	@RequestMapping(value = "/workListAdd.opis")
+	@RequestMapping(value = "/workAdd.opis")
 	public ModelAndView workListAdd(ModelAndView mav) {
-		mav.setViewName("workmanage/workListAdd.tiles1");
+		mav.setViewName("workmanage/workAdd.tiles1");
 		return mav;
 	}
 
@@ -67,7 +67,14 @@ public class WorkmanageController {
 	@RequestMapping(value = "/todoList.opis")
 	public ModelAndView todoList(ModelAndView mav, HttpServletRequest request) {
 		
-		mav.addObject("todoList", todoList); // fk_wtno 에 해당하는 데이터 리스트
+		String subject = request.getParameter("subject");
+		String deadline = request.getParameter("deadline");
+		String workType = request.getParameter("workType");
+		String content = request.getParameter("content");
+//		String addfile = request.getParameter("addfile");
+		
+		
+		// mav.addObject("todoList", todoList); // fk_wtno 에 해당하는 데이터 리스트
 		mav.setViewName("workmanage/todoList.tiles1");
 		return mav;
 	}

@@ -70,13 +70,11 @@
 			}
 		}
 		
-		$("input[name=fk_wtno]").val(workType);
-		
 		if (workType == 0) submitTodoRegFrm(); 
 		else submitWorkRegFrm();
 	}
 	
-	// == 업무 정보 폼 전송하기 == //
+	// == ToDo 정보 폼 전송하기 == //
 	function submitTodoRegFrm() {
 		var frm = document.workRegFrm;
 		
@@ -151,7 +149,6 @@
 			</tbody>
 		</table>	
 		
-		<input type="hidden" name="fk_wtno" />
-		<input type="hidden" name="type" value="1"/>
+		<input type="hidden" name="workRole" value="1"/>
 	</form>
 </div>
