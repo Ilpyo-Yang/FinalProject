@@ -88,24 +88,24 @@ button.readCheck {
 	});
 	
 	function goDetailWork(wmno) {
-		location.href="<%=request.getContextPath()%>/showDetailWork.opis?fk_wtno="+${fk_wtno}+"&type="+${type}+"&wmno="+wmno;
+		location.href="<%=request.getContextPath()%>/showDetailWork.opis?workType="+${workType}+"&workRole="+${workRole}+"&wmno="+wmno;
 	}
 </script>
 
 <div class="container tdcontainer">
-	<c:if test="${fk_wtno == 1}">
+	<c:if test="${workType == 1}">
 		<c:choose>
-			<c:when test="${type == 1}"><h3>내가 한 업무 요청</h3></c:when>
-			<c:when test="${type == 2}"><h3>수신 업무 요청</h3></c:when>
-			<c:when test="${type == 3}"><h3>참조 업무 요청</h3></c:when>
+			<c:when test="${workRole == 1}"><h3>내가 한 업무 요청</h3></c:when>
+			<c:when test="${workRole == 2}"><h3>수신 업무 요청</h3></c:when>
+			<c:when test="${workRole == 3}"><h3>참조 업무 요청</h3></c:when>
 		</c:choose>
 	</c:if>
 	
-	<c:if test="${fk_wtno == 2}">
+	<c:if test="${workType == 2}">
 		<c:choose>
-			<c:when test="${type == 1}"><h3>내가 한 업무 보고</h3></c:when>
-			<c:when test="${type == 2}"><h3>수신 업무 보고</h3></c:when>
-			<c:when test="${type == 3}"><h3>참조 업무 보고</h3></c:when>
+			<c:when test="${workRole == 1}"><h3>내가 한 업무 보고</h3></c:when>
+			<c:when test="${workRole == 2}"><h3>수신 업무 보고</h3></c:when>
+			<c:when test="${workRole == 3}"><h3>참조 업무 보고</h3></c:when>
 		</c:choose>
 	</c:if>
 	<hr>
@@ -156,13 +156,13 @@ button.readCheck {
 				<th><input type="checkbox" /></th>
 				<th>번호</th>
 				<th>제목 ▲</th>
-				<c:if test="${type == 1}">
-					<c:if test="${fk_wtno == 1}"><th>담당자</th></c:if>
-					<c:if test="${fk_wtno == 2}"><th>수신자</th></c:if>
+				<c:if test="${workRole == 1}">
+					<c:if test="${workType == 1}"><th>담당자</th></c:if>
+					<c:if test="${workType == 2}"><th>수신자</th></c:if>
 				</c:if>
-				<c:if test="${type == 2 or type == 3}">
-					<c:if test="${fk_wtno == 1}"><th>요청자</th></c:if>
-					<c:if test="${fk_wtno == 2}"><th>보고자</th></c:if>
+				<c:if test="${workRole == 2 or workRole == 3}">
+					<c:if test="${workType == 1}"><th>요청자</th></c:if>
+					<c:if test="${workType == 2}"><th>보고자</th></c:if>
 				</c:if>
 				<th>등록일 ▲</th>
 				<th>마감일 ▲</th>
@@ -178,8 +178,8 @@ button.readCheck {
 					<td>${status.count}</td>
 					<td><span class="workSubject" onclick="goDetailWork('${work.wmno}')" style="cursor: pointer;">${work.subject}</span></td>
 					
-					<c:if test="${type == 1}"><td>${work.fk_receiver_seq}</td></c:if>
-					<c:if test="${type == 2 or type == 3}"><td>${work.fk_requester_seq}</td></c:if>
+					<c:if test="${workRole == 1}"><td>${work.fk_receiver_seq}</td></c:if>
+					<c:if test="${workRole == 2 or workRole == 3}"><td>${work.fk_requester_seq}</td></c:if>
 					
 					<td>${work.registerday}</td>
 					<td>${work.deadline}</td>

@@ -76,19 +76,19 @@ public class WorkmanageController {
 	@RequestMapping(value = "/workList.opis")
 	public ModelAndView workList(ModelAndView mav, HttpServletRequest request) {
 		
-		String fk_wtno = request.getParameter("fk_wtno"); // 추후 DB 에서 fk_wtno 를 가지고 타입에 맞는 데이터를 가져올 것 
-		String type = request.getParameter("type"); // 추후 DB 에서 type 에 맞는  데이터를 가져올 것 (발신자, 수신자, 참조자)
+		String workType = request.getParameter("workType"); // 추후 DB 에서 fk_wtno 를 가지고 타입에 맞는 데이터를 가져올 것 
+		String workRole = request.getParameter("workRole"); // 추후 DB 에서 역할에 맞는  데이터를 가져올 것 (발신자, 수신자, 참조자)
 		
 		List<WorkManageVO> newWorkList = new ArrayList<>();
 		
 		for (WorkManageVO wmvo : workList) {
-			if (fk_wtno.equals(wmvo.getFk_wtno())) {
+			if (workType.equals(wmvo.getFk_wtno())) {
 				newWorkList.add(wmvo);
 			}
 		}
 		
-		mav.addObject("fk_wtno", fk_wtno);
-		mav.addObject("type", type); 
+		mav.addObject("workType", workType);
+		mav.addObject("workRole", workRole); 
 		mav.addObject("workList", newWorkList); // fk_wtno 에 해당하는 데이터 리스트
 		
 		mav.setViewName("workmanage/workList.tiles1");
@@ -123,11 +123,11 @@ public class WorkmanageController {
 		int wmno = Integer.parseInt(request.getParameter("wmno")); // 업무고유 번호 받아오기
 		WorkManageVO wmvo = workList.get(wmno-1); // 추후 DB 에서 wmno 로 정보 가져오기
 		
-		String fk_wtno = request.getParameter("fk_wtno"); // 추후 DB 에서 fk_wtno 를 가지고 타입에 맞는 데이터를 가져올 것 
-		String type = request.getParameter("type"); // 추후 DB 에서 type 에 맞는  데이터를 가져올 것 (발신자, 수신자, 참조자)
+		String workType = request.getParameter("workType"); // 추후 DB 에서 fk_wtno 를 가지고 타입에 맞는 데이터를 가져올 것 
+		String workRole = request.getParameter("workRole"); // 추후 DB 에서 type 에 맞는  데이터를 가져올 것 (발신자, 수신자, 참조자)
 		
-		mav.addObject("type", type); 
-		mav.addObject("fk_wtno", fk_wtno);
+		mav.addObject("workType", workType);
+		mav.addObject("workRole", workRole); 
 		mav.addObject("wmvo", wmvo);
 		
 		mav.setViewName("workmanage/showDetailWork.tiles1");

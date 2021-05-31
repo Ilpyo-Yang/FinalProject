@@ -14,11 +14,11 @@
 </style>
 
 <div class="container workcontainer">
-	<c:if test="${fk_wtno == 1}">
+	<c:if test="${workType == 1}">
 		<h3>내가 한 업무 요청 조회</h3>
 	</c:if>
 	
-	<c:if test="${fk_wtno == 2}">
+	<c:if test="${workType == 2}">
 		<h3>내가 한 업무 보고 조회</h3>
 	</c:if>
 
@@ -89,7 +89,7 @@
 		</tbody>
 	</table>
 	
-	<c:if test="${requestScope.type ne 2}"><jsp:include page="./readDetail.jsp" /></c:if>
-	<c:if test="${requestScope.type eq 2}"><jsp:include page="./writeDetail.jsp" /></c:if>
+	<c:if test="${requestScope.workRole ne 2}"><jsp:include page="./readDetail.jsp" /></c:if>
+	<c:if test="${requestScope.workRole eq 2}"><jsp:include page="./writeDetail.jsp" /></c:if>
 </div>
 
