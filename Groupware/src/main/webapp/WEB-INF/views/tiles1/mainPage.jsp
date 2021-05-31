@@ -35,16 +35,16 @@
 		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/cnotice_list.opis';">
 			<i class="fas fa-chalkboard fa-3x icon"></i>게시판
 		</div>
-		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/workList.opis';">
+		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/todoList.opis';">
 			<i class="fas fa-business-time fa-3x icon"></i>업무관리
 		</div>
 		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/myscd.opis';">
 			<i class="fas fa-list fa-3x icon"></i>일정
 		</div>
-		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/cnotice_list.opis';">
+		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/totaladdrlist.opis';">
 			<i class="far fa-address-card fa-3x icon"></i>주소록
 		</div>
-		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/mbrchart.opis';">
+		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/mbrChart.opis';">
 			<i class="fas fa-sitemap fa-3x icon"></i>조직도
 		</div>
 		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/approvalMain.opis';">
