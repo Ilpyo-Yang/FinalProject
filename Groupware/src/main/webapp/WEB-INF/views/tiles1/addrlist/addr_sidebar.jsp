@@ -152,6 +152,10 @@
 	           
 	        }); // end of $("button#zipcodeSearch").click(function(){}--------------------------------
 	        
+	        var frm = document.addFrm;
+	        frm.method = "POST";
+	        frm.action = "<%=ctxPath%>/addr_addEnd.opis";
+	        frm.submit();
     
    }); // end of $(document).ready(function(){})------------------
   
@@ -185,7 +189,7 @@
 			        <tr>
 			         	<th>이름</th>
 			            <td>
-			                <input type="text" name="name" placeholder="이름" class="short"/>
+			                <input type="text" name="mbr_name" placeholder="이름" class="short"/>
 			                <span class="error">이름은 필수입력 사항입니다.</span>
 			            </td>
 			         </tr>		
@@ -201,7 +205,7 @@
 			         <tr>
 			         	<th>이메일</th>
 			            <td>
-			                <input type="text" name="email" class="short requiredInfo" placeholder="abcd@opis.com" />
+			                <input type="text" name="mbr_email" id="email" class="short requiredInfo" placeholder="abcd@opis.com" />
 			                <span id="emailCheckResult"></span>
 			                <span class="error">이메일 형식에 맞지 않습니다.</span>
 			            </td>
@@ -209,14 +213,14 @@
 			         <tr>
 			         	<th>생일</th>
 			            <td>
-			                <input type="text" name="birth" placeholder="yyyymmdd" class="short"/>       
+			                <input type="text" name="mbr_birthday" placeholder="yyyymmdd" class="short"/>       
 			            </td>
 			         </tr>	
 			         <tr>
 			         	<th>소속</th>
 			            <td>
-			                <input type="text" name="dept" placeholder="부서" class="short"/> 
-			                <input type="text" name="position" placeholder="직책" class="short"/>      
+			                <input type="text" name="dept_name" placeholder="부서" class="short"/> 
+			                <input type="text" name="position_name" placeholder="직책" class="short"/>      
 			            </td>
 			         </tr>
 			         <tr>
@@ -238,7 +242,7 @@
 			         <tr>
 			         	<th>메모</th>
 			            <td>
-							<textarea rows="4" cols="100" style="width: 80%; height: 200px;" name="content" id="content" placeholder="메모를 입력해주세요"></textarea>                   
+							<textarea rows="4" cols="100" style="width: 80%; height: 200px;" name="addrmemo" id="content" placeholder="메모를 입력해주세요"></textarea>                   
 						</td>
 			         </tr>	 
 			      </table>

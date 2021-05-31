@@ -5,6 +5,9 @@ import java.util.Map;
 
 public interface InterAddrDAO {
 
+	// 주소록 추가
+	int add(AddrVO addrvo);
+	
 	// 총 주소록 수
 	int getTotalCount(Map<String, String> paraMap);
 
@@ -22,6 +25,7 @@ public interface InterAddrDAO {
 
 	// 주소록 삭제
 	int del(Map<String, String> paraMap);
+
 
 
 }

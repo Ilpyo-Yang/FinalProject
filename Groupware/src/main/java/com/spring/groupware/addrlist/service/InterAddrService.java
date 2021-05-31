@@ -7,6 +7,9 @@ import com.spring.groupware.addrlist.model.AddrVO;
 
 public interface InterAddrService {
 
+	// 주소록 작성
+	int add(AddrVO addrvo);
+
 	// 총 주소록 개수
 	int getTotalCount(Map<String, String> paraMap);
 
@@ -24,5 +27,6 @@ public interface InterAddrService {
 
 	// 주소록 삭제
 	int del(Map<String, String> paraMap);
+
 
 }

@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,9 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.groupware.addrlist.model.AddrVO;
 import com.spring.groupware.addrlist.service.InterAddrService;
-import com.spring.groupware.board.model.CnoticeVO;
 import com.spring.groupware.common.MyUtil;
-import com.spring.groupware.member.model.MemberVO;
 
 @Controller
 public class AddrController {
@@ -29,15 +26,29 @@ public class AddrController {
    @Autowired // Type에 따라 알아서 Bean 을 주입해준다.
    private InterAddrService service;
       
+   // === 주소록 추가 === //
+   @RequestMapping(value="/addr_addEnd.opis", method= {RequestMethod.POST})
+   public ModelAndView addEnd(ModelAndView mav, AddrVO addrvo) {
+ 
+ 	  int n = service.add(addrvo);
+ 	  
+ 	  if(n==1) {
+ 		  mav.setViewName("redirect:/totaladdrlist.opis");
+ 		  
+ 	  }
+ 	  else {
+ 		  mav.setViewName("board/error/add_error.tiles1");
+ 	  }
+ 	  
+ 	  return mav;
+   }
+   
    // === 주소록 목록 === //
    @RequestMapping(value="/totaladdrlist.opis")
    public ModelAndView list(ModelAndView mav, HttpServletRequest request) {
 
  	  List<AddrVO> addrList = null; 
- 	  
- 	  HttpSession session = request.getSession();
-
- 	  
+ 	   	  
  	  String searchType = request.getParameter("searchType");
  	  String searchWord = request.getParameter("searchWord");    	  
  	  String str_currentShowPageNo = request.getParameter("currentShowPageNo");

@@ -18,6 +18,13 @@ public class AddrService implements InterAddrService {
 	@Autowired
 	private InterAddrDAO adao;
 
+	// === 주소록 추가 === //
+	@Override
+	public int add(AddrVO addrvo) {
+		int n = adao.add(addrvo);
+		return n;
+	}
+	
 	// === 총 주소록 수 === //
 	@Override
 	public int getTotalCount(Map<String, String> paraMap) {
@@ -59,5 +66,6 @@ public class AddrService implements InterAddrService {
 		int n = adao.del(paraMap);
 		return n;
 	}
+
 	
 }

@@ -17,6 +17,24 @@ public class AddrVO {
 	private String detailaddress;
 	private String addrmemo;
 	
+	public AddrVO() {}
+	
+	public AddrVO(int addr_seq, String mbr_name, String mbr_phone_number, String mbr_email, String dept_name, String position_name,
+ 				 String mbr_birthday, String postcode, String address, String detailaddress, String addrmemo) {
+		super();
+		this.addr_seq = addr_seq;
+		this.mbr_name = mbr_name;
+		this.mbr_phone_number = mbr_phone_number;
+		this.mbr_email = mbr_email;
+		this.dept_name = dept_name;
+		this.position_name = position_name;
+		this.mbr_birthday = mbr_birthday;
+		this.postcode = postcode;
+		this.address = address;
+		this.detailaddress = detailaddress;
+		this.addrmemo = addrmemo;
+			
+	}
 	
 	public int getAddr_seq() {
 		return addr_seq;

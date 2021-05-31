@@ -4,6 +4,14 @@
 
 <mapper namespace="address">
 
+     <!-- === 주소록 추가 === -->
+     <insert id="addrAdd" parameterType="com.spring.groupware.addrlist.model.AddrVO">
+   		insert into tbl_address(addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name,
+	   		   				 mbr_birthday, postcode, address, detailaddress, addrmemo)
+   		values(addr_seq.nextval, #{mbr_name}, #{mbr_phone_number}, #{email}, #{dept_name}, #{position_name}, 
+   				#{mbr_birthday}, #{postcode}, #{address}, #{detailAddress}, #{addrmemo})
+     </insert>
+
    	 <!-- === 총 주소록 건수(totalCount) === --> 
    	 <select id="getAddrTotalCount" parameterType="HashMap" resultType="int">
    	 	select count(*)

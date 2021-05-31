@@ -22,6 +22,14 @@ public class AddrDAO implements InterAddrDAO {
 	@Resource
 	private SqlSessionTemplate sqlsession3; // 로컬 DB에 hr로 연결
 
+	
+	// === 주소록 추가 === //
+	@Override
+	public int add(AddrVO addrvo) {
+		int n =  sqlsession.insert("address.addrAdd", addrvo);
+		return n;
+	}
+	
 	// === 총 등록 주소록 수 === //
 	@Override
 	public int getTotalCount(Map<String, String> paraMap) {
@@ -63,6 +71,7 @@ public class AddrDAO implements InterAddrDAO {
 		int n = sqlsession.delete("address.delAddr",paraMap);		
 		return n;
 	}
+
 	
 	
 
