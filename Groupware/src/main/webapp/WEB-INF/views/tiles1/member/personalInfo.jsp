@@ -36,35 +36,35 @@
 		<tbody>
 			<tr>
 				<td>아이디</td>
-				<td id="mbr_id">${mbr_id}</td>
+				<td id="mbr_id">${sessionScope.loginuser.mbr_id}</td>
 				<td rowspan="3">사진</td>
 				<td id="mbr_photo" rowspan="3"><i class="fas fa-portrait fa-5x infoIcon"></i></td>
 			</tr>
 			<tr>
 				<td>성명</td>
-				<td id="mbr_name"></td>
+				<td id="mbr_name">${sessionScope.loginuser.mbr_name}</td>
 			</tr>
 			<tr>
 				<td>소속</td>
-				<td id="dept_power"></td>
+				<td id="dept_power">${sessionScope.loginuser.dept_detail}&nbsp;${sessionScope.loginuser.rank_detail}</td>
 			</tr>
 			<tr>
 				<td>비밀번호</td>
 				<td id="mbr_pwd"><input type="password" /></td>
 				<td>이메일</td>
-				<td id="mbr_email"><input type="text" /></td>
+				<td id="mbr_email">${sessionScope.loginuser.mbr_email}<input type="text" /></td>
 			</tr>
 			<tr>
 				<td>비밀번호 확인</td>
 				<td id="mbr_pwd_check"><input type="password" /></td>
 				<td>회사번호</td>
-				<td id="mbr_com_number"><input type="text" /></td>
+				<td id="mbr_com_number">${sessionScope.loginuser.mbr_com_number}<input type="text" /></td>
 			</tr>
 			<tr>
 				<td>생년월일</td>
-				<td id="mbr_birthday"><input type="text" /></td>
+				<td id="mbr_birthday"><input type="text" value="${sessionScope.loginuser.mbr_birthday}"/></td>
 				<td>핸드폰</td>
-				<td id="mbr_phone_number"><input type="text" /></td>
+				<td id="mbr_phone_number">${sessionScope.loginuser.mbr_phone_number}<input type="text" /></td>
 			</tr>
 		</tbody>
 	</table>
