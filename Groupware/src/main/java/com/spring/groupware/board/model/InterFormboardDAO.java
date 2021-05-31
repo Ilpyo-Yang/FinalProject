@@ -22,5 +22,14 @@ public interface InterFormboardDAO {
 
 	// 1개글 수정하기
 	int edit(FormboardVO formboardvo);
+
+	// 글 검색
+	List<String> wordSearchShow(Map<String, String> paraMap);
+
+	// 총 게시물 수 
+	int getTotalCount(Map<String, String> paraMap);
+
+	// 페이징 처리한 글 목록
+	List<FormboardVO> boardListSearchWithPaging(Map<String, String> paraMap);
 	
 }

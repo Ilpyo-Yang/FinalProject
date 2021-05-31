@@ -41,15 +41,17 @@ public class MemberController {
       public ModelAndView loginCheck(HttpServletRequest request, ModelAndView mav) {
     	  String id = request.getParameter("idInput");
     	  String pwd = request.getParameter("pwdInput");
+    	  String ip = request.getRemoteAddr();
     	  
     	  Map<String, String> paraMap = new HashMap<>();
     	  paraMap.put("id", id);
     	  paraMap.put("pwd", pwd);
+    	  paraMap.put("ip", ip);
     	  
     	  MemberVO loginuser = service.loginCheck(paraMap);    	     	
 		  
-    	  if(loginuser==null) {	// 일치하는 멤버가 없을 때
-    		  request.setAttribute("result","일치하는 회원이 없습니다. 다시 로그인해주세요!");
+    	  if(loginuser==null) {		// 일치하는 멤버가 없을 때
+    		  mav.addObject("loginuser", loginuser);
     	      mav.setViewName("redirect:/login.opis");
     	  }
     	  else {	// 일치하는 멤버가 있을 때
@@ -83,6 +85,21 @@ public class MemberController {
     	 mav.setViewName("pwdChange.tiles1");
     	 return mav;
       }
+      
+      
+      // === 로그아웃 하기 === //
+      @RequestMapping(value="/logout.opis")
+      public ModelAndView logout(HttpServletRequest request, ModelAndView mav) {
+    	  HttpSession session = request.getSession();
+    	  
+    	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+    	  int mbr_seq = loginuser.getMbr_seq();
+    	  
+    	  service.logout(mbr_seq);    	     	
+    	  session.removeAttribute("loginuser");
+    	  mav.setViewName("redirect:/login.opis");  // 로그인페이지로 이동  	  
+     	  return mav;
+      }      
       
       
       // === 메인페이지 === //

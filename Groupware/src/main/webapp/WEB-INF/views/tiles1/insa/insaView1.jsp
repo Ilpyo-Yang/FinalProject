@@ -10,7 +10,7 @@
 <jsp:include page="./insa_sidebar.jsp" />
 <style>
 	
-	.registerBtn{
+	.modifyBtn{
  	  margin-left: 20px;
 	  padding: 10px 20px;
 	  font-size: 15px;
@@ -23,8 +23,8 @@
 	  border-radius: 15px;
 	  box-shadow: 0 9px #999;
 	}
-	.registerBtn:hover{ background-color: #3e8e41 !important;}
-	.registerBtn:active{
+	.modifyBtn:hover{ background-color: #3e8e41 !important;}
+	.modifyBtn:active{
 	  background-color: #3e8e41 !important;
 	  box-shadow: 0 5px #666;
 	  transform: translateY(4px);
@@ -47,12 +47,6 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		
-		$("button#modifyBtn").click(function(){
-			var frm = document.insaRegister1Frm;
-			frm.method = "POST";
-			frm.action = "<%=ctxPath%>/insaRegister1.opis";
-			frm.submit(); 
-		});
 		
 	});
 </script>
@@ -62,85 +56,137 @@
 <div id="insa" style="width: 80%; display: inline-block; margin-top: 70px; padding-left: 30px;">
 		<table style="margin-bottom: 50px;">
 		<tr id="insaDetailButton">
-			<td><button class="registerBtn">인적사항</button></td>
+			<td><button class="modifyBtn">인적사항</button></td>
 			<td style="width: 10px;"></td>
-			<td><button class="registerBtn" style="background-color: #e6e6e6; " onclick="javascript:location.href='<%=ctxPath%>/insaView2.opis'">서류정보</button></td>
+			<td><button class="modifyBtn" style="background-color: #e6e6e6; " onclick="javascript:location.href='<%=ctxPath%>/insaView2.opis?seq=${insavo.mbr_seq}'">서류정보</button></td>
 			<td style="width: 580px;"></td>
-			<td><button class="registerBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis'">회원목록으로</button></td>
+			<td><button class="modifyBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis'">회원목록으로</button></td>
 		</tr>
 		</table> 
 
 	
 	
-		<form name="insaRegister1Frm">
 			<table id="insaDetail1" class="table table-striped tdtable">
 				<tr>
 					<td>사원번호</td>
-					<td></td>
+					<td>${insavo.mbr_seq}</td>
 				</tr>
 				<tr>
 					<td>사원명</td>
-					<td></td>
+					<td>${insavo.mbr_name}</td>
 				</tr>
 				<tr>
 					<td>아이디</td>
-					<td><input/></td>
+					<td>${insavo.mbr_id}</td>
 				</tr>
 				<tr>
 					<td>비밀번호</td>
-					<td></td>
+					<td>${insavo.mbr_pwd}</td>
 				</tr>
 				<tr>
 					<td>부서</td>
-					<td></td>
+					<c:if test="${insavo.fk_dept_no == 0}">
+					<td>영업</td>
+					</c:if>
+					<c:if test="${insavo.fk_dept_no == 1}">
+						<td>인사</td>
+					</c:if>
+					<c:if test="${insavo.fk_dept_no == 2}">
+						<td>홍보</td>
+					</c:if>
+					<c:if test="${insavo.fk_dept_no == 3}">
+						<td>IT</td>
+					</c:if>
+					<c:if test="${insavo.fk_dept_no == 4}">
+						<td>회계</td>
+					</c:if>
+					<c:if test="${!(insavo.fk_dept_no == 4 || insavo.fk_dept_no == 3 || insavo.fk_dept_no == 2 || insavo.fk_dept_no == 1 || insavo.fk_dept_no == 0)}">
+						<td>기타</td>
+					</c:if>
 				</tr>
 				<tr>
 					<td>직책</td>
-					<td></td>
+					<c:if test="${insavo.fk_rank_no == 0}">
+						<td>팀장</td>
+					</c:if>						
+					<c:if test="${insavo.fk_rank_no == 1}">
+						<td>팀원</td>
+					</c:if>						
+					<c:if test="${insavo.fk_rank_no == 2}">
+						<td style="color: red;">대표</td>
+					</c:if>	
 				</tr>
 				<tr>
-					<td>연차</td>
-					<td></td>
+					<td>권한</td>
+					<c:if test="${insavo.fk_power_no == 0}">
+						<td>관리자</td>
+					</c:if>
+					<c:if test="${insavo.fk_power_no == 1}">
+						<td>일반사원</td>
+					</c:if>
 				</tr>
 				<tr>
 					<td>입사일자</td>
-					<td>년 월 일</td>
+					<td>${insavo.mbr_registerday}</td>
 				</tr>
 				<tr>
 					<td>퇴사일자</td>
-					<td>년 월 일</td>
+					<td>${insavo.mbr_retireday}</td>
 				</tr>
 				<tr>
 					<td>학력</td>
-					<td></td>
+					<c:if test="${insavo.eduLevel == 0}">
+						<td>초졸</td>
+					</c:if>	
+					<c:if test="${insavo.eduLevel == 1}">
+						<td>중졸</td>
+					</c:if>	
+					<c:if test="${insavo.eduLevel == 2}">
+						<td>고졸</td>
+					</c:if>	
+					<c:if test="${insavo.eduLevel == 3}">
+						<td>초대졸</td>
+					</c:if>	
+					<c:if test="${insavo.eduLevel == 4}">
+						<td>학사</td>
+					</c:if>	
+					<c:if test="${insavo.eduLevel == 5}">
+						<td>석사</td>
+					</c:if>
+					<c:if test="${insavo.eduLevel == 6}">
+						<td>박사</td>
+					</c:if>
 				</tr>
 			</table>
 			<table id="insaDetail2" class="table table-striped tdtable">
 				<tr>
 					<td>회사연락처</td>
-					<td></td>
+					<td>${insavo.mbr_com_number}</td>
 				</tr>
 				<tr>
 					<td>개인연락처</td>
-					<td></td>
+					<td>${insavo.mbr_phone_number}</td>
 				</tr>
 				<tr>
 					<td>회사이메일</td>
-					<td></td>
+					<td>${insavo.mbr_email}</td>
 				</tr>
 				<tr>
 					<td>생년월일</td>
-					<td>년 월 일 						
-					</td>
+					<td>${insavo.mbr_birthday}</td>
 				</tr>
 				<tr>
 					<td>성별</td>
-					<td></td>
+					<c:if test="${insavo.mbr_gender == 0}">
+						<td>여</td>
+					</c:if>
+					<c:if test="${insavo.mbr_gender == 1}">
+						<td>남</td>
+					</c:if>
 				</tr>
 			</table>
-			<button class="registerBtn"  id="registerBtn" type="submit" style="display: inline-block; vertical-align: top;" onClick="javascript:location.href='<%=ctxPath%>/insaRegister1.opis'">수정</button>
+			<button class="modifyBtn"  id="modifyBtn" type="submit" style="display: inline-block; vertical-align: top;" onclick="javascript:location.href='<%=ctxPath%>/insaModify1.opis'">수정</button>
 			
-			</form>
 	
 	</div>
 </div>

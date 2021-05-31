@@ -9,14 +9,49 @@
 	<!-- === 일정 추가하기 === -->
 	<insert id="scdAdd" parameterType="com.spring.groupware.schedule.model.ScheduleVO">
 		insert into tbl_schedule(scdno, fk_scdno2, fk_mbr_seq, scdsubject, scdstartdate, scdenddate, attendance)
-		values(schedule_seq.nextval, #{fk_scdno2}, #{fk_mbr_seq}, #{scdsubject}, #{scdstartdate}, #{scdenddate}, #{attendance})
+		values(schedule_seq.nextval, #{fk_scdno2}, #{fk_mbr_seq}, #{scdsubject}, to_date(#{scdstartdate} || ' ' || #{scdstartTm}, 'yyyy-mm-dd hh24:mi'), to_date(#{scdenddate} || ' ' || #{scdendTm},'yyyy-mm-dd hh24:mi'), #{attendance})
 	</insert>
 
 	<!-- === 등록된 일정 상세 내용 조회 === -->
-	<select id="getViewScd" parameterType="int" resultType="com.spring.groupware.schedule.model.ScheduleVO">
-		select 
+	<select id="getViewScd" parameterType="String" resultType="com.spring.groupware.schedule.model.ScheduleVO">
+		select fk_scdno2, scdsubject, scdstartdate, scdenddate, attendance
+		from tbl_schedule
+		where scdno = #{scdno}
 	</select>
-
-
-
+	
+	<!-- === 일정 수정하기 === -->
+	<update id="editScd" parameterType="com.spring.groupware.schedule.model.ScheduleVO">
+		update tbl_schedule set scdsubject = #{scdsubject}, scdstartdate = to_date(#{scdstartdate} || ' ' || #{scdstartTm}, 'yyyy-mm-dd hh24:mi'), scdenddate = to_date(#{scdenddate} || ' ' || #{scdendTm},'yyyy-mm-dd hh24:mi'), #{attendance}
+		where scdno = #{scdno}
+	</update>
+	
+	<!-- === 일정 삭제하기 === -->
+	<delete id="delScd" parameterType="String">
+		delete from tbl_schedule
+		where scdno = #{scdno}
+	</delete>
+	
+	<!-- =================================================================== -->
+	
+	<!-- === 회의실 예약하기 === -->
+	<insert id="regMtrEnd" parameterType="com.spring.groupware.schedule.model.MtrHistoryVO">
+		insert into tbl_mtrhistory(usemtrno, fk_scdno, fk_mtrno, regDate, starttime, endtime)
+		values(mtrhistory_seq.nextval, #{fk_scdno}, #{fk_mtrno}, #{regDate}, #{starttime}, #{endtime})
+	</insert>
+	
+	<!-- === 회의실 예약 내역 조회 === -->
+	<select id="getViewMtr" parameterType="String" resultType="com.spring.groupware.schedule.model.MtrHistoryVO">
+		select M.mtrname, H.regDate, H.starttime, H.endtime
+		from tbl_mtrhistory H join tbl_mtr M
+		on H.fk_mtrno = M.mtrno
+		where usemtrno = #{usemtrno}
+	</select>
+	
+	<!-- === 회의실 예약취소(삭제) === -->
+	<delete id="delMtrReg" parameterType="String">
+		delete from tbl_mtrhistory
+		where usemtrno = #{usemtrno}
+	</delete>
+	
+	
 </mapper>

@@ -31,6 +31,11 @@
 		margin: 30px 0;
 	}
 	
+	#mtrname {
+		text-align:center;
+		cursor:pointer;
+	}
+	
 </style>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -38,6 +43,26 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script type="text/javascript">
+	
+	$(document).ready(function(){
+		
+		$("button#btnReg_mtr").click(function(){
+			
+			var frm = document.mtr_regFrm;
+			frm.method = "POST";
+			frm.action = "<%=ctxPath%>/regMtrEnd.opis";
+			frm.submit();
+		});
+		
+		
+		$("td#mtrname").click(function(){
+			var $target = $(event.target);
+			var mtrname = $target.val();
+			
+			$("input#mtrName").val(mtrname);
+		});
+		
+	});
 	
 	$(function() {
         //input을 datepicker로 선언
@@ -59,9 +84,7 @@
         //초기값을 오늘 날짜로 설정
         $('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
     });
-	
-	
-	
+
 </script>
 
 <div id="container">
@@ -76,60 +99,68 @@
 	
 	<div>
 		<span style="font-size:9pt;">*회의일자 변경 시 조회 버튼을 클릭하셔야 해당 날짜의 예약 리스트가 조회됩니다.</span>
-		
 		<table id="resv_tbl">
 			<thead>
 				<tr>
 					<th style="padding:10px 20px;">회의실명</th>
-					<c:forEach var="i" begin="9" end="18">
-						<c:set var="startTm" value="${i>9?i:'0'}${i>9?'':i}"/>
-							<th>${i>9?i:'0'}${i>9?'':i}</th>
-					</c:forEach>
+					<th colspan="10">이용시간</th>
 				</tr>
 			</thead>
 			
 			<tbody>
 				<tr>
-					<td style="text-align:center;">회의실1</td>
+					<td id="mtrname">회의실1</td>
 					<c:forEach var="i" begin="9" end="18">
-						<td></td>
+						<td><a id="time">${i>9?i:'0'}${i>9?'':i}00</a></td>
 					</c:forEach>
 				</tr>
 				<tr>
-					<td style="text-align:center;">회의실2</td>
+					<td id="mtrname">회의실2</td>
 					<c:forEach var="i" begin="9" end="18">
-						<td></td>
+						<td><a id="time">${i>9?i:'0'}${i>9?'':i}00</a></td>
 					</c:forEach>
 				</tr>
 				<tr>
-					<td style="text-align:center;">회의실3</td>
+					<td id="mtrname">회의실3</td>
 					<c:forEach var="i" begin="9" end="18">
-						<td></td>
+						<td><a id="time">${i>9?i:'0'}${i>9?'':i}00</a></td>
 					</c:forEach>
 				</tr>
 				<tr>
-					<td style="text-align:center;">회의실4</td>
+					<td id="mtrname">회의실4</td>
 					<c:forEach var="i" begin="9" end="18">
-						<td></td>
+						<td><a id="time">${i>9?i:'0'}${i>9?'':i}00</a></td>
 					</c:forEach>
 				</tr>
 				<tr>
-					<td style="text-align:center;">회의실5</td>
+					<td id="mtrname">회의실5</td>
 					<c:forEach var="i" begin="9" end="18">
-						<td></td>
+						<td><a id="time">${i>9?i:'0'}${i>9?'':i}00</a></td>
 					</c:forEach>
 				</tr>
 				<tr>
-					<td style="text-align:center;">회의실6</td>
+					<td id="mtrname">회의실6</td>
 					<c:forEach var="i" begin="9" end="18">
-						<td></td>
+						<td><a id="time">${i>9?i:'0'}${i>9?'':i}00</a></td>
 					</c:forEach>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 
+<form name="mtr_regFrm">
 	<div id="select_section" align="right">
+		
+		<div>
+			<input type="hidden" value="${sessionScope.loginuser.mbr_seq}"/>
+			<c:if test="${requestScope.mtr} eq ${requestScope.mtrhvo.mtrname}">
+				<input type="text" value="${requestScope.mtrhvo.mtrname}" readonly/>
+			</c:if>
+			<c:if test="${requestScope.mtr} != ${requestScope.mtrhvo.mtrname}">
+				<input type="text" id="mtrName" />
+			</c:if>
+		</div>
+		
 		<select>
 			<option>회의실 선택</option>
 			<option>회의실1</option>
@@ -158,11 +189,11 @@
 	</div>
 	
 	<div id="btn_section" align="right">
-		<button type="submit">예약하기</button>
+		<button type="button" id="btnReg_mtr" onclick="">예약하기</button>
 		<button type="button">취소</button>
 	</div>
 
-
+</form>
 
 </div>
 

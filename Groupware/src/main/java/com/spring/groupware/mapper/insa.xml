@@ -3,21 +3,74 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="insa">
-	<!-- <insert id="insaRegisterEnd" parameterType="com.spring.groupware.member.model.MemberVO" >
-		insert into tbl_mbr(mbr_seq, fk_power_no, fk_dept_no, fk_rank_no, mbr_id, mbr_pwd, mbr_name, mbr_email, mbr_com_number, mbr_phone_number, mbr_gender,mbr_registerday, mbr_retireday,mbr_status )
-		values(seq_mbr.nextval, to_number(#{fk_power_no}), to_number(#{fk_dept_no}), to_number(#{fk_rank_no}), #{mbr_id}, #{mbr_pwd}, #{mbr_name}, #{mbr_email}, #{mbr_com_number}, #{mbr_phone_number}, #{mbr_gender},sysdate, sysdate, '1')
-		values(seq_mbr.nextval, 1, 1, 1, 'sdf', '123', '지영', 'afsd@afsd', '2342134', '2342134', '1',sysdate, sysdate, '1')
-	</insert> -->
+	<!-- 인사정보 등록하기 -->
+	<insert id="insaRegisterEnd" parameterType="com.spring.groupware.insa.model.InsaVO" >
+	
+		insert into tbl_mbr(mbr_seq, fk_power_no, fk_dept_no, fk_rank_no, mbr_id, mbr_pwd, mbr_name, mbr_email, mbr_com_number, mbr_phone_number,mbr_gender,mbr_registerday, mbr_retireday,mbr_status,mbr_birthday )
+		values(#{mbr_seq}, to_number(#{fk_power_no}), to_number(#{fk_dept_no}), to_number(#{fk_rank_no}), #{mbr_id}, #{mbr_pwd}, #{mbr_name}, #{mbr_com_number}, #{mbr_phone_number}, #{mbr_email},#{mbr_gender},sysdate,sysdate, '1',to_date(#{mbr_birthday}, 'yyyy-mm-dd') )
+	</insert>
 	 
-	<select id="memberList" parameterType="HashMap" resultType="com.spring.groupware.member.model.MemberVO">
-		select M.mbr_seq, M.mbr_name, M.fk_dept_no, M.fk_rank_no, M.mbr_registerday, M.mbr_retireday, E.eduLevel
-		from tbl_mbr M JOIN tbl_edu E
-		on M.mbr_seq = E.mbr_seq
+	 <!-- 멤버 리스트 받아오기 -->
+	<select id="insaList" parameterType="HashMap" resultType="com.spring.groupware.insa.model.InsaVO">
+		select distinct M.mbr_seq, M.mbr_name, M.fk_dept_no, M.fk_rank_no, M.mbr_registerday, M.mbr_retireday, E.eduLevel
+		from (
+		select mbr_seq, mbr_name, fk_dept_no, fk_rank_no, mbr_registerday, mbr_retireday
+		from tbl_mbr 
 		<if test="category == 6">
 		
 		</if>
 		<if test="category != 6">
 			where fk_dept_no = to_number(#{category})
 		</if>
+		) M 
+		LEFT JOIN 
+		(
+		select max(eduLevel) AS eduLevel , mbr_seq
+		from tbl_edu
+		group by mbr_seq
+		) E
+		ON M.mbr_seq = E.mbr_seq
+		order by mbr_seq
+
+		
+		
 	</select>
+	
+	<!-- 멤버 시퀀스 가져오기 -->
+	<select id="getInsaSequence" resultType="String">
+		select seq_mbr.nextval
+		from dual
+	</select>
+	
+	<!-- view1 한 멤버 가져오기 -->
+	<select id="getInsaView1" parameterType="String" resultType="com.spring.groupware.insa.model.InsaVO">
+		    
+		select  M.mbr_seq, M.mbr_name, M.fk_dept_no, M.fk_rank_no, M.mbr_registerday, M.mbr_retireday,
+		        E.eduLevel, M.fk_power_no, M.mbr_id, mbr_pwd, M.mbr_email, M.mbr_com_number, M.mbr_phone_number,
+				M.mbr_gender, M.mbr_status, M.mbr_birthday
+		from (
+		select mbr_seq, mbr_name, fk_dept_no, fk_rank_no, mbr_registerday, mbr_retireday, fk_power_no, mbr_id,
+		       mbr_pwd, mbr_email, mbr_com_number, mbr_phone_number, mbr_gender, mbr_status, mbr_birthday
+		from tbl_mbr 
+		where mbr_seq = #{seq}
+		) M 
+		LEFT JOIN 
+		(
+		select max(eduLevel) AS eduLevel , mbr_seq
+		from tbl_edu
+		group by mbr_seq
+		having mbr_seq = #{seq}
+		) E
+		ON M.mbr_seq = E.mbr_seq
+	</select>
+
+
+
+<!-- view2 한 멤버 가져오기 -->
+	<select id="getEduList" parameterType="String" resultType="com.spring.groupware.insa.model.InsaVO">
+		select eduLevel , school, major
+		from tbl_edu
+		where mbr_seq = #{seq}
+		ordey by eduLevel
+	</select>	
 </mapper>

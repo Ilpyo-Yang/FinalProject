@@ -79,10 +79,10 @@
 		height: 35px;
 		font-size: 12pt;
 	}
-	table#memberListaTbl td{
+	table#insaListaTbl td{
 		text-align: center;
 	}
-	table#memberListaTbl th{
+	table#insaListaTbl th{
 		text-align: center;
 	}
 </style>
@@ -147,7 +147,7 @@
 					</td>
 				</tr>
 			</table>
-			<table id="memberListaTbl" class="table table-striped tdtable">
+			<table id="insaListaTbl" class="table table-striped tdtable">
 					<thead>
 					<tr>
 						<th style="width: 15%; ">사원번호</th>
@@ -160,62 +160,62 @@
 					</tr>
 					</thead>
 					<tbody>
-					<c:forEach var="memberList" items="${requestScope.memberList}">
-					<tr>
-						<td>${memberList.mbr_seq}</td>
-						<td>${memberList.mbr_name}</td>
-						<c:if test="${memberList.fk_dept_no == 0}">
+					<c:forEach var="insaList" items="${requestScope.insaList}">
+					<tr onclick="javascript:location.href='<%=ctxPath%>/insaView1.opis?seq=${insaList.mbr_seq}'">
+						<td>${insaList.mbr_seq}</td>
+						<td>${insaList.mbr_name}</td>
+						<c:if test="${insaList.fk_dept_no == 0}">
 							<td>영업</td>
 						</c:if>
-						<c:if test="${memberList.fk_dept_no == 1}">
+						<c:if test="${insaList.fk_dept_no == 1}">
 							<td>인사</td>
 						</c:if>
-						<c:if test="${memberList.fk_dept_no == 2}">
+						<c:if test="${insaList.fk_dept_no == 2}">
 							<td>홍보</td>
 						</c:if>
-						<c:if test="${memberList.fk_dept_no == 3}">
+						<c:if test="${insaList.fk_dept_no == 3}">
 							<td>IT</td>
 						</c:if>
-						<c:if test="${memberList.fk_dept_no == 4}">
+						<c:if test="${insaList.fk_dept_no == 4}">
 							<td>회계</td>
 						</c:if>
-						<c:if test="${!(memberList.fk_dept_no == 4 || memberList.fk_dept_no == 3 || memberList.fk_dept_no == 2 || memberList.fk_dept_no == 1 || memberList.fk_dept_no == 0)}">
+						<c:if test="${!(insaList.fk_dept_no == 4 || insaList.fk_dept_no == 3 || insaList.fk_dept_no == 2 || insaList.fk_dept_no == 1 || insaList.fk_dept_no == 0)}">
 							<td>기타</td>
 						</c:if>
 						
-						<c:if test="${memberList.fk_rank_no == 0}">
+						<c:if test="${insaList.fk_rank_no == 0}">
 							<td>팀장</td>
 						</c:if>						
-						<c:if test="${memberList.fk_rank_no == 1}">
+						<c:if test="${insaList.fk_rank_no == 1}">
 							<td>팀원</td>
 						</c:if>						
-						<c:if test="${memberList.fk_rank_no == 2}">
+						<c:if test="${insaList.fk_rank_no == 2}">
 							<td style="color: red;">대표</td>
 						</c:if>	
-						<td>${memberList.mbr_registerday}</td>	
+						<td>${insaList.mbr_registerday}</td>	
 									
-						<c:if test="${memberList.eduLevel == 0}">
+						<c:if test="${insaList.eduLevel == 0}">
 							<td>초졸</td>
 						</c:if>	
-						<c:if test="${memberList.eduLevel == 1}">
+						<c:if test="${insaList.eduLevel == 1}">
 							<td>중졸</td>
 						</c:if>	
-						<c:if test="${memberList.eduLevel == 2}">
+						<c:if test="${insaList.eduLevel == 2}">
 							<td>고졸</td>
 						</c:if>	
-						<c:if test="${memberList.eduLevel == 3}">
+						<c:if test="${insaList.eduLevel == 3}">
 							<td>초대졸</td>
 						</c:if>	
-						<c:if test="${memberList.eduLevel == 4}">
+						<c:if test="${insaList.eduLevel == 4}">
 							<td>학사</td>
 						</c:if>	
-						<c:if test="${memberList.eduLevel == 5}">
+						<c:if test="${insaList.eduLevel == 5}">
 							<td>석사</td>
 						</c:if>
-						<c:if test="${memberList.eduLevel == 6}">
+						<c:if test="${insaList.eduLevel == 6}">
 							<td>박사</td>
 						</c:if>
-						<td><%-- ${memberList.mbr_retireday} --%></td>
+						<td><%-- ${insaList.mbr_retireday} --%></td>
 					</tr>
 					</c:forEach>
 				</tbody>

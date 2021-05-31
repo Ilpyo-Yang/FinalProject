@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.spring.groupware.schedule.model.InterScheduleDAO;
+import com.spring.groupware.schedule.model.MtrHistoryVO;
 import com.spring.groupware.schedule.model.ScheduleVO;
 
 @Component
@@ -24,17 +25,53 @@ public class ScheduleService implements InterScheduleService{
 	
 	// 등록된 일정 상세 내용 조회
 	@Override
-	public ScheduleVO getViewScd(String scdno, int login_mbrno) {
+	public ScheduleVO getViewScd(String scdno) {
 		
 		ScheduleVO schedulevo = dao.getViewScd(scdno);	// 일정 한개 조회하기
-		if(schedulevo != null && login_mbrno == Integer.parseInt(schedulevo.getFk_mbr_seq())){
-			schedulevo = dao.getViewScd(scdno);
-		}
-		else {
-			schedulevo = null;
-		}
 		
 		return schedulevo;
 	}
+	
+	// 일정 수정하기
+	@Override
+	public int editScd(ScheduleVO schedulevo) {
+		int n = dao.editScd(schedulevo);
+		return n;
+	}
+	
+	// 일정 삭제하기
+	@Override
+	public int delScd(ScheduleVO schedulevo) {
+		int n = dao.delScd(schedulevo);
+		return n;
+	}
+	
+	///////////////////////////////////////////////////////////일정끝
+	
+	
+	// 회의실 예약하기
+	@Override
+	public int regMtrEnd(MtrHistoryVO mtrhvo) {
+		int n = dao.regMtrEnd(mtrhvo);
+		return n;
+	}
+	
+	// 예약된 회의실 상세 내용 조회
+	@Override
+	public MtrHistoryVO getViewMtr(String usemtrno) {
+		MtrHistoryVO mtrhvo = dao.getViewMtr(usemtrno);
+		return mtrhvo;
+	}
+	
+	// 회의실 예약취소(삭제)
+	@Override
+	public int delMtrReg(String usemtrno) {
+		int n = dao.delMtrReg(usemtrno);
+		return n;
+	}
+
+	
+
+	
 	
 }

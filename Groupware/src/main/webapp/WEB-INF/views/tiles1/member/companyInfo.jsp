@@ -15,16 +15,22 @@
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
   
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/mainPage.css"/>
-<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/js/mainPage.js"/>
 
-<script>
-	$(function(){
-		
-	});
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("span#personal").click(function(){
+			location.href="<%=ctxPath%>/personalInfo.opis";
+		});
+		$("span#company").click(function(){
+			location.href="<%=ctxPath%>/companyInfo.opis";
+		});
+	}); // end of $(document).ready(function(){})---------------------------------------
 </script>
 
 <div id="companyInfoContainer">
-	<span class="subtitle">개인정보설정</span><span class="subtitle">|</span><span class="subtitle">회사정보보기</span>
+	<span class="subtitle" id="personal" style="cursor: pointer;">개인정보설정</span>
+	<span class="subtitle">|</span>
+	<span class="subtitle" id="company" style="color:#04AA6D; cursor: pointer;" >회사정보보기</span>
 	<hr>
 	<table>
 		<tbody>
