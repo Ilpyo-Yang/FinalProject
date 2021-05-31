@@ -63,12 +63,21 @@
 		// 담당자
 		var workType = $("input[name=workType]:checked").val();
 		if (workType != 0) {
-			var manager = $("input[name=manager]").val().trim();
+			var manager = $("input[name=fk_receiver_seq]").val().trim();
 			
 			if (manager == "") {
 				alert("담당자를 입력하세요");
 				return;
 			}
+		}
+		
+		$("input[name=fk_wtno]").val(workType); // DB 컬럼명이랑 맞추기
+		
+		if (workType == 1) {
+			$("input[name=fk_statno]").val("1");
+		}
+		else if (workType == 2) {
+			$("input[name=fk_statno]").val("3");
 		}
 		
 		if (workType == 0) submitTodoRegFrm(); 
@@ -88,7 +97,7 @@
 	function submitWorkRegFrm() {
 		var frm = document.workRegFrm;
 		
-		frm.action = "<%=ctxPath%>/workList.opis";
+		frm.action = "<%=ctxPath%>/workAddEnd.opis";
 		frm.method = "post";
 		frm.submit();
 	}
@@ -126,11 +135,11 @@
 				
 				<tr class="onlyWorkInput">
 					<td><span class="star">*</span>담당자</td>
-					<td><input name="manager" placeholder="사용자" /></td>
+					<td><input name="fk_receiver_seq" placeholder="사용자" /></td>
 				</tr>
 				<tr class="onlyWorkInput">
 					<td>참조자</td>
-					<td><input name="referrer" placeholder="사용자" /></td>
+					<td><input name="fk_referrer_seq" placeholder="사용자" /></td>
 				</tr>
 			
 				<tr>
@@ -151,6 +160,9 @@
 		</table>	
 		
 		<input type="hidden" name="workRole" value="1"/>
-		<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}"/>
+		<input type="hidden" name="fk_wtno" />
+		<input type="hidden" name="fk_statno" />
+		<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}"/><!-- 나의 할 일 등록할 때 사용 -->
+		<input type="hidden" name="fk_requester_seq" value="${sessionScope.loginuser.mbr_seq}"/><!-- 업무 요청,보고할 때 사용 -->
 	</form>
 </div>

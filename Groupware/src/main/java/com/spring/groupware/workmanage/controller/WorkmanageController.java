@@ -129,6 +129,36 @@ public class WorkmanageController {
 	///////////////////////////////////////////////////////////////////////////////
 	// 업무 작업 ㄱ
 	
+	// == 업무(요청,보고) 등록하기   == //
+	@RequestMapping(value = "/workAddEnd.opis", method = {RequestMethod.POST})
+	public ModelAndView workAddEnd(ModelAndView mav, WorkVO workvo, HttpServletRequest request) {
+		
+		/* 
+		 * >> 추가로 해야할 일
+		 * 	- 내용(contens) 등록할 때 inject처리, 개행문자 처리 => 추후 스마트 에디터 사용 예정
+		 * 	- 첨부파일(addfile) 등록처리
+		 */
+		
+		int n = service.workAddEnd(workvo);
+		String workRole = request.getParameter("workRole");
+		
+		if (n == 1) {
+			mav.setViewName("redirect:/workList.opis?workType"+workvo.getFk_wtno()+"&workRole="+workRole);
+		}
+		else {
+			String message = "일정 등록에 실패하였습니다. 다시 시도하세요";
+			String loc = "javascript:history.back()";
+			
+			mav.addObject("message",message);
+			mav.addObject("loc",loc);
+			
+			mav.setViewName("msg");			
+		}
+		
+		return mav;
+	}		
+	
+	
 	// == 내가 한 업무 리스트 보여주기 == //
 	@RequestMapping(value = "/workList.opis")
 	public ModelAndView workList(ModelAndView mav, HttpServletRequest request) {

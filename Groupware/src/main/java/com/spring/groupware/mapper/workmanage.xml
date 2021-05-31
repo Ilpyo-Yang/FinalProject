@@ -30,4 +30,9 @@
 		where tdno = #{tdno} and fk_mbr_seq = #{fk_mbr_seq}
 	</select>
 	
+	<!-- == 업무(요청,보고) 등록하기 == -->
+	<insert id="workAddEnd" parameterType="com.spring.groupware.workmanage.model.WorkVO">
+		insert into tbl_workmanage(wmno, fk_wtno, fk_requester_seq, fk_receiver_seq, subject, contents, deadline, fk_statno)
+		values (seq_workmanage_wmno.nextval, #{fk_wtno}, #{fk_requester_seq}, #{fk_receiver_seq}, #{subject}, #{contents}, to_date(#{deadline}), #{fk_statno})
+	</insert>
 </mapper>

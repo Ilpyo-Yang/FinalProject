@@ -37,6 +37,13 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		TodoVO tdvo = sqlsession.selectOne("workmanage.showDetailTodo", paraMap);
 		return tdvo;
 	}
+
+	// == 업무(요청,보고) 등록하기 == //   
+	@Override
+	public int workAddEnd(WorkVO workvo) {
+		int n = sqlsession.insert("workmanage.workAddEnd", workvo);
+		return n;
+	}
 	
 	
 

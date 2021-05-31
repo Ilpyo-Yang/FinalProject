@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.groupware.workmanage.model.InterWorkmanageDAO;
 import com.spring.groupware.workmanage.model.TodoVO;
+import com.spring.groupware.workmanage.model.WorkVO;
 
 @Component
 @Service
@@ -36,6 +37,14 @@ public class WorkmanageService implements InterWorkmanageService {
 	public TodoVO showDetailTodo(Map<String, String> paraMap) {
 		TodoVO tdvo = dao.showDetailTodo(paraMap);
 		return tdvo;
+	}
+
+	
+	// == 업무(요청,보고) 등록하기   == //
+	@Override
+	public int workAddEnd(WorkVO workvo) {
+		int n = dao.workAddEnd(workvo);
+		return n;
 	}
 
 }

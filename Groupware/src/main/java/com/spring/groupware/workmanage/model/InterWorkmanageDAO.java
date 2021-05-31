@@ -14,4 +14,7 @@ public interface InterWorkmanageDAO {
 	// 선택한 나의 할일 상세 보기 
 	TodoVO showDetailTodo(Map<String, String> paraMap);
 
+	// 업무(요청,보고) 등록하기   
+	int workAddEnd(WorkVO workvo);
+
 }
