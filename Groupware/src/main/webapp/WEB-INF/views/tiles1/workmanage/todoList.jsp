@@ -65,7 +65,7 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 	});
 	
 	function goDetailTodo(tdno) {
-		location.href="<%=request.getContextPath()%>/showDetailTodo.opis?tdno="+tdno;
+		location.href="<%=request.getContextPath()%>/showDetailTodo.opis?tdno="+tdno+"&mbr_seq=${sessionScope.loginuser.mbr_seq}";
 	}
 </script>
 

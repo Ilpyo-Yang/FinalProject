@@ -6,33 +6,42 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections4.map.HashedMap;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.workmanage.model.TodoVO;
-import com.spring.groupware.workmanage.model.WorkManageVO;
+import com.spring.groupware.workmanage.model.WorkVO;
+import com.spring.groupware.workmanage.service.InterWorkmanageService;
 
 @Component
 @Controller
 public class WorkmanageController {
 	
-	List<WorkManageVO> workList;
+	@Autowired	 // type에 따라 자동 객체 삽입
+	private InterWorkmanageService service; 
+	
+	List<WorkVO> workList;
 	List<TodoVO> todoList;
 	
 	public WorkmanageController() {
 		workList = new ArrayList<>();
 		
-		WorkManageVO wmvo1 = new WorkManageVO("1", "1", "이두나", "김관리", "계약서 작성요청1", "계약서 좀 빨리 작성해주세요", "2021.04.21", "2021.05.21", "0", "", "0");
-		WorkManageVO wmvo2 = new WorkManageVO("2", "1", "이두나", "김관리", "계약서 작성요청2", "계약서 좀 빨리 작성해주세요!", "2021.04.22", "2021.05.21", "0", "", "1");
-		WorkManageVO wmvo3 = new WorkManageVO("3", "1", "이두나", "김관리", "계약서 작성요청3", "계약서 좀 빨리 작성해주세요!!", "2021.04.23", "2021.05.21", "0", "", "2");
+		WorkVO wmvo1 = new WorkVO("1", "1", "이두나", "김관리", "계약서 작성요청1", "계약서 좀 빨리 작성해주세요", "2021.04.21", "2021.05.21", "0", "", "0");
+		WorkVO wmvo2 = new WorkVO("2", "1", "이두나", "김관리", "계약서 작성요청2", "계약서 좀 빨리 작성해주세요!", "2021.04.22", "2021.05.21", "0", "", "1");
+		WorkVO wmvo3 = new WorkVO("3", "1", "이두나", "김관리", "계약서 작성요청3", "계약서 좀 빨리 작성해주세요!!", "2021.04.23", "2021.05.21", "0", "", "2");
 		
-		WorkManageVO wmvo4 = new WorkManageVO("4", "2", "김관리", "이두나", "계약서 작성요청1", "계약서 좀 빨리 작성해주세요", "2021.04.21", "2021.05.21", "0", "", "3");
-		WorkManageVO wmvo5 = new WorkManageVO("5", "2", "박관리", "이두나", "계약서 작성요청2", "계약서 좀 빨리 작성해주세요!", "2021.04.22", "2021.05.21", "0", "", "4");
-		WorkManageVO wmvo6 = new WorkManageVO("6", "2", "박관리", "이두나", "계약서 작성요청3", "계약서 좀 빨리 작성해주세요!!", "2021.04.23", "2021.05.21", "0", "", "5");
+		WorkVO wmvo4 = new WorkVO("4", "2", "김관리", "이두나", "계약서 작성요청1", "계약서 좀 빨리 작성해주세요", "2021.04.21", "2021.05.21", "0", "", "3");
+		WorkVO wmvo5 = new WorkVO("5", "2", "박관리", "이두나", "계약서 작성요청2", "계약서 좀 빨리 작성해주세요!", "2021.04.22", "2021.05.21", "0", "", "4");
+		WorkVO wmvo6 = new WorkVO("6", "2", "박관리", "이두나", "계약서 작성요청3", "계약서 좀 빨리 작성해주세요!!", "2021.04.23", "2021.05.21", "0", "", "5");
 		
 		
 		workList.add(wmvo1);
@@ -43,42 +52,83 @@ public class WorkmanageController {
 		workList.add(wmvo5);
 		workList.add(wmvo6);
 		
-		todoList = new ArrayList<>();
-		
-		// String tdno, String fk_mbr_seq, String subject, String contents, String registerday, String deadline, String important, String fk_statno
-		TodoVO tdvo1 = new TodoVO("1", "1", "계약서 작성요청1", "계약서 좀 빨리 작성해주세요", "2021.04.21", "2021.05.21", "0", "0");
-		TodoVO tdvo2 = new TodoVO("2", "2", "계약서 작성요청2", "계약서 좀 빨리 작성해주세요!", "2021.04.22", "2021.05.21", "0", "1");
-		TodoVO tdvo3 = new TodoVO("3", "3", "계약서 작성요청3", "계약서 좀 빨리 작성해주세요!!", "2021.04.23", "2021.05.21", "0", "2");
-		
-		todoList.add(tdvo1);
-		todoList.add(tdvo2);
-		todoList.add(tdvo3);
 		
 	}
 
-	// == 업무 등록 하기 == //
+	// == 업무 등록 페이지 보여주기 (할일, 요청, 보고 등록) == //
 	@RequestMapping(value = "/workAdd.opis")
-	public ModelAndView workListAdd(ModelAndView mav) {
+	public ModelAndView requiredLogin_workAdd(HttpServletRequest request, HttpServletResponse res, ModelAndView mav) {
 		mav.setViewName("workmanage/workAdd.tiles1");
 		return mav;
 	}
 
-	// == 할 일 리스트 보여주기 == //
+	// == 업무 등록 중 나의 할일 등록하기   == //
+	@RequestMapping(value = "/workAddTodoEnd.opis", method = {RequestMethod.POST})
+	public ModelAndView workAddTodoEnd(ModelAndView mav, TodoVO tdvo) {
+		
+		/* 
+		 * >> 추가로 해야할 일
+		 * 	- 내용(contens) 등록할 때 inject처리, 개행문자 처리 => 추후 스마트 에디터 사용 예정
+		 * 	- 첨부파일(addfile) 등록처리
+		 */
+		
+		int n = service.workAddTodoEnd(tdvo);
+		
+		if (n == 1) {
+			mav.setViewName("redirect:/todoList.opis");
+		}
+		else {
+			String message = "일정 등록에 실패하였습니다. 다시 시도하세요";
+			String loc = "javascript:history.back()";
+			
+			mav.addObject("message",message);
+			mav.addObject("loc",loc);
+			
+			mav.setViewName("msg");			
+		}
+		
+		return mav;
+	}	
+	
+	// == 나의 할 일 리스트 보여주기 (전체) == //
 	@RequestMapping(value = "/todoList.opis")
-	public ModelAndView todoList(ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView requiredLogin_todoList(HttpServletRequest request, HttpServletResponse res, ModelAndView mav) {	
 		
-		String subject = request.getParameter("subject");
-		String deadline = request.getParameter("deadline");
-		String workType = request.getParameter("workType");
-		String content = request.getParameter("content");
-//		String addfile = request.getParameter("addfile");
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser"); 
 		
+		// 현재 로그인 되어있는 멤버의 seq를 통해 해당 멤버의 할일 리스트 가져온다.
+		String fk_mbr_seq = String.valueOf(loginuser.getMbr_seq());
+		List<TodoVO> todoList = service.todoList(fk_mbr_seq);
 		
-		// mav.addObject("todoList", todoList); // fk_wtno 에 해당하는 데이터 리스트
+		mav.addObject("todoList", todoList);
 		mav.setViewName("workmanage/todoList.tiles1");
 		return mav;
 	}
+		
+	// == 나의 할 일 상세 조회 페이지 == //
+	@RequestMapping(value = "/showDetailTodo.opis")
+	public ModelAndView showDetailTodo(ModelAndView mav, HttpServletRequest request) {
 
+		// tbl_todolist 테이블에서 업무고유 번호에 해당하는 값 가져오기 
+		String tdno = request.getParameter("tdno");
+		String fk_mbr_seq = request.getParameter("mbr_seq"); 
+		
+		Map<String, String> paraMap = new HashedMap<>();
+		paraMap.put("tdno", tdno);
+		paraMap.put("fk_mbr_seq", fk_mbr_seq);
+		
+		TodoVO tdvo = service.showDetailTodo(paraMap);
+
+		mav.addObject("tdvo", tdvo);
+		mav.setViewName("workmanage/showDetailTodo.tiles1");
+		return mav;
+	}
+
+	// ㄴ 할일 작업 
+	///////////////////////////////////////////////////////////////////////////////
+	// 업무 작업 ㄱ
+	
 	// == 내가 한 업무 리스트 보여주기 == //
 	@RequestMapping(value = "/workList.opis")
 	public ModelAndView workList(ModelAndView mav, HttpServletRequest request) {
@@ -86,9 +136,9 @@ public class WorkmanageController {
 		String workType = request.getParameter("workType"); // 추후 DB 에서 fk_wtno 를 가지고 타입에 맞는 데이터를 가져올 것 
 		String workRole = request.getParameter("workRole"); // 추후 DB 에서 역할에 맞는  데이터를 가져올 것 (발신자, 수신자, 참조자)
 		
-		List<WorkManageVO> newWorkList = new ArrayList<>();
+		List<WorkVO> newWorkList = new ArrayList<>();
 		
-		for (WorkManageVO wmvo : workList) {
+		for (WorkVO wmvo : workList) {
 			if (workType.equals(wmvo.getFk_wtno())) {
 				newWorkList.add(wmvo);
 			}
@@ -128,7 +178,7 @@ public class WorkmanageController {
 	public ModelAndView showDetailWork(ModelAndView mav, HttpServletRequest request) {
 		
 		int wmno = Integer.parseInt(request.getParameter("wmno")); // 업무고유 번호 받아오기
-		WorkManageVO wmvo = workList.get(wmno-1); // 추후 DB 에서 wmno 로 정보 가져오기
+		WorkVO wmvo = workList.get(wmno-1); // 추후 DB 에서 wmno 로 정보 가져오기
 		
 		String workType = request.getParameter("workType"); // 추후 DB 에서 fk_wtno 를 가지고 타입에 맞는 데이터를 가져올 것 
 		String workRole = request.getParameter("workRole"); // 추후 DB 에서 type 에 맞는  데이터를 가져올 것 (발신자, 수신자, 참조자)
@@ -141,16 +191,5 @@ public class WorkmanageController {
 		return mav;
 	}
 	
-	// == 나의 할 일 상세 조회 페이지 == //
-	@RequestMapping(value = "/showDetailTodo.opis")
-	public ModelAndView showDetailTodo(ModelAndView mav, HttpServletRequest request) {
-
-		int tdno = Integer.parseInt(request.getParameter("tdno")); // 업무고유 번호 받아오기
-		TodoVO tdvo = todoList.get(tdno - 1); // 추후 DB 에서 wmno 로 정보 가져오기
-
-		mav.addObject("tdvo", tdvo);
-
-		mav.setViewName("workmanage/showDetailTodo.tiles1");
-		return mav;
-	}
+	
 }

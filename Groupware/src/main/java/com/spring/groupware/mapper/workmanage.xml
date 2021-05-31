@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ==== mapper 기본설정 ==== -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- ==== 루트 엘리먼트 & 네임스페이스 설정 ==== -->
+<mapper namespace="workmanage">
+	
+	<!-- == 업무등록 페이지에서 나의 할일 등록하기 == -->
+	<insert id="workAddTodoEnd" parameterType="com.spring.groupware.workmanage.model.TodoVO">
+		insert into tbl_todolist(tdno, fk_mbr_seq, subject, contents, deadline)
+		values(seq_todolist_tdno.nextval, to_number(#{fk_mbr_seq}), #{subject}, #{contents}, to_date(#{deadline}))
+	</insert>
+
+	<!-- == 나의 할일 리스트 페이지 보여주기 (전체) == -->
+	<select id="todoList" parameterType="String" resultType="com.spring.groupware.workmanage.model.TodoVO">
+		select tdno, fk_mbr_seq, subject, contents, important, fk_statno
+		    , to_char(registerday, 'yyyy-mm-dd') as registerday
+		    , to_char(deadline, 'yyyy-mm-dd') as deadline
+		from tbl_todolist
+		where fk_mbr_seq = #{fk_mbr_seq}	
+	</select>
+	
+	<!-- == 선택한 나의 할일 상세 보기 == -->
+	<select id="showDetailTodo" parameterType="HashMap" resultType="com.spring.groupware.workmanage.model.TodoVO">
+		select tdno, fk_mbr_seq, subject, contents, important, fk_statno
+		    , to_char(registerday, 'yyyy-mm-dd') as registerday
+		    , to_char(deadline, 'yyyy-mm-dd') as deadline
+		from tbl_todolist
+		where tdno = #{tdno} and fk_mbr_seq = #{fk_mbr_seq}
+	</select>
+	
+</mapper>

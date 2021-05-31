@@ -1,6 +1,6 @@
 package com.spring.groupware.workmanage.model;
 
-public class WorkManageVO {
+public class WorkVO {
 	private String wmno; 				//업무관리고유번호
 	private String fk_wtno; 			// 업무분류번호
 	private String fk_requester_seq; 	// 요청자 사원번호
@@ -13,9 +13,9 @@ public class WorkManageVO {
 	private String important;			// 중요여부 (0 or 1)
 	private String fk_statno;  			// 업무상태번호
 	
-	public WorkManageVO() {}
+	public WorkVO() {}
 	
-	public WorkManageVO(String wmno, String fk_wtno, String fk_requester_seq, String fk_receiver_seq, String subject,
+	public WorkVO(String wmno, String fk_wtno, String fk_requester_seq, String fk_receiver_seq, String subject,
 			String contents, String registerday, String deadline, String checkstatus, String important,
 			String fk_statno) {
 	

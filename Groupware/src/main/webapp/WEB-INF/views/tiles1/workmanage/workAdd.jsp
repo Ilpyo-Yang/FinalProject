@@ -23,7 +23,8 @@
 			showOn : "button",
 			buttonImage : "<%=ctxPath%>/resources/images/icon_calendar.png",
 			buttonImageOnly : true,
-			buttonText : "Select date"
+			buttonText : "Select date",
+			dateFormat: 'yy-mm-dd'
 		});
 
 		var checkRadio = $("input[name=workType]:checked");
@@ -78,7 +79,7 @@
 	function submitTodoRegFrm() {
 		var frm = document.workRegFrm;
 		
-		frm.action = "<%=ctxPath%>/todoList.opis";
+		frm.action = "<%=ctxPath%>/workAddTodoEnd.opis";
 		frm.method = "post";
 		frm.submit();
 	}
@@ -138,7 +139,7 @@
 				</tr>
 				<tr>
 					<td>내용</td>
-					<td><textarea name="content" cols="60" rows="10"></textarea></td>
+					<td><textarea name="contents" cols="60" rows="10"></textarea></td>
 				</tr>
 				<tr id="workRegBtn">
 					<td colspan="2">
@@ -150,5 +151,6 @@
 		</table>	
 		
 		<input type="hidden" name="workRole" value="1"/>
+		<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}"/>
 	</form>
 </div>
