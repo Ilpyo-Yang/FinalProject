@@ -28,9 +28,17 @@ public class AddrController {
       
    // === 주소록 추가 === //
    @RequestMapping(value="/addr_addEnd.opis", method= {RequestMethod.POST})
-   public ModelAndView addEnd(ModelAndView mav, AddrVO addrvo) {
+   public ModelAndView addEnd(HttpServletRequest request, ModelAndView mav, AddrVO addrvo) {
  
- 	  int n = service.add(addrvo);
+	  String hp1 = request.getParameter("hp1"); 
+	  String hp2 = request.getParameter("hp2"); 
+	  String hp3 = request.getParameter("hp3");
+	  
+	  String mbr_phone_number = hp1 + hp2 + hp3;
+	  
+	  addrvo.setMbr_phone_number(mbr_phone_number);
+ 	  
+	  int n = service.add(addrvo);
  	  
  	  if(n==1) {
  		  mav.setViewName("redirect:/totaladdrlist.opis");
@@ -231,16 +239,23 @@ public class AddrController {
    // === 주소록 수정 페이지 완료하기 === //
    @RequestMapping(value="/addr_editEnd.opis", method= {RequestMethod.POST})
    public ModelAndView editEnd(ModelAndView mav, AddrVO addrvo, HttpServletRequest request) {
- 	  
+
+	  String hp1 = request.getParameter("hp1"); 
+	  String hp2 = request.getParameter("hp2"); 
+	  String hp3 = request.getParameter("hp3");
+	  
+	  String mbr_phone_number = hp1 + hp2 + hp3;
+	  
+	  addrvo.setMbr_phone_number(mbr_phone_number);
+ 	  	   
  	  int n = service.edit(addrvo);
- 	  // n 이 1 이라면 정상적으로 변경됨, n 이 0 이라면 글수정에 필요한 글암호가 틀린경우 
  	  
  	  if(n == 0) {
-	         mav.addObject("message", "주소록 정보 수정을 실패했습니다.");
-	      }
-	      else {
-	         mav.addObject("message", "주소록 정보를 성공적으로 수정했습니다.");
-	      }
+         mav.addObject("message", "주소록 정보 수정을 실패했습니다.");
+      }
+      else {
+         mav.addObject("message", "주소록 정보를 성공적으로 수정했습니다.");
+      }
 	  
        mav.addObject("loc", request.getContextPath()+"/addr_view.opis?addr_seq="+addrvo.getAddr_seq());
        mav.setViewName("msg");

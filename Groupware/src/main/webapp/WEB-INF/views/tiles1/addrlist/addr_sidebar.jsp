@@ -146,19 +146,21 @@
 	                   document.getElementById('postcode').value = data.zonecode;
 	                   document.getElementById("address").value = addr;
 	                   // 커서를 상세주소 필드로 이동한다.
-	                   document.getElementById("detailAddress").focus();
+	                   document.getElementById("detailaddress").focus();
 	               }
 	           }).open();
 	           
 	        }); // end of $("button#zipcodeSearch").click(function(){}--------------------------------
-	        
-	        var frm = document.addFrm;
-	        frm.method = "POST";
-	        frm.action = "<%=ctxPath%>/addr_addEnd.opis";
-	        frm.submit();
-    
+	
    }); // end of $(document).ready(function(){})------------------
   
+   function goRegister(){
+	   var frm = document.addFrm;
+       frm.method = "POST";
+       frm.action = "<%=ctxPath%>/addr_addEnd.opis";
+       frm.submit();	   
+   }
+   
 </script>
 
 <div id="sideMenu" style="width: 20%; border: 1px solid red;">
@@ -235,7 +237,7 @@
 			         <td style="width: 20%; font-weight: bold;">주소</td>
 			         <td style="width: 80%; text-align: left;">
 			            <input type="text" id="address" name="address" size="40" placeholder="주소" /><br><br>
-			            <input type="text" id="detailAddress" name="detailAddress" size="40" placeholder="상세주소" />&nbsp;<input type="text" id="extraAddress" name="extraAddress" size="40" placeholder="참고항목" /> 
+			            <input type="text" id="detailaddress" name="detailaddress" size="40" placeholder="상세주소" />&nbsp;<input type="text" id="extraAddress" name="extraAddress" size="40" placeholder="참고항목" /> 
 			            <span class="error">주소를 입력하세요</span>
 			         </td>
 			      	</tr>
@@ -249,7 +251,7 @@
 			      
 		          <!-- Modal footer -->
 		          <div class="modal-footer">
-		            <button type="button" id="btnRegister">등록</button>
+		            <button type="button" id="btnRegister" onclick="goRegister()">등록</button>
 		            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 		          </div>
 		   	  </form>

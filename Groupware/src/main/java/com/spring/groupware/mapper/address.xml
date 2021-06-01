@@ -8,8 +8,8 @@
      <insert id="addrAdd" parameterType="com.spring.groupware.addrlist.model.AddrVO">
    		insert into tbl_address(addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name,
 	   		   				 mbr_birthday, postcode, address, detailaddress, addrmemo)
-   		values(addr_seq.nextval, #{mbr_name}, #{mbr_phone_number}, #{email}, #{dept_name}, #{position_name}, 
-   				#{mbr_birthday}, #{postcode}, #{address}, #{detailAddress}, #{addrmemo})
+   		values(addr_seq.nextval, #{mbr_name}, #{mbr_phone_number}, #{mbr_email}, #{dept_name}, #{position_name}, 
+   				#{mbr_birthday}, #{postcode}, #{address}, #{detailaddress}, #{addrmemo})
      </insert>
 
    	 <!-- === 총 주소록 건수(totalCount) === --> 
@@ -54,8 +54,9 @@
    	 
    	<!-- === 주소록 정보 수정하기 === -->
    	<update id="editAddr" parameterType="com.spring.groupware.addrlist.model.AddrVO">
-   		update tbl_address set mbr_name=#{mbr_name}, mbr_phone_number=#{mbr_phone_number}, 
-   							   mbr_email=#{mbr_email}, dept_name=#{dept_name}, position_name=#{position_name}
+   		update tbl_address set mbr_name=#{mbr_name}, mbr_phone_number=#{mbr_phone_number}, mbr_birthday=#{mbr_birthday},
+   							   mbr_email=#{mbr_email}, dept_name=#{dept_name}, position_name=#{position_name},
+   							   postcode=#{postcode}, address=#{address}, detailaddress=#{detailaddress}, addrmemo=#{addrmemo}   							   
 		where addr_seq = #{addr_seq}
    	</update>
    	
