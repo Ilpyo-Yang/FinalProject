@@ -31,6 +31,7 @@ div.tflist {
 	<!--border: 1px solid green;-->
 	width:400px;
 	height: 395px;
+	display:inline-block;
 	overflow:auto;
 }
 
@@ -64,7 +65,7 @@ div.dropdown {
 }
 
 img.mainuserimg {
-	<!--border: 0px solid yellow;-->
+	border: 0px solid yellow;
 	width: 60px;
 	height: 60px;
 	border-radius: 50%;
@@ -121,28 +122,38 @@ button.btn-default {
 
 div.memberList {
 	border-bottom: 1px solid gray;
-	width: 379px;
+	width: 399px;
 	height: 100px;
 	
 }
 
 div.constatus {
-	border-bottom: 0px solid red;
-	width: 10px;
+	border: 1px solid red;
+	width: 120px;
 	height: 100px;
-	padding-top:30px;
+	padding-top:20px;
 	float: left;
 }
 
 div.userinforightside {
-	border-bottom: 0px solid red;
-	width: 120px;
-	float: right;
+	border: 1px solid red;
+	width: 275px;
+	height: 50px;
+	margin-left: 120px;
+	padding-top: 13px;
+}
+
+div.userinfobottom2 {
+	border: 1px solid blue;
+	width: 275px;
+	height: 50px;
+	margin-left: 120px;
+	padding-top: 13px;
 }
 
 img.constatus {
-	border: solie 3px black
-;	width: 5px;
+	border: solie 3px black;	
+	width: 5px;
 	height: 5px;
 	border-radius: 50%;
 }

@@ -35,8 +35,8 @@
 		on fk_rank_no = rank_no
 		join tbl_power D
 		on fk_power_no = power_no
-		<if test='searchUser != "" '>
-			where lower(#{searchUser}) || '%'
+		<if test='searchWord != "" '>
+			where lower(mbr_name) = lower(#{searchWord})
 		</if>	
 	</select>
 	
