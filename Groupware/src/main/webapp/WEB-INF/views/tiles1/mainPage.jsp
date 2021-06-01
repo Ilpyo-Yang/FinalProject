@@ -19,8 +19,11 @@
 <script>
 	$(function(){
 		
-		if("${sessionScope.loginuser.fk_power_no}"==0){	// 일반사원이 로그인한 경우라면
+		if("${sessionScope.loginuser.power_detail}"=="사원"){	// 일반사원이 로그인한 경우라면
 			$("div.insa").hide();
+		}
+		else {
+			$("div.insa").show();
 		}
 		
 	});
