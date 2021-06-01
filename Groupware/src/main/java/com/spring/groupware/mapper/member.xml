@@ -70,4 +70,28 @@
 		values (#{mbr_seq})
 	</insert> 
 	
+	
+	<!-- 조직도페이지 - 조직도용 정보 가져오기 -->
+	<resultMap type="HashMap" id="getChartInfoMap">
+		<result property="rank_detail" column="rank_detail" javaType="String" />
+		<result property="dept_detail" column="dept_detail" javaType="String" />
+		<result property="mbr_name" column="mbr_name" javaType="String" />
+	</resultMap>
+	
+
+	<select id="getChartInfo" resultMap="getChartInfoMap">
+	    select mbr_name, rank_detail, dept_detail
+		from 
+		(        
+		select mbr_name, fk_rank_no, fk_dept_no
+		from tbl_mbr
+		)A left join tbl_dept B
+		on fk_dept_no = dept_no
+		join tbl_rank CS
+		on fk_rank_no = rank_no
+		<if test="${chartStyle} neq ''">
+		where fk_dept_no in (${chartStyle},'5')
+		</if>
+	</select>
+	
 </mapper>

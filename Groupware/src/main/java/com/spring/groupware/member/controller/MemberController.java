@@ -136,23 +136,25 @@ public class MemberController {
       }
       
       
+   
       // === 조직도용 정보 가져오기 === //
   	  @ResponseBody
   	  @RequestMapping(value="/member/getChartInfo.opis", produces="text/plain;charset=UTF-8")
-      public String getChartInfo() {
-  		  List<Map<String, String>> chartInfoList = service.getChartInfo();
+      public String getChartInfo(HttpServletRequest request) {
+  		  String chartStyle = request.getParameter("chartStyle");
+  		  
+  		  List<Map<String, String>> chartInfoList = service.getChartInfo(chartStyle);
   		
   		  JsonArray jsonArr = new JsonArray();
   			
   		  for(Map<String, String> map : chartInfoList) {
   			  JsonObject jsonObj = new JsonObject();
-  			  jsonObj.addProperty("id", map.get("rank_detail"));
-  			  jsonObj.addProperty("title", map.get("dept_detail"));
+  			  jsonObj.addProperty("id", map.get("dept_detail")+" "+map.get("rank_detail"));
+  			  jsonObj.addProperty("title", map.get("dept_detail")+" "+map.get("rank_detail"));
   			  jsonObj.addProperty("name", map.get("mbr_name"));
   			
   		      jsonArr.add(jsonObj);
-  		  }// end of for -------------------------------------------
-
+  		  }
   		return new Gson().toJson(jsonArr);
   	}
 
