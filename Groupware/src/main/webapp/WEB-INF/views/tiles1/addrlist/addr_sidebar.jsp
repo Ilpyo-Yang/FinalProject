@@ -270,6 +270,6 @@
 		<a class="side" href="/groupware/personal_addrlist.opis">개인 주소록</a>
 	</div>
 	<div class="lside">
-		<a class="side" href="/groupware/addrlist_setting.opis">개인 주소록 관리</a>
+		<a class="side" href="/groupware/addr_setting.opis">개인 주소록 관리</a>
 	</div>
 </div>

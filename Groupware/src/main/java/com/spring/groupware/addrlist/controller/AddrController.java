@@ -61,7 +61,7 @@ public class AddrController {
  	  String searchWord = request.getParameter("searchWord");    	  
  	  String str_currentShowPageNo = request.getParameter("currentShowPageNo");
  	  
- 	  if(searchType == null || (!"dept".contentEquals(searchType) && !"name".contentEquals(searchType)) ) {
+ 	  if(searchType == null || (!"dept_name".contentEquals(searchType) && !"mbr_name".contentEquals(searchType)) ) {
  		  searchType="";
  	  }
  	  
