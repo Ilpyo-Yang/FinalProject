@@ -29,35 +29,12 @@ public class WorkmanageController {
 	@Autowired	 // type에 따라 자동 객체 삽입
 	private InterWorkmanageService service; 
 	
-	List<WorkVO> workList;
-	List<TodoVO> todoList;
-	
-	public WorkmanageController() {
-		workList = new ArrayList<>();
-		
-		WorkVO wmvo1 = new WorkVO("1", "1", "이두나", "김관리", "계약서 작성요청1", "계약서 좀 빨리 작성해주세요", "2021.04.21", "2021.05.21", "0", "", "0");
-		WorkVO wmvo2 = new WorkVO("2", "1", "이두나", "김관리", "계약서 작성요청2", "계약서 좀 빨리 작성해주세요!", "2021.04.22", "2021.05.21", "0", "", "1");
-		WorkVO wmvo3 = new WorkVO("3", "1", "이두나", "김관리", "계약서 작성요청3", "계약서 좀 빨리 작성해주세요!!", "2021.04.23", "2021.05.21", "0", "", "2");
-		
-		WorkVO wmvo4 = new WorkVO("4", "2", "김관리", "이두나", "계약서 작성요청1", "계약서 좀 빨리 작성해주세요", "2021.04.21", "2021.05.21", "0", "", "3");
-		WorkVO wmvo5 = new WorkVO("5", "2", "박관리", "이두나", "계약서 작성요청2", "계약서 좀 빨리 작성해주세요!", "2021.04.22", "2021.05.21", "0", "", "4");
-		WorkVO wmvo6 = new WorkVO("6", "2", "박관리", "이두나", "계약서 작성요청3", "계약서 좀 빨리 작성해주세요!!", "2021.04.23", "2021.05.21", "0", "", "5");
-		
-		
-		workList.add(wmvo1);
-		workList.add(wmvo2);
-		workList.add(wmvo3);
-		
-		workList.add(wmvo4);
-		workList.add(wmvo5);
-		workList.add(wmvo6);
-		
-		
-	}
-
 	// == 업무 등록 페이지 보여주기 (할일, 요청, 보고 등록) == //
 	@RequestMapping(value = "/workAdd.opis")
-	public ModelAndView requiredLogin_workAdd(HttpServletRequest request, HttpServletResponse res, ModelAndView mav) {
+	public ModelAndView requiredLogin_workAdd(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		// 담당자, 참조자 지정하기 위한 우선멤버 가져오기
+		
 		mav.setViewName("workmanage/workAdd.tiles1");
 		return mav;
 	}
@@ -92,7 +69,7 @@ public class WorkmanageController {
 	
 	// == 나의 할 일 리스트 보여주기 (전체) == //
 	@RequestMapping(value = "/todoList.opis")
-	public ModelAndView requiredLogin_todoList(HttpServletRequest request, HttpServletResponse res, ModelAndView mav) {	
+	public ModelAndView requiredLogin_todoList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {	
 		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser"); 
@@ -143,7 +120,7 @@ public class WorkmanageController {
 		String workRole = request.getParameter("workRole");
 		
 		if (n == 1) {
-			mav.setViewName("redirect:/workList.opis?workType"+workvo.getFk_wtno()+"&workRole="+workRole);
+			mav.setViewName("redirect:/workList.opis?workType="+workvo.getFk_wtno()+"&workRole="+workRole);
 		}
 		else {
 			String message = "일정 등록에 실패하였습니다. 다시 시도하세요";
@@ -159,24 +136,38 @@ public class WorkmanageController {
 	}		
 	
 	
-	// == 내가 한 업무 리스트 보여주기 == //
+	// == 업무 리스트 보여주기 == //
 	@RequestMapping(value = "/workList.opis")
-	public ModelAndView workList(ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView workList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
-		String workType = request.getParameter("workType"); // 추후 DB 에서 fk_wtno 를 가지고 타입에 맞는 데이터를 가져올 것 
-		String workRole = request.getParameter("workRole"); // 추후 DB 에서 역할에 맞는  데이터를 가져올 것 (발신자, 수신자, 참조자)
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser"); 
 		
-		List<WorkVO> newWorkList = new ArrayList<>();
+		// 현재 로그인 되어있는 멤버의 seq를 통해 해당 멤버의 할일 리스트 가져온다.
+		String userId = String.valueOf(loginuser.getMbr_seq());
+		String workType = request.getParameter("workType");  
+		String workRole = request.getParameter("workRole");
 		
-		for (WorkVO wmvo : workList) {
-			if (workType.equals(wmvo.getFk_wtno())) {
-				newWorkList.add(wmvo);
-			}
+		Map<String,String> paraMap = new HashedMap<>();
+		
+		paraMap.put("userId", userId);
+		paraMap.put("workType", workType); 	// 업무요청:1, 업무보고:2
+		paraMap.put("workRole", workRole);	// 내가 발신자일때:1, 수신자일때:2, 참조자일때:3 
+		
+		System.out.println("workRole : "+ workRole);
+		
+		List<WorkVO> workList = null;
+		
+		if (!"3".equals(workRole)) { // 발신자, 수신자 일때 
+			workList = service.workList(paraMap);
+		}
+		else { // 참조자일 때 - 테이블을 조인해서 값을 가져와야함
+			workList = service.workListForRefer(paraMap);
 		}
 		
 		mav.addObject("workType", workType);
 		mav.addObject("workRole", workRole); 
-		mav.addObject("workList", newWorkList); // fk_wtno 에 해당하는 데이터 리스트
+		mav.addObject("workList", workList); 
 		
 		mav.setViewName("workmanage/workList.tiles1");
 		return mav;
@@ -206,6 +197,8 @@ public class WorkmanageController {
 	// == 내가 한 업무 상세 조회 페이지 == //
 	@RequestMapping(value="/showDetailWork.opis")
 	public ModelAndView showDetailWork(ModelAndView mav, HttpServletRequest request) {
+		
+		List<WorkVO> workList = null;
 		
 		int wmno = Integer.parseInt(request.getParameter("wmno")); // 업무고유 번호 받아오기
 		WorkVO wmvo = workList.get(wmno-1); // 추후 DB 에서 wmno 로 정보 가져오기

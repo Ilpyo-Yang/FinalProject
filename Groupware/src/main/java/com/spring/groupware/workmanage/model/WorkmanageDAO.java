@@ -44,6 +44,20 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		int n = sqlsession.insert("workmanage.workAddEnd", workvo);
 		return n;
 	}
+
+	// == 업무(요청,보고) 리스트 조회하기 == //  
+	@Override
+	public List<WorkVO> workList(Map<String, String> paraMap) {
+		List<WorkVO> workList = sqlsession.selectList("workmanage.workList", paraMap);
+		return workList;
+	}
+
+	// == 참조 업무 리스트(요청,보고) 보여주기  == //
+	@Override
+	public List<WorkVO> workListForRefer(Map<String, String> paraMap) {
+		List<WorkVO> workList = sqlsession.selectList("workmanage.workListForRefer", paraMap);
+		return workList;
+	}
 	
 	
 

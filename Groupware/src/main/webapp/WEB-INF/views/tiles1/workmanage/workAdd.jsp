@@ -137,6 +137,16 @@
 					<td><span class="star">*</span>담당자</td>
 					<td><input name="fk_receiver_seq" placeholder="사용자" /></td>
 				</tr>
+				
+				<!-- <tr>
+					<td><span class="star">*</span>담당자</td>
+					<td>
+						<div class="autocomplete" style="width:300px;">
+		    				<input id="myInput" type="text" name="Receiver" placeholder="사용자">
+		  				</div>
+  					</td>
+  				</tr> -->
+				
 				<tr class="onlyWorkInput">
 					<td>참조자</td>
 					<td><input name="fk_referrer_seq" placeholder="사용자" /></td>
@@ -166,3 +176,4 @@
 		<input type="hidden" name="fk_requester_seq" value="${sessionScope.loginuser.mbr_seq}"/><!-- 업무 요청,보고할 때 사용 -->
 	</form>
 </div>
+

@@ -20,4 +20,10 @@ public interface InterWorkmanageService {
 	// 업무(요청,보고) 등록하기   
 	int workAddEnd(WorkVO workvo);
 
+	// 업무 리스트(요청,보고) 보여주기 
+	List<WorkVO> workList(Map<String, String> paraMap);
+
+	// 참조 업무 리스트(요청,보고) 보여주기 
+	List<WorkVO> workListForRefer(Map<String, String> paraMap);
+
 }

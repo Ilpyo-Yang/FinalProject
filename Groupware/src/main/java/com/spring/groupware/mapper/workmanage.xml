@@ -35,4 +35,31 @@
 		insert into tbl_workmanage(wmno, fk_wtno, fk_requester_seq, fk_receiver_seq, subject, contents, deadline, fk_statno)
 		values (seq_workmanage_wmno.nextval, #{fk_wtno}, #{fk_requester_seq}, #{fk_receiver_seq}, #{subject}, #{contents}, to_date(#{deadline}), #{fk_statno})
 	</insert>
+	
+	<!-- == 업무(요청,보고) 리스트 조회하기 == -->
+	<select id="workList" parameterType="HashMap" resultType="com.spring.groupware.workmanage.model.WorkVO">
+		select wmno, fk_wtno, fk_requester_seq, fk_receiver_seq, subject, fk_statno
+		    , to_char(registerday, 'yyyy-mm-dd') as registerday
+		    , to_char(deadline, 'yyyy-mm-dd') as deadline
+		from tbl_workmanage
+		where fk_wtno = #{workType} and 
+		<if test='workRole == "1"'>fk_requester_seq = #{userId}</if>
+		<if test='workRole == "2"'>fk_receiver_seq = #{userId}</if>
+	</select>
+	
+	
+	<!-- == 참조자일 때 업무(요청,보고) 리스트 조회하기 == -->
+	<select id="workListForRefer" parameterType="HashMap" resultType="com.spring.groupware.workmanage.model.WorkVO">
+		select wmno, fk_wtno, fk_requester_seq, fk_receiver_seq, subject, fk_statno
+		    , to_char(registerday, 'yyyy-mm-dd') as registerday
+		    , to_char(deadline, 'yyyy-mm-dd') as deadline
+		from tbl_workmanage
+		where fk_wtno = #{workType} and wmno in (
+		    select fk_wmno
+		    from tbl_wmrefer
+		    where fk_referrer_seq = #{userId}
+		)
+	</select>
+	
+	
 </mapper>
