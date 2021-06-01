@@ -47,7 +47,8 @@
   	 <!--  == 주소록 상세 보여주기  ==  -->
    	 <select id="getAddrView" parameterType="String" resultType="com.spring.groupware.addrlist.model.AddrVO">
 	   	select addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name,
-	   		   mbr_birthday, postcode, address, detailaddress, addrmemo	
+	   		   postcode, address, detailaddress, addrmemo,
+	   		   to_char(mbr_birthday, 'yyyy-mm-dd') as mbr_birthday 	
 		from tbl_address
 		where addr_seq = #{addr_seq}
    	 </select>
