@@ -70,5 +70,26 @@ public class FormboardService implements InterFormboardService {
 		int n = fdao.edit(formboardvo);
 		return n;
 	}
+
+	// === 글 검색하기 === //
+	@Override
+	public List<String> wordSearchShow(Map<String, String> paraMap) {
+		List<String> wordList = fdao.wordSearchShow(paraMap);
+		return wordList;
+	}
+
+	// === 총 게시물 수 === //
+	@Override
+	public int getTotalCount(Map<String, String> paraMap) {
+		int n = fdao.getTotalCount(paraMap);
+		return n;
+	}
+	
+	// === 페이징 처리한 글 목록 === //
+	@Override
+	public List<FormboardVO> boardListSearchWithPaging(Map<String, String> paraMap) {
+		List<FormboardVO> boardList = fdao.boardListSearchWithPaging(paraMap);
+	    return boardList;
+	}
 	
 }

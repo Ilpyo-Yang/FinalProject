@@ -8,6 +8,7 @@ public class ScheduleVO {
 	private String scdsubject;		// 일정제목
 	private String scdstartdate;	// 일정시작일
 	private String scdenddate;		// 일정종료일
+	private String place;			// 장소
 	private String attendance; 		// 참석자
 	
 	private String mtr;				// 회의실/장소
@@ -17,7 +18,7 @@ public class ScheduleVO {
 	public ScheduleVO() {}
 
 	public ScheduleVO(String scdno, String fk_scdno2, String fk_mbr_seq, String scdsubject, String scdstartdate,
-			String scdenddate, String attendance) {
+			String scdenddate, String attendance, String place) {
 		super();
 		this.scdno = scdno;
 		this.fk_scdno2 = fk_scdno2;
@@ -25,6 +26,7 @@ public class ScheduleVO {
 		this.scdsubject = scdsubject;
 		this.scdstartdate = scdstartdate;
 		this.scdenddate = scdenddate;
+		this.place = place;
 		this.attendance = attendance;
 	}
 
@@ -106,6 +108,14 @@ public class ScheduleVO {
 
 	public void setMtr(String mtr) {
 		this.mtr = mtr;
+	}
+
+	public String getPlace() {
+		return place;
+	}
+
+	public void setPlace(String place) {
+		this.place = place;
 	}
 	
 	

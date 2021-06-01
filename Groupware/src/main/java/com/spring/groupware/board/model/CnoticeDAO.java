@@ -30,10 +30,10 @@ public class CnoticeDAO implements InterCnoticeDAO {
 		return n;
 	}
 
-	// === 페이징 처리를 안한 검색어가 없는 전체 글목록 보여주기 == //
+	// === 전체 글목록 보여주기 == //
 	@Override
-	public List<CnoticeVO> boardListNoSearch() {
-		List<CnoticeVO> boardList = sqlsession.selectList("board.comListNoSearch");
+	public List<CnoticeVO> boardListSearch(Map<String, String> paraMap) {
+		List<CnoticeVO> boardList = sqlsession.selectList("board.comListSearch");
 		return boardList;
 	}
 
@@ -62,5 +62,26 @@ public class CnoticeDAO implements InterCnoticeDAO {
 	public int edit(CnoticeVO cnoticevo) {
 		int n = sqlsession.update("board.editCom",cnoticevo);		
 		return n;
+	}
+
+	// === 글 검색 === //
+	@Override
+	public List<String> wordSearchShow(Map<String, String> paraMap) {
+		List<String> boardList = sqlsession.selectList("board.comWordSearchShow", paraMap);
+		return boardList;
+	}
+
+	// === 총 게시물 수 === //
+	@Override
+	public int getTotalCount(Map<String, String> paraMap) {
+		int n = sqlsession.selectOne("board.getComTotalCount", paraMap);
+		return n;
+	}
+	
+	// === 페이징 처리한 글 목록 === //
+	@Override
+	public List<CnoticeVO> boardListSearchWithPaging(Map<String, String> paraMap) {
+		List<CnoticeVO> boardList = sqlsession.selectList("board.comListSearchWithPaging", paraMap);		
+		return boardList;
 	}
 }

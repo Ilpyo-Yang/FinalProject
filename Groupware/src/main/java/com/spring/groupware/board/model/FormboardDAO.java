@@ -62,4 +62,25 @@ public class FormboardDAO implements InterFormboardDAO {
 		int n = sqlsession.update("board.editForm", formboardvo);
 		return n;
 	}
+	
+	// === 글 검색 === //
+	@Override
+	public List<String> wordSearchShow(Map<String, String> paraMap) {
+		List<String> boardList = sqlsession.selectList("board.formWordSearchShow", paraMap);
+		return boardList;
+	}
+
+	// === 총 게시물 수 === //
+	@Override
+	public int getTotalCount(Map<String, String> paraMap) {
+		int n = sqlsession.selectOne("board.getFormTotalCount", paraMap);
+		return n;
+	}
+	
+	// === 페이징 처리한 글 목록 === //
+	@Override
+	public List<FormboardVO> boardListSearchWithPaging(Map<String, String> paraMap) {
+		List<FormboardVO> boardList = sqlsession.selectList("board.formListSearchWithPaging", paraMap);		
+		return boardList;
+	}
 }

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="address">
+
+     <!-- === 주소록 추가 === -->
+     <insert id="addrAdd" parameterType="com.spring.groupware.addrlist.model.AddrVO">
+   		insert into tbl_address(addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name,
+	   		   				 mbr_birthday, postcode, address, detailaddress, addrmemo)
+   		values(addr_seq.nextval, #{mbr_name}, #{mbr_phone_number}, #{email}, #{dept_name}, #{position_name}, 
+   				#{mbr_birthday}, #{postcode}, #{address}, #{detailAddress}, #{addrmemo})
+     </insert>
+
+   	 <!-- === 총 주소록 건수(totalCount) === --> 
+   	 <select id="getAddrTotalCount" parameterType="HashMap" resultType="int">
+   	 	select count(*)
+   	 	from tbl_address
+   	 	<if test='searchWord != ""'> 
+   	 		where lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+   	 	</if>
+   	 </select>
+   	 
+   	 <!-- === 페이징 처리한 주소록 목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것) -->   	 
+   	 <select id="addrListSearchWithPaging" parameterType="HashMap" resultType="com.spring.groupware.addrlist.model.AddrVO">
+	   	select addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name
+		from 
+		(
+		    select row_number() over(order by addr_seq desc) AS rno,
+		           addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name
+		    from tbl_address
+		    <if test='searchWord != ""'>
+		    	where lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+			</if>
+		) V
+		where rno between #{startRno} and #{endRno}   	 
+   	 </select>   	 
+   	 
+   	 <!-- === 검색하기 === -->
+     <select id="addrWordSearchShow" parameterType="HashMap" resultType="String">
+	   	select ${searchType}
+		from tbl_address
+		where lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+		order by addr_seq desc
+  	 </select>
+  	 
+  	 <!--  == 주소록 상세 보여주기  ==  -->
+   	 <select id="getAddrView" parameterType="String" resultType="com.spring.groupware.addrlist.model.AddrVO">
+	   	select addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name,
+	   		   mbr_birthday, postcode, address, detailaddress, addrmemo	
+		from tbl_address
+		where addr_seq = #{addr_seq}
+   	 </select>
+   	 
+   	<!-- === 주소록 정보 수정하기 === -->
+   	<update id="editAddr" parameterType="com.spring.groupware.addrlist.model.AddrVO">
+   		update tbl_address set mbr_name=#{mbr_name}, mbr_phone_number=#{mbr_phone_number}, 
+   							   mbr_email=#{mbr_email}, dept_name=#{dept_name}, position_name=#{position_name}
+		where addr_seq = #{addr_seq}
+   	</update>
+   	
+   	<!-- === 주소록 삭제하기 === -->
+   	<delete id="delAddr" parameterType="HashMap">
+   		delete from tbl_address
+   		where addr_seq=#{addr_seq}
+   	</delete>
+   
+</mapper>
