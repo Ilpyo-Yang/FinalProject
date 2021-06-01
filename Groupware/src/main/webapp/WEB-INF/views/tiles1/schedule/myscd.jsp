@@ -227,7 +227,28 @@
 	  	<button type="button" id="btnReg" onclick="scdReg()">일정 등록</button>	
 	      					
 	  		<div class="lside" style="font-weight:bold;">내소속</div>
-	  		<div id="teamName">구매팀</div>
+	  		<div id="teamName">
+				<c:choose>
+					<c:when test="${sessionScope.loginuser.fk_dept_no eq 0}">
+						영업팀
+					</c:when>
+					<c:when test="${sessionScope.loginuser.fk_dept_no eq 1}">
+						인사팀
+					</c:when>
+					<c:when test="${sessionScope.loginuser.fk_dept_no eq 2}">
+						홍보팀
+					</c:when>
+					<c:when test="${sessionScope.loginusre.fk_dept_no eq 3}">
+						IT팀
+					</c:when>
+					<c:when test="${sessionScope.loginusre.fk_dept_no eq 4}">
+						회계팀
+					</c:when>
+					<c:otherwise>
+						CEO
+					</c:otherwise>
+				</c:choose>	  			
+	  		</div>
 	  		<div class="lside">수락 완료된 일정(<span></span>)</div>
 	  		<div class="lside">수락 대기중인 일정(<span></span>)</div>
 	  		<div id="function">

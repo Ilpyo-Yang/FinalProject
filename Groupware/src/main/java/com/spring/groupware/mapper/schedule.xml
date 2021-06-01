@@ -6,31 +6,37 @@
 <!-- ==== #29. 루트 엘리먼트 & 네임스페이스 설정(프로젝트 전체내에서 유일해야 한다.) ==== -->
 <mapper namespace="schedule">
 	
+	<!-- === 일정번호 채번해오기 === -->
+	<select id="goScdno" resultType="int">
+		select schedule_seq.nextval
+		from dual
+	</select>
+	
 	<!-- === 일정 추가하기 === -->
 	<insert id="scdAdd" parameterType="com.spring.groupware.schedule.model.ScheduleVO">
 		insert into tbl_schedule(scdno, fk_scdno2, fk_mbr_seq, scdsubject, scdstartdate, scdenddate, place, attendance)
-		values(schedule_seq.nextval, #{fk_scdno2}, #{fk_mbr_seq}, #{scdsubject}
+		values(#{scdno}, to_number(#{fk_scdno2}), to_number(#{fk_mbr_seq}), #{scdsubject}
 		, to_date(#{scdstartdate} || ' ' || #{scdstartTm}, 'yyyy-mm-dd hh24:mi'), to_date(#{scdenddate} || ' ' || #{scdendTm},'yyyy-mm-dd hh24:mi')
 		,#{place}, #{attendance})
 	</insert>
-
-	<!-- === 등록된 일정 상세 내용 조회 === -->
+	
+	<!-- === 수정해야할 글 1개 가져오기 === -->
 	<select id="getViewScd" parameterType="String" resultType="com.spring.groupware.schedule.model.ScheduleVO">
-		select fk_scdno2, scdsubject, scdstartdate, scdenddate, attendance
+		select scdno, fk_scdno2, fk_mbr_seq, scdsubject, scdstartdate, scdenddate, place, attendance
 		from tbl_schedule
-		where scdno = #{scdno}
+		where scdno = to_number(#{scdno})
 	</select>
 	
 	<!-- === 일정 수정하기 === -->
 	<update id="editScd" parameterType="com.spring.groupware.schedule.model.ScheduleVO">
-		update tbl_schedule set scdsubject = #{scdsubject}, scdstartdate = to_date(#{scdstartdate} || ' ' || #{scdstartTm}, 'yyyy-mm-dd hh24:mi'), scdenddate = to_date(#{scdenddate} || ' ' || #{scdendTm},'yyyy-mm-dd hh24:mi'), #{attendance}
-		where scdno = #{scdno}
+		update tbl_schedule set scdsubject = #{scdsubject}, scdstartdate = to_date(#{scdstartdate} || ' ' || #{scdstartTm}, 'yyyy-mm-dd hh24:mi'), scdenddate = to_date(#{scdenddate}|| ' ' || #{scdendTm} ,'yyyy-mm-dd hh24:mi'), place= #{place}, attendance= #{attendance}
+		where scdno = to_number(#{scdno})
 	</update>
 	
 	<!-- === 일정 삭제하기 === -->
 	<delete id="delScd" parameterType="String">
 		delete from tbl_schedule
-		where scdno = #{scdno}
+		where scdno = to_number(#{scdno})
 	</delete>
 	
 	<!-- === 캘린더에 일정 보여주기 === -->

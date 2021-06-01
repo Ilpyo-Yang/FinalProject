@@ -18,6 +18,13 @@ public class ScheduleService implements InterScheduleService{
 	@Autowired
 	private InterScheduleDAO dao;
 	
+	// 일정번호 채번해오기
+	@Override
+	public int getScdno() {
+		int scdno = dao.getScdno();
+		return scdno;
+	}
+	
 	// 일정 등록하기
 	@Override
 	public int scdAdd(ScheduleVO schedulevo) {
@@ -25,12 +32,10 @@ public class ScheduleService implements InterScheduleService{
 		return n;
 	}
 	
-	// 등록된 일정 상세 내용 조회
+	// 수정해야할 글 1개 가져오기
 	@Override
 	public ScheduleVO getViewScd(String scdno) {
-		
-		ScheduleVO schedulevo = dao.getViewScd(scdno);	// 일정 한개 조회하기
-		
+		ScheduleVO schedulevo = dao.getViewScd(scdno);
 		return schedulevo;
 	}
 	
@@ -43,8 +48,8 @@ public class ScheduleService implements InterScheduleService{
 	
 	// 일정 삭제하기
 	@Override
-	public int delScd(ScheduleVO schedulevo) {
-		int n = dao.delScd(schedulevo);
+	public int delScd(String scdno) {
+		int n = dao.delScd(scdno);
 		return n;
 	}
 	
@@ -84,6 +89,10 @@ public class ScheduleService implements InterScheduleService{
 		List<Map<String, String>> regDetailList = dao.goRegMtr();
 		return regDetailList;
 	}
+
+	
+	
+	
 
 	
 

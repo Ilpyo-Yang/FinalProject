@@ -44,13 +44,14 @@
 		height:40px;
 		border-radius: 2pt;
 		cursor: pointer;
-		font-size: 13pt;
+		font-size: 12pt;
 		font-weight: bold;
 	}
 	
 	#btnScdReg {
 		background: #0099cc;
 		color: white;
+		width: 90px !important;
 	}
 	
 </style>
@@ -59,6 +60,7 @@
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
 <script type="text/javascript">
 
@@ -100,59 +102,59 @@
 		    $('#to').datepicker("option", "onClose", function ( selectedDate ) {
 		        $("#from").datepicker( "option", "maxDate", selectedDate );
 		    });
-		
+			
+		    
 		    $("button#btnScdReg").click(function(){
-		    	
-		    	var frm = document.scdRegFrm;
+		    	var frm = document.scdEditFrm;
 			    frm.method = "POST";
 			    frm.action = "<%=ctxPath%>/scdRegEnd.opis";
 			    frm.submit();
 		    });
-		    
-		    
-	});// end of $(document).ready(function(){}---------------------------------
+		
+	});
 	
 	function mtrResv() {
 		 var url = "<%=ctxPath%>/mtr_resv.opis";
 		 window.open(url, "mtrResv","left=350px, top=100px, width=800px, height=650px");
-	 }
-	
+	}
 	
 </script>
 
 <div id="container">
-<h2>일정 등록하기</h2>
+<h2>일정 수정하기</h2>
 
-<form name="scdRegFrm">
-	<table>
-		<tr class="division schedule">
-			<td id="title">일정 구분</td>
-			<td id="contents">
-				<select name="fk_scdno2">
-					<option>구분 선택</option>
-					<c:if test="${sessionScope.loginuser.mbr_id eq 'admin'}">
-						<option value="0">전체일정</option>
-					</c:if>
-					<option value="1">부서일정</option>
-					<option value="2">개인일정</option>
-				</select>
-			</td>
-		</tr>
-		<tr class="subject schedule">
-			<td id="title">제목</td>
-			<td id="contents"><input type="text" name="scdsubject" id="subject" size="30" placeholder="제목을 입력하세요." autocomplete="off" required /></td>
-		</tr>
-		<tr class="date schedule">
+	<form name="scdEditFrm">
+		<table>
+			<tr class="division schedule">
+				<td id="title">일정 구분</td>
+				<td id="contents">
+					<select name="fk_scdno2">
+						<option>구분 선택</option>
+						<c:if test="${sessionScope.loginuser.mbr_id eq 'admin'}">
+							<option value="0" <c:if test="${requestScope.schedulevo.fk_scdno2 eq 0}">selected</c:if>>전체일정</option>
+						</c:if>
+						<option value="1" <c:if test="${requestScope.schedulevo.fk_scdno2 eq 1}">selected</c:if>>부서일정</option>
+						<option value="2" <c:if test="${requestScope.schedulevo.fk_scdno2 eq 2}">selected</c:if>>개인일정</option>
+					</select>
+				</td>
+			</tr>
+			<tr class="subject schedule">
+				<td id="title">제목</td>
+				<td id="contents">
+				<input type="hidden" name="scdno" value="${requestScope.schedulevo.scdno}"/>
+				<input type="text" name="scdsubject" id="subject" size="30" value="${requestScope.schedulevo.scdsubject}" autocomplete="off" required />
+				</td>
+			</tr>
+			<tr class="date schedule">
 			<td id="title">일자</td>
 			<td id="contents">
 				<label for="scdstartdate" id="start">시작일</label>
-				<input type="text" id="from" name="scdstartdate" readonly/>
+				<input type="text" id="from" name="scdstartdate" value="${requestScope.schedulevo.scdstartdate}" readonly/>
 				<span>&nbsp;~&nbsp;</span>
 				<label for="scdenddate" id="end">종료일</label>
-				<input type="text" id="to" name="scdenddate" readonly/>
+				<input type="text" id="to" name="scdenddate" value="${requestScope.schedulevo.scdenddate}" readonly/>
 			</td>
-		</tr>
-		<tr class="time schedule">
+			<tr class="time schedule">
 			<td id="title">시간</td>
 			<td id="contents">
 				<select id="time1" name="scdstartTm">
@@ -169,30 +171,28 @@
 					</c:forEach>
 				</select>
 				<span>&nbsp;까지&nbsp;</span>
+				<span style="color:red; font-size:7pt;">*시간을 다시 선택하세요.</span>
 			</td>
-		</tr>
-		<tr class="place schedule">
+			<tr class="place schedule">
 			<td id="title">장소</td>
 			<td id="contents">
-				<input type="text" name="place"/>
+				<input type="text" name="place" value="${requestScope.schedulevo.place}"/>
 				<button type="button" onclick="mtrResv()">예약하기</button>
 			</td>
-		</tr>
-		<tr class="attandance schedule">
+			<tr class="attandance schedule">
 			<td id="title">참석자</td>
 			<td id="contents">
 				<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}" /> 
-				<input type="text" name="attendance"/>
+				<input type="text" name="attendance" value="${requestSceop.schedulevo.attendance}" />
 				<button type="button" onclick="">주소록</button>
 			</td>
 		</tr>
-	</table>
-	
-
-	<div style="float:right;">
-		<button type="submit" id="btnScdReg" class="btn">등록</button>
-		<button type="reset" class="btn">취소</button>
-	</div>
-
-</form>
+		</table>
+		
+		<div style="float:right;">
+			<button type="button" id="btnScdReg" class="btn">수정완료</button>
+			<button type="button" class="btn" onclick="javascript:history.back()">취소</button>
+		</div>
+		
+	</form>
 </div>

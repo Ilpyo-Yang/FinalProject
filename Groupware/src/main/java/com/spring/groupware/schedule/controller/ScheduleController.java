@@ -42,6 +42,10 @@ public class ScheduleController {
 	@RequestMapping(value="/scd_register.opis")
 	public ModelAndView requiredLogin_scdRegister(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		mav.addObject("loginuser",loginuser);
 		mav.setViewName("schedule_modal/scd_register");
 		return mav;
 	}
@@ -50,10 +54,15 @@ public class ScheduleController {
 	@RequestMapping(value="/scdRegEnd.opis", method = {RequestMethod.POST})
 	public ModelAndView requiredLogin_scdRegEnd(HttpServletRequest request, HttpServletResponse response, ModelAndView mav, ScheduleVO schedulevo) {
 		
+		int scdno = service.getScdno(); // 채번하기
+		schedulevo.setScdno(String.valueOf(scdno));
+		
 		int n = service.scdAdd(schedulevo);	// 일정 등록하기
 		
 		if(n==1) {	// 일정 등록 성공
-			mav.setViewName("redirect:/scdDetail.opis");
+			mav.addObject("scdno",scdno);
+			mav.addObject("schedulevo",schedulevo);
+			mav.setViewName("schedule_modal/scdDetail");
 		}
 		
 		else {	// 일정 등록 실패
@@ -69,61 +78,28 @@ public class ScheduleController {
 		return mav;
 	}
 	
-	// 등록된 일정 상세 확인 페이지
-	@RequestMapping(value="/scdDetail.opis")
-	public ModelAndView scdDetail(HttpServletRequest request, ModelAndView mav) {
-		
-		String scdno = request.getParameter("scdno");
-		
-			Integer.parseInt(scdno);
-			
-			HttpSession session = request.getSession();
-			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-			
-			
-			ScheduleVO schedulevo = null;
-			
-			// 등록된 일정 상세 내용 조회
-			schedulevo = service.getViewScd(scdno);
-			
-			if(loginuser.getMbr_seq() != Integer.parseInt(schedulevo.getFk_mbr_seq())) {
-				String message = "잘못된 접근입니다.";
-		        String loc = "javascript:history.back()";
-		         
-		        mav.addObject("message", message);
-		        mav.addObject("loc", loc);
-		        mav.setViewName("msg");
-			}
-			else {
-				mav.addObject("schedulevo", schedulevo);
-				mav.setViewName("schedule_modal/scdDetail");
-			}
-		
-		return mav;
-	}
-	
 	// 일정 수정 페이지 요청
 	@RequestMapping(value="/editScd.opis")
 	public ModelAndView requiredLogin_editScd(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
 		String scdno = request.getParameter("scdno");
 		
-		ScheduleVO schedulevo = service.getViewScd(scdno);
+		ScheduleVO schedulevo = service.getViewScd(scdno); // 수정해야할 글 1개 가져오기
 		
 		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	    MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
-		if(!(loginuser.getMbr_seq() == Integer.parseInt(schedulevo.getFk_mbr_seq()))) {
-			String message = "다른 사용자의 일정은 수정이 불가합니다.";
-			String loc = "javascript:history.back()";
-			
-			mav.addObject("message", message);
-	        mav.addObject("loc", loc);
-	        mav.setViewName("msg");
+		if(loginuser.getMbr_seq() != Integer.parseInt(schedulevo.getFk_mbr_seq())) {
+			 String message = "다른 사용자의 일정은 수정이 불가합니다.";
+	         String loc = "javascript:history.back()";
+	         
+	         mav.addObject("message", message);
+	         mav.addObject("loc", loc);
+	         mav.setViewName("msg");
 		}
 		else {
 			mav.addObject("schedulevo", schedulevo);
-			mav.setViewName("schedule_modal/scdDetail");
+			mav.setViewName("schedule_modal/scdEdit");
 		}
 		
 		return mav;
@@ -149,39 +125,28 @@ public class ScheduleController {
 	}
 	
 	// 일정 삭제하기
-	@RequestMapping(value="/delScd.opis", method= {RequestMethod.POST})
-	public ModelAndView requiredLogin_delScd(HttpServletRequest request, HttpServletResponse response, ModelAndView mav, ScheduleVO schedulevo) {
+	@RequestMapping(value="/delScd.opis", method={RequestMethod.POST})
+	public ModelAndView delScd(HttpServletRequest request, ModelAndView mav, ScheduleVO schedulevo) {
 		
-		int n = service.delScd(schedulevo);
+		String scdno = request.getParameter("scdno");
 		
-		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		int n = service.delScd(scdno);
+		System.out.println(n);
 		
-		if(loginuser.getMbr_seq() != Integer.parseInt(schedulevo.getScdno())) {
-			 String message = "다른 사용자의 일정은 삭제가 불가합니다.";
-	         String loc = "javascript:history.back()";
-	         
-	         mav.addObject("message", message);
-	         mav.addObject("loc", loc);
-		}
-		else if(n == 0) {
-			String message = "일정 삭제에 실패하였습니다.";
-	        String loc = "javascript:history.back()";
-	         
-	        mav.addObject("message", message);
-	        mav.addObject("loc", loc);
+		if(n==1) {
+			mav.setViewName("redirect:/scd_register.opis");
 		}
 		else {
-			mav.addObject("message","삭제 성공");
-			mav.addObject("loc",request.getContextPath()+"/scdRegEnd.opis");
+			String message = "일정 삭제에 실패하였습니다.";
+	        
+	        mav.addObject("message", message);
+	        mav.setViewName("msg");
 		}
-		
-		mav.setViewName("msg");
 		
 		return mav;
 	}
 	
-	// 
+	// 풀캘린더 상에 일정 보여주기
 	@ResponseBody
 	@RequestMapping(value="/showScd.opis", produces="text/plain;charset=UTF-8")
 	public String showScd(HttpServletRequest request) {
@@ -209,8 +174,6 @@ public class ScheduleController {
 		
 		return new Gson().toJson(jsonArr);
 	}
-	
-	
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
