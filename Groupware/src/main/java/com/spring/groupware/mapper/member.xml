@@ -79,19 +79,20 @@
 	</resultMap>
 	
 
-	<select id="getChartInfo" resultMap="getChartInfoMap">
-	    select mbr_name, rank_detail, dept_detail
+	<select id="getChartInfo" parameterType="String" resultMap="getChartInfoMap">
+	    select mbr_name, dept_detail, rank_detail
 		from 
 		(        
-		select mbr_name, fk_rank_no, fk_dept_no
+		select mbr_name, fk_dept_no, fk_rank_no 
 		from tbl_mbr
 		)A left join tbl_dept B
 		on fk_dept_no = dept_no
-		join tbl_rank CS
+		left join tbl_rank C
 		on fk_rank_no = rank_no
-		<if test="${chartStyle} neq ''">
-		where fk_dept_no in (${chartStyle},'5')
+		<if test="value neq ''">
+			where fk_dept_no in (#{value},'5')
 		</if>
+		<if test="value eq ''"></if>
 	</select>
 	
 </mapper>
