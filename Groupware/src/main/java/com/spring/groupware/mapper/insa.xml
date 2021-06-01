@@ -66,11 +66,56 @@
 
 
 
-<!-- view2 한 멤버 가져오기 -->
-	<select id="getEduList" parameterType="String" resultType="com.spring.groupware.insa.model.InsaVO">
+<!-- view2 한 학력 리스트 가져오기 -->
+	<select id="getEduList" parameterType="String" resultType="com.spring.groupware.insa.model.EduVO">
 		select eduLevel , school, major
 		from tbl_edu
 		where mbr_seq = #{seq}
-		ordey by eduLevel
+		order by eduLevel
 	</select>	
+	
+	<select id="getEduLevel" parameterType="String" resultType="String">
+        select max(eduLevel) AS eduLevel
+		from tbl_edu
+        where mbr_seq=#{seq}
+		group by mbr_seq		
+	</select>
+
+<!-- view2 한 자격증 리스트 가져오기 -->
+	<select id="getCertiList" parameterType="String" resultType="com.spring.groupware.insa.model.CertiVO">
+		select certification , certiLevel, certiDate
+		from tbl_certi
+		where mbr_seq = #{seq}
+		order by certiLevel
+	</select>	
+	
+	
+		
+	<select id="getEduNum" parameterType="String" resultType="int">
+        select count(*)
+        from tbl_edu
+        where mbr_seq = #{seq}		
+	</select>
+	
+	<select id="getCertiNum" parameterType="String" resultType="int">
+        select count(*)
+        from tbl_certi
+        where mbr_seq = #{seq}		
+	</select>
+	
+	<insert id="insaRegister2EndEdu" parameterType="com.spring.groupware.insa.model.EduVO">
+		insert into tbl_edu(mbr_seq, eduLevel, school, major )
+		values(#{mbr_seq}, #{eduLevel}, #{school}, #{major})
+	</insert>
+	
+	<insert id="insaRegister2EndCerti" parameterType="com.spring.groupware.insa.model.CertiVO">
+		insert into tbl_certi(mbr_seq, certification, certiLevel, certiDate )
+		values(#{mbr_seq}, #{certification}, #{certiLevel}, to_date(#{certiDate}, 'yyyy-mm-dd'))
+	</insert>
+	
+	<select id="getPaymentList" parameterType="String" resultType="com.spring.groupware.insa.model.PaymentVO">
+		select mbr_seq, paymonth, basepay, spepay, breakpay, mealpay, timepay, totalpay
+		from tbl_payment
+		where mbr_seq=#{seq}
+	</select>
 </mapper>

@@ -108,8 +108,7 @@
 		<tr id="insaDetailButton">
 			<td><button class="registerBtn">인적사항</button></td>
 			<td style="width: 10px;"></td>
-			<td><button class="registerBtn" style="background-color: #e6e6e6; " onclick="javascript:location.href='<%=ctxPath%>/insaRegister2.opis'">서류정보</button></td>
-			<td style="width: 360px;"></td>
+			<td style="width: 500px;"></td>
 			<td><button class="registerBtn" id="registerBtn"  type="submit" style="display: inline-block; vertical-align: top;">등록</button></td>
 			<td><button class="registerBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis'">회원목록으로</button></td>
 		</tr>
@@ -120,7 +119,7 @@
 			<table id="insaDetail1" class="table table-striped tdtable">
 				<tr>
 					<th>사원번호</th>
-					<td name="mbr_seq"></td>
+					<td></td>
 				</tr>
 				<tr>
 					<th>사원명</th>

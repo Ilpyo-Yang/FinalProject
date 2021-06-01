@@ -53,9 +53,9 @@
 <div id="insa" style="width: 80%; display: inline-block; margin-top: 70px; padding-left: 30px;">
 		<table style="margin-bottom: 50px;">
 		<tr id="insaDetailButton">
-			<td><button class="modifyBtn" style="background-color: #e6e6e6; ">인적사항</button></td>
+			<td><button class="modifyBtn" style="background-color: #e6e6e6;" onclick="javascript:location.href='<%=ctxPath%>/insaView1.opis?seq=${seq}'" >인적사항</button></td>
 			<td style="width: 10px;"></td>
-			<td><button class="modifyBtn" onclick="javascript:location.href='<%=ctxPath%>/insaView2.opis?seq=${insavo.mbr_seq}'">서류정보</button></td>
+			<td><button class="modifyBtn">서류정보</button></td>
 			<td style="width: 580px;"></td>
 			<td><button class="modifyBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis'">회원목록으로</button></td>
 		</tr>
@@ -65,60 +65,65 @@
 			<table id="insaDetail1" class="table table-striped tdtable">
 				<tr>
 					<th>최종학력</th>
-					<td colspan="2">
-						<c:if test="${edu.eduLevel == null }">
-						<td>미입력</td>
-						</c:if>
-						<c:if test="${edu.eduLevel == 0 }">
-						<td>초졸</td>
-						</c:if>
-						<c:if test="${edu.eduLevel == 1 }">
-							<td>중졸</td>
-						</c:if>
-						<c:if test="${edu.eduLevel == 2 }">
-							<td>고졸</td>
-						</c:if>
-						<c:if test="${edu.eduLevel == 3 }">
-							<td>초대졸</td>
-						</c:if>
-						<c:if test="${edu.eduLevel == 4 }">
-							<td>학사</td>
-						</c:if>
-						<c:if test="${edu.eduLevel == 5 }">
-							<td>석사</td>
-						</c:if>
-						<c:if test="${edu.eduLevel == 6 }">
-							<td>박사</td>
-						</c:if>
+					<c:if test="${eduLevel == null }">
+						<td colspan="2">미입력</td>
+					</c:if>
+					<c:if test="${eduLevel == 0 }">
+						<td colspan="2">초졸</td>
+					</c:if>
+					<c:if test="${eduLevel == 1 }">
+						<td colspan="2">중졸</td>
+					</c:if>
+					<c:if test="${eduLevel == 2 }">
+						<td colspan="2">고졸</td>
+					</c:if>
+					<c:if test="${eduLevel == 3 }">
+						<td colspan="2">초대졸</td>
+					</c:if>
+					<c:if test="${eduLevel == 4 }">
+						<td colspan="2">학사</td>
+					</c:if>
+					<c:if test="${eduLevel == 5 }">
+						<td colspan="2">석사</td>
+					</c:if>
+					<c:if test="${eduLevel == 6 }">
+						<td colspan="2">박사</td>
+					</c:if>
 					</td>
 				</tr>
-				<c:forEach var="edu" items="${eduList}">
-				<tr>
-					<c:if test="${edu.eduLevel == 0 }">
-						<td>초등학교</td>
-					</c:if>
-					<c:if test="${edu.eduLevel == 1 }">
-						<td>중학교</td>
-					</c:if>
-					<c:if test="${edu.eduLevel == 2 }">
-						<td>고등학교</td>
-					</c:if>
-					<c:if test="${edu.eduLevel == 3 }">
-						<td>전문대학교</td>
-					</c:if>
-					<c:if test="${edu.eduLevel == 4 }">
-						<td>대학교(학사)</td>
-					</c:if>
-					<c:if test="${edu.eduLevel == 5 }">
-						<td>대학원(석사)</td>
-					</c:if>
-					<c:if test="${edu.eduLevel == 6 }">
-						<td>대학원(박사)</td>
-					</c:if>
-					<td>${edu.school}</td>
-					<td>${edu.major}</td>
-				</tr>
-				</c:forEach>
+				<c:if test="${empty eduList}">
+					<c:forEach var="edu" items="${eduList}">
+						<tr>
+							<c:if test="${edu.eduLevel == 0 }">
+								<td>초등학교</td>
+							</c:if>
+							<c:if test="${edu.eduLevel == 1 }">
+								<td>중학교</td>
+							</c:if>
+							<c:if test="${edu.eduLevel == 2 }">
+								<td>고등학교</td>
+							</c:if>
+							<c:if test="${edu.eduLevel == 3 }">
+								<td>전문대학교</td>
+							</c:if>
+							<c:if test="${edu.eduLevel == 4 }">
+								<td>대학교(학사)</td>
+							</c:if>
+							<c:if test="${edu.eduLevel == 5 }">
+								<td>대학원(석사)</td>
+							</c:if>
+							<c:if test="${edu.eduLevel == 6 }">
+								<td>대학원(박사)</td>
+							</c:if>
+							<td>${edu.school}</td>
+							<td>${edu.major}</td>
+						</tr>
+					</c:forEach>
+				</c:if>
+				<c:if test="${ not empty eduList}">
+				
+				</c:if>
+				
 				
 				
 			</table>
@@ -134,28 +139,19 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td><input style="width: 80px;" /></td>
-						<td><input style="width: 80px;" /></td>
-						<td style="width: 200px;">
-							<select id="birthyy" name="birthyy" style="margin-left: 2%; width: 30px; padding: 3px;">
-			           		<c:forEach begin="1950" end="2050" varStatus="count" >
-			           			<option>${count.count}</option>
-			           		</c:forEach>
-				            </select>년
-							<select id="birthmm" name="birthmm" style="margin-left: 2%; width: 30px; padding: 3px;">
-				           		<c:forEach begin="1" end="12" varStatus="count" >
-				           			<option>${count.count}</option>
-				           		</c:forEach>
-				            </select>월
-				            <select id="birthdd" name="birthdd" style="margin-left: 2%; width: 30px; padding: 3px;">
-				            
-					            	<c:forEach begin="1" end="31" varStatus="count" >
-					           			<option>${count.count}</option>
-					           		</c:forEach>
-			        		</select>일 	
-						</td>
-					</tr>
+					<c:if test="${empty certiList}">
+					
+					</c:if>
+					<c:if test="${not empty certiList}">					
+						<c:forEach var="certi" items="${certiList}">
+						<tr>
+							<td>${certi.certification}</td>
+							<td>${certi.certiLevel}</td>
+							<td>${certi.certiDate}</td>
+						</tr>
+						</c:forEach>
+					</c:if>
+
 				</tbody>
 			</table>
 			<button class="modifyBtn"  id="modifyBtn" type="submit" style="display: inline-block; vertical-align: top;" onclick="javascript:location.href='<%=ctxPath%>/insaModify2.opis'">수정</button>

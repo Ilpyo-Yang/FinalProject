@@ -19,16 +19,15 @@ public class InsaVO {
 		private String mbr_status; 
 		private String mbr_photo;
 		private String mbr_sign;  
-	
+
+
 		/////////////////////////////////////////////////////////////////////////////////////////////
-		
 		private int eduLevel;
 		private String school;
 		private String major;
 
 
 		/////////////////////////////////////////////////////////////////////////////////////////////
-		
 
 		public InsaVO() {}
 
@@ -176,10 +175,6 @@ public class InsaVO {
 			this.mbr_sign = mbr_sign;
 		}
 
-		
-		///////////////////////////////////////////////////////////////////////////////
-	
-
 		public int getEduLevel() {
 			return eduLevel;
 		}
@@ -203,6 +198,11 @@ public class InsaVO {
 		public void setMajor(String major) {
 			this.major = major;
 		}
+
+		
+		///////////////////////////////////////////////////////////////////////////////
+	
+
 
 		
 }

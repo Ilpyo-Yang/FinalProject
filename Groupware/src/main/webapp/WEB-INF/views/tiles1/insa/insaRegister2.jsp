@@ -142,14 +142,15 @@
 		
 		// ---------------------- 자격증정보 시작
        var htmlYear ="";
+		htmlYear += '<option value="0">선택</option>';
 		for(var i=1950;i<2050;i++){
 			
-			htmlYear += '<option value="'+i+'" >'+i+'</option>';
+			htmlYear += '<option class = "certiyy" value="'+i+'" >'+i+'</option>';
 		}
 
 		$("select#certiyy").html(htmlYear);
-		
 			
+			var bflag = true;
 
 			var htmlCertiBf = "";
 			var htmlCerti = "";
@@ -184,16 +185,17 @@
 										'<input id="certiLevelBf" class="certiInput" style="width: 70px;" value="'+certiLevel+'"/>'+
 									'</td>'+
 									'<td style="width: 270px;">'+
-										'<select id="certiyyBf" name="certiyy" style="width: 75px; padding: 4px;">'
+										'<select class = "certiyy" id="certiyyBf" name="certiyy" style="width: 75px; padding: 4px;">'
+											
 											+'<option value="'+certiyy+'">'+certiyy+'</option>'
 										+'</select>년'+
-										'<select id="certimmBf" name="certimm" style="margin-left: 2%; width: 55px; padding: 4px;">'+
+										'<select class = "certimm" id="certimmBf" name="certimm" style="margin-left: 2%; width: 55px; padding: 4px;">'+
 										'<option value="'+certimm+'">'+certimm+'</option>'+
 							            '</select>월'+
-							            '<select id="certiddBf" name="certidd" style="margin-left: 2%; width: 55px; padding: 4px;">'+
+							            '<select class = "certidd" id="certiddBf" name="certidd" style="margin-left: 2%; width: 55px; padding: 4px;">'+
 							            
 								            '<option value="'+certidd+'">'+certidd+'</option>'+
-						        		'</select>일 <button type="button" onclick="certiDel();">삭제</button>'+
+						        		'</select>일'+
 									'</td>'+
 								'</tr>'; 
 					if(htmlCertiBf.trim()!=""){
@@ -207,21 +209,23 @@
 												'<input id="certiLevel" class="certiInput" style="width: 70px;" />'+
 											'</td>'+
 											'<td style="width: 270px;">'+
-											'<select id="certiyy" name="certiyy" style="width: 75px; padding: 4px;">'
+											'<select class = "certiyy" id="certiyy" name="certiyy" style="width: 75px; padding: 4px;">'
+												+'<option class = "certiyy" value="0">선택</option>'
 												+ htmlYear+							           			
 						                     '</select>년'+
-											'<select id="certimm" name="certimm" style="margin-left: 2%; width: 55px; padding: 4px;">'+
-								           		'<c:forEach begin="1" end="12" varStatus="count" >'+
-								           			'<option value="${count.count}">${count.count}</option>'+
+											'<select class = "certiymm id="certimm" name="certimm" style="margin-left: 2%; width: 55px; padding: 4px;">'+
+											    '<option class = "certiymm value="0">선택</option>'+
+												 '<c:forEach begin="1" end="12" varStatus="count" >'+
+								           			'<option class = "certiymm value="${count.count}">${count.count}</option>'+
 								           		'</c:forEach>'+
 								            '</select>월'+
-								            '<select id="certidd" name="certidd" style="margin-left: 2%; width: 55px; padding: 4px;">'+
-								            
+								            '<select class = "certidd" id="certidd" name="certidd" style="margin-left: 2%; width: 55px; padding: 4px;">'+
+								          	   '<option class = "certidd" value="0">선택</option>'+
 									            '<c:forEach begin="1" end="31" varStatus="count" >'+
-									           		'<option  value="${count.count}">${count.count}</option>'+
+									           		'<option class = "certidd"  value="${count.count}">${count.count}</option>'+
 									           	'</c:forEach>'+
 							        		'</select>일 '+
-										'</td>'+
+							        	'<button type="button" onclick="certiDel();">삭제</button></td>'+
 									'</tr>';
 					$("input#htmlCertiHidden").val(htmlCerti);
 					$("tbody#insaDetail2tbody").html(htmlCerti+htmlCertiEmpty);
@@ -234,52 +238,87 @@
 			$("button#registerBtn").click(function(){
 				var eduLevelResult = "";
 				$(".eduLevel option:selected").each(function(index,item){
+					if($(this).val()=="선택"){
+						bflag = false;
+					}
 					eduLevelResult += $(this).val()+",";
 				});
 				console.log(eduLevelResult);
 				var schoolResult = "";
 				$("input#school").each(function(index,item){
+					if($(this).val()=="선택"){
+						bflag = false;
+					}
 					schoolResult += $(this).val()+",";
+				});
+				var majorResult = "";
+				$("input#major").each(function(index,item){
+					if($(this).val()=="선택"){
+						bflag = false;
+					}
+					majorResult += $(this).val()+",";
 				});
 				var certificationResult = "";
 				$("input#certification").each(function(index,item){
+					if($(this).val()=="선택"){
+						bflag = false;
+					}
 					certificationResult += $(this).val()+",";
 				});
 				var certiLevelResult = "";
 				$("input#certiLevel").each(function(index,item){
+					if($(this).val()=="선택"){
+						bflag = false;
+					}
 					certiLevelResult += $(this).val()+",";
 				});
 				
 
 				var certiyyResult = "";
 				$(".certiyy option:selected").each(function(index,item){
+					if($(this).val()=="선택"){
+						bflag = false;
+					}
 					certiyyResult += $(this).val()+",";
+					console.log(certiyyResult);
 				});
 				var certimmResult = "";
 				$(".certimm option:selected").each(function(index,item){
+					if($(this).val()=="선택"){
+						bflag = false;
+					}
 					certimmResult += $(this).val()+",";
+					console.log(certimmResult);
 				});
 				var certiddResult = "";
 				$(".certidd option:selected").each(function(index,item){
+					if($(this).val()=="선택"){
+						bflag = false;
+					}
 					certiddResult += $(this).val()+",";
+					console.log(certiddResult);
 				});
 	
+				if(!bflag){
+					alert("먼저 모든 항목을 입력하세요!!");
+					return;
+				}
+				else{
+					var frm = document.insaRegister2Frm;
+					frm.method = "POST";
+					frm.action = "<%=ctxPath%>/insaRegister2End.opis?eduLevelResult="+eduLevelResult+"&schoolResult="+schoolResult+"&majorResult="+majorResult+"&certificationResult="+certificationResult+"&certiLevelResult="+certiLevelResult+
+								 "&certiyyResult="+certiyyResult+"&certimmResult="+certimmResult+"&certiddResult="+certiddResult+"&seq=${requestScope.seq}";
 				
-		
-				var frm = document.insaRegister2Frm;
-				frm.method = "POST";
-				frm.action = "<%=ctxPath%>/insaRegister2End.opis?eduLevelResult="+eduLevelResult+"schoolResult="+schoolResult+"certificationResult="+certificationResult+"certiLevelResult="+certiLevelResult+
-							 "certiyyResult"+certiyyResult+"certimmResult"+certimmResult+"certiddResult"+certiddResult;
+				}
 			
+				
 			});
 	});
 	function eduDel(){
-		alert("go");
 		var htmlDel = $("input#htmlEduHidden").val();
 		$("tbody#insaDetail1tbody").html(htmlDel);
 	}
 	function certiDel(){
-		alert("eo");
 		var htmlDel = $("input#htmlCertiHidden").val();
 		$("tbody#insaDetail2tbody").html(htmlDel);
 	}
@@ -299,7 +338,11 @@
 			<td><button class="registerBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis'">회원목록으로</button></td>
 		</tr>
 		</table> 
-		
+			<div>
+				<table id="memberBasicInfo">
+					
+				</table>
+			</div>
 			<div class="insaDetailDiv">
 				<table id="insaDetail1" class="table table-striped tdtable">
 					<thead>
@@ -347,18 +390,19 @@
 							<td><input id="certification" class="certiInput" style="width: 80px;" /></td>
 							<td><input id="certiLevel" class="certiInput" style="width: 70px;" /></td>
 							<td style="width: 270px;">
-								<select id="certiyy" name="certiyy" style="width: 75px; padding: 4px;">
+								<select class = "certiyy" id="certiyy" name="certiyy" style="width: 75px; padding: 4px;">
 				           			
 					            </select>년
-								<select id="certimm" name="certimm" style="margin-left: 2%; width: 55px; padding: 4px;">
+								<select class = "certimm" id="certimm" name="certimm" style="margin-left: 2%; width: 55px; padding: 4px;">
+					           		<option class = "certimm" value="0">선택</option>
 					           		<c:forEach begin="1" end="12" varStatus="count" >
-					           			<option value="${count.count}">${count.count}</option>
+					           			<option class = "certimm" value="${count.count}">${count.count}</option>
 					           		</c:forEach>
 					            </select>월
-					            <select id="certidd" name="certidd" style="margin-left: 2%; width: 55px; padding: 4px;">
-					            
+					            <select class = "certidd" id="certidd" name="certidd" style="margin-left: 2%; width: 55px; padding: 4px;">
+					            			<option class = "certidd value="0">선택</option>
 						            	<c:forEach begin="1" end="31" varStatus="count" >
-						           			<option value="${count.count}">${count.count}</option>
+						           			<option class = "certidd value="${count.count}">${count.count}</option>
 						           		</c:forEach>
 				        		</select>일 	
 							</td>
@@ -366,7 +410,7 @@
 					</tbody>
 				</table><br>
 				<button class="plusBtn" id="certiPlusBtn"  style="display: inline-block;" type="button">+추가</button>
-				<input type="hidden" id="htmlEduHidden" />
+				<input type="hidden" id="htmlCertiHidden" />
 			</div>
 			</form>
 </div>

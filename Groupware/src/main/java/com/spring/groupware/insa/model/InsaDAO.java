@@ -21,16 +21,14 @@ public class InsaDAO implements InterInsaDAO {
 	
 	// 인사정보 등록하기
 	@Override
-	public int insaRegister1End(InsaVO insavo, int seq) {
+	public int insaRegister1End(InsaVO insavo) {
 		int n=0;
-		insavo.setMbr_seq(seq);
-		try {
-			n = sqlsession.insert("insa.insaRegisterEnd", insavo);
+		
+
+		n = sqlsession.insert("insa.insaRegisterEnd", insavo);
 			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		System.out.println("dao => "+n);
+		System.out.println("아이디=>" +insavo.getMbr_id());
 	//	System.out.println("mem=>"+insavo.getMbr_id());
 		return n;
 	}
@@ -62,10 +60,70 @@ public class InsaDAO implements InterInsaDAO {
 	}
 
 	// view2할 멤버 정보 가져오기@Override
-	public List<InsaVO> getEduList(String seq) {
-		List<InsaVO> eduList = sqlsession.selectList("insa.getEduList", seq);
+	public List<EduVO> getEduList(String seq) {
+		List<EduVO> eduList = sqlsession.selectList("insa.getEduList", seq);
 		return eduList;
 	}
+
+
+	// 최종학력 가져오기
+	@Override
+	public String getEduLevel(String seq) {
+		String eduLevel = sqlsession.selectOne("insa.getEduLevel", seq);
+		return eduLevel;
+	}
+
+
+	// 자격증 리스트 가져오기
+	@Override
+	public List<CertiVO> getCertiList(String seq) {
+		List<CertiVO> certiList = sqlsession.selectList("insa.getCertiList", seq);
+		return certiList;
+	}
+
+
+	// 학력정보 가져오기
+	@Override
+	public int getEduNum(String seq) {
+		int n = sqlsession.selectOne("insa.getEduNum", seq);
+		return n;
+	}
+
+
+
+	// 자격증정보 가져오기
+	@Override
+	public int getCertiNum(String seq) {
+		int m = sqlsession.selectOne("insa.getCertiNum", seq);
+		return m;
+	}
+
+
+
+	// 학력정보 입력하기
+	@Override
+	public int insaRegister2EndEdu(EduVO evo) {
+		int n = sqlsession.insert("insa.insaRegister2EndEdu", evo);
+		return n;
+	}
+
+
+	// 자격증정보 입력하기
+	@Override
+	public int insaRegister2EndCerti(CertiVO cvo) {
+		int m = sqlsession.insert("insa.insaRegister2EndCerti", cvo);
+		return m;
+	}
+
+
+
+	// 개인별 급여 리스트 가져오기
+	@Override
+	public List<PaymentVO> getPaymentList(String seq) {
+		List<PaymentVO> paymentList = sqlsession.selectList("insa.getPaymentList", seq);
+		return paymentList;
+	}
+
 
 
 }

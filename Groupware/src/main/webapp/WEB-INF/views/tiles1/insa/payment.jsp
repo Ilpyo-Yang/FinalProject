@@ -3,62 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath = request.getContextPath(); %>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />	
+
+<jsp:include page="./insa_sidebar.jsp" />
+
 
 <style>
-	header#insaBar{
-		height: 77px;
-		width: 100%;
-		border: solid 1px yellow;
-	}
-	header#insaBar table {
-		width: 100%;
-		border-collapse: collapse;
-	}
-	header#insaBar tr {
-		width: 100%;
-	}
-	td.insaBarMenu{
-		background-color: #68b658;
-		font-size: 25pt;
-		font-weight: bold;
-		height: 70px;
-		margin: 0px;
-	}
-	td.insaBarMenu2{
-		height: 7px;
-	}
-	table#departmentButton{
-		margin: 30px;
-		text-align: left;
-		width: 100%;
-	}
-	tr#departmentButton{
-		display: inline-block;
-		text-align: center;
-	}
-	td.departmentButton{
-		display:inline-block;
-		width: 144px;
-		height: 45px;
-		border-radius: 31px;
-		font-size: 20pt;
-		font-weight: bold;
-		padding-top: 7px;
-		margin-right: 30px;
-		text-align: center;
-	}
-	div#midBoxGray{
-		display: inline-block;
-		margin-top: 10px;
-		background-color: #e6e6e6;
-		margin-left: 1%;
-		width: 100%;
-		height: 700px;
-		padding: 40px;
-		overflow: auto;
-	}
-	
 	/* Dropdown Button */
 	.dropbtn {
 	  background-color: #68b658;
@@ -105,9 +56,10 @@
 	.show {display:block;}
 	
 	button.paymentInfoBtn{
+	  display:inline-block;
  	  margin-left: 20px;
 	  padding: 10px 20px;
-	  font-size: 15px;
+	  font-size: 10px;
 	  text-align: center;
 	  cursor: pointer;
 	  outline: none;
@@ -155,14 +107,16 @@
 	}
 	table.paymentTbl td {
 		border: solid 1px black;
-		padding: 15px 50px;
-		font-size: 15pt;
+		font-size: 10pt;
+		height: 50px;	
 	}
-	table.paymentTbl th {
-		border: solid 1px black;
-		padding: 15px 50px;
-		font-size: 15pt;
+	td.tdNarrow{
+		width: 100px;	
 	}
+	td.tdWide{
+		width: 150px;	
+	}
+	
 	table.paymentTbl tr{
 		border: solid 1px black;
 		vertical-align: middle;
@@ -177,13 +131,12 @@
 		margin-left: 10px;
 	}
 	div#paymentInfoBorder{
+		display: inline-block;
 		border: solid 3px #68b658;
 		background-color: white;
-		width: 850px;
+		width: 50%;
 		height: 400px;
 		padding-top: 30px;
-		padding-left: 20px;
-		margin-left: 20px;
 		text-align: center;
 	}
 	div.paymentInfoDiv{
@@ -196,11 +149,17 @@
 	}
 </style>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 	/* When the user clicks on the button,
 	toggle between hiding and showing the dropdown content */
-
+	
+	function myFunction() {
+	  document.getElementById("myDropdown").classList.toggle("show");
+	}
+	
+	
+	// Close the dropdown menu if the user clicks outside of it
+	
 	$(document).ready(function(){
 		$("div#paymentInfoBorder").hide();
 		$("dropdown-content").click(function(event){
@@ -210,73 +169,32 @@
 		$("tr.clickMemberPay").click(function(){
 			$("tr.clickMemberPay").children().removeClass("green");
 			$(this).children().addClass("green");
+			$("input#hiddenSeq").text($(this).children("td.seq").text());
 			$("div#paymentInfoBorder").show();
+			
+			
+						
 		});
+		
+		
+		
 		
 	});
 	
 	
-	
-	function myFunction() {
-	  document.getElementById("myDropdown").classList.toggle("show");
-	}
-	
-	
-	// Close the dropdown menu if the user clicks outside of it
-	window.onclick = function(event) {
-	  if (!event.target.matches('.dropbtn')) {
-	    var dropdowns = document.getElementsByClassName("dropdown-content");
-	    var i;
-	    for (i = 0; i < dropdowns.length; i++) {
-	      var openDropdown = dropdowns[i];
-	      if (openDropdown.classList.contains('show')) {
-	        openDropdown.classList.remove('show');
-	      }
-	    }
-	  }
-	}
-	function goPayment(category){
-		
-		location.href = "<%=ctxPath%>/payment.opis?category="+category;
-		
-	}
 	function goBackPayment(){
 		$("div#paymentInfoBorder").hide();
 		$("tr.clickMemberPay").children().removeClass("green");
-		
-		
 	}
-	
+	function goPaymentDetail(){
+		var seq = $("input#hiddenSeq").text();
+		var category = $("input#hiddenCategory").val();
+		location.href='<%=ctxPath%>/paymentDetail.opis?category='+category+'&seq='+seq;
+	}
 </script>
 
-<div id="insa">
-	<header id="insaBar">
-		<table id="insaBarTable">
-			<tr>
-			<td class="insaBarMenu" style="text-align: left; width: 40%;">&nbsp;<i class="fa fa-bars"></i>&nbsp;&nbsp;인사관리</td>
-			<td class="insaBarMenu" style="text-align: center; width: 30%;" onclick="javascript:location.href='<%=ctxPath%>/insa.opis'">멤버</td>
-			<td class="insaBarMenu" style="text-align: center; width: 30%;" onclick="javascript:location.href='<%=ctxPath%>/payment.opis'">급여</td>
-			</tr>
-			<tr>
-			<td class="insaBarMenu2" style="width: 40%; background-color: #68b658;"></td>
-			<td class="insaBarMenu2" style="width: 30%; background-color: #68b658;"></td>
-			<td class="insaBarMenu2" style="width: 30%; background-color: black;"></td>
-			</tr>
-		</table>
-	</header>
-	<body>
-		<table id="departmentButton">
-		<tr id="departmentButton">
-			<td class="departmentButton" style="background-color: #68b658" onclick="goPayment(6)">전체</td>
-			<td class="departmentButton" style="background-color: #e6e6e6" onclick="goPayment(0)">영업</td>
-			<td class="departmentButton" style="background-color: #e6e6e6" onclick="goPayment(1)">인사</td>
-			<td class="departmentButton" style="background-color: #e6e6e6" onclick="goPayment(2)">홍보</td>
-			<td class="departmentButton" style="background-color: #e6e6e6" onclick="goPayment(3)">IT</td>
-			<td class="departmentButton" style="background-color: #e6e6e6" onclick="goPayment(4)">회계</td>
-		</tr>
-		</table>
-		<div id="midBoxGray">
-			<table id="insaSearchTbl" >
+<div id="insa" style="width: 80%; display: inline-block; margin-top: 70px; padding-left: 30px;">
+			<table style="margin-bottom: 30px;">
 				<tr>
 					<td>
 						<form name="form1" id="form1" action="/action_page.php">
@@ -288,89 +206,91 @@
 						  	<input type="text" placeholder="Search.." name="search" style="height: 20px;">
 						 	<input type="submit" value="검색">
 						</form>
+
 					</td>
 				</tr>
 			</table>
-			<div class='paymentBorder'  style="vertical-align: top; ">
-			<table id="memberListTbl" class="paymentTbl">
+			<div style="display:inline-block; width: 48%; vertical-align: top;">
+			<table id="insaListaTbl" class="table table-striped tdtable">
 					<thead>
 					<tr>
-						<th style="width: 25%;">사원번호</th>
-						<th style="width: 25%;">사원명</th>
-						<th style="width: 25%;">부서</th>
-						<th style="width: 25%;">직책</th>
+						<th style="width: 25%; ">사원번호</th>
+						<th style="width: 25%; ">사원명</th>
+						<th style="width: 25%; ;">부서</th>
+						<th style="width: 25%; ">직책</th>
 					</tr>
 					</thead>
 					<tbody>
-					<c:forEach var="memberList" items="${requestScope.memberList}">
-					<tr class="clickMemberPay">
-						<td>${memberList.mbr_seq}</td>
-						<td>${memberList.mbr_name}</td>
-						<c:if test="${memberList.fk_dept_no == 0}">
+					<c:forEach var="insaList" items="${requestScope.insaList}">
+					<tr class="clickMemberPay" >
+						<td class="seq">${insaList.mbr_seq}</td>
+						<td>${insaList.mbr_name}</td>
+						<c:if test="${insaList.fk_dept_no == 0}">
 							<td>영업</td>
 						</c:if>
-						<c:if test="${memberList.fk_dept_no == 1}">
+						<c:if test="${insaList.fk_dept_no == 1}">
 							<td>인사</td>
 						</c:if>
-						<c:if test="${memberList.fk_dept_no == 2}">
+						<c:if test="${insaList.fk_dept_no == 2}">
 							<td>홍보</td>
 						</c:if>
-						<c:if test="${memberList.fk_dept_no == 3}">
+						<c:if test="${insaList.fk_dept_no == 3}">
 							<td>IT</td>
 						</c:if>
-						<c:if test="${memberList.fk_dept_no == 4}">
+						<c:if test="${insaList.fk_dept_no == 4}">
 							<td>회계</td>
 						</c:if>
-						<c:if test="${!(memberList.fk_dept_no == 4 || memberList.fk_dept_no == 3 || memberList.fk_dept_no == 2 || memberList.fk_dept_no == 1 || memberList.fk_dept_no == 0)}">
+						<c:if test="${!(insaList.fk_dept_no == 4 || insaList.fk_dept_no == 3 || insaList.fk_dept_no == 2 || insaList.fk_dept_no == 1 || insaList.fk_dept_no == 0)}">
 							<td>기타</td>
 						</c:if>
 						
-						<c:if test="${memberList.fk_rank_no == 0}">
+						<c:if test="${insaList.fk_rank_no == 0}">
 							<td>팀장</td>
 						</c:if>						
-						<c:if test="${memberList.fk_rank_no == 1}">
+						<c:if test="${insaList.fk_rank_no == 1}">
 							<td>팀원</td>
-						</c:if>							
-						<c:if test="${memberList.fk_rank_no == 2}">
+						</c:if>						
+						<c:if test="${insaList.fk_rank_no == 2}">
 							<td style="color: red;">대표</td>
 						</c:if>	
 					</tr>
 					</c:forEach>
 				</tbody>
 			</table>
+			<input id="hiddenSeq" type="hidden" />
+			<input id="hiddenCategory" type="hidden" value="${category}" />
 			</div>
-			<div id='paymentInfoBorder' class='paymentBorder'>
-			<div class="paymentInfoDiv">
-			<table id='paymentInfo' class='paymentTbl'>
-				<tr>
-					<td>주민등록번호</td><td colspan='3'></td>
-				</tr>
-				<tr>
-					<td>입사일</td><td></td><td>퇴사일</td><td></td>
-				</tr>
-				<tr>
-				<td>급여계정과목</td><td></td><td>이달급여</td><td></td>
-				</tr>
-				<tr>
-				<td>상여계정과목</td><td></td><td>상여금</td><td></td>
-				</tr>
-				<tr>
-				<td>은행</th><th>계좌번호</td><td>예금주</td><td></td>
-				</tr>
-				<tr>
-				<td></td><td></td><td></td><td></td>
-				</tr>
-			</table>
-			</div>
-			<div class="paymentInfoDiv" style="vertical-align: top;">
-				<button id="closeBtn" class="paymentInfoBtn" onclick="goBackPayment()">닫기</button>
-				<br><br>
-				<button id="payDetailBtn" class="paymentInfoBtn" onclick="javascript:location.href='<%=ctxPath%>/paymentDetail.opis'">자세히</button>
+			<div id='paymentInfoBorder' class='paymentBorder' >
+				<div class="paymentInfoDiv" style="width: 100%; ">
+				<table id='paymentInfo' class='paymentTbl'>
+					<tr>
+						<td class="tdNarrow">주민등록번호</td><td colspan='3'></td>
+					</tr>
+					<tr>
+						<td class="tdNarrow">입사일</td><td class="tdWide"></td><td class="tdNarrow">퇴사일</td><td class="tdWide"></td>
+					</tr>
+					<tr>
+					<td class="tdNarrow">급여계정과목</td><td class="tdWide"></td><td class="tdNarrow">이달급여</td><td class="tdWide"></td>
+					</tr>
+					<tr>
+					<td class="tdNarrow">상여계정과목</td><td class="tdWide"></td><td class="tdNarrow">상여금</td><td class="tdWide"></td>
+					</tr>
+					<tr>
+					<td class="tdNarrow">은행</td><td class="tdWide">계좌번호</td><td class="tdNarrow">예금주</td><td class="tdWide"></td>
+					</tr>
+					<tr>
+					<td class="tdNarrow"></td><td class="tdWide"></td><td class="tdNarrow"></td><td class="tdWide"></td>
+					</tr>
+				</table>
+				</div>
+				<div class="paymentInfoDiv" style="vertical-align: top;">
+					<button id="closeBtn" class="paymentInfoBtn" onclick="goBackPayment()">닫기</button>
+					<button id="payDetailBtn" class="paymentInfoBtn" onclick="goPaymentDetail()">자세히</button>
+				</div>
 			</div>
 			
-			</div>
-		</div>
-	</body>
+			
+	
 </div>
 
 

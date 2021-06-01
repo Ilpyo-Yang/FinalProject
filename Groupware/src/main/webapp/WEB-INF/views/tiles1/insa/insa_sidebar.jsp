@@ -27,6 +27,10 @@ function goInsaCate(category){
 		location.href = "<%=ctxPath%>/insa.opis?category="+category;
 		
 	}
+function goPaymentCate(category){
+	
+	location.href = "<%=ctxPath%>/payment.opis?category="+category;
+}
 </script>
 
 
@@ -65,22 +69,22 @@ function goInsaCate(category){
 	<div class="lside">
 		<button class="accBtn side" onclick="javascript:location.href='<%=ctxPath%>/payment.opis'">급여정보</button>
 		<ul>
-			<li><a class="" onclick="goInsaCate(6)">전체</a></li>
+			<li><a class="" onclick="goPaymentCate(6)">전체</a></li>
 		</ul>
 		<ul>
-			<li><a class="" onclick="goInsaCate(0)">영업</a></li>
+			<li><a class="" onclick="goPaymentCate(0)">영업</a></li>
 		</ul>
 		<ul>
-			<li><a class="" onclick="goInsaCate(1)">인사</a></li>
+			<li><a class="" onclick="goPaymentCate(1)">인사</a></li>
 		</ul>
 		<ul>
-			<li><a class="" onclick="goInsaCate(2)">홍보</a></li>
+			<li><a class="" onclick="goPaymentCate(2)">홍보</a></li>
 		</ul>
 		<ul>
-			<li><a class="" onclick="goInsaCate(3)">IT</a></li>
+			<li><a class="" onclick="goPaymentCate(3)">IT</a></li>
 		</ul>
 		<ul>
-			<li><a class="" onclick="goInsaCate(4)">회계</a></li>
+			<li><a class="" onclick="goPaymentCate(4)">회계</a></li>
 		</ul>
 	</div>
 
