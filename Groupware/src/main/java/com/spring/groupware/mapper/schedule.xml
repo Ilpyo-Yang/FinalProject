@@ -8,8 +8,10 @@
 	
 	<!-- === 일정 추가하기 === -->
 	<insert id="scdAdd" parameterType="com.spring.groupware.schedule.model.ScheduleVO">
-		insert into tbl_schedule(scdno, fk_scdno2, fk_mbr_seq, scdsubject, scdstartdate, scdenddate, attendance)
-		values(schedule_seq.nextval, #{fk_scdno2}, #{fk_mbr_seq}, #{scdsubject}, to_date(#{scdstartdate} || ' ' || #{scdstartTm}, 'yyyy-mm-dd hh24:mi'), to_date(#{scdenddate} || ' ' || #{scdendTm},'yyyy-mm-dd hh24:mi'), #{attendance})
+		insert into tbl_schedule(scdno, fk_scdno2, fk_mbr_seq, scdsubject, scdstartdate, scdenddate, place, attendance)
+		values(schedule_seq.nextval, #{fk_scdno2}, #{fk_mbr_seq}, #{scdsubject}
+		, to_date(#{scdstartdate} || ' ' || #{scdstartTm}, 'yyyy-mm-dd hh24:mi'), to_date(#{scdenddate} || ' ' || #{scdendTm},'yyyy-mm-dd hh24:mi')
+		,#{place}, #{attendance})
 	</insert>
 
 	<!-- === 등록된 일정 상세 내용 조회 === -->
@@ -31,10 +33,27 @@
 		where scdno = #{scdno}
 	</delete>
 	
+	<!-- === 캘린더에 일정 보여주기 === -->
+	<resultMap type="HashMap" id="showScdMap">
+		<result property="scdno" column="scdno" javaType="String"/>
+		<result property="fk_scdno2" column="fk_scdno2" javaType="String"/>
+		<result property="scdsubject" column="scdsubject" javaType="String"/>
+		<result property="scdstartdate" column="scdstartdate" javaType="String"/>
+		<result property="scdenddate" column="scdenddate" javaType="String"/>
+	</resultMap>
+	
+	<select id="showScd" parameterType="String" resultMap="showScdMap">
+		select scdno, fk_scdno2, scdsubject, scdstartdate, scdenddate
+		from tbl_schedule S join tbl_mbr M
+		on S.fk_mbr_seq = M.mbr_seq
+		where mbr_id = #{userid}
+	</select>
+	
+	
 	<!-- =================================================================== -->
 	
 	<!-- === 회의실 예약하기 === -->
-	<insert id="regMtrEnd" parameterType="com.spring.groupware.schedule.model.MtrHistoryVO">
+	<insert id="resvMtrEnd" parameterType="com.spring.groupware.schedule.model.MtrHistoryVO">
 		insert into tbl_mtrhistory(usemtrno, fk_scdno, fk_mtrno, regDate, starttime, endtime)
 		values(mtrhistory_seq.nextval, #{fk_scdno}, #{fk_mtrno}, #{regDate}, #{starttime}, #{endtime})
 	</insert>
@@ -52,6 +71,24 @@
 		delete from tbl_mtrhistory
 		where usemtrno = #{usemtrno}
 	</delete>
+	
+	<!-- === 회의실 예약현황 보여주기(구글 차트) === -->
+	<resultMap type="HashMap" id="goRegMtrMap">
+		<result property="mtrname" column="mtrname" javaType="String"/>
+		<result property="scdsubject" column="scdsubject" javaType="String"/>
+		<result property="regDate" column="regDate" javaType="String"/>
+		<result property="starttime" column="starttime" javaType="String"/>
+		<result property="endtime" column="endtime" javaType="String"/>
+	</resultMap>
+	
+	<select id="goRegMtr" resultMap="goRegMtrMap">
+		select mtrname, scdsubject, regDate, starttime, endtime
+		from tbl_schedule S join tbl_mtrhistory H
+		on S.scdno = H.fk_scdno
+		join tbl_mtr M
+		on H.fk_mtrno = M.mtrno
+	</select>
+	
 	
 	
 </mapper>

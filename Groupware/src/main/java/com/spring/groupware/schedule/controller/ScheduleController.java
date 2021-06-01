@@ -1,5 +1,7 @@
 package com.spring.groupware.schedule.controller;
 
+import java.util.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -9,8 +11,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.schedule.model.MtrHistoryVO;
 import com.spring.groupware.schedule.model.ScheduleVO;
@@ -40,11 +46,9 @@ public class ScheduleController {
 		return mav;
 	}
 	
-	
-	
 	// 일정 등록하기
 	@RequestMapping(value="/scdRegEnd.opis", method = {RequestMethod.POST})
-	public ModelAndView requiredLogin_scdRegEnd(ModelAndView mav, ScheduleVO schedulevo) {
+	public ModelAndView requiredLogin_scdRegEnd(HttpServletRequest request, HttpServletResponse response, ModelAndView mav, ScheduleVO schedulevo) {
 		
 		int n = service.scdAdd(schedulevo);	// 일정 등록하기
 		
@@ -177,6 +181,39 @@ public class ScheduleController {
 		return mav;
 	}
 	
+	// 
+	@ResponseBody
+	@RequestMapping(value="/showScd.opis", produces="text/plain;charset=UTF-8")
+	public String showScd(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		String userid = loginuser.getMbr_id();
+		
+		List<Map<String,String>> scdList = service.showScd(userid);
+		
+		JsonArray jsonArr = new JsonArray();
+		
+		for(Map<String, String> map: scdList) {
+			
+			JsonObject jsonObj = new JsonObject();
+			jsonObj.addProperty("scdno", map.get("scdno"));
+			jsonObj.addProperty("fk_scdno2", map.get("fk_scdno2"));
+			jsonObj.addProperty("scdsubject", map.get("scdsubject"));
+			jsonObj.addProperty("scdstartdate", map.get("scdstartdate"));
+			jsonObj.addProperty("scdenddate", map.get("scdenddate"));
+			
+			jsonArr.add(jsonObj);
+		}
+		
+		return new Gson().toJson(jsonArr);
+	}
+	
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	// 회의실 예약 페이지 보여주기
 	@RequestMapping(value="/mtr_resv.opis")
 	public ModelAndView requiredLogin_mtrResv(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
@@ -186,11 +223,11 @@ public class ScheduleController {
 	}
 	
 	// 회의실 예약하기
-	@RequestMapping(value="/regMtrEnd.opis", method = {RequestMethod.POST})
-	public ModelAndView regMtrEnd(ModelAndView mav, MtrHistoryVO mtrhvo) {
-		
-		int n = service.regMtrEnd(mtrhvo);
-		
+	@RequestMapping(value="/resvMtrEnd.opis", method = {RequestMethod.POST})
+	public ModelAndView requiredLogin_resvMtrEnd(HttpServletRequest request, HttpServletResponse response, ModelAndView mav, MtrHistoryVO mtrhvo) {
+			
+		int n = service.resvMtrEnd(mtrhvo);
+			
 		if(n==1) {
 			mav.setViewName("redirect:/mtrhDetail.opis");
 		}
@@ -203,10 +240,26 @@ public class ScheduleController {
 			
 			mav.setViewName("msg");
 		}
+		return mav;
+	}
+	
+	//예약된 회의실 표에 보여주기
+	@ResponseBody
+	@RequestMapping(value="/showRegMtr.opis")
+	public ModelAndView requiredLogin_goRegMtr(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		List<Map<String,String>> regDetailList = service.goRegMtr();
+		
+		JsonArray jsonArr = new JsonArray();
+		
+		for(Map<String,String> map:regDetailList) {
+			JsonObject jsonObj = new JsonObject();
+			
+		}
 		
 		return mav;
 	}
-	 
+	
 	// 회의실 예약상세페이지 보여주기
 	@RequestMapping(value="/mtrhDetail.opis")
 	public ModelAndView mtrhDetail(HttpServletRequest request, ModelAndView mav) {

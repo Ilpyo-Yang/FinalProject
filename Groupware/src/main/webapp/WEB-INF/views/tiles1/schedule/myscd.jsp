@@ -4,7 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath = request.getContextPath(); %>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,7 +86,7 @@
   }
   	
   #chkboxes {
-    padding-left: 700px;
+    padding-left: 660px;
     padding-top: 20px;
   }
 
@@ -142,7 +141,9 @@
 		        	editable: true,
 		        	allDaySlot: false,
 		        	eventLimit: true,
-		        	contentHeight: 600,
+		        	eventLimitText: "more",
+		            eventLimitClick: "popover",
+					contentHeight: 600,
 		        	weekNumbers:true,
 		        	businessHours: {
 		        		  daysOfWeek: [ 1, 2, 3, 4, 5 ], // 월 - 금
@@ -151,7 +152,56 @@
 		        	},
 		        	navLinks: true,
 		        	nowIndicator: true,
-		        	locale:'ko'
+		        	events: function(info, successCallback, failureCallback) {
+		        		$.ajax({
+		        			url:"<%=ctxPath%>/showScd.opis",
+		        			dataType:"json",
+		        			success: function(result) {
+		        				
+		        				if(result != null) {
+		        					$.each(result, function(index, item){
+		        						var scddiv = item.fk_scdno2;
+		        						var subject = item.scdsubject;
+		        						var startdate = moment(item.scdstartdate).format('yyyy-mm-dd hh24:mi');
+		        						var enddate = moment(item.scdenddate).format('yyyy-mm-dd hh24:mi');
+		        						
+		        						if(scddiv == 0) {
+		        							event.push({
+		        								title: subject,
+		        								start: startdate,
+		        								end: enddate,
+		        								url:"<%=ctxPath%>/scdDetail.opis?scdno="+item.scdno,
+		        							});
+		        						}
+		        						else if(scddiv == 1) {
+		        							event.push({
+		        								title: subject,
+		        								start: startdate,
+		        								end: enddate,
+		        								url: "<%=ctxPath%>/scdDetail.opis?scdno="+item.scdno,
+		        							});
+		        						}
+		        						else {
+		        							event.push({
+		        								title: subject,
+		        								start: startdate,
+		        								end: enddate,
+		        								url: "<%=ctxPath%>/scdDetail.opis?scdno="+item.scdno,
+		        							});
+		        						}
+		        					});	
+		        					
+		        				}// end of if--------------
+		        				       				
+		        				 successCallback(events); 
+		    				},
+		    				error:function(request, status, error) {
+		        				alert("code: "+request.status+"\n"+"message: " +request.responseText+"\n"+"error: "+error);
+		        			}
+		        		});    
+		        		
+		        		},
+			        locale:'ko'
 		        });
 		        calendar.render();
 		 });// end of document.addEventListener('DOMContentLoaded', function()----------------------
@@ -164,8 +214,7 @@
 		 
 		 function mtrResv() {
 			 var url = "<%=ctxPath%>/mtr_resv.opis";
-			 window.open(url, "mtrResv","left=350px, top=100px, width=800px, height=550px");
-			 
+			 window.open(url, "mtrResv","left=350px, top=100px, width=1000px, height=550px");
 		 }
 		 
 </script>
@@ -193,7 +242,7 @@
 		<table>
 			<tr>
 				<td id="user_img"><img src="<%=ctxPath%>/resources/images/menuuser.png" style="width:30px; height:30px;" /></td>
-				<td style="padding:20px 10px 0px 10px;"><span style="color:#008ae6; font-weight:bold;">${sessionScope.loginuser.mbr_name}</span>&nbsp;님의 일정</td>
+				<td style="padding:20px 0 0px 10px;"><span style="color:#008ae6; font-weight:bold;">${sessionScope.loginuser.mbr_name}</span>&nbsp;님의 일정</td>
 				<td id="chkboxes">
 					<input type="checkbox" value="0"/>&nbsp;전체일정&nbsp;
 					<input type="checkbox" value="1"/>&nbsp;부서일정&nbsp;

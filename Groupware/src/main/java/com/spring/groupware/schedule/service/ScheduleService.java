@@ -1,5 +1,7 @@
 package com.spring.groupware.schedule.service;
 
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -46,13 +48,19 @@ public class ScheduleService implements InterScheduleService{
 		return n;
 	}
 	
-	///////////////////////////////////////////////////////////일정끝
+	// 캘린더에 일정 보여주기
+	@Override
+	public List<Map<String, String>> showScd(String userid) {
+		List<Map<String, String>> scdList = dao.showScd(userid);
+		return scdList;
+	}
 	
+	///////////////////////////////////////////////////////////일정끝
 	
 	// 회의실 예약하기
 	@Override
-	public int regMtrEnd(MtrHistoryVO mtrhvo) {
-		int n = dao.regMtrEnd(mtrhvo);
+	public int resvMtrEnd(MtrHistoryVO mtrhvo) {
+		int n = dao.resvMtrEnd(mtrhvo);
 		return n;
 	}
 	
@@ -69,6 +77,19 @@ public class ScheduleService implements InterScheduleService{
 		int n = dao.delMtrReg(usemtrno);
 		return n;
 	}
+	
+	// 회의실 예약현황 보여주기(구글 차트)
+	@Override
+	public List<Map<String, String>> goRegMtr() {
+		List<Map<String, String>> regDetailList = dao.goRegMtr();
+		return regDetailList;
+	}
+
+	
+
+	
+	
+	
 
 	
 
