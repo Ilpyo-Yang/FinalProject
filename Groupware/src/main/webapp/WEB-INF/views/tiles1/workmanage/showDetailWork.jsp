@@ -30,28 +30,28 @@
 		<tbody>
 			<tr>
 				<td>제목</td>
-				<td>${wmvo.subject}</td>
+				<td>${workvo.subject}</td>
 				
 				<td>상태</td>
 				<td>
 					<c:choose>
-						<c:when test="${wmvo.fk_statno == 0}">
+						<c:when test="${workvo.fk_statno == 0}">
 							<button type="button" class="workStatus" style="background-color: #ff3300;">지연<span>+2</span></button>		
 						</c:when>
-						<c:when test="${wmvo.fk_statno == 1}">
+						<c:when test="${workvo.fk_statno == 1}">
 							<button type="button" class="workStatus" style="background-color: #66ccff;">미완료</button>
 						</c:when>
-						<c:when test="${wmvo.fk_statno == 2}">
+						<c:when test="${workvo.fk_statno == 2}">
 							<button type="button" class="workStatus" style="background-color: white; border: 1px solid black; color: black;">완료</button>
 						</c:when>
 						
-						<c:when test="${wmvo.fk_statno == 3}">
+						<c:when test="${workvo.fk_statno == 3}">
 							<button type="button" class="workStatus" style="background-color: #66ccff;">미확인</button>		
 						</c:when>
-						<c:when test="${wmvo.fk_statno == 4}">
+						<c:when test="${workvo.fk_statno == 4}">
 							<button type="button" class="workStatus" style="background-color: white; border: 1px solid black; color: black;">승인완료</button>
 						</c:when>
-						<c:when test="${wmvo.fk_statno == 5}">
+						<c:when test="${workvo.fk_statno == 5}">
 							<button type="button" class="workStatus" style="background-color: #ffcc00;">반려</button>
 						</c:when>
 					</c:choose>
@@ -59,22 +59,22 @@
 			</tr>
 			<tr>
 				<td>지시자</td>
-				<td colspan="3">${wmvo.fk_requester_seq}</td>
+				<td colspan="3">${workvo.fk_requester_seq}</td>
 			</tr>
 			<tr>
 				<td>업무기한</td>
-				<td colspan="3">${wmvo.registerday} ~ ${wmvo.deadline}</td>
+				<td colspan="3">${workvo.registerday} ~ ${workvo.deadline}</td>
 			</tr>
 			<tr>
 				<td>등록일</td>
-				<td>${wmvo.registerday}</td>
+				<td>${workvo.registerday}</td>
 				
 				<td>수정일</td>
 				<td>2020.01.11 12:10</td>
 			</tr>
 			<tr>
 				<td>수신자</td>
-				<td colspan="3">${wmvo.fk_receiver_seq}</td>
+				<td colspan="3">${workvo.fk_receiver_seq}</td>
 			</tr>
 			<tr>
 				<td>참조자</td>
@@ -82,7 +82,7 @@
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td colspan="3">${wmvo.contents}</td>
+				<td colspan="3">${workvo.contents}</td>
 			</tr>
 			<tr>
 				<td>첨부파일</td>

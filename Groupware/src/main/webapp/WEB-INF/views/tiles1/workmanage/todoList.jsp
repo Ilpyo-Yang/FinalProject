@@ -119,10 +119,10 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 			<tr>
 				<th><input type="checkbox" /></th>
 				<th>번호</th>
-				<th>중요 ▲</th>
-				<th>제목 ▲</th>
-				<th>등록일 ▲</th>
-				<th>마감일 ▲</th>
+				<th>중요</th>
+				<th>제목</th>
+				<th>등록일</th>
+				<th>마감일</th>
 				<th>상태</th>
 			</tr>
 		</thead>

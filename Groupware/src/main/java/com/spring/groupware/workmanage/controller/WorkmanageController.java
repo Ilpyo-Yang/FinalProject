@@ -2,6 +2,7 @@ package com.spring.groupware.workmanage.controller;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -85,7 +86,7 @@ public class WorkmanageController {
 		
 	// == 나의 할 일 상세 조회 페이지 == //
 	@RequestMapping(value = "/showDetailTodo.opis")
-	public ModelAndView showDetailTodo(ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView requiredLogin_showDetailTodo(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 
 		// tbl_todolist 테이블에서 업무고유 번호에 해당하는 값 가져오기 
 		String tdno = request.getParameter("tdno");
@@ -138,7 +139,7 @@ public class WorkmanageController {
 	
 	// == 업무 리스트 보여주기 == //
 	@RequestMapping(value = "/workList.opis")
-	public ModelAndView workList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	public ModelAndView requiredLogin_workList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser"); 
@@ -154,7 +155,23 @@ public class WorkmanageController {
 		paraMap.put("workType", workType); 	// 업무요청:1, 업무보고:2
 		paraMap.put("workRole", workRole);	// 내가 발신자일때:1, 수신자일때:2, 참조자일때:3 
 		
-		System.out.println("workRole : "+ workRole);
+		
+		// == 페이징 처리해서 글 가져오기 == // 
+		int totalCount = 0;				// 총 업무 건수
+		int sizePerPage = 5;			// 한 페이당 보여주는 업무 건수
+		int currentShowPageNo = 1;		// 현재 보여주는 페이지 번호, 디폴트 1
+		int totalPage = 0;				// 총 페이지 수
+		
+		totalCount = service.getTotalCount(paraMap);
+		totalPage = (int) Math.ceil((double) totalCount/sizePerPage);
+		
+		System.out.println("totalCount: "+ totalCount);
+		
+		int startRno = 0;	// 시작 행 번호 
+		int endRno = 0;		// 끝 행 번호
+		
+		startRno = ((currentShowPageNo - 1) * sizePerPage) + 1;
+		endRno = startRno + sizePerPage - 1;
 		
 		List<WorkVO> workList = null;
 		
@@ -196,23 +213,34 @@ public class WorkmanageController {
 	
 	// == 내가 한 업무 상세 조회 페이지 == //
 	@RequestMapping(value="/showDetailWork.opis")
-	public ModelAndView showDetailWork(ModelAndView mav, HttpServletRequest request) {
+	public ModelAndView requiredLogin_showDetailWork(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
-		List<WorkVO> workList = null;
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser"); 
 		
-		int wmno = Integer.parseInt(request.getParameter("wmno")); // 업무고유 번호 받아오기
-		WorkVO wmvo = workList.get(wmno-1); // 추후 DB 에서 wmno 로 정보 가져오기
+		// 현재 로그인 되어있는 멤버의 seq를 통해 해당 멤버의 할일 리스트 가져온다.
+		String userId = String.valueOf(loginuser.getMbr_seq());
+		String workType = request.getParameter("workType");  
+		String workRole = request.getParameter("workRole");
+		String wmno = request.getParameter("wmno"); // 업무고유 번호 받아오기
 		
-		String workType = request.getParameter("workType"); // 추후 DB 에서 fk_wtno 를 가지고 타입에 맞는 데이터를 가져올 것 
-		String workRole = request.getParameter("workRole"); // 추후 DB 에서 type 에 맞는  데이터를 가져올 것 (발신자, 수신자, 참조자)
+		Map<String,String> paraMap = new HashedMap<>();
+		
+		paraMap.put("userId", userId);
+		paraMap.put("workType", workType); 	// 업무요청:1, 업무보고:2
+		paraMap.put("workRole", workRole);	// 내가 발신자일때:1, 수신자일때:2, 참조자일때:3 
+		paraMap.put("wmno", wmno);
+		
+		WorkVO workvo = service.showDetailWork(paraMap);
 		
 		mav.addObject("workType", workType);
 		mav.addObject("workRole", workRole); 
-		mav.addObject("wmvo", wmvo);
+		mav.addObject("workvo", workvo);
 		
 		mav.setViewName("workmanage/showDetailWork.tiles1");
 		return mav;
 	}
+	
 	
 	
 }

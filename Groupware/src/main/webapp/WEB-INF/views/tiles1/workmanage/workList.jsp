@@ -153,7 +153,7 @@ button.readCheck {
 			<tr>
 				<th><input type="checkbox" /></th>
 				<th>번호</th>
-				<th>제목 ▲</th>
+				<th>제목</th>
 				<c:if test="${workRole == 1}">
 					<c:if test="${workType == 1}"><th>담당자</th></c:if>
 					<c:if test="${workType == 2}"><th>수신자</th></c:if>
@@ -162,8 +162,8 @@ button.readCheck {
 					<c:if test="${workType == 1}"><th>요청자</th></c:if>
 					<c:if test="${workType == 2}"><th>보고자</th></c:if>
 				</c:if>
-				<th>등록일 ▲</th>
-				<th>마감일 ▲</th>
+				<th>등록일</th>
+				<th>마감일</th>
 				<th>상태</th>
 				<th>확인</th>
 			</tr>

@@ -61,4 +61,18 @@ public class WorkmanageService implements InterWorkmanageService {
 		return workList;
 	}
 
+	// == 페이징 처리 - 총 게시물 건수 가져오기 == //
+	@Override
+	public int getTotalCount(Map<String, String> paraMap) {
+		int n = dao.getTotalCount(paraMap);
+		return n;
+	}
+
+	// == 선택한 업무(요청,보고) 상세 보기  == //
+	@Override
+	public WorkVO showDetailWork(Map<String, String> paraMap) {
+		WorkVO workvo = dao.showDetailWork(paraMap);
+		return workvo;
+	}
+
 }

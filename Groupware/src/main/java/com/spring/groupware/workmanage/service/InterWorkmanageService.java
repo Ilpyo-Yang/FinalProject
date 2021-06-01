@@ -26,4 +26,10 @@ public interface InterWorkmanageService {
 	// 참조 업무 리스트(요청,보고) 보여주기 
 	List<WorkVO> workListForRefer(Map<String, String> paraMap);
 
+	// 페이징 처리 - 총 게시물 건수 가져오기
+	int getTotalCount(Map<String, String> paraMap);
+
+	// 선택한 업무(요청,보고) 상세 보기 
+	WorkVO showDetailWork(Map<String, String> paraMap);
+
 }

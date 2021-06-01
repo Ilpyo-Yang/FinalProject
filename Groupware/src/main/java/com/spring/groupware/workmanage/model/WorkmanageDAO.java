@@ -58,6 +58,20 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		List<WorkVO> workList = sqlsession.selectList("workmanage.workListForRefer", paraMap);
 		return workList;
 	}
+
+	// == 페이징 처리 - 총 게시물 건수 가져오기 == //
+	@Override
+	public int getTotalCount(Map<String, String> paraMap) {
+		int n = sqlsession.selectOne("workmanage.getTotalCount", paraMap);
+		return n;
+	}
+
+	// == 선택한 업무(요청,보고) 상세 보기 == // 
+	@Override
+	public WorkVO showDetailWork(Map<String, String> paraMap) {
+		WorkVO workvo = sqlsession.selectOne("workmanage.showDetailWork", paraMap);  
+		return workvo;
+	}
 	
 	
 
