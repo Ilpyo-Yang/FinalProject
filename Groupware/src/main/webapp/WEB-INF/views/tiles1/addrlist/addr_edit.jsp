@@ -7,6 +7,28 @@
 <head>
 <meta charset="UTF-8">
 <title>주소록 정보 수정</title>
+<style type="text/css">
+
+#editForm{
+	width: 80%;
+	margin: 50px 0 50px 350px;
+	font-size: 15px;
+}
+
+#tblAddr th, td{
+	padding: 5px;
+}
+
+#btns{
+	margin-left: 800px;
+	font-size: 12px;
+}
+
+#btnEdit{
+	margin-right: 20px;
+}
+
+</style>
 
 <jsp:include page="./addr_sidebar.jsp" />
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -174,10 +196,12 @@
 	</div>
 	
 	<!-- 수정폼 내용 -->
-	<div class="container" style="width:1460px;">
+	<div style="width:1460px;">
+    
+    
     <form name="editFrm" id="editFrm" enctype="multipart/form-data" > 
-		
-     <table id="table tblAddr">      
+	<div id="editForm" >	
+     <table id="tblAddr">      
         <tr>
          	<th>이름</th>
             <td>
@@ -217,33 +241,34 @@
          </tr>
          <tr>
          	<td style="width: 20%; font-weight: bold;">우편번호</td>
-      	<td style="width: 80%; text-align: left;">
-         <input type="text" id="postcode" name="postcode" size="6" maxlength="5" />&nbsp;&nbsp;
-         <%-- 우편번호 찾기 --%>
-         <button type="button" id="zipcodeSearch" style="vertical-align: middle;"> 우편번호 검색 </button>
+	      	<td style="width: 80%; text-align: left;">
+    	    <input type="text" id="postcode" name="postcode" size="6" maxlength="5" />&nbsp;&nbsp;
+        	<%-- 우편번호 찾기 --%>
+         	<button type="button" id="zipcodeSearch" style="vertical-align: middle;"> 우편번호 검색 </button>
          <span class="error">우편번호 형식이 아닙니다.</span>
-      </tr>
-      <tr>
-      <td style="width: 20%; font-weight: bold;">주소</td>
-      <td style="width: 80%; text-align: left;">
-         <input type="text" id="address" name="address" size="40" placeholder="주소" /><br><br>
-         <input type="text" id="detailaddress" name="detailaddress" size="40" placeholder="상세주소" />&nbsp;<input type="text" id="extraAddress" name="extraAddress" size="40" placeholder="참고항목" /> 
-         <span class="error">주소를 입력하세요</span>
-      </td>
-   	</tr>
-      <tr>
-      	<th>메모</th>
-         <td>
-			<textarea rows="4" cols="100" style="width: 80%; height: 200px;" name="addrmemo" placeholder="메모를 입력해주세요">${requestScope.addrvo.addrmemo}</textarea>                   
-		</td>
-      </tr>	 
-   </table>
-   
-      <!-- Modal footer -->
-      <div class="modal-footer">
+	      </tr>
+	      <tr>
+	      <td style="width: 20%; font-weight: bold;">주소</td>
+	      <td style="width: 80%; text-align: left;">
+	         <input type="text" id="address" name="address" size="40" placeholder="주소" /><br><br>
+	         <input type="text" id="detailaddress" name="detailaddress" size="36" placeholder="상세주소" />&nbsp;<input type="text" id="extraAddress" name="extraAddress" size="35" placeholder="참고항목" /> 
+	         <span class="error">주소를 입력하세요</span>
+	      </td>
+	   	</tr>
+	      <tr>
+	      	<th>메모</th>
+	         <td>
+				<textarea rows="4" cols="100" style="width: 80%; height: 200px;" name="addrmemo" placeholder="메모를 입력해주세요">${requestScope.addrvo.addrmemo}</textarea>                   
+			</td>
+	      </tr>	 
+	   </table>
+   	</div>
+      
+      <div id="btns">
         <button type="button" id="btnEdit">등록</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        <button type="button" onclick="javascript:history.back()">취소</button>
       </div>
+  
   </form>
 
 </div>

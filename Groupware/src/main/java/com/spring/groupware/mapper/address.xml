@@ -54,9 +54,10 @@
    	 
    	<!-- === 주소록 정보 수정하기 === -->
    	<update id="editAddr" parameterType="com.spring.groupware.addrlist.model.AddrVO">
-   		update tbl_address set mbr_name=#{mbr_name}, mbr_phone_number=#{mbr_phone_number}, mbr_birthday=#{mbr_birthday},
-   							   mbr_email=#{mbr_email}, dept_name=#{dept_name}, position_name=#{position_name},
-   							   postcode=#{postcode}, address=#{address}, detailaddress=#{detailaddress}, addrmemo=#{addrmemo}   							   
+   		update tbl_address 
+   		set mbr_name=#{mbr_name}, mbr_phone_number=#{mbr_phone_number}, mbr_birthday=#{mbr_birthday},
+   			mbr_email=#{mbr_email}, dept_name=#{dept_name}, position_name=#{position_name},
+   			postcode=#{postcode}, address=#{address}, detailaddress=#{detailaddress}, addrmemo=#{addrmemo}   							   
 		where addr_seq = #{addr_seq}
    	</update>
    	
