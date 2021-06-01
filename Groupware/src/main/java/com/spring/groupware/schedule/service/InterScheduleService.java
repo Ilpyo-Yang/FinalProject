@@ -8,17 +8,20 @@ import com.spring.groupware.schedule.model.ScheduleVO;
 
 public interface InterScheduleService {
 	
+	// 일정번호 채번하기
+	int getScdno();
+	
 	// 일정 등록하기
 	int scdAdd(ScheduleVO schedulevo);
 	
-	// 등록된 일정 상세 내용 조회
+	// 수정해야할 글 1개 가져오기
 	ScheduleVO getViewScd(String scdno);
 	
 	// 일정 수정하기
 	int editScd(ScheduleVO schedulevo);
 	
 	// 일정 삭제하기
-	int delScd(ScheduleVO schedulevo);
+	int delScd(String scdno);
 	
 	// 일정 풀캘린더에 보여주기
 	List<Map<String, String>> showScd(String userid);
@@ -36,6 +39,10 @@ public interface InterScheduleService {
 	
 	// 회의실 예약현황 보여주기(구글 차트)
 	List<Map<String, String>> goRegMtr();
+
+	
+	
+	
 	
 	
 	

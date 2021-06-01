@@ -11,7 +11,6 @@ public class ScheduleVO {
 	private String place;			// 장소
 	private String attendance; 		// 참석자
 	
-	private String mtr;				// 회의실/장소
 	private String scdstartTm;		// 시작시간
 	private String scdendTm;		// 종료시간
 	
@@ -100,14 +99,6 @@ public class ScheduleVO {
 
 	public void setScdendTm(String scdendTm) {
 		this.scdendTm = scdendTm;
-	}
-
-	public String getMtr() {
-		return mtr;
-	}
-
-	public void setMtr(String mtr) {
-		this.mtr = mtr;
 	}
 
 	public String getPlace() {
