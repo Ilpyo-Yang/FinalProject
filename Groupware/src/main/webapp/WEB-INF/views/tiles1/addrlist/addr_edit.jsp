@@ -59,7 +59,7 @@
       }); // end of $("input#name").blur(function(){}--------------------------
       
    	  // ========== 이메일 검사 ========== // 
-      $("input#email").blur(function(){
+      $("input#mbr_email").blur(function(){
            $("span#emailCheckResult").html("");
             var regExp = new RegExp(/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i);
          
@@ -205,6 +205,7 @@
         <tr>
          	<th>이름</th>
             <td>
+            	<input type="hidden" name="addr_seq" value="${requestScope.addrvo.addr_seq}" />
                 <input type="text" name="mbr_name" value="${requestScope.addrvo.mbr_name}" class="short"/>
                 <span class="error">이름은 필수입력 사항입니다.</span>
             </td>
@@ -221,7 +222,7 @@
          <tr>
          	<th>이메일</th>
             <td>
-                <input type="text" name="mbr_email" id="email" class="short requiredInfo" value="${requestScope.addrvo.mbr_email}" placeholder="abcd@opis.com" />
+                <input type="text" name="mbr_email" id="mbr_email" class="short requiredInfo" value="${requestScope.addrvo.mbr_email}" placeholder="abcd@opis.com" />
                 <span id="emailCheckResult"></span> 
                 <span class="error">이메일 형식에 맞지 않습니다.</span>
             </td>
@@ -242,7 +243,7 @@
          <tr>
          	<td style="width: 20%; font-weight: bold;">우편번호</td>
 	      	<td style="width: 80%; text-align: left;">
-    	    <input type="text" id="postcode" name="postcode" size="6" maxlength="5" />&nbsp;&nbsp;
+    	    <input type="text" id="postcode" name="postcode" size="6" maxlength="5" value="${requestScope.addrvo.postcode}"/>&nbsp;&nbsp;
         	<%-- 우편번호 찾기 --%>
          	<button type="button" id="zipcodeSearch" style="vertical-align: middle;"> 우편번호 검색 </button>
          <span class="error">우편번호 형식이 아닙니다.</span>
@@ -250,8 +251,8 @@
 	      <tr>
 	      <td style="width: 20%; font-weight: bold;">주소</td>
 	      <td style="width: 80%; text-align: left;">
-	         <input type="text" id="address" name="address" size="40" placeholder="주소" /><br><br>
-	         <input type="text" id="detailaddress" name="detailaddress" size="36" placeholder="상세주소" />&nbsp;<input type="text" id="extraAddress" name="extraAddress" size="35" placeholder="참고항목" /> 
+	         <input type="text" id="address" name="address" size="40" placeholder="주소" value="${requestScope.addrvo.address}"/><br><br>
+	         <input type="text" id="detailaddress" name="detailaddress" size="36" placeholder="상세주소" value="${requestScope.addrvo.detailaddress}"/>&nbsp;<input type="text" id="extraAddress" name="extraAddress" size="35" placeholder="참고항목" /> 
 	         <span class="error">주소를 입력하세요</span>
 	      </td>
 	   	</tr>

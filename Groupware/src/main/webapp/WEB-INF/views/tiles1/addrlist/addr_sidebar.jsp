@@ -168,7 +168,7 @@
 	
 	<div class="container">
 		<!-- 주소록 등록 버튼 -->
-		<button type="button" id="btnReg" class="btn btn-primary" data-toggle="modal" data-target="#myModal" value="주소록 등록">
+		<button type="button" id="btnReg" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="color:black;" value="주소록 등록">
 		  주소록 등록
 		</button>
 		

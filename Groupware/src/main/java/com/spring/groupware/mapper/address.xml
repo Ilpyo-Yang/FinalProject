@@ -21,7 +21,7 @@
    	 	</if>
    	 </select>
    	 
-   	 <!-- === 페이징 처리한 주소록 목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것) -->   	 
+   	 <!-- === 페이징 처리한 주소록 목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것) -->  
    	 <select id="addrListSearchWithPaging" parameterType="HashMap" resultType="com.spring.groupware.addrlist.model.AddrVO">
 	   	select addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name
 		from 
@@ -55,8 +55,8 @@
    	<!-- === 주소록 정보 수정하기 === -->
    	<update id="editAddr" parameterType="com.spring.groupware.addrlist.model.AddrVO">
    		update tbl_address 
-   		set mbr_name=#{mbr_name}, mbr_phone_number=#{mbr_phone_number}, mbr_birthday=#{mbr_birthday},
-   			mbr_email=#{mbr_email}, dept_name=#{dept_name}, position_name=#{position_name},
+   		set mbr_name=#{mbr_name}, mbr_phone_number=#{mbr_phone_number}, mbr_email=#{mbr_email}, 
+   			mbr_birthday=#{mbr_birthday}, dept_name=#{dept_name}, position_name=#{position_name},
    			postcode=#{postcode}, address=#{address}, detailaddress=#{detailaddress}, addrmemo=#{addrmemo}   							   
 		where addr_seq = #{addr_seq}
    	</update>
