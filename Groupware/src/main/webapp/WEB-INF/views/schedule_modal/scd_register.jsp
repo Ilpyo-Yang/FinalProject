@@ -132,7 +132,7 @@
 			<td id="contents">
 				<select name="fk_scdno2">
 					<option>구분 선택</option>
-					<c:if test="${sessionScope.loginuser.userid eq 'admin'}">
+					<c:if test="${sessionScope.loginuser.mbr_id eq 'admin'}">
 						<option value="0">전체일정</option>
 					</c:if>
 					<option value="1">부서일정</option>
