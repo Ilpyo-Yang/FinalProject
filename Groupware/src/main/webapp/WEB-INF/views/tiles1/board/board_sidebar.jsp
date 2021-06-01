@@ -26,9 +26,9 @@
 </script>
 
 
-<div id="sideMenu" style="width: 20%; border: 1px solid red;">
+<div id="sideMenu">
 	<div id="menuTitle">게시판</div>
-	<div>
+	<div id="btnDiv">
 		<button type="button" id="btnReg">게시글 등록</button>
 	</div>
 

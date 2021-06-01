@@ -163,15 +163,16 @@
    
 </script>
 
-<div id="sideMenu" style="width: 20%; border: 1px solid red;">
+<div id="sideMenu">
 	<div id="menuTitle">주소록</div>
 	
 	<div class="container">
 		<!-- 주소록 등록 버튼 -->
+		<div id="btnDiv">
 		<button type="button" id="btnReg" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="color:black;" value="주소록 등록">
 		  주소록 등록
 		</button>
-		
+		</div>
 		<!-- ========== 주소록 등록 모달창 ========== -->
 		<div class="modal fade" id="myModal">
 		  <div class="modal-dialog modal-lg">
@@ -264,12 +265,12 @@
 		 </div>
   
 	<div class="lside">
-		<a class="side" href="/groupware/totaladdrlist.opis">전체 주소록</a>
+		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/totaladdrlist.opis'">전체 주소록</button>
 	</div>
 	<div class="lside">
-		<a class="side" href="/groupware/personal_addrlist.opis">개인 주소록</a>
+		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/personal_addrlist.opis'">개인 주소록</button>
 	</div>
 	<div class="lside">
-		<a class="side" href="/groupware/addr_setting.opis">개인 주소록 관리</a>
+		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/addr_setting.opis">개인 주소록 관리</button>
 	</div>
 </div>
