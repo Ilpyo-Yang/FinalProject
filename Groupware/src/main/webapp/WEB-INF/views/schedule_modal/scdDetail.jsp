@@ -91,7 +91,7 @@
 				<tr>
 					<td id="title">일정구분</td>
 					<td id="content">
-						<input type="hidden" name="scdno" value="${requestScope.scdno}"/>
+						<input type="hidden" name="scdno" value="${requestScope.schedulevo.scdno}"/>
 						<c:if test="${requestScope.schedulevo.fk_scdno2 eq 1}">부서일정</c:if> 
 						<c:if test="${requestScope.schedulevo.fk_scdno2 eq 2}">개인일정</c:if>
 					</td>

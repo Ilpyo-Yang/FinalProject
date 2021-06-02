@@ -56,12 +56,18 @@
 	</select>
 	
 	
-	<!-- =================================================================== -->
+	<!-- ========================================================================================================== -->
+	
+	<!-- === 회의실 예약 번호 채번하기 === -->
+	<select id="getNum" resultType="int">
+		select mtrhistory_seq.nextval
+		from dual
+	</select>
 	
 	<!-- === 회의실 예약하기 === -->
 	<insert id="resvMtrEnd" parameterType="com.spring.groupware.schedule.model.MtrHistoryVO">
-		insert into tbl_mtrhistory(usemtrno, fk_scdno, fk_mtrno, regDate, starttime, endtime)
-		values(mtrhistory_seq.nextval, #{fk_scdno}, #{fk_mtrno}, #{regDate}, #{starttime}, #{endtime})
+		insert into tbl_mtrhistory(usemtrno, fk_scdno, fk_mtrno, starttime, endtime)
+		values(#{usemtrno}, #{fk_scdno}, #{fk_mtrno}, to_date(#{regDate} || ' ' || #{starttime},'yyyy-mm-dd hh24:mi'), to_date(#{regDate} || ' ' || #{endtime},'yyyy-mm-dd hh24:mi'))
 	</insert>
 	
 	<!-- === 회의실 예약 내역 조회 === -->

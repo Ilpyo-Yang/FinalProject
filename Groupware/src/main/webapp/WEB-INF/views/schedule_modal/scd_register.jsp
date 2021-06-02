@@ -110,12 +110,20 @@
 		    });
 		    
 		    
+		    
 	});// end of $(document).ready(function(){}---------------------------------
 	
-	function mtrResv() {
-		 var url = "<%=ctxPath%>/mtr_resv.opis";
-		 window.open(url, "mtrResv","left=350px, top=100px, width=800px, height=650px");
-	 }
+	function goResvMtr() {
+		
+		var url = "<%=ctxPath%>/mtr_resv.opis";
+		window.open(url, "sendParentsVal","left=350px, top=100px, width=800px, height=650px");
+		
+		var sendfrm = document.sendParentsVal;
+		sendfrm.action = url;
+		sendfrm.method = "post";
+		sendfrm.target = "sendParentsVal";
+		sendfrm.submit();
+	}
 	
 	
 </script>
@@ -128,6 +136,7 @@
 		<tr class="division schedule">
 			<td id="title">일정 구분</td>
 			<td id="contents">
+				<input type="hidden" id="scdno" name="scdno" value="${requestScope.scdno}"/>
 				<select name="fk_scdno2">
 					<option>구분 선택</option>
 					<c:if test="${sessionScope.loginuser.mbr_id eq 'admin'}">
@@ -175,7 +184,7 @@
 			<td id="title">장소</td>
 			<td id="contents">
 				<input type="text" name="place"/>
-				<button type="button" onclick="mtrResv()">예약하기</button>
+				<button type="button" onclick="goResvMtr()">예약하기</button>
 			</td>
 		</tr>
 		<tr class="attandance schedule">
@@ -186,6 +195,7 @@
 				<button type="button" onclick="">주소록</button>
 			</td>
 		</tr>
+	
 	</table>
 	
 
@@ -193,6 +203,12 @@
 		<button type="submit" id="btnScdReg" class="btn">등록</button>
 		<button type="reset" class="btn">취소</button>
 	</div>
-
+	
 </form>
+
+<form name="sendParentsVal">
+	<input type="hidden" id="parent" name="scdno" value="${requestScope.scdno}"/>
+</form>
+
+
 </div>

@@ -107,7 +107,7 @@
 		    $("button#btnScdReg").click(function(){
 		    	var frm = document.scdEditFrm;
 			    frm.method = "POST";
-			    frm.action = "<%=ctxPath%>/scdRegEnd.opis";
+			    frm.action = "<%=ctxPath%>/editEndScd.opis";
 			    frm.submit();
 		    });
 		

@@ -60,6 +60,13 @@ public class ScheduleDAO implements InterScheduleDAO {
 	
 	///////////////////////////////////////////////////////////////////
 	
+	// 회의실 이용기록번호 채번하기
+	@Override
+	public int getNum() {
+		int usemtrno = sqlsession.selectOne("schedule.getNum");
+		return usemtrno;
+	}
+	
 	// 회의실 예약하기
 	@Override
 	public int resvMtrEnd(MtrHistoryVO mtrhvo) {
@@ -82,12 +89,14 @@ public class ScheduleDAO implements InterScheduleDAO {
 		return n;
 	}
 	
-	// 회의실 예약현황 보여주기(구글 차트)
-	@Override
-	public List<Map<String, String>> goRegMtr() {
-		List<Map<String, String>> regDetailList = sqlsession.selectList("schedule.goRegMtr");
-		return regDetailList;
-	}
+	/*
+	 * // 회의실 예약현황 보여주기(구글 차트)
+	 * 
+	 * @Override public List<Map<String, String>> goRegMtr() { List<Map<String,
+	 * String>> regDetailList = sqlsession.selectList("schedule.goRegMtr"); return
+	 * regDetailList; }
+	 */
+	
 	
 	
 	
