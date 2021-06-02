@@ -25,6 +25,9 @@ public interface InterScheduleDAO {
 	
 	//////////////////////////////////////////////////////
 	
+	// 회의실 이용기록번호 채번하기
+	int getNum();
+	
 	// 회의실 예약하기
 	int resvMtrEnd(MtrHistoryVO mtrhvo);
 	
@@ -35,7 +38,9 @@ public interface InterScheduleDAO {
 	int delMtrReg(String usemtrno);
 	
 	// 회의실 예약현황 보여주기(구글 차트)
-	List<Map<String, String>> goRegMtr();
+	/* List<Map<String, String>> goRegMtr(); */
+	
+	
 	
 	
 

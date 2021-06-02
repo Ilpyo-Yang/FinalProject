@@ -18,7 +18,7 @@
 		var bool = confirm("예약을 취소하시겠습니까?");
 		
 		if(bool) {
-			location.href="<%=ctxPath%>/cancel.opis";
+			
 		}
 		
 		
@@ -30,6 +30,7 @@
 	<h2>회의실 예약 내역</h2>
 	
 	<c:if test="${not empty requestScope.mtrhvo}">
+		<form name="mtrResvFrm">	
 			<table>
 				<tr>
 					<td>${requestScope.schedulevo.scdsubject}</td>
@@ -50,6 +51,7 @@
 					<td>${requestScope.mtrhvo.endtime}</td>
 				</tr>
 			</table>
+		</form>	
 	</c:if>
 
 	<c:if test="${empty requestScope.mtrhvo}">
