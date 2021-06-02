@@ -144,9 +144,9 @@ public class MemberController {
   		  String chartStyle = request.getParameter("chartStyle");
   		  
   		  List<Map<String, String>> chartInfoList = service.getChartInfo(chartStyle);
-  		
+  		  
   		  JsonArray jsonArr = new JsonArray();
-  			
+  		  
   		  for(Map<String, String> map : chartInfoList) {
   			  JsonObject jsonObj = new JsonObject();
   			  jsonObj.addProperty("id", map.get("dept_detail")+" "+map.get("rank_detail"));

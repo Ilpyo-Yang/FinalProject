@@ -80,10 +80,10 @@
 	
 
 	<select id="getChartInfo" parameterType="String" resultMap="getChartInfoMap">
-	    select mbr_name, dept_detail, rank_detail
+	    select mbr_seq, mbr_name, dept_detail, rank_detail
 		from 
 		(        
-		select mbr_name, fk_dept_no, fk_rank_no 
+		select mbr_seq, mbr_name, fk_dept_no, fk_rank_no 
 		from tbl_mbr
 		)A left join tbl_dept B
 		on fk_dept_no = dept_no

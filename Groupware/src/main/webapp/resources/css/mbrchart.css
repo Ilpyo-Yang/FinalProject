@@ -14,11 +14,13 @@ span.subtitle {
 	text-align: left;
 	margin-left: 30px;
 }
-
+div#figure {
+	height:60%;
+}
 .highcharts-figure, .highcharts-data-table table {
   	margin: 2% 20% 0 0;
 	width: 60%;
-	height: 80%;
+	height: 60%;
 	float: right;
 }
 
@@ -58,4 +60,9 @@ span.subtitle {
 #container p {
   font-size: 13px;
   line-height: 16px;
+}
+
+div#teamMember {
+	border: 1px solid #EBEBEB;
+	width: 30%;
 }
