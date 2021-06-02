@@ -215,22 +215,24 @@ public class ScheduleController {
 	}
 	
 	//예약된 회의실 표에 보여주기
-	@ResponseBody
-	@RequestMapping(value="/showRegMtr.opis")
-	public ModelAndView requiredLogin_goRegMtr(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-		
-		List<Map<String,String>> regDetailList = service.goRegMtr();
-		
-		JsonArray jsonArr = new JsonArray();
-		
-		for(Map<String,String> map:regDetailList) {
-			JsonObject jsonObj = new JsonObject();
-			
-		}
-		
-		return mav;
-	}
-	
+	/*
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value="/showRegMtr.opis") public ModelAndView
+	 * requiredLogin_goRegMtr(HttpServletRequest request, HttpServletResponse
+	 * response, ModelAndView mav) {
+	 * 
+	 * List<Map<String,String>> regDetailList = service.goRegMtr();
+	 * 
+	 * JsonArray jsonArr = new JsonArray();
+	 * 
+	 * for(Map<String,String> map:regDetailList) { JsonObject jsonObj = new
+	 * JsonObject();
+	 * 
+	 * }
+	 * 
+	 * return mav; }
+	 */
 	
 	  // 회의실 예약상세페이지 보여주기
 	  @RequestMapping(value="/mtrhDetail.opis") public ModelAndView
