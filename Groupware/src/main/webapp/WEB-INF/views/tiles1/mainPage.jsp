@@ -47,7 +47,7 @@
 		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/totaladdrlist.opis';">
 			<i class="far fa-address-card fa-3x icon"></i>주소록
 		</div>
-		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/mbrChart.opis';">
+		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/mbrchart.opis';">
 			<i class="fas fa-sitemap fa-3x icon"></i>조직도
 		</div>
 		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/approvalMain.opis';">
