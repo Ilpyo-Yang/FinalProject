@@ -1,5 +1,6 @@
 package com.spring.groupware.member.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,9 +67,13 @@ public class MemberService implements InterMemberService {
 	}
 
 	
+	// 조직도용 정보 가져오기
+	@Override
+	public List<Map<String, String>> getChartInfo(String chartStyle) {
+		List<Map<String, String>> chartInfoList = mdao.getChartInfo(chartStyle);
+		return chartInfoList;
+	}
 
-
-	
 	
 	
 	

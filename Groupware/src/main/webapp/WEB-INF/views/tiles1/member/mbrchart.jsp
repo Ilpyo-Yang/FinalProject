@@ -5,47 +5,163 @@
 <% String ctxPath = request.getContextPath(); %>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>::: Opistachio :::</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />		
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<jsp:include page="./mbrchart_sidebar.jsp" />  
 
-	<script type="text/javascript">
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/sankey.js"></script>
+<script src="https://code.highcharts.com/modules/organization.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/mbrchart.css"/>
+
+<script type="text/javascript">
 	$(document).ready(function(){
-	
 		
+		// 현재 URL 주소
+		var checkURL = document.location.href;
+		
+		// 선택된 조직도 형태(기본값 전체 조직도)
+		var chartStyle = "";	
+		if(checkURL.indexOf("?")!="-1"){	// 특정 조직도를 선택한 경우
+			chartStyle += document.location.href.substr(checkURL.length-1);
+		}
+		
+		var node;	// 조직도 연결방식
+		var memberInfoArr; // 조직도에 기록될 사원정보		
+ 		
+ 		$.ajax({
+			url:"<%=ctxPath%>/member/getChartInfo.opis",
+			dataType:"json",
+			data: {chartStyle:chartStyle},
+			success: function(json){	
+				
+				if(chartStyle=="") {	// 전체 조직도
+					node = [], memberInfoArr = [];	// 초기화
+					
+					$("span.subtitle").html("전체 조직도"); 
+					node = [['CEO 대표', '영업팀 팀장'],['CEO 대표', '인사팀 팀장'],['CEO 대표', '홍보팀 팀장'],['CEO 대표', 'IT팀 팀장'],['CEO 대표', '회계팀 팀장']
+				          ,['영업팀 팀장', '영업팀 팀원'],['인사팀 팀장', '인사팀 팀원'], ['홍보팀 팀장', '홍보팀 팀원']
+				          ,['IT팀 팀장', 'IT팀 팀원'],['회계팀 팀장', '회계팀 팀원']];
+					
+					$.each(json, function(index, item){					
+						memberInfoArr.push({id: item.id,
+									        title: item.title,
+									        name: item.name});
+					});
+					
+					
+				} else {	// 세부 조직도
+					node = [], memberInfoArr = [];	// 초기화
+					
+					switch (chartStyle) {
+					case "0": $("span.subtitle").html("영업팀 조직도"); break;
+					case "1": $("span.subtitle").html("인사팀 조직도"); break;
+					case "2": $("span.subtitle").html("홍보팀 조직도"); break;
+					case "3": $("span.subtitle").html("IT팀 조직도"); break;
+					case "4": $("span.subtitle").html("회계팀 조직도"); break;
+					}
+				
+					$.each(json, function(index, item){	// 팀장 node 연결				
+						if(item.id.indexOf('팀장')!='-1'){
+							node.push(['CEO 대표', item.id+index]);	
+						}
+					});
+					
+					$.each(json, function(index, item){ // 팀원 node 연결(팀장 기준 순서대로 3명)						
+						if(item.id.indexOf('팀원')!='-1'){
+							$("p.highcharts-description").append("<div class='memberName'>"+item.name+"</div>");
+						}
+						
+						memberInfoArr.push({id: item.id+index,
+									        title: item.title,
+									        name: item.name});
+					});
+				}
+				
+				
+				/////////////////////////////////////////////////////////////////////////////
+				Highcharts.chart('container', {
+					  chart: {
+					    height: 400,
+					    inverted: true
+					  },
+					  title : {
+						  text:""
+					  },
+					  accessibility: {
+					    point: {
+					      descriptionFormatter: function (point) {
+					        var nodeName = point.toNode.name,
+					          nodeId = point.toNode.id,
+					          nodeDesc = nodeName === nodeId ? nodeName : nodeName + ', ' + nodeId,
+					          parentDesc = point.fromNode.id;
+					        return point.index + '. ' + nodeDesc + ', reports to ' + parentDesc + '.';
+					      }
+					    }
+					  },
+					  series: [{
+					    type: 'organization',
+					    name: 'Highsoft',
+					    keys: ['from', 'to'],
+					    data: node,
+					    levels: [{
+					      level: 0,
+					      color: '#04AA6D',
+					      dataLabels: {
+					        color: 'white'
+					      },
+					      height: 10
+					    }, {
+					      level: 1,
+					      color: '#e4fae6',
+					      dataLabels: {
+					        color: 'black'
+					      },
+					      height: 10
+					    }, {
+					      level: 2,
+					      color: 'silver'
+					    }],
+					    nodes: memberInfoArr,
+					    colorByPoint: false,
+					    color: '#007ad0',
+					    dataLabels: {
+					      color: 'black'
+					    },
+					    borderColor: 'white',
+					    nodeWidth: 65
+					  }],
+					  tooltip: {
+					    outside: true
+					  },
+					  exporting: {
+					    allowHTML: true,
+					    sourceWidth: 800,
+					    sourceHeight: 600
+					  }
+				 });
+				/////////////////////////////////////////////////////////////////////////////
+			
+			},
+			error: function(request, status, error){
+                  alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+            }
+	 	 }); // end of $.ajax({}) --------------------------------------------------
 	}); // end of $(document).ready(function(){})---------------------------------------
-	
 </script>
+
 </head>
 <body>
-
-<div style="display: inline-block; width: 1400px;"> 
-    <div id="sideMenu">
-	  	<div id="menuTitle">조직도</div>
-	
-  		<div class="lside"><a class="side" href="#">전체</a></div>
-  		<div class="lside"><a class="side" href="#">영업팀</a></div>
-  		<div class="lside"><a class="side" href="#">인사팀</a></div>
-  		<div class="lside"><a class="side" href="#">홍보팀</a></div>
-  		<div class="lside"><a class="side" href="#">IT팀</a></div>
-  		<div class="lside"><a class="side" href="#">회계팀</a></div>
+	<div id="mbrchartContainer">
+		<span class="subtitle"></span>
+		<hr>
+		<figure class="highcharts-figure"  style="height: 300px !important;">
+		  <div id="container"></div>
+		  <p class="highcharts-description" >
+		  	<span>이하 구성 팀원들</span>
+		  </p>
+		</figure>
 	</div>
-	
-<div class="container" style="float: right; width: 700px; margin: 50px 200px; ">        
-
-
-</div>
-	  	
-	
-	
-</div>
 </body>
 </html>

@@ -3,6 +3,7 @@ package com.spring.groupware.member.model;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -62,6 +63,14 @@ public class MemberDAO implements InterMemberDAO {
 	@Override
 	public void logout(int mbr_seq) {
 		sqlsession.insert("member.logoutHistory",mbr_seq);	
+	}
+	
+	
+	// 조직도용 정보가져오기
+	@Override
+	public List<Map<String, String>> getChartInfo(String chartStyle) {
+		List<Map<String, String>> chartInfoList = sqlsession.selectList("member.getChartInfo",chartStyle);	
+		return chartInfoList;
 	}
 
 }

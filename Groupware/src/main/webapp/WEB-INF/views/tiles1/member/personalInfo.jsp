@@ -52,19 +52,19 @@
 				<td>비밀번호</td>
 				<td id="mbr_pwd"><input type="password" /></td>
 				<td>이메일</td>
-				<td id="mbr_email">${sessionScope.loginuser.mbr_email}<input type="text" /></td>
+				<td id="mbr_email"><input type="text" value="${sessionScope.loginuser.mbr_email}"/></td>
 			</tr>
 			<tr>
 				<td>비밀번호 확인</td>
 				<td id="mbr_pwd_check"><input type="password" /></td>
 				<td>회사번호</td>
-				<td id="mbr_com_number">${sessionScope.loginuser.mbr_com_number}<input type="text" /></td>
+				<td id="mbr_com_number"><input type="text" value="${sessionScope.loginuser.mbr_com_number}" /></td>
 			</tr>
 			<tr>
 				<td>생년월일</td>
 				<td id="mbr_birthday"><input type="text" value="${sessionScope.loginuser.mbr_birthday}"/></td>
 				<td>핸드폰</td>
-				<td id="mbr_phone_number">${sessionScope.loginuser.mbr_phone_number}<input type="text" /></td>
+				<td id="mbr_phone_number"><input type="text" value="${sessionScope.loginuser.mbr_phone_number}"/></td>
 			</tr>
 		</tbody>
 	</table>
