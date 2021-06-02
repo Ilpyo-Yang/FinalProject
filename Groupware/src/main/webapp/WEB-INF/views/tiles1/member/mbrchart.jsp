@@ -54,6 +54,8 @@
 				} else {	// 세부 조직도
 					node = [], memberInfoArr = [];	// 초기화
 					
+					$("p.highcharts-description").append("<span>이하 구성 팀원들</span>");
+				  	
 					switch (chartStyle) {
 					case "0": $("span.subtitle").html("영업팀 조직도"); break;
 					case "1": $("span.subtitle").html("인사팀 조직도"); break;
@@ -159,7 +161,6 @@
 		<figure class="highcharts-figure"  style="height: 300px !important;">
 		  <div id="container"></div>
 		  <p class="highcharts-description" >
-		  	<span>이하 구성 팀원들</span>
 		  </p>
 		</figure>
 	</div>
