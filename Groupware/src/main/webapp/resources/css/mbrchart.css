@@ -2,7 +2,6 @@
 
 
 /* ============ mbrchart.jsp ============== */
-
 div#mbrchartContainer {
 	margin: 2% auto;
 	width: 80%;
@@ -14,13 +13,9 @@ span.subtitle {
 	text-align: left;
 	margin-left: 30px;
 }
-div#figure {
-	height:60%;
-}
 .highcharts-figure, .highcharts-data-table table {
-  	margin: 2% 20% 0 0;
-	width: 60%;
-	height: 60%;
+  	margin: 2% 10% 0 0;
+	width: 80%;
 	float: right;
 }
 
@@ -61,8 +56,17 @@ div#figure {
   font-size: 13px;
   line-height: 16px;
 }
-
-div#teamMember {
-	border: 1px solid #EBEBEB;
-	width: 30%;
+p > span {
+	font-weight: bold;
+	padding-top: 3%; 
+	padding-left: 2%;
+	display: block;
+}
+div.memberName {
+	display:inline-block;
+	background-color: #f8f8f8;
+	width: 15%;
+	height: 10%;
+	margin: 2% 2%;
+	
 }

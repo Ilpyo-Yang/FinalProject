@@ -35,9 +35,6 @@
 			dataType:"json",
 			data: {chartStyle:chartStyle},
 			success: function(json){	
-
-				var leader = []; // 팀장 수 체크
-				var member = []; // 팀원 수 체크
 				
 				if(chartStyle=="") {	// 전체 조직도
 					node = [], memberInfoArr = [];	// 초기화
@@ -65,28 +62,28 @@
 					case "4": $("span.subtitle").html("회계팀 조직도"); break;
 					}
 				
-					$.each(json, function(index, item){	
-						
+					$.each(json, function(index, item){	// 팀장 node 연결				
 						if(item.id.indexOf('팀장')!='-1'){
-							leader.push(item.id+index);
-							node.push(['CEO 대표', item.id+index]);	// 팀장까지만 조직도 node 연결
+							node.push(['CEO 대표', item.id+index]);	
 						}
-						else if(item.id.indexOf('팀원')!='-1'){
-							member.push(item.id+index);
+					});
+					
+					$.each(json, function(index, item){ // 팀원 node 연결(팀장 기준 순서대로 3명)						
+						if(item.id.indexOf('팀원')!='-1'){
+							$("p.highcharts-description").append("<div class='memberName'>"+item.name+"</div>");
 						}
 						
 						memberInfoArr.push({id: item.id+index,
 									        title: item.title,
 									        name: item.name});
 					});
-					
 				}
 				
 				
 				/////////////////////////////////////////////////////////////////////////////
 				Highcharts.chart('container', {
 					  chart: {
-					    height: 600,
+					    height: 400,
 					    inverted: true
 					  },
 					  title : {
@@ -159,15 +156,12 @@
 	<div id="mbrchartContainer">
 		<span class="subtitle"></span>
 		<hr>
-		<div id="figure">
-			<figure class="highcharts-figure">
-			  <div id="container"></div>
-			  <p class="highcharts-description">
-		
-			  </p>
-			</figure>
-			<div id="teamMember"></div>
-		</div>
+		<figure class="highcharts-figure"  style="height: 300px !important;">
+		  <div id="container"></div>
+		  <p class="highcharts-description" >
+		  	<span>이하 구성 팀원들</span>
+		  </p>
+		</figure>
 	</div>
 </body>
 </html>
