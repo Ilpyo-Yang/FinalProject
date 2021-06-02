@@ -81,4 +81,11 @@
 		<if test='workRole == "2"'>fk_receiver_seq = #{userId}</if>
 	</select>
 	
+	
+	<select id="memberSearchShow"  parameterType="HashMap" resultType="com.spring.groupware.member.model.MemberVO">
+		select mbr_seq, mbr_name
+		from tbl_mbr
+		where mbr_name like '%' || #{searchWord} || '%'
+	</select>
+	
 </mapper>

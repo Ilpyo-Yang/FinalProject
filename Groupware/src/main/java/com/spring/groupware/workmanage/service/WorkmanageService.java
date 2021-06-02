@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.workmanage.model.InterWorkmanageDAO;
 import com.spring.groupware.workmanage.model.TodoVO;
 import com.spring.groupware.workmanage.model.WorkVO;
@@ -73,6 +74,13 @@ public class WorkmanageService implements InterWorkmanageService {
 	public WorkVO showDetailWork(Map<String, String> paraMap) {
 		WorkVO workvo = dao.showDetailWork(paraMap);
 		return workvo;
+	}
+
+	// 담당자, 참조자 지정하기 위한 우선멤버 가져오기
+	@Override
+	public List<MemberVO> memberSearchShow(Map<String, String> paraMap) {
+		List<MemberVO> memberList = dao.memberSearchShow(paraMap);
+		return memberList;
 	}
 
 }

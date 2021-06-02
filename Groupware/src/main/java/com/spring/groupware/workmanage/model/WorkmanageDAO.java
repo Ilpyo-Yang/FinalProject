@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import com.spring.groupware.member.model.MemberVO;
+
 @Component
 @Repository
 public class WorkmanageDAO implements InterWorkmanageDAO {
@@ -71,6 +73,13 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 	public WorkVO showDetailWork(Map<String, String> paraMap) {
 		WorkVO workvo = sqlsession.selectOne("workmanage.showDetailWork", paraMap);  
 		return workvo;
+	}
+
+	// 담당자, 참조자 지정하기 위한 우선멤버 가져오기
+	@Override
+	public List<MemberVO> memberSearchShow(Map<String, String> paraMap) {
+		List<MemberVO> memberList = sqlsession.selectList("workmanage.memberSearchShow", paraMap);
+		return memberList;
 	}
 	
 	

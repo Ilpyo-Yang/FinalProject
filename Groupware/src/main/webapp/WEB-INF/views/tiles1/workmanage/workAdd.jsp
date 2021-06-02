@@ -14,6 +14,17 @@
 <jsp:include page="./workmanage_sidebar.jsp" />
 
 <style type="text/css">
+div#diplayList {
+	border: solid 1px gray;
+	border-top: 100;
+	width: 206px;
+	height: 100px;
+	padding: 2px;
+	overflow: auto;
+	position: absolute;
+	z-index: 1000;
+	background-color: white;
+}
 </style>
 
 <script type="text/javascript">
@@ -29,6 +40,63 @@
 
 		var checkRadio = $("input[name=workType]:checked");
 		onlyWorkInput(checkRadio);
+		
+		<%-- === #107. 검색어 입력시 자동글 완성하기 2 === --%>
+		$("div#displayList").hide();
+		
+		$("input#searchWord").keyup(function(){
+			var wordlen = $(this).val().trim().length;
+			
+			if (wordlen == 0) {
+				$("div#displayList").hide();
+			}
+			else {
+				$.ajax({
+					url:"<%=ctxPath%>/memberSearchShow.opis",
+					type:"get",
+					data:{"searchWord":$("input#searchWord").val()},
+					dataType:"json",
+					success:function(json){
+						if (json.length > 0) {
+							
+							var html = "";
+							
+							$.each(json, function(index, item) {
+								var word = item.word;
+								// word ==> "글쓰기 첫번째  java 연습입니다"
+								// word ==> "글쓰기 두번째 JaVa 연습입니다"
+								
+								var index = word.toLowerCase().indexOf($("input#searchWord").val().toLowerCase());
+								// word ==> "글쓰기 첫번째 java 연습입니다"
+								// word ==> "글쓰기 두번째 java 연습입니다"
+								// 만약에 검색어가 "jAVa" 이라면 index 는 8 이 된다.
+								
+								var len = $("input#searchWord").val().length;
+								// 검색어의 길이 len = 4
+								
+								word = word.substr(0,index) + "<span style='color:blue;'>"+ word.substr(index,len) +"</span>" + word.substr(index+len);
+								
+								html += "<span style='cursor:pointer;' class='word'>"+ word +"</span><br>";
+							});
+							$("div#displayList").html(html);
+							$("div#displayList").show();
+						}	
+					},
+					error: function(request, status, error){
+	                	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	                }
+				});
+			}
+		});
+		
+		<%-- === #113. 검색어 입력시 자동글 완성하기 8 === --%>
+		$(document).on("click", "span.word", function(){
+			$("input#searchWord").val($(this).text()); 
+			// 텍스트박스에 검색된 결과의 문자열을 입력해준다.
+			
+			$("div#displayList").hide();
+			goSearch();
+		});
 		
 	});
 	
@@ -95,8 +163,19 @@
 	
 	// == 업무 정보 폼 전송하기 == //
 	function submitWorkRegFrm() {
-		var frm = document.workRegFrm;
+		// reciever의 name, seq 문자열로 보내기
+		var receiverNames = "";
+		var receiverSeqs = "";
 		
+		$("input.receiverName").each(function(item, index, array){
+			receiverNames += $(item).val() + ",";
+			receiverSeqs += $(item).val() + ",";
+		});
+		
+		$("input[name=receivers]").val(receiverNames);
+		$("input[name=receivers]").val(receiverSeqs);
+		
+		var frm = document.workRegFrm;
 		frm.action = "<%=ctxPath%>/workAddEnd.opis";
 		frm.method = "post";
 		frm.submit();
@@ -135,7 +214,17 @@
 				
 				<tr class="onlyWorkInput">
 					<td><span class="star">*</span>담당자</td>
-					<td><input name="fk_receiver_seq" placeholder="사용자" /></td>
+					<td>
+						<div>
+							<input type="hidden" name="receivers" /><input type="hidden" name="receiversSeq" />
+							
+							<input type="text" class="receiverName" value="김고양"/><input type="hidden" class="receiverSeq" value="65"/>
+							<input type="text" class="receiverName" value="김초코"/><input type="hidden" class="receiverSeq" value="51"/>
+							<input type="text" class="receiverName" value="김산타"/><input type="hidden" class="receiverSeq" value="68"/>
+						</div>
+						<input type="text" id="searchWord" name="searchWord" placeholder="사용자"  autocomplete="off" />
+						<div id="displayList"></div>
+					</td>
 				</tr>
 				
 				<!-- <tr>

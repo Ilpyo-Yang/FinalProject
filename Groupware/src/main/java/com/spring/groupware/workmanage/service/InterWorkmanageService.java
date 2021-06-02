@@ -3,6 +3,7 @@ package com.spring.groupware.workmanage.service;
 import java.util.List;
 import java.util.Map;
 
+import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.workmanage.model.TodoVO;
 import com.spring.groupware.workmanage.model.WorkVO;
 
@@ -31,5 +32,8 @@ public interface InterWorkmanageService {
 
 	// 선택한 업무(요청,보고) 상세 보기 
 	WorkVO showDetailWork(Map<String, String> paraMap);
+
+	// 담당자, 참조자 지정하기 위한 우선멤버 가져오기
+	List<MemberVO> memberSearchShow(Map<String, String> paraMap);
 
 }

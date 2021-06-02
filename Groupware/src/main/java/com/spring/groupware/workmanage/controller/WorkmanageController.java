@@ -11,11 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections4.map.HashedMap;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.groupware.member.model.MemberVO;
@@ -34,11 +37,45 @@ public class WorkmanageController {
 	@RequestMapping(value = "/workAdd.opis")
 	public ModelAndView requiredLogin_workAdd(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
-		// 담당자, 참조자 지정하기 위한 우선멤버 가져오기
 		
 		mav.setViewName("workmanage/workAdd.tiles1");
 		return mav;
 	}
+	
+	// === #108. 검색어 입력시 자동글 완성하기 3 === //
+	@ResponseBody
+	@RequestMapping(value = "/memberSearchShow.opis", method = {RequestMethod.GET }, produces = "text/plain;charset=UTF-8")
+	public String memberSearchShow(HttpServletRequest request) {
+
+//		String searchType = request.getParameter("searchType");
+		String searchWord = request.getParameter("searchWord");
+
+		
+		Map<String, String> paraMap = new HashMap<>();
+//		paraMap.put("searchType", searchType);
+		paraMap.put("searchWord", searchWord);
+
+		// 담당자, 참조자 지정하기 위한 우선멤버 가져오기
+		List<MemberVO> memberList = service.memberSearchShow(paraMap);
+		
+		JSONArray jsonArr = new JSONArray(); // []
+
+		if (memberList != null) {
+			for (MemberVO member : memberList) {
+				JSONObject jsonObj = new JSONObject(); // {}
+//				jsonObj.put("mbrseq", member.getMbr_seq());
+				jsonObj.put("word", member.getMbr_name());
+
+				jsonArr.put(jsonObj);
+			}
+		}
+
+		return jsonArr.toString();
+		// "[]" 또는
+		// "[{"word":"글쓰기 java 연습입니다"},{"word":"글쓰기 두번째 JaVa 연습입니다"}]"
+	}
+	
+	
 
 	// == 업무 등록 중 나의 할일 등록하기   == //
 	@RequestMapping(value = "/workAddTodoEnd.opis", method = {RequestMethod.POST})
@@ -116,12 +153,17 @@ public class WorkmanageController {
 		 * 	- 내용(contens) 등록할 때 inject처리, 개행문자 처리 => 추후 스마트 에디터 사용 예정
 		 * 	- 첨부파일(addfile) 등록처리
 		 */
-		
+		// 업무테이블에 넣어줄 것
 		int n = service.workAddEnd(workvo);
-		String workRole = request.getParameter("workRole");
+		
+		
+		
+		// 업무관리자 테이블에 넣어줄 것
+		String fk_wrno = request.getParameter("workRole");
+		String receiverSeqs = request.getParameter("receiverSeqs");
 		
 		if (n == 1) {
-			mav.setViewName("redirect:/workList.opis?workType="+workvo.getFk_wtno()+"&workRole="+workRole);
+			mav.setViewName("redirect:/workList.opis?workType="+workvo.getFk_wtno()+"&workRole="+fk_wrno);
 		}
 		else {
 			String message = "일정 등록에 실패하였습니다. 다시 시도하세요";
@@ -155,36 +197,30 @@ public class WorkmanageController {
 		paraMap.put("workType", workType); 	// 업무요청:1, 업무보고:2
 		paraMap.put("workRole", workRole);	// 내가 발신자일때:1, 수신자일때:2, 참조자일때:3 
 		
-		
-		// == 페이징 처리해서 글 가져오기 == // 
-		int totalCount = 0;				// 총 업무 건수
-		int sizePerPage = 5;			// 한 페이당 보여주는 업무 건수
-		int currentShowPageNo = 1;		// 현재 보여주는 페이지 번호, 디폴트 1
-		int totalPage = 0;				// 총 페이지 수
-		
-		totalCount = service.getTotalCount(paraMap);
-		totalPage = (int) Math.ceil((double) totalCount/sizePerPage);
-		
-		System.out.println("totalCount: "+ totalCount);
-		
-		int startRno = 0;	// 시작 행 번호 
-		int endRno = 0;		// 끝 행 번호
-		
-		startRno = ((currentShowPageNo - 1) * sizePerPage) + 1;
-		endRno = startRno + sizePerPage - 1;
-		
-		List<WorkVO> workList = null;
-		
-		if (!"3".equals(workRole)) { // 발신자, 수신자 일때 
-			workList = service.workList(paraMap);
-		}
-		else { // 참조자일 때 - 테이블을 조인해서 값을 가져와야함
-			workList = service.workListForRefer(paraMap);
-		}
-		
-		mav.addObject("workType", workType);
-		mav.addObject("workRole", workRole); 
-		mav.addObject("workList", workList); 
+		/*
+		 * // == 페이징 처리해서 글 가져오기 == // int totalCount = 0; // 총 업무 건수 int sizePerPage =
+		 * 5; // 한 페이당 보여주는 업무 건수 int currentShowPageNo = 1; // 현재 보여주는 페이지 번호, 디폴트 1
+		 * int totalPage = 0; // 총 페이지 수
+		 * 
+		 * totalCount = service.getTotalCount(paraMap); totalPage = (int)
+		 * Math.ceil((double) totalCount/sizePerPage);
+		 * 
+		 * // System.out.println("totalCount: "+ totalCount);
+		 * 
+		 * int startRno = 0; // 시작 행 번호 int endRno = 0; // 끝 행 번호
+		 * 
+		 * startRno = ((currentShowPageNo - 1) * sizePerPage) + 1; endRno = startRno +
+		 * sizePerPage - 1;
+		 * 
+		 * List<WorkVO> workList = null;
+		 * 
+		 * if (!"3".equals(workRole)) { // 발신자, 수신자 일때 workList =
+		 * service.workList(paraMap); } else { // 참조자일 때 - 테이블을 조인해서 값을 가져와야함 workList =
+		 * service.workListForRefer(paraMap); }
+		 * 
+		 * mav.addObject("workType", workType); mav.addObject("workRole", workRole);
+		 * mav.addObject("workList", workList);
+		 */
 		
 		mav.setViewName("workmanage/workList.tiles1");
 		return mav;
