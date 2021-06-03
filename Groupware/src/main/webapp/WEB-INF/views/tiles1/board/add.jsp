@@ -29,6 +29,19 @@
 <jsp:include page="./board_sidebar.jsp" />
 <script type="text/javascript">
    $(document).ready(function(){
+	  
+	  $("#addFile").hide();
+	  
+	  // 공통서식을 선택할 때만 첨부파일 칸이 보이게 하기
+	  $("select#boardType").change(function(){
+		  if($("select#boardType").val()=="formboard"){
+	     	 $("#addFile").show();
+		  }
+		  else{
+			 $("#addFile").hide();
+		  }
+	  });
+	  
       // 쓰기버튼
       $("button#btnWrite").click(function(){
          
@@ -60,7 +73,7 @@
 	         frm.submit();   
          }
          else if($("select#boardType").val()=="formboard"){ // 공통서식
-	         frm.action = "<%= ctxPath%>/formboard_addEnd.opis";
+        	 frm.action = "<%= ctxPath%>/formboard_addEnd.opis";
 	         frm.submit();   
          }
          else if($("select#boardType").val()=="default"){ // 게시판 선택 안할시
@@ -102,7 +115,7 @@
 		</c:choose>
 	</div>
  	
- 	<form name="addFrm" id="addFrm"> 
+ 	<form name="addFrm" id="addFrm" enctype="multipart/form-data"> 
  			
       <table id="table">      
          <tr>
@@ -120,7 +133,14 @@
                <input type="text" name="title" id="title" class="long" />       
             </td>
          </tr>
-
+		
+         <tr id="addFile">
+         	<th>파일첨부</th>
+         	<td>
+         		<input type="file" name="attach" />
+         	</td>
+         </tr>
+         
          <tr>
             <th>내용</th>
             <td>

@@ -1,5 +1,6 @@
 package com.spring.groupware.board.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -18,10 +19,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.groupware.board.model.FormboardVO;
 import com.spring.groupware.board.service.InterFormboardService;
+import com.spring.groupware.common.FileManager;
 import com.spring.groupware.common.MyUtil;
 import com.spring.groupware.member.model.MemberVO;
 
@@ -31,15 +35,72 @@ public class FormboardController {
 	   @Autowired // Type에 따라 알아서 Bean 을 주입해준다.
 	   private InterFormboardService service;
 	      
+	   @Autowired   
+	   private FileManager fileManager;
+	    
 	      // === 게시판 글쓰기 폼 페이지 요청 === //
 	      @RequestMapping(value="/formboard_addEnd.opis", method= {RequestMethod.POST})
-	      public ModelAndView addEnd(HttpServletRequest request, ModelAndView mav, FormboardVO formboardvo) {
+	      public ModelAndView addEnd(HttpServletRequest request, ModelAndView mav, FormboardVO formboardvo, MultipartHttpServletRequest mrequest) {
 	    	  
 	    	  String ftitle = request.getParameter("title");
 	    	  String fcontent = request.getParameter("content");
 	    	  
 	    	  formboardvo.setFtitle(ftitle);
 	    	  formboardvo.setFcontent(fcontent);
+	    	  
+	    	  MultipartFile attach = formboardvo.getAttach();
+	  		
+	  		  if(!attach.isEmpty()) {
+	  			
+	  			  	// 사용자가 보낸 첨부파일 경로를 WAS의 webapp/resources/files 라는 폴더로 지정
+		  			HttpSession session = mrequest.getSession();
+		  			String root = session.getServletContext().getRealPath("/");
+		  			
+		  			System.out.println("~~~~webapp의 절대경로 => "+root);
+		  			// ~~~~webapp의 절대경로 => C:\FinalProject\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Groupware\	
+		  			
+		  			String path = root+"resources"+File.separator+"files";
+	
+		  			
+		  			// path 가 첨부파일이 저장될 WAS(톰캣)의 폴더가 된다.
+		  			System.out.println("~~~~path => "+path);
+		  			// ~~~~path => C:\FinalProject\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Groupware\resources\files
+
+	
+		  			// 파일첨부를 위한 변수의 설정 및 값을 초기화
+		  			String newFileName = ""; // WAS(톰캣)의 디스크에 저장될 파일명
+		  			
+		  			byte[] bytes = null; // 첨부파일의 내용을 담는 것
+		  			long fileSize = 0; // 첨부파일의 크기
+		  			
+		  			try {
+		  				bytes = attach.getBytes();
+		  				// 첨부파일의 내용물을 읽어오는 것
+		  				
+		  				String originalFilename = attach.getOriginalFilename();
+		  				
+		  				newFileName = fileManager.doFileUpload(bytes, originalFilename, path);
+		  				
+		  				System.out.println(">>> 확인용 newFileName : "+newFileName);
+		  				// >>> 확인용 newFileName : 2021060402291837502653878800.png
+		  				
+		  				// formboardvo 에 fileName 값과 orgFilename 값과 fileSize 값을 넣어주기   
+		  				
+		  				formboardvo.setFileName(newFileName);
+		  				// WAS(톰캣)에 저장될 파일명
+		  				
+		  				formboardvo.setOrgFilename(originalFilename);
+		  				// 게시판 페이지에서 첨부된 파일(강아지.png)을 보여줄 때 사용.
+		  	            // 또한 사용자가 파일을 다운로드 할때 사용되어지는 파일명으로 사용.
+		  				
+		  				fileSize = attach.getSize();	// 첨부파일의 크기(단위는 byte임)
+		  				formboardvo.setFileSize(String.valueOf(fileSize));
+		  				
+		  			}catch(Exception e) {
+		  				e.printStackTrace();
+		  			}
+		  			
+	  		  }
 	    	  
 	    	  int n = service.add(formboardvo); // <== 파일첨부가 없는 글쓰기
 	    	  
@@ -183,7 +244,6 @@ public class FormboardController {
 	    	  
 	    	  if(loginuser != null) {
 	    		  login_mbrid = loginuser.getMbr_id();
-	    		  // login_userid 는 로그인 되어진 사용자의 userid 이다.
 	    	  }   	  
 	    	  
 	    	  FormboardVO formboardvo = null;
@@ -198,7 +258,7 @@ public class FormboardController {
 	    	  }
 	    	  else {// 웹브라우저에서 새로고침(F5)을 클릭한 경우    		  
 	    		  formboardvo = service.getViewWithNoAddCount(form_seq);
-	    		  // 글조회수 증가는 없고 단순히 글1개 조회만을 해주는 것이다.
+	    		  // 글조회수 증가는 없고 단순히 글1개 조회
 	    	  }
 	    	  
 	    	  mav.addObject("formboardvo", formboardvo);
