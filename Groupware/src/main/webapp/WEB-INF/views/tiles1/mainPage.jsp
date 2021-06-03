@@ -38,6 +38,7 @@
 		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/cnotice_list.opis';">
 			<i class="fas fa-chalkboard fa-3x icon"></i>게시판
 		</div>
+<<<<<<< HEAD
 		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/todoList.opis';">
 			<i class="fas fa-business-time fa-3x icon"></i>업무관리
 		</div>
@@ -45,6 +46,15 @@
 			<i class="fas fa-list fa-3x icon"></i>일정
 		</div>
 		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/totaladdrlist.opis';">
+=======
+		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/workList.opis';">
+			<i class="fas fa-business-time fa-3x icon"></i>업무관리
+		</div>
+		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/myscd.opis';">
+			<i class="fas fa-list fa-3x icon"></i>일정
+		</div>
+		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/cnotice_list.opis';">
+>>>>>>> refs/heads/ujeong
 			<i class="far fa-address-card fa-3x icon"></i>주소록
 		</div>
 		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/mbrchart.opis';">

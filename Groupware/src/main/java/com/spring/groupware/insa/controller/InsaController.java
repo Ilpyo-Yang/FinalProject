@@ -92,7 +92,6 @@ public class InsaController {
 	// === insa2 등록완료페이지 요청 === //
 	@RequestMapping(value="/insaRegister2End.opis", method= {RequestMethod.POST})
 	public ModelAndView insaRegister2End(ModelAndView mav, HttpServletRequest request) {
-
 		
 		String seq = request.getParameter("seq");
 		

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ==== mapper 기본설정 ==== -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- ==== 루트 엘리먼트 & 네임스페이스 설정 ==== -->
+<mapper namespace="workmanage">
+	
+	<!-- == 업무등록 페이지에서 나의 할일 등록하기 == -->
+	<insert id="workAddTodoEnd" parameterType="com.spring.groupware.workmanage.model.TodoVO">
+		insert into tbl_todolist(tdno, fk_mbr_seq, subject, contents, deadline)
+		values(seq_todolist_tdno.nextval, to_number(#{fk_mbr_seq}), #{subject}, #{contents}, to_date(#{deadline}))
+	</insert>
+
+	<!-- == 나의 할일 리스트 페이지 보여주기 (전체) == -->
+	<select id="todoList" parameterType="String" resultType="com.spring.groupware.workmanage.model.TodoVO">
+		select tdno, fk_mbr_seq, subject, contents, important, fk_statno
+		    , to_char(registerday, 'yyyy-mm-dd') as registerday
+		    , to_char(deadline, 'yyyy-mm-dd') as deadline
+		from tbl_todolist
+		where fk_mbr_seq = #{fk_mbr_seq}	
+	</select>
+	
+	<!-- == 선택한 나의 할일 상세 보기 == -->
+	<select id="showDetailTodo" parameterType="HashMap" resultType="com.spring.groupware.workmanage.model.TodoVO">
+		select tdno, fk_mbr_seq, subject, contents, important, fk_statno
+		    , to_char(registerday, 'yyyy-mm-dd') as registerday
+		    , to_char(deadline, 'yyyy-mm-dd') as deadline
+		from tbl_todolist
+		where tdno = #{tdno} and fk_mbr_seq = #{fk_mbr_seq}
+	</select>
+	
+	<!-- == 업무(요청,보고) 등록하기 == -->
+	<insert id="workAddEnd" parameterType="com.spring.groupware.workmanage.model.WorkVO">
+		insert into tbl_workmanage(wmno, fk_wtno, fk_requester_seq, fk_receiver_seq, subject, contents, deadline, fk_statno)
+		values (seq_workmanage_wmno.nextval, #{fk_wtno}, #{fk_requester_seq}, #{fk_receiver_seq}, #{subject}, #{contents}, to_date(#{deadline}), #{fk_statno})
+	</insert>
+	
+	<!-- == 업무(요청,보고) 리스트 조회하기 == -->
+	<select id="workList" parameterType="HashMap" resultType="com.spring.groupware.workmanage.model.WorkVO">
+		select wmno, fk_wtno, fk_requester_seq, fk_receiver_seq, subject, fk_statno, checkstatus
+		    , to_char(registerday, 'yyyy-mm-dd') as registerday
+		    , to_char(deadline, 'yyyy-mm-dd') as deadline
+		from tbl_workmanage
+		where fk_wtno = #{workType} and 
+		<if test='workRole == "1"'>fk_requester_seq = #{userId}</if>
+		<if test='workRole == "2"'>fk_receiver_seq = #{userId}</if>
+	</select>
+	
+	
+	<!-- == 참조자일 때 업무(요청,보고) 리스트 조회하기 == -->
+	<select id="workListForRefer" parameterType="HashMap" resultType="com.spring.groupware.workmanage.model.WorkVO">
+		select wmno, fk_wtno, fk_requester_seq, fk_receiver_seq, subject, fk_statno, checkstatus
+		    , to_char(registerday, 'yyyy-mm-dd') as registerday
+		    , to_char(deadline, 'yyyy-mm-dd') as deadline
+		from tbl_workmanage
+		where fk_wtno = #{workType} and wmno in (
+		    select fk_wmno
+		    from tbl_wmrefer
+		    where fk_referrer_seq = #{userId}
+		)
+	</select>
+	
+	<!-- == 페이징 처리 - 총 게시물 건수 가져오기 == -->
+	<select id="getTotalCount" parameterType="HashMap" resultType="int">
+		select count(*) as totalCount
+		from tbl_workmanage
+		where fk_wtno = #{workType} and 
+		<if test='workRole == "1"'>fk_requester_seq = #{userId}</if>
+		<if test='workRole == "2"'>fk_receiver_seq = #{userId}</if>
+	</select>
+	
+	<!-- == 선택한 업무(요청,보고) 상세 보기 == -->
+	<select id="showDetailWork" parameterType="HashMap" resultType="com.spring.groupware.workmanage.model.WorkVO">
+		select wmno, fk_wtno, fk_requester_seq, fk_receiver_seq, subject, fk_statno
+		    , to_char(registerday, 'yyyy-mm-dd') as registerday
+		    , to_char(deadline, 'yyyy-mm-dd') as deadline
+		from tbl_workmanage
+		where fk_wtno = #{workType} and wmno = #{wmno} and 
+		<if test='workRole == "1"'>fk_requester_seq = #{userId}</if>
+		<if test='workRole == "2"'>fk_receiver_seq = #{userId}</if>
+	</select>
+	
+	
+	<select id="memberSearchShow"  parameterType="HashMap" resultType="com.spring.groupware.member.model.MemberVO">
+		select mbr_seq, mbr_name
+		from tbl_mbr
+		where mbr_name like '%' || #{searchWord} || '%'
+	</select>
+	
+</mapper>

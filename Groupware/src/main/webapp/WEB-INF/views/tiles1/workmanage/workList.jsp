@@ -1,20 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
+<% String ctxPath = request.getContextPath(); %>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
+<link rel="stylesheet" type="text/css" href="<%=ctxPath%>/resources/css/content.css" />   
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <jsp:include page="./workmanage_sidebar.jsp" />
 
 <style type="text/css">
-div.tdcontainer {
-	 border: 1px solid blue;
-	 margin-left: 280px;
-}
-
 ul#todoSelectCondition {
 	list-style-type: none;
 	display: table;
@@ -88,24 +86,24 @@ button.readCheck {
 	});
 	
 	function goDetailWork(wmno) {
-		location.href="<%=request.getContextPath()%>/showDetailWork.opis?fk_wtno="+${fk_wtno}+"&type="+${type}+"&wmno="+wmno;
+		location.href="<%=request.getContextPath()%>/showDetailWork.opis?workType="+${workType}+"&workRole="+${workRole}+"&wmno="+wmno;
 	}
 </script>
 
-<div class="container tdcontainer">
-	<c:if test="${fk_wtno == 1}">
+<div class="container commoncontainer">
+	<c:if test="${workType == 1}">
 		<c:choose>
-			<c:when test="${type == 1}"><h3>내가 한 업무 요청</h3></c:when>
-			<c:when test="${type == 2}"><h3>수신 업무 요청</h3></c:when>
-			<c:when test="${type == 3}"><h3>참조 업무 요청</h3></c:when>
+			<c:when test="${workRole == 1}"><h3>내가 한 업무 요청</h3></c:when>
+			<c:when test="${workRole == 2}"><h3>수신 업무 요청</h3></c:when>
+			<c:when test="${workRole == 3}"><h3>참조 업무 요청</h3></c:when>
 		</c:choose>
 	</c:if>
 	
-	<c:if test="${fk_wtno == 2}">
+	<c:if test="${workType == 2}">
 		<c:choose>
-			<c:when test="${type == 1}"><h3>내가 한 업무 보고</h3></c:when>
-			<c:when test="${type == 2}"><h3>수신 업무 보고</h3></c:when>
-			<c:when test="${type == 3}"><h3>참조 업무 보고</h3></c:when>
+			<c:when test="${workRole == 1}"><h3>내가 한 업무 보고</h3></c:when>
+			<c:when test="${workRole == 2}"><h3>수신 업무 보고</h3></c:when>
+			<c:when test="${workRole == 3}"><h3>참조 업무 보고</h3></c:when>
 		</c:choose>
 	</c:if>
 	<hr>
@@ -155,17 +153,17 @@ button.readCheck {
 			<tr>
 				<th><input type="checkbox" /></th>
 				<th>번호</th>
-				<th>제목 ▲</th>
-				<c:if test="${type == 1}">
-					<c:if test="${fk_wtno == 1}"><th>담당자</th></c:if>
-					<c:if test="${fk_wtno == 2}"><th>수신자</th></c:if>
+				<th>제목</th>
+				<c:if test="${workRole == 1}">
+					<c:if test="${workType == 1}"><th>담당자</th></c:if>
+					<c:if test="${workType == 2}"><th>수신자</th></c:if>
 				</c:if>
-				<c:if test="${type == 2 or type == 3}">
-					<c:if test="${fk_wtno == 1}"><th>요청자</th></c:if>
-					<c:if test="${fk_wtno == 2}"><th>보고자</th></c:if>
+				<c:if test="${workRole == 2 or workRole == 3}">
+					<c:if test="${workType == 1}"><th>요청자</th></c:if>
+					<c:if test="${workType == 2}"><th>보고자</th></c:if>
 				</c:if>
-				<th>등록일 ▲</th>
-				<th>마감일 ▲</th>
+				<th>등록일</th>
+				<th>마감일</th>
 				<th>상태</th>
 				<th>확인</th>
 			</tr>
@@ -178,8 +176,8 @@ button.readCheck {
 					<td>${status.count}</td>
 					<td><span class="workSubject" onclick="goDetailWork('${work.wmno}')" style="cursor: pointer;">${work.subject}</span></td>
 					
-					<c:if test="${type == 1}"><td>${work.fk_receiver_seq}</td></c:if>
-					<c:if test="${type == 2 or type == 3}"><td>${work.fk_requester_seq}</td></c:if>
+					<c:if test="${workRole == 1}"><td>${work.fk_receiver_seq}</td></c:if>
+					<c:if test="${workRole == 2 or workRole == 3}"><td>${work.fk_requester_seq}</td></c:if>
 					
 					<td>${work.registerday}</td>
 					<td>${work.deadline}</td>

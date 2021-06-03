@@ -1,10 +1,11 @@
 package com.spring.groupware.workmanage.model;
 
-public class WorkManageVO {
+public class WorkVO {
 	private String wmno; 				//업무관리고유번호
 	private String fk_wtno; 			// 업무분류번호
-	private String fk_requester_seq; 	// 요청자 사원번호
-	private String fk_receiver_seq;		// 수신자(담당자) 사원번호
+	private String requester; 			// 요청자
+	private String receivers;			// 수신자들
+	private String referrers;			// 참조자들
 	private String subject;				// 제목
 	private String contents;			// 내용
 	private String registerday;			// 등록일자
@@ -13,16 +14,17 @@ public class WorkManageVO {
 	private String important;			// 중요여부 (0 or 1)
 	private String fk_statno;  			// 업무상태번호
 	
-	public WorkManageVO() {}
+	public WorkVO() {}
 	
-	public WorkManageVO(String wmno, String fk_wtno, String fk_requester_seq, String fk_receiver_seq, String subject,
+	public WorkVO(String wmno, String fk_wtno, String requester, String receivers, String referrers, String subject,
 			String contents, String registerday, String deadline, String checkstatus, String important,
 			String fk_statno) {
 	
 		this.wmno = wmno;
 		this.fk_wtno = fk_wtno;
-		this.fk_requester_seq = fk_requester_seq;
-		this.fk_receiver_seq = fk_receiver_seq;
+		this.requester = requester;
+		this.receivers = receivers;
+		this.referrers = referrers;
 		this.subject = subject;
 		this.contents = contents;
 		this.registerday = registerday;
@@ -48,20 +50,29 @@ public class WorkManageVO {
 		this.fk_wtno = fk_wtno;
 	}
 
-	public String getFk_requester_seq() {
-		return fk_requester_seq;
+	
+	public String getRequester() {
+		return requester;
 	}
 
-	public void setFk_requester_seq(String fk_requester_seq) {
-		this.fk_requester_seq = fk_requester_seq;
+	public void setRequester(String requester) {
+		this.requester = requester;
 	}
 
-	public String getFk_receiver_seq() {
-		return fk_receiver_seq;
+	public String getReceivers() {
+		return receivers;
 	}
 
-	public void setFk_receiver_seq(String fk_receiver_seq) {
-		this.fk_receiver_seq = fk_receiver_seq;
+	public void setReceivers(String receivers) {
+		this.receivers = receivers;
+	}
+
+	public String getReferrers() {
+		return referrers;
+	}
+
+	public void setReferrers(String referrers) {
+		this.referrers = referrers;
 	}
 
 	public String getSubject() {

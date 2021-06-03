@@ -31,7 +31,7 @@
   <a id="login" href="<%=ctxPath%>/login.opis"><i class="fas fa-user-alt"></i></a> 
   <a id="logout" href="<%=ctxPath%>/logout.opis"><i class="fas fa-user-slash"></i></a> 
   <a href="<%=ctxPath%>/mainPage.opis"><i class="fa fa-home"></i></a> 
-  <a href="<%=ctxPath%>/sns/snsmain.opis"><i class="fas fa-comments"></i></a> 
+  <a href="#"><i class="fas fa-comments"></i></a> 
   <a href="<%=ctxPath%>/personalInfo.opis"><i class="fas fa-user-circle"></i></a> 
 </div>
   
