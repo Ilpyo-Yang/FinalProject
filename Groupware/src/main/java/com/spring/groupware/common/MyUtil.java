@@ -35,9 +35,9 @@ public class MyUtil {
 	}
 	
 	// 오늘 날짜 구하기
-	public static void getToday(HttpServletRequest request){
+	public static String getToday(){
 		SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd");				
 		String today = format.format (System.currentTimeMillis());
-		request.setAttribute("today", today);
+		return today;
 	}
 }
