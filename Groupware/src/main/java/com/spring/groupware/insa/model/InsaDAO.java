@@ -23,12 +23,9 @@ public class InsaDAO implements InterInsaDAO {
 	@Override
 	public int insaRegister1End(InsaVO insavo) {
 		int n=0;
-		
 
 		n = sqlsession.insert("insa.insaRegisterEnd", insavo);
 			
-		System.out.println("dao => "+n);
-		System.out.println("아이디=>" +insavo.getMbr_id());
 	//	System.out.println("mem=>"+insavo.getMbr_id());
 		return n;
 	}
@@ -68,9 +65,9 @@ public class InsaDAO implements InterInsaDAO {
 
 	// 최종학력 가져오기
 	@Override
-	public String getEduLevel(String seq) {
-		String eduLevel = sqlsession.selectOne("insa.getEduLevel", seq);
-		return eduLevel;
+	public String getMaxEduLevel(String seq) {
+		String maxEduLevel = sqlsession.selectOne("insa.getMaxEduLevel", seq);
+		return maxEduLevel;
 	}
 
 

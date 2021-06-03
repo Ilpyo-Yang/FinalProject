@@ -65,33 +65,33 @@
 			<table id="insaDetail1" class="table table-striped tdtable">
 				<tr>
 					<th>최종학력</th>
-					<c:if test="${eduLevel == null }">
+					<c:if test="${maxEduLevel == null }">
 						<td colspan="2">미입력</td>
 					</c:if>
-					<c:if test="${eduLevel == 0 }">
+					<c:if test="${maxEduLevel == 0 }">
 						<td colspan="2">초졸</td>
 					</c:if>
-					<c:if test="${eduLevel == 1 }">
+					<c:if test="${maxEduLevel == 1 }">
 						<td colspan="2">중졸</td>
 					</c:if>
-					<c:if test="${eduLevel == 2 }">
+					<c:if test="${maxEduLevel == 2 }">
 						<td colspan="2">고졸</td>
 					</c:if>
-					<c:if test="${eduLevel == 3 }">
+					<c:if test="${maxEduLevel == 3 }">
 						<td colspan="2">초대졸</td>
 					</c:if>
-					<c:if test="${eduLevel == 4 }">
+					<c:if test="${maxEduLevel == 4 }">
 						<td colspan="2">학사</td>
 					</c:if>
-					<c:if test="${eduLevel == 5 }">
+					<c:if test="${maxEduLevel == 5 }">
 						<td colspan="2">석사</td>
 					</c:if>
-					<c:if test="${eduLevel == 6 }">
+					<c:if test="${maxEduLevel == 6 }">
 						<td colspan="2">박사</td>
 					</c:if>
 					</td>
 				</tr>
-				<c:if test="${empty eduList}">
+				<c:if test="${not empty eduList}">
 					<c:forEach var="edu" items="${eduList}">
 						<tr>
 							<c:if test="${edu.eduLevel == 0 }">
@@ -120,7 +120,7 @@
 						</tr>
 					</c:forEach>
 				</c:if>
-				<c:if test="${ not empty eduList}">
+				<c:if test="${empty eduList}">
 				
 				</c:if>
 				
@@ -154,7 +154,7 @@
 
 				</tbody>
 			</table>
-			<button class="modifyBtn"  id="modifyBtn" type="submit" style="display: inline-block; vertical-align: top;" onclick="javascript:location.href='<%=ctxPath%>/insaModify2.opis'">수정</button>
+			<button class="modifyBtn"  id="modifyBtn" type="button" style="display: inline-block; vertical-align: top;" onclick="javascript:location.href='<%=ctxPath%>/insaRegister2.opis?seq=${seq}'" >수정</button>
 
 </div>
 

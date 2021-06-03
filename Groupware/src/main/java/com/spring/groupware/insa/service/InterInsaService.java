@@ -24,7 +24,7 @@ public interface InterInsaService {
 	List<EduVO> getEduList(String seq);
 
 	// 최종학력 가져오기
-	String getEduLevel(String seq);
+	String getMaxEduLevel(String seq);
 	
 	// 학력정보 가져오기
 	int getEduNum(String seq);
@@ -43,6 +43,7 @@ public interface InterInsaService {
 
 	// 개인별 급여 리스트 가져오기
 	List<PaymentVO> getPaymentList(String seq);
+
 
 
 
