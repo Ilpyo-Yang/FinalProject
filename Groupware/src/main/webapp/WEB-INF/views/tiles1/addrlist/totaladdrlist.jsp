@@ -117,8 +117,8 @@
   	<!-- 검색 -->
 		<form name="searchFrm" style="margin-top: 20px;">
 	      <select name="searchType" id="searchType" style="height: 26px;">
-	         <option value="dept">부서</option>
-	         <option value="name">이름</option>
+	         <option value="dept_name">부서</option>
+	         <option value="mbr_name">이름</option>
 	      </select>
 	      <input type="text" name="searchWord" id="searchWord" size="30" autocomplete="off" /> 
 	      <button type="button" onclick="goSearch()">검색</button>

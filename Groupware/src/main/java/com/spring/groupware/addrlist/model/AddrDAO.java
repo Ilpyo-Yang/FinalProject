@@ -61,14 +61,14 @@ public class AddrDAO implements InterAddrDAO {
 	// === 주소록 정보 수정 === //
 	@Override
 	public int edit(AddrVO addrvo) {
-		int n = sqlsession.update("address.editAddr",addrvo);		
+		int n = sqlsession.update("address.editAddr", addrvo);		
 		return n;
 	}
 
 	// === 주소록 삭제 === //
 	@Override
 	public int del(Map<String, String> paraMap) {
-		int n = sqlsession.delete("address.delAddr",paraMap);		
+		int n = sqlsession.delete("address.delAddr", paraMap);		
 		return n;
 	}
 

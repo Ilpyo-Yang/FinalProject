@@ -39,6 +39,11 @@ td#name{
 	margin-right: 20px;
 }
 
+.title{
+	font-size: 17px;
+	font-weight: 600;
+}
+
 </style>
 
 <jsp:include page="./addr_sidebar.jsp" />
@@ -101,8 +106,10 @@ function goDelete(addr_seq){
 				<td>${requestScope.addrvo.detailaddress}</td>
 			</tr>
 			<tr>
-				<th class="title">메모</th>
-				<td>${requestScope.addrvo.addrmemo}</td>
+				<td colspan="2" class="title">메모</td>
+			</tr>
+			<tr>
+				<td colspan="2">${requestScope.addrvo.addrmemo}</td>
 			</tr>
 		</table>
 		

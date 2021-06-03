@@ -31,9 +31,15 @@ public class DnoticeController {
       
       // === 게시판 글쓰기 폼 페이지 요청 === //
       @RequestMapping(value="/dnotice_addEnd.opis", method= {RequestMethod.POST})
-      public ModelAndView addEnd(ModelAndView mav, DnoticeVO dnoticevo) {
+      public ModelAndView addEnd(HttpServletRequest request, ModelAndView mav, DnoticeVO dnoticevo) {
     	  
-
+    	  String dtitle = request.getParameter("title");
+    	  String dcontent = request.getParameter("content");
+    	  
+    	  dnoticevo.setDtitle(dtitle);
+    	  dnoticevo.setDcontent(dcontent);
+    	  
+    	  
     	  int n = service.add(dnoticevo); // <== 파일첨부가 없는 글쓰기
     	  
     	  if(n==1) {
@@ -48,15 +54,18 @@ public class DnoticeController {
       }
   
       
-      // === 글목록 보기 페이지 요청 === //
+      // === 해당부서 공지 목록 보기 페이지 요청 === //
       @RequestMapping(value="/dnotice_list.opis")
-      public ModelAndView list(ModelAndView mav, HttpServletRequest request) {
+      public ModelAndView requiredLogin_list(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
     	  
     	  List<DnoticeVO> boardList = null; 
     	  
     	  HttpSession session = request.getSession();
     	  session.setAttribute("readCountPermission", "yes");
-
+    	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+    	  
+    	  // 소속 부서값 가져오기
+    	  String fk_dept_detail = loginuser.getDept_detail();
     	  
     	  String searchType = request.getParameter("searchType");
     	  String searchWord = request.getParameter("searchWord");    	  
@@ -107,6 +116,7 @@ public class DnoticeController {
     	  
           paraMap.put("startRno", String.valueOf(startRno));
           paraMap.put("endRno", String.valueOf(endRno));
+          paraMap.put("fk_dept_detail", fk_dept_detail);
           
     	  boardList = service.boardListSearchWithPaging(paraMap);
     	  // 페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것)
@@ -164,7 +174,7 @@ public class DnoticeController {
       
       // === 글1개를 보여주는 페이지 요청 === //
       @RequestMapping(value="/dnotice_view.opis")
-      public ModelAndView view(HttpServletRequest request, ModelAndView mav) {
+      public ModelAndView requiredLogin_view(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
     	  
     	  // 조회하고자 하는 글번호 받아오기
     	  String dnotice_seq = request.getParameter("dnotice_seq");
@@ -227,33 +237,35 @@ public class DnoticeController {
       
       // === 글수정 페이지 요청 === //
       @RequestMapping(value="/dnotice_edit.opis")
-//      public ModelAndView requiredLogin_edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-      public ModelAndView edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+      public ModelAndView requiredLogin_edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+//      public ModelAndView edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 
     	  // 수정해야 할 글번호 가져오기
     	  String dnotice_seq = request.getParameter("dnotice_seq");
-    	  
+  	  
     	  // 글조회수(readCount) 증가 없이 단순히 글1개만 조회 해주는 것이다.
     	  DnoticeVO dnoticevo = service.getViewWithNoAddCount(dnotice_seq);
 
-//    	  HttpSession session = request.getSession();
-//        MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+    	  HttpSession session = request.getSession();
+          MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
           
-/*        if( loginuser.getFk_power_no() == 0 ) {
-             String message = "관리자 외 수정 불가합니다.";
+          // 로그인한  유저의 권한이 사원이면서 작성자가 아닐 경우
+          if( "사원".equals(loginuser.getPower_detail()) &&  !((dnoticevo.getFk_mbr_id()).equals(loginuser.getMbr_id()))  ) {
+
+    		 System.out.println(loginuser.getFk_power_no() +"!!!"+loginuser.getPower_detail()+"???"+ loginuser.getMbr_id() + " + " + dnoticevo.getFk_mbr_id());
+             String message = "관리자나 작성자 외 수정 불가합니다.";
              String loc = "javascript:history.back()";
              
              mav.addObject("message", message);
              mav.addObject("loc", loc);
              mav.setViewName("msg");
+    	
           }
-          else {	*/
-        	 // 자신의 글을 수정할 경우
-        	 // 가져온 1개글을 글수정할 폼이 있는 view 단으로 보내준다.
+          // 로그인한 유저의 권한이 사원 이상이거나 작성자일 경우
+          else {
         	 mav.addObject("dnoticevo", dnoticevo);
-        	 mav.setViewName("board/dnotice_edit.tiles1");
-   
-//          }
+        	 mav.setViewName("board/dnotice_edit.tiles1");  
+          }
     	  return mav;
       }
       
