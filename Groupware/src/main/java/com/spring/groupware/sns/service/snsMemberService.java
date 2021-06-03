@@ -3,6 +3,8 @@ package com.spring.groupware.sns.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,7 @@ public class snsMemberService implements IntersnsMemberService {
 		int n = dao.infochange(membervo);
 		return n;
 	}
+
 
 
 

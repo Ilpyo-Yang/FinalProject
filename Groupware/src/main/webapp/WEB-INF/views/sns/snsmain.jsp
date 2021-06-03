@@ -9,7 +9,7 @@ String ctxPath = request.getContextPath();
 <html>
 <head>
 <meta charset="UTF-8">
-<title>main.up 페이지</title>
+<title>snsmain 페이지</title>
 
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/resources/css/snsmain.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -47,7 +47,7 @@ String ctxPath = request.getContextPath();
 	<div class="snsmaincontainer">
 		<div class="userinfo">
 			<div class="userinfoside">
-			<img class="mainuserimg" src="<%= ctxPath%>/resources/images/${sessionScope.loginuser.mbr_img}" style="margin-top: 20px; margin-left: 20px;"/>
+			<img class="mainuserimg" src="<%= ctxPath%>/resources/images/${sessionScope.loginuser.mbr_img}"  style="margin-top: 20px; margin-left: 20px;"/>
 			
 			</div>
 			<div class="userinfotop">
@@ -62,7 +62,7 @@ String ctxPath = request.getContextPath();
 		      <li><a href="#">오프라인</a></li>
 		      <li><a href="#">자리비움</a></li>
 			</ul>
-			<img src="<%= ctxPath%>/resources/images/pencel.png" style="width: 25px; height: 25px; float: right; margin-right:  60px;"/>
+			<img src="<%= ctxPath%>/resources/images/pencel.png" onclick="javascript:location.href='<%= ctxPath%>/sns/infochange.opis'" style="width: 25px; height: 25px; float: right; margin-right:  60px;"/>
 			</div>
 			<div class=userinfobottom>
 				<div class="well">${sessionScope.loginuser.mbr_stsmsg} ${membervo.mbr_stsconnect}</div>
@@ -89,7 +89,10 @@ String ctxPath = request.getContextPath();
 			<c:forEach var="membervo" items="${requestScope.memberList}" varStatus="status"> 
 				<div class="memberList">
 					<div class="constatus">
-						${membervo.mbr_stsconnect}
+					<c:if test="${membervo.mbr_stsconnect == 0}"><img class="constatus" src="<%= ctxPath%>/resources/images/offline.PNG" /></c:if>
+					<c:if test="${membervo.mbr_stsconnect == 1}"><img class="constatus" src="<%= ctxPath%>/resources/images/online.PNG" /></c:if>
+					<c:if test="${membervo.mbr_stsconnect == 2}"><img class="constatus" src="<%= ctxPath%>/resources/images/leave.PNG" /></c:if> 
+					<c:if test="${membervo.mbr_stsconnect == 3}"><img class="constatus" src="<%= ctxPath%>/resources/images/conference.PNG" /></c:if>
 						<img class="mainuserimg" src="<%= ctxPath%>/resources/images/${membervo.mbr_img}" style="margin-left: 20px;"/>
 					</div>
 					

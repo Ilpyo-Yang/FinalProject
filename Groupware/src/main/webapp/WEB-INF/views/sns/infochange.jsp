@@ -9,7 +9,7 @@ String ctxPath = request.getContextPath();
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>정보수정페이지</title>
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/resources/css/infochange.css"/>
 <script type="text/javascript" src="<%= ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
 <meta charset="utf-8">
@@ -31,9 +31,9 @@ String ctxPath = request.getContextPath();
 	}
 	
 	// 수정하기 버튼 클릭시
-	function goinfochange() {
-		var usernameVal = $("input#username").val().trim();
-		var userstatemsgVal = $("input#userstatemsg").val().trim();
+	function goinfochangeend() {
+		var usernameVal = $("input#mbr_name").val().trim();
+		var userstatemsgVal = $("input#mbr_stsmsg").val().trim();
 		
 		if(usernameVal == "") {
 			alert("이름을 입력하세요!!");
@@ -42,7 +42,7 @@ String ctxPath = request.getContextPath();
 		
 		var frm = document.changeFrm;
 		frm.method="POST";
-		frm.action = "<%= ctxPath%>/infochange.opis";
+		frm.action = "<%= ctxPath%>/infochangeend.opis";
 		frm.submit(); 
 	}
 	
@@ -53,19 +53,19 @@ String ctxPath = request.getContextPath();
 	<div class=snsmaincontainer style="background-color: white;">
 		<div class="form-group">
 		  <label for="usr" class="lform">이름: </label>
-		  <input type="text" class="form-control" id="username" name="username" value='${sessionScope.loginuser.mbr_name}'>
-		  <input type="hidden" class="form-control" id="username" name="username" value='${sessionScope.loginuser.mbr_id}'>
+		  <input type="text" class="form-control" id="mbr_name" name="mbr_name" value='${sessionScope.loginuser.mbr_name}'>
+		  <input type="hidden" class="form-control" id="mbr_id" name="mbr_id" value='${sessionScope.loginuser.mbr_id}'>
 		</div>
 		<div class="form-group" >
 		  <label for="usr" class="lform">상태메시지 : </label>
-		  <input type="text" class="form-control" id="userstatemsg" name="userstatemsg" value='${sessionScope.loginuser.mbr_stsmsg}'>
+		  <input type="text" class="form-control" id="mbr_stsmsg" name="mbr_stsmsg" value='${sessionScope.loginuser.mbr_stsmsg}'>
 		</div>
 		<div class="form-group" >
 		  <label for="usr" class="lform">프로필사진: </label>
 		  <input type="file" class="form-control" id="file">
 		</div>
 		<div class="form-group" >
-		  <button type="button" class="btn btn-success" onclick="goinfochange()" >수정하기</button>
+		  <button type="button" class="btn btn-success" onclick="goinfochangeend()" >수정하기</button>
 		  <button type="button" class="btn btn-danger" onclick="javascript:location.href='<%= ctxPath%>/sns/snsmain.opis'" >수정취소</button>
 		</div>
 		

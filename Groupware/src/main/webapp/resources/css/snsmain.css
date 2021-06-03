@@ -9,14 +9,14 @@ div.snsmaincontainer {
 div.userinfo {
 	<!--border: 1px solid blue;-->
 	display: inline-block;
-	width:400px;
+	width:397px;
 	height: 100px;
 	background-color:  #66ff66;
 }
 
 div.menu {
 	border: 0px solid yellow;
-	width: 400px;
+	width: 397px;
 	height: 50px;
 	background-color: #66ff66;
 	display: inline-block;
@@ -122,13 +122,13 @@ button.btn-default {
 
 div.memberList {
 	border-bottom: 1px solid gray;
-	width: 399px;
+	width: 385px;
 	height: 100px;
 	
 }
 
 div.constatus {
-	border: 1px solid red;
+	border: 0px solid red;
 	width: 120px;
 	height: 100px;
 	padding-top:20px;
@@ -136,16 +136,16 @@ div.constatus {
 }
 
 div.userinforightside {
-	border: 1px solid red;
-	width: 275px;
+	border: 0px solid red;
+	width: 260px;
 	height: 50px;
 	margin-left: 120px;
 	padding-top: 13px;
 }
 
 div.userinfobottom2 {
-	border: 1px solid blue;
-	width: 275px;
+	border: 0px solid blue;
+	width: 260px;
 	height: 50px;
 	margin-left: 120px;
 	padding-top: 13px;
@@ -153,7 +153,8 @@ div.userinfobottom2 {
 
 img.constatus {
 	border: solie 3px black;	
-	width: 5px;
-	height: 5px;
+	width: 7px;
+	height: 7px;
 	border-radius: 50%;
+	margin-left: 10px;
 }

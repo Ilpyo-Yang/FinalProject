@@ -3,6 +3,8 @@ package com.spring.groupware.sns.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import com.spring.groupware.member.model.MemberVO;
 
 public interface IntersnsMemberService {
@@ -15,6 +17,8 @@ public interface IntersnsMemberService {
 
 	// 정보수정하기
 	int infochange(MemberVO membervo);
+
+	
 
 
 	

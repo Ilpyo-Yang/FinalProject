@@ -40,12 +40,12 @@
 		</if>	
 	</select>
 	
-	<update id="infochange" parameterType="com.spring.groupware.member.model.MemberVO">
+	<update id="infochange" parameterType="com.spring.groupware.member.model.MemberVO" >
 		update tbl_mbr 
-		set mbr_name=#{mbr_name}, mbr_stsmsg=#{mbr_stsmsg}
+		set mbr_name=#{mbr_name}, mbr_stsmsg= #{mbr_stsmsg, jdbcType=VARCHAR}	                
 		where mbr_id = #{mbr_id}
 	</update>
 	
-		
+
 
 </mapper>
