@@ -180,14 +180,15 @@
 		from 
 		(
 		    select row_number() over(order by dnotice_seq desc) AS rno,
-		           dnotice_seq, fk_mbr_id, dtitle, dcontent, dhit,
+		           dnotice_seq, fk_mbr_id, fk_dept_detail, dtitle, dcontent, dhit,
 		           to_char(dwritedate, 'yyyy-mm-dd hh24:mi:ss') as dwritedate
 		    from tbl_deptnotice
 		    <if test='searchWord != ""'>
 		    	where lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
 			</if>
 		) V
-		where rno between #{startRno} and #{endRno}   	 
+		where rno between #{startRno} and #{endRno}
+			  and fk_dept_detail=#{fk_dept_detail}   	 
    	 </select>
    	 
 

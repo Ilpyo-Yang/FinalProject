@@ -54,15 +54,18 @@ public class DnoticeController {
       }
   
       
-      // === 글목록 보기 페이지 요청 === //
+      // === 해당부서 공지 목록 보기 페이지 요청 === //
       @RequestMapping(value="/dnotice_list.opis")
-      public ModelAndView list(ModelAndView mav, HttpServletRequest request) {
+      public ModelAndView requiredLogin_list(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
     	  
     	  List<DnoticeVO> boardList = null; 
     	  
     	  HttpSession session = request.getSession();
     	  session.setAttribute("readCountPermission", "yes");
-
+    	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+    	  
+    	  // 소속 부서값 가져오기
+    	  String fk_dept_detail = loginuser.getDept_detail();
     	  
     	  String searchType = request.getParameter("searchType");
     	  String searchWord = request.getParameter("searchWord");    	  
@@ -113,6 +116,7 @@ public class DnoticeController {
     	  
           paraMap.put("startRno", String.valueOf(startRno));
           paraMap.put("endRno", String.valueOf(endRno));
+          paraMap.put("fk_dept_detail", fk_dept_detail);
           
     	  boardList = service.boardListSearchWithPaging(paraMap);
     	  // 페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것)
