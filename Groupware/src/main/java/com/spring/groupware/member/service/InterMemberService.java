@@ -1,5 +1,6 @@
 package com.spring.groupware.member.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.spring.groupware.member.model.CompanyVO;
@@ -24,6 +25,10 @@ public interface InterMemberService {
 
 	// 로그아웃 처리하기
 	void logout(int mbr_seq);
+
+	// 조직도용 정보 가져오기
+	List<Map<String, String>> getChartInfo(String chartStyle);
+
 
 
 	

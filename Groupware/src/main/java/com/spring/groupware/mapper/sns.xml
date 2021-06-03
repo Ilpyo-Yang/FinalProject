@@ -35,17 +35,17 @@
 		on fk_rank_no = rank_no
 		join tbl_power D
 		on fk_power_no = power_no
-		<if test='searchUser != "" '>
-			where lower(#{searchUser}) || '%'
+		<if test='searchWord != "" '>
+			where lower(mbr_name) = lower(#{searchWord})
 		</if>	
 	</select>
 	
-	<update id="infochange" parameterType="com.spring.groupware.member.model.MemberVO">
+	<update id="infochange" parameterType="com.spring.groupware.member.model.MemberVO" >
 		update tbl_mbr 
-		set mbr_name=#{mbr_name}, mbr_stsmsg=#{mbr_stsmsg}
+		set mbr_name=#{mbr_name}, mbr_stsmsg= #{mbr_stsmsg, jdbcType=VARCHAR}	                
 		where mbr_id = #{mbr_id}
 	</update>
 	
-		
+
 
 </mapper>

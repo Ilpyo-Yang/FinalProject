@@ -1,5 +1,6 @@
 package com.spring.groupware.member.model;
 
+import java.util.List;
 import java.util.Map;
 
 public interface InterMemberDAO {
@@ -21,5 +22,8 @@ public interface InterMemberDAO {
 
 	// 로그아웃 처리하기
 	void logout(int mbr_seq);
+
+	// 조직도용 정보가져오기
+	List<Map<String, String>> getChartInfo(String chartStyle);
 
 }

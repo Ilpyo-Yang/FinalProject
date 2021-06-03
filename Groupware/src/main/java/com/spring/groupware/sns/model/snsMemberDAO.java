@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -36,6 +38,7 @@ public class snsMemberDAO implements IntersnsMemberDAO {
 		int n = sqlsession.update("sns.infochange", membervo);
 		return n;
 	}
+
 
 
 

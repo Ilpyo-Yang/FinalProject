@@ -1,21 +1,16 @@
 package com.spring.groupware.member.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.spring.groupware.member.model.CompanyVO;
-import com.spring.groupware.member.model.MemberVO;
+import com.google.gson.*;
+import com.spring.groupware.member.model.*;
 import com.spring.groupware.member.service.InterMemberService;
 
 
@@ -140,5 +135,27 @@ public class MemberController {
     	 return mav;
       }
       
+      
+   
+      // === 조직도용 정보 가져오기 === //
+  	  @ResponseBody
+  	  @RequestMapping(value="/member/getChartInfo.opis", produces="text/plain;charset=UTF-8")
+      public String getChartInfo(HttpServletRequest request) {
+  		  String chartStyle = request.getParameter("chartStyle");
+  		  
+  		  List<Map<String, String>> chartInfoList = service.getChartInfo(chartStyle);
+  		  
+  		  JsonArray jsonArr = new JsonArray();
+  		  
+  		  for(Map<String, String> map : chartInfoList) {
+  			  JsonObject jsonObj = new JsonObject();
+  			  jsonObj.addProperty("id", map.get("dept_detail")+" "+map.get("rank_detail"));
+  			  jsonObj.addProperty("title", map.get("dept_detail")+" "+map.get("rank_detail"));
+  			  jsonObj.addProperty("name", map.get("mbr_name"));
+  			
+  		      jsonArr.add(jsonObj);
+  		  }
+  		return new Gson().toJson(jsonArr);
+  	}
 
 }
