@@ -98,8 +98,9 @@
 	   </c:if>
    
 	   <button type="button" onclick="javascript:location.href='<%=ctxPath%>/cnotice_list.opis'">전체목록보기</button>
-	   <button type="button" onclick="javascript:location.href='<%=ctxPath%>/cnotice_edit.opis?cnotice_seq=${requestScope.cnoticevo.cnotice_seq}'">수정</button>
-	   <button type="button" onclick="goDelete(${requestScope.cnoticevo.cnotice_seq})">삭제</button>
-	  
+	   <c:if test="${sessionScope.loginuser.power_detail ne '사원'}">
+	   		<button type="button" onclick="javascript:location.href='<%=ctxPath%>/cnotice_edit.opis?cnotice_seq=${requestScope.cnoticevo.cnotice_seq}'">수정</button>
+	   		<button type="button" onclick="goDelete(${requestScope.cnoticevo.cnotice_seq})">삭제</button>
+	   </c:if>
    </div>
 </div>

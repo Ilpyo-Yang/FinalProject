@@ -96,7 +96,8 @@
    </c:if>
    
    <button type="button" onclick="javascript:location.href='<%=ctxPath%>/formboard_list.opis'">전체목록보기</button>
-   <button type="button" onclick="javascript:location.href='<%=ctxPath%>/formboard_edit.opis?form_seq=${requestScope.formboardvo.form_seq}'">수정</button>
-   <button type="button" onclick="javascript:location.href='<%=ctxPath%>/formboard_del.opis?form_seq=${requestScope.formboardvo.form_seq}'">삭제</button>
-   
+   <c:if test="${sessionScope.loginuser.power_detail ne '사원'}">
+	   <button type="button" onclick="javascript:location.href='<%=ctxPath%>/formboard_edit.opis?form_seq=${requestScope.formboardvo.form_seq}'">수정</button>
+	   <button type="button" onclick="javascript:location.href='<%=ctxPath%>/formboard_del.opis?form_seq=${requestScope.formboardvo.form_seq}'">삭제</button>
+	</c:if>   
 </div>

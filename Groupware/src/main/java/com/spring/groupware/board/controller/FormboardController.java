@@ -171,7 +171,7 @@ public class FormboardController {
 	      
 	      // === 글1개를 보여주는 페이지 요청 === //
 	      @RequestMapping(value="/formboard_view.opis")
-	      public ModelAndView view(HttpServletRequest request, ModelAndView mav) {
+	      public ModelAndView requiredLogin_view(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 	    	  
 	    	  // 조회하고자 하는 글번호 받아오기
 	    	  String form_seq = request.getParameter("form_seq");
@@ -235,8 +235,8 @@ public class FormboardController {
 
 	      // === 글수정 페이지 요청 === //
 	      @RequestMapping(value="/formboard_edit.opis")
-//	      public ModelAndView requiredLogin_edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-	      public ModelAndView edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	      public ModelAndView requiredLogin_edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+//	      public ModelAndView edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 
 	    	  // 수정해야 할 글번호 가져오기
 	    	  String form_seq = request.getParameter("form_seq");
@@ -244,10 +244,10 @@ public class FormboardController {
 	    	  // 글조회수(readCount) 증가 없이 단순히 글1개만 조회 해주는 것이다.
 	    	  FormboardVO formboardvo = service.getViewWithNoAddCount(form_seq);
 
-//	    	  HttpSession session = request.getSession();
-//	        MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	    	  HttpSession session = request.getSession();
+   	          MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 	          
-	/*        if( loginuser.getFk_power_no() == 0 ) {
+	          if( "사원".equals(loginuser.getPower_detail()) ) {
 	             String message = "관리자 외 수정 불가합니다.";
 	             String loc = "javascript:history.back()";
 	             
@@ -255,13 +255,13 @@ public class FormboardController {
 	             mav.addObject("loc", loc);
 	             mav.setViewName("msg");
 	          }
-	          else {	*/
+	          else {	
 	        	 // 자신의 글을 수정할 경우
 	        	 // 가져온 1개글을 글수정할 폼이 있는 view 단으로 보내준다.
 	        	 mav.addObject("formboardvo", formboardvo);
 	        	 mav.setViewName("board/formboard_edit.tiles1");
 	   
-//	          }
+	          }
 	    	  return mav;
 	      }
 	      

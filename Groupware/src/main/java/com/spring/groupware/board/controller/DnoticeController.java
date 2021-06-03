@@ -170,7 +170,7 @@ public class DnoticeController {
       
       // === 글1개를 보여주는 페이지 요청 === //
       @RequestMapping(value="/dnotice_view.opis")
-      public ModelAndView view(HttpServletRequest request, ModelAndView mav) {
+      public ModelAndView requiredLogin_view(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
     	  
     	  // 조회하고자 하는 글번호 받아오기
     	  String dnotice_seq = request.getParameter("dnotice_seq");
@@ -233,33 +233,35 @@ public class DnoticeController {
       
       // === 글수정 페이지 요청 === //
       @RequestMapping(value="/dnotice_edit.opis")
-//      public ModelAndView requiredLogin_edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-      public ModelAndView edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+      public ModelAndView requiredLogin_edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+//      public ModelAndView edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 
     	  // 수정해야 할 글번호 가져오기
     	  String dnotice_seq = request.getParameter("dnotice_seq");
-    	  
+  	  
     	  // 글조회수(readCount) 증가 없이 단순히 글1개만 조회 해주는 것이다.
     	  DnoticeVO dnoticevo = service.getViewWithNoAddCount(dnotice_seq);
 
-//    	  HttpSession session = request.getSession();
-//        MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+    	  HttpSession session = request.getSession();
+          MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
           
-/*        if( loginuser.getFk_power_no() == 0 ) {
-             String message = "관리자 외 수정 불가합니다.";
+          // 로그인한  유저의 권한이 사원이면서 작성자가 아닐 경우
+          if( "사원".equals(loginuser.getPower_detail()) &&  !((dnoticevo.getFk_mbr_id()).equals(loginuser.getMbr_id()))  ) {
+
+    		 System.out.println(loginuser.getFk_power_no() +"!!!"+loginuser.getPower_detail()+"???"+ loginuser.getMbr_id() + " + " + dnoticevo.getFk_mbr_id());
+             String message = "관리자나 작성자 외 수정 불가합니다.";
              String loc = "javascript:history.back()";
              
              mav.addObject("message", message);
              mav.addObject("loc", loc);
              mav.setViewName("msg");
+    	
           }
-          else {	*/
-        	 // 자신의 글을 수정할 경우
-        	 // 가져온 1개글을 글수정할 폼이 있는 view 단으로 보내준다.
+          // 로그인한 유저의 권한이 사원 이상이거나 작성자일 경우
+          else {
         	 mav.addObject("dnoticevo", dnoticevo);
-        	 mav.setViewName("board/dnotice_edit.tiles1");
-   
-//          }
+        	 mav.setViewName("board/dnotice_edit.tiles1");  
+          }
     	  return mav;
       }
       
