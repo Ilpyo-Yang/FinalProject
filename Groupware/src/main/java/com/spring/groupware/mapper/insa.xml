@@ -5,11 +5,9 @@
 <mapper namespace="insa">
 	<!-- 인사정보 등록하기 -->
 	<insert id="insaRegisterEnd" parameterType="com.spring.groupware.insa.model.InsaVO" >
-	
-		insert into tbl_mbr(mbr_seq, fk_power_no, fk_dept_no, fk_rank_no, mbr_id, mbr_pwd, mbr_name, mbr_email, mbr_com_number, mbr_phone_number,mbr_gender,mbr_registerday, mbr_retireday,mbr_status,mbr_birthday )
-		values(#{mbr_seq}, to_number(#{fk_power_no}), to_number(#{fk_dept_no}), to_number(#{fk_rank_no}), #{mbr_id}, #{mbr_pwd}, #{mbr_name}, #{mbr_com_number}, #{mbr_phone_number}, #{mbr_email},#{mbr_gender},sysdate,sysdate, '1',to_date(#{mbr_birthday}, 'yyyy-mm-dd') )
+		insert into tbl_mbr(mbr_seq, fk_power_no, fk_rank_no, fk_dept_no, mbr_id, mbr_pwd, mbr_name, mbr_email, mbr_com_number, mbr_phone_number, mbr_gender, mbr_birthday, mbr_pwd_changeday,mbr_registerday, mbr_retireday,mbr_status)
+	    values (#{mbr_seq}, to_number(#{fk_power_no}), to_number(#{fk_rank_no}), to_number(#{fk_dept_no}),#{mbr_id}, #{mbr_pwd}, #{mbr_name}, #{mbr_email},  #{mbr_com_number}, #{mbr_phone_number},#{mbr_gender},to_date(#{mbr_birthday}, 'yyyy-mm-dd'),sysdate,sysdate,sysdate,1)
 	</insert>
-	 
 	 <!-- 멤버 리스트 받아오기 -->
 	<select id="insaList" parameterType="HashMap" resultType="com.spring.groupware.insa.model.InsaVO">
 		select distinct M.mbr_seq, M.mbr_name, M.fk_dept_no, M.fk_rank_no, M.mbr_registerday, M.mbr_retireday, E.eduLevel
@@ -74,7 +72,7 @@
 		order by eduLevel
 	</select>	
 	
-	<select id="getEduLevel" parameterType="String" resultType="String">
+	<select id="getMaxEduLevel" parameterType="String" resultType="String">
         select max(eduLevel) AS eduLevel
 		from tbl_edu
         where mbr_seq=#{seq}

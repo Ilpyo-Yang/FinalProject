@@ -31,9 +31,8 @@ public class InsaService implements InterInsaService {
 	
 	// 인사정보 등록하기
 	@Override
-	public int insaRegister1End(InsaVO Insavo) {
-		int n = idao.insaRegister1End(Insavo);
-		System.out.println("service => "+n);
+	public int insaRegister1End(InsaVO insavo) {
+		int n = idao.insaRegister1End(insavo);
 		return n;
 	}
 
@@ -75,9 +74,9 @@ public class InsaService implements InterInsaService {
 
 	// 최종학력 가져오기
 	@Override
-	public String getEduLevel(String seq) {
-		String eduLevel = idao.getEduLevel(seq);
-		return eduLevel;
+	public String getMaxEduLevel(String seq) {
+		String maxEduLevel = idao.getMaxEduLevel(seq);
+		return maxEduLevel;
 	}
 
 
