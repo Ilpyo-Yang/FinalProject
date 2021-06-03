@@ -50,6 +50,12 @@
 		
 	}); // end of $(document).ready(function(){})-----------------------------------------
 
+	function goDelete(form_seq){
+		if(confirm("정말로 삭제하시겠습니까?")==true){
+        	location.href="<%=ctxPath%>/formboard_delEnd.opis?form_seq="+form_seq;
+    	}
+	}
+	
 </script>
 
 <div style="width: 1460px;">
@@ -91,7 +97,7 @@
 	 <button type="button" onclick="javascript:location.href='<%=ctxPath%>/formboard_list.opis'">전체목록보기</button>
 	 <c:if test="${sessionScope.loginuser.power_detail ne '사원'}">
 		 <button type="button" onclick="javascript:location.href='<%=ctxPath%>/formboard_edit.opis?form_seq=${requestScope.formboardvo.form_seq}'">수정</button>
-		 <button type="button" onclick="javascript:location.href='<%=ctxPath%>/formboard_del.opis?form_seq=${requestScope.formboardvo.form_seq}'">삭제</button>
+		 <button type="button" onclick="goDelete(${requestScope.formboardvo.form_seq})">삭제</button>
 	 </c:if>  
 	</div> 
 </div>
