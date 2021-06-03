@@ -19,7 +19,7 @@
 		border-top: solid 1px #e6e6e6;
 		border-bottom: solid 1px #e6e6e6;
 		border-collapse: collapse;
-		margin-left: 10px;
+		margin-left: 100px;
 	}
 	
 	#title {
@@ -29,7 +29,7 @@
 		font-weight: bold;
 	}
 	
-	#content {padding:0 180px 0 30px;}
+	#content {padding:0 30px 0 30px;}
 	
 	#btns {padding: 10px 40px 0 0;}
 	
@@ -45,14 +45,43 @@
 		font-weight: bold;
 	}
 	
-	.done {
-		background:#ffbb33;
+	.modify {
+		background:#ffd633;
 		color: white;
 	}
 	
+	.modify:hover {
+		border: solid 2px #ffd633;
+		background:white;
+		color: #ffd633;
+	}
+	
 	.del {
-		background:#66d9ff;
+		background:#0099cc;
 		color: white;
+	}
+	
+	.del:hover {
+		border: solid 2px #0099cc;
+		background:white;
+		color: #2d5986;
+	}
+	
+	#btnMtrResv {
+		border: none;
+		background:#006080;
+		font-weight:bold;
+		color:white;
+		height:25px;
+		cursor:pointer;
+		border-radius:2pt;
+		box-shadow: 1pt 1pt 1pt gray;
+	}
+	
+	#btnMtrResv:hover {
+		border: solid 2px #006080;
+		background: white;
+		color: #006080;
 	}
 	
 </style>
@@ -76,13 +105,28 @@
 		window.close();
 	}
 	
+	function goResvMtr() {
+		
+		var url = "<%=ctxPath%>/mtr_resv.opis";
+		window.open(url, "sendParentsVal","left=350px, top=100px, width=900px, height=650px");
+		
+		var sendfrm = document.sendParentsVal;
+		sendfrm.action = url;
+		sendfrm.method = "post";
+		sendfrm.target = "sendParentsVal";
+		sendfrm.submit();
+	}
+	
 </script>
 
 
 <div>
 	<h2>일정 상세 내역</h2>
 	<hr align="left" style="margin-left:10px; width:600px;">
-	<br>
+	
+	<div style="text-align:center;">
+		<img src="<%=ctxPath%>/resources/images/checkall.png" style="width:110px; height:110px;"/>
+	</div>
 	
 	<c:if test="${not empty requestScope.schedulevo}">
 	<div class="container">
@@ -109,6 +153,7 @@
 					<td id="content">
 						<c:if test="${requestScope.schedulevo.place eq null || requestScope.schedulevo.place eq ''}"><span>미정</span></c:if>
 						<c:if test="${requestScope.schedulevo.place ne null && requestScope.schedulevo.place ne ''}">${requestScope.schedulevo.place}</c:if>
+						<button type="button" id="btnMtrResv" onclick="goResvMtr()">회의실 예약하기</button>
 					</td>
 				</tr>
 				<tr>
@@ -128,9 +173,13 @@
 	</c:if>
 	
 		<div align="right" id="btns">
-			<button type="button" class="btn done" onclick="javascript:location.href='<%=ctxPath%>/editScd.opis?scdno=${requestScope.schedulevo.scdno}'">수정</button>
+			<button type="button" class="btn modify" onclick="javascript:location.href='<%=ctxPath%>/editScd.opis?scdno=${requestScope.schedulevo.scdno}'">수정</button>
 			<button type="button" class="btn del" onclick="goDelScd()">삭제</button>
 			<button type="button" class="btn close" onclick="goClose()">닫기</button> 
 		</div>
+
+	<form name="sendParentsVal">
+		<input type="hidden" id="parent" name="scdno" value="${requestScope.schedulevo.scdno}"/>
+	</form>
 
 </div>

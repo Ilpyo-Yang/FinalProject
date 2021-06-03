@@ -113,10 +113,6 @@
 		
 	});
 	
-	function mtrResv() {
-		 var url = "<%=ctxPath%>/mtr_resv.opis";
-		 window.open(url, "mtrResv","left=350px, top=100px, width=800px, height=650px");
-	}
 	
 </script>
 
@@ -177,7 +173,6 @@
 			<td id="title">장소</td>
 			<td id="contents">
 				<input type="text" name="place" value="${requestScope.schedulevo.place}"/>
-				<button type="button" onclick="mtrResv()">예약하기</button>
 			</td>
 			<tr class="attandance schedule">
 			<td id="title">참석자</td>
@@ -195,4 +190,5 @@
 		</div>
 		
 	</form>
+	
 </div>

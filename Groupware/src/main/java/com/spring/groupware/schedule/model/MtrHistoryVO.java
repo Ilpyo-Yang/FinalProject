@@ -4,22 +4,27 @@ public class MtrHistoryVO {
 	private String usemtrno; 	// 이용구분번호
 	private String fk_mtrno; 	//회의실번호
 	private String fk_scdno; 	// 일정번호
+	private String mtrsubject;	// 회의 이용 목적/일정
 	private String regDate; 	// 이용일자
 	private String starttime; 	// 시작시간
 	private String endtime; 	// 종료시간
 	
+	private String mtrname;		// 회의실명
+	
 	public MtrHistoryVO() {}
 
 	public MtrHistoryVO(String usemtrno, String fk_mtrno, String fk_scdno, String regDate, String starttime,
-			String endtime) {
+			String endtime, String mtrsubject) {
 		super();
 		this.usemtrno = usemtrno;
 		this.fk_mtrno = fk_mtrno;
 		this.fk_scdno = fk_scdno;
+		this.mtrsubject = mtrsubject;
 		this.regDate = regDate;
 		this.starttime = starttime;
 		this.endtime = endtime;
 	}
+
 
 	public String getUsemtrno() {
 		return usemtrno;
@@ -45,6 +50,14 @@ public class MtrHistoryVO {
 		this.fk_scdno = fk_scdno;
 	}
 
+	public String getMtrsubject() {
+		return mtrsubject;
+	}
+
+	public void setMtrsubject(String mtrsubject) {
+		this.mtrsubject = mtrsubject;
+	}
+	
 	public String getRegDate() {
 		return regDate;
 	}

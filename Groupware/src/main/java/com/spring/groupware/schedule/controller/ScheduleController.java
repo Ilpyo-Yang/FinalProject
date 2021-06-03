@@ -181,8 +181,14 @@ public class ScheduleController {
 	public ModelAndView requiredLogin_mtrResv(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
 		String scdno = request.getParameter("scdno");
+		
 		if(scdno != null) {
+			
+			// 일정명 가져오기
+			String scdsubject = service.getScdSubject(scdno);
+			
 			mav.addObject("scdno",scdno);
+			mav.addObject("scdsubject", scdsubject);
 		}
 		
 		mav.setViewName("schedule_modal/mtr_resv");
@@ -198,9 +204,14 @@ public class ScheduleController {
 		mtrhvo.setUsemtrno(String.valueOf(usemtrno));
 		
 		int n = service.resvMtrEnd(mtrhvo);
-			
+		
+		String mtrname = service.getMtrName(mtrhvo.getFk_mtrno());	// 회의실 이름 가져오기
+		
 		if(n==1) {
-			mav.setViewName("redirect:/mtrhDetail.opis");
+			mav.addObject("usemtrno",usemtrno);
+			mav.addObject("mtrname",mtrname); 
+			mav.addObject("mtrhvo", mtrhvo);
+			mav.setViewName("schedule_modal/mtrDetail");
 		}
 		else {
 			String message = "회의실 예약에 실패하였습니다. 다시 시도하세요";
@@ -234,40 +245,20 @@ public class ScheduleController {
 	 * return mav; }
 	 */
 	
-	  // 회의실 예약상세페이지 보여주기
-	  @RequestMapping(value="/mtrhDetail.opis") public ModelAndView
-	  mtrhDetail(HttpServletRequest request, ModelAndView mav) {
-	  
-	  String usemtrno = request.getParameter("usemtrno");
-	  
-	  Integer.parseInt(usemtrno);
-	  
-	  HttpSession session = request.getSession(); MemberVO loginuser = (MemberVO)
-	  session.getAttribute("loginuser");
-	  
-	  // 예약된 회의실 상세 내용 조회 
-	  MtrHistoryVO mtrhvo = service.getViewMtr(usemtrno);
-	  
-	  // 해당 회의실을 사용하는 일정 이름 조회 
-	  String scdno = request.getParameter("fk_scdno");
-	  ScheduleVO schedulevo = service.getViewScd(scdno);
-	  
-	  mav.addObject("schedulevo",schedulevo); mav.addObject("mtrhvo",mtrhvo);
-	  mav.setViewName("schedule_modal/mtrDetail");
-	  
-	  return mav; 
-	  }
+	
 	
 	// 회의실 예약취소(삭제)
-	@RequestMapping(value="/cancel.opis", method= {RequestMethod.POST})
-	public ModelAndView requiredLogin_cancel(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	@RequestMapping(value="/mtrCancel.opis", method= {RequestMethod.POST})
+	public ModelAndView mtrCancel(HttpServletRequest request, ModelAndView mav, MtrHistoryVO mtrhvo) {
 		
 		String usemtrno = request.getParameter("usemtrno");
 		
 		int n = service.delMtrReg(usemtrno);
 		
+		System.out.println(usemtrno);
+		
 		if(n==1) {
-			mav.setViewName("redirect://mtr_resv.opis");
+			mav.setViewName("redirect:/mtr_resv.opis");
 		}
 		else {
 			String message = "예약 취소에 실패하였습니다.";

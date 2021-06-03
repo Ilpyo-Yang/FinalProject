@@ -66,9 +66,23 @@
 	
 	<!-- === 회의실 예약하기 === -->
 	<insert id="resvMtrEnd" parameterType="com.spring.groupware.schedule.model.MtrHistoryVO">
-		insert into tbl_mtrhistory(usemtrno, fk_scdno, fk_mtrno, starttime, endtime)
-		values(#{usemtrno}, #{fk_scdno}, #{fk_mtrno}, to_date(#{regDate} || ' ' || #{starttime},'yyyy-mm-dd hh24:mi'), to_date(#{regDate} || ' ' || #{endtime},'yyyy-mm-dd hh24:mi'))
+		insert into tbl_mtrhistory(usemtrno, fk_scdno, fk_mtrno, mtrsubject, starttime, endtime)
+		values(#{usemtrno}, #{fk_scdno}, #{fk_mtrno}, #{mtrsubject}, to_date(#{regDate} || ' ' || #{starttime},'yyyy-mm-dd hh24:mi'), to_date(#{regDate} || ' ' || #{endtime},'yyyy-mm-dd hh24:mi'))
 	</insert>
+	
+	<!-- === 일정명 가져오기 === -->
+	<select id="getScdSubject" parameterType="String" resultType="String">
+		select scdsubject
+		from tbl_schedule
+		where scdno = #{scdno}
+	</select>
+	
+	<!-- === 회의실명 가져오기 === -->
+	<select id="getMtrName" parameterType="String" resultType="String">
+		select mtrname
+		from tbl_mtr
+		where mtrno = #{fk_mtrno}
+	</select>
 	
 	<!-- === 회의실 예약 내역 조회 === -->
 	<select id="getViewMtr" parameterType="String" resultType="com.spring.groupware.schedule.model.MtrHistoryVO">
@@ -81,7 +95,7 @@
 	<!-- === 회의실 예약취소(삭제) === -->
 	<delete id="delMtrReg" parameterType="String">
 		delete from tbl_mtrhistory
-		where usemtrno = #{usemtrno}
+		where usemtrno = to_number(#{usemtrno})
 	</delete>
 	
 	<!-- === 회의실 예약현황 보여주기(구글 차트) === -->

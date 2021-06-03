@@ -53,6 +53,12 @@
 		color: white;
 	}
 	
+	#btnScdReg:hover {
+		border: solid 2px #0099cc;
+		background: white;
+		color: #0099cc;
+	}
+	
 </style>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -113,17 +119,7 @@
 		    
 	});// end of $(document).ready(function(){}---------------------------------
 	
-	function goResvMtr() {
-		
-		var url = "<%=ctxPath%>/mtr_resv.opis";
-		window.open(url, "sendParentsVal","left=350px, top=100px, width=800px, height=650px");
-		
-		var sendfrm = document.sendParentsVal;
-		sendfrm.action = url;
-		sendfrm.method = "post";
-		sendfrm.target = "sendParentsVal";
-		sendfrm.submit();
-	}
+	
 	
 	
 </script>
@@ -155,10 +151,10 @@
 			<td id="title">일자</td>
 			<td id="contents">
 				<label for="scdstartdate" id="start">시작일</label>
-				<input type="text" id="from" name="scdstartdate" readonly/>
+				<input type="text" id="from" name="scdstartdate" readonly required/>
 				<span>&nbsp;~&nbsp;</span>
 				<label for="scdenddate" id="end">종료일</label>
-				<input type="text" id="to" name="scdenddate" readonly/>
+				<input type="text" id="to" name="scdenddate" readonly required/>
 			</td>
 		</tr>
 		<tr class="time schedule">
@@ -184,7 +180,6 @@
 			<td id="title">장소</td>
 			<td id="contents">
 				<input type="text" name="place"/>
-				<button type="button" onclick="goResvMtr()">예약하기</button>
 			</td>
 		</tr>
 		<tr class="attandance schedule">
@@ -197,7 +192,6 @@
 		</tr>
 	
 	</table>
-	
 
 	<div style="float:right;">
 		<button type="submit" id="btnScdReg" class="btn">등록</button>
@@ -206,9 +200,6 @@
 	
 </form>
 
-<form name="sendParentsVal">
-	<input type="hidden" id="parent" name="scdno" value="${requestScope.scdno}"/>
-</form>
 
 
 </div>

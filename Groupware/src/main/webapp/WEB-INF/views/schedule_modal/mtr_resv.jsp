@@ -13,15 +13,28 @@
 		margin: 25px;
 	}
 	
-	table, th, td {
-		border: 1px solid gray;
-		border-collapse: collapse;
-		padding: 10px;
+	#search {
+		border: none;
+		background: #666;
+		color:white;
+		vertical-align: bottom;
+		height:22px;
+		border-radius:1pt;
 	}
 	
-	#resv_tbl {
-		margin: 30px 100px;
-		width: 700px;
+	table {
+		float:right;
+	}
+	
+	td {
+		padding-bottom: 10px;
+	}
+	
+	#title {
+		font-weight: bolder;
+		font-size:12pt;
+		padding-right:15px;
+		text-align:right;
 	}
 	
 	#select_section {
@@ -32,13 +45,20 @@
 		margin: 30px 0;
 	}
 	
-	#mtrname {
-		text-align:center;
-		cursor:pointer;
+	.btn {
+		border:none;
+		font-size:12pt;
+		font-weight: bold;
+		border-radius:2pt;
+		width:80px;
+		height:40px;
+		box-shadow:2pt 2pt 2pt gray;
+		cursor: pointer;
 	}
 	
-	#mtrname:hover {
-		font-weight:bold;
+	.btnResv {
+		background: black;
+		color: white;
 	}
 	
 </style>
@@ -55,6 +75,8 @@
 	$(document).ready(function(){
 		
 		$("button#btnResv").click(function(){
+			
+			var url = "<"
 			
 			var frm = document.mtrRegFrm;
 			frm.method = "POST";
@@ -116,10 +138,16 @@
 	    chart.draw(dataTable, options);
 	  }
 	
+		function goCancel() {
+			window.close();	
+		}
+	
+		
+		
 </script>
 
 <div id="container">
-<h3>회의실 예약하기</h3>
+<h2>회의실 예약하기</h2>
 <hr>
 
 	<div>
@@ -128,47 +156,69 @@
 	</div>
 <form name="mtrRegFrm">
 	<div id="search_date" align="right" style="padding-bottom:10px">
-		<span>예약일자:</span>
+		<span style="font-size:12pt; font-weight:bold;">예약일자</span>&nbsp;&nbsp;
 		<input type="text" id="datepicker" name="regDate" size="10" autocomplete="off" readonly/>
-		<button type="button" onclick="" >조회</button>
+		<button type="button" id="search">조회</button>
 	</div>
 
 	<div id="example5.1" style="height: 300px;"></div>
 
-	<div id="select_section" align="right">
-		
-		<input type="hidden" id="child" name="fk_scdno" value="${requestScope.scdno}"/>
-		
-		<select name="fk_mtrno">
-			<option>회의실 선택</option>
-			<option value="1">회의실1</option>
-			<option value="2">회의실2</option>
-			<option value="3">회의실3</option>
-			<option value="4">회의실4</option>
-			<option value="5">회의실5</option>
-			<option value="6">회의실6</option>
-		</select>&nbsp;
-		<select id="time1" name="starttime">
-			<option>시작 시간</option>
-			<c:forEach var="i" begin="9" end="18">
-				<c:set var="startTm" value="${i>9?i:'0'}${i>9?'':i}"/>
-				<option value="${i>9?i:'0'}${i>9?'':i}:00" <c:if test="${data.startDispTm eq startTm}">selected</c:if>>${i>9?i:'0'}${i>9?'':i}:00</option>
-			</c:forEach>
-		</select>
-		<span>&nbsp;~&nbsp;</span>
-		<select id="time2" name="endtime">
-			<option>종료 시간</option>
-			<c:forEach var="i" begin="10" end="18">
-				<c:set var="endTm" value="${i>9?i:'0'}${i>9?'':i}"/>
-				<option value="${i>9?i:'0'}${i>9?'':i}:00" <c:if test="${data.endDispTm eq endTm}">selected</c:if>>${i>9?i:'0'}${i>9?'':i}:00</option>
-			</c:forEach>
-		</select>
-		
+	<div id="select_section" align="left">
+		<table>
+			<tr>
+				<td id="title">예약명</td>
+				<td>
+					<input type="hidden" id="child" name="fk_scdno" value="${requestScope.scdno}"/>
+					<c:if test="${requestScope.scdno eq null}">
+						<input type="text" name="mtrsubject" placeholder="예약명 입력" required/>
+					</c:if>
+					<c:if test="${requestScope.scdno ne null}">
+						<input type="text" name="mtrsubject" value="${requestScope.scdsubject}" />
+					</c:if>
+							
+				</td>
+			</tr>
+			<tr>
+				<td id="title">회의실명</td>
+				<td>
+					<select name="fk_mtrno">
+						<option>회의실 선택</option>
+						<option value="1">회의실1</option>
+						<option value="2">회의실2</option>
+						<option value="3">회의실3</option>
+						<option value="4">회의실4</option>
+						<option value="5">회의실5</option>
+						<option value="6">회의실6</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td id="title">예약 시간</td>
+				<td>
+					<select id="time1" name="starttime">
+						<option>시작 시간</option>
+						<c:forEach var="i" begin="9" end="18">
+							<c:set var="startTm" value="${i>9?i:'0'}${i>9?'':i}"/>
+							<option value="${i>9?i:'0'}${i>9?'':i}:00" <c:if test="${data.startDispTm eq startTm}">selected</c:if>>${i>9?i:'0'}${i>9?'':i}:00</option>
+						</c:forEach>
+					</select>	
+					<span>&nbsp;~&nbsp;</span>
+					<select id="time2" name="endtime">
+						<option>종료 시간</option>
+						<c:forEach var="i" begin="10" end="18">
+							<c:set var="endTm" value="${i>9?i:'0'}${i>9?'':i}"/>
+							<option value="${i>9?i:'0'}${i>9?'':i}:00" <c:if test="${data.endDispTm eq endTm}">selected</c:if>>${i>9?i:'0'}${i>9?'':i}:00</option>
+						</c:forEach>
+					</select>
+				</td>
+			</tr>
+		</table>
 	</div>
+	<div style="clear:both;"></div>
 	
 	<div id="btn_section" align="right">
-		<button type="button" id="btnResv">예약하기</button>
-		<button type="button">취소</button>
+		<button type="button" class="btn btnResv" id="btnResv">예약하기</button>&nbsp;
+		<button type="button" class="btn" onclick="goCancel()">취소</button>
 	</div>
 
 </form>

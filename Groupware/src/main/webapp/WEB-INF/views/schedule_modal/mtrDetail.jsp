@@ -6,6 +6,59 @@
 
 <style>
 
+	h2 {
+		margin-top:15px;
+		margin-left:10px;
+	}
+	
+	table {
+		margin-top:20px;
+		margin-left:280px;
+		margin-bottom:40px;
+		border: solid 1px #e6e6e6;
+	}
+	
+	table, tr, td {
+		border-collapse: collapse;
+	}
+	
+	#title {
+		padding: 10px 20px 10px 50px;
+		text-align: right;
+		font-weight: bold;
+	}
+	
+	#content {padding:0 50px 0 20px;}
+	
+	#icon {
+		text-align: center;
+	}
+	
+	#img {
+		width:150px;
+		height:150px;
+	}
+	
+	#btns {
+		text-align: center;
+	}
+	
+	.btn {
+		border:none;
+		height:40px;
+		border-radius:2pt;
+		box-shadow:2pt 2pt 2pt grey;
+		font-weight:bold;
+	}
+	
+	.del {
+		width: 100px;
+		background:black;
+		color:white;
+	}
+	
+	.close {width: 70px;}
+	
 </style>
 
 <script type="text/javascript">
@@ -16,50 +69,58 @@
 
 	function goDelReg() {
 		var bool = confirm("예약을 취소하시겠습니까?");
+		var frm = document.sendNum;
 		
 		if(bool) {
 			
+			frm.method = "POST";
+			frm.action = "<%=ctxPath%>/mtrCancel.opis";
+			frm.submit();
 		}
-		
-		
 	}// end of function goDelReg() {}--------------------
 	
 </script>
 
 <div>
 	<h2>회의실 예약 내역</h2>
+	<hr>
+	<br>
+	<div id="icon">
+		<img src="<%=ctxPath%>/resources/images/conversation.png" id="img"/>
+	</div>
+	<br>
 	
 	<c:if test="${not empty requestScope.mtrhvo}">
-		<form name="mtrResvFrm">	
 			<table>
 				<tr>
-					<td>${requestScope.schedulevo.scdsubject}</td>
+					<td id="title">예약명</td>
+					<td id="content">${requestScope.mtrhvo.mtrsubject}</td>
 				</tr>
 				<tr>
-					<td>${requestScope.mtrhvo.mtrname}</td>
+					<td id="title">회의실명</td>
+					<td id="content">${requestScope.mtrname}</td>
 				</tr>
 				<tr>
-					<td>
-					<input type="hidden" value="${requestScope.mtrhvo.usemtrno}"/>
-					${requestScope.mtrhvo.regDate}
-					</td>
+					<td id="title">예약일자</td>
+					<td id="content">${requestScope.mtrhvo.regDate}</td>
 				</tr>
 				<tr>
-					<td>${requestScope.mtrhvo.starttime}</td>
-				</tr>
-				<tr>
-					<td>${requestScope.mtrhvo.endtime}</td>
+					<td id="title">예약시간</td>
+					<td id="content">${requestScope.mtrhvo.starttime}&nbsp;부터&nbsp;${requestScope.mtrhvo.endtime}</td>
 				</tr>
 			</table>
-		</form>	
 	</c:if>
 
 	<c:if test="${empty requestScope.mtrhvo}">
 		<div>해당 예약 내역은 존재 하지 않습니다.</div>
 	</c:if>
 	
-	<div>
-		<button type="button" onclick="goDelReg()">예약취소하기</button>
-		<button type="button" onclick="javascript:closeWindow();">확인</button>
+	<form name="sendNum">
+		<input type="hidden" name="usemtrno" value="${requestScope.usemtrno}"/>
+	</form>
+	
+	<div id="btns">
+		<button type="button" class="btn del" onclick="goDelReg()">예약취소하기</button>&nbsp;
+		<button type="button" class="btn close" onclick="javascript:window.close();">닫기</button>
 	</div>
 </div>

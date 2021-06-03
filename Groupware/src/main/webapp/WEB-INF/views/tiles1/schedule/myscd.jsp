@@ -214,7 +214,7 @@
 		 
 		 function mtrResv() {
 			 var url = "<%=ctxPath%>/mtr_resv.opis";
-			 window.open(url, "mtrResv","left=350px, top=100px, width=1000px, height=550px");
+			 window.open(url, "mtrResv","left=350px, top=100px, width=900px, height=650px,");
 		 }
 		 
 </script>

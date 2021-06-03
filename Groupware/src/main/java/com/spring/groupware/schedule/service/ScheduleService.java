@@ -76,11 +76,18 @@ public class ScheduleService implements InterScheduleService{
 		return n;
 	}
 	
-	// 예약된 회의실 상세 내용 조회
+	// 일정명 가져오기
 	@Override
-	public MtrHistoryVO getViewMtr(String usemtrno) {
-		MtrHistoryVO mtrhvo = dao.getViewMtr(usemtrno);
-		return mtrhvo;
+	public String getScdSubject(String scdno) {
+		String scdsubject = dao.getScdSubject(scdno); 
+		return scdsubject;
+	}
+		
+	// 회의실 이름 가져오기
+	@Override
+	public String getMtrName(String fk_mtrno) {
+		String mtrname = dao.getMtrName(fk_mtrno);
+		return mtrname;
 	}
 	
 	// 회의실 예약취소(삭제)
@@ -89,6 +96,8 @@ public class ScheduleService implements InterScheduleService{
 		int n = dao.delMtrReg(usemtrno);
 		return n;
 	}
+	
+	
 	
 	/*
 	 * // 회의실 예약현황 보여주기(구글 차트)

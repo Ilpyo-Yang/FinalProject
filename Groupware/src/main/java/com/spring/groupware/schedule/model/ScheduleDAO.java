@@ -73,20 +73,26 @@ public class ScheduleDAO implements InterScheduleDAO {
 		int n = sqlsession.insert("schedule.resvMtrEnd", mtrhvo);
 		return n;
 	}
-
-	
-	// 예약된 회의실 상세 내용 조회
-	@Override
-	public MtrHistoryVO getViewMtr(String usemtrno) {
-		MtrHistoryVO mtrhvo = sqlsession.selectOne("schedule.getViewMtr", usemtrno);
-		return mtrhvo;
-	}
 	
 	// 회의실 예약취소(삭제)
 	@Override
 	public int delMtrReg(String usemtrno) {
 		int n = sqlsession.delete("schedule.delMtrReg", usemtrno);
 		return n;
+	}
+	
+	// 일정명 가져오기
+	@Override
+	public String getScdSubject(String scdno) {
+		String scdsubject = sqlsession.selectOne("schedule.getScdSubject",scdno);
+		return scdsubject;
+	}
+	
+	// 회의실명 가져오기
+	@Override
+	public String getMtrName(String fk_mtrno) {
+		String mtrname = sqlsession.selectOne("schedule.getMtrName", fk_mtrno);
+		return mtrname;
 	}
 	
 	/*

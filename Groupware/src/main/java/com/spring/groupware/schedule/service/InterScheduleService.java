@@ -34,11 +34,16 @@ public interface InterScheduleService {
 	// 회의실 예약하기
 	int resvMtrEnd(MtrHistoryVO mtrhvo);
 	
-	// 예약된 회의실 상세 내용 조회
-	MtrHistoryVO getViewMtr(String usemtrno);
+	// 일정명 가져오기
+	String getScdSubject(String scdno);
+		
+	// 회의실 이름 가져오기
+	String getMtrName(String fk_mtrno);
 	
 	// 회의실 예약취소(삭제)
 	int delMtrReg(String usemtrno);
+
+	
 	
 	/*
 	 * // 회의실 예약현황 보여주기(구글 차트) List<Map<String, String>> goRegMtr();
