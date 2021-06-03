@@ -34,4 +34,10 @@ public interface InterWorkmanageDAO {
 	// 담당자, 참조자 지정하기 위한 우선멤버 가져오기
 	List<MemberVO> memberSearchShow(Map<String, String> paraMap);
 
+	// 업무번호 채번해오기
+	String getWorkno();
+
+	// 업무에 해당하는 멤버 seq저장
+	int workAddMember(WorkMemberVO workmbr);
+
 }

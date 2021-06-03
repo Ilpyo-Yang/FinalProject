@@ -81,6 +81,20 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		List<MemberVO> memberList = sqlsession.selectList("workmanage.memberSearchShow", paraMap);
 		return memberList;
 	}
+
+	// 업무번호 채번해오기
+	@Override
+	public String getWorkno() {
+		String wmno = sqlsession.selectOne("workmanage.getWorkno");
+		return wmno;
+	}
+
+	// 업무에 해당하는 멤버 seq저장
+	@Override
+	public int workAddMember(WorkMemberVO workmbr) {
+		int n = sqlsession.insert("workmanage.workAddMember", workmbr);
+		return n;
+	}
 	
 	
 

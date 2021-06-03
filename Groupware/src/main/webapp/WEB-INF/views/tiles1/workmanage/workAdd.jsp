@@ -131,10 +131,10 @@ div#diplayList {
 		// 담당자
 		var workType = $("input[name=workType]:checked").val();
 		if (workType != 0) {
-			var manager = $("input[name=fk_receiver_seq]").val().trim();
+			var rcvlen = $("input.receiverName").length;
 			
-			if (manager == "") {
-				alert("담당자를 입력하세요");
+			if (rcvlen == 0) {
+				alert("담당자를 한명 이상 지정해주세요");
 				return;
 			}
 		}
@@ -164,16 +164,21 @@ div#diplayList {
 	// == 업무 정보 폼 전송하기 == //
 	function submitWorkRegFrm() {
 		// reciever의 name, seq 문자열로 보내기
-		var receiverNames = "";
-		var receiverSeqs = "";
+		var receiverNames = [];
+		var receiverSeqs = [];
 		
-		$("input.receiverName").each(function(item, index, array){
-			receiverNames += $(item).val() + ",";
-			receiverSeqs += $(item).val() + ",";
+		$("input.receiverName").each(function(index, item){
+			receiverNames.push($(item).val());
+		});
+		$("input.receiverSeq").each(function(index, item){
+			receiverSeqs.push($(item).val());
 		});
 		
-		$("input[name=receivers]").val(receiverNames);
-		$("input[name=receivers]").val(receiverSeqs);
+		$("input[name=receivers]").val(receiverNames.join());
+		$("input[name=receiverSeqs]").val(receiverSeqs.join());
+		
+		$("input[name=referrers]").val('');
+		$("input[name=referrerSeqs]").val();
 		
 		var frm = document.workRegFrm;
 		frm.action = "<%=ctxPath%>/workAddEnd.opis";
@@ -216,29 +221,22 @@ div#diplayList {
 					<td><span class="star">*</span>담당자</td>
 					<td>
 						<div>
-							<input type="hidden" name="receivers" /><input type="hidden" name="receiversSeq" />
-							
 							<input type="text" class="receiverName" value="김고양"/><input type="hidden" class="receiverSeq" value="65"/>
 							<input type="text" class="receiverName" value="김초코"/><input type="hidden" class="receiverSeq" value="51"/>
-							<input type="text" class="receiverName" value="김산타"/><input type="hidden" class="receiverSeq" value="68"/>
+							<input type="text" class="receiverName" value="김산타"/><input type="hidden" class="receiverSeq" value="68"/> 
+							
 						</div>
 						<input type="text" id="searchWord" name="searchWord" placeholder="사용자"  autocomplete="off" />
 						<div id="displayList"></div>
 					</td>
 				</tr>
 				
-				<!-- <tr>
-					<td><span class="star">*</span>담당자</td>
-					<td>
-						<div class="autocomplete" style="width:300px;">
-		    				<input id="myInput" type="text" name="Receiver" placeholder="사용자">
-		  				</div>
-  					</td>
-  				</tr> -->
-				
 				<tr class="onlyWorkInput">
 					<td>참조자</td>
-					<td><input name="fk_referrer_seq" placeholder="사용자" /></td>
+					<td>
+						
+						<input name="fk_referrer_seq" placeholder="사용자" />
+					</td>
 				</tr>
 			
 				<tr>
@@ -257,12 +255,11 @@ div#diplayList {
 				</tr>
 			</tbody>
 		</table>	
-		
-		<input type="hidden" name="workRole" value="1"/>
+		<input type="hidden" name="requester" value="김정수"/><input type="hidden" name="requesterSeq" value="5"/>
+		<input type="hidden" name="receivers" /><input type="hidden" name="receiverSeqs" />
+		<input type="hidden" name="referrers" /><input type="hidden" name="referrerSeqs" />
 		<input type="hidden" name="fk_wtno" />
 		<input type="hidden" name="fk_statno" />
-		<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}"/><!-- 나의 할 일 등록할 때 사용 -->
-		<input type="hidden" name="fk_requester_seq" value="${sessionScope.loginuser.mbr_seq}"/><!-- 업무 요청,보고할 때 사용 -->
 	</form>
 </div>
 

@@ -6,10 +6,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.workmanage.model.InterWorkmanageDAO;
 import com.spring.groupware.workmanage.model.TodoVO;
+import com.spring.groupware.workmanage.model.WorkMemberVO;
 import com.spring.groupware.workmanage.model.WorkVO;
 
 @Component
@@ -41,11 +45,23 @@ public class WorkmanageService implements InterWorkmanageService {
 	}
 
 	
-	// == 업무(요청,보고) 등록하기   == //
+	// == 업무(요청,보고) 등록하기 트랜잭션 처리  == //
 	@Override
-	public int workAddEnd(WorkVO workvo) {
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
+	public int workAddEnd(WorkVO workvo, List<WorkMemberVO> workmbrList) {
 		int n = dao.workAddEnd(workvo);
-		return n;
+		int m = 0;
+		
+		if (n == 1) {
+			for (WorkMemberVO workmbr: workmbrList) {
+				workmbr.setFk_wmno(workvo.getWmno());
+				m = dao.workAddMember(workmbr);
+				
+				if (m == 0) break;
+			}
+		}
+		
+		return n*m;
 	}
 
 	// == 업무 리스트(요청,보고) 보여주기 == // 
@@ -81,6 +97,12 @@ public class WorkmanageService implements InterWorkmanageService {
 	public List<MemberVO> memberSearchShow(Map<String, String> paraMap) {
 		List<MemberVO> memberList = dao.memberSearchShow(paraMap);
 		return memberList;
+	}
+
+	@Override
+	public String getWorkno() {
+		String wmno = dao.getWorkno();
+		return wmno;
 	}
 
 }

@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.workmanage.model.TodoVO;
+import com.spring.groupware.workmanage.model.WorkMemberVO;
 import com.spring.groupware.workmanage.model.WorkVO;
 import com.spring.groupware.workmanage.service.InterWorkmanageService;
 
@@ -153,19 +154,51 @@ public class WorkmanageController {
 		 * 	- 내용(contens) 등록할 때 inject처리, 개행문자 처리 => 추후 스마트 에디터 사용 예정
 		 * 	- 첨부파일(addfile) 등록처리
 		 */
+//		System.out.println("getRequester: " + workvo.getRequester()); // getRequester: 김정수
+//		System.out.println("getReceivers: " + workvo.getReceivers()); // receiverSeqs: 김고양,김초코,김산타
 		
-		System.out.println("receiverSeqs: " + workvo.getReceivers());
-		
-		// 업무테이블에 넣어줄 것
-		int n = service.workAddEnd(workvo);
-		
-		
-		
+		String wmno = service.getWorkno(); // 채번해오기 
+		workvo.setWmno(wmno);
+
 		// 업무관리자 테이블에 넣어줄 것
-		String fk_wrno = request.getParameter("workRole");
+		List<WorkMemberVO> workmbrList = new ArrayList<>();
+		String requesterSeq = request.getParameter("requesterSeq");
 		String receiverSeqs = request.getParameter("receiverSeqs");
+		String referrerSeqs = request.getParameter("referrerSeqs");
+		
+		// 요청자 정보 (requester) 
+		WorkMemberVO mbr = new WorkMemberVO();
+		mbr.setFk_wrno("1");
+		mbr.setFk_mbr_seq(requesterSeq);
+		workmbrList.add(mbr);
+		
+		// 수신자 정보 (receivers)
+		String[] mbrSeqList = receiverSeqs.split(",");
+		for (String mbrSeq: mbrSeqList) {
+			mbr = new WorkMemberVO();
+			mbr.setFk_wrno("2");
+			mbr.setFk_mbr_seq(mbrSeq);
+			System.out.println("rev mbrSeq : " + mbrSeq);
+			workmbrList.add(mbr);
+		}
+		
+		// 참조자 정보 (referrers)
+		if (!"".equals(referrerSeqs)) {
+			mbrSeqList = referrerSeqs.split(",");
+			for (String mbrSeq: mbrSeqList) {
+				mbr = new WorkMemberVO();
+				mbr.setFk_wrno("3");
+				mbr.setFk_mbr_seq(mbrSeq);
+				System.out.println("ref mbrSeq : " + mbrSeq);
+				workmbrList.add(mbr);
+			}
+		}
+	
+
+		int n = service.workAddEnd(workvo, workmbrList); // 업무테이블에 삽입
 		
 		if (n == 1) {
+			String fk_wrno = request.getParameter("fk_wrno");
 			mav.setViewName("redirect:/workList.opis?workType="+workvo.getFk_wtno()+"&workRole="+fk_wrno);
 		}
 		else {

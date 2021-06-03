@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.workmanage.model.TodoVO;
+import com.spring.groupware.workmanage.model.WorkMemberVO;
 import com.spring.groupware.workmanage.model.WorkVO;
 
 public interface InterWorkmanageService {
@@ -19,7 +20,7 @@ public interface InterWorkmanageService {
 	TodoVO showDetailTodo(Map<String, String> paraMap);
 	
 	// 업무(요청,보고) 등록하기   
-	int workAddEnd(WorkVO workvo);
+	int workAddEnd(WorkVO workvo, List<WorkMemberVO> workmbrList);
 
 	// 업무 리스트(요청,보고) 보여주기 
 	List<WorkVO> workList(Map<String, String> paraMap);
@@ -35,5 +36,9 @@ public interface InterWorkmanageService {
 
 	// 담당자, 참조자 지정하기 위한 우선멤버 가져오기
 	List<MemberVO> memberSearchShow(Map<String, String> paraMap);
+
+	// 업무 번호 채번해오기
+	String getWorkno();
+
 
 }
