@@ -59,7 +59,7 @@
 			</tr>
 			<tr>
 				<td>지시자</td>
-				<td colspan="3">${workvo.fk_requester_seq}</td>
+				<td colspan="3">${workvo.requester}</td>
 			</tr>
 			<tr>
 				<td>업무기한</td>
@@ -74,7 +74,7 @@
 			</tr>
 			<tr>
 				<td>수신자</td>
-				<td colspan="3">${workvo.fk_receiver_seq}</td>
+				<td colspan="3">${workvo.receivers}</td>
 			</tr>
 			<tr>
 				<td>참조자</td>

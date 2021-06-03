@@ -258,6 +258,7 @@ div#diplayList {
 		<input type="hidden" name="requester" value="김정수"/><input type="hidden" name="requesterSeq" value="5"/>
 		<input type="hidden" name="receivers" /><input type="hidden" name="receiverSeqs" />
 		<input type="hidden" name="referrers" /><input type="hidden" name="referrerSeqs" />
+		<input type="hidden" name="fk_wrno" value="1"/>
 		<input type="hidden" name="fk_wtno" />
 		<input type="hidden" name="fk_statno" />
 	</form>

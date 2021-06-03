@@ -178,7 +178,6 @@ public class WorkmanageController {
 			mbr = new WorkMemberVO();
 			mbr.setFk_wrno("2");
 			mbr.setFk_mbr_seq(mbrSeq);
-			System.out.println("rev mbrSeq : " + mbrSeq);
 			workmbrList.add(mbr);
 		}
 		
@@ -189,12 +188,10 @@ public class WorkmanageController {
 				mbr = new WorkMemberVO();
 				mbr.setFk_wrno("3");
 				mbr.setFk_mbr_seq(mbrSeq);
-				System.out.println("ref mbrSeq : " + mbrSeq);
 				workmbrList.add(mbr);
 			}
 		}
-	
-
+		
 		int n = service.workAddEnd(workvo, workmbrList); // 업무테이블에 삽입
 		
 		if (n == 1) {
@@ -229,9 +226,11 @@ public class WorkmanageController {
 		
 		Map<String,String> paraMap = new HashedMap<>();
 		
-		paraMap.put("userId", userId);
-		paraMap.put("workType", workType); 	// 업무요청:1, 업무보고:2
-		paraMap.put("workRole", workRole);	// 내가 발신자일때:1, 수신자일때:2, 참조자일때:3 
+		paraMap.put("fk_mbr_seq", userId);
+		paraMap.put("fk_wtno", workType); 	// 업무요청:1, 업무보고:2
+		paraMap.put("fk_wrno", workRole);	// 내가 발신자일때:1, 수신자일때:2, 참조자일때:3 
+		
+		List<WorkVO> workList = service.workList(paraMap);
 		
 		/*
 		 * // == 페이징 처리해서 글 가져오기 == // int totalCount = 0; // 총 업무 건수 int sizePerPage =
@@ -254,9 +253,12 @@ public class WorkmanageController {
 		 * service.workList(paraMap); } else { // 참조자일 때 - 테이블을 조인해서 값을 가져와야함 workList =
 		 * service.workListForRefer(paraMap); }
 		 * 
-		 * mav.addObject("workType", workType); mav.addObject("workRole", workRole);
-		 * mav.addObject("workList", workList);
+		 * 
+		 * 
 		 */
+		mav.addObject("workType", workType); 
+		mav.addObject("workRole", workRole);
+		mav.addObject("workList", workList);
 		
 		mav.setViewName("workmanage/workList.tiles1");
 		return mav;
@@ -287,23 +289,15 @@ public class WorkmanageController {
 	@RequestMapping(value="/showDetailWork.opis")
 	public ModelAndView requiredLogin_showDetailWork(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
-		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser"); 
-		
-		// 현재 로그인 되어있는 멤버의 seq를 통해 해당 멤버의 할일 리스트 가져온다.
-		String userId = String.valueOf(loginuser.getMbr_seq());
-		String workType = request.getParameter("workType");  
-		String workRole = request.getParameter("workRole");
 		String wmno = request.getParameter("wmno"); // 업무고유 번호 받아오기
 		
 		Map<String,String> paraMap = new HashedMap<>();
-		
-		paraMap.put("userId", userId);
-		paraMap.put("workType", workType); 	// 업무요청:1, 업무보고:2
-		paraMap.put("workRole", workRole);	// 내가 발신자일때:1, 수신자일때:2, 참조자일때:3 
 		paraMap.put("wmno", wmno);
 		
 		WorkVO workvo = service.showDetailWork(paraMap);
+		
+		String workType = request.getParameter("workType");  
+		String workRole = request.getParameter("workRole");
 		
 		mav.addObject("workType", workType);
 		mav.addObject("workRole", workRole); 
