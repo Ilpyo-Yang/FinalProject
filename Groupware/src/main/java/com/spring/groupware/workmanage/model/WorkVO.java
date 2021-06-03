@@ -50,22 +50,6 @@ public class WorkVO {
 		this.fk_wtno = fk_wtno;
 	}
 
-	public String getrequester() {
-		return requester;
-	}
-
-	public void setrequester(String requester) {
-		this.requester = requester;
-	}
-
-	public String getreceivers() {
-		return receivers;
-	}
-
-	public void setreceivers(String receivers) {
-		this.receivers = receivers;
-	}
-	
 	
 	public String getRequester() {
 		return requester;

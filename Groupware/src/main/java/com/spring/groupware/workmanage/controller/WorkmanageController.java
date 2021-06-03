@@ -63,7 +63,7 @@ public class WorkmanageController {
 		if (memberList != null) {
 			for (MemberVO member : memberList) {
 				JSONObject jsonObj = new JSONObject(); // {}
-//				jsonObj.put("mbrseq", member.getMbr_seq());
+//				jsonObj.put("seq", member.getMbr_seq());
 				jsonObj.put("word", member.getMbr_name());
 
 				jsonArr.put(jsonObj);
@@ -153,6 +153,9 @@ public class WorkmanageController {
 		 * 	- 내용(contens) 등록할 때 inject처리, 개행문자 처리 => 추후 스마트 에디터 사용 예정
 		 * 	- 첨부파일(addfile) 등록처리
 		 */
+		
+		System.out.println("receiverSeqs: " + workvo.getReceivers());
+		
 		// 업무테이블에 넣어줄 것
 		int n = service.workAddEnd(workvo);
 		
