@@ -40,5 +40,8 @@ public interface InterWorkmanageService {
 	// 업무 번호 채번해오기
 	String getWorkno();
 
+	// 담당자들의 업무 정보 가져오기
+	List<WorkMemberVO> getWorkStatusEachMember(String wmno);
+
 
 }

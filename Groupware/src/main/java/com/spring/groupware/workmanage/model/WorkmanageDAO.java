@@ -95,6 +95,20 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		int n = sqlsession.insert("workmanage.workAddMember", workmbr);
 		return n;
 	}
+
+	// 마감일자지난 업무상태 변경
+	@Override
+	public int updateWorkStatusByTime(Map<String, String> paraMap) {
+		int n = sqlsession.update("workmanage.updateWorkStatusByTime", paraMap);
+		return n;
+	}
+
+	// 담당자들의 업무 정보 가져오기
+	@Override
+	public List<WorkMemberVO> getWorkStatusEachMember(String wmno) {
+		List<WorkMemberVO> workmbrList = sqlsession.selectList("workmanage.getWorkStatusEachMember", wmno);
+		return workmbrList;
+	}
 	
 	
 

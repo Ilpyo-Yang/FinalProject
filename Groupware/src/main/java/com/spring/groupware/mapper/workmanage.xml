@@ -57,6 +57,7 @@
 		select wmno, fk_wtno, requester, receivers, subject, fk_statno, checkstatus
 		    , to_char(registerday, 'yyyy-mm-dd') as registerday
 		    , to_char(deadline, 'yyyy-mm-dd') as deadline
+		    , to_date(to_char(sysdate, 'yyyy-mm-dd')) - to_date(to_char(deadline, 'yyyy-mm-dd')) as delayday
 		from tbl_workmanage
 		where fk_wtno = #{fk_wtno}
 		and wmno in(
@@ -92,5 +93,26 @@
 	</select>
 	
 	
+	<!-- 마감일자지난 업무상태 변경 -->
+	<update id="updateWorkStatusByTime" parameterType="HashMap">
+		update tbl_workmanage set fk_statno = 0
+		where fk_wtno = #{fk_wtno}
+		and wmno in(
+		    select fk_wmno
+		    from tbl_workmanage_mbr
+		    where fk_wrno = #{fk_wrno} and fk_mbr_seq = #{fk_mbr_seq}
+		)	
+		and to_date(to_char(deadline, 'yyyy-mm-dd')) &lt; to_date(to_char(sysdate, 'yyyy-mm-dd'))
+	</update>
+
+	<!-- 담당자들의 업무 정보 가져오기  -->	
+	<select id="getWorkStatusEachMember" parameterType="String" resultType="com.spring.groupware.workmanage.model.WorkMemberVO">
+		select fk_wmno, fk_mbr_seq, mbr_name, mbr_workpercent
+		    , mbr_workPercent, to_char(lasteditdate, 'yyyy-mm-dd') as lasteditdate
+    		, mbr_readCheck, to_char(readcheckdate, 'yyyy-mm-dd') as readcheckdate
+		from tbl_workmanage_mbr left join tbl_mbr
+		on fk_mbr_seq = mbr_seq
+		where fk_wmno = #{wmno} and fk_wrno = 2
+	</select>
 	
 </mapper>

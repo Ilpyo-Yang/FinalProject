@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -20,9 +21,53 @@ button {
 	
 </style>
 
+<script type="text/javascript">
+	$(document).ready(function() {
+		
+		$("button.workStatus").each(function(index, item){
+			var statno = $(item).val();
+			// console.log("statno : " + statno);
+			
+			if (statno == "0") {
+				var delayday = ${requestScope.paraMap.delayday};
+				$(item).css({"background-color":"#ff3300"});
+				$(item).text('지연+'+delayday);
+			}
+			else if (statno == "1") {
+				$(item).css({"background-color":"#66ccff"});
+				$(item).text('미완료');
+			}
+			else  {
+				$(item).css({"background-color":"white", "border":"1px solid black", "color":"black"});
+				$(item).text('완료');
+			}
+		});
+		
+		$("button.workStatusMbr").each(function(index, item){
+			var percent = $(item).val();
+			// console.log(percent);
+			
+			if (percent == 0) {
+				$(item).css({"background-color":"#66ccff"});
+				$(item).text('검토중');
+			}
+			else if (percent == 100) {
+				$(item).css({"background-color":"white", "border":"1px solid black", "color":"black"});
+				$(item).text('완료');
+			}
+			else {
+				$(item).css({"background-color":"#ff3300"});
+				$(item).text('처리중 '+percent+'%');
+			}
+		});
+	});
+	
+</script>
+
 <div class="container">
+	
 	<ul style="list-style: none; padding: 0;">
-		<li>■ 업무상태 : <button type="button" class="workStatus" style="background-color: #ff3300; ">지연<span>+2</span></button></li>
+		<li>■ 업무상태 : <button type="button" class="workStatus" value="${requestScope.paraMap.fk_statno}"></button></li>
 		<li>■ 담당자 별 처리 현황</li>
 	</ul>    
 	
@@ -35,16 +80,13 @@ button {
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>${requestScope.paraMap.receiver}</td>
-				<td></td>
-				<td><button type="button" class="workStatus" style="background-color: white; border: 1px solid; color: black;">완료</button></td>
-			</tr>
-			<tr>
-				<td>이용우 사장</td>
-				<td>2020.01.11</td>
-				<td><button type="button" class="workStatus" style="background-color: #ff3300; border: 1px solid ">처리중 40%</button></td>
-			</tr>
+			<c:forEach var="workmbr" items="${requestScope.workmbrList}">
+				<tr>
+					<td>${workmbr.mbr_name}</td>
+					<td>${workmbr.lasteditdate}</td>
+					<td><button type="button" class="workStatusMbr" value="${workmbr.mbr_workPercent}"></button></td>
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
 </div>

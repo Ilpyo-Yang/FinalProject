@@ -40,4 +40,10 @@ public interface InterWorkmanageDAO {
 	// 업무에 해당하는 멤버 seq저장
 	int workAddMember(WorkMemberVO workmbr);
 
+	// 마감일자지난 업무상태 변경
+	int updateWorkStatusByTime(Map<String, String> paraMap);
+
+	// 담당자들의 업무 정보 가져오기
+	List<WorkMemberVO> getWorkStatusEachMember(String wmno);
+
 }

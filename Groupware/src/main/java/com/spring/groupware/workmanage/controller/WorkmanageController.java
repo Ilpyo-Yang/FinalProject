@@ -271,7 +271,17 @@ public class WorkmanageController {
 		
 		Map<String, String> paraMap = new HashedMap<>();
 		
-		paraMap.put("receiver", (String) request.getAttribute("receiver"));
+		String fk_statno = request.getParameter("fk_statno");
+		String delayday = request.getParameter("delayday");
+		String wmno = request.getParameter("wmno");
+			
+		paraMap.put("wmno", wmno);
+		paraMap.put("fk_statno", fk_statno);
+		paraMap.put("delayday", delayday);
+		
+		List<WorkMemberVO> workmbrList = service.getWorkStatusEachMember(wmno);
+		
+		mav.addObject("workmbrList", workmbrList);
 		mav.addObject("paraMap", paraMap);
 		mav.setViewName("workmanage/workStatus_modal");
 		return mav;

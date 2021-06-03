@@ -73,15 +73,18 @@ button.readCheck {
 		
 		$(document).on("click", ".workStatus", function () {
 		     var subject = $(this).data('subject');
-		     var receiver = $(this).data('receiver');
+		     var wmno = $(this).data('wmno');
+		     var fk_statno = $(this).data('stat');
+		     var delayday = $(this).data('delay');
 		     
 		     $("h4#workStatus-title").text( subject );
-		     $("#workStatusModal").find("iframe").attr("src", "workStatusModal.opis?receiver="+receiver);
+		     $("#workStatusModal").find("iframe").attr("src", "workStatusModal.opis?wmno="+wmno+"&fk_statno="+fk_statno+"&delayday="+delayday);
 		     
 		     // As pointed out in comments, 
 		     // it is unnecessary to have to manually call the modal.
 		     // $('#workStatusModal').modal('show');
 		});
+		
 		
 	});
 	
@@ -186,29 +189,29 @@ button.readCheck {
 						<%-- 업무요청 상태 종류 --%>
 						<c:when test="${work.fk_statno == 0}">
 							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: #ff3300;" 
-										data-subject="${work.subject}" data-receiver="${work.receivers}" data-stat="${work.fk_statno == 0}">지연<span>+2</span></button></td>		
+										data-subject="${work.subject}" data-wmno="${work.wmno}" data-stat="0" data-delay="${work.delayday}">지연+${work.delayday}</button></td>		
 						</c:when>
 						<c:when test="${work.fk_statno == 1}">
 							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: #66ccff;"
-										data-subject="${work.subject}" data-receiver="${work.receivers}" data-stat="${work.fk_statno == 1}">미완료</button></td>
+										data-subject="${work.subject}" data-wmno="${work.wmno}" data-stat="1">미완료</button></td>
 						</c:when>
 						<c:when test="${work.fk_statno == 2}">
 							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: white; border: 1px solid black; color: black;"
-										data-subject="${work.subject}" data-receiver="${work.receivers}" data-stat="${work.fk_statno == 2}">완료</button></td>
+										data-subject="${work.subject}" data-wmno="${work.wmno}" data-stat="2">완료</button></td>
 						</c:when>
 						
 						<%-- 업무보고 상태 종류 --%>
 						<c:when test="${work.fk_statno == 3}">
 							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: #66ccff;" 
-										data-subject="${work.subject}" data-receiver="${work.receivers}" data-stat="${work.fk_statno == 3}">미확인</button></td>		
+										data-subject="${work.subject}" data-wmno="${work.wmno}"data-stat="3">미확인</button></td>		
 						</c:when>
 						<c:when test="${work.fk_statno == 4}">
 							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: white; border: 1px solid black; color: black;"
-										data-subject="${work.subject}" data-receiver="${work.receivers}" data-stat="${work.fk_statno == 4}">승인완료</button></td>
+										data-subject="${work.subject}" data-wmno="${work.wmno}" data-stat="4">승인완료</button></td>
 						</c:when>
 						<c:when test="${work.fk_statno == 5}">
 							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: #ffcc00"
-										data-subject="${work.subject}" data-receiver="${work.receivers}" data-stat="${work.fk_statno == 5}">반려</button></td>
+										data-subject="${work.subject}" data-wmno="${work.wmno}" data-stat="5">반려</button></td>
 						</c:when>
 					</c:choose>
 					

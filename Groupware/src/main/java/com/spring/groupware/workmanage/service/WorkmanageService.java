@@ -67,6 +67,8 @@ public class WorkmanageService implements InterWorkmanageService {
 	// == 업무 리스트(요청,보고) 보여주기 == // 
 	@Override
 	public List<WorkVO> workList(Map<String, String> paraMap) {
+		dao.updateWorkStatusByTime(paraMap); // 마감 지난 업무상태 변경하기
+		
 		List<WorkVO> workList = dao.workList(paraMap);
 		return workList;
 	}
@@ -99,10 +101,18 @@ public class WorkmanageService implements InterWorkmanageService {
 		return memberList;
 	}
 
+	// 채번 해오기
 	@Override
 	public String getWorkno() {
 		String wmno = dao.getWorkno();
 		return wmno;
+	}
+
+	// 담당자들의 업무 정보 가져오기
+	@Override
+	public List<WorkMemberVO> getWorkStatusEachMember(String wmno) {
+		List<WorkMemberVO> workmbrList = dao.getWorkStatusEachMember(wmno);
+		return workmbrList;
 	}
 
 }
