@@ -1,34 +1,43 @@
 package com.spring.groupware.common;
 
+import java.text.SimpleDateFormat;
+
 import javax.servlet.http.HttpServletRequest;
 
 public class MyUtil {
 
 	public static String getCurrentURL(HttpServletRequest request) {
 
-		String currentURL = request.getRequestURL().toString(); // URL °¡Á®¿À±â (query Á¦¿Ü)
-		String queryString = request.getQueryString(); // GET ¹æ½ÄÀÏ ¶§ "?" µÞºÎºÐ ³»¿ë, POST ÀÏ ¶§ null
+		String currentURL = request.getRequestURL().toString(); // URL ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (query ï¿½ï¿½ï¿½ï¿½)
+		String queryString = request.getQueryString(); // GET ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ "?" ï¿½ÞºÎºï¿½ ï¿½ï¿½ï¿½ï¿½, POST ï¿½ï¿½ ï¿½ï¿½ null
 
-		if (queryString != null) { // GET ¹æ½ÄÀÏ ¶§ URL¿¡ query³»¿ë ºÙÀÌ±â
+		if (queryString != null) { // GET ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ URLï¿½ï¿½ queryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì±ï¿½
 			currentURL += "?" + queryString;
 		}
 
 		String ctxPath = request.getContextPath(); // /Groupware
 		int beginIndex = currentURL.indexOf(ctxPath) + ctxPath.length();
-		// currentURL¿¡¼­ ctxPathÀÇ ÀÎµ¦½º + ÇØ´ç ±æÀÌ ¸¸Å­
+		// currentURLï¿½ï¿½ï¿½ï¿½ ctxPathï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ + ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å­
 
 		currentURL = currentURL.substring(beginIndex + 1);
-		// "http://localhost:9090" À» Á¦¿ÜÇÑ /Groupware ºÎÅÍÀÇ ¹®ÀÚ¿­
+		// "http://localhost:9090" ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ /Groupware ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½
 
 		return currentURL;
 	}
 
-	// **** Å©·Î½º »çÀÌÆ® ½ºÅ©¸³Æ® °ø°Ý¿¡ ´ëÀÀÇÏ´Â ¾ÈÀüÇÑ ÄÚµå(½ÃÅ¥¾î ÄÚµå) ÀÛ¼ºÇÏ±â **** //
+	// **** Å©ï¿½Î½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½Å©ï¿½ï¿½Æ® ï¿½ï¿½ï¿½Ý¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½(ï¿½ï¿½Å¥ï¿½ï¿½ ï¿½Úµï¿½) ï¿½Û¼ï¿½ï¿½Ï±ï¿½ **** //
 	public static String secureCode(String str) {
 
 		str = str.replaceAll("<", "&lt;");
 		str = str.replaceAll(">", "&gt;");
 
 		return str;
+	}
+	
+	// ì˜¤ëŠ˜ ë‚ ì§œ êµ¬í•˜ê¸°
+	public static String getToday(){
+		SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd");				
+		String today = format.format (System.currentTimeMillis());
+		return today;
 	}
 }
