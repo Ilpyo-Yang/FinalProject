@@ -23,6 +23,7 @@
  .long {width: 470px;}
  .short {width: 120px;}
 
+
 </style>
 
 <jsp:include page="./board_sidebar.jsp" />
@@ -32,7 +33,7 @@
       $("button#btnWrite").click(function(){
          
           // 글제목 유효성 검사
-         var subjectVal = $("input#ctitle").val().trim();
+         var subjectVal = $("input#title").val().trim();
          if(subjectVal == "") {
             alert("제목을 입력하세요!!");
             return;
@@ -40,7 +41,7 @@
          
          // 글내용 유효성 검사(스마트에디터 사용 안 할시)
         
-         var contentVal = $("textarea#ccontent").val().trim();
+         var contentVal = $("textarea#content").val().trim();
          if(contentVal == "") {
             alert("내용을 입력하세요!!");
             return;
@@ -82,62 +83,48 @@
 	<!-- insert할 게시판 선택 -->
  	<div id="selectBoard">
  		<c:choose>
- 		<%-- 로그인한 유저가 관리자면 세 게시판에 작성 가능 --%>
-	 	    <c:when test="${sessionScope.loginuser.fk_power_no == 1}">
-			   	<select name="boardType" id="boardType" style="height: 26px; width: 30px;">
-			   		<option value="default">&nbsp;게시판을 선택해주세요 &nbsp;</option>
+	 	<%-- 로그인한 유저가 관리자가 아니면 부서공지 게시판에만 작성 가능 --%>
+	 	    <c:when test="${sessionScope.loginuser.power_detail eq '사원'}">
+			   	<select name="boardType" id="boardType" style="height: 26px;">
+			   		<option value="default" selected="selected">&nbsp;게시판을 선택해주세요 &nbsp;</option>
+			  		<option value="dnotice">부서 공지사항</option>
+				</select>			   	
+			</c:when>
+		<%-- 로그인한 유저가 관리자면 세 게시판에 작성 가능 --%>
+			<c:otherwise>
+				<select name="boardType" id="boardType" style="height: 26px;">
+			   		<option value="default" selected="selected">&nbsp;게시판을 선택해주세요 &nbsp;</option>
 			  		<option value="cnotice">전체 공지사항</option>
 			  		<option value="dnotice">부서 공지사항</option>
 			  		<option value="formboard">공통서식</option>
-				</select>
-			</c:when>
-		<%-- 로그인한 유저가 관리자가 아니면 부서공지 게시판에만 작성 가능 --%>
-			<c:otherwise>
-				<select name="boardType" id="boardType"   style="height: 26px;">
-			   		<option value="default">&nbsp;게시판을 선택해주세요 &nbsp;</option>
-			  		<option value="dnotice">부서 공지사항</option>
 				</select>
 			</c:otherwise>
 		</c:choose>
 	</div>
  	
- 	<form name="addFrm" id="addFrm" enctype="multipart/form-data" > 
+ 	<form name="addFrm" id="addFrm"> 
  			
       <table id="table">      
-      <c:choose>
-      <%-- 관리자면 작성자 입력 없이 값만 넘김 --%>
- 	    <c:when test="${sessionScope.loginuser.fk_power_no == 1}">
-	 	    <tr>
-	            <td>
-	                <input type="hidden" name="fk_userid" value="${sessionScope.loginuser.mbr_id}" />
-	            </td>
-	         </tr>
-         </c:when>
-      <%-- 관리자가 아닌 경우에는 아이디 표시 --%>   
-         <c:otherwise>
          <tr>
          	<th>작성자</th>
             <td>
-                <input type="text" name="name" value="${sessionScope.loginuser.mbr_id}" class="short" readonly />       
+            	<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}">
+                <input type="hidden" name="fk_dept_detail" value="${sessionScope.loginuser.dept_detail}">
+                <input type="text" name="fk_mbr_id" value="${sessionScope.loginuser.mbr_id}" class="short" readonly />       
             </td>
          </tr>		
-		</c:otherwise>  
-	</c:choose> 
-	
+
          <tr>
             <th>제목</th>
             <td>
-               <input type="text" name="ctitle" id="ctitle" class="long" />       
+               <input type="text" name="title" id="title" class="long" />       
             </td>
          </tr>
-<!--          <tr>
-         	<th scope="row">첨부파일</th>
-            <td><input type="file" id="files[0]" name="files[0]" value=""></td>
-         </tr>	 -->
+
          <tr>
             <th>내용</th>
             <td>
-               <textarea rows="10" cols="100" style="width: 95%; height: 450px;" name="ccontent" id="ccontent"></textarea>       
+               <textarea rows="10" cols="100" style="width: 95%; height: 450px;" name="content" id="content"></textarea>       
             </td>
          </tr>    
       </table>

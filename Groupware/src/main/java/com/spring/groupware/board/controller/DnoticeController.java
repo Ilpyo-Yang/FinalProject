@@ -31,9 +31,15 @@ public class DnoticeController {
       
       // === 게시판 글쓰기 폼 페이지 요청 === //
       @RequestMapping(value="/dnotice_addEnd.opis", method= {RequestMethod.POST})
-      public ModelAndView addEnd(ModelAndView mav, DnoticeVO dnoticevo) {
+      public ModelAndView addEnd(HttpServletRequest request, ModelAndView mav, DnoticeVO dnoticevo) {
     	  
-
+    	  String dtitle = request.getParameter("title");
+    	  String dcontent = request.getParameter("content");
+    	  
+    	  dnoticevo.setDtitle(dtitle);
+    	  dnoticevo.setDcontent(dcontent);
+    	  
+    	  
     	  int n = service.add(dnoticevo); // <== 파일첨부가 없는 글쓰기
     	  
     	  if(n==1) {

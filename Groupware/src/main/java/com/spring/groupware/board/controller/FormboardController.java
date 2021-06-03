@@ -33,9 +33,14 @@ public class FormboardController {
 	      
 	      // === 게시판 글쓰기 폼 페이지 요청 === //
 	      @RequestMapping(value="/formboard_addEnd.opis", method= {RequestMethod.POST})
-	      public ModelAndView addEnd(ModelAndView mav, FormboardVO formboardvo) {
+	      public ModelAndView addEnd(HttpServletRequest request, ModelAndView mav, FormboardVO formboardvo) {
 	    	  
-
+	    	  String ftitle = request.getParameter("title");
+	    	  String fcontent = request.getParameter("content");
+	    	  
+	    	  formboardvo.setFtitle(ftitle);
+	    	  formboardvo.setFcontent(fcontent);
+	    	  
 	    	  int n = service.add(formboardvo); // <== 파일첨부가 없는 글쓰기
 	    	  
 	    	  if(n==1) {

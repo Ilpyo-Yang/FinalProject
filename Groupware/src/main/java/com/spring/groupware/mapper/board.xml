@@ -11,7 +11,7 @@
    <!-- === 글쓰기 === -->
    <insert id="comAdd" parameterType="com.spring.groupware.board.model.CnoticeVO">
    		insert into tbl_comnotice(cnotice_seq, fk_boardno, fk_mbr_seq, ctitle, ccontent, cwritedate, chit)
-   		values(cnotice_seq.nextval, 1, #{name}, #{fk_mbr_seq}, #{ctitle}, #{ccontent}, default, default)
+   		values(cnotice_seq.nextval, 1, #{fk_mbr_seq}, #{ctitle}, #{ccontent}, default, default)
    </insert>
    
    	<!-- === 전체 글목록 보여주기 == -->
@@ -104,13 +104,13 @@
 
    <!-- === 글쓰기 === -->
    <insert id="deptAdd" parameterType="com.spring.groupware.board.model.DnoticeVO">
-   		insert into tbl_deptnotice(dnotice_seq, fk_boardno, fk_mbr_id, fk_dept_no, dtitle, dcontent, dwritedate, dhit)
-   		values(dnotice_seq.nextval, 2, #{name}, #{fk_mbr_id}, #{fk_dept_no}, #{dtitle}, #{dcontent}, default, default)
+   		insert into tbl_deptnotice(dnotice_seq, fk_boardno, fk_mbr_id, fk_dept_detail, dtitle, dcontent, dwritedate, dhit)
+   		values(dnotice_seq.nextval, 2, #{fk_mbr_id}, #{fk_dept_detail}, #{dtitle}, #{dcontent}, default, default)
    </insert>
    
    	<!-- === 전체 글목록 보여주기 == -->
    	<select id="deptListNoSearch" resultType="com.spring.groupware.board.model.DnoticeVO">
-	   	select dnotice_seq, fk_mbr_id, fk_dept_no, dept_detail, dtitle, dcontent, to_char(dwritedate, 'yyyy-mm-dd hh24:mi:ss') as dwritedate, dhit
+	   	select dnotice_seq, fk_mbr_id, dept_detail, dtitle, dcontent, to_char(dwritedate, 'yyyy-mm-dd hh24:mi:ss') as dwritedate, dhit
 		from tbl_deptnotice N JOIN tbl_dept D
 		on N.fk_dept_no = d.dept_no
 		order by dnotice_seq desc
@@ -125,14 +125,14 @@
    	<!--  == 글 1개 보여주기  ==  -->
    	<select id="getDeptView" parameterType="String" resultType="com.spring.groupware.board.model.DnoticeVO">
 	   	select previousseq, previoustitle    
-	     , dnotice_seq, fk_mbr_id, fk_dept_no, dtitle, dcontent, dwritedate, dhit
+	     , dnotice_seq, fk_mbr_id, fk_dept_detail, dtitle, dcontent, dwritedate, dhit
 	     , nextseq, nexttitle
 		from
 		(
 		    select lag(dnotice_seq,1) over (order by dnotice_seq desc) as nextseq
 		         , lag(dtitle,1) over (order by dnotice_seq desc) as nexttitle
 		         
-		         , dnotice_seq, fk_mbr_id, fk_dept_no, dtitle, dcontent
+		         , dnotice_seq, fk_mbr_id, fk_dept_detail, dtitle, dcontent
 		         , to_char(dwritedate, 'yyyy-mm-dd hh24:mi:ss') as dwritedate, dhit
 		         
 		         , lead(dnotice_seq,1) over (order by dnotice_seq desc) as previousseq
@@ -196,7 +196,7 @@
    <!-- === 글쓰기 === -->
    <insert id="formAdd" parameterType="com.spring.groupware.board.model.FormboardVO">
    		insert into tbl_formboard(form_seq, fk_boardno, fk_mbr_seq, ftitle, fcontent, fwritedate, fhit)
-   		values(form_seq.nextval, 3, #{fk_mbr_seq}, #{ftitle}, #{fcontent}, default, default)
+   		values(form_seq.nextval, 3, #{fk_mbr_seq}, #{title}, #{content}, default, default)
    </insert>
    
    <!-- === 파일 첨부하기 === 

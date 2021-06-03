@@ -31,8 +31,8 @@ public class CnoticeController {
       
       // === 게시판 글쓰기 폼 페이지 요청 === //
       @RequestMapping(value="/add.opis")
-//      public ModelAndView requiredLogin_add(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-      public ModelAndView add(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+      public ModelAndView requiredLogin_add(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+//      public ModelAndView add(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
     	  
     	  mav.setViewName("board/add.tiles1");
     	  
@@ -42,9 +42,14 @@ public class CnoticeController {
       
       // === 게시판 글쓰기 폼 페이지 요청 === //
       @RequestMapping(value="/cnotice_addEnd.opis", method= {RequestMethod.POST})
-      public ModelAndView addEnd(ModelAndView mav, CnoticeVO cnoticevo) {
+      public ModelAndView addEnd(HttpServletRequest request, ModelAndView mav, CnoticeVO cnoticevo) {
     	  
-
+    	  String ctitle = request.getParameter("title");
+    	  String ccontent = request.getParameter("content");
+    	  
+    	  cnoticevo.setCtitle(ctitle);
+    	  cnoticevo.setCcontent(ccontent);
+    	  
     	  int n = service.add(cnoticevo); // <== 파일첨부가 없는 글쓰기
     	  
     	  if(n==1) {
