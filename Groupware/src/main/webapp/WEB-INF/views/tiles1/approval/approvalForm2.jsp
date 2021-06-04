@@ -5,6 +5,8 @@
 <% String ctxPath = request.getContextPath(); %>
 
 <jsp:include page="./approval_sidebar.jsp" />  
+<jsp:include page="./selectMemberModal.jsp" />  
+
 
 <script type="text/javascript">
 	$(document).ready(function(){
