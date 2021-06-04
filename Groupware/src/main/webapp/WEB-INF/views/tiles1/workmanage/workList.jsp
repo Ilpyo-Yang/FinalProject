@@ -107,13 +107,14 @@ button.readCheck {
 		location.href="<%=request.getContextPath()%>/showDetailWork.opis?workType="+${workType}+"&workRole="+${workRole}+"&wmno="+wmno;
 	}
 	
+	// 업무 삭제하기 
 	function goWorkDel() {
 		var delcheck = confirm("삭제하시겠습니까?");
 		if (!delcheck) {
 			return; // 삭제하지 않으면 함수 종료
 		}
 		
-		var wmnoArr = [];
+		var wmnoArr = []; // 체크박스에 선택된 업무 리스트 담기
 		$("input.workCheckBox").each(function(index, item){
 			if ($(item).prop("checked") == true) {
 				var wmno = $(item).val();
@@ -123,11 +124,47 @@ button.readCheck {
 		var wmnoStr = wmnoArr.join();
 		$("input[name=wmnoStr]").val(wmnoStr);
 		
-		
+		// 삭제할 업무 리스트 전송하기 (POST 방식)
 		var frm = document.delFrm;
 		frm.method = "post";
 		frm.action = "<%=ctxPath%>/workDel.opis";
 		frm.submit();
+	}
+	
+	
+	// 전체선택 체크 박스를 클릭했을 때 
+	function clickAllCheckbox() {
+		// input#allCheckbox ==> 전체선택 체크박스  id="allCheckbox"
+		// input.oneCheckbox ==> 하위선택 체크박스  class="oneCheckbox"
+		
+		var stat = $("input#allCheckbox").prop("checked");
+		
+		$("input.oneCheckbox").each(function(index, item){
+			$(item).prop("checked", stat);
+		});
+	}
+	
+	// 하위 체크박스를 클릭했을 때
+	function clickOneCheckbox(target) {
+		// onclick="clickOneCheckbox(this)";
+		
+		var stat = $(target).prop("checked");
+		
+		if (!stat) { // 체크가 풀린 경우라면
+			$("input#allCheckbox").prop("checked", false);
+		}
+		else {
+			var check;
+			$("input.oneCheckbox").each(function(index, item){
+				check = $(item).prop("checked");
+				if (check == false) {
+					return false;
+				}
+			});
+			if (check) {
+				$("input#allCheckbox").prop("checked", true);	
+			}
+		}
 	}
 	
 </script>
@@ -193,7 +230,7 @@ button.readCheck {
 	<table class="table table-striped tdtable">
 		<thead>
 			<tr>
-				<th><input type="checkbox" /></th>
+				<th><input type="checkbox" id="allCheckbox" onclick="clickAllCheckbox();" /></th>
 				<th>번호</th>
 				<th>제목</th>
 				<c:if test="${workRole == 1}">
@@ -214,7 +251,7 @@ button.readCheck {
 			
 			<c:forEach var="work" items="${requestScope.workList}" varStatus="status">
 				<tr>
-					<td><input type="checkbox" class="workCheckBox" value="${work.wmno}"/></td>
+					<td><input type="checkbox" class="oneCheckbox" value="${work.wmno}" onclick="clickOneCheckbox(this);"/></td>
 					<td>${status.count}</td>
 					<td><span class="workSubject" onclick="goDetailWork('${work.wmno}')" style="cursor: pointer;">${work.subject}</span></td>
 					
