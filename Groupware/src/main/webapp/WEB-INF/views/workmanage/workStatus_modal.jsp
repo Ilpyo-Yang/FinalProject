@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/workmanage.js"></script>
 
 <style type="text/css">
 li {
@@ -25,43 +26,14 @@ button {
 	$(document).ready(function() {
 		
 		$("button.workStatus").each(function(index, item){
-			var statno = $(item).val();
-			// console.log("statno : " + statno);
-			
-			if (statno == "0") {
-				var delayday = ${requestScope.paraMap.delayday};
-				$(item).css({"background-color":"#ff3300"});
-				$(item).text('지연+'+delayday);
-			}
-			else if (statno == "1") {
-				$(item).css({"background-color":"#66ccff"});
-				$(item).text('미완료');
-			}
-			else  {
-				$(item).css({"background-color":"white", "border":"1px solid black", "color":"black"});
-				$(item).text('완료');
-			}
+			var delayday = ${requestScope.paraMap.delayday};
+			setworkStatusBtn(item, delayday)
 		});
 		
-		$("button.workStatusMbr").each(function(index, item){
-			var percent = $(item).val();
-			// console.log(percent);
-			
-			if (percent == 0) {
-				$(item).css({"background-color":"#66ccff"});
-				$(item).text('검토중');
-			}
-			else if (percent == 100) {
-				$(item).css({"background-color":"white", "border":"1px solid black", "color":"black"});
-				$(item).text('완료');
-			}
-			else {
-				$(item).css({"background-color":"#ff3300"});
-				$(item).text('처리중 '+percent+'%');
-			}
-		});
+		setworkStatusMbrBtn();
 	});
 	
+
 </script>
 
 <div class="container">

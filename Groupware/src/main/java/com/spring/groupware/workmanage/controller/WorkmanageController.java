@@ -289,7 +289,23 @@ public class WorkmanageController {
 	
 	// == 읽음 확인 모달 페이지 보여주기 == //
 	@RequestMapping(value = "/readCheckModal.opis")
-	public ModelAndView readCheckModal(ModelAndView mav) {
+	public ModelAndView readCheckModal(ModelAndView mav, HttpServletRequest request) {
+		
+		Map<String, String> paraMap = new HashedMap<>();
+		
+		String fk_statno = request.getParameter("fk_statno");
+		String delayday = request.getParameter("delayday");
+		String wmno = request.getParameter("wmno");
+			
+		paraMap.put("wmno", wmno);
+		paraMap.put("fk_statno", fk_statno);
+		paraMap.put("delayday", delayday);
+		
+		List<WorkMemberVO> workmbrList = service.getWorkStatusEachMember(wmno);
+		
+		mav.addObject("workmbrList", workmbrList);
+		mav.addObject("paraMap", paraMap);
+		
 		mav.setViewName("workmanage/readCheck_modal");
 		return mav;
 	}

@@ -9,6 +9,7 @@
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="<%=ctxPath%>/resources/js/workmanage.js"></script>
 
 <jsp:include page="./workmanage_sidebar.jsp" />
 
@@ -71,6 +72,13 @@ button.readCheck {
 			buttonText : "Select date"
 		});
 		
+		// 버튼 색상 적용하는 js 함수 호출
+		$("button.workStatus").each(function(index, item){
+			var delayday = $(item).prev().val();
+			
+			setworkStatusBtn(item, delayday)
+		});
+		
 		$(document).on("click", ".workStatus", function () {
 		     var subject = $(this).data('subject');
 		     var wmno = $(this).data('wmno');
@@ -79,10 +87,16 @@ button.readCheck {
 		     
 		     $("h4#workStatus-title").text( subject );
 		     $("#workStatusModal").find("iframe").attr("src", "workStatusModal.opis?wmno="+wmno+"&fk_statno="+fk_statno+"&delayday="+delayday);
+		});
+		
+		$(document).on("click", ".readCheck", function () {
+		     var subject = $(this).data('subject');
+		     var wmno = $(this).data('wmno');
+		     var fk_statno = $(this).data('stat');
+		     var delayday = $(this).data('delay');
 		     
-		     // As pointed out in comments, 
-		     // it is unnecessary to have to manually call the modal.
-		     // $('#workStatusModal').modal('show');
+		     $("h4#readCheck-title").text( subject );
+		     $("#readCheckModal").find("iframe").attr("src", "readCheckModal.opis?wmno="+wmno+"&fk_statno="+fk_statno+"&delayday="+delayday);
 		});
 		
 		
@@ -184,42 +198,19 @@ button.readCheck {
 					
 					<td>${work.registerday}</td>
 					<td>${work.deadline}</td>
-					
-					<c:choose>
-						<%-- 업무요청 상태 종류 --%>
-						<c:when test="${work.fk_statno == 0}">
-							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: #ff3300;" 
-										data-subject="${work.subject}" data-wmno="${work.wmno}" data-stat="0" data-delay="${work.delayday}">지연+${work.delayday}</button></td>		
-						</c:when>
-						<c:when test="${work.fk_statno == 1}">
-							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: #66ccff;"
-										data-subject="${work.subject}" data-wmno="${work.wmno}" data-stat="1">미완료</button></td>
-						</c:when>
-						<c:when test="${work.fk_statno == 2}">
-							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: white; border: 1px solid black; color: black;"
-										data-subject="${work.subject}" data-wmno="${work.wmno}" data-stat="2">완료</button></td>
-						</c:when>
-						
-						<%-- 업무보고 상태 종류 --%>
-						<c:when test="${work.fk_statno == 3}">
-							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: #66ccff;" 
-										data-subject="${work.subject}" data-wmno="${work.wmno}"data-stat="3">미확인</button></td>		
-						</c:when>
-						<c:when test="${work.fk_statno == 4}">
-							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: white; border: 1px solid black; color: black;"
-										data-subject="${work.subject}" data-wmno="${work.wmno}" data-stat="4">승인완료</button></td>
-						</c:when>
-						<c:when test="${work.fk_statno == 5}">
-							<td><button type="button" class="workStatus " data-toggle="modal" data-target="#workStatusModal" style="background-color: #ffcc00"
-										data-subject="${work.subject}" data-wmno="${work.wmno}" data-stat="5">반려</button></td>
-						</c:when>
-					</c:choose>
+					<td>
+						<input type="hidden" value="${work.delayday}"/>
+						<button type="button" class="workStatus" value="${work.fk_statno}" data-toggle="modal" data-target="#workStatusModal"
+										data-subject="${work.subject}" data-wmno="${work.wmno}" data-delay="${work.delayday}" data-stat="${work.fk_statno}"></button>
+					</td>
 					
 					<c:if test="${work.checkstatus == 0}">
-						<td><button type="button" class="readCheck " data-toggle="modal" data-target="#readCheckModal">읽음확인</button></td>
+						<td><button type="button" class="readCheck" data-toggle="modal" data-target="#readCheckModal"
+									data-subject="${work.subject}" data-wmno="${work.wmno}" data-delay="${work.delayday}" data-stat="${work.fk_statno}">읽음확인</button></td>
 					</c:if>
 					<c:if test="${work.checkstatus == 1}">
-						<td><button type="button" class="readCheck " data-toggle="modal" data-target="#readCheckModal">미확인</button></td>
+						<td><button type="button" class="readCheck" data-toggle="modal" data-target="#readCheckModal"
+									data-subject="${work.subject}" data-wmno="${work.wmno}" data-delay="${work.delayday}" data-stat="${work.fk_statno}">미확인</button></td>
 					</c:if>
 				</tr>
 			</c:forEach>
@@ -254,10 +245,10 @@ button.readCheck {
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">6월 1일 오늘 할 일</h4>
+					<h4 class="modal-title"  id="readCheck-title">\</h4>
 				</div>
 				<div class="modal-body">
-					<iframe style="border:none; width: 100%; height: 250px;" src="readCheckModal.opis"></iframe>
+					<iframe style="border:none; width: 100%; height: 250px;" src="" ></iframe>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
