@@ -116,6 +116,13 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		int n = sqlsession.update("workmanage.workEditEnd", workvo);
 		return n;
 	}
+
+	// 업무 삭제하기
+	@Override
+	public int workDel(Map<String, String> paraMap) {
+		int n = sqlsession.update("workmanage.workDel", paraMap);
+		return n;
+	}
 	
 	
 

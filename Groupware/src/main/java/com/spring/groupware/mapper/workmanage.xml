@@ -18,7 +18,7 @@
 		    , to_char(registerday, 'yyyy-mm-dd') as registerday
 		    , to_char(deadline, 'yyyy-mm-dd') as deadline
 		from tbl_todolist
-		where fk_mbr_seq = #{fk_mbr_seq}	
+		where fk_mbr_seq = #{fk_mbr_seq} 
 	</select>
 	
 	<!-- == 선택한 나의 할일 상세 보기 == -->
@@ -63,7 +63,7 @@
 		and wmno in(
 		    select fk_wmno
 		    from tbl_workmanage_mbr
-		    where fk_wrno = #{fk_wrno} and fk_mbr_seq = #{fk_mbr_seq}
+		    where fk_wrno = #{fk_wrno} and fk_mbr_seq = #{fk_mbr_seq} and yn = 0
 		)		
 	</select>
 	
@@ -122,4 +122,14 @@
 		set subject = #{subject} , deadline = #{deadline} , contents = #{contents}
 		where wmno = #{wmno}
 	</update>
+	
+	<!-- 업무 삭제하기 -->
+	<update id="workDel" parameterType="HashMap">
+		update tbl_workmanage_mbr set yn = 1
+		where fk_mbr_seq = #{userId} and fk_wrno = #{fk_wrno}
+		and fk_wmno in (${wmnoStr})
+	</update>
+	
+	
+	
 </mapper>

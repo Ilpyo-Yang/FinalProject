@@ -49,4 +49,7 @@ public interface InterWorkmanageDAO {
 	// 업무 수정하기
 	int workEditEnd(WorkVO workvo);
 
+	// 업무 삭제하기
+	int workDel(Map<String, String> paraMap);
+
 }

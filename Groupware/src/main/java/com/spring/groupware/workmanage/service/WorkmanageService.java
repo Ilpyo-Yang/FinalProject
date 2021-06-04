@@ -122,4 +122,11 @@ public class WorkmanageService implements InterWorkmanageService {
 		return n;
 	}
 
+	// 업무 삭제하기
+	@Override
+	public int workDel(Map<String, String> paraMap) {
+		int n = dao.workDel(paraMap);
+		return n;
+	}
+
 }

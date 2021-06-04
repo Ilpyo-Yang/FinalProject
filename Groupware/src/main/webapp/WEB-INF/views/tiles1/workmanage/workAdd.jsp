@@ -30,6 +30,12 @@ div#diplayList {
 <script type="text/javascript">
 	$(document).ready(function(){
 		
+		$("input[name=workType]").each(function(index, item){
+			if (index == "${workType}") {
+				$(item).attr("checked",true);
+			}
+		});
+		
 		$("#datepicker_deadline").datepicker({
 			showOn : "button",
 			buttonImage : "<%=ctxPath%>/resources/images/icon_calendar.png",
@@ -202,7 +208,7 @@ div#diplayList {
 				<tr>
 					<td><span class="star">*</span>업무형태</td>
 					<td>
-						<input type="radio" id="mytodo" value="0" name="workType" onclick="onlyWorkInput(this);" checked="checked"/> 
+						<input type="radio" id="mytodo" value="0" name="workType" onclick="onlyWorkInput(this);"/> 
 						<label for="mytodo">나의 할일</label> 
 							
 						<input type="radio" id="workRequest" value="1" name="workType" onclick="onlyWorkInput(this);"/> 

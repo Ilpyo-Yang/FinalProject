@@ -58,6 +58,7 @@ button.readCheck {
 <script>
 	$(document).ready(function() {
 		
+		
 		$("#datepicker_reg").datepicker({
 			showOn : "button",
 			buttonImage : "<%=request.getContextPath()%>/resources/images/icon_calendar.png",
@@ -105,6 +106,30 @@ button.readCheck {
 	function goDetailWork(wmno) {
 		location.href="<%=request.getContextPath()%>/showDetailWork.opis?workType="+${workType}+"&workRole="+${workRole}+"&wmno="+wmno;
 	}
+	
+	function goWorkDel() {
+		var delcheck = confirm("삭제하시겠습니까?");
+		if (!delcheck) {
+			return; // 삭제하지 않으면 함수 종료
+		}
+		
+		var wmnoArr = [];
+		$("input.workCheckBox").each(function(index, item){
+			if ($(item).prop("checked") == true) {
+				var wmno = $(item).val();
+				wmnoArr.push(wmno);	
+			}
+		});
+		var wmnoStr = wmnoArr.join();
+		$("input[name=wmnoStr]").val(wmnoStr);
+		
+		
+		var frm = document.delFrm;
+		frm.method = "post";
+		frm.action = "<%=ctxPath%>/workDel.opis";
+		frm.submit();
+	}
+	
 </script>
 
 <div class="container commoncontainer">
@@ -189,7 +214,7 @@ button.readCheck {
 			
 			<c:forEach var="work" items="${requestScope.workList}" varStatus="status">
 				<tr>
-					<td><input type="checkbox" /></td>
+					<td><input type="checkbox" class="workCheckBox" value="${work.wmno}"/></td>
 					<td>${status.count}</td>
 					<td><span class="workSubject" onclick="goDetailWork('${work.wmno}')" style="cursor: pointer;">${work.subject}</span></td>
 					
@@ -216,6 +241,19 @@ button.readCheck {
 			</c:forEach>
 		</tbody>
 	</table>
+	<!-- 업무 관련 버튼 -->
+	<div align="right">
+		<button type="button" class="workEditBtn" onclick="javascript:location.href='<%=ctxPath%>/workAdd.opis?workType=${workType}'">업무등록</button>
+		<button type="button" class="workListBtn" onclick="javascript:location.href='<%=ctxPath%>/workList.opis?'">업무완료</button>
+		<button type="button" class="workDeleteBtn" onclick="goWorkDel();">삭제</button>
+	</div>
+	
+	<!-- 삭제할 업무 번호 폼 -->
+	<form name="delFrm">
+		<input type="hidden" name="wmnoStr" />
+		<input type="hidden" name="fk_wrno" value="${workRole}"/>
+		<input type="hidden" name="gobackURL" value="${requestScope.gobackURL}"/>
+	</form>
 	
 	<!-- Modal -->
 	<div id="workStatusModal" class="modal fade" role="dialog">

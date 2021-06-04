@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.groupware.common.*;
 import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.workmanage.model.TodoVO;
 import com.spring.groupware.workmanage.model.WorkMemberVO;
@@ -37,6 +38,10 @@ public class WorkmanageController {
 	// == 업무 등록 페이지 보여주기 (할일, 요청, 보고 등록) == //
 	@RequestMapping(value = "/workAdd.opis")
 	public ModelAndView requiredLogin_workAdd(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		// 사이드 바가 아닌 업무리스트 페이지에서 업무 등록을 눌렀을 때 해당 타입을 전달한다.
+		mav.addObject("workType", request.getParameter("workType"));
+		
 		mav.setViewName("workmanage/workAdd.tiles1");
 		return mav;
 	}
@@ -258,6 +263,9 @@ public class WorkmanageController {
 		mav.addObject("workRole", workRole);
 		mav.addObject("workList", workList);
 		
+		String gobackURL = MyUtil.getCurrentURL(request);
+		mav.addObject("gobackURL", gobackURL);
+		
 		mav.setViewName("workmanage/workList.tiles1");
 		return mav;
 	}
@@ -359,6 +367,42 @@ public class WorkmanageController {
 		}
 		else {
 			String message = "업무 수정에 실패하였습니다. 다시 시도하세요";
+			String loc = "javascript:history.back()";
+			
+			mav.addObject("message",message);
+			mav.addObject("loc",loc);
+			
+			mav.setViewName("msg");			
+		}
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="workDel.opis", method={RequestMethod.POST})
+	public ModelAndView requiredLogin_workDel(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		String gobackURL = request.getParameter("gobackURL");
+		String wmnoStr = request.getParameter("wmnoStr");	// 삭제하려는 업무번호들
+		String fk_wrno = request.getParameter("fk_wrno");	// 사용자의 역할
+		
+		// 삭제를 시도하는 사용자의 정보를 가져오기
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser"); 
+		String userId = String.valueOf(loginuser.getMbr_seq());
+		
+		Map<String,String> paraMap = new HashedMap<>();
+		paraMap.put("wmnoStr", wmnoStr);
+		paraMap.put("fk_wrno", fk_wrno);
+		paraMap.put("userId", userId);
+		
+		// 사용자의 역할에 따른 업무삭제 (실제는 yn의 상태를 0->1로 변환 시키는 작업)
+		int n = service.workDel(paraMap);
+		
+		if (n >= 1) {
+			mav.setViewName("redirect:/"+gobackURL);
+		}
+		else {
+			String message = "업무 삭제에 실패하였습니다. 다시 시도하세요";
 			String loc = "javascript:history.back()";
 			
 			mav.addObject("message",message);
