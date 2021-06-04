@@ -130,6 +130,12 @@
 		and fk_wmno in (${wmnoStr})
 	</update>
 	
-	
+	<!-- 담당자 한명의 업무 정보 가져오기 -->
+	<select id="oneMbrWorkStatus" parameterType="HashMap" resultType="com.spring.groupware.workmanage.model.WorkMemberVO">
+		select fk_wmno, fk_wrno, fk_mbr_seq, mbr_workPercent, mbr_readCheck
+		    , lasteditdate, readcheckdate, mbr_name
+		from tbl_workmanage_mbr left join (select mbr_name, mbr_seq from tbl_mbr where mbr_seq = #{fk_mbr_seq}) on fk_mbr_seq = mbr_seq
+		where fk_wmno = #{fk_wmno} and fk_mbr_seq = #{fk_mbr_seq} and fk_wrno = #{fk_wrno}	
+	</select>
 	
 </mapper>

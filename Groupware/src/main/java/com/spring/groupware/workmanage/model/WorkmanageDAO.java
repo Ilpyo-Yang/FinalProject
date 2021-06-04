@@ -123,6 +123,13 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		int n = sqlsession.update("workmanage.workDel", paraMap);
 		return n;
 	}
+
+	// 담당자 한명의 업무 정보 가져오기
+	@Override
+	public WorkMemberVO oneMbrWorkStatus(Map<String, String> paraMap) {
+		WorkMemberVO workmbr = sqlsession.selectOne("workmanage.oneMbrWorkStatus", paraMap);
+		return workmbr;
+	}
 	
 	
 

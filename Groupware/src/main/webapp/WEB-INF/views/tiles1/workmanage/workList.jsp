@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <% String ctxPath = request.getContextPath(); %>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -154,14 +156,14 @@ button.readCheck {
 			$("input#allCheckbox").prop("checked", false);
 		}
 		else {
-			var check;
+			var check; // 다른 하위 체크박스 검사
 			$("input.oneCheckbox").each(function(index, item){
 				check = $(item).prop("checked");
 				if (check == false) {
 					return false;
 				}
 			});
-			if (check) {
+			if (check) { // 전부 true 일 때
 				$("input#allCheckbox").prop("checked", true);	
 			}
 		}

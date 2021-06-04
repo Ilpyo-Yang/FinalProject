@@ -129,4 +129,11 @@ public class WorkmanageService implements InterWorkmanageService {
 		return n;
 	}
 
+	// 담당자 한명의 업무 정보 가져오기
+	@Override
+	public WorkMemberVO oneMbrWorkStatus(Map<String, String> paraMap) {
+		WorkMemberVO workmbr = dao.oneMbrWorkStatus(paraMap);
+		return workmbr;
+	}
+
 }

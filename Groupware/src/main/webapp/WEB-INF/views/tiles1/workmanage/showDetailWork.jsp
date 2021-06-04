@@ -25,7 +25,32 @@
 			
 			setworkStatusBtn(item, delayday);
 		});	
+		
+		mbrWorkStatusChange();
+		
+		
 	});
+	
+	function mbrWorkStatusChange() {
+		var fk_mbr_seq = $("select#mbrListSelect").val();
+		
+		$.ajax({
+			url:"<%=ctxPath%>/oneMbrWorkStatus.opis",
+			data:{
+				"fk_mbr_seq": fk_mbr_seq,
+				"fk_wmno": "${workvo.wmno}",
+				"fk_wrno":2},
+			dataType:"json",
+			success:function(json) {
+				$("td#mbr_name").html(json.mbr_name);
+				$("td#lasteditdate").html(json.lasteditdate);
+				$("td#mbr_workPercent").html(json.mbr_workPercent);
+			},
+			error: function(request, status, error){
+               	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+               }
+		});
+	}
 </script>
 
 
@@ -87,6 +112,36 @@
 	</table>
 	
 	<!-- 처리내역 테이블 만들기 -->
+	<table class="table table-striped workShowtable">
+		<thead>
+			<tr style="background: #f2f2f2;">
+				<th colspan="4">담당자 처리내역&nbsp;
+					<select id="mbrListSelect" onchange="mbrWorkStatusChange();">
+					<c:forEach var="workmbr" items="${requestScope.workmbrList}" varStatus="status">
+						<option value="${workmbr.fk_mbr_seq}">${workmbr.mbr_name}</option>
+					</c:forEach>	
+					</select>
+				</th>
+			</tr>		
+		</thead>
+		<tbody>
+			<tr>
+				<td>담당자</td>
+				<td id="mbr_name"></td>
+				
+				<td>최종수정일</td>
+				<td id="lasteditdate"></td>
+			</tr>
+			<tr>
+				<td>진척률</td>
+				<td colspan="3" id="mbr_workPercent">%</td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td colspan="3"></td>
+			</tr>
+		</tbody>
+	</table>
 	
 	<!-- 업무 관련 버튼 -->
 	<div align="right">

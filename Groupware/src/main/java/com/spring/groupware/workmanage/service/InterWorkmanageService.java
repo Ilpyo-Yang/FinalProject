@@ -49,5 +49,8 @@ public interface InterWorkmanageService {
 	// 업무 삭제하기
 	int workDel(Map<String, String> paraMap);
 
+	// 담당자 한명의 업무 정보 가져오기
+	WorkMemberVO oneMbrWorkStatus(Map<String, String> paraMap);
+
 
 }

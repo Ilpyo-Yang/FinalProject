@@ -321,11 +321,12 @@ public class WorkmanageController {
 	@RequestMapping(value="/showDetailWork.opis")
 	public ModelAndView requiredLogin_showDetailWork(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
-		String wmno = request.getParameter("wmno"); // 업무고유 번호 받아오기
-		
+		// 업무고유 번호 받아오기
+		String wmno = request.getParameter("wmno"); 
 		Map<String,String> paraMap = new HashedMap<>();
 		paraMap.put("wmno", wmno);
 		
+		// 업무에 대한 상세 정보 가져오기 
 		WorkVO workvo = service.showDetailWork(paraMap);
 		
 		String workType = request.getParameter("workType");  
@@ -335,9 +336,17 @@ public class WorkmanageController {
 		mav.addObject("workRole", workRole); 
 		mav.addObject("workvo", workvo);
 		
+		// 업무의 처리내역 정보 가져오기
+		List<WorkMemberVO> workmbrList = service.getWorkStatusEachMember(wmno);
+		
+		mav.addObject("workmbrList", workmbrList);
+		mav.addObject("paraMap", paraMap);
+		
+		
 		mav.setViewName("workmanage/showDetailWork.tiles1");
 		return mav;
 	}
+
 	
 	// 업무 수정하기
 	@RequestMapping(value="workEdit.opis")
@@ -378,6 +387,7 @@ public class WorkmanageController {
 		return mav;
 	}
 	
+	// 업무 삭제하기
 	@RequestMapping(value="workDel.opis", method={RequestMethod.POST})
 	public ModelAndView requiredLogin_workDel(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
@@ -413,4 +423,28 @@ public class WorkmanageController {
 		
 		return mav;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="oneMbrWorkStatus.opis", method = {RequestMethod.GET }, produces = "text/plain;charset=UTF-8")
+	public String oneMbrWorkStatus(HttpServletRequest request) {
+		
+		String fk_mbr_seq = request.getParameter("fk_mbr_seq");
+		String fk_wmno = request.getParameter("fk_wmno");
+		String fk_wrno = request.getParameter("fk_wrno");
+		
+		Map<String,String> paraMap = new HashedMap<>();
+		paraMap.put("fk_mbr_seq", fk_mbr_seq);
+		paraMap.put("fk_wmno", fk_wmno);
+		paraMap.put("fk_wrno", fk_wrno);
+		
+		WorkMemberVO workmbr = service.oneMbrWorkStatus(paraMap);
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("mbr_name", workmbr.getMbr_name());
+		jsonObj.put("lasteditdate", workmbr.getLasteditdate());
+		jsonObj.put("mbr_workPercent", workmbr.getMbr_workPercent());
+		
+		return jsonObj.toString();
+	}
+	
 }
