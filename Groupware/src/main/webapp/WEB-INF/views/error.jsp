@@ -3,4 +3,6 @@
 
 <script type="text/javascript">
 	alert("${requestScope.message}");
+	location.href="${requestScope.loc}";
+	
 </script>

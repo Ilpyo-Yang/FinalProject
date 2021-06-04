@@ -55,6 +55,10 @@
 		where mbr_id = #{userid}
 	</select>
 	
+	<!-- 모든 일정 삭제하기 -->
+	<delete id="delAll" parameterType="int">
+		delete from tbl_schedule
+	</delete>
 	
 	<!-- ========================================================================================================== -->
 	

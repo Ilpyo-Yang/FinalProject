@@ -106,7 +106,7 @@
 				</tr>
 				<tr>
 					<td id="title">예약시간</td>
-					<td id="content">${requestScope.mtrhvo.starttime}&nbsp;부터&nbsp;${requestScope.mtrhvo.endtime}</td>
+					<td id="content">${requestScope.mtrhvo.starttime}&nbsp;-&nbsp;${requestScope.mtrhvo.endtime}</td>
 				</tr>
 			</table>
 	</c:if>

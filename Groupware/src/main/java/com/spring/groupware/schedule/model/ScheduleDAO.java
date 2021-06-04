@@ -58,6 +58,13 @@ public class ScheduleDAO implements InterScheduleDAO {
 		return scdList;
 	}
 	
+	// 모든 일정 삭제하기
+	@Override
+	public int delAll() {
+		int n = sqlsession.delete("schedule.delAll");
+		return n;
+	}
+	
 	///////////////////////////////////////////////////////////////////
 	
 	// 회의실 이용기록번호 채번하기
@@ -94,6 +101,8 @@ public class ScheduleDAO implements InterScheduleDAO {
 		String mtrname = sqlsession.selectOne("schedule.getMtrName", fk_mtrno);
 		return mtrname;
 	}
+
+	
 	
 	/*
 	 * // 회의실 예약현황 보여주기(구글 차트)
