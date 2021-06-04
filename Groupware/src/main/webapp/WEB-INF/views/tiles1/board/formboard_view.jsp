@@ -76,10 +76,12 @@
             <td style="width: 100px;">조회&nbsp;${requestScope.formboardvo.fhit}</td>
          </tr>
          <tr>
-            <td>
-            	<span style="font-weight: 600;">첨부파일</span>&nbsp;:&nbsp;
-            	<a href="<%=ctxPath%>/formboard_download.opis?form_seq=${requestScope.formboardvo.form_seq}">${requestScope.formboardvo.orgFilename}</a>&nbsp;&nbsp;(<fmt:formatNumber value="${requestScope.formboardvo.fileSize}" pattern="#,###"></fmt:formatNumber>&nbsp;bytes)
-            </td>
+         	<c:if test="${not empty requestScope.formboardvo.orgFilename}">
+	            <td>
+	            	<span style="font-weight: 600;">첨부파일</span>&nbsp;:&nbsp;
+	            	<a href="<%=ctxPath%>/formboard_download.opis?form_seq=${requestScope.formboardvo.form_seq}">${requestScope.formboardvo.orgFilename}</a>&nbsp;&nbsp;(<fmt:formatNumber value="${requestScope.formboardvo.fileSize}" pattern="#,###"></fmt:formatNumber>&nbsp;bytes)
+	            </td>
+            </c:if>
          </tr>
          <tr>
             <td colspan="3" style="height: 400px; border-bottom: 1px solid black;">
