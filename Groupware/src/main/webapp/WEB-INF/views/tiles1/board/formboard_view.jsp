@@ -78,12 +78,7 @@
          <tr>
             <td>
             	<span style="font-weight: 600;">첨부파일</span>&nbsp;:&nbsp;
-            	<c:if test="${sessionScope.loginuser != null}">
-            		<a href="<%=ctxPath%>/formboard_download.opis?form_seq=${requestScope.formboardvo.form_seq}">${requestScope.formboardvo.orgFilename}</a>&nbsp;&nbsp;(<fmt:formatNumber value="${requestScope.formboardvo.fileSize}" pattern="#,###"></fmt:formatNumber>&nbsp;bytes)
-            	</c:if>
-            	<c:if test="${sessionScope.loginuser == null}">
-            		${requestScope.formboardvo.orgFilename}(<fmt:formatNumber value="${requestScope.formboardvo.fileSize}" pattern="#,###"></fmt:formatNumber>&nbsp;bytes)
-            	</c:if>
+            	<a href="<%=ctxPath%>/formboard_download.opis?form_seq=${requestScope.formboardvo.form_seq}">${requestScope.formboardvo.orgFilename}</a>&nbsp;&nbsp;(<fmt:formatNumber value="${requestScope.formboardvo.fileSize}" pattern="#,###"></fmt:formatNumber>&nbsp;bytes)
             </td>
          </tr>
          <tr>

@@ -244,8 +244,8 @@
    	
    	<!-- === 1개글 수정하기 === -->
    	<update id="editForm" parameterType="com.spring.groupware.board.model.FormboardVO">
-   		update tbl_formboard set ftitle = #{ftitle}
-   						   	   , fcontent = #{fcontent}
+   		update tbl_formboard set ftitle = #{ftitle}, fcontent = #{fcontent},
+   								 fileName  = #{fileName} , orgFilename = #{orgFilename}, fileSize = #{fileSize}
 		where form_seq = #{form_seq}
    	</update>
    	
