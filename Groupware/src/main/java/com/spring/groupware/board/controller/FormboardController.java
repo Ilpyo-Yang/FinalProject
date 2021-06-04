@@ -102,8 +102,17 @@ public class FormboardController {
 		  			
 	  		  }
 	    	  
-	    	  int n = service.add(formboardvo); // <== 파일첨부가 없는 글쓰기
-	    	  
+	  		  int n = 0;
+			
+	  		  if(attach.isEmpty()) {
+	  			  // 첨부파일이 없는 경우
+	  			  n = service.add(formboardvo); 
+	  		  }
+	  		  else {
+	  			  // 첨부파일이 있는 경우
+	  			  n = service.add_withFile(formboardvo);
+	  		  }
+			
 	    	  if(n==1) {
 	    		  mav.setViewName("redirect:/formboard_list.opis");
 	    		  
@@ -237,31 +246,58 @@ public class FormboardController {
 	    	  // 조회하고자 하는 글번호 받아오기
 	    	  String form_seq = request.getParameter("form_seq");
 	    	  
-	    	  String login_mbrid = null;
-	    	  
-	    	  HttpSession session = request.getSession();
-	    	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-	    	  
-	    	  if(loginuser != null) {
-	    		  login_mbrid = loginuser.getMbr_id();
-	    	  }   	  
-	    	  
-	    	  FormboardVO formboardvo = null;
-	    	  
-	    	  if("yes".equals(session.getAttribute("readCountPermission"))) {// 글목록보기를 클릭한 다음에 특정글을 조회해온 경우
-	    		
-	    		  formboardvo = service.getView(form_seq, login_mbrid);
-	        	  // 글조회수 증가와 함께 글1개를 조회
-	        	  
-	    		  session.removeAttribute("readCountPermission");
-	    		  // session 에 저장된 readCountPermission 을 삭제
-	    	  }
-	    	  else {// 웹브라우저에서 새로고침(F5)을 클릭한 경우    		  
-	    		  formboardvo = service.getViewWithNoAddCount(form_seq);
-	    		  // 글조회수 증가는 없고 단순히 글1개 조회
-	    	  }
-	    	  
-	    	  mav.addObject("formboardvo", formboardvo);
+	    	  String searchType = request.getParameter("searchType");
+	  		  String searchWord = request.getParameter("searchWord");
+	  		
+	  		  if(searchType == null) {
+	  			searchType = "";
+	  		  }
+	  		
+	  		  if(searchWord == null) {
+	  			searchWord = "";
+	  		  }
+	  		
+	  		  Map<String,String> paraMap = new HashMap<>();
+			  paraMap.put("form_seq", form_seq);
+			  paraMap.put("searchType", searchType);
+			  paraMap.put("searchWord", searchWord);
+			
+			  mav.addObject("searchType", searchType);
+			  mav.addObject("searchWord", searchWord);
+	    	 
+			  try {
+				  Integer.parseInt(form_seq);
+				  
+				  String login_mbrid = null;
+		    	  
+		    	  HttpSession session = request.getSession();
+		    	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		    	  
+		    	  if(loginuser != null) {
+		    		  login_mbrid = loginuser.getMbr_id();
+		    	  }   	  
+		    	  
+		    	  FormboardVO formboardvo = null;
+		    	  
+		    	  if("yes".equals(session.getAttribute("readCountPermission"))) {// 글목록보기를 클릭한 다음에 특정글을 조회해온 경우
+		    		
+		    		  formboardvo = service.getView(paraMap, login_mbrid);
+		        	  // 글조회수 증가와 함께 글1개를 조회
+		        	  
+		    		  session.removeAttribute("readCountPermission");
+		    		  // session 에 저장된 readCountPermission 을 삭제
+		    	  }
+		    	  else {// 웹브라우저에서 새로고침(F5)을 클릭한 경우    		  
+		    		  formboardvo = service.getViewWithNoAddCount(paraMap);
+		    		  // 글조회수 증가는 없고 단순히 글1개 조회
+		    	  }
+		    	  
+		    	  mav.addObject("formboardvo", formboardvo);
+		    	  
+			  } catch(NumberFormatException e) {
+				  e.printStackTrace();
+			  }
+			  
 	    	  mav.setViewName("board/formboard_view.tiles1");
 	    	  
 	    	  return mav;
@@ -300,9 +336,12 @@ public class FormboardController {
 
 	    	  // 수정해야 할 글번호 가져오기
 	    	  String form_seq = request.getParameter("form_seq");
+
+	    	  Map<String,String> paraMap = new HashMap<>();
+	  		  paraMap.put("form_seq", form_seq);
 	    	  
 	    	  // 글조회수(readCount) 증가 없이 단순히 글1개만 조회 해주는 것이다.
-	    	  FormboardVO formboardvo = service.getViewWithNoAddCount(form_seq);
+	    	  FormboardVO formboardvo = service.getViewWithNoAddCount(paraMap);
 
 	    	  HttpSession session = request.getSession();
    	          MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
@@ -315,9 +354,7 @@ public class FormboardController {
 	             mav.addObject("loc", loc);
 	             mav.setViewName("msg");
 	          }
-	          else {	
-	        	 // 자신의 글을 수정할 경우
-	        	 // 가져온 1개글을 글수정할 폼이 있는 view 단으로 보내준다.
+	          else { // 로그인한 유저의 권한이 사원이 아닐 경우 수정 가능	
 	        	 mav.addObject("formboardvo", formboardvo);
 	        	 mav.setViewName("board/formboard_edit.tiles1");
 	   
@@ -398,4 +435,69 @@ public class FormboardController {
 	    	  
 	    	  return jsonArr.toString();
 	      }
+	      
+	      
+	   // === #163. 첨부파일 다운로드 받기 === //
+	  	@RequestMapping(value="/formboard_download.opis")
+	  	public void requiredLogin_download(HttpServletRequest request, HttpServletResponse response) {
+	  		
+	  		String form_seq =  request.getParameter("form_seq");
+	  		
+	  		Map<String,String> paraMap = new HashMap<>();
+	  		paraMap.put("form_seq", form_seq);
+	  		paraMap.put("searchType", "");
+	  		paraMap.put("searchWord", "");
+
+	  		
+	  		response.setContentType("text/html; charset=UTF-8");
+	  		PrintWriter out = null;
+	  		
+	  		try {
+	  			Integer.parseInt(form_seq);
+	  			
+	  			FormboardVO formboardvo = service.getViewWithNoAddCount(paraMap);
+	  			
+	  			if(formboardvo == null || (formboardvo != null && formboardvo.getFileName() == null) ) {
+	  				out = response.getWriter();
+	  				
+	  				out.println("<script type='text/javascript'>alert('존재하지 않는 글번호이거나 첨부파일이 없으므로 파일 다운로드가 불가합니다!!'); history.back();</script>");		
+
+	  				return; // 종료
+	  			}
+	  			else {
+	  				String fileName = formboardvo.getFileName();
+	  				
+	  				String orgFilename = formboardvo.getOrgFilename();
+  				
+	  				HttpSession session = request.getSession();
+	  				String root = session.getServletContext().getRealPath("/");
+
+	  				String path = root+"resources"+File.separator+"files";
+
+	  				// **** file 다운로드 **** //
+	  				boolean flag = false; // file 다운로드의 성공,실패 
+	  				flag = fileManager.doFileDownload(fileName, orgFilename, path, response);
+	  		        
+	  				if(!flag) {// 다운로드 실패한 경우
+	  	               out = response.getWriter();
+	  	               
+	  		           out.println("<script type='text/javascript'>alert('파일 다운로드가 실패되었습니다!!'); history.back();</script>"); 
+	  				}
+	  			}
+	  			
+	  		} catch(NumberFormatException e) {
+	  			
+	  			try {
+	  				out = response.getWriter();
+	  				
+	  				out.println("<script type='text/javascript'>alert('파일 다운로드가 불가합니다!!'); history.back();</script>");
+	  			} catch (IOException e1) {
+	  				e1.printStackTrace();
+	  			}
+	  			
+	  		} catch (IOException e2) {
+	  			e2.printStackTrace();
+	  		}
+
+	  	}
 }

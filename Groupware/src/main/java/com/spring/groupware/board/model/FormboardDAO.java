@@ -44,8 +44,8 @@ public class FormboardDAO implements InterFormboardDAO {
 
 	// === 글 1개 조회하기 === //
 	@Override
-	public FormboardVO getView(String form_seq) {
-		FormboardVO formboardvo = sqlsession.selectOne("board.getFormView", form_seq);
+	public FormboardVO getView(Map<String, String> paraMap) {
+		FormboardVO formboardvo = sqlsession.selectOne("board.getFormView", paraMap);
 		return formboardvo;
 	}
 
@@ -82,5 +82,12 @@ public class FormboardDAO implements InterFormboardDAO {
 	public List<FormboardVO> boardListSearchWithPaging(Map<String, String> paraMap) {
 		List<FormboardVO> boardList = sqlsession.selectList("board.formListSearchWithPaging", paraMap);		
 		return boardList;
+	}
+
+	// === 파일첨부가 있는 글쓰기 === //
+	@Override
+	public int add_withFile(FormboardVO formboardvo) {
+		int n = sqlsession.insert("board.add_withFile", formboardvo);
+		return n;
 	}
 }

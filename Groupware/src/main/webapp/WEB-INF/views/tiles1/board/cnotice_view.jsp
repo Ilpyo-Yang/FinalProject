@@ -70,9 +70,6 @@
 	   	<c:if test="${not empty requestScope.cnoticevo}">
 	   	 <table id="table">
 	         <tr id="title">
-	         	<td>
-                	<input type="hidden" name="cnotice_seq" value="${requestScope.cnoticevo.cnotice_seq}" />   
-            	</td>
 	            <td style="width: 800px;"><h3>${requestScope.cnoticevo.ctitle}</h3></td>
 	            <td style="width: 200px;">${requestScope.cnoticevo.cwritedate}</td>
 	            <td style="width: 100px;">조회&nbsp;${requestScope.cnoticevo.chit}</td>
@@ -99,5 +96,6 @@
 	   		<button type="button" onclick="javascript:location.href='<%=ctxPath%>/cnotice_edit.opis?cnotice_seq=${requestScope.cnoticevo.cnotice_seq}'">수정</button>
 	   		<button type="button" onclick="goDelete(${requestScope.cnoticevo.cnotice_seq})">삭제</button>
 	   </c:if>
+
    </div>
 </div>

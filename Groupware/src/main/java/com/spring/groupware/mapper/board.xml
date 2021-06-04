@@ -199,13 +199,13 @@
    		insert into tbl_formboard(form_seq, fk_boardno, fk_mbr_seq, ftitle, fcontent, fwritedate, fhit)
    		values(form_seq.nextval, 3, #{fk_mbr_seq}, #{ftitle}, #{fcontent}, default, default)
    </insert>
-   
-   <!-- === 파일 첨부하기 === 
-   <insert id="formFileAdd" parameterType="com.spring.groupware.board.model.FormfileVO">
-   		insert into tbl_formboard(fk_form_seq, ffile_seq, ffilename, ffilepath, ffilesize, fuploaddate)
-   		values(#{fk_form_seq}, ffile_seq.nextval, #{filename}, #{ffilepath}, #{ffilesize}, default)
-   </insert>	-->
-      
+ 
+    <!-- === 파일첨부 있는 글쓰기 === -->
+   <insert id="add_withFile" parameterType="com.spring.groupware.board.model.FormboardVO">
+   		insert into tbl_formboard(form_seq, fk_boardno, fk_mbr_seq, ftitle, fcontent, fwritedate, fhit, fileName, orgFilename, fileSize)
+   		values(form_seq.nextval, 3, #{fk_mbr_seq}, #{ftitle}, #{fcontent}, default, default, #{fileName}, #{orgFilename}, #{fileSize})
+   </insert>
+     
    	<!-- === 전체 글목록 보여주기 == -->
    	<select id="formListNoSearch" resultType="com.spring.groupware.board.model.FormboardVO">
 	   	select form_seq, fk_mbr_seq, ftitle, fcontent, to_char(fwritedate, 'yyyy-mm-dd hh24:mi:ss') as fwritedate, fhit
@@ -222,8 +222,9 @@
    	<!--  == 글 1개 보여주기  ==  -->
    	<select id="getFormView" parameterType="String" resultType="com.spring.groupware.board.model.FormboardVO">
 	   	select previousseq, previoustitle    
-	     , form_seq, fk_mbr_seq, ftitle, fcontent, fwritedate, fhit
-	     , nextseq, nexttitle
+		     , form_seq, fk_mbr_seq, ftitle, fcontent, fwritedate, fhit
+		     , nextseq, nexttitle
+		     , fileName, orgFilename, fileSize
 		from
 		(
 		    select lag(form_seq,1) over (order by form_seq desc) as previousseq
@@ -231,6 +232,7 @@
 		         
 		         , form_seq, fk_mbr_seq, ftitle, fcontent
 		         , to_char(fwritedate, 'yyyy-mm-dd hh24:mi:ss') as fwritedate, fhit
+		         , fileName, orgFilename, fileSize
 		         
 		         , lead(form_seq,1) over (order by form_seq desc) as nextseq
 		         , lead(ftitle,1) over (order by form_seq desc) as nexttitle
@@ -273,12 +275,13 @@
    	    	 
    	 <!-- === 페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것) -->   	 
    	 <select id="formListSearchWithPaging" parameterType="HashMap" resultType="com.spring.groupware.board.model.FormboardVO">
-	   	select form_seq, fk_mbr_seq, ftitle, fcontent, fwritedate, fhit
+	   	select form_seq, fk_mbr_seq, ftitle, fcontent, fwritedate, fhit, fileName
 		from 
 		(
 		    select row_number() over(order by form_seq desc) AS rno,
 		           form_seq, fk_mbr_seq, ftitle, fcontent, fhit,
-		           to_char(fwritedate, 'yyyy-mm-dd hh24:mi:ss') as fwritedate
+		           to_char(fwritedate, 'yyyy-mm-dd hh24:mi:ss') as fwritedate,
+		           fileName
 		    from tbl_formboard
 		    <if test='searchWord != ""'>
 		    	where lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
