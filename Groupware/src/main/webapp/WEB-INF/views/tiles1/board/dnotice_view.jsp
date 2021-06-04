@@ -90,10 +90,6 @@
 	      <div style="padding: 50px 0; font-size: 16pt; color: red;">존재하지 않습니다</div>
 	   </c:if>
    
-	   <c:if test="${empty requestScope.dnoticevo}">   		
-	      <div style="padding: 50px 0; font-size: 16pt; color: red;">존재하지 않습니다</div>
-	   </c:if>
-   
 	   <button type="button" onclick="javascript:location.href='<%=ctxPath%>/dnotice_list.opis'">전체목록보기</button>
 	   <c:if test="${sessionScope.loginuser.mbr_id eq requestScope.dnoticevo.fk_mbr_id || sessionScope.loginuser.mbr_id eq 'admin'}">
 	   		<button type="button" onclick="javascript:location.href='<%=ctxPath%>/dnotice_edit.opis?dnotice_seq=${requestScope.dnoticevo.dnotice_seq}'">수정</button>

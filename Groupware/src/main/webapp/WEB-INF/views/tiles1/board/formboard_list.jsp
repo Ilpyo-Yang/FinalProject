@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
- 
+  <script src="https://kit.fontawesome.com/16816a49c3.js" crossorigin="anonymous"></script>
 
     <jsp:include page="./board_sidebar.jsp" />
 	<script type="text/javascript">
@@ -129,7 +129,12 @@
 	      	<tr>
 				<td align="center">${formboardvo.form_seq}</td>
 				<td align="left">
+				<c:if test="${empty formboardvo.fileName}">
 					<span class="title" onclick="goView('${formboardvo.form_seq}')">${formboardvo.ftitle}</span>
+				</c:if>
+				<c:if test="${not empty formboardvo.fileName}">
+					<span class="title" onclick="goView('${formboardvo.form_seq}')">${formboardvo.ftitle}</span>&nbsp;&nbsp;<i class="far fa-save fa-2x" style="font-size: 14px;"></i>
+				</c:if>
 				</td>
 				<td align="center">관리자</td>
 				<td align="center">${formboardvo.fwritedate}</td>

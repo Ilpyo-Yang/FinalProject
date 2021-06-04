@@ -15,7 +15,7 @@ public interface InterFormboardDAO {
 	void setAddReadCount(String form_seq);
 
 	// 글 1개 조회하기
-	FormboardVO getView(String form_seq);
+	FormboardVO getView(Map<String, String> paraMap);
 
 	// 1개글 삭제하기
 	int del(Map<String, String> paraMap);
@@ -31,5 +31,8 @@ public interface InterFormboardDAO {
 
 	// 페이징 처리한 글 목록
 	List<FormboardVO> boardListSearchWithPaging(Map<String, String> paraMap);
+
+	// 파일첨부가 있는 글쓰기
+	int add_withFile(FormboardVO formboardvo);
 	
 }

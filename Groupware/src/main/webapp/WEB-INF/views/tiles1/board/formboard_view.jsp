@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
 	String ctxPath = request.getContextPath();
@@ -50,6 +51,12 @@
 		
 	}); // end of $(document).ready(function(){})-----------------------------------------
 
+	function goDelete(form_seq){
+		if(confirm("정말로 삭제하시겠습니까?")==true){
+        	location.href="<%=ctxPath%>/formboard_delEnd.opis?form_seq="+form_seq;
+    	}
+	}
+	
 </script>
 
 <div style="width: 1460px;">
@@ -64,12 +71,15 @@
    	<c:if test="${not empty requestScope.formboardvo}">
    	 <table id="table">
          <tr id="title">
-         	<td>
-               	<input type="hidden" name="cnotice_seq" value="${requestScope.formboardvo.form_seq}" />   
-           	</td>
             <td style="width: 800px;"><h3>${requestScope.formboardvo.ftitle}</h3></td>
             <td style="width: 200px;">${requestScope.formboardvo.fwritedate}</td>
             <td style="width: 100px;">조회&nbsp;${requestScope.formboardvo.fhit}</td>
+         </tr>
+         <tr>
+            <td>
+            	<span style="font-weight: 600;">첨부파일</span>&nbsp;:&nbsp;
+            	<a href="<%=ctxPath%>/formboard_download.opis?form_seq=${requestScope.formboardvo.form_seq}">${requestScope.formboardvo.orgFilename}</a>&nbsp;&nbsp;(<fmt:formatNumber value="${requestScope.formboardvo.fileSize}" pattern="#,###"></fmt:formatNumber>&nbsp;bytes)
+            </td>
          </tr>
          <tr>
             <td colspan="3" style="height: 400px; border-bottom: 1px solid black;">
@@ -91,7 +101,8 @@
 	 <button type="button" onclick="javascript:location.href='<%=ctxPath%>/formboard_list.opis'">전체목록보기</button>
 	 <c:if test="${sessionScope.loginuser.power_detail ne '사원'}">
 		 <button type="button" onclick="javascript:location.href='<%=ctxPath%>/formboard_edit.opis?form_seq=${requestScope.formboardvo.form_seq}'">수정</button>
-		 <button type="button" onclick="javascript:location.href='<%=ctxPath%>/formboard_del.opis?form_seq=${requestScope.formboardvo.form_seq}'">삭제</button>
-	 </c:if>  
+		 <button type="button" onclick="goDelete(${requestScope.formboardvo.form_seq})">삭제</button>
+	 </c:if> 
+	 
 	</div> 
 </div>
