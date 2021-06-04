@@ -60,6 +60,13 @@ public class ScheduleService implements InterScheduleService{
 		return scdList;
 	}
 	
+	// 모든 일정 삭제하기
+	@Override
+	public int delAll() {
+		int n = dao.delAll();
+		return n;
+	}
+	
 	///////////////////////////////////////////////////////////일정끝
 	
 	// 회의실 이용기록번호 채번하기
@@ -96,6 +103,8 @@ public class ScheduleService implements InterScheduleService{
 		int n = dao.delMtrReg(usemtrno);
 		return n;
 	}
+	
+	
 	
 	
 	

@@ -78,6 +78,28 @@ public class ScheduleController {
 		return mav;
 	}
 	
+	// 캘린더 상의 일정 클릭시 상세 내용 보여주기
+	@RequestMapping(value="/showDetail.opis", method= {RequestMethod.GET})
+	public ModelAndView requiredLogin_showDetail(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		String scdno = request.getParameter("scdno");
+		
+		ScheduleVO schedulevo = service.getViewScd(scdno);
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		if(loginuser.getMbr_seq() == Integer.parseInt(schedulevo.getFk_mbr_seq())) {
+			mav.addObject("schedulevo", schedulevo);
+			mav.setViewName("schedule_modal/scdDetail");
+		}
+		else {
+			mav.addObject("message","잘못된 접근입니다.");
+			mav.setViewName("msg");
+		}
+		return mav;
+	}
+	
 	// 일정 수정 페이지 요청
 	@RequestMapping(value="/editScd.opis")
 	public ModelAndView requiredLogin_editScd(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
@@ -113,7 +135,7 @@ public class ScheduleController {
 		
 		if(n == 1) {
 			mav.addObject("schedulevo", schedulevo);
-			mav.setViewName("/schedule_modal/scdDetail");
+			mav.setViewName("schedule_modal/scdDetail");
 		}
 		else {
 			mav.addObject("message", "일정 수정 실패");
@@ -147,7 +169,7 @@ public class ScheduleController {
 	
 	// 풀캘린더 상에 일정 보여주기
 	@ResponseBody
-	@RequestMapping(value="/showScd.opis", produces="text/plain;charset=UTF-8")
+	@RequestMapping(value="/scdList.opis", produces="text/plain;charset=UTF-8")
 	public String showScd(HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
@@ -155,7 +177,7 @@ public class ScheduleController {
 		
 		String userid = loginuser.getMbr_id();
 		
-		List<Map<String,String>> scdList = service.showScd(userid);
+		List<Map<String, String>> scdList = service.showScd(userid);
 		
 		JsonArray jsonArr = new JsonArray();
 		
@@ -172,6 +194,26 @@ public class ScheduleController {
 		}
 		
 		return new Gson().toJson(jsonArr);
+	}
+	
+	// 모든 일정 삭제하기
+	@RequestMapping(value="/delAll.opis")
+	public ModelAndView requiredLogin_delAll(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		int n = service.delAll();
+		
+		if(n==1) {
+			mav.setViewName("schedule/myscd.tiles1");
+		}
+		else {
+			String message = "전체 삭제에 실패하였습니다.";
+			String loc = "javascript:history.back()";
+	        
+	        mav.addObject("message", message);
+	        mav.setViewName("error");
+		}
+		
+		return mav;
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////

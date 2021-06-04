@@ -26,6 +26,9 @@ public interface InterScheduleService {
 	// 일정 풀캘린더에 보여주기
 	List<Map<String, String>> showScd(String userid);
 	
+	// 모든 일정 삭제하기
+	int delAll();
+	
 	//////////////////////////////////////////////////////
 	
 	// 회의실 이용기록번호 채번하기
@@ -42,6 +45,9 @@ public interface InterScheduleService {
 	
 	// 회의실 예약취소(삭제)
 	int delMtrReg(String usemtrno);
+	
+	
+	
 
 	
 	

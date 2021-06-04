@@ -23,6 +23,9 @@ public interface InterScheduleDAO {
 	// 캘린더에 일정 보여주기
 	List<Map<String, String>> showScd(String userid);
 	
+	// 모든 일정 삭제하기
+	int delAll();
+	
 	//////////////////////////////////////////////////////
 	
 	// 회의실 이용기록번호 채번하기
@@ -39,6 +42,8 @@ public interface InterScheduleDAO {
 	
 	// 회의실명 가져오기
 	String getMtrName(String fk_mtrno);
+	
+	
 	
 	// 회의실 예약현황 보여주기(구글 차트)
 	/* List<Map<String, String>> goRegMtr(); */
