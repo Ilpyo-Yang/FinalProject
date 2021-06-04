@@ -86,7 +86,12 @@
          <tr>
             <th>기존 첨부파일</th>
             <td>
-            	<a href="<%=ctxPath%>/formboard_download.opis?form_seq=${requestScope.formboardvo.form_seq}">${requestScope.formboardvo.orgFilename}</a>&nbsp;&nbsp;(<fmt:formatNumber value="${requestScope.formboardvo.fileSize}" pattern="#,###"></fmt:formatNumber>&nbsp;bytes) 	
+            <c:if test="${empty requestScope.formboardvo.orgFilename}">
+            	<span style="color: red;">첨부된 파일이 없습니다</span>
+            </c:if>
+            <c:if test="${not empty requestScope.formboardvo.orgFilename}">
+	            <a href="<%=ctxPath%>/formboard_download.opis?form_seq=${requestScope.formboardvo.form_seq}">${requestScope.formboardvo.orgFilename}</a>&nbsp;&nbsp;(<fmt:formatNumber value="${requestScope.formboardvo.fileSize}" pattern="#,###"></fmt:formatNumber>&nbsp;bytes) 	
+            </c:if>
             </td>
          </tr>
          <tr>
