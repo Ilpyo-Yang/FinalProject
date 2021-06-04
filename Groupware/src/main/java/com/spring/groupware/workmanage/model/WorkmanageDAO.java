@@ -109,6 +109,13 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		List<WorkMemberVO> workmbrList = sqlsession.selectList("workmanage.getWorkStatusEachMember", wmno);
 		return workmbrList;
 	}
+
+	// 업무 수정하기
+	@Override
+	public int workEditEnd(WorkVO workvo) {
+		int n = sqlsession.update("workmanage.workEditEnd", workvo);
+		return n;
+	}
 	
 	
 

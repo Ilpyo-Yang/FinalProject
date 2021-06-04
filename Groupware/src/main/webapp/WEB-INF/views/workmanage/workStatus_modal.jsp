@@ -32,8 +32,6 @@ button {
 		
 		setworkStatusMbrBtn();
 	});
-	
-
 </script>
 
 <div class="container">

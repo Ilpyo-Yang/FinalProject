@@ -76,7 +76,7 @@ button.readCheck {
 		$("button.workStatus").each(function(index, item){
 			var delayday = $(item).prev().val();
 			
-			setworkStatusBtn(item, delayday)
+			setworkStatusBtn(item, delayday);
 		});
 		
 		$(document).on("click", ".workStatus", function () {

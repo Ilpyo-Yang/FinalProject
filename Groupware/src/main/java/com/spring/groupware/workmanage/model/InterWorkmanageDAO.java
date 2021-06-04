@@ -46,4 +46,7 @@ public interface InterWorkmanageDAO {
 	// 담당자들의 업무 정보 가져오기
 	List<WorkMemberVO> getWorkStatusEachMember(String wmno);
 
+	// 업무 수정하기
+	int workEditEnd(WorkVO workvo);
+
 }

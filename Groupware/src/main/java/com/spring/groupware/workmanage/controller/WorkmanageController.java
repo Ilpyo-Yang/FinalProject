@@ -37,13 +37,11 @@ public class WorkmanageController {
 	// == 업무 등록 페이지 보여주기 (할일, 요청, 보고 등록) == //
 	@RequestMapping(value = "/workAdd.opis")
 	public ModelAndView requiredLogin_workAdd(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-		
-		
 		mav.setViewName("workmanage/workAdd.tiles1");
 		return mav;
 	}
 	
-	// === #108. 검색어 입력시 자동글 완성하기 3 === //
+	// === 검색어 입력시 자동글 완성하기 3 === //
 	@ResponseBody
 	@RequestMapping(value = "/memberSearchShow.opis", method = {RequestMethod.GET }, produces = "text/plain;charset=UTF-8")
 	public String memberSearchShow(HttpServletRequest request) {
@@ -199,7 +197,7 @@ public class WorkmanageController {
 			mav.setViewName("redirect:/workList.opis?workType="+workvo.getFk_wtno()+"&workRole="+fk_wrno);
 		}
 		else {
-			String message = "일정 등록에 실패하였습니다. 다시 시도하세요";
+			String message = "업무 등록에 실패하였습니다. 다시 시도하세요";
 			String loc = "javascript:history.back()";
 			
 			mav.addObject("message",message);
@@ -333,6 +331,42 @@ public class WorkmanageController {
 		return mav;
 	}
 	
+	// 업무 수정하기
+	@RequestMapping(value="workEdit.opis")
+	public ModelAndView requiredLogin_workEdit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		String wmno = request.getParameter("wmno"); // 업무고유 번호 받아오기
+		
+		Map<String,String> paraMap = new HashedMap<>();
+		paraMap.put("wmno", wmno);
+		
+		WorkVO workvo = service.showDetailWork(paraMap);
+		
+		mav.addObject("workvo", workvo);
+		mav.setViewName("workmanage/workEdit.tiles1");
+		return mav;
+	}
 	
-	
+	// 업무 수정하기 마지막
+	@RequestMapping(value="workEditEnd.opis", method = {RequestMethod.POST})
+	public ModelAndView workEditEnd(ModelAndView mav, WorkVO workvo, HttpServletRequest request) {
+		
+		int n = service.workEditEnd(workvo);
+		
+		if (n == 1) {
+			String fk_wrno = request.getParameter("fk_wrno");
+			mav.setViewName("redirect:/workList.opis?workType="+workvo.getFk_wtno()+"&workRole="+fk_wrno);
+		}
+		else {
+			String message = "업무 수정에 실패하였습니다. 다시 시도하세요";
+			String loc = "javascript:history.back()";
+			
+			mav.addObject("message",message);
+			mav.addObject("loc",loc);
+			
+			mav.setViewName("msg");			
+		}
+		
+		return mav;
+	}
 }

@@ -115,4 +115,11 @@ public class WorkmanageService implements InterWorkmanageService {
 		return workmbrList;
 	}
 
+	// 업무 수정하기
+	@Override
+	public int workEditEnd(WorkVO workvo) {
+		int n = dao.workEditEnd(workvo);
+		return n;
+	}
+
 }

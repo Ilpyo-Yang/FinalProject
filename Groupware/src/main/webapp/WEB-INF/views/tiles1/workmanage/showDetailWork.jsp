@@ -9,11 +9,25 @@
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="<%=ctxPath%>/resources/js/workmanage.js"></script>
 
 <jsp:include page="./workmanage_sidebar.jsp" />
 
 <style type="text/css">
 </style>
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		// 버튼 색상 적용하는 js 함수 호출
+		$("button.workStatus").each(function(index, item){
+			var delayday = $(item).prev().val();
+			
+			setworkStatusBtn(item, delayday);
+		});	
+	});
+</script>
+
 
 <div class="container commoncontainer">
 	<c:if test="${workType == 1}">
@@ -34,27 +48,8 @@
 				
 				<td>상태</td>
 				<td>
-					<c:choose>
-						<c:when test="${workvo.fk_statno == 0}">
-							<button type="button" class="workStatus" style="background-color: #ff3300;">지연<span>+2</span></button>		
-						</c:when>
-						<c:when test="${workvo.fk_statno == 1}">
-							<button type="button" class="workStatus" style="background-color: #66ccff;">미완료</button>
-						</c:when>
-						<c:when test="${workvo.fk_statno == 2}">
-							<button type="button" class="workStatus" style="background-color: white; border: 1px solid black; color: black;">완료</button>
-						</c:when>
-						
-						<c:when test="${workvo.fk_statno == 3}">
-							<button type="button" class="workStatus" style="background-color: #66ccff;">미확인</button>		
-						</c:when>
-						<c:when test="${workvo.fk_statno == 4}">
-							<button type="button" class="workStatus" style="background-color: white; border: 1px solid black; color: black;">승인완료</button>
-						</c:when>
-						<c:when test="${workvo.fk_statno == 5}">
-							<button type="button" class="workStatus" style="background-color: #ffcc00;">반려</button>
-						</c:when>
-					</c:choose>
+					<input type="hidden" value="${workvo.delayday}"/>
+					<button type="button" class="workStatus" value="${workvo.fk_statno}"></button>	
 				</td>
 			</tr>
 			<tr>
@@ -90,6 +85,15 @@
 			</tr>
 		</tbody>
 	</table>
+	
+	<!-- 처리내역 테이블 만들기 -->
+	
+	<!-- 업무 관련 버튼 -->
+	<div align="right">
+		<button type="button" class="workEditBtn" onclick="javascript:location.href='<%=ctxPath%>/workEdit.opis?wmno=${workvo.wmno}'">수정</button>
+		<button type="button" class="workDeleteBtn" onclick="javascript:location.href='<%=ctxPath%>/workDel.opis?'">삭제</button>
+		<button type="button" class="workListBtn" onclick="javascript:location.href='<%=ctxPath%>/workList.opis?'">목록</button>
+	</div>
 	
 	<c:if test="${requestScope.workRole ne 2}"><jsp:include page="./readDetail.jsp" /></c:if>
 	<c:if test="${requestScope.workRole eq 2}"><jsp:include page="./writeDetail.jsp" /></c:if>

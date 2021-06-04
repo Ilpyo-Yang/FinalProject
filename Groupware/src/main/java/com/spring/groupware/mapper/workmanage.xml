@@ -69,9 +69,10 @@
 	
 	<!-- == 선택한 업무(요청,보고) 상세 보기 == -->
 	<select id="showDetailWork" parameterType="HashMap" resultType="com.spring.groupware.workmanage.model.WorkVO">
-		select wmno, fk_wtno, requester, receivers, subject, fk_statno
+		select wmno, fk_wtno, requester, receivers, subject, fk_statno, contents
 		    , to_char(registerday, 'yyyy-mm-dd') as registerday
 		    , to_char(deadline, 'yyyy-mm-dd') as deadline
+		    , to_date(to_char(sysdate, 'yyyy-mm-dd')) - to_date(to_char(deadline, 'yyyy-mm-dd')) as delayday
 		from tbl_workmanage
 		where wmno = #{wmno}
 	</select>
@@ -115,4 +116,10 @@
 		where fk_wmno = #{wmno} and fk_wrno = 2
 	</select>
 	
+	<!-- 업무 수정하기 -->
+	<update id="workEditEnd" parameterType="com.spring.groupware.workmanage.model.WorkVO">
+		update tbl_workmanage 
+		set subject = #{subject} , deadline = #{deadline} , contents = #{contents}
+		where wmno = #{wmno}
+	</update>
 </mapper>
