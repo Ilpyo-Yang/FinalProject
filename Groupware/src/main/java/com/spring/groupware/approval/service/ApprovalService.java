@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.spring.groupware.approval.model.InterApprovalDAO;
+import com.spring.groupware.member.model.MemberVO;
 
 
 
@@ -25,6 +26,13 @@ public class ApprovalService implements InterApprovalService {
 	public String getFileNo() {
 		String fileNo = adao.getFileNo();
 		return fileNo;
+	}
+
+	// 모달창에 입력될 전체 사원명 가져오기
+	@Override
+	public List<MemberVO> getMemberList() {
+		List<MemberVO> memberList = adao.getMemberList();
+		return memberList;
 	}
 
 

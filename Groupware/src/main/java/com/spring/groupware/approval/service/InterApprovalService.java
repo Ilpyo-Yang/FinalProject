@@ -11,6 +11,9 @@ public interface InterApprovalService {
 	// 문서번호 가져오기
 	String getFileNo();
 
+	// 모달창에 입력될 전체 사원명 가져오기
+	List<MemberVO> getMemberList();
+
 
 
 	

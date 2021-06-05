@@ -1,7 +1,7 @@
 @charset "EUC-KR";
 
 
-/* ============ approval.jsp ============== */
+/* ============ approvalMain.jsp ============== */
 	
 div#approvalContainer {
 	margin: 2% auto;
@@ -36,6 +36,35 @@ div.menu {
 }
 
 
+/* ============ selectMemberModal.jsp ============== */
+.modal {
+	margin-left: 22%;
+    z-index: 1;
+    background-color: rgba(0,0,0,0.4);
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;                       
+}
+div.memberModel {
+	width: 21%;
+	height: 70%;
+	float: left;
+	margin: 2% 1%;
+	border: solid 1px gray;
+	font-weight: bold;
+	font-size: 12pt;
+	padding: 5%;
+	overflow: auto;
+}
+button#closeModal {
+	font-weight: bolder;
+	float: right;
+}
+
 /* ============ approvalForm1.jsp ============== */
 
 div#approvalFormStyle {
@@ -47,6 +76,14 @@ div#top {
 button.formBtn {
 	margin-right: 10px;
 	height: 30px;
+}
+button.formBtn2 {
+	height: 20px;
+	padding: 0 5px;
+	vertical-align: middle;
+	line-height: 20px;
+	font-size: 7pt;
+	font-weight: bold;
 }
 table#sign {
 	margin-top: 30px;
