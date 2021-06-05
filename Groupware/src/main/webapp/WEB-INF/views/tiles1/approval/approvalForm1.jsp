@@ -11,26 +11,11 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('#myModal').hide();
 		
-		// 참조자 선택하기
-		$("button#selectMember").click(function(){	
-			<%-- 모달창에 입력될 전체 사원명 가져오기 --%>
-			$.ajax({
-				url:"<%=ctxPath%>/getMemberList.opis",
-				dataType:"json",
-				success: function(json){	
-					console.log(json);
-					$.each(json, function(index, item){					
-						$("div#memberModal1").append(item.name); 
-					});
-				},
-				error: function(request, status, error){
-	                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-	          	}
-			});
+		$("button#selectMember").click(function(){			
 			$('#myModal').show();
 		});
+		
 		$("button#closeModal").click(function(){
 			$('#myModal').hide();
 			/* $('span#selectedMember').html('${selectedMember}'); */

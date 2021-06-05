@@ -38,32 +38,45 @@ div.menu {
 
 /* ============ selectMemberModal.jsp ============== */
 .modal {
-	margin-left: 22%;
     z-index: 1;
     background-color: rgba(0,0,0,0.4);
 }
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto;
+    margin: 7% auto;
     padding: 20px;
-    border: 1px solid #888;
-    width: 50%;                       
+    border: 1px solid #dedede;
+    width: 50%; 
+    height: 70%;               
 }
 div.memberModel {
-	width: 21%;
-	height: 70%;
-	float: left;
-	margin: 2% 1%;
-	border: solid 1px gray;
+	width: 40%;
 	font-weight: bold;
 	font-size: 12pt;
 	padding: 5%;
-	overflow: auto;
+}
+div#memberModel1 {
+	display: inline-block;
+	margin-right: 10px;
+	/* float: left; */
+}
+div#memberModel2 {
+	display: inline-block;
+	/* float: right; */
+}
+div#memberMove {
+	display: inline-block;
+	width: 20px;
 }
 button#closeModal {
 	font-weight: bolder;
 	float: right;
 }
+hr.division {
+	border: dashed 1px #f2f2f2; 
+	margin: 5px auto;
+}
+
 
 /* ============ approvalForm1.jsp ============== */
 

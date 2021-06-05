@@ -34,9 +34,11 @@ public class ApprovalController {
       public ModelAndView approvalForm1(ModelAndView mav) {
   		 String today = MyUtil.getToday();
   		 String fileNo = service.getFileNo(); 
+  		 List<MemberVO> memberList = service.getMemberList(); 
   		 
   		 mav.addObject("today",today);
   		 mav.addObject("fileNo",fileNo);
+  		 mav.addObject("memberList",memberList);
     	 mav.setViewName("approval/approvalForm1.tiles1");
     	 return mav;
       }
