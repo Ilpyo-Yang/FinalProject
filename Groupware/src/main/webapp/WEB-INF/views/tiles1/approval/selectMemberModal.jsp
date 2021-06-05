@@ -2,6 +2,14 @@
     pageEncoding="UTF-8"%>
 <% String ctxPath = request.getContextPath(); %>
 
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		
+		
+	}); // end of $(document).ready(function(){})---------------------------------------
+</script>
+
 
  <div id="myModal" class="modal">
 
@@ -15,15 +23,7 @@
        <p style="text-align: center; line-height: 1.5;">
 		   <div class="memberModal" id="memberModal1">
 		   		<label><input type="checkbox"/>모두 선택/해제하기</label>
-		   		<hr style="margin: 0 0 15px 0;">
-		   		<label>영업팀</label>
-		   		<label><input type="checkbox"/>모두 선택/해제하기</label>
-		   		<label><input type="checkbox"/>모두 선택/해제하기</label>
-		   		<label><input type="checkbox"/>모두 선택/해제하기</label>
-		   		<label><input type="checkbox"/>모두 선택/해제하기</label>
-		   		<label><input type="checkbox"/>모두 선택/해제하기</label>
-		   		<label><input type="checkbox"/>모두 선택/해제하기</label>
-		   		
+		   		<hr style="margin: 0 0 15px 0;"> 		
 		   </div>
 		   <div class="memberMove">
 		   		<span>

@@ -11,6 +11,18 @@
 	</select>
 
 	
-	
+	<!-- 모달창에 입력될 전체 사원명 가져오기 -->
+	<select id="getMemberList" resultType="com.spring.groupware.member.model.MemberVO">	
+		select mbr_name, rank_detail, dept_detail
+		from 
+		(        
+		select mbr_name, fk_rank_no, fk_dept_no
+		from tbl_mbr
+		)A left join tbl_dept B
+		on fk_dept_no = dept_no
+		join tbl_rank C
+		on fk_rank_no = rank_no
+		order by dept_detail, rank_detail
+	</select>
 	
 </mapper>
