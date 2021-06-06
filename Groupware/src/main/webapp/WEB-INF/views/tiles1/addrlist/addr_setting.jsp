@@ -19,10 +19,35 @@
 	<script type="text/javascript">
 
 	$(document).ready(function(){
-
 		
 	}); // end of $(document).ready(function(){})---------------------------------------
 
+	function goAdd(){
+		
+		var form_data =  $("form[name=addAddrGRFrm]").serialize();
+		
+		$.ajax({
+			type:"POST",
+			url:"<%=ctxPath%>/addAddrgroup.opis",
+			data:form_data,
+			dataType:"json",
+			success: function(json){
+				var n = json.n;  
+				
+				if(n==0){
+					alert("주소록 그룹 추가를 실패했습니다.");
+				}
+				else{
+					location.reload();
+				}
+			},
+			error: function(request, status, error){
+                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+            }		
+		});	
+		
+	}// end of function goAdd()----------------------------------------	
+	
 	
 </script>
 </head>
@@ -38,11 +63,12 @@
 	<div class="container" style="float: right; width: 80%; margin-top: 50px;">        
 
   		<!-- 등록 -->
-		<form name="addAdrListFrm" style="margin-top: 20px;">
+		<form name="addAddrGRFrm" style="margin-top: 20px;">
 		  <span>추가&nbsp;&nbsp;</span>	
+		  <input type="hidden" name="fk_mbr_seq" id="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}" />
 	      <input type="text" name="groupname" id="groupname" size="20" placeholder="그룹명" /> 
 	      <input type="text" name="groupdetail" id="groupdetail" size="40" placeholder="그룹 설명" /> 
-	      <button type="button" onclick="goAdd()">추가</button>
+	      <button type="button" id="addAddrGr" onclick="goAdd()">추가</button>
 	   	</form>
 	   
 		<!-- 본문(게시판) -->
@@ -54,23 +80,26 @@
 		      </tr>
 		    </thead>
 		    <tbody>
-		    	<c:if test="${not empty requestScope.addrList}"></c:if>
-		      	<tr>
-					<td>
-						<span class="name">${requestScope.addrList.groupname}</span>
-					</td>
-					<td>
-						<span class="detail">${requestScope.addrList.groupdetail}</span>
-					</td>  	
-		      	</tr>		
-		      
+		    	<c:forEach var="addrgroupvo" items="${requestScope.addrgroupList}" varStatus="status">
+		    
+			    	<c:if test="${not empty addrgroupvo.addrgroup_seq}">
+			      	<tr>
+						<td>
+							<span class="name">${addrgroupvo.groupname}</span>
+						</td>
+						<td>
+							<span class="detail">${addrgroupvo.groupdetail}</span>
+						</td>  	
+			      	</tr>		
+			      	</c:if>
+				</c:forEach>
 		    </tbody>
 		</table>
 	  
-	<!-- 페이지바 -->  
-	<div align="center" style="width: 70%; border: solid 0px gray; margin: 20px auto;">
-   		${requestScope.pageBar}
-    </div>
+		<!-- 페이지바 -->  
+		<div align="center" style="width: 70%; border: solid 0px gray; margin: 20px auto;">
+	   		${requestScope.pageBar}
+	    </div>
 
   	</div>	  	
 	

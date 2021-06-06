@@ -307,10 +307,11 @@ public class AddrController {
  	  List<AddrGroupVO> addrgroupList = null; 
 
  	  HttpSession session = request.getSession();
- 	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
- 
+	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	  
  	  // 로그인한 사원의 사원번호 가져오기
  	  int fk_mbr_seq = loginuser.getMbr_seq();
+ 	  System.out.println("확인용: "+fk_mbr_seq);
  	  
  	  int totalCount = 0; 			// 총 게시물 건수
  	  int sizePerPage = 10;       	// 한 페이지당 보여줄 게시물 건수     	  
@@ -326,7 +327,6 @@ public class AddrController {
 
       // 총 주소록 건수(totalCount)
       totalCount = service.getAddrgroupTotalCount(paraMap);
-       
       totalPage = (int)Math.ceil((double)totalCount/sizePerPage);	
        
  	  if(str_currentShowPageNo == null) {
@@ -343,7 +343,6 @@ public class AddrController {
 			}
  	  }
 
- 	  
  	  startRno = ((currentShowPageNo - 1 ) * sizePerPage) + 1;
       endRno = startRno + sizePerPage - 1;
  	  
@@ -374,7 +373,7 @@ public class AddrController {
  			  pageBar += "<li style='display:inline-block; width:30px; font-size:12pt; border:solid 1px gray; color:red; padding:2px 4px;'>"+pageNo+"</li>";
  		  }
  		  else {
- 			  pageBar += "<li style='display:inline-block; width:30px; font-size:12pt;'><a href='"+url+"?&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+ 			  pageBar += "<li style='display:inline-block; width:30px; font-size:12pt;'><a href='"+url+"?currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
  		  }
  		  
  		  loop++;
@@ -400,5 +399,24 @@ public class AddrController {
  	  return mav;
    }
    
+   // === 주소록 목록 추가 === //
+   @ResponseBody
+   @RequestMapping(value="/addAddrgroup.opis", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+   public String addAddrgroup(AddrGroupVO agvo) {
+  
+	  int n = 0;
+	  
+	  try {
+		  n = service.addAddrgroup(agvo);
+	  }	catch (Throwable e) {
+			
+	  }
+	  
+	  JSONObject jsonObj = new JSONObject();
+	  jsonObj.put("n", n);
+	  jsonObj.put("groupname", agvo.getGroupname());
+	  
+	  return jsonObj.toString();
+   }
    
 }

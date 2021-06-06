@@ -96,7 +96,7 @@
 
 <!-- ============================ 개인 주소록 관리 ============================ -->   
 
-   	 <!-- === 페이징 처리한 주소록 그룹 목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것) -->  
+   	 <!-- === 페이징 처리한 주소록 그룹 목록 가져오기 -->  
    	 <select id="addrgroupListWithPaging" parameterType="HashMap" resultType="com.spring.groupware.addrlist.model.AddrGroupVO">
 	   	select addrgroup_seq, groupname, groupdetail
 		from 
@@ -115,4 +115,11 @@
    	 	from tbl_addrlist
    	 </select>
    	 
+   	 <!-- === 주소록 그룹 추가 === -->
+     <insert id="addAddrgroup" parameterType="com.spring.groupware.addrlist.model.AddrGroupVO">
+   		insert into tbl_addrlist(addrgroup_seq, fk_mbr_seq, groupname, groupdetail)
+   		values(addrgroup_seq.nextval, #{fk_mbr_seq}, #{groupname}, #{groupdetail})
+     </insert>
+ 	 
+     
 </mapper>

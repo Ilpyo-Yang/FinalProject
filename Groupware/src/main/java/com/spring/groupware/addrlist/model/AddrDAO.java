@@ -101,6 +101,13 @@ public class AddrDAO implements InterAddrDAO {
 		return n;
 	}
 
+	// === 주소록 그룹 등록하기 === //
+	@Override
+	public int addAddrgroup(AddrGroupVO agvo) {
+		int n =  sqlsession.insert("address.addAddrgroup", agvo);
+		return n;
+	}
+
 	
 	
 

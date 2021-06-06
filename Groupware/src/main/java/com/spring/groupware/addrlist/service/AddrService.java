@@ -95,5 +95,14 @@ public class AddrService implements InterAddrService {
 		return n;
 	}
 
+	// === 주소록 그룹 추가 == //
+	@Override
+	public int addAddrgroup(AddrGroupVO agvo) {
+		
+		int n = adao.addAddrgroup(agvo);
+		
+		return n;
+	}
+	
 	
 }

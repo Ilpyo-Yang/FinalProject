@@ -45,6 +45,9 @@ public interface InterAddrDAO {
 	// 총 주소록 그룹 수
 	int getAddrgroupTotalCount(Map<String, String> paraMap);
 
+	// 주소록 그룹 추가
+	int addAddrgroup(AddrGroupVO agvo);
+
 
 
 }
