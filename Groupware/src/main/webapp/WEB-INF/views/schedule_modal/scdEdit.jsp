@@ -113,9 +113,9 @@
 		
 	});
 	
-	function mtrResv() {
-		 var url = "<%=ctxPath%>/mtr_resv.opis";
-		 window.open(url, "mtrResv","left=350px, top=100px, width=800px, height=650px");
+	function goAddress() {
+		var url = "<%=ctxPath%>/show_addresslist.opis";
+		window.open(url,"showAddress","left=350px, top=100px, width=500px, height:400px");
 	}
 	
 </script>
@@ -177,14 +177,13 @@
 			<td id="title">장소</td>
 			<td id="contents">
 				<input type="text" name="place" value="${requestScope.schedulevo.place}"/>
-				<button type="button" onclick="mtrResv()">예약하기</button>
 			</td>
 			<tr class="attandance schedule">
 			<td id="title">참석자</td>
 			<td id="contents">
 				<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}" /> 
 				<input type="text" name="attendance" value="${requestSceop.schedulevo.attendance}" />
-				<button type="button" onclick="">주소록</button>
+				<button type="button" id="address" onclick="goAddress()">주소록</button>
 			</td>
 		</tr>
 		</table>
@@ -195,4 +194,5 @@
 		</div>
 		
 	</form>
+	
 </div>

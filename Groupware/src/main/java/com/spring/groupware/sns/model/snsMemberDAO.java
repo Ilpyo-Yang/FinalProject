@@ -39,6 +39,13 @@ public class snsMemberDAO implements IntersnsMemberDAO {
 		return n;
 	}
 
+	// 상태수정하기
+	@Override
+	public int statuschange(MemberVO membervo) {
+		int n = sqlsession.update("sns.statuschange",membervo);
+		return n;
+	}
+
 
 
 

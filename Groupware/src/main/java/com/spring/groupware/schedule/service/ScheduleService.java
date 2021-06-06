@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.spring.groupware.addrlist.model.AddrVO;
 import com.spring.groupware.schedule.model.InterScheduleDAO;
 import com.spring.groupware.schedule.model.MtrHistoryVO;
 import com.spring.groupware.schedule.model.ScheduleVO;
@@ -23,6 +24,13 @@ public class ScheduleService implements InterScheduleService{
 	public int getScdno() {
 		int scdno = dao.getScdno();
 		return scdno;
+	}
+	
+	// 주소록 가져오기
+	@Override
+	public List<AddrVO> getAddrList() {
+		List<AddrVO> addrList = dao.getAddrList();
+		return addrList;
 	}
 	
 	// 일정 등록하기
@@ -60,6 +68,13 @@ public class ScheduleService implements InterScheduleService{
 		return scdList;
 	}
 	
+	// 모든 일정 삭제하기
+	@Override
+	public int delAll() {
+		int n = dao.delAll();
+		return n;
+	}
+	
 	///////////////////////////////////////////////////////////일정끝
 	
 	// 회의실 이용기록번호 채번하기
@@ -76,11 +91,18 @@ public class ScheduleService implements InterScheduleService{
 		return n;
 	}
 	
-	// 예약된 회의실 상세 내용 조회
+	// 일정명 가져오기
 	@Override
-	public MtrHistoryVO getViewMtr(String usemtrno) {
-		MtrHistoryVO mtrhvo = dao.getViewMtr(usemtrno);
-		return mtrhvo;
+	public String getScdSubject(String scdno) {
+		String scdsubject = dao.getScdSubject(scdno); 
+		return scdsubject;
+	}
+		
+	// 회의실 이름 가져오기
+	@Override
+	public String getMtrName(String fk_mtrno) {
+		String mtrname = dao.getMtrName(fk_mtrno);
+		return mtrname;
 	}
 	
 	// 회의실 예약취소(삭제)
@@ -90,13 +112,19 @@ public class ScheduleService implements InterScheduleService{
 		return n;
 	}
 	
-	/*
-	 * // 회의실 예약현황 보여주기(구글 차트)
-	 * 
-	 * @Override public List<Map<String, String>> goRegMtr() { List<Map<String,
-	 * String>> regDetailList = dao.goRegMtr(); return regDetailList; }
-	 */
+	// 회의실 예약현황 보여주기(구글 차트)
+	@Override 
+	public List<Map<String, String>> goRegMtr() { 
+		 List<Map<String,String>> regDetailList = dao.goRegMtr(); 
+		 return regDetailList; 
+	}
+
+
 	
+	
+	
+	
+
 	
 	
 	

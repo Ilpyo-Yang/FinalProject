@@ -36,15 +36,15 @@ public class FormboardService implements InterFormboardService {
 
 	// === 글조회수 증가와 함께 글1개를 조회해주는 것 === //
 	@Override
-	public FormboardVO getView(String form_seq, String login_userid) {
+	public FormboardVO getView(Map<String, String> paraMap, String login_userid) {
 		
-		FormboardVO formboardvo = fdao.getView(form_seq); // 글1개 조회하기
+		FormboardVO formboardvo = fdao.getView(paraMap); // 글1개 조회하기
 		
 		if(login_userid != null && formboardvo != null && 
 		   !login_userid.equals("admin") ) {// 관리자가 로그인하지 않았을 경우에는 조회수 증가
 			
-			fdao.setAddReadCount(form_seq); // 글 조회수 1 증가하기	
-			formboardvo = fdao.getView(form_seq);
+			fdao.setAddReadCount(formboardvo.getForm_seq()); // 글 조회수 1 증가하기	
+			formboardvo = fdao.getView(paraMap);
 		}
 		
 		return formboardvo; 
@@ -52,8 +52,8 @@ public class FormboardService implements InterFormboardService {
 
 	// 글조회수 증가는 없고 단순히 글1개 조회만을 해주는 것
 	@Override
-	public FormboardVO getViewWithNoAddCount(String form_seq) {
-		FormboardVO formboardvo = fdao.getView(form_seq); // 글1개 조회하기
+	public FormboardVO getViewWithNoAddCount(Map<String, String> paraMap) {
+		FormboardVO formboardvo = fdao.getView(paraMap);
 		return formboardvo;
 	}
 
@@ -90,6 +90,13 @@ public class FormboardService implements InterFormboardService {
 	public List<FormboardVO> boardListSearchWithPaging(Map<String, String> paraMap) {
 		List<FormboardVO> boardList = fdao.boardListSearchWithPaging(paraMap);
 	    return boardList;
+	}
+
+	// === 파일첨부가 있는 글쓰기 === //
+	@Override
+	public int add_withFile(FormboardVO formboardvo) {
+		int n = fdao.add_withFile(formboardvo);
+		return n;
 	}
 	
 }

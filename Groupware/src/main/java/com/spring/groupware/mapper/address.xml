@@ -8,8 +8,8 @@
      <insert id="addrAdd" parameterType="com.spring.groupware.addrlist.model.AddrVO">
    		insert into tbl_address(addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name,
 	   		   				 mbr_birthday, postcode, address, detailaddress, addrmemo)
-   		values(addr_seq.nextval, #{mbr_name}, #{mbr_phone_number}, #{email}, #{dept_name}, #{position_name}, 
-   				#{mbr_birthday}, #{postcode}, #{address}, #{detailAddress}, #{addrmemo})
+   		values(addr_seq.nextval, #{mbr_name}, #{mbr_phone_number}, #{mbr_email}, #{dept_name}, #{position_name}, 
+   				#{mbr_birthday}, #{postcode}, #{address}, #{detailaddress}, #{addrmemo})
      </insert>
 
    	 <!-- === 총 주소록 건수(totalCount) === --> 
@@ -21,7 +21,7 @@
    	 	</if>
    	 </select>
    	 
-   	 <!-- === 페이징 처리한 주소록 목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것) -->   	 
+   	 <!-- === 페이징 처리한 주소록 목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것) -->  
    	 <select id="addrListSearchWithPaging" parameterType="HashMap" resultType="com.spring.groupware.addrlist.model.AddrVO">
 	   	select addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name
 		from 
@@ -47,15 +47,18 @@
   	 <!--  == 주소록 상세 보여주기  ==  -->
    	 <select id="getAddrView" parameterType="String" resultType="com.spring.groupware.addrlist.model.AddrVO">
 	   	select addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name,
-	   		   mbr_birthday, postcode, address, detailaddress, addrmemo	
+	   		   postcode, address, detailaddress, addrmemo,
+	   		   to_char(mbr_birthday, 'yyyy-mm-dd') as mbr_birthday 	
 		from tbl_address
 		where addr_seq = #{addr_seq}
    	 </select>
    	 
    	<!-- === 주소록 정보 수정하기 === -->
    	<update id="editAddr" parameterType="com.spring.groupware.addrlist.model.AddrVO">
-   		update tbl_address set mbr_name=#{mbr_name}, mbr_phone_number=#{mbr_phone_number}, 
-   							   mbr_email=#{mbr_email}, dept_name=#{dept_name}, position_name=#{position_name}
+   		update tbl_address 
+   		set mbr_name=#{mbr_name}, mbr_phone_number=#{mbr_phone_number}, mbr_email=#{mbr_email}, 
+   			mbr_birthday=#{mbr_birthday}, dept_name=#{dept_name}, position_name=#{position_name},
+   			postcode=#{postcode}, address=#{address}, detailaddress=#{detailaddress}, addrmemo=#{addrmemo}   							   
 		where addr_seq = #{addr_seq}
    	</update>
    	

@@ -31,8 +31,8 @@ public class CnoticeController {
       
       // === 게시판 글쓰기 폼 페이지 요청 === //
       @RequestMapping(value="/add.opis")
-//      public ModelAndView requiredLogin_add(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-      public ModelAndView add(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+      public ModelAndView requiredLogin_add(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+//      public ModelAndView add(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
     	  
     	  mav.setViewName("board/add.tiles1");
     	  
@@ -42,9 +42,14 @@ public class CnoticeController {
       
       // === 게시판 글쓰기 폼 페이지 요청 === //
       @RequestMapping(value="/cnotice_addEnd.opis", method= {RequestMethod.POST})
-      public ModelAndView addEnd(ModelAndView mav, CnoticeVO cnoticevo) {
+      public ModelAndView addEnd(HttpServletRequest request, ModelAndView mav, CnoticeVO cnoticevo) {
     	  
-
+    	  String ctitle = request.getParameter("title");
+    	  String ccontent = request.getParameter("content");
+    	  
+    	  cnoticevo.setCtitle(ctitle);
+    	  cnoticevo.setCcontent(ccontent);
+    	  
     	  int n = service.add(cnoticevo); // <== 파일첨부가 없는 글쓰기
     	  
     	  if(n==1) {
@@ -175,7 +180,7 @@ public class CnoticeController {
       
       // === 글1개를 보여주는 페이지 요청 === //
       @RequestMapping(value="/cnotice_view.opis")
-      public ModelAndView view(HttpServletRequest request, ModelAndView mav) {
+      public ModelAndView requiredLogin_view(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
     	  
     	  // 조회하고자 하는 글번호 받아오기
     	  String cnotice_seq = request.getParameter("cnotice_seq");
@@ -187,7 +192,6 @@ public class CnoticeController {
     	  
     	  if(loginuser != null) {
     		  login_mbrid = loginuser.getMbr_id();
-    		  
     	  }   	  
     	  
     	  CnoticeVO cnoticevo = null;
@@ -238,8 +242,8 @@ public class CnoticeController {
       
       // === 글수정 페이지 요청 === //
       @RequestMapping(value="/cnotice_edit.opis")
-//      public ModelAndView requiredLogin_edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-      public ModelAndView edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+      public ModelAndView requiredLogin_edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+//      public ModelAndView edit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 
     	  // 수정해야 할 글번호 가져오기
     	  String cnotice_seq = request.getParameter("cnotice_seq");
@@ -247,10 +251,10 @@ public class CnoticeController {
     	  // 글조회수(readCount) 증가 없이 단순히 글1개만 조회 해주는 것이다.
     	  CnoticeVO cnoticevo = service.getViewWithNoAddCount(cnotice_seq);
 
-//    	  HttpSession session = request.getSession();
-//        MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+    	  HttpSession session = request.getSession();
+          MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
           
-/*        if( loginuser.getFk_power_no() == 0 ) {
+          if( "사원".equals(loginuser.getPower_detail()) ) {
              String message = "관리자 외 수정 불가합니다.";
              String loc = "javascript:history.back()";
              
@@ -258,13 +262,12 @@ public class CnoticeController {
              mav.addObject("loc", loc);
              mav.setViewName("msg");
           }
-          else {	*/
-        	 // 자신의 글을 수정할 경우
-        	 // 가져온 1개글을 글수정할 폼이 있는 view 단으로 보내준다.
+          else {	
+        	 // 관리자가 수정할 경우
         	 mav.addObject("cnoticevo", cnoticevo);
         	 mav.setViewName("board/cnotice_edit.tiles1");
    
-//          }
+          }
     	  return mav;
       }
       

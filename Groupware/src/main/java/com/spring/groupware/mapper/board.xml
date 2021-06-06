@@ -11,7 +11,7 @@
    <!-- === 글쓰기 === -->
    <insert id="comAdd" parameterType="com.spring.groupware.board.model.CnoticeVO">
    		insert into tbl_comnotice(cnotice_seq, fk_boardno, fk_mbr_seq, ctitle, ccontent, cwritedate, chit)
-   		values(cnotice_seq.nextval, 1, #{name}, #{fk_mbr_seq}, #{ctitle}, #{ccontent}, default, default)
+   		values(cnotice_seq.nextval, 1, #{fk_mbr_seq}, #{ctitle}, #{ccontent}, default, default)
    </insert>
    
    	<!-- === 전체 글목록 보여주기 == -->
@@ -104,13 +104,13 @@
 
    <!-- === 글쓰기 === -->
    <insert id="deptAdd" parameterType="com.spring.groupware.board.model.DnoticeVO">
-   		insert into tbl_deptnotice(dnotice_seq, fk_boardno, fk_mbr_id, fk_dept_no, dtitle, dcontent, dwritedate, dhit)
-   		values(dnotice_seq.nextval, 2, #{name}, #{fk_mbr_id}, #{fk_dept_no}, #{dtitle}, #{dcontent}, default, default)
+   		insert into tbl_deptnotice(dnotice_seq, fk_boardno, fk_mbr_id, fk_dept_detail, dtitle, dcontent, dwritedate, dhit)
+   		values(dnotice_seq.nextval, 2, #{fk_mbr_id}, #{fk_dept_detail}, #{dtitle}, #{dcontent}, default, default)
    </insert>
    
    	<!-- === 전체 글목록 보여주기 == -->
    	<select id="deptListNoSearch" resultType="com.spring.groupware.board.model.DnoticeVO">
-	   	select dnotice_seq, fk_mbr_id, fk_dept_no, dept_detail, dtitle, dcontent, to_char(dwritedate, 'yyyy-mm-dd hh24:mi:ss') as dwritedate, dhit
+	   	select dnotice_seq, fk_mbr_id, dept_detail, dtitle, dcontent, to_char(dwritedate, 'yyyy-mm-dd hh24:mi:ss') as dwritedate, dhit
 		from tbl_deptnotice N JOIN tbl_dept D
 		on N.fk_dept_no = d.dept_no
 		order by dnotice_seq desc
@@ -125,14 +125,14 @@
    	<!--  == 글 1개 보여주기  ==  -->
    	<select id="getDeptView" parameterType="String" resultType="com.spring.groupware.board.model.DnoticeVO">
 	   	select previousseq, previoustitle    
-	     , dnotice_seq, fk_mbr_id, fk_dept_no, dtitle, dcontent, dwritedate, dhit
+	     , dnotice_seq, fk_mbr_id, fk_dept_detail, dtitle, dcontent, dwritedate, dhit
 	     , nextseq, nexttitle
 		from
 		(
 		    select lag(dnotice_seq,1) over (order by dnotice_seq desc) as nextseq
 		         , lag(dtitle,1) over (order by dnotice_seq desc) as nexttitle
 		         
-		         , dnotice_seq, fk_mbr_id, fk_dept_no, dtitle, dcontent
+		         , dnotice_seq, fk_mbr_id, fk_dept_detail, dtitle, dcontent
 		         , to_char(dwritedate, 'yyyy-mm-dd hh24:mi:ss') as dwritedate, dhit
 		         
 		         , lead(dnotice_seq,1) over (order by dnotice_seq desc) as previousseq
@@ -180,14 +180,15 @@
 		from 
 		(
 		    select row_number() over(order by dnotice_seq desc) AS rno,
-		           dnotice_seq, fk_mbr_id, dtitle, dcontent, dhit,
+		           dnotice_seq, fk_mbr_id, fk_dept_detail, dtitle, dcontent, dhit,
 		           to_char(dwritedate, 'yyyy-mm-dd hh24:mi:ss') as dwritedate
 		    from tbl_deptnotice
 		    <if test='searchWord != ""'>
 		    	where lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
 			</if>
 		) V
-		where rno between #{startRno} and #{endRno}   	 
+		where rno between #{startRno} and #{endRno}
+			  and fk_dept_detail=#{fk_dept_detail}   	 
    	 </select>
    	 
 
@@ -198,13 +199,13 @@
    		insert into tbl_formboard(form_seq, fk_boardno, fk_mbr_seq, ftitle, fcontent, fwritedate, fhit)
    		values(form_seq.nextval, 3, #{fk_mbr_seq}, #{ftitle}, #{fcontent}, default, default)
    </insert>
-   
-   <!-- === 파일 첨부하기 === 
-   <insert id="formFileAdd" parameterType="com.spring.groupware.board.model.FormfileVO">
-   		insert into tbl_formboard(fk_form_seq, ffile_seq, ffilename, ffilepath, ffilesize, fuploaddate)
-   		values(#{fk_form_seq}, ffile_seq.nextval, #{filename}, #{ffilepath}, #{ffilesize}, default)
-   </insert>	-->
-      
+ 
+    <!-- === 파일첨부 있는 글쓰기 === -->
+   <insert id="add_withFile" parameterType="com.spring.groupware.board.model.FormboardVO">
+   		insert into tbl_formboard(form_seq, fk_boardno, fk_mbr_seq, ftitle, fcontent, fwritedate, fhit, fileName, orgFilename, fileSize)
+   		values(form_seq.nextval, 3, #{fk_mbr_seq}, #{ftitle}, #{fcontent}, default, default, #{fileName}, #{orgFilename}, #{fileSize})
+   </insert>
+     
    	<!-- === 전체 글목록 보여주기 == -->
    	<select id="formListNoSearch" resultType="com.spring.groupware.board.model.FormboardVO">
 	   	select form_seq, fk_mbr_seq, ftitle, fcontent, to_char(fwritedate, 'yyyy-mm-dd hh24:mi:ss') as fwritedate, fhit
@@ -221,8 +222,9 @@
    	<!--  == 글 1개 보여주기  ==  -->
    	<select id="getFormView" parameterType="String" resultType="com.spring.groupware.board.model.FormboardVO">
 	   	select previousseq, previoustitle    
-	     , form_seq, fk_mbr_seq, ftitle, fcontent, fwritedate, fhit
-	     , nextseq, nexttitle
+		     , form_seq, fk_mbr_seq, ftitle, fcontent, fwritedate, fhit
+		     , nextseq, nexttitle
+		     , fileName, orgFilename, fileSize
 		from
 		(
 		    select lag(form_seq,1) over (order by form_seq desc) as previousseq
@@ -230,6 +232,7 @@
 		         
 		         , form_seq, fk_mbr_seq, ftitle, fcontent
 		         , to_char(fwritedate, 'yyyy-mm-dd hh24:mi:ss') as fwritedate, fhit
+		         , fileName, orgFilename, fileSize
 		         
 		         , lead(form_seq,1) over (order by form_seq desc) as nextseq
 		         , lead(ftitle,1) over (order by form_seq desc) as nexttitle
@@ -241,8 +244,8 @@
    	
    	<!-- === 1개글 수정하기 === -->
    	<update id="editForm" parameterType="com.spring.groupware.board.model.FormboardVO">
-   		update tbl_formboard set ftitle = #{ftitle}
-   						   	   , fcontent = #{fcontent}
+   		update tbl_formboard set ftitle = #{ftitle}, fcontent = #{fcontent},
+   								 fileName  = #{fileName} , orgFilename = #{orgFilename}, fileSize = #{fileSize}
 		where form_seq = #{form_seq}
    	</update>
    	
@@ -272,12 +275,13 @@
    	    	 
    	 <!-- === 페이징 처리한 글목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것) -->   	 
    	 <select id="formListSearchWithPaging" parameterType="HashMap" resultType="com.spring.groupware.board.model.FormboardVO">
-	   	select form_seq, fk_mbr_seq, ftitle, fcontent, fwritedate, fhit
+	   	select form_seq, fk_mbr_seq, ftitle, fcontent, fwritedate, fhit, fileName
 		from 
 		(
 		    select row_number() over(order by form_seq desc) AS rno,
 		           form_seq, fk_mbr_seq, ftitle, fcontent, fhit,
-		           to_char(fwritedate, 'yyyy-mm-dd hh24:mi:ss') as fwritedate
+		           to_char(fwritedate, 'yyyy-mm-dd hh24:mi:ss') as fwritedate,
+		           fileName
 		    from tbl_formboard
 		    <if test='searchWord != ""'>
 		    	where lower(${searchType}) like '%' || lower(#{searchWord}) || '%'

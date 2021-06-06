@@ -18,6 +18,9 @@ public interface IntersnsMemberDAO {
 	// 정보수정하기
 	int infochange(MemberVO membervo);
 
+	// 상태수정하기
+	int statuschange(MemberVO membervo);
+
 
 
 }

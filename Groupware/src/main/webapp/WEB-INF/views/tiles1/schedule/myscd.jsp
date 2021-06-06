@@ -77,7 +77,7 @@
   }
 
   .lside {
-    margin-top:20px;
+    margin-top:40px;
     padding-left:70px;
   }
 
@@ -100,9 +100,7 @@
   }	
   
   #btnResv {
-  	display: inline-block;
   	border: none;
-  	margin-left: 50px;
   	padding: 15px 40px;
   	border-radius: 2pt;
   	font-weight: bold;
@@ -118,6 +116,18 @@
   	vertical-align: bottom; 
   }
   
+  #btnDelAll {
+  	border: none;
+  	padding: 15px 30px;
+  	border-radius: 2pt;
+  	font-weight: bold;
+  	background: #b3b3b3;
+  }
+  
+  #btnDelAll:hover {
+  	color:white;
+  }
+  
 </style>
 
 	
@@ -127,94 +137,96 @@
 
 		$(document).ready(function(){
 			
-		});
+			$("button#btnDelAll").click(function(){
+				var bool = confirm("전체 일정을 모두 삭제하시겠습니까?\n삭제하시면 복구할 수 없습니다.");
+				
+				if(bool) {
+					location.href = "<%=ctxPath%>/delAll.opis";
+				}
+			});
+			
+			
+		});// end of $(document).ready(function(){})--------------------------
 
-		 document.addEventListener('DOMContentLoaded', function() {
-		        var calendarEl = document.getElementById('calendar');
-		        var calendar = new FullCalendar.Calendar(calendarEl, {
-		        	initialView: 'dayGridMonth',
-		        	headerToolbar: {
+		
+		document.addEventListener('DOMContentLoaded', function() {
+	        var calendarEl = document.getElementById('calendar');
+	        var calendar = new FullCalendar.Calendar(calendarEl, {
+	        	initialView: 'dayGridMonth',
+	        	timeZone:'local',
+	        	headerToolbar: {
 		        	left: 'prev,next today',
 		        	center: 'title',
 		        	right: 'dayGridMonth,timeGridWeek,timeGridDay'
-		        	},
-		        	editable: true,
-		        	allDaySlot: false,
-		        	eventLimit: true,
-		        	eventLimitText: "more",
-		            eventLimitClick: "popover",
-					contentHeight: 600,
-		        	weekNumbers:true,
-		        	businessHours: {
-		        		  daysOfWeek: [ 1, 2, 3, 4, 5 ], // 월 - 금
-						  startTime: '09:00',
-		        		  endTime: '18:00',
-		        	},
-		        	navLinks: true,
-		        	nowIndicator: true,
-		        	events: function(info, successCallback, failureCallback) {
-		        		$.ajax({
-		        			url:"<%=ctxPath%>/showScd.opis",
-		        			dataType:"json",
-		        			success: function(result) {
-		        				
-		        				if(result != null) {
-		        					$.each(result, function(index, item){
-		        						var scddiv = item.fk_scdno2;
-		        						var subject = item.scdsubject;
-		        						var startdate = moment(item.scdstartdate).format('yyyy-mm-dd hh24:mi');
-		        						var enddate = moment(item.scdenddate).format('yyyy-mm-dd hh24:mi');
-		        						
-		        						if(scddiv == 0) {
-		        							event.push({
-		        								title: subject,
-		        								start: startdate,
-		        								end: enddate,
-		        								url:"<%=ctxPath%>/scdDetail.opis?scdno="+item.scdno,
-		        							});
-		        						}
-		        						else if(scddiv == 1) {
-		        							event.push({
-		        								title: subject,
-		        								start: startdate,
-		        								end: enddate,
-		        								url: "<%=ctxPath%>/scdDetail.opis?scdno="+item.scdno,
-		        							});
-		        						}
-		        						else {
-		        							event.push({
-		        								title: subject,
-		        								start: startdate,
-		        								end: enddate,
-		        								url: "<%=ctxPath%>/scdDetail.opis?scdno="+item.scdno,
-		        							});
-		        						}
-		        					});	
-		        					
-		        				}// end of if--------------
-		        				       				
-		        				 successCallback(events); 
-		    				},
-		    				error:function(request, status, error) {
-		        				alert("code: "+request.status+"\n"+"message: " +request.responseText+"\n"+"error: "+error);
-		        			}
-		        		});    
-		        		
-		        		},
-			        locale:'ko'
-		        });
-		        calendar.render();
-		 });// end of document.addEventListener('DOMContentLoaded', function()----------------------
-	
-		 
+	        	},
+	        	editable: true,
+	        	allDaySlot: false,
+				contentHeight: 600,
+	        	weekNumbers:true,
+	        	businessHours: {
+	        		  daysOfWeek: [ 1, 2, 3, 4, 5 ], // 월 - 금
+					  startTime: '09:00',
+	        		  endTime: '18:00',
+	        	},
+	        	navLinks: true,
+	        	nowIndicator: true,
+	        	eventLimit: true,
+	            eventLimitText: "more",
+	            eventLimitClick: "popover",
+	            dayPopoverFormat: { year: 'numeric', month: 'long', day: 'numeric' },
+	            events:function(info, successCallback, failureCallback) {
+	        		 $.ajax({
+	     				url:"<%=ctxPath%>/scdList.opis",
+	     				dataType:"json",
+	     				success:function(json){
+	     					var scdArr = [];
+	     						
+	     						$.each(json, function(index,item){
+	     							
+	     							var startdate = item.scdstartdate.substring(0,10)+"T"+item.scdstartdate.substring(11,19);
+	     							var enddate = item.scdenddate.substring(0,10)+"T"+item.scdenddate.substring(11,19);
+	     							
+	     							scdArr.push({title:item.scdsubject,
+	     									start:startdate,
+	     									end:enddate,
+	     									url:"<%=ctxPath%>/showDetail.opis?scdno="+item.scdno})
+	     						});
+	     						successCallback(scdArr);
+	     				},
+	     				error:function(request,status,error) {
+	     					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	     				}
+	     			});// end of $.ajax({})------------------------
+	        	},
+	        	eventClick: function(info) {
+	        		var eventObj = info.event;
+	        		if (eventObj.url) {
+	        		    window.open(eventObj.url,"","left=350px, top=100px, width=700px, height=455px");
+						info.jsEvent.preventDefault(); 
+	        		 } else {
+	        		        alert('일정명: ' + eventObj.title +'\n'+
+	        		        	  '시간: ' + eventObj.start +' ~ '+ eventObj.end);
+	        		 }    
+	        	},
+	        	dayMaxEventRows: true, 
+	        	views: {
+	        	    timeGrid: {
+	        	      dayMaxEventRows: 6 
+	        	    }
+	        	},
+	        	locale:'ko'
+	        });
+	        calendar.render();
+	 });// end of document.addEventListener('DOMContentLoaded', function()----------------------
+		
 		 function scdReg() {
 			 var url = "<%=ctxPath%>/scd_register.opis";
-			 window.open(url, "scdRegister","left=350px, top=100px, width=700px, height=450px");
+			 window.open(url, "scdRegister","left=350px, top=100px, width=700px, height=455px");
 		 }
 		 
 		 function mtrResv() {
 			 var url = "<%=ctxPath%>/mtr_resv.opis";
-			 window.open(url, "mtrResv","left=350px, top=100px, width=1000px, height=550px");
+			 window.open(url, "mtrResv","left=350px, top=100px, width=900px, height=650px,");
 		 }
 		 
 </script>
@@ -238,10 +250,10 @@
 					<c:when test="${sessionScope.loginuser.fk_dept_no eq 2}">
 						홍보팀
 					</c:when>
-					<c:when test="${sessionScope.loginusre.fk_dept_no eq 3}">
+					<c:when test="${sessionScope.loginuser.fk_dept_no eq 3}">
 						IT팀
 					</c:when>
-					<c:when test="${sessionScope.loginusre.fk_dept_no eq 4}">
+					<c:when test="${sessionScope.loginuser.fk_dept_no eq 4}">
 						회계팀
 					</c:when>
 					<c:otherwise>
@@ -250,13 +262,16 @@
 				</c:choose>	  			
 	  		</div>
 	  		<div class="lside">수락 완료된 일정(<span></span>)</div>
-	  		<div class="lside">수락 대기중인 일정(<span></span>)</div>
-	  		<div id="function">
-		  		<div id="option"><a href="<%=ctxPath%>/">-&nbsp;선택 일정 삭제</a></div>
-		  		<div id="option"><a href="<%=ctxPath%>/">-&nbsp;선택 일정 수정</a></div>
-		  		<div id="option"><a href="<%=ctxPath%>/">-&nbsp;전체 일정 삭제</a></div>
+	  		<div class="lside" style="margin-bottom:60px;">수락 대기중인 일정(<span></span>)</div>
+	  		<br>
+	  		<div style="text-align:center;">
+	  			<button type="button" id="btnDelAll">전체 일정 삭제 ▶</button>
 	  		</div>
-	  		<button type="button" id="btnResv" onclick="mtrResv()">회의실 예약 ▶</button>
+	  		<br>
+	  		<div style="text-align:center;">	
+	  			<button type="button" id="btnResv" onclick="mtrResv()">회의실 예약 ▶</button>
+	  		</div>
+		  		
 	</div>
 	
 	<div id="headerInfo">
@@ -274,6 +289,7 @@
 	</div>
 	<hr>
 	<div id='calendar' style="padding:10px 20px;"></div>
+	
 </div>
 </body>
 </html>

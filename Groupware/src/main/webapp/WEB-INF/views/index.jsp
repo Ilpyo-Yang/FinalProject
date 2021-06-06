@@ -11,17 +11,22 @@
 <script type="text/javascript">
 	$(function(){
 		
-		if("${sessionScope.loginuser}"!=null){	// 로그인한 상태
+		if("${sessionScope.loginuser}"!=null){	// ë¡ê·¸ì¸í ìí
 			$("a#login").hide();
 			$("a#logout").show();
 		}
-		else {	// 로그아웃 상태
+		else {	// ë¡ê·¸ìì ìí
 			$("a#logout").hide();
 			$("a#login").show();
 		}
 		
+		$("a#snsmain").click(function(){
+			window.open("<%=ctxPath%>/sns/snsmain.opis","메신저","width:420px, height=620px");
+		});
 		
 	});// end of $(function(){ -------------------------------------
+		
+	
 </script>
 
 <body>
@@ -31,7 +36,7 @@
   <a id="login" href="<%=ctxPath%>/login.opis"><i class="fas fa-user-alt"></i></a> 
   <a id="logout" href="<%=ctxPath%>/logout.opis"><i class="fas fa-user-slash"></i></a> 
   <a href="<%=ctxPath%>/mainPage.opis"><i class="fa fa-home"></i></a> 
-  <a href="#"><i class="fas fa-comments"></i></a> 
+  <a id="snsmain" href="#"><i class="fas fa-comments"></i></a> 
   <a href="<%=ctxPath%>/personalInfo.opis"><i class="fas fa-user-circle"></i></a> 
 </div>
   
