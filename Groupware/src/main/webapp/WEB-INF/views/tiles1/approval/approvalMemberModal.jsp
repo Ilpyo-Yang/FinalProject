@@ -123,7 +123,7 @@
 		
 		
 		// 수정해야할 부분
-		$(document).on("cilck", "input.checkedMember", function(){	// 참조자이 모두 선택된 경우 모두 선택/해제 체크박스 체크설정하기
+		$(document).on("cilck", "input.checkedMember", function(){	// 결재라인이 모두 선택된 경우 모두 선택/해제 체크박스 체크설정하기
 			console.log("하하");
 			if($("input.checkedMember:checked").length == $("input.checkedMember").length){ 
 				$("input#allRightCheckbox").prop("checked",true);
@@ -180,22 +180,32 @@
 		
 		for (var i=0; i<movedMember.length; i++) {
 			var member = movedMember[i];
-			chooseMemberName.push(member.substr(7));
+			chooseMemberName.push(member.substr(4));
 		}
-		$('span#selectedMember').html(chooseMemberName.toString());
-		$('span#selectedMember').append("&nbsp;");
-		$('#myApprovalModal').hide();
+		
+		var html = "";
+		for (var i=0; i<chooseMemberName.length; i++) {
+			html += "<td class='sign'>"+chooseMemberName[i]+"</td>";		
+		}
+		
+		$('tr#sign').html(html);
+		
+		var newWidth = chooseMemberName.length*90;	
+		$('div#signTitle').css({'width':newWidth})
+		$('table#sign').css({'width':newWidth})
+		
+		$('#myModal').hide();
 		
 	}// end of function func_choose() ----------------------------------
 	
 </script>
 
 
- <div id="myApprovalModal" class="modal">
+ <div id="myModal" class="modal">
 
    <div class="modal-content">
        <div style="text-align: left;">
-	       <span style="font-size: 12pt; font-weight: bold;">참조자 선택하기</span>
+	       <span style="font-size: 12pt; font-weight: bold;">결재라인 선택하기</span>
 	       <span><button type="button" class="btn formBtn2" id="closeModal">X</button></span>
 	       <hr>
        </div>
@@ -210,14 +220,14 @@
 		   		<div style="border: solid 1px #f2f2f2; padding: 2%; overflow: scroll; height: 380px;" >	   
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq 'CEO'}">
-				        	<label><input type="checkbox" class="rightCheckbox memberCheckbox" value="${memberVO.dept_detail}&nbsp;${memberVO.mbr_name}" />
+				        	<label><input type="checkbox" class="rightCheckbox memberCheckbox" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}" />
 				        		&nbsp;&nbsp;${memberVO.dept_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
 			   		</c:forEach>
 			   		<hr class="division"> 
 			   		
-			   		<label><input type="checkbox" class="rightCheckbox department" id="salesCheckbox"/>&nbsp;&nbsp;영업팀</label><br>		   		
+			   		<label><input type="checkbox" class="rightCheckbox" id="salesCheckbox"/>&nbsp;&nbsp;영업팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq '영업팀'}">
 				        	<label><input type="checkbox" class="rightCheckbox salesMemberCheckbox memberCheckbox" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
@@ -227,7 +237,7 @@
 			   		</c:forEach>	
 			   		<hr class="division">
 			   		
-			   		<label><input type="checkbox" class="rightCheckbox department" id="HRCheckbox"/>&nbsp;&nbsp;인사팀</label><br>		   		
+			   		<label><input type="checkbox" class="rightCheckbox" id="HRCheckbox"/>&nbsp;&nbsp;인사팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq '인사팀'}">
 				        	<label><input type="checkbox" class="rightCheckbox HRMemberCheckbox memberCheckbox" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
@@ -237,7 +247,7 @@
 			   		</c:forEach>
 			   		<hr class="division">
 			   		
-			   		<label><input type="checkbox" class="rightCheckbox department" id="PRCheckbox"/>&nbsp;&nbsp;홍보팀</label><br>		   		
+			   		<label><input type="checkbox" class="rightCheckbox" id="PRCheckbox"/>&nbsp;&nbsp;홍보팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq '홍보팀'}">
 				        	<label><input type="checkbox" class="rightCheckbox PRMemberCheckbox memberCheckbox" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
@@ -247,7 +257,7 @@
 			   		</c:forEach>
 			   		<hr class="division">
 			   		
-			   		<label><input type="checkbox" class="rightCheckbox department" id="ITCheckbox"/>&nbsp;&nbsp;IT팀</label><br>		   		
+			   		<label><input type="checkbox" class="rightCheckbox" id="ITCheckbox"/>&nbsp;&nbsp;IT팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq 'IT팀'}">
 				        	<label><input type="checkbox" class="rightCheckbox ITMemberCheckbox memberCheckbox" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
@@ -257,7 +267,7 @@
 			   		</c:forEach>
 			   		<hr class="division">
 			   		
-			   		<label><input type="checkbox" class="rightCheckbox department" id="accountCheckbox"/>&nbsp;&nbsp;회계팀</label><br>		   		
+			   		<label><input type="checkbox" class="rightCheckbox" id="accountCheckbox"/>&nbsp;&nbsp;회계팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq '회계팀'}">
 				        	<label><input type="checkbox" class="rightCheckbox accountMemberCheckbox memberCheckbox" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
@@ -276,10 +286,10 @@
 		   
 		   <div class="memberModal" id="memberModal2" 
 		   		style="width: 40%;  height: 90%; margin: 0 10px; display: inline-block;">
-		   		<label><input type="checkbox" id="allRightCheckbox" />&nbsp;&nbsp;참조자 모두 선택/해제하기</label>
+		   		<label><input type="checkbox" id="allRightCheckbox" />&nbsp;&nbsp;결재라인 모두 선택/해제하기</label>
 		   		<hr style="margin: 0 0 15px 0;"> 	
 		   		
-		   		<%-- 사원선택해서 참조자 순서 조정하기 --%>
+		   		<%-- 사원선택해서 결재라인 순서 조정하기 --%>
 		   		<div id="memberOrder">
 			        <button type="button" class="operate" ><i class="fas fa-chevron-up fa-1x"  id="upMove" onclick=""></i></button>
 			   		<button type="button" class="operate" ><i class="fas fa-chevron-down fa-1x" id="downMove" onclick=""></i></button>

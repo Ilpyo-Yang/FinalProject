@@ -15,22 +15,22 @@
 		
 		// 결재라인 모달창 열기
 		$("button#approvalMember").click(function(){			
-			$('#myApprovalModal').show();
+			$('div#myModal').show();
 		});
 		
-		// 결재라인 모달창 열기
+		// 결재라인 모달창 끄기
 		$("button#closeModal").click(function(){
-			$('#myApprovalModal').hide();
+			$('div#myModal').hide();
 		});
 		
 		// 참조라인 모달창 열기
 		$("button#selectMember").click(function(){			
-			$('#myModal').show();
+			$('div#myModal2').show();
 		});
 		
 		// 참조라인 모달창 끄기
-		$("button#closeModal").click(function(){
-			$('#myModal').hide();
+		$("button#closeModal2").click(function(){
+			$('div#myModal2').hide();
 		});
 		
 	}); // end of $(document).ready(function(){})---------------------------------------
@@ -51,8 +51,7 @@
 					<br>
 					<div id="signTitle">결재라인</div><br><br>
 					<table id="sign">
-						<tr>
-							<td class="sign"></td>
+						<tr id="sign">
 							<td class="sign"></td>
 						</tr>
 					</table>

@@ -36,7 +36,7 @@ div.menu {
 }
 
 
-/* ============ selectMemberModal.jsp ============== */
+/* ============ approvalMemberModal.jsp ============== */
 .modal {
     z-index: 1;
     background-color: rgba(0,0,0,0.4);
@@ -54,15 +54,6 @@ div.memberModel {
 	font-weight: bold;
 	font-size: 12pt;
 	padding: 5%;
-}
-div#memberModel1 {
-	display: inline-block;
-	margin-right: 10px;
-	/* float: left; */
-}
-div#memberModel2 {
-	display: inline-block;
-	/* float: right; */
 }
 div#memberMove {
 	display: inline-block;
@@ -85,6 +76,39 @@ hr.division {
 	border-radius: 5%;
 	font-weight: bold;
 }
+
+
+/* ============ selectMemberModal.jsp ============== */
+.modal2 {
+    z-index: 1;
+    background-color: rgba(0,0,0,0.4);
+}
+.modal-content2 {
+    background-color: #fefefe;
+    margin: 7% auto;
+    padding: 20px;
+    border: 1px solid #dedede;
+    width: 50%; 
+    height: 70%;               
+}
+div#memberMove2 {
+	display: inline-block;
+	width: 20px;
+}
+button#closeModal2 {
+	font-weight: bolder;
+	float: right;
+}
+.operate2 {
+	width: 49%;
+	background-color: #f2f2f2;
+	border: none; 
+	display: inline-block;
+	margin-bottom: 5px;
+	border-radius: 5%;
+	font-weight: bold;
+}
+
 
 /* ============ approvalForm1.jsp ============== */
 
@@ -109,13 +133,14 @@ button.formBtn2 {
 div#signTitle {
 	margin: 15px 10px 0 0;
     text-align: center;
-    width: 100px;
+    width: 70px;
     float: right;
+    background-color: #f2f2f2;
 }
 table#sign {
 	margin-right: 10px;
-	width: 100px;
-	height: 80px;
+	width: 70px;
+	height: 60px;
 	float: right;
 }
 td.sign {
