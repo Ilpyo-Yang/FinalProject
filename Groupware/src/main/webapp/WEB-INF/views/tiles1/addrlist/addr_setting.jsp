@@ -48,6 +48,11 @@
 		
 	}// end of function goAdd()----------------------------------------	
 	
+	function goDelete(addrgroup_seq){
+		if(confirm("정말로 삭제하시겠습니까? 삭제한 주소록은 복구 불가능합니다.")==true){
+        	location.href="<%=ctxPath%>/addrgroup_delEnd.opis?addrgroup_seq="+addrgroup_seq;
+    	}
+	}
 	
 </script>
 </head>
@@ -75,8 +80,9 @@
 		<table class="table table-striped">
 		    <thead>
 		      <tr>
-		        <th style="width: 20%; text-align: center;">그룹명</th>
-		        <th style="width: 40%; text-align: center;">그룹설명</th>
+		        <th style="width: 15%; text-align: center;">그룹명</th>
+		        <th style="width: 35%; text-align: center;">그룹설명</th>
+		        <th style="width: 10%; text-align: center;">수정/삭제</th>
 		      </tr>
 		    </thead>
 		    <tbody>
@@ -89,7 +95,11 @@
 						</td>
 						<td>
 							<span class="detail">${addrgroupvo.groupdetail}</span>
-						</td>  	
+						</td>  
+						<td style="text-align: center;">
+							<button type="button">수정</button>&nbsp;
+							<button type="button" onclick="goDelete(${addrgroupvo.addrgroup_seq})">삭제</button>
+						</td>	
 			      	</tr>		
 			      	</c:if>
 				</c:forEach>

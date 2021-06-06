@@ -103,6 +103,13 @@ public class AddrService implements InterAddrService {
 		
 		return n;
 	}
+
+	// === 주소록 그룹 삭제 === //
+	@Override
+	public int delAddrgroup(Map<String, String> paraMap) {
+		int n = adao.delAddrgroup(paraMap);
+		return n;
+	}
 	
 	
 }

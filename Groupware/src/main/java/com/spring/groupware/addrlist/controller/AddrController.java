@@ -311,7 +311,7 @@ public class AddrController {
 	  
  	  // 로그인한 사원의 사원번호 가져오기
  	  int fk_mbr_seq = loginuser.getMbr_seq();
- 	  System.out.println("확인용: "+fk_mbr_seq);
+// 	  System.out.println("확인용: "+fk_mbr_seq);
  	  
  	  int totalCount = 0; 			// 총 게시물 건수
  	  int sizePerPage = 10;       	// 한 페이지당 보여줄 게시물 건수     	  
@@ -417,6 +417,33 @@ public class AddrController {
 	  jsonObj.put("groupname", agvo.getGroupname());
 	  
 	  return jsonObj.toString();
+   }
+   
+   // === 주소록 목록 삭제  === // 
+   @RequestMapping(value="/addrgroup_delEnd.opis", method= {RequestMethod.GET})
+   public ModelAndView addrgroup_delEnd(ModelAndView mav, HttpServletRequest request) {
+ 	  
+ 	  // 삭제해야 할 주소록 번호 가져오기
+ 	  String addrgroup_seq = request.getParameter("addrgroup_seq");
+       
+       Map<String,String> paraMap = new HashMap<>();
+       paraMap.put("addrgroup_seq", addrgroup_seq);
+       
+       int n = service.delAddrgroup(paraMap); 
+       // n 이 1 이라면 정상적으로 삭제, n 이 0 이라면 글삭제 실패
+       
+       if(n == 0) {
+           mav.addObject("message", "삭제를 실패했습니다.");
+           mav.addObject("loc", request.getContextPath()+"/addr_setting.opis");
+       }
+       else {
+          mav.addObject("message", "성공적으로 삭제했습니다.");
+          mav.addObject("loc", request.getContextPath()+"/addr_setting.opis");
+       }
+       
+       mav.setViewName("msg");
+
+       return mav;
    }
    
 }

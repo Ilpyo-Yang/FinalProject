@@ -108,6 +108,13 @@ public class AddrDAO implements InterAddrDAO {
 		return n;
 	}
 
+	// === 주소록 그룹 삭제 === //
+	@Override
+	public int delAddrgroup(Map<String, String> paraMap) {
+		int n = sqlsession.delete("address.delAddrgroup", paraMap);		
+		return n;
+	}
+
 	
 	
 

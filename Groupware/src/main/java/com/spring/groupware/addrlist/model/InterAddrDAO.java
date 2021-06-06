@@ -48,6 +48,9 @@ public interface InterAddrDAO {
 	// 주소록 그룹 추가
 	int addAddrgroup(AddrGroupVO agvo);
 
+	// 주소록 그룹 삭제 
+	int delAddrgroup(Map<String, String> paraMap);
+
 
 
 }

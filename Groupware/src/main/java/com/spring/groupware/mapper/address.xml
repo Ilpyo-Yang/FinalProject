@@ -121,5 +121,10 @@
    		values(addrgroup_seq.nextval, #{fk_mbr_seq}, #{groupname}, #{groupdetail})
      </insert>
  	 
+ 	 <!-- === 주소록 삭제하기 === -->
+   	 <delete id="delAddrgroup" parameterType="HashMap">
+   		delete from tbl_addrlist
+   		where addrgroup_seq=#{addrgroup_seq}
+   	 </delete>
      
 </mapper>
