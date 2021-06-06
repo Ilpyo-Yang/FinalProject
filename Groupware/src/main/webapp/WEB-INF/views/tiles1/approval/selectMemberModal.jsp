@@ -10,102 +10,102 @@
 		
 		// 왼쪽 체크박스 처리하기 
 		
-		$("input#allLeftCheckbox").click(function(){	// 왼쪽에서 모두 선택/해제 체크박스을 클릭한 경우
-			if($("input#allLeftCheckbox").is(":checked")){
-				$("input.rightCheckbox").prop("checked",true);
+		$("input#allLeftCheckbox2").click(function(){	// 왼쪽에서 모두 선택/해제 체크박스을 클릭한 경우
+			if($("input#allLeftCheckbox2").is(":checked")){
+				$("input.rightCheckbox2").prop("checked",true);
 			} else {
-				$("input.rightCheckbox").prop("checked",false);
+				$("input.rightCheckbox2").prop("checked",false);
 			}			
 		});
 		
-		$("input#salesCheckbox").click(function(){	// 왼쪽에서 영업팀을 클릭한 경우
-			if($("input#salesCheckbox").is(":checked")){
-				$("input.salesMemberCheckbox").prop("checked",true);
+		$("input#salesCheckbox2").click(function(){	// 왼쪽에서 영업팀을 클릭한 경우
+			if($("input#salesCheckbox2").is(":checked")){
+				$("input.salesmemberCheckbox22").prop("checked",true);
 			} else {
-				$("input.salesMemberCheckbox").prop("checked",false);
+				$("input.salesmemberCheckbox22").prop("checked",false);
 			}			
 		});
 		
-		$("input#HRCheckbox").click(function(){		// 왼쪽에서 인사팀을 클릭한 경우
-			if($("input#HRCheckbox").is(":checked")){
-				$("input.HRMemberCheckbox").prop("checked",true);
+		$("input#HRCheckbox2").click(function(){		// 왼쪽에서 인사팀을 클릭한 경우
+			if($("input#HRCheckbox2").is(":checked")){
+				$("input.HRmemberCheckbox22").prop("checked",true);
 			} else {
-				$("input.HRMemberCheckbox").prop("checked",false);
+				$("input.HRmemberCheckbox22").prop("checked",false);
 			}			
 		});
 		
-		$("input#PRCheckbox").click(function(){		// 왼쪽에서 홍보팀을 클릭한 경우
-			if($("input#PRCheckbox").is(":checked")){
-				$("input.PRMemberCheckbox").prop("checked",true);
+		$("input#PRCheckbox2").click(function(){		// 왼쪽에서 홍보팀을 클릭한 경우
+			if($("input#PRCheckbox2").is(":checked")){
+				$("input.PRmemberCheckbox22").prop("checked",true);
 			} else {
-				$("input.PRMemberCheckbox").prop("checked",false);
+				$("input.PRmemberCheckbox22").prop("checked",false);
 			}			
 		});
 		
-		$("input#ITCheckbox").click(function(){		// 왼쪽에서 IT팀을 클릭한 경우
-			if($("input#ITCheckbox").is(":checked")){
-				$("input.ITMemberCheckbox").prop("checked",true);
+		$("input#ITCheckbox2").click(function(){		// 왼쪽에서 IT팀을 클릭한 경우
+			if($("input#ITCheckbox2").is(":checked")){
+				$("input.ITmemberCheckbox22").prop("checked",true);
 			} else {
-				$("input.ITMemberCheckbox").prop("checked",false);
+				$("input.ITmemberCheckbox22").prop("checked",false);
 			}			
 		});
 		
-		$("input#accountCheckbox").click(function(){	// 왼쪽에서 회계팀을 클릭한 경우
-			if($("input#accountCheckbox").is(":checked")){
-				$("input.accountMemberCheckbox").prop("checked",true);
+		$("input#accountCheckbox2").click(function(){	// 왼쪽에서 회계팀을 클릭한 경우
+			if($("input#accountCheckbox2").is(":checked")){
+				$("input.accountmemberCheckbox22").prop("checked",true);
 			} else {
-				$("input.accountMemberCheckbox").prop("checked",false);
+				$("input.accountmemberCheckbox22").prop("checked",false);
 			}			
 		});
 		
 		
 		var isChecked = true;
 		
-		$("input.rightCheckbox").click(function(){	// 모두 선택된 경우 모두 선택/해제 체크박스 체크설정하기
-			if($("input.rightCheckbox:checked").length == $("input.rightCheckbox").length){ 
-				$("input#allLeftCheckbox").prop("checked",true);
+		$("input.rightCheckbox2").click(function(){	// 모두 선택된 경우 모두 선택/해제 체크박스 체크설정하기
+			if($("input.rightCheckbox2:checked").length == $("input.rightCheckbox2").length){ 
+				$("input#allLeftCheckbox2").prop("checked",true);
 			} else {
-				$("input#allLeftCheckbox").prop("checked",false);
+				$("input#allLeftCheckbox2").prop("checked",false);
 			}	
 		});
 		
-		$("input.salesMemberCheckbox").click(function(){	// 영업팀원이 모두 선택된 경우 영업팀 체크박스 체크설정하기
-			if($("input.salesMemberCheckbox:checked").length == $("input.salesMemberCheckbox").length){ 
-				$("input#salesCheckbox").prop("checked",true);
+		$("input.salesmemberCheckbox22").click(function(){	// 영업팀원이 모두 선택된 경우 영업팀 체크박스 체크설정하기
+			if($("input.salesmemberCheckbox22:checked").length == $("input.salesmemberCheckbox22").length){ 
+				$("input#salesCheckbox2").prop("checked",true);
 			} else {
-				$("input#salesCheckbox").prop("checked",false);
+				$("input#salesCheckbox2").prop("checked",false);
 			}	
 		});
 		
-		$("input.HRMemberCheckbox").click(function(){	// 인사팀원이 모두 선택된 경우 인사팀 체크박스 체크설정하기
-			if($("input.HRMemberCheckbox:checked").length == $("input.HRMemberCheckbox").length){ 
-				$("input#HRCheckbox").prop("checked",true);
+		$("input.HRmemberCheckbox22").click(function(){	// 인사팀원이 모두 선택된 경우 인사팀 체크박스 체크설정하기
+			if($("input.HRmemberCheckbox22:checked").length == $("input.HRmemberCheckbox22").length){ 
+				$("input#HRCheckbox2").prop("checked",true);
 			} else {
-				$("input#HRCheckbox").prop("checked",false);
+				$("input#HRCheckbox2").prop("checked",false);
 			}	
 		});
 		
-		$("input.PRMemberCheckbox").click(function(){	// 홍보팀원이 모두 선택된 경우 홍보팀 체크박스 체크설정하기
-			if($("input.PRMemberCheckbox:checked").length == $("input.PRMemberCheckbox").length){ 
-				$("input#PRCheckbox").prop("checked",true);
+		$("input.PRmemberCheckbox22").click(function(){	// 홍보팀원이 모두 선택된 경우 홍보팀 체크박스 체크설정하기
+			if($("input.PRmemberCheckbox22:checked").length == $("input.PRmemberCheckbox22").length){ 
+				$("input#PRCheckbox2").prop("checked",true);
 			} else {
-				$("input#PRCheckbox").prop("checked",false);
+				$("input#PRCheckbox2").prop("checked",false);
 			}	
 		});
 		
-		$("input.ITMemberCheckbox").click(function(){	// IT팀원이 모두 선택된 경우 IT팀 체크박스 체크설정하기
-			if($("input.ITMemberCheckbox:checked").length == $("input.ITMemberCheckbox").length){ 
-				$("input#ITCheckbox").prop("checked",true);
+		$("input.ITmemberCheckbox22").click(function(){	// IT팀원이 모두 선택된 경우 IT팀 체크박스 체크설정하기
+			if($("input.ITmemberCheckbox22:checked").length == $("input.ITmemberCheckbox22").length){ 
+				$("input#ITCheckbox2").prop("checked",true);
 			} else {
-				$("input#ITCheckbox").prop("checked",false);
+				$("input#ITCheckbox2").prop("checked",false);
 			}	
 		});
 		
-		$("input.accountMemberCheckbox").click(function(){	// 회계팀원이 모두 선택된 경우 회계팀 체크박스 체크설정하기
-			if($("input.accountMemberCheckbox:checked").length == $("input.accountMemberCheckbox").length){ 
-				$("input#accountCheckbox").prop("checked",true);
+		$("input.accountmemberCheckbox22").click(function(){	// 회계팀원이 모두 선택된 경우 회계팀 체크박스 체크설정하기
+			if($("input.accountmemberCheckbox22:checked").length == $("input.accountmemberCheckbox22").length){ 
+				$("input#accountCheckbox2").prop("checked",true);
 			} else {
-				$("input#accountCheckbox").prop("checked",false);
+				$("input#accountCheckbox2").prop("checked",false);
 			}	
 		});
 			
@@ -113,85 +113,86 @@
 		
 		// 오른쪽 체크박스 처리하기
 		
-		$("input#allRightCheckbox").click(function(){	// 오른쪽에서 모두 선택/해제 체크박스를 클릭한 경우
-			if($("input#allRightCheckbox").is(":checked")){
-				$("input.checkedMember").prop("checked",true);
+		$("input#allrightCheckbox2").click(function(){	// 오른쪽에서 모두 선택/해제 체크박스를 클릭한 경우
+			if($("input#allrightCheckbox2").is(":checked")){
+				$("input.checkedMember2").prop("checked",true);
 			} else {
-				$("input.checkedMember").prop("checked",false);
+				$("input.checkedMember2").prop("checked",false);
 			}			
 		});
 		
 		
 		// 수정해야할 부분
-		$(document).on("cilck", "input.checkedMember", function(){	// 참조자이 모두 선택된 경우 모두 선택/해제 체크박스 체크설정하기
+		$(document).on("cilck", "input.checkedMember2", function(){	// 참조자이 모두 선택된 경우 모두 선택/해제 체크박스 체크설정하기
 			console.log("하하");
-			if($("input.checkedMember:checked").length == $("input.checkedMember").length){ 
-				$("input#allRightCheckbox").prop("checked",true);
+			if($("input.checkedMember2:checked").length == $("input.checkedMember2").length){ 
+				$("input#allrightCheckbox2").prop("checked",true);
 			} else {
-				$("input#allRightCheckbox").prop("checked",false);
+				$("input#allrightCheckbox2").prop("checked",false);
 			}	
 		});
 		
 	}); // end of $(document).ready(function(){})---------------------------------------
 	
 	
-	var movedMember = [];	// 선택된 멤버 값의 value
+	var movedMember2 = [];	// 선택된 멤버 값의 value
 	
-	function func_rightMove(){	// 오른쪽 방향 화살표 클릭시
+	function func_rightMove2(){	// 오른쪽 방향 화살표 클릭시
 			 
-	     $('input.memberCheckbox').each(function() {
-	         if($(this).is(':checked') && !movedMember.includes($(this).val()))	{
-	        	 $("div#checkedMember").append(
-	     				"<label class='checkedMember'><input type='checkbox' class='checkedMember' checked='on' value='"+$(this).val()+"'/>"+
+	     $('input.memberCheckbox2').each(function() {
+	         if($(this).is(':checked') && !movedMember2.includes($(this).val()))	{
+	        	 $("div#checkedMember2").append(
+	     				"<label class='checkedMember2'><input type='checkbox' class='checkedMember2' checked='on' value='"+$(this).val()+"'/>"+
 	     	        	"&nbsp;&nbsp;"+$(this).val()+"</label><br>"
 	     		 ); 
-	        	 movedMember.push($(this).val());
+	        	 movedMember2.push($(this).val());
 	         }
 	     });
 
 		
-	}// end of function func_rightMove() ----------------------------------
+	}// end of function func_rightMove2() ----------------------------------
 	
 	
-	function func_clear(){	// 삭제하기 버튼클릭시
+	function func_clear2(){	// 삭제하기 버튼클릭시
 		
-		$('input.checkedMember').each(function() {
-			if(!$(this).is(':checked')) {
-				movedMember = [];
-				movedMember.push($(this).val());
+		$('input.checkedMember2').each(function() {
+			if($(this).is(':checked')) {
+				const idx = movedMember2.indexOf($(this).val());
+				if(idx>-1) movedMember2.splice(idx,1);
 	         } 
 		});
 		
-		$("div#checkedMember").html("");
+		$("div#checkedMember2").html("");
 				
-		for (var i=0; i<movedMember.length; i++) {
-			$("div#checkedMember").append(
-     				"<label class='checkedMember'><input type='checkbox' class='checkedMember' checked='on' value='"+movedMember[i]+"'/>"+
-     	        	"&nbsp;&nbsp;"+movedMember[i]+"</label><br>"
+		for (var i=0; i<movedMember2.length; i++) {
+			$("div#checkedMember2").append(
+     				"<label class='checkedMember2'><input type='checkbox' class='checkedMember2' checked='on' value='"+movedMember2[i]+"'/>"+
+     	        	"&nbsp;&nbsp;"+movedMember2[i]+"</label><br>"
      		 ); 
 		}
 		
-	}// end of function func_clear() ----------------------------------
+	}// end of function func_clear2() ----------------------------------
 	
 	
-	function func_choose(){	// 선택하기 버튼클릭시
+	function func_choose2(){	// 선택하기 버튼클릭시
 		
-		var chooseMemberName=[];		// 선택된 사원 결재페이지에 보이기 위한 변수
+		var chooseMemberName2=[];		// 선택된 사원 결재페이지에 보이기 위한 변수
 		
-		for (var i=0; i<movedMember.length; i++) {
-			var member = movedMember[i];
-			chooseMemberName.push(member.substr(7));
+		for (var i=0; i<movedMember2.length; i++) {
+			var member = movedMember2[i];
+			chooseMemberName2.push(member.substr(7));
 		}
-		$('span#selectedMember').html(chooseMemberName.toString());
+		$('span#selectedMember').html(chooseMemberName2.toString());
 		$('span#selectedMember').append("&nbsp;");
-		$('#myModal').hide();
+		$('#myModal2').hide();
 		
-	}// end of function func_choose() ----------------------------------
+	}// end of function func_choose2() ----------------------------------
+
 	
 </script>
 
 
- <div id="myModal" class="modal">
+ <div id="myModal2" class="modal">
 
    <div class="modal-content">
        <div style="text-align: left;">
@@ -204,63 +205,63 @@
        
 		   <div class="memberModal" id="memberModal1" 
 		        style="width: 40%;  height: 90%; margin: 0 10px; display: inline-block;">
-		   		<label><input type="checkbox" id="allLeftCheckbox"/>&nbsp;&nbsp;모두 선택/해제하기</label>
+		   		<label><input type="checkbox" id="allLeftCheckbox2"/>&nbsp;&nbsp;모두 선택/해제하기</label>
 		   		<hr style="margin: 0 0 15px 0;"> 	
 		   		
 		   		<div style="border: solid 1px #f2f2f2; padding: 2%; overflow: scroll; height: 380px;" >	   
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq 'CEO'}">
-				        	<label><input type="checkbox" class="rightCheckbox memberCheckbox" value="${memberVO.dept_detail}&nbsp;${memberVO.mbr_name}" />
+				        	<label><input type="checkbox" class="rightCheckbox2 memberCheckbox2" value="${memberVO.dept_detail}&nbsp;${memberVO.mbr_name}" />
 				        		&nbsp;&nbsp;${memberVO.dept_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
 			   		</c:forEach>
 			   		<hr class="division"> 
 			   		
-			   		<label><input type="checkbox" class="rightCheckbox department" id="salesCheckbox"/>&nbsp;&nbsp;영업팀</label><br>		   		
+			   		<label><input type="checkbox" class="rightCheckbox2" id="salesCheckbox2"/>&nbsp;&nbsp;영업팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq '영업팀'}">
-				        	<label><input type="checkbox" class="rightCheckbox salesMemberCheckbox memberCheckbox" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
+				        	<label><input type="checkbox" class="rightCheckbox2 salesmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
 				        		&nbsp;&nbsp;└─&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
 			   		</c:forEach>	
 			   		<hr class="division">
 			   		
-			   		<label><input type="checkbox" class="rightCheckbox department" id="HRCheckbox"/>&nbsp;&nbsp;인사팀</label><br>		   		
+			   		<label><input type="checkbox" class="rightCheckbox2" id="HRCheckbox2"/>&nbsp;&nbsp;인사팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq '인사팀'}">
-				        	<label><input type="checkbox" class="rightCheckbox HRMemberCheckbox memberCheckbox" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
+				        	<label><input type="checkbox" class="rightCheckbox2 HRmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
 				        		&nbsp;&nbsp;└─&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
 			   		</c:forEach>
 			   		<hr class="division">
 			   		
-			   		<label><input type="checkbox" class="rightCheckbox department" id="PRCheckbox"/>&nbsp;&nbsp;홍보팀</label><br>		   		
+			   		<label><input type="checkbox" class="rightCheckbox2" id="PRCheckbox2"/>&nbsp;&nbsp;홍보팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq '홍보팀'}">
-				        	<label><input type="checkbox" class="rightCheckbox PRMemberCheckbox memberCheckbox" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
+				        	<label><input type="checkbox" class="rightCheckbox2 PRmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
 				        		&nbsp;&nbsp;└─&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
 			   		</c:forEach>
 			   		<hr class="division">
 			   		
-			   		<label><input type="checkbox" class="rightCheckbox department" id="ITCheckbox"/>&nbsp;&nbsp;IT팀</label><br>		   		
+			   		<label><input type="checkbox" class="rightCheckbox2" id="ITCheckbox2"/>&nbsp;&nbsp;IT팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq 'IT팀'}">
-				        	<label><input type="checkbox" class="rightCheckbox ITMemberCheckbox memberCheckbox" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
+				        	<label><input type="checkbox" class="rightCheckbox2 ITmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
 				        		&nbsp;&nbsp;└─&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
 			   		</c:forEach>
 			   		<hr class="division">
 			   		
-			   		<label><input type="checkbox" class="rightCheckbox department" id="accountCheckbox"/>&nbsp;&nbsp;회계팀</label><br>		   		
+			   		<label><input type="checkbox" class="rightCheckbox2" id="accountCheckbox2"/>&nbsp;&nbsp;회계팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq '회계팀'}">
-				        	<label><input type="checkbox" class="rightCheckbox accountMemberCheckbox memberCheckbox" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
+				        	<label><input type="checkbox" class="rightCheckbox2 accountmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
 				        		&nbsp;&nbsp;└─&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
@@ -271,12 +272,12 @@
 		   <%-- 사원선택해서 이동하기 --%>
 		   <div id="memberMove" 
 		        style="width: 10%;  height: 90%; display: inline-block; text-align: center; align-items: center; border: solid 1px black;">
-		   		<i class="fas fa-arrow-right fa-2x" id="rightMove" onclick="func_rightMove()"></i><br>
+		   		<i class="fas fa-arrow-right fa-2x" id="rightMove" onclick="func_rightMove2()"></i><br>
 		   </div>
 		   
 		   <div class="memberModal" id="memberModal2" 
 		   		style="width: 40%;  height: 90%; margin: 0 10px; display: inline-block;">
-		   		<label><input type="checkbox" id="allRightCheckbox" />&nbsp;&nbsp;참조자 모두 선택/해제하기</label>
+		   		<label><input type="checkbox" id="allrightCheckbox2" />&nbsp;&nbsp;참조자 모두 선택/해제하기</label>
 		   		<hr style="margin: 0 0 15px 0;"> 	
 		   		
 		   		<%-- 사원선택해서 참조자 순서 조정하기 --%>
@@ -285,12 +286,12 @@
 			   		<button type="button" class="operate" ><i class="fas fa-chevron-down fa-1x" id="downMove" onclick=""></i></button>
 		  		</div>
 		   		
-		   		<div style="border: solid 1px #f2f2f2; padding: 2%; overflow: scroll; height: 320px;" id="checkedMember">
+		   		<div style="border: solid 1px #f2f2f2; padding: 2%; overflow: scroll; height: 320px;" id="checkedMember2">
 		   		</div>
 		   		
 		   		<hr style="margin: 0 0 15px 0;"> 
-		   		<button type="button" class="operate" id="clear" onclick="func_clear()" >삭제하기</button>
-		   		<button type="button" class="operate" id="choose" style="background-color: #5cb85c; color: white;" onclick="func_choose()">선택하기</button>
+		   		<button type="button" class="operate" id="clear" onclick="func_clear2()" >삭제하기</button>
+		   		<button type="button" class="operate" id="choose" style="background-color: #5cb85c; color: white;" onclick="func_choose2()">선택하기</button>
 
 		   </div>
 	   </div>
