@@ -193,7 +193,16 @@ input#reason {
 div#bottom {
 	margin: 40px 0 0 20px;
 }
-
+button#attachBtn {
+	float: left;
+}
+div#attachedFile {
+	display: inline-block;
+	width: 80%;
+}
+button.delFile {
+	margin: 0 15px 0 5px;
+}
 
 /* ============ approvalForm2.jsp ============== */
 input.formDetail {

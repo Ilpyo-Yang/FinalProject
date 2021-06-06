@@ -39,7 +39,7 @@
 <body>
 
 	<div id="approvalContainer">
-		<form name="approvalForm">
+		<form name="approvalSubmitForm" enctype="multipart/form-data">
 			<span class="subtitle">기안문작성</span>
 			<hr>
 			<div id="approvalFormStyle">   
@@ -113,6 +113,14 @@
 				<div id="bottom">
 					<button type="button" class="btn btn-success formBtn">파일업로드</button>
 				</div>
+				
+				<input type="text" name="ap_seq" value="${fileNo}"/>
+				<input type="text" name="fk_apform_no" value="1"/>
+				<input type="text" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}"/>
+				<input type="text" name="ap_approver" />
+				<input type="text" name="ap_manage_approver" />
+				<input type="text" name="ap_referrer" />
+				
 			</div>
 		</form>
 	</div>

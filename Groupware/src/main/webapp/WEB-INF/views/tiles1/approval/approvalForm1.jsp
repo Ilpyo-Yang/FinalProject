@@ -13,6 +13,8 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		
+		$("input[name=attach]").hide();
+		
 		// 결재라인 모달창 열기
 		$("button#approvalMember").click(function(){			
 			$('div#myModal').show();
@@ -33,20 +35,61 @@
 			$('div#myModal2').hide();
 		});
 		
+		// 첨부파일 목록 보여주기
+		$("input[type=file]").change(function(){
+			var files = document.getElementById("attach").files;
+	        var file;
+	        
+	        for (var i=0; i<files.length; i++) { 
+	            file = files[i];
+	            $("div#attachedFile").append('<span>'+file.name+'<button type="button" class="btn formBtn2 delFile" onclick="func_delFile()">X</button></span>');
+	            if(i%2==1){
+	        		$("div#attachedFile").append('<br>');
+	        	}
+	        }
+		});
+        
+		
+		$("button#approvalSubmit").click(function(){	// 결제요청 버튼을 누른 경우
+			// 유효성 검사
+	        if($("input#ap_title").val().trim() == "") {
+	           alert("문서제목을 입력해주세요!");
+	           return;
+	        }
+	        if($("textarea").val().trim() == "") {
+		           alert("제출사유를 입력해주세요!");
+		           return;
+		    }
+	        
+	        // 폼 전송하기
+	        var frm = document.approvalSubmitForm;
+	        frm.method = "POST";
+	        frm.action = "<%= ctxPath%>/approvalSubmitForm.opis";
+	        frm.submit();  
+		});// end of $("button#approvalSubmit").click(function() -----------------------------------
+        
 	}); // end of $(document).ready(function(){})---------------------------------------
+	
+	
+	function func_attach() {
+		 $("input[name=attach]").click();	
+	}// end of function func_attach() ------------------------------------------
+	
+	
+	
 </script>
 </head>
 <body>
 
 	<div id="approvalContainer">
-		<form name="approvalForm">
+		<form name="approvalSubmitForm" enctype="multipart/form-data">
 			<span class="subtitle">기안문작성</span>
 			<hr>
 			<div id="approvalFormStyle">   
 			     	
 				<div id="top">
 					<button type="button" class="btn btn-success formBtn" id="approvalMember">결재선</button>
-					<button type="button" class="btn btn-success formBtn">결재요청</button>
+					<button type="button" class="btn btn-success formBtn" id="approvalSubmit">결재요청</button>
 					<button type="button" class="btn btn-default formBtn" onclick="location.href='<%=ctxPath%>/approvalMain.opis';">취소</button>
 					<br>
 					<div id="signTitle">결재라인</div><br><br>
@@ -85,13 +128,13 @@
 							<tr>
 								<td>문서제목</td>
 								<td colspan="3">
-									<input type="text" class="form-control" id="formTitle"/>
+									<input type="text" class="form-control" id="ap_title" name="ap_title"/>
 								</td>
 							</tr>
 							<tr>
 								<td>제출사유</td>
 								<td colspan="3">
-									<textarea class="form-control" rows="5" id="comment"></textarea>
+									<textarea class="form-control" rows="5" class="ap_contents" name="ap_contents" ></textarea>
 								</td>
 							</tr>
 						</tbody>
@@ -99,10 +142,19 @@
 				</div>
 				
 				<div id="bottom">
-					<button type="button" class="btn btn-success formBtn">파일업로드</button>
+					<input type="file" name="attach" id="attach" multiple />
+					<button type="button" class="btn btn-success formBtn" id="attachBtn" onclick="func_attach()" >파일업로드</button>			
+					<div id="attachedFile"></div>
 				</div>
+				<br>
 				
-				<input type="text" name=""/>
+				<input type="hidden" name="ap_seq" value="${fileNo}"/>
+				<input type="hidden" name="fk_apform_no" value="0"/>
+				<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}"/>
+				<input type="hidden" name="ap_approver" />
+				<input type="hidden" name="ap_manage_approver" />
+				<input type="hidden" name="ap_referrer" />
+	
 			</div>
 		</form>
 	</div>

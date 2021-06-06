@@ -1,5 +1,7 @@
 package com.spring.groupware.approval.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class ApprovalVO {
 	
 	private String ap_seq; 			// 결재번호
@@ -8,15 +10,20 @@ public class ApprovalVO {
 	private String ap_progress;  	// 진행상태    0:진행중 / 1: 완료 / 2: 반려
 	private String ap_title; 		// 문서제목
 	private String ap_contents;  	// 결재요청내용
-	private String ap_mid_approver;  	// 중간결재자
-	private String ap_final_approver; 	// 최종결재자 
+	private String ap_approver;  	// 결재라인
+	private String ap_manage_approver; 	// 현재 담당 결재자
 	private String ap_referrer; 		// 참조자 
 	private String ap_rejecter;  	// 반려자 
 	private String ap_reject; 		// 반려사유   
 	private String ap_start_day;  	// 기안일자
 	private String ap_end_day; 		// 완료(반려)일자 
 	
-
+	private MultipartFile attach;    
+     
+	private String ap_filename;				// 결재첨부파일 이름
+	private String ap_detail_filename;		// 구분용 결재첨부파일 이름
+	private String ap_fileSize;    // 파일크기 
+	
 	//////////////////////////////////////////////////////////////
 	
 	public ApprovalVO() {}
@@ -83,23 +90,23 @@ public class ApprovalVO {
 	}
 
 
-	public String getAp_mid_approver() {
-		return ap_mid_approver;
+	public String getAp_approver() {
+		return ap_approver;
 	}
 
 
-	public void setAp_mid_approver(String ap_mid_approver) {
-		this.ap_mid_approver = ap_mid_approver;
+	public void setAp_approver(String ap_approver) {
+		this.ap_approver = ap_approver;
 	}
 
 
-	public String getAp_final_approver() {
-		return ap_final_approver;
+	public String getAp_manage_approver() {
+		return ap_manage_approver;
 	}
 
 
-	public void setAp_final_approver(String ap_final_approver) {
-		this.ap_final_approver = ap_final_approver;
+	public void setAp_manage_approver(String ap_manage_approver) {
+		this.ap_manage_approver = ap_manage_approver;
 	}
 
 
@@ -152,5 +159,40 @@ public class ApprovalVO {
 		this.ap_end_day = ap_end_day;
 	}
 
+	//////////////////////////////////////////////////////////////////////
+
 	
-}		
+	public MultipartFile getAttach() {
+		return attach;
+	}
+
+	public void setAttach(MultipartFile attach) {
+		this.attach = attach;
+	}
+
+	public String getAp_filename() {
+		return ap_filename;
+	}
+
+	public void setAp_filename(String ap_filename) {
+		this.ap_filename = ap_filename;
+	}
+
+	public String getAp_detail_filename() {
+		return ap_detail_filename;
+	}
+
+	public void setAp_detail_filename(String ap_detail_filename) {
+		this.ap_detail_filename = ap_detail_filename;
+	}
+
+	public String getAp_fileSize() {
+		return ap_fileSize;
+	}
+
+	public void setAp_fileSize(String ap_fileSize) {
+		this.ap_fileSize = ap_fileSize;
+	}
+		
+}
+		

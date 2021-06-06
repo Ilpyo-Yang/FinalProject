@@ -184,6 +184,10 @@
 		}
 		$('span#selectedMember').html(chooseMemberName2.toString());
 		$('span#selectedMember').append("&nbsp;");
+		
+		// form 으로 넘길 input 값 저장
+		$("input[name=ap_referrer]").val(movedMember2.toString());
+
 		$('#myModal2').hide();
 		
 	}// end of function func_choose2() ----------------------------------

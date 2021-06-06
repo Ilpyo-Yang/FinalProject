@@ -194,6 +194,10 @@
 		$('div#signTitle').css({'width':newWidth})
 		$('table#sign').css({'width':newWidth})
 		
+		// form 으로 넘길 input 값 저장
+		$("input[name=ap_approver]").val(movedMember.toString());
+		$("input[name=ap_manage_approver]").val(movedMember[0]);
+		
 		$('#myModal').hide();
 		
 	}// end of function func_choose() ----------------------------------
