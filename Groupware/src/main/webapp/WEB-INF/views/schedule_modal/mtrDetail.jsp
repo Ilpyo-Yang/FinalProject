@@ -57,7 +57,8 @@
 		color:white;
 	}
 	
-	.close {width: 70px;}
+	.close {width: 50px;}
+	.return {vertical-align:bottom;}
 	
 </style>
 
@@ -121,6 +122,7 @@
 	
 	<div id="btns">
 		<button type="button" class="btn del" onclick="goDelReg()">예약취소하기</button>&nbsp;
-		<button type="button" class="btn close" onclick="javascript:window.close();">닫기</button>
+		<button type="button" class="btn close" onclick="javascript:window.close();">닫기</button>&nbsp;
+		<button type="button" class="btn return" onclick="javascript:location.href='<%=ctxPath%>/mtr_resv.opis'"><img id="returnimg" src="<%=ctxPath%>/resources/images/return.png"/></button>
 	</div>
 </div>

@@ -191,7 +191,6 @@
 	     									end:enddate,
 	     									url:"<%=ctxPath%>/showDetail.opis?scdno="+item.scdno})
 	     						});
-	     						console.log(scdArr);
 	     						successCallback(scdArr);
 	     				},
 	     				error:function(request,status,error) {
@@ -203,16 +202,16 @@
 	        		var eventObj = info.event;
 	        		if (eventObj.url) {
 	        		    window.open(eventObj.url,"","left=350px, top=100px, width=700px, height=455px");
-						info.jsEvent.preventDefault(); // prevents browser from following link in current tab.
+						info.jsEvent.preventDefault(); 
 	        		 } else {
 	        		        alert('일정명: ' + eventObj.title +'\n'+
 	        		        	  '시간: ' + eventObj.start +' ~ '+ eventObj.end);
 	        		 }    
 	        	},
-	        	dayMaxEventRows: true, // for all non-TimeGrid views
+	        	dayMaxEventRows: true, 
 	        	views: {
 	        	    timeGrid: {
-	        	      dayMaxEventRows: 6 // adjust to 6 only for timeGridWeek/timeGridDay
+	        	      dayMaxEventRows: 6 
 	        	    }
 	        	},
 	        	locale:'ko'

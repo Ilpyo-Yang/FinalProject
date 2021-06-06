@@ -70,8 +70,8 @@
 	
 	<!-- === 회의실 예약하기 === -->
 	<insert id="resvMtrEnd" parameterType="com.spring.groupware.schedule.model.MtrHistoryVO">
-		insert into tbl_mtrhistory(usemtrno, fk_scdno, fk_mtrno, mtrsubject, starttime, endtime)
-		values(#{usemtrno}, #{fk_scdno}, #{fk_mtrno}, #{mtrsubject}, to_date(#{regDate} || ' ' || #{starttime},'yyyy-mm-dd hh24:mi'), to_date(#{regDate} || ' ' || #{endtime},'yyyy-mm-dd hh24:mi'))
+		insert into tbl_mtrhistory(usemtrno, fk_scdno, fk_mtrno, booker, mtrsubject, starttime, endtime)
+		values(#{usemtrno}, #{fk_scdno}, #{fk_mtrno}, #{booker}, #{mtrsubject}, to_date(#{regDate} || ' ' || #{starttime},'yyyy-mm-dd hh24:mi'), to_date(#{regDate} || ' ' || #{endtime},'yyyy-mm-dd hh24:mi'))
 	</insert>
 	
 	<!-- === 일정명 가져오기 === -->
@@ -88,14 +88,6 @@
 		where mtrno = #{fk_mtrno}
 	</select>
 	
-	<!-- === 회의실 예약 내역 조회 === -->
-	<select id="getViewMtr" parameterType="String" resultType="com.spring.groupware.schedule.model.MtrHistoryVO">
-		select M.mtrname, H.regDate, H.starttime, H.endtime
-		from tbl_mtrhistory H join tbl_mtr M
-		on H.fk_mtrno = M.mtrno
-		where usemtrno = #{usemtrno}
-	</select>
-	
 	<!-- === 회의실 예약취소(삭제) === -->
 	<delete id="delMtrReg" parameterType="String">
 		delete from tbl_mtrhistory
@@ -105,15 +97,17 @@
 	<!-- === 회의실 예약현황 보여주기(구글 차트) === -->
 	<resultMap type="HashMap" id="goRegMtrMap">
 		<result property="mtrname" column="mtrname" javaType="String"/>
-		<result property="scdsubject" column="scdsubject" javaType="String"/>
-		<result property="regDate" column="regDate" javaType="String"/>
+		<result property="mbr_name" column="mbr_name" javaType="String"/>
+		<result property="mtrsubject" column="mtrsubject" javaType="String"/>
 		<result property="starttime" column="starttime" javaType="String"/>
 		<result property="endtime" column="endtime" javaType="String"/>
 	</resultMap>
 	
-	<select id="goRegMtr" resultMap="goRegMtrMap">
-		select mtrname, scdsubject, regDate, starttime, endtime
-		from tbl_schedule S join tbl_mtrhistory H
+	<select id="goRegMtr" parameterType="String" resultMap="goRegMtrMap">
+		select mtrname, mbr_name, mtrsubject, starttime, endtime
+		from tbl_mbr B join tbl_schedule S
+		on B.mbr_seq = S.fk_mbr_seq
+		join tbl_mtrhistory H
 		on S.scdno = H.fk_scdno
 		join tbl_mtr M
 		on H.fk_mtrno = M.mtrno

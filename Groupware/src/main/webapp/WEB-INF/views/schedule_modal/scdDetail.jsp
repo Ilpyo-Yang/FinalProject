@@ -85,6 +85,11 @@
 		color: #006080;
 	}
 	
+	.return {
+		vertical-align:bottom;
+		background:#f2f2f2;
+	}
+	
 </style>
 
 <script type="text/javascript">
@@ -176,6 +181,7 @@
 		<div align="right" id="btns">
 			<button type="button" class="btn modify" onclick="javascript:location.href='<%=ctxPath%>/editScd.opis?scdno=${requestScope.schedulevo.scdno}'">수정</button>
 			<button type="button" class="btn del" onclick="goDelScd()">삭제</button>
+			<button type="button" class="btn return" onclick="javascript:location.href='<%=ctxPath%>/scd_register.opis'"><img id="returnimg" src="<%=ctxPath%>/resources/images/return.png"/></button>
 			<button type="button" class="btn close" onclick="goClose()">닫기</button> 
 		</div>
 

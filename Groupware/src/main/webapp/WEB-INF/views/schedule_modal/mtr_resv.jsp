@@ -13,15 +13,6 @@
 		margin: 25px;
 	}
 	
-	#search {
-		border: none;
-		background: #666;
-		color:white;
-		vertical-align: bottom;
-		height:22px;
-		border-radius:1pt;
-	}
-	
 	table {
 		float:right;
 	}
@@ -61,6 +52,19 @@
 		color: white;
 	}
 	
+	#booker {
+		border:none;
+	}
+	
+	#search {
+		border: none;
+		background: #666;
+		color:white;
+		vertical-align: bottom;
+		height:22px;
+		border-radius:1pt;
+	}
+	
 </style>
 
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -74,9 +78,10 @@
 	
 	$(document).ready(function(){
 		
+		func_datepicker();
+		func_resvList();
+		
 		$("button#btnResv").click(function(){
-			
-			var url = "<"
 			
 			var frm = document.mtrRegFrm;
 			frm.method = "POST";
@@ -84,9 +89,13 @@
 			frm.submit();
 		});
 		
-	
+		$("button#search").click(function(){
+			
+		});
+		
 	});// end of $(document).ready(function(){
 	
+	function func_datepicker(){	
 	 $(function() {
 	       //input을 datepicker로 선언
 	       $("#datepicker").datepicker({
@@ -107,43 +116,75 @@
 	       //초기값을 오늘 날짜로 설정해줘야 합니다.
 	       $('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
 	   });	
+	}	
+	
+	
+	function func_resvList(){
 		
-	google.charts.load("current", {packages:["timeline"]});
-	google.charts.setOnLoadCallback(drawChart);
-	function drawChart() {
-		var container = document.getElementById('example5.1');
-	    var chart = new google.visualization.Timeline(container);
-	    var dataTable = new google.visualization.DataTable();
-	    dataTable.addColumn({ type: 'string', id: 'Room' });
-	    dataTable.addColumn({ type: 'string', id: 'Name' });
-	    dataTable.addColumn({ type: 'date', id: 'Start' });
-	    dataTable.addColumn({ type: 'date', id: 'End' });
-	    dataTable.addRows([
-	    	[ '회의실1', 'Beginning JavaScript',       new Date(0,0,0,9,0,0),  new Date(0,0,0,12,00,0) ],
-		    [ '회의실1', 'Intermediate JavaScript',    new Date(0,0,0,14,0,0),  new Date(0,0,0,15,00,0) ],
-		    [ '회의실1', 'Advanced JavaScript',        new Date(0,0,0,16,0,0),  new Date(0,0,0,17,00,0) ],
-		    [ '회의실2',   'Beginning Google Charts',    new Date(0,0,0,12,00,0), new Date(0,0,0,14,0,0) ],
-		    [ '회의실2',   'Intermediate Google Charts', new Date(0,0,0,14,00,0), new Date(0,0,0,16,0,0) ],
-		    [ '회의실3',   'Advanced Google Charts',     new Date(0,0,0,16,00,0), new Date(0,0,0,18,0,0) ],
-		    [ '회의실4',   'Advanced Google Charts',     new Date(0,0,0,16,00,0), new Date(0,0,0,18,0,0) ],
-		    [ '회의실4',   'Advanced Google Charts',     new Date(0,0,0,10,00,0), new Date(0,0,0,11,00,0) ],
-		    [ '회의실5',   'Advanced Google Charts',     new Date(0,0,0,16,00,0), new Date(0,0,0,18,0,0) ],
-		    [ '회의실6',   'Advanced Google Charts',     new Date(0,0,0,16,00,0), new Date(0,0,0,18,0,0) ]
-	    ]);
-	    
-	   	var options = {
-	      timeline: { colorByRowLabel: true }
-	    };
+		var mtrArr = [];
+		$.ajax({
+	    	url:"<%=ctxPath%>/showRegMtr.opis",
+	    	dataType:"json",
+	    	success:function(json) {
+	    		
+	    		var date = document.getElementById('datepicker').value;
+	    		$.each(json,function(index,item){
+	    			var starttime = item.starttime.substring(0,10);
+	    		
+	    			if(starttime == date){
+	    				var startyear = item.starttime.substring(0,4);
+		    			var startmonth = item.starttime.substring(5,7);
+		    			var startday = item.starttime.substring(8,10);
+		    			var starth = item.starttime.substring(11,13);
+		    			
+		    			var endyear = item.endtime.substring(0,4);
+		    			var endmonth = item.endtime.substring(5,7);
+		    			var endday = item.endtime.substring(8,10);
+		    			var endh = item.endtime.substring(11,13);
+		    		
+	    				mtrArr.push([item.mtrname, item.mtrsubject, new Date(0,0,0,starth,0,0), new Date(0,0,0,endh,0,0)])	
+	    			}
 
-	    chart.draw(dataTable, options);
-	  }
+	    		});// end of $.each(json,function(index,item){})-----------
+	    		
+	    	},
+	    	error:function(request,status,error) {
+	    		  alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	    	}
+	    });// end of $.ajax({})----------------------------------------
+	 	
+	    google.charts.load("current", {packages:["timeline"]});
+		google.charts.setOnLoadCallback(drawChart);
+		function drawChart() {
+			var container = document.getElementById('example5.1');
+		    var chart = new google.visualization.Timeline(container);
+		    var dataTable = new google.visualization.DataTable();
+		    dataTable.addColumn({ type: 'string', id: 'Room' });
+		    dataTable.addColumn({ type: 'string', id: 'Subject' });
+		    dataTable.addColumn({ type: 'date', id: 'Start' });
+		    dataTable.addColumn({ type: 'date', id: 'End' });
+		    dataTable.addRows(mtrArr);
+		    
+		    var options = {
+		      timeline: { colorByRowLabel: true }
+		    };
+
+		    google.visualization.events.addListener(chart, 'select', function () {
+				  var selection = chart.getSelection();
+				  if (selection.length > 0) {
+				    console.log(dataTable.getValue(selection[0].row, 1));
+				    console.log(dataTable.getValue(selection[0].row, 0));
+				    alert("You just clicked"+selection);
+				}
+		    });
+		    
+		    chart.draw(dataTable, options);
+		  }
+	}
 	
-		function goCancel() {
+	function goCancel() {
 			window.close();	
-		}
-	
-		
-		
+	}
 </script>
 
 <div id="container">
@@ -168,14 +209,20 @@
 			<tr>
 				<td id="title">예약명</td>
 				<td>
-					<input type="hidden" id="child" name="fk_scdno" value="${requestScope.scdno}"/>
+					
 					<c:if test="${requestScope.scdno eq null}">
 						<input type="text" name="mtrsubject" placeholder="예약명 입력" required/>
 					</c:if>
 					<c:if test="${requestScope.scdno ne null}">
+						<input type="hidden" id="child" name="fk_scdno" value="${requestScope.scdno}"/>
 						<input type="text" name="mtrsubject" value="${requestScope.scdsubject}" />
 					</c:if>
-							
+				</td>
+			</tr>
+			<tr>
+				<td id="title">예약자명</td>
+				<td>
+				<input type="text" name="booker" id="booker" value="${sessionScope.loginuser.mbr_id}" readonly/>
 				</td>
 			</tr>
 			<tr>

@@ -43,10 +43,8 @@ public interface InterScheduleDAO {
 	// 회의실명 가져오기
 	String getMtrName(String fk_mtrno);
 	
-	
-	
 	// 회의실 예약현황 보여주기(구글 차트)
-	/* List<Map<String, String>> goRegMtr(); */
+	List<Map<String, String>> goRegMtr();
 	
 	
 	

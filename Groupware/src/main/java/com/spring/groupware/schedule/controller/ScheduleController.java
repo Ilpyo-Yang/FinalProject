@@ -1,5 +1,8 @@
 package com.spring.groupware.schedule.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -74,7 +77,6 @@ public class ScheduleController {
 			
 			mav.setViewName("msg");
 		}
-		
 		return mav;
 	}
 	
@@ -267,27 +269,28 @@ public class ScheduleController {
 		return mav;
 	}
 	
-	//예약된 회의실 표에 보여주기
-	/*
-	 * @ResponseBody
-	 * 
-	 * @RequestMapping(value="/showRegMtr.opis") public ModelAndView
-	 * requiredLogin_goRegMtr(HttpServletRequest request, HttpServletResponse
-	 * response, ModelAndView mav) {
-	 * 
-	 * List<Map<String,String>> regDetailList = service.goRegMtr();
-	 * 
-	 * JsonArray jsonArr = new JsonArray();
-	 * 
-	 * for(Map<String,String> map:regDetailList) { JsonObject jsonObj = new
-	 * JsonObject();
-	 * 
-	 * }
-	 * 
-	 * return mav; }
-	 */
-	
-	
+	// 회의실 예약현황 보여주기(구글 차트)
+	@ResponseBody
+	@RequestMapping(value="/showRegMtr.opis", produces="text/plain;charset=UTF-8") 
+	public String goRegMtr() {
+		
+		List<Map<String,String>> regDetailList = service.goRegMtr();
+		JsonArray jsonArr = new JsonArray();
+			 
+		for(Map<String,String> map:regDetailList) { 
+			JsonObject jsonObj = new JsonObject();
+			jsonObj.addProperty("mtrname", map.get("mtrname"));
+			jsonObj.addProperty("mtrsubject", map.get("mtrsubject"));
+			jsonObj.addProperty("mbr_name", map.get("mbr_name"));
+			jsonObj.addProperty("starttime", map.get("starttime"));
+			jsonObj.addProperty("endtime", map.get("endtime"));
+			
+			jsonArr.add(jsonObj);
+		}
+	 
+	 return new Gson().toJson(jsonArr); 
+	 
+	}
 	
 	// 회의실 예약취소(삭제)
 	@RequestMapping(value="/mtrCancel.opis", method= {RequestMethod.POST})

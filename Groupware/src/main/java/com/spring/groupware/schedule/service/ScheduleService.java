@@ -104,16 +104,13 @@ public class ScheduleService implements InterScheduleService{
 		return n;
 	}
 	
-	
-	
-	
-	
-	/*
-	 * // 회의실 예약현황 보여주기(구글 차트)
-	 * 
-	 * @Override public List<Map<String, String>> goRegMtr() { List<Map<String,
-	 * String>> regDetailList = dao.goRegMtr(); return regDetailList; }
-	 */
+	// 회의실 예약현황 보여주기(구글 차트)
+	@Override 
+	public List<Map<String, String>> goRegMtr() { 
+		 List<Map<String,String>> regDetailList = dao.goRegMtr(); 
+		 return regDetailList; 
+	}
+	 
 	
 	
 	

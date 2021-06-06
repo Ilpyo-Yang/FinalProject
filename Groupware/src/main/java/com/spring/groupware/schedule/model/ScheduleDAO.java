@@ -101,16 +101,14 @@ public class ScheduleDAO implements InterScheduleDAO {
 		String mtrname = sqlsession.selectOne("schedule.getMtrName", fk_mtrno);
 		return mtrname;
 	}
-
 	
+	// 회의실 예약현황 보여주기(구글 차트)
+	@Override 
+	public List<Map<String, String>> goRegMtr() { 
+		List<Map<String,String>> regDetailList = sqlsession.selectList("schedule.goRegMtr"); 
+		return regDetailList; 
+	}
 	
-	/*
-	 * // 회의실 예약현황 보여주기(구글 차트)
-	 * 
-	 * @Override public List<Map<String, String>> goRegMtr() { List<Map<String,
-	 * String>> regDetailList = sqlsession.selectList("schedule.goRegMtr"); return
-	 * regDetailList; }
-	 */
 	
 	
 	
