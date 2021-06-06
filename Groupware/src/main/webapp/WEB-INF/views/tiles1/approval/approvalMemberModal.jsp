@@ -135,7 +135,7 @@
 	}); // end of $(document).ready(function(){})---------------------------------------
 	
 	
-	var movedMember = [];	// 선택된 멤버 값의 value
+	var movedMember = [];	// 선택된 결재라인 멤버 값의 value
 	
 	function func_rightMove(){	// 오른쪽 방향 화살표 클릭시
 			 

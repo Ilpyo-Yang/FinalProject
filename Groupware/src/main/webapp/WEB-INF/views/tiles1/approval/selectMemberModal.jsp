@@ -135,7 +135,7 @@
 	}); // end of $(document).ready(function(){})---------------------------------------
 	
 	
-	var movedMember2 = [];	// 선택된 멤버 값의 value
+	var movedMember2 = [];	// 선택된 참조자 멤버 값의 value
 	
 	function func_rightMove2(){	// 오른쪽 방향 화살표 클릭시
 			 
