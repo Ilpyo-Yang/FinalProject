@@ -119,7 +119,7 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 
 	// 업무 삭제하기
 	@Override
-	public int workDel(Map<String, String> paraMap) {
+	public int workDel(Map<String, Object> paraMap) {
 		int n = sqlsession.update("workmanage.workDel", paraMap);
 		return n;
 	}

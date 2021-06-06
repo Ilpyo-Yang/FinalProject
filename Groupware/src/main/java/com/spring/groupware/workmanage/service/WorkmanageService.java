@@ -124,7 +124,7 @@ public class WorkmanageService implements InterWorkmanageService {
 
 	// 업무 삭제하기
 	@Override
-	public int workDel(Map<String, String> paraMap) {
+	public int workDel(Map<String, Object> paraMap) {
 		int n = dao.workDel(paraMap);
 		return n;
 	}

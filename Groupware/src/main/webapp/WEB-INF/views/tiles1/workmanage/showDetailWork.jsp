@@ -51,6 +51,20 @@
                }
 		});
 	}
+	
+	// 업무 삭제하기 
+	function goWorkDel() {
+		var delcheck = confirm("삭제하시겠습니까?");
+		if (!delcheck) {
+			return; // 삭제하지 않으면 함수 종료
+		}
+		
+		// 삭제할 업무 전송하기 (POST 방식)
+		var frm = document.delFrm;
+		frm.method = "post";
+		frm.action = "<%=ctxPath%>/workDel.opis";
+		frm.submit();
+	}
 </script>
 
 
@@ -146,9 +160,16 @@
 	<!-- 업무 관련 버튼 -->
 	<div align="right">
 		<button type="button" class="workEditBtn" onclick="javascript:location.href='<%=ctxPath%>/workEdit.opis?wmno=${workvo.wmno}'">수정</button>
-		<button type="button" class="workDeleteBtn" onclick="javascript:location.href='<%=ctxPath%>/workDel.opis?'">삭제</button>
+		<button type="button" class="workDeleteBtn" onclick="goWorkDel();">삭제</button>
 		<button type="button" class="workListBtn" onclick="javascript:location.href='<%=ctxPath%>/workList.opis?'">목록</button>
 	</div>
+	
+	<!-- 삭제할 업무 번호 폼 -->
+	<form name="delFrm">
+		<input type="hidden" name="wmnoStr" value="${workvo.wmno}"/>
+		<input type="hidden" name="fk_wtno" value="${workType}"/>
+		<input type="hidden" name="fk_wrno" value="${workRole}"/>
+	</form>
 	
 	<c:if test="${requestScope.workRole ne 2}"><jsp:include page="./readDetail.jsp" /></c:if>
 	<c:if test="${requestScope.workRole eq 2}"><jsp:include page="./writeDetail.jsp" /></c:if>

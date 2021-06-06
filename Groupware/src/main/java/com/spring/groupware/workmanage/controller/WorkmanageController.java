@@ -51,12 +51,9 @@ public class WorkmanageController {
 	@RequestMapping(value = "/memberSearchShow.opis", method = {RequestMethod.GET }, produces = "text/plain;charset=UTF-8")
 	public String memberSearchShow(HttpServletRequest request) {
 
-//		String searchType = request.getParameter("searchType");
 		String searchWord = request.getParameter("searchWord");
 
-		
 		Map<String, String> paraMap = new HashMap<>();
-//		paraMap.put("searchType", searchType);
 		paraMap.put("searchWord", searchWord);
 
 		// 담당자, 참조자 지정하기 위한 우선멤버 가져오기
@@ -67,7 +64,7 @@ public class WorkmanageController {
 		if (memberList != null) {
 			for (MemberVO member : memberList) {
 				JSONObject jsonObj = new JSONObject(); // {}
-//				jsonObj.put("seq", member.getMbr_seq());
+				jsonObj.put("seq", member.getMbr_seq());
 				jsonObj.put("word", member.getMbr_name());
 
 				jsonArr.put(jsonObj);
@@ -114,13 +111,18 @@ public class WorkmanageController {
 	public ModelAndView requiredLogin_todoList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {	
 		
 		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser"); 
+		try {
+			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser"); 
+			
+			// 현재 로그인 되어있는 멤버의 seq를 통해 해당 멤버의 할일 리스트 가져온다.
+			String fk_mbr_seq = String.valueOf(loginuser.getMbr_seq());
+			List<TodoVO> todoList = service.todoList(fk_mbr_seq);
+			mav.addObject("todoList", todoList);
+			
+		} catch (Exception e) {
+			
+		}
 		
-		// 현재 로그인 되어있는 멤버의 seq를 통해 해당 멤버의 할일 리스트 가져온다.
-		String fk_mbr_seq = String.valueOf(loginuser.getMbr_seq());
-		List<TodoVO> todoList = service.todoList(fk_mbr_seq);
-		
-		mav.addObject("todoList", todoList);
 		mav.setViewName("workmanage/todoList.tiles1");
 		return mav;
 	}
@@ -219,17 +221,22 @@ public class WorkmanageController {
 	@RequestMapping(value = "/workList.opis")
 	public ModelAndView requiredLogin_workList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
-		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser"); 
+		Map<String,String> paraMap = new HashedMap<>();
 		
-		// 현재 로그인 되어있는 멤버의 seq를 통해 해당 멤버의 할일 리스트 가져온다.
-		String userId = String.valueOf(loginuser.getMbr_seq());
+		try {
+			HttpSession session = request.getSession();
+			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser"); 
+			
+			// 현재 로그인 되어있는 멤버의 seq를 통해 해당 멤버의 할일 리스트 가져온다.
+			String userId = String.valueOf(loginuser.getMbr_seq());
+			paraMap.put("fk_mbr_seq", userId);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		String workType = request.getParameter("workType");  
 		String workRole = request.getParameter("workRole");
 		
-		Map<String,String> paraMap = new HashedMap<>();
-		
-		paraMap.put("fk_mbr_seq", userId);
 		paraMap.put("fk_wtno", workType); 	// 업무요청:1, 업무보고:2
 		paraMap.put("fk_wrno", workRole);	// 내가 발신자일때:1, 수신자일때:2, 참조자일때:3 
 		
@@ -394,22 +401,32 @@ public class WorkmanageController {
 		String gobackURL = request.getParameter("gobackURL");
 		String wmnoStr = request.getParameter("wmnoStr");	// 삭제하려는 업무번호들
 		String fk_wrno = request.getParameter("fk_wrno");	// 사용자의 역할
+		String fk_wtno = request.getParameter("fk_wtno");
 		
 		// 삭제를 시도하는 사용자의 정보를 가져오기
 		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser"); 
-		String userId = String.valueOf(loginuser.getMbr_seq());
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
-		Map<String,String> paraMap = new HashedMap<>();
-		paraMap.put("wmnoStr", wmnoStr);
-		paraMap.put("fk_wrno", fk_wrno);
+		Map<String,Object> paraMap = new HashedMap<>();
+
+		String userId = String.valueOf(loginuser.getMbr_seq());
 		paraMap.put("userId", userId);
+		
+		String[] wmnoList = wmnoStr.split(",");
+		paraMap.put("wmnoList", wmnoList);
+		paraMap.put("fk_wrno", fk_wrno);
 		
 		// 사용자의 역할에 따른 업무삭제 (실제는 yn의 상태를 0->1로 변환 시키는 작업)
 		int n = service.workDel(paraMap);
+		System.out.println("gobackURL" + gobackURL);
 		
 		if (n >= 1) {
-			mav.setViewName("redirect:/"+gobackURL);
+			if (gobackURL != null) {
+				mav.setViewName("redirect:/"+gobackURL);
+			}
+			else {
+				mav.setViewName("redirect:/workList.opis?workType="+fk_wtno+"&workRole="+fk_wrno);
+			}
 		}
 		else {
 			String message = "업무 삭제에 실패하였습니다. 다시 시도하세요";

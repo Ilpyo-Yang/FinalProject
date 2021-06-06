@@ -14,7 +14,7 @@
 <jsp:include page="./workmanage_sidebar.jsp" />
 
 <style type="text/css">
-div#diplayList {
+div#displayList {
 	border: solid 1px gray;
 	border-top: 100;
 	width: 206px;
@@ -24,6 +24,43 @@ div#diplayList {
 	position: absolute;
 	z-index: 1000;
 	background-color: white;
+}
+.receiverName {
+	width: 80px;
+}
+
+.close {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 0%;
+  /* padding: 12px 16px; */
+  transform: translate(0%, -50%);
+}
+.close:hover {background: #bbb;}
+
+ul#setmbrList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+}
+
+ul#setmbrList li.receiverName {
+  border: 1px solid #ddd;
+  margin-top: -1px; /* Prevent double borders */
+  margin-right: 5px;
+  background-color: #f6f6f6;
+  /* padding: 12px; */
+  text-decoration: none;
+  /* font-size: 18px; */
+  color: black;
+  display: inline-block;
+  position: relative;
+}
+
+ul#setmbrList li.receiverName:hover {
+  background-color: #eee;
 }
 </style>
 
@@ -50,7 +87,7 @@ div#diplayList {
 		<%-- === #107. 검색어 입력시 자동글 완성하기 2 === --%>
 		$("div#displayList").hide();
 		
-		$("input#searchWord").keyup(function(){
+		$("input#searchWord").keyup(function(event){
 			var wordlen = $(this).val().trim().length;
 			
 			if (wordlen == 0) {
@@ -82,7 +119,7 @@ div#diplayList {
 								
 								word = word.substr(0,index) + "<span style='color:blue;'>"+ word.substr(index,len) +"</span>" + word.substr(index+len);
 								
-								html += "<span style='cursor:pointer;' class='word'>"+ word +"</span><br>";
+								html += "<span style='cursor:pointer;' class='word'>"+ word +"</span><span hidden>"+item.seq+"</span><br>";
 							});
 							$("div#displayList").html(html);
 							$("div#displayList").show();
@@ -93,18 +130,30 @@ div#diplayList {
 	                }
 				});
 			}
+			
 		});
 		
-		<%-- === #113. 검색어 입력시 자동글 완성하기 8 === --%>
+		<%-- === 검색어 입력시 자동글 완성하기 === --%>
 		$(document).on("click", "span.word", function(){
-			$("input#searchWord").val($(this).text()); 
 			// 텍스트박스에 검색된 결과의 문자열을 입력해준다.
+			var html = "";
+			html += '<li type="text" class="receiverName">'+$(this).text();
+			html += '<input type="hidden" class="receiverName" value="'+$(this).text()+'"/>';
+			html += '<input type="hidden" class="receiverSeq" value="'+$(this).next().text()+'"/>';
+			html += '<span class="close" onclick="nameDel(this);">&times;</span></li>';
+			$("ul#setmbrList").append(html);
 			
+			$("input#searchWord").val("").focus();
 			$("div#displayList").hide();
-			goSearch();
 		});
+		
 		
 	});
+	
+	function nameDel(item) {
+		$(item).parent().remove();
+	} 
+	
 	
 	// == 업무 요청, 업무 보고 일 경우에만 담당자, 참조자  input 보여주기 == //
 	function onlyWorkInput(item) {
@@ -226,13 +275,8 @@ div#diplayList {
 				<tr class="onlyWorkInput">
 					<td><span class="star">*</span>담당자</td>
 					<td>
-						<div>
-							<input type="text" class="receiverName" value="김고양"/><input type="hidden" class="receiverSeq" value="65"/>
-							<input type="text" class="receiverName" value="김초코"/><input type="hidden" class="receiverSeq" value="51"/>
-							<input type="text" class="receiverName" value="김산타"/><input type="hidden" class="receiverSeq" value="68"/> 
-							
-						</div>
 						<input type="text" id="searchWord" name="searchWord" placeholder="사용자"  autocomplete="off" />
+						<ul id="setmbrList"></ul>
 						<div id="displayList"></div>
 					</td>
 				</tr>
@@ -261,7 +305,7 @@ div#diplayList {
 				</tr>
 			</tbody>
 		</table>	
-		<input type="hidden" name="requester" value="김정수"/><input type="hidden" name="requesterSeq" value="5"/>
+		<input type="hidden" name="requester" value="${sessionScope.loginuser.mbr_name}"/><input type="hidden" name="requesterSeq" value="5"/>
 		<input type="hidden" name="receivers" /><input type="hidden" name="receiverSeqs" />
 		<input type="hidden" name="referrers" /><input type="hidden" name="referrerSeqs" />
 		<input type="hidden" name="fk_wrno" value="1"/>

@@ -117,7 +117,7 @@ button.readCheck {
 		}
 		
 		var wmnoArr = []; // 체크박스에 선택된 업무 리스트 담기
-		$("input.workCheckBox").each(function(index, item){
+		$("input.oneCheckbox").each(function(index, item){
 			if ($(item).prop("checked") == true) {
 				var wmno = $(item).val();
 				wmnoArr.push(wmno);	
@@ -290,6 +290,7 @@ button.readCheck {
 	<!-- 삭제할 업무 번호 폼 -->
 	<form name="delFrm">
 		<input type="hidden" name="wmnoStr" />
+		<input type="hidden" name="fk_wtno" value="${workType}"/>
 		<input type="hidden" name="fk_wrno" value="${workRole}"/>
 		<input type="hidden" name="gobackURL" value="${requestScope.gobackURL}"/>
 	</form>

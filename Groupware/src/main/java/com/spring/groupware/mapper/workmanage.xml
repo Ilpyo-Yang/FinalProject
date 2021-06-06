@@ -127,7 +127,10 @@
 	<update id="workDel" parameterType="HashMap">
 		update tbl_workmanage_mbr set yn = 1
 		where fk_mbr_seq = #{userId} and fk_wrno = #{fk_wrno}
-		and fk_wmno in (${wmnoStr})
+		and fk_wmno in 
+		<foreach collection="wmnoList" item="wmno" separator="," open="(" close=")">
+			#{wmno}
+		</foreach>
 	</update>
 	
 	<!-- 담당자 한명의 업무 정보 가져오기 -->
