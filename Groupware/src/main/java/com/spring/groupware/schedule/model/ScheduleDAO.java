@@ -9,6 +9,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import com.spring.groupware.addrlist.model.AddrVO;
+
 @Component
 @Repository
 public class ScheduleDAO implements InterScheduleDAO {
@@ -23,6 +25,13 @@ public class ScheduleDAO implements InterScheduleDAO {
 		return scdno;
 	}
 	
+	// 주소록 가져오기
+	@Override
+	public List<AddrVO> getAddrList() {
+		List<AddrVO> addrList = sqlsession.selectList("schedule.getAddrList");
+		return addrList;
+	}
+
 	// 일정 등록하기
 	@Override
 	public int scdAdd(ScheduleVO schedulevo) {
@@ -108,21 +117,8 @@ public class ScheduleDAO implements InterScheduleDAO {
 		List<Map<String,String>> regDetailList = sqlsession.selectList("schedule.goRegMtr"); 
 		return regDetailList; 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 
-	
-	
 
-	
-
-	
 	
 	
 }

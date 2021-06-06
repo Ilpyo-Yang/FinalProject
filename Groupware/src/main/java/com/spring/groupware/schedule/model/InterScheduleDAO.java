@@ -3,13 +3,18 @@ package com.spring.groupware.schedule.model;
 import java.util.List;
 import java.util.Map;
 
+import com.spring.groupware.addrlist.model.AddrVO;
+
 public interface InterScheduleDAO {
-	
-	// 일정 등록하기
-	int scdAdd(ScheduleVO schedulevo);
 	
 	// 일정번호 채번해오기
 	int getScdno();
+	
+	// 주소록 가져오기
+	List<AddrVO> getAddrList();
+		
+	// 일정 등록하기
+	int scdAdd(ScheduleVO schedulevo);
 	
 	// 수정해야할 글 1개 가져오기
 	ScheduleVO getViewScd(String scdno);
@@ -45,21 +50,8 @@ public interface InterScheduleDAO {
 	
 	// 회의실 예약현황 보여주기(구글 차트)
 	List<Map<String, String>> goRegMtr();
-	
-	
-	
-	
 
 
-	
-	
-	
-	
-
-	
-	
-	
-	
 	
 
 }

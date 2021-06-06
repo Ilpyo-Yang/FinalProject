@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.spring.groupware.addrlist.model.AddrVO;
 import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.schedule.model.MtrHistoryVO;
 import com.spring.groupware.schedule.model.ScheduleVO;
@@ -54,6 +55,19 @@ public class ScheduleController {
 		mav.addObject("scdno",scdno);
 		mav.addObject("loginuser",loginuser);
 		mav.setViewName("schedule_modal/scd_register");
+		return mav;
+	}
+	
+	// 주소록 불러오기
+	@RequestMapping(value="/show_addresslist.opis")
+	public ModelAndView requiredLogin_showAddrList(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		// 주소록 리스트 가져오기
+		List<AddrVO> addrList = service.getAddrList();
+		
+		mav.addObject("addrList", addrList);
+		mav.setViewName("schedule_modal/addressList");
+		
 		return mav;
 	}
 	

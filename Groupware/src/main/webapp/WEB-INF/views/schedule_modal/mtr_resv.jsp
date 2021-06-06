@@ -90,7 +90,8 @@
 		});
 		
 		$("button#search").click(function(){
-			
+			func_datepicker();
+			func_resvList();
 		});
 		
 	});// end of $(document).ready(function(){
@@ -116,8 +117,7 @@
 	       //초기값을 오늘 날짜로 설정해줘야 합니다.
 	       $('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
 	   });	
-	}	
-	
+	}// end of function func_datepicker(){}-----------------------------------------------------------
 	
 	function func_resvList(){
 		
@@ -130,7 +130,8 @@
 	    		var date = document.getElementById('datepicker').value;
 	    		$.each(json,function(index,item){
 	    			var starttime = item.starttime.substring(0,10);
-	    		
+	    			console.log(starttime);
+	    			
 	    			if(starttime == date){
 	    				var startyear = item.starttime.substring(0,4);
 		    			var startmonth = item.starttime.substring(5,7);
@@ -165,26 +166,18 @@
 		    dataTable.addColumn({ type: 'date', id: 'End' });
 		    dataTable.addRows(mtrArr);
 		    
-		    var options = {
-		      timeline: { colorByRowLabel: true }
-		    };
-
-		    google.visualization.events.addListener(chart, 'select', function () {
-				  var selection = chart.getSelection();
-				  if (selection.length > 0) {
-				    console.log(dataTable.getValue(selection[0].row, 1));
-				    console.log(dataTable.getValue(selection[0].row, 0));
-				    alert("You just clicked"+selection);
-				}
-		    });
-		    
+			    var options = {
+			      timeline: { colorByRowLabel: true }
+			    };
+ 
 		    chart.draw(dataTable, options);
-		  }
-	}
+		  }// end of function drawChart() {}------------------------
+		  
+	}// end of function func_resvList(){}--------------------------
 	
 	function goCancel() {
 			window.close();	
-	}
+	}// end of function drawChart() {}---
 </script>
 
 <div id="container">

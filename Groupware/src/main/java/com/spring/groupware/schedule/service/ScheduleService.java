@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.spring.groupware.addrlist.model.AddrVO;
 import com.spring.groupware.schedule.model.InterScheduleDAO;
 import com.spring.groupware.schedule.model.MtrHistoryVO;
 import com.spring.groupware.schedule.model.ScheduleVO;
@@ -23,6 +24,13 @@ public class ScheduleService implements InterScheduleService{
 	public int getScdno() {
 		int scdno = dao.getScdno();
 		return scdno;
+	}
+	
+	// 주소록 가져오기
+	@Override
+	public List<AddrVO> getAddrList() {
+		List<AddrVO> addrList = dao.getAddrList();
+		return addrList;
 	}
 	
 	// 일정 등록하기
@@ -110,8 +118,13 @@ public class ScheduleService implements InterScheduleService{
 		 List<Map<String,String>> regDetailList = dao.goRegMtr(); 
 		 return regDetailList; 
 	}
-	 
+
+
 	
+	
+	
+	
+
 	
 	
 	

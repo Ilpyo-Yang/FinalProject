@@ -3,6 +3,7 @@ package com.spring.groupware.schedule.service;
 import java.util.List;
 import java.util.Map;
 
+import com.spring.groupware.addrlist.model.AddrVO;
 import com.spring.groupware.schedule.model.MtrHistoryVO;
 import com.spring.groupware.schedule.model.ScheduleVO;
 
@@ -10,6 +11,9 @@ public interface InterScheduleService {
 	
 	// 일정번호 채번하기
 	int getScdno();
+	
+	// 주소록 가져오기
+	List<AddrVO> getAddrList();
 	
 	// 일정 등록하기
 	int scdAdd(ScheduleVO schedulevo);
@@ -48,6 +52,13 @@ public interface InterScheduleService {
 	
 	// 회의실 예약현황 보여주기(구글 차트) 
 	List<Map<String, String>> goRegMtr();
+
+
+	
+
+
+
+	
 	
 	
 	

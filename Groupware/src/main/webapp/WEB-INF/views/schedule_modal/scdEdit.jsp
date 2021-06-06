@@ -113,6 +113,10 @@
 		
 	});
 	
+	function goAddress() {
+		var url = "<%=ctxPath%>/show_addresslist.opis";
+		window.open(url,"showAddress","left=350px, top=100px, width=500px, height:400px");
+	}
 	
 </script>
 
@@ -179,7 +183,7 @@
 			<td id="contents">
 				<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}" /> 
 				<input type="text" name="attendance" value="${requestSceop.schedulevo.attendance}" />
-				<button type="button" onclick="">주소록</button>
+				<button type="button" id="address" onclick="goAddress()">주소록</button>
 			</td>
 		</tr>
 		</table>

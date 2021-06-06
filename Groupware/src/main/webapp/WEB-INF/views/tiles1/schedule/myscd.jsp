@@ -272,8 +272,6 @@
 	  			<button type="button" id="btnResv" onclick="mtrResv()">회의실 예약 ▶</button>
 	  		</div>
 		  		
-	  		
-	  		
 	</div>
 	
 	<div id="headerInfo">

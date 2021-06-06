@@ -12,6 +12,12 @@
 		from dual
 	</select>
 	
+	<!-- === 주소록 리스트 가져오기 === -->
+	<select id="getAddrList" parameterType="String" resultType="com.spring.groupware.addrlist.model.AddrVO">
+		select addr_seq, mbr_name, mbr_email, dept_name
+		from tbl_address
+	</select>
+	
 	<!-- === 일정 추가하기 === -->
 	<insert id="scdAdd" parameterType="com.spring.groupware.schedule.model.ScheduleVO">
 		insert into tbl_schedule(scdno, fk_scdno2, fk_mbr_seq, scdsubject, scdstartdate, scdenddate, place, attendance)

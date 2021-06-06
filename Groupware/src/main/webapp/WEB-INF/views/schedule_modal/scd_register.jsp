@@ -9,22 +9,16 @@
 
 <style type="text/css">
 	
-	h2 {
-		margin-bottom:30px;
-	}
+	h2 {margin-bottom:30px;}
 	
-	#container {
-		margin: 20px;
-	}
+	#container {margin: 20px;}
 	
 	table {
 		border-collapse: collapse;
 		margin-top: 10px; 
 	}
 	
-	td {
-		padding: 10px 0;
-	}
+	td {padding: 10px 0;}
 
 	#title {
 		padding:0 20px 0 10px;
@@ -33,9 +27,7 @@
 		text-align:right;
 	}
 	
-	#contents {
-		padding-left:10px;
-	}
+	#contents {padding-left:10px;}
 	
 	.btn {
 		border: none;
@@ -57,6 +49,18 @@
 		border: solid 2px #0099cc;
 		background: white;
 		color: #0099cc;
+	}
+	
+	#address {
+		border: none;
+		border-radius: 2pt;
+		cursor:pointer;
+		font-size:10pt;
+		font-weight:bold;
+		height:23px;
+		color: white;
+		background:#ffcc00;
+		box-shadow: 1px 1px 1px gray;
 	}
 	
 </style>
@@ -108,7 +112,6 @@
 		    });
 		
 		    $("button#btnScdReg").click(function(){
-		    	
 		    	var frm = document.scdRegFrm;
 			    frm.method = "POST";
 			    frm.action = "<%=ctxPath%>/scdRegEnd.opis";
@@ -119,7 +122,10 @@
 		    
 	});// end of $(document).ready(function(){}---------------------------------
 	
-	
+	function goAddress() {
+		var url = "<%=ctxPath%>/show_addresslist.opis";
+		window.open(url,"showAddress","left=350px, top=100px, width=500px, height:400px");
+	}
 	
 	
 </script>
@@ -187,7 +193,7 @@
 			<td id="contents">
 				<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}" /> 
 				<input type="text" name="attendance"/>
-				<button type="button" onclick="">주소록</button>
+				<button type="button" id="address" onclick="goAddress()">주소록</button>
 			</td>
 		</tr>
 	
