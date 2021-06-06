@@ -15,6 +15,7 @@ import com.spring.groupware.insa.model.CertiVO;
 import com.spring.groupware.insa.model.EduVO;
 import com.spring.groupware.insa.model.InsaDAO;
 import com.spring.groupware.insa.model.InterInsaDAO;
+import com.spring.groupware.insa.model.PayInfoVO;
 import com.spring.groupware.insa.model.PaymentVO;
 import com.spring.groupware.insa.model.InsaVO;
 
@@ -74,8 +75,8 @@ public class InsaService implements InterInsaService {
 
 	// 최종학력 가져오기
 	@Override
-	public String getMaxEduLevel(String seq) {
-		String maxEduLevel = idao.getMaxEduLevel(seq);
+	public int getMaxEduLevel(String seq) {
+		int maxEduLevel = idao.getMaxEduLevel(seq);
 		return maxEduLevel;
 	}
 
@@ -127,6 +128,123 @@ public class InsaService implements InterInsaService {
 	public List<PaymentVO> getPaymentList(String seq) {
 		List<PaymentVO> paymentList = idao.getPaymentList(seq);
 		return paymentList;
+	}
+
+
+
+    // 학력번호 가져오기
+	@Override
+	public int getEduSeq() {
+		int edu_seq = idao.getEduSeq();
+		return edu_seq;
+	}
+
+
+
+	// 학력 삭제하기
+	@Override
+	public int insaEduDel(String edu_seq) {
+		int n = idao.insaEduDel(edu_seq);
+		return n;
+	}
+
+
+
+    // 자격증번호 가져오기
+	@Override
+	public int getCertiSeq() {
+		int certi_seq = idao.getCertiSeq();
+		return certi_seq;
+	}
+
+
+
+	// 자격증 삭제하기
+	@Override
+	public int insaCertiDel(String certi_seq) {
+		int n = idao.insaCertiDel(certi_seq);
+		return n;
+	}
+
+
+
+	// 학력정보 가져오기
+	@Override
+	public EduVO getEduInfo(String edu_seq) {
+		EduVO evo = idao.getEduInfo(edu_seq);
+		return evo;
+	}
+
+
+
+    // 학력정보 수정하기
+	@Override
+	public int eduModify(EduVO evo) {
+		int n = idao.eduModify(evo);
+		return n;
+	}
+
+
+
+	// 자격증 정보 가져오기
+	@Override
+	public CertiVO getCertiInfo(String certi_seq) {
+		CertiVO cvo = idao.getCertiInfo(certi_seq);
+		return cvo;
+	}
+
+
+
+    // 자격증정보 수정하기
+	@Override
+	public int certiModify(CertiVO cvo) {
+		int n = idao.certiModify(cvo);
+		return n;
+	}
+
+
+
+    // 개인별 급여 정보 가져오기
+	@Override
+	public PayInfoVO getPayInfo(String seq) {
+		PayInfoVO pivo = idao.getPayInfo(seq);
+		return pivo;
+	}
+
+
+
+    // 개인별 이달 급여 정보 가져오기
+	@Override
+	public PaymentVO getPayment(String seq) {
+		PaymentVO pvo = idao.getPayment(seq);
+		return pvo;
+	}
+
+
+
+    // 개인 급여 정보 등록하기
+	@Override
+	public int payRegister(PayInfoVO pivo) {
+		int n = idao.payRegister(pivo);
+		return n;
+	}
+
+
+
+    // 개인 급여 정보 수정하기
+	@Override
+	public int payModify(PayInfoVO pivo) {
+		int n = idao.payModify(pivo);
+		return n;
+	}
+
+
+
+    // 개인 급여 정보 삭제하기
+	@Override
+	public int payDel(String seq) {
+		int n = idao.payDel(seq);
+		return n;
 	}
 
 

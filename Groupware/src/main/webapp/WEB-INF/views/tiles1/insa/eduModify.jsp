@@ -21,7 +21,7 @@
 	  border-radius: 15px;
 	  box-shadow: 0 9px #999;
 	}
-	.registerBtnSmall{
+	.modifyBtnSmall{
 	  padding: 5px 10px;
 	  font-size: 10px;
 	  text-align: center;
@@ -42,8 +42,8 @@
 	  box-shadow: 0 5px #666;
 	  transform: translateY(4px);
 	}
-	.registerBtnSmall:hover{ background-color: #3e8e41 !important;}
-	.registerBtnSmall:active{
+	.modifyBtnSmall:hover{ background-color: #3e8e41 !important;}
+	.modifyBtnSmall:active{
 	  background-color: #3e8e41 !important;
 	  box-shadow: 0 5px #666;
 	  transform: translateY(4px);
@@ -98,7 +98,7 @@
 	         var bflag = true;
 			
 			// 등록하기1
-			$("button#registerBtn1").click(function(){
+			$("button#modifyBtn1").click(function(){
 				var eduLevel = $(".eduLevel option:selected").val();
 				if(eduLevel==""){
 					bflag = false;
@@ -119,9 +119,9 @@
 				}
 				else{
 
-					var frm = document.insaRegister2EduFrm;
+					var frm = document.eduModifyFrm;
 					frm.method = "POST";
-					frm.action = "<%=ctxPath%>/insaRegister2EduEnd.opis?eduLevel="+eduLevel+"&school="+school+"&major="+major+"&seq="+${seq};
+					frm.action = "<%=ctxPath%>/eduModifyEnd.opis?eduLevel="+eduLevel+"&school="+school+"&major="+major+"&seq="+${seq}+"&edu_seq="+${edu_seq};
 					frm.submit(); 
 				}
 			
@@ -131,56 +131,13 @@
 			
 			
 			
-			// 등록하기2
-			$("button#registerBtn2").click(function(){
-				
-				var certification = $("input#certification").val();
-				if(certification==" "){
-						bflag = false;
-					}
-				
-				
-				
-				var certiLevel = $("input#certiLevel").val();
-				
-				if( certiLevel==" "){
-						bflag = false;
-					}
-				
-
-				var certiyy = $(".certiyy option:selected").val();
-					if(certiyy=="선택"){
-						bflag = false;
-					}
-
-				var certimm = $(".certimm option:selected").val();
-					if(certimm=="선택"){
-						bflag = false;
-					}
-
-
-				var certidd = $(".certidd option:selected").val();
-					if(certidd=="선택"){
-						bflag = false;
-					}					
-	
-				if(!bflag){
-					alert("먼저 모든 항목을 입력하세요!!");
-				}
-				else{
-					
-					var frm = document.insaRegister2CertiFrm;
-					frm.method = "POST";
-					frm.action = "<%=ctxPath%>/insaRegister2CertiEnd.opis?certification="+certification+"&certiLevel="+certiLevel+"&certiyy="+certiyy+"&certimm="+certimm+"&certidd="+certidd+"&seq="+${seq};
-					frm.submit(); 
-				}
-			});
+			
 	});
 </script>
 
 
 
-<div id="insa" style="width: 80%; display: inline-block; margin-top: 70px; padding-left: 10px;">
+<div id="insa" style="width: 80%; display: inline-block; margin-top: 70px; padding-left: 30px;">
 
 <table style="margin-bottom: 50px;">
 		<tr id="insaDetailButton">
@@ -197,7 +154,7 @@
 				</table>
 			</div>
 		<div class="insaDetailDiv" style="width: 45%;">
-			<form name="insaRegister2EduFrm">
+			<form name="eduModifyFrm">
 				<table id="insaDetail1" class="table table-striped tdtable">
 					<thead>
 						<tr>
@@ -231,6 +188,7 @@
 				<tbody id="insaDetail1tbody">
 				<c:if test="${not empty eduList}">
 					<c:forEach var="edu" items="${eduList}">
+						<c:if test="${edu.edu_seq != edu_seq}">
 						<tr>
 							<c:if test="${edu.eduLevel == 0 }">
 								<td>초등학교</td>
@@ -254,46 +212,72 @@
 								<td>대학원(박사)</td>
 							</c:if>
 							<td>${edu.school}<input type="hidden" value="${edu.edu_seq}" /></td>
-							<td>${edu.major}
-								<button class="registerBtnSmall" id="registerBtn1"  type="submit">수정</button>
-								<button class="registerBtnSmall" id="registerBtn1"  type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaEduDel.opis?edu_seq=${edu.edu_seq}&seq=${seq}'">삭제</button>
-							</td>
-						</td>
+							<td>${edu.major}</td>
 						</tr>
+						</c:if>
+						<c:if test="${edu.edu_seq == edu_seq}">
+							<tr>
+								<td>
+							 			<select name="eduLevel" class="eduLevel" id="eduLevel" >
+							 				<c:if test="${edu.eduLevel == 6}">
+									    		<option value="6" selected="selected">대학원(박사)</option>
+							 				</c:if>
+							 				<c:if test="${edu.eduLevel != 6}">
+									    		<option value="6">대학원(박사)</option>
+							 				</c:if>
+							 				<c:if test="${edu.eduLevel == 5}">
+									    		<option value="5" selected="selected">대학원(석사)</option>
+							 				</c:if>
+							 				<c:if test="${edu.eduLevel != 5}">
+									    		<option value="5">대학원(석사)</option>
+							 				</c:if>
+							 				<c:if test="${edu.eduLevel == 4}">
+									    		<option value="4" selected="selected">대학교(학사)</option>
+							 				</c:if>
+							 				<c:if test="${edu.eduLevel != 4}">
+									    		<option value="4">대학교(학사)</option>
+							 				</c:if>
+							 				<c:if test="${edu.eduLevel == 3}">
+									    		<option value="3" selected="selected">전문대학원</option>
+							 				</c:if>
+							 				<c:if test="${edu.eduLevel != 3}">
+									    		<option value="3">전문대학원</option>
+							 				</c:if>
+							 				<c:if test="${edu.eduLevel == 2}">
+									    		<option value="2" selected="selected">고등학교</option>
+							 				</c:if>
+							 				<c:if test="${edu.eduLevel != 2}">
+									    		<option value="2">고등학교</option>
+							 				</c:if>
+							 				<c:if test="${edu.eduLevel == 1}">
+									    		<option value="1" selected="selected">중학교</option>
+							 				</c:if>
+							 				<c:if test="${edu.eduLevel != 1}">
+									    		<option value="1">중학교</option>
+							 				</c:if>
+							 				<c:if test="${edu.eduLevel == 0}">
+									    		<option value="0" selected="selected">초등학교</option>
+							 				</c:if>
+							 				<c:if test="${edu.eduLevel != 0}">
+									    		<option value="0">초등학교</option>
+							 				</c:if>
+									  	</select>
+								</td>
+								<td><input id="school" class="school" style="width: 100px;" value="${edu.school}"/></td>
+								<td><input id="major" style="width: 80px;"  value="${edu.major}"/>
+									<button class="modifyBtnSmall" id="modifyBtn1"  type="submit">수정완료</button>
+								</td>
+							</tr>
+						</c:if>
 					</c:forEach>
 				</c:if>
-				<c:if test="${empty eduList}">
-				
-				</c:if>
-				<c:if test="${insaType == 1 }">
-				      <tr class="eduTr">
-							<td>
-						 			<select name="eduLevel" class="eduLevel" id="eduLevel">
-								    	<option value="6" >대학원(박사)</option>
-								    	<option value="5" >대학원(석사)</option>
-								    	<option value="4" selected="selected">대학교(학사)</option>
-								    	<option value="3" >전문대학원</option>
-								    	<option value="2" >고등학교</option>
-								    	<option value="1" >중학교</option>
-								    	<option value="0" >초등학교</option>
-								  	</select>
-							</td>
-							<td><input id="school" class="school" style="width: 100px;" /></td>
-							<td><input id="major" style="width: 80px;" /></td>
-						</tr>
-				</c:if>
-						
 					</tbody>
 		   		</table>
-		   		<c:if test="${insaType == 1 }">
-					<button class="registerBtnSmall" id="registerBtn1"  type="submit">등록</button>
-				</c:if>
 				</form>
 			</div>
 			
 			
 			<div class="insaDetailDiv" style="width: 50%;">
-			  <form name="insaRegister2CertiFrm">
 				<table id="insaDetail2" class="table table-striped tdtable">
 					<thead>
 						<tr>
@@ -306,50 +290,18 @@
 						</tr>
 					</thead>
 					<tbody id="insaDetail2tbody">
-					<c:if test="${empty certiList}">
-					
-					</c:if>
 					<c:if test="${not empty certiList}">					
 						<c:forEach var="certi" items="${certiList}">
 						<tr>
 							<td>${certi.certification}</td>
 							<td>${certi.certiLevel}</td>
 							<td>${certi.certiDate}<input type="hidden" value="${certi.certi_seq}" />
-								<button class="registerBtnSmall" id="registerBtn2"  type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaEduModi.opis?edu_seq=${edu.edu_seq}&seq=${seq}'">수정</button>
-								<button class="registerBtnSmall" id="registerBtn2"  type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaCertiDel.opis?certi_seq=${certi.certi_seq}&seq=${seq}'">삭제</button>
 							</td>
 						</tr>
 						</c:forEach>
 					</c:if>
-				    <c:if test="${insaType == 2 }">
-						<tr>
-							<td><input id="certification" class="certiInput" style="width: 80px;" /></td>
-							<td><input id="certiLevel" class="certiInput" style="width: 70px;" /></td>
-							<td style="width: 270px;">
-								<select class = "certiyy" id="certiyy" name="certiyy" style="width: 75px; padding: 4px;">
-				           			
-					            </select>년
-								<select class = "certimm" id="certimm" name="certimm" style="margin-left: 2%; width: 55px; padding: 4px;">
-					           		<option class = "certimm" value="0">선택</option>
-					           		<c:forEach begin="1" end="12" varStatus="count" >
-					           			<option class = "certimm" value="${count.count}">${count.count}</option>
-					           		</c:forEach>
-					            </select>월
-					            <select class = "certidd" id="certidd" name="certidd" style="margin-left: 2%; width: 55px; padding: 4px;">
-					            			<option class = "certidd" value="0">선택</option>
-						            	<c:forEach begin="1" end="31" varStatus="count" >
-						           			<option class = "certidd" value="${count.count}">${count.count}</option>
-						           		</c:forEach>
-				        		</select>일 
-							</td>
-						</tr>
-					</c:if>
 					</tbody>
 				</table>
-				<c:if test="${insaType == 2 }">
-					<button class="registerBtnSmall" id="registerBtn2"  type="submit">등록</button>	
-				</c:if>
-			  </form>
 			</div>
 		
 </div>

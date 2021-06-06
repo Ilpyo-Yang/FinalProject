@@ -21,7 +21,7 @@ public interface InterInsaDAO {
 	List<EduVO> getEduList(String seq);
 
 	// 최종학력 가져오기
-	String getMaxEduLevel(String seq);
+	int getMaxEduLevel(String seq);
 
 	// 학력정보 가져오기
 	int getEduNum(String seq);
@@ -40,6 +40,45 @@ public interface InterInsaDAO {
 
 	// 개인별 급여 리스트 가져오기
 	List<PaymentVO> getPaymentList(String seq);
+
+    // 학력번호 가져오기
+	int getEduSeq();
+
+	// 학력 삭제하기
+	int insaEduDel(String edu_seq);
+
+    // 자격증번호 가져오기
+	int getCertiSeq();
+
+	// 자격증 삭제하기
+	int insaCertiDel(String certi_seq);
+
+	// 학력정보 가져오기
+	EduVO getEduInfo(String edu_seq);
+
+    // 학력정보 수정하기
+	int eduModify(EduVO evo);
+
+	// 자격증 정보 가져오기
+	CertiVO getCertiInfo(String certi_seq);
+
+    // 자격증정보 수정하기
+	int certiModify(CertiVO cvo);
+
+    // 개인별 급여 정보 가져오기
+	PayInfoVO getPayInfo(String seq);
+
+    // 개인별 이달 급여 정보 가져오기
+	PaymentVO getPayment(String seq);
+
+    // 개인 급여 정보 등록하기
+	int payRegister(PayInfoVO pivo);
+
+    // 개인 급여 정보 수정하기
+	int payModify(PayInfoVO pivo);
+
+    // 개인 급여 정보 삭제하기
+	int payDel(String seq);
 
 
 }

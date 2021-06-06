@@ -127,16 +127,16 @@
 	table#memberListTbl{
 		margin-left:10px;
 	}
-	table#paymentInfo{
+	table.paymentTbl{
 		margin-left: 10px;
 	}
-	div#paymentInfoBorder{
+	div.paymentBorder{
 		display: inline-block;
 		border: solid 3px #68b658;
 		background-color: white;
 		width: 50%;
-		height: 400px;
-		padding-top: 30px;
+		height: 450px;
+		padding-top: 15px;
 		text-align: center;
 	}
 	div.paymentInfoDiv{
@@ -146,6 +146,9 @@
 		background-color: #68b658; 
 		font-size: 15pt;
 		font-weight: bold;
+	}
+	input.payInput{
+		width: 90px;
 	}
 </style>
 
@@ -162,35 +165,286 @@
 	
 	$(document).ready(function(){
 		$("div#paymentInfoBorder").hide();
+		$("div#registerDiv").hide();
+		$("div#registerModiDiv").hide();
+		
 		$("dropdown-content").click(function(event){
 			console.log(event.text);
 		});
 
-		$("tr.clickMemberPay").click(function(){
-			$("tr.clickMemberPay").children().removeClass("green");
-			$(this).children().addClass("green");
-			$("input#hiddenSeq").text($(this).children("td.seq").text());
-			$("div#paymentInfoBorder").show();
-			
-			
-						
-		});
-		
-		
 		
 		
 	});
 	
+	function memberInfoView(seq){
+		$("div#registerDiv").hide();
+
+		$("tr.clickMemberPay").children().removeClass("green");
+
+		$("tr.clickMemberPay").each(function(index, item){
+			if($(item).children(".seq").text() == seq){
+				$(item).children().addClass("green");
+			}
+		});
+		
+		$("input#hiddenSeq").text(seq);
+		
+		$.ajax({
+			url:"<%=ctxPath%>/memberPayInfo.opis",
+			type:"get",
+			data:{"seq":seq},
+			dataType:"json",
+			success:function(json){
+			
+				
+				if (json.status == 1){
+					html = 	'<div class="paymentInfoDiv" style="width: 100%; ">'+
+								'<div id="buttons" style="float: right; margin-right: 15px;">'+
+								'<button id="payModiBtn" class="paymentInfoBtn" onclick="goModifyPayment()" type="button">수정</button>'+
+								'<button id="payDelBtn" class="paymentInfoBtn" onclick="goPaymentDel()" type="button">삭제</button>'+
+								'<br><br>'+
+								'</div>'+
+								'<table id="paymentInfo" class="paymentTbl" style="clear: both;">'+
+									'<tr>'+
+										'<td class="tdNarrow">주민등록번호</td><td colspan="3" id="idNo">'+json.idNo+'</td>'+
+									'</tr>'+
+									'<tr>'+
+										'<td class="tdNarrow">급여계정과목</td><td class="tdWide">직원급여</td><td class="tdNarrow">이달급여</td><td class="tdWide" id="basePay">'+json.basePay+'</td>'+
+									'</tr>'+
+									'<tr>'+
+										'<td class="tdNarrow">상여계정과목</td><td class="tdWide">상여금</td><td class="tdNarrow">상여금</td><td class="tdWide" id="spePay">'+json.spePay+'</td>'+
+									'</tr>'+
+									'<tr>'+
+										'<td class="tdNarrow">은행</td><td class="tdWide">계좌번호</td><td class="tdNarrow">예금주</td><td class="tdWide"></td>'+
+									'</tr>'+
+									'<tr>'+
+										'<td class="tdNarrow" id="bank">'+json.bank+'</td><td class="tdWide" id="accountNo">'+json.accountNo+'</td><td class="tdNarrow" id="mbr_name">'+json.mbr_name+'</td><td class="tdWide"></td>'+
+									'</tr>'+
+								'</table>'+
+							'</div>'+
+							'<div class="paymentInfoDiv" style="margin-top: 15px;">'+
+								'<button id="closeBtn" class="paymentInfoBtn" onclick="goBackPayment()">닫기</button>'+
+								'<button id="payDetailBtn" class="paymentInfoBtn" onclick="goPaymentDetail()">자세히</button>'+
+							'</div>';	
+					
+					var parameter = json.idNo + "," + json.basePay + "," + json.spePay + "," + json.bank + "," + json.accountNo + "," + json.mbr_name;
+					$("input#hiddenParameter").text(parameter);	
+							
+				}
+				else{
+						html = 	'<div class="paymentInfoDiv" style="width: 100%; ">'+
+						'<div id="buttons" style="float: right; margin-right: 15px;">'+
+						'<button id="payModiBtn" class="paymentInfoBtn" onclick="goPaymentRegister()" type="button">등록</button>'+
+						'<br><br>'+
+						'</div>'+
+						'<table id="paymentInfo" class="paymentTbl" style="clear: both;">'+
+							'<tr>'+
+								'<td class="tdNarrow">주민등록번호</td><td colspan="3" id="idNo"></td>'+
+							'</tr>'+
+							'<tr>'+
+								'<td class="tdNarrow">급여계정과목</td><td class="tdWide">직원급여</td><td class="tdNarrow">이달급여</td><td class="tdWide" id="basePay"></td>'+
+							'</tr>'+
+							'<tr>'+
+								'<td class="tdNarrow">상여계정과목</td><td class="tdWide">상여금</td><td class="tdNarrow">상여금</td><td class="tdWide" id="spePay"></td>'+
+							'</tr>'+
+							'<tr>'+
+								'<td class="tdNarrow">은행</td><td class="tdWide">계좌번호</td><td class="tdNarrow">예금주</td><td class="tdWide"></td>'+
+							'</tr>'+
+							'<tr>'+
+								'<td class="tdNarrow" id="bank"></td><td class="tdWide" id="accountNo"></td><td class="tdNarrow" id="mbr_name"></td><td class="tdWide"></td>'+
+							'</tr>'+
+						'</table>'+
+					'</div>'+
+					'<div class="paymentInfoDiv" style="margin-top: 15px;">'+
+						'<button id="closeBtn" class="paymentInfoBtn" onclick="goBackPayment()">닫기</button>'+
+						'<button id="payDetailBtn" class="paymentInfoBtn" onclick="goPaymentDetail()">자세히</button>'+
+					'</div>';	
+				}
+
+				$("div#paymentInfoBorder").html(html);	
+			},
+			error: function(request, status, error){
+            	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+            }
+		});
+		
+		$("div#paymentInfoBorder").show();
+	}
 	
 	function goBackPayment(){
 		$("div#paymentInfoBorder").hide();
 		$("tr.clickMemberPay").children().removeClass("green");
+	}
+	function goBackPaymentInfo(){
+		$("div#registerDiv").hide();
+		$("div#paymentInfoBorder").show();
 	}
 	function goPaymentDetail(){
 		var seq = $("input#hiddenSeq").text();
 		var category = $("input#hiddenCategory").val();
 		location.href='<%=ctxPath%>/paymentDetail.opis?category='+category+'&seq='+seq;
 	}
+	function goRegisterEnd(){
+		var seq = $("input#hiddenSeq").text();
+
+		
+		$.ajax({
+			url:"<%=ctxPath%>/payRegisterEnd.opis",
+			type:"get",
+			data:{"seq":seq,
+				  "idNo":$("input#idNo").val(),
+				  "accountNo":$("input#accountNo").val(),
+				  "bank":$("input#bank").val(),
+				  },
+			dataType:"json",
+			success:function(json){
+				if(json == 1){
+					$("div#registerDiv").hide();
+					$("div#paymentInfoBorder").show();
+					alert("등록성공!!");
+				}
+				else{
+					alert("등록실패!!");
+				}
+			},
+			error: function(request, status, error){
+            	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+            }
+		});
+		
+		memberInfoView(seq);
+		
+	}
+	
+	function goPaymentRegister(){
+		$("div#paymentInfoBorder").hide();
+		var html = 	'<div class="paymentInfoDiv" style="width: 100%; ">'+
+						'<button id="payRegisterEndBtn" class="paymentInfoBtn" type="button" onClick="goRegisterEnd()">저장</button>'+
+						'<br><br>'+
+						'</div>'+
+						'<table id="paymentInfo" class="paymentTbl" style="clear: both;">'+
+							'<tr>'+
+								'<td class="tdNarrow">주민등록번호</td><td colspan="3"><input id="idNo" class="payInput"/></td>'+
+							'</tr>'+
+							'<tr>'+
+								'<td class="tdNarrow">급여계정과목</td><td class="tdWide">직원급여</td><td class="tdNarrow">이달급여</td><td class="tdWide"></td>'+
+							'</tr>'+
+							'<tr>'+
+								'<td class="tdNarrow">상여계정과목</td><td class="tdWide">상여금</td><td class="tdNarrow">상여금</td><td class="tdWide"></td>'+
+							'</tr>'+
+							'<tr>'+
+								'<td class="tdNarrow">은행</td><td class="tdWide">계좌번호</td><td class="tdNarrow">예금주</td><td class="tdWide"></td>'+
+							'</tr>'+
+							'<tr>'+
+								'<td class="tdNarrow"><input id="bank" class="payInput"/></td><td class="tdWide"><input id="accountNo" class="payInput"/></td><td class="tdNarrow"></td><td class="tdWide"></td>'+
+							'</tr>'+
+						'</table>'+
+					  '</div>'+
+					  '<div class="paymentInfoDiv" style="margin-top: 15px;">'+
+						'<button id="closeBtn" class="paymentInfoBtn" onclick="goBackPaymentInfo()">닫기</button>'+
+					  '</div>';
+		$("div#registerDiv").html(html);
+		$("div#registerDiv").show();
+		
+	}
+	
+	function goModifyPayment(){
+		var parameter = $("input#hiddenParameter").text()
+		var data = parameter.split(",");
+		
+		$("div#paymentInfoBorder").hide();
+
+		var seq = $("input#hiddenSeq").text();
+		
+				
+		var html = 	'<div class="paymentInfoDiv" style="width: 100%; ">'+
+						'<button id="payModifyEndBtn" class="paymentInfoBtn" type="button" onClick="goModifyEnd()">저장</button>'+
+						'<br><br>'+
+						'</div>'+
+						'<table id="paymentInfo" class="paymentTbl" style="clear: both;">'+
+							'<tr>'+
+								'<td class="tdNarrow">주민등록번호</td><td colspan="3"><input id="idNoModi" class="payInput" value="'+data[0]+'"/></td>'+
+							'</tr>'+
+							'<tr>'+
+								'<td class="tdNarrow">급여계정과목</td><td class="tdWide">직원급여</td><td class="tdNarrow">이달급여</td><td class="tdWide">'+data[1]+'</td>'+
+							'</tr>'+
+							'<tr>'+
+								'<td class="tdNarrow">상여계정과목</td><td class="tdWide">상여금</td><td class="tdNarrow">상여금</td><td class="tdWide">'+data[2]+'</td>'+
+							'</tr>'+
+							'<tr>'+
+								'<td class="tdNarrow">은행</td><td class="tdWide">계좌번호</td><td class="tdNarrow">예금주</td><td class="tdWide"></td>'+
+							'</tr>'+
+							'<tr>'+
+								'<td class="tdNarrow"><input id="bankModi" class="payInput" value="'+data[3]+'"/></td><td class="tdWide"><input id="accountNoModi" class="payInput" value="'+data[4]+'"/></td><td class="tdNarrow"></td><td class="tdWide">'+data[5]+'</td>'+
+							'</tr>'+
+						'</table>'+
+					  '</div>'+
+					  '<div class="paymentInfoDiv" style="margin-top: 15px;">'+
+						'<button id="closeBtn" class="paymentInfoBtn" onclick="goBackPaymentInfo()">닫기</button>'+
+					  '</div>';
+		$("div#registerModiDiv").html(html);
+		$("div#registerModiDiv").show();
+
+	}
+	
+	function goModifyEnd(){
+		
+	var seq = $("input#hiddenSeq").text();
+
+		
+		$.ajax({
+			url:"<%=ctxPath%>/payModifyEnd.opis",
+			type:"get",
+			data:{"seq":seq,
+				  "idNo":$("input#idNoModi").val(),
+				  "accountNo":$("input#accountNoModi").val(),
+				  "bank":$("input#bankModi").val(),
+				  },
+			dataType:"json",
+			success:function(json){
+				if(json == 1){
+					$("div#registerModiDiv").hide();
+					$("div#paymentInfoBorder").show();
+					alert("수정성공!!");
+				}
+				else{
+					alert("수정실패!!");
+				}
+			},
+			error: function(request, status, error){
+            	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+            }
+		});
+		
+		memberInfoView(seq);
+	}
+	
+	
+	function goPaymentDel(){
+
+		var seq = $("input#hiddenSeq").text();
+
+		$.ajax({
+				url:"<%=ctxPath%>/payDelEnd.opis",
+				type:"get",
+				data:{"seq":seq},
+				dataType:"json",
+				success:function(json){
+					if(json == 1){
+						alert("삭제성공!!");
+					}
+					else{
+						alert("삭제실패!!");
+					}
+				},
+				error: function(request, status, error){
+	            	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	            }
+			});
+			
+			memberInfoView(seq);		
+	}
+	
 </script>
 
 <div id="insa" style="width: 80%; display: inline-block; margin-top: 70px; padding-left: 30px;">
@@ -222,7 +476,7 @@
 					</thead>
 					<tbody>
 					<c:forEach var="insaList" items="${requestScope.insaList}">
-					<tr class="clickMemberPay" >
+					<tr class="clickMemberPay" onclick="memberInfoView(${insaList.mbr_seq})" >
 						<td class="seq">${insaList.mbr_seq}</td>
 						<td>${insaList.mbr_name}</td>
 						<c:if test="${insaList.fk_dept_no == 0}">
@@ -259,37 +513,17 @@
 			</table>
 			<input id="hiddenSeq" type="hidden" />
 			<input id="hiddenCategory" type="hidden" value="${category}" />
+			<input id="hiddenParameter" type="hidden" />
 			</div>
 			<div id='paymentInfoBorder' class='paymentBorder' >
-				<div class="paymentInfoDiv" style="width: 100%; ">
-				<table id='paymentInfo' class='paymentTbl'>
-					<tr>
-						<td class="tdNarrow">주민등록번호</td><td colspan='3'></td>
-					</tr>
-					<tr>
-						<td class="tdNarrow">입사일</td><td class="tdWide"></td><td class="tdNarrow">퇴사일</td><td class="tdWide"></td>
-					</tr>
-					<tr>
-					<td class="tdNarrow">급여계정과목</td><td class="tdWide"></td><td class="tdNarrow">이달급여</td><td class="tdWide"></td>
-					</tr>
-					<tr>
-					<td class="tdNarrow">상여계정과목</td><td class="tdWide"></td><td class="tdNarrow">상여금</td><td class="tdWide"></td>
-					</tr>
-					<tr>
-					<td class="tdNarrow">은행</td><td class="tdWide">계좌번호</td><td class="tdNarrow">예금주</td><td class="tdWide"></td>
-					</tr>
-					<tr>
-					<td class="tdNarrow"></td><td class="tdWide"></td><td class="tdNarrow"></td><td class="tdWide"></td>
-					</tr>
-				</table>
-				</div>
-				<div class="paymentInfoDiv" style="vertical-align: top;">
-					<button id="closeBtn" class="paymentInfoBtn" onclick="goBackPayment()">닫기</button>
-					<button id="payDetailBtn" class="paymentInfoBtn" onclick="goPaymentDetail()">자세히</button>
-				</div>
+
 			</div>
 			
+			<div id="registerDiv" class="paymentBorder">
+			</div>
 			
+			<div id="registerModiDiv" class="paymentBorder">
+			</div>
 	
 </div>
 

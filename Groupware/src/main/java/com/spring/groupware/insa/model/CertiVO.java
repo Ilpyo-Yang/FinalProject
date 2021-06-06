@@ -3,10 +3,11 @@ package com.spring.groupware.insa.model;
 public class CertiVO {
 
 		/////////////////////////////////////////////////////////////////////////////////////////////
-		
+
+	    private int certi_seq;
 		private int mbr_seq;
 		private String certification;
-		private int certiLevel;
+		private String certiLevel;
 		private String certiDate;
 
 
@@ -26,12 +27,12 @@ public class CertiVO {
 		}
 
 
-		public int getCertiLevel() {
+		public String getCertiLevel() {
 			return certiLevel;
 		}
 
 
-		public void setCertiLevel(int certiLevel) {
+		public void setCertiLevel(String certiLevel) {
 			this.certiLevel = certiLevel;
 		}
 
@@ -55,6 +56,16 @@ public class CertiVO {
 			this.mbr_seq = mbr_seq;
 		}
 
+
+		public int getCerti_seq() {
+			return certi_seq;
+		}
+
+
+		public void setCerti_seq(int certi_seq) {
+			this.certi_seq = certi_seq;
+		}
+		
 		
 
 		

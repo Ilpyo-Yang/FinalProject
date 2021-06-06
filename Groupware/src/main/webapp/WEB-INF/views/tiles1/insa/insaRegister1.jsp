@@ -8,7 +8,7 @@
 <jsp:include page="./insa_sidebar.jsp" />
 <style>
 	
-	.registerBtn{
+	.registerBtn{`
  	  margin-left: 10px;
 	  padding: 10px 20px;
 	  font-size: 15px;

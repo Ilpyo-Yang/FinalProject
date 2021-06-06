@@ -9,8 +9,7 @@
 <jsp:include page="./insa_sidebar.jsp" />
 <style>
 	
-	.modifyBtn{
- 	  margin-left: 20px;
+	  .modifyBtn{
 	  padding: 10px 20px;
 	  font-size: 15px;
 	  text-align: center;
@@ -20,7 +19,20 @@
 	  background-color: #04AA6D;
 	  border: none;
 	  border-radius: 15px;
-	  box-shadow: 0 9px #999;
+	  box-shadow: 0 5px #999;
+	}
+	.modifyBtnSmall{
+	  padding: 5px 10px;
+	  font-size: 10px;
+	  text-align: center;
+	  cursor: pointer;
+	  outline: none;
+	  color: #fff;
+	  background-color: #04AA6D;
+	  border: none;
+	  border-radius: 10px;
+	  box-shadow: 0 5px #999;
+	  margin-left: 3px;
 	}
 	.modifyBtn:hover{ background-color: #3e8e41 !important;}
 	.modifyBtn:active{
@@ -28,15 +40,37 @@
 	  box-shadow: 0 5px #666;
 	  transform: translateY(4px);
 	}
-
+	.modifyBtnSmall:hover{ background-color: #3e8e41 !important;}
+	.modifyBtnSmall:active{
+	  background-color: #3e8e41 !important;
+	  box-shadow: 0 5px #666;
+	  transform: translateY(4px);
+	}
 	table#insaDetail1{
-		width: 40%;
-		display: inline-block;
-		 vertical-align: top;
+	  display: inline;
+	    vertical-align: bottom;
+	}
+	table#insaDetail1 tr{
+	  height: 15px;
+	    vertical-align: middle;
+	}
+	table#insaDetail1 td{
+	  height: 15px;
+	    vertical-align: middle;
 	}
 	table#insaDetail2{
-		margin-left: 20px;
-		width: 40%;
+	  display: inline;
+	    vertical-align: bottom;
+	}
+	table#insaDetail2 tr{
+	  height: 15px;
+	    vertical-align: middle;
+	}
+	table#insaDetail2 td{
+	  height: 15px;
+	    vertical-align: middle;
+	}
+	div.insaDetailDiv{
 		display: inline-block;
 	    vertical-align: top;
 	}
@@ -62,10 +96,11 @@
 		</table> 
 		
 	
+			<div class="insaDetailDiv" style="width: 45%;">
 			<table id="insaDetail1" class="table table-striped tdtable">
 				<tr>
 					<th>최종학력</th>
-					<c:if test="${maxEduLevel == null }">
+					<c:if test="${maxEduLevel == 7 }">
 						<td colspan="2">미입력</td>
 					</c:if>
 					<c:if test="${maxEduLevel == 0 }">
@@ -115,18 +150,23 @@
 							<c:if test="${edu.eduLevel == 6 }">
 								<td>대학원(박사)</td>
 							</c:if>
-							<td>${edu.school}</td>
-							<td>${edu.major}</td>
+							<td>${edu.school}<input type="hidden" value="${edu.edu_seq}" /></td>
+							<td>${edu.major}
+							<button class="modifyBtnSmall" id="modifyBtn1"  type="button" onclick="javascript:location.href='<%=ctxPath%>/insaEduModi.opis?edu_seq=${edu.edu_seq}&seq=${seq}'">수정</button>
+								<button class="modifyBtnSmall" id="modifyBtn1"  type="button" onclick="javascript:location.href='<%=ctxPath%>/insaEduDel.opis?edu_seq=${edu.edu_seq}&seq=${seq}'">삭제</button></td>
 						</tr>
 					</c:forEach>
 				</c:if>
 				<c:if test="${empty eduList}">
 				
 				</c:if>
-				
-				
-				
 			</table>
+					<br>
+					<br>
+					<button class="modifyBtnSmall" id="modifyBtn1"  type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaRegister2.opis?insaType=1&seq=${seq}'">+추가</button>
+			</div>	
+				
+			<div class="insaDetailDiv" style="width: 50%; margin-left: 35px;">
 			<table id="insaDetail2" class="table table-striped tdtable">
 				<thead>
 					<tr>
@@ -147,15 +187,20 @@
 						<tr>
 							<td>${certi.certification}</td>
 							<td>${certi.certiLevel}</td>
-							<td>${certi.certiDate}</td>
+							<td>${certi.certiDate}<input type="hidden" value="${certi.certi_seq}" />
+							<button class="modifyBtnSmall" id="modifyBtn2"  type="button" onclick="javascript:location.href='<%=ctxPath%>/insaCertiModi.opis?certi_seq=${certi.certi_seq}&seq=${seq}'">수정</button>
+							<button class="modifyBtnSmall" id="modifyBtn2"  type="button" onclick="javascript:location.href='<%=ctxPath%>/insaCertiDel.opis?certi_seq=${certi.certi_seq}&seq=${seq}'">삭제</button>
+							</td>
 						</tr>
 						</c:forEach>
 					</c:if>
 
 				</tbody>
 			</table>
-			<button class="modifyBtn"  id="modifyBtn" type="button" style="display: inline-block; vertical-align: top;" onclick="javascript:location.href='<%=ctxPath%>/insaRegister2.opis?seq=${seq}'" >수정</button>
-
+					<br>
+					<br>
+					<button class="modifyBtnSmall" id="modifyBtn2"  type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaRegister2.opis?insaType=2&seq=${seq}'">+추가</button>
+			</div>
 </div>
 
 
