@@ -46,14 +46,9 @@ public interface InterScheduleService {
 	// 회의실 예약취소(삭제)
 	int delMtrReg(String usemtrno);
 	
+	// 회의실 예약현황 보여주기(구글 차트) 
+	List<Map<String, String>> goRegMtr();
 	
-	
-
-	
-	
-	/*
-	 * // 회의실 예약현황 보여주기(구글 차트) List<Map<String, String>> goRegMtr();
-	 */
 	
 	
 
