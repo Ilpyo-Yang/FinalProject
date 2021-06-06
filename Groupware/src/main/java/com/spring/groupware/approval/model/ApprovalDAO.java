@@ -32,6 +32,20 @@ public class ApprovalDAO implements InterApprovalDAO {
 		List<MemberVO> memberList = sqlsession.selectList("approval.getMemberList");
 		return memberList;
 	}
+
+	// 첨부파일 없는 결재요청
+	@Override
+	public int submitApproval(ApprovalVO avo) {
+		int n = sqlsession.insert("approval.submitApproval");
+		return n;
+	}
+
+	// 첨부파일 있는 결재요청
+	@Override
+	public int submitAttachedApproval(ApprovalVO avo) {
+		int n = sqlsession.insert("approval.submitAttachedApproval");
+		return n;
+	}
 	
 
 	
