@@ -156,9 +156,9 @@
 	function func_clear(){	// 삭제하기 버튼클릭시
 		
 		$('input.checkedMember').each(function() {
-			if($(this).is(':checked')) {
-				const idx = movedMember.indexOf($(this).val());
-				if(idx>-1) movedMember.splice(idx,1);
+			if(!$(this).is(':checked')) {
+				movedMember = [];
+				movedMember.push($(this).val());
 	         } 
 		});
 		
