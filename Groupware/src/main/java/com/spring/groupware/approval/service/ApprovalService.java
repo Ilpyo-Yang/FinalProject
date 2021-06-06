@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.spring.groupware.approval.model.ApprovalVO;
 import com.spring.groupware.approval.model.InterApprovalDAO;
 import com.spring.groupware.member.model.MemberVO;
 
@@ -33,6 +34,20 @@ public class ApprovalService implements InterApprovalService {
 	public List<MemberVO> getMemberList() {
 		List<MemberVO> memberList = adao.getMemberList();
 		return memberList;
+	}
+
+	// 첨부파일 없는 결재요청
+	@Override
+	public int submitApproval(ApprovalVO avo) {
+		int n = adao.submitApproval(avo);
+		return n;
+	}
+
+	// 첨부파일 있는 결재요청
+	@Override
+	public int submitAttachedApproval(ApprovalVO avo) {
+		int n = adao.submitAttachedApproval(avo);
+		return n;
 	}
 
 

@@ -1,263 +1,198 @@
 package com.spring.groupware.approval.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class ApprovalVO {
-	private int mbr_seq;
 	
-	private int fk_power_no;	// 0: 일반사원, 1: 인사팀, 2: 관리자
-	private int fk_rank_no;		// 0: 팀원, 1: 팀장, 2: CEO
-	private int fk_dept_no;		// 0: 영업팀, 1: 인사팀, 2: 홍보팀, 3: IT팀, 4: 회계팀, 5: CEO(조직도 구분용)
+	private String ap_seq; 			// 결재번호
+	private String fk_apform_no;	// 서식번호
+	private String fk_mbr_seq;  		// 작성사원번호
+	private String ap_progress;  	// 진행상태    0:진행중 / 1: 완료 / 2: 반려
+	private String ap_title; 		// 문서제목
+	private String ap_contents;  	// 결재요청내용
+	private String ap_approver;  	// 결재라인
+	private String ap_manage_approver; 	// 현재 담당 결재자
+	private String ap_referrer; 		// 참조자 
+	private String ap_rejecter;  	// 반려자 
+	private String ap_reject; 		// 반려사유   
+	private String ap_start_day;  	// 기안일자
+	private String ap_end_day; 		// 완료(반려)일자 
 	
-	private String mbr_id;		
-	private String mbr_pwd;
-	private String mbr_name;
-	private String mbr_email;
-	private String mbr_com_number;
-	private String mbr_phone_number;
-	private String mbr_gender;		// 0: 남자, 1: 여자
-	private String mbr_birthday;
-	private String mbr_registerday;
-	private String mbr_retireday;
-	private String mbr_pwd_changeday;	
-	private String mbr_status; 			// 사원퇴사유무   1: 사용가능(가입중) / 0:사용불능(탈퇴)
+	private MultipartFile attach;    
+     
+	private String ap_filename;				// 결재첨부파일 이름
+	private String ap_detail_filename;		// 구분용 결재첨부파일 이름
+	private String ap_fileSize;    // 파일크기 
 	
-	private String mbr_photo;
-	private String mbr_sign;
+	//////////////////////////////////////////////////////////////
 	
-	private String mbr_stsmsg;
-	private String mbr_stsconnect;
-	private String mbr_img;
-	
-	/////////////////////////////////////////////////////////////////////////////////////////////
-	
-	private String power_detail; 	// 0: 일반사원, 1: 인사팀, 2: 관리자
-	private String rank_detail; 	// 0: 팀원, 1: 팀장, 2: CEO 
-	private String dept_detail; 	// 0: 영업팀, 1: 인사팀, 2: 홍보팀, 3: IT팀, 4: 회계팀, 5: CEO(조직도 구분용)
-	private String pwdChangeGap;	// 비밀번호 변경한지 6개월 이상 변경 페이지 이동하기 위함
-	
-	/////////////////////////////////////////////////////////////////////////////////////////////
-	
-	private int eduLevel;
-
-
-	/////////////////////////////////////////////////////////////////////////////////////////////
-	
-
 	public ApprovalVO() {}
 
-	public int getMbr_seq() {
-		return mbr_seq;
+	//////////////////////////////////////////////////////////////
+
+	public String getAp_seq() {
+		return ap_seq;
 	}
 
-	public void setMbr_seq(int mbr_seq) {
-		this.mbr_seq = mbr_seq;
+
+	public void setAp_seq(String ap_seq) {
+		this.ap_seq = ap_seq;
 	}
 
-	public int getFk_power_no() {
-		return fk_power_no;
+
+	public String getFk_apform_no() {
+		return fk_apform_no;
 	}
 
-	public void setFk_power_no(int fk_power_no) {
-		this.fk_power_no = fk_power_no;
+
+	public void setFk_apform_no(String fk_apform_no) {
+		this.fk_apform_no = fk_apform_no;
 	}
 
-	public int getFk_rank_no() {
-		return fk_rank_no;
+
+	public String getFk_mbr_seq() {
+		return fk_mbr_seq;
 	}
 
-	public void setFk_rank_no(int fk_rank_no) {
-		this.fk_rank_no = fk_rank_no;
+
+	public void setFk_mbr_seq(String fk_mbr_seq) {
+		this.fk_mbr_seq = fk_mbr_seq;
 	}
 
-	public int getFk_dept_no() {
-		return fk_dept_no;
+
+	public String getAp_progress() {
+		return ap_progress;
 	}
 
-	public void setFk_dept_no(int fk_dept_no) {
-		this.fk_dept_no = fk_dept_no;
+
+	public void setAp_progress(String ap_progress) {
+		this.ap_progress = ap_progress;
 	}
 
-	public String getMbr_id() {
-		return mbr_id;
+
+	public String getAp_title() {
+		return ap_title;
 	}
 
-	public void setMbr_id(String mbr_id) {
-		this.mbr_id = mbr_id;
+
+	public void setAp_title(String ap_title) {
+		this.ap_title = ap_title;
 	}
 
-	public String getMbr_pwd() {
-		return mbr_pwd;
+
+	public String getAp_contents() {
+		return ap_contents;
 	}
 
-	public void setMbr_pwd(String mbr_pwd) {
-		this.mbr_pwd = mbr_pwd;
+
+	public void setAp_contents(String ap_contents) {
+		this.ap_contents = ap_contents;
 	}
 
-	public String getMbr_name() {
-		return mbr_name;
+
+	public String getAp_approver() {
+		return ap_approver;
 	}
 
-	public void setMbr_name(String mbr_name) {
-		this.mbr_name = mbr_name;
+
+	public void setAp_approver(String ap_approver) {
+		this.ap_approver = ap_approver;
 	}
 
-	public String getMbr_email() {
-		return mbr_email;
+
+	public String getAp_manage_approver() {
+		return ap_manage_approver;
 	}
 
-	public void setMbr_email(String mbr_email) {
-		this.mbr_email = mbr_email;
+
+	public void setAp_manage_approver(String ap_manage_approver) {
+		this.ap_manage_approver = ap_manage_approver;
 	}
 
-	public String getMbr_com_number() {
-		return mbr_com_number;
+
+	public String getAp_referrer() {
+		return ap_referrer;
 	}
 
-	public void setMbr_com_number(String mbr_com_number) {
-		this.mbr_com_number = mbr_com_number;
+
+	public void setAp_referrer(String ap_referrer) {
+		this.ap_referrer = ap_referrer;
 	}
 
-	public String getMbr_phone_number() {
-		return mbr_phone_number;
+
+	public String getAp_rejecter() {
+		return ap_rejecter;
 	}
 
-	public void setMbr_phone_number(String mbr_phone_number) {
-		this.mbr_phone_number = mbr_phone_number;
+
+	public void setAp_rejecter(String ap_rejecter) {
+		this.ap_rejecter = ap_rejecter;
 	}
 
-	public String getMbr_gender() {
-		return mbr_gender;
+
+	public String getAp_reject() {
+		return ap_reject;
 	}
 
-	public void setMbr_gender(String mbr_gender) {
-		this.mbr_gender = mbr_gender;
+
+	public void setAp_reject(String ap_reject) {
+		this.ap_reject = ap_reject;
 	}
 
-	public String getMbr_birthday() {
-		return mbr_birthday;
+
+	public String getAp_start_day() {
+		return ap_start_day;
 	}
 
-	public void setMbr_birthday(String mbr_birthday) {
-		this.mbr_birthday = mbr_birthday;
+
+	public void setAp_start_day(String ap_start_day) {
+		this.ap_start_day = ap_start_day;
 	}
 
-	public String getMbr_registerday() {
-		return mbr_registerday;
+
+	public String getAp_end_day() {
+		return ap_end_day;
 	}
 
-	public void setMbr_registerday(String mbr_registerday) {
-		this.mbr_registerday = mbr_registerday;
+
+	public void setAp_end_day(String ap_end_day) {
+		this.ap_end_day = ap_end_day;
 	}
 
-	public String getMbr_retireday() {
-		return mbr_retireday;
-	}
-
-	public void setMbr_retireday(String mbr_retireday) {
-		this.mbr_retireday = mbr_retireday;
-	}
-
-	public String getMbr_pwd_changeday() {
-		return mbr_pwd_changeday;
-	}
-
-	public void setMbr_pwd_changeday(String mbr_pwd_changeday) {
-		this.mbr_pwd_changeday = mbr_pwd_changeday;
-	}
-
-	public String getMbr_status() {
-		return mbr_status;
-	}
-
-	public void setMbr_status(String mbr_status) {
-		this.mbr_status = mbr_status;
-	}
-
-	public String getMbr_photo() {
-		return mbr_photo;
-	}
-
-	public void setMbr_photo(String mbr_photo) {
-		this.mbr_photo = mbr_photo;
-	}
-
-	public String getMbr_sign() {
-		return mbr_sign;
-	}
-
-	public void setMbr_sign(String mbr_sign) {
-		this.mbr_sign = mbr_sign;
-	}
+	//////////////////////////////////////////////////////////////////////
 
 	
-	///////////////////////////////////////////////////////////////////////////////
-	
-	
-	public String getPower_detail() {
-		return power_detail;
+	public MultipartFile getAttach() {
+		return attach;
 	}
 
-	public void setPower_detail(String power_detail) {
-		this.power_detail = power_detail;
+	public void setAttach(MultipartFile attach) {
+		this.attach = attach;
 	}
 
-	public String getRank_detail() {
-		return rank_detail;
+	public String getAp_filename() {
+		return ap_filename;
 	}
 
-	public void setRank_detail(String rank_detail) {
-		this.rank_detail = rank_detail;
+	public void setAp_filename(String ap_filename) {
+		this.ap_filename = ap_filename;
 	}
 
-	public String getDept_detail() {
-		return dept_detail;
+	public String getAp_detail_filename() {
+		return ap_detail_filename;
 	}
 
-	public void setDept_detail(String dept_detail) {
-		this.dept_detail = dept_detail;
-	}
-	
-	public String getPwdChangeGap() {
-		return pwdChangeGap;
+	public void setAp_detail_filename(String ap_detail_filename) {
+		this.ap_detail_filename = ap_detail_filename;
 	}
 
-	public void setPwdChangeGap(String pwdChangeGap) {
-		this.pwdChangeGap = pwdChangeGap;
+	public String getAp_fileSize() {
+		return ap_fileSize;
 	}
 
-	public int getEduLevel() {
-		return eduLevel;
+	public void setAp_fileSize(String ap_fileSize) {
+		this.ap_fileSize = ap_fileSize;
 	}
-
-	public void setEduLevel(int eduLevel) {
-		this.eduLevel = eduLevel;
-	}
-
-	public String getMbr_stsmsg() {
-		return mbr_stsmsg;
-	}
-
-	public void setMbr_stsmsg(String mbr_stsmsg) {
-		this.mbr_stsmsg = mbr_stsmsg;
-	}
-
-	public String getMbr_stsconnect() {
-		return mbr_stsconnect;
-	}
-
-	public void setMbr_stsconnect(String mbr_stsconnect) {
-		this.mbr_stsconnect = mbr_stsconnect;
-	}
-
-	public String getMbr_img() {
-		return mbr_img;
-	}
-
-	public void setMbr_img(String mbr_img) {
-		this.mbr_img = mbr_img;
-	}
-	
-	
-
-}	
-
-	
+		
+}
+		

@@ -36,34 +36,79 @@ div.menu {
 }
 
 
-/* ============ selectMemberModal.jsp ============== */
+/* ============ approvalMemberModal.jsp ============== */
 .modal {
-	margin-left: 22%;
     z-index: 1;
     background-color: rgba(0,0,0,0.4);
 }
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto;
+    margin: 7% auto;
     padding: 20px;
-    border: 1px solid #888;
-    width: 50%;                       
+    border: 1px solid #dedede;
+    width: 50%; 
+    height: 70%;               
 }
 div.memberModel {
-	width: 21%;
-	height: 70%;
-	float: left;
-	margin: 2% 1%;
-	border: solid 1px gray;
+	width: 40%;
 	font-weight: bold;
 	font-size: 12pt;
 	padding: 5%;
-	overflow: auto;
+}
+div#memberMove {
+	display: inline-block;
+	width: 20px;
 }
 button#closeModal {
 	font-weight: bolder;
 	float: right;
 }
+hr.division {
+	border: dashed 1px #f2f2f2; 
+	margin: 5px auto;
+}
+.operate {
+	width: 49%;
+	background-color: #f2f2f2;
+	border: none; 
+	display: inline-block;
+	margin-bottom: 5px;
+	border-radius: 5%;
+	font-weight: bold;
+}
+
+
+/* ============ selectMemberModal.jsp ============== */
+.modal2 {
+    z-index: 1;
+    background-color: rgba(0,0,0,0.4);
+}
+.modal-content2 {
+    background-color: #fefefe;
+    margin: 7% auto;
+    padding: 20px;
+    border: 1px solid #dedede;
+    width: 50%; 
+    height: 70%;               
+}
+div#memberMove2 {
+	display: inline-block;
+	width: 20px;
+}
+button#closeModal2 {
+	font-weight: bolder;
+	float: right;
+}
+.operate2 {
+	width: 49%;
+	background-color: #f2f2f2;
+	border: none; 
+	display: inline-block;
+	margin-bottom: 5px;
+	border-radius: 5%;
+	font-weight: bold;
+}
+
 
 /* ============ approvalForm1.jsp ============== */
 
@@ -85,20 +130,22 @@ button.formBtn2 {
 	font-size: 7pt;
 	font-weight: bold;
 }
+div#signTitle {
+	margin: 15px 10px 0 0;
+    text-align: center;
+    width: 70px;
+    float: right;
+    background-color: #f2f2f2;
+}
 table#sign {
-	margin-top: 30px;
 	margin-right: 10px;
-	width: 100px;
-	height: 80px;
+	width: 70px;
+	height: 60px;
 	float: right;
 }
 td.sign {
+	border-collapse: collapse;
 	border: solid 1px gray;
-}
-td#sign1 {
-	width: 15%;
-}
-td#sign2 {
 	padding:0;
 	height: 10%;
 	text-align: center;	
@@ -146,7 +193,16 @@ input#reason {
 div#bottom {
 	margin: 40px 0 0 20px;
 }
-
+button#attachBtn {
+	float: left;
+}
+div#attachedFile {
+	display: inline-block;
+	width: 80%;
+}
+button.delFile {
+	margin: 0 15px 0 5px;
+}
 
 /* ============ approvalForm2.jsp ============== */
 input.formDetail {
