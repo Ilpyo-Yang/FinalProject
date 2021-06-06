@@ -101,6 +101,8 @@
 				<div id="bottom">
 					<button type="button" class="btn btn-success formBtn">파일업로드</button>
 				</div>
+				
+				<input type="text" name=""/>
 			</div>
 		</form>
 	</div>
