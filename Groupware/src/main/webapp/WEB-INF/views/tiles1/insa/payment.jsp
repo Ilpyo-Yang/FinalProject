@@ -168,11 +168,10 @@
 		$("div#registerDiv").hide();
 		$("div#registerModiDiv").hide();
 		
-		$("dropdown-content").click(function(event){
-			console.log(event.text);
-		});
-
-		
+		var seq = $("input#hiddenSeqVal").val();
+		if(seq != 0){
+			memberInfoView(seq);
+		}
 		
 	});
 	
@@ -511,7 +510,8 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			<input id="hiddenSeq" type="hidden" />
+			<input id="hiddenSeq" type="hidden""/>
+			<input id="hiddenSeqVal" type="hidden" value="${seq}"/>
 			<input id="hiddenCategory" type="hidden" value="${category}" />
 			<input id="hiddenParameter" type="hidden" />
 			</div>

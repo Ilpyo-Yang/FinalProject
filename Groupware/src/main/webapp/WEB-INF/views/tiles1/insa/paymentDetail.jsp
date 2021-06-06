@@ -12,7 +12,7 @@
 <style>
 	
 	
-	button.paymentbackBtn{
+	button.paymentInfoBtn{
 	  display:inline-block;
  	  margin-left: 20px;
 	  padding: 10px 20px;
@@ -26,8 +26,8 @@
 	  border-radius: 15px;
 	  box-shadow: 0 9px #999;
 	}
-	button.paymentbackBtn:hover{ background-color: #3e8e41}
-	button.paymentbackBtn:active{
+	button.paymentInfoBtn:hover{ background-color: #3e8e41}
+	button.paymentInfoBtn:active{
 	  background-color: #3e8e41;
 	  box-shadow: 0 5px #666;
 	  transform: translateY(4px);
@@ -37,7 +37,35 @@
 	}
 	
 	table#paymentDetailBaseInfo td{
-		display: inline-block;
+		height: 35px;
+		padding: 5px;
+		border: solid 1px black;
+		width: 120px;
+		font-size: 13pt;
+		text-align: center;
+		vertical-align: middle;
+	}
+	table#paymentInfo{
+		margin-top: 30px;
+		border-collapse: collapse;
+	}
+	
+	table#paymentInfo td{
+		height: 35px;
+		padding: 5px;
+		border: solid 1px black;
+		width: 120px;
+		font-size: 13pt;
+		text-align: center;
+		vertical-align: middle;
+	}
+	table#paymentInfo tr{
+		height: 35px;
+		border: solid 1px black;
+		text-align: center;
+		vertical-align: middle;
+	}
+	table#paymentInfo th{
 		height: 35px;
 		padding: 5px;
 		border: solid 1px black;
@@ -50,34 +78,32 @@
 		display: inline-block;
 	}
 	
+	th.thNum{
+		width: 50px !important;
+	}
+	th.thSort{
+		width: 200px !important;
+	}
+	td.tdNum{
+		width: 50px !important;
+	}
+	td.tdSort{
+		width: 200px !important;
+	}
+	
 </style>
 
 <script type="text/javascript">
 	/* When the user clicks on the button,
 	toggle between hiding and showing the dropdown content */
 	
-	function myFunction() {
-	  document.getElementById("myDropdown").classList.toggle("show");
-	}
-	
 	
 	// Close the dropdown menu if the user clicks outside of it
 	
 	$(document).ready(function(){
-		$("div#paymentInfoBorder").hide();
-		$("dropdown-content").click(function(event){
-			console.log(event.text);
-		});
+		
+		
 
-		$("tr.clickMemberPay").click(function(){
-			$("tr.clickMemberPay").children().removeClass("green");
-			$(this).children().addClass("green");
-			$("input#hiddenSeq").text($(this).children("td.seq").text());
-			$("div#paymentInfoBorder").show();
-			
-			
-						
-		});
 		
 		
 		
@@ -87,7 +113,10 @@
 	
 	function goBackPayment(){
 		var category = $("input#hiddenCategory").val();
-		location.href='<%=ctxPath%>/payment.opis?category='+category;
+		var seq = $("input#hiddenSeq").val();
+		console.log(category);
+		console.log(seq);
+		location.href='<%=ctxPath%>/payment.opis?category='+category+'&seq='+seq;
 	}
 </script>
 
@@ -129,32 +158,79 @@
 						</c:if>	
 					</tr>
 				</table>
+				<input id="hiddenSeq" type="hidden" value="${insavo.mbr_seq}" />
 				<input id="hiddenCategory" type="hidden" value="${category}" />
 			</div>
 			<div class="paymentInfoDiv" style="vertical-align: top; float: right;">
-				<button id="closeBtn" class="paymentbackBtn" onclick="goBackPayment()">돌아가기</button>
+				<button id="closeBtn" class="paymentInfoBtn" onclick="goBackPayment()">돌아가기</button>
 			</div>
 
-			<div id='paymentInfoBorder' class='paymentBorder' >
+			<div id='paymentInfoBorder' class='paymentBorder' style="margin-top: 30px;" >
+				<button id="payModiBtn" class="paymentInfoBtn" onclick="goModifyPayment()" type="button">등록</button>
+				<button id="payModiBtn" class="paymentInfoBtn" onclick="goModifyPayment()" type="button">수정</button>
+				<button id="payDelBtn" class="paymentInfoBtn" onclick="goPaymentDel()" type="button">삭제</button>
+								
 				<table id='paymentInfo' class='paymentTbl'>
-					<tr>
-						<td class="tdNarrow">주민등록번호</td><td colspan='3'></td>
-					</tr>
-					<tr>
-						<td class="tdNarrow">입사일</td><td class="tdWide"></td><td class="tdNarrow">퇴사일</td><td class="tdWide"></td>
-					</tr>
-					<tr>
-					<td class="tdNarrow">급여계정과목</td><td class="tdWide"></td><td class="tdNarrow">이달급여</td><td class="tdWide"></td>
-					</tr>
-					<tr>
-					<td class="tdNarrow">상여계정과목</td><td class="tdWide"></td><td class="tdNarrow">상여금</td><td class="tdWide"></td>
-					</tr>
-					<tr>
-					<td class="tdNarrow">은행</td><td class="tdWide">계좌번호</td><td class="tdNarrow">예금주</td><td class="tdWide"></td>
-					</tr>
-					<tr>
-					<td class="tdNarrow"></td><td class="tdWide"></td><td class="tdNarrow"></td><td class="tdWide"></td>
-					</tr>
+					<thead>
+						<tr>
+							<th class="thNum">순번</th>
+							<th class="thSort">항목명</th>
+							<th>계</th>
+							<c:forEach var="pList" items="${paymentList}">
+							<th>${pList.paymonth}</th>
+							</c:forEach>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="tdNum">1</td>
+							<td class="tdSort">기본급</td>
+							<td></td>
+							<c:forEach var="pList" items="${paymentList}">
+							<td>${pList.basePay}</td>
+							</c:forEach>
+						</tr>
+						<tr>
+							<td class="tdNum">2</td>
+							<td class="tdSort">상여</td>
+							<td></td>
+							<c:forEach var="pList" items="${paymentList}">
+							<td>${pList.spePay}</td>
+							</c:forEach>
+						</tr>
+						<tr>
+							<td class="tdNum">3</td>
+							<td class="tdSort">연차수당</td>
+							<td></td>
+							<c:forEach var="pList" items="${paymentList}">
+							<td>${pList.breakPay}</td>
+							</c:forEach>
+						</tr>
+						<tr>
+							<td class="tdNum">4</td>
+							<td class="tdSort">식대</td>
+							<td></td>
+							<c:forEach var="pList" items="${paymentList}">
+							<td>${pList.mealPay}</td>
+							</c:forEach>
+						</tr>
+						<tr>
+							<td class="tdNum">5</td>
+							<td class="tdSort">시간 외 근무 수당</td>
+							<td></td>
+							<c:forEach var="pList" items="${paymentList}">
+							<td>${pList.timePay}</td>
+							</c:forEach>
+						</tr>
+						<tr>
+							<td class="tdNum"></td>
+							<td class="tdSort">총 계</td>
+							<td></td>
+							<c:forEach var="pList" items="${paymentList}">
+							<td>${pList.totalPay}</td>
+							</c:forEach>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 			

@@ -4,98 +4,99 @@ public class PaymentVO {
 
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		
-	private int MBR_SEQ;
-	private int PAYMONTH;
-	private int BASEPAY;
-	private int SPEPAY;
-	private int BREAKPAY;
-	private int MEALPAY;
-	private int TIMEPAY;
-	private int TOTALPAY;
+	private int mbr_seq;
+	private int paymonth;
+	private int basePay;
+	private int spePay;
+	private int breakPay;
+	private int mealPay;
+	private int timePay;
+	private int totalPay;
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		
 
 		public PaymentVO() {}
 
 
-		public int getMBR_SEQ() {
-			return MBR_SEQ;
+		public int getMbr_seq() {
+			return mbr_seq;
 		}
 
 
-		public void setMBR_SEQ(int mBR_SEQ) {
-			MBR_SEQ = mBR_SEQ;
+		public void setMbr_seq(int mbr_seq) {
+			this.mbr_seq = mbr_seq;
 		}
 
 
-		public int getPAYMONTH() {
-			return PAYMONTH;
+		public int getPaymonth() {
+			return paymonth;
 		}
 
 
-		public void setPAYMONTH(int pAYMONTH) {
-			PAYMONTH = pAYMONTH;
+		public void setPaymonth(int paymonth) {
+			this.paymonth = paymonth;
 		}
 
 
-		public int getBASEPAY() {
-			return BASEPAY;
+		public int getBasePay() {
+			return basePay;
 		}
 
 
-		public void setBASEPAY(int bASEPAY) {
-			BASEPAY = bASEPAY;
+		public void setBasePay(int basePay) {
+			this.basePay = basePay;
 		}
 
 
-		public int getSPEPAY() {
-			return SPEPAY;
+		public int getSpePay() {
+			return spePay;
 		}
 
 
-		public void setSPEPAY(int sPEPAY) {
-			SPEPAY = sPEPAY;
+		public void setSpePay(int spePay) {
+			this.spePay = spePay;
 		}
 
 
-		public int getBREAKPAY() {
-			return BREAKPAY;
+		public int getBreakPay() {
+			return breakPay;
 		}
 
 
-		public void setBREAKPAY(int bREAKPAY) {
-			BREAKPAY = bREAKPAY;
+		public void setBreakPay(int breakPay) {
+			this.breakPay = breakPay;
 		}
 
 
-		public int getMEALPAY() {
-			return MEALPAY;
+		public int getMealPay() {
+			return mealPay;
 		}
 
 
-		public void setMEALPAY(int mEALPAY) {
-			MEALPAY = mEALPAY;
+		public void setMealPay(int mealPay) {
+			this.mealPay = mealPay;
 		}
 
 
-		public int getTIMEPAY() {
-			return TIMEPAY;
+		public int getTimePay() {
+			return timePay;
 		}
 
 
-		public void setTIMEPAY(int tIMEPAY) {
-			TIMEPAY = tIMEPAY;
+		public void setTimePay(int timePay) {
+			this.timePay = timePay;
 		}
 
 
-		public int getTOTALPAY() {
-			return TOTALPAY;
+		public int getTotalPay() {
+			return totalPay;
 		}
 
 
-		public void setTOTALPAY(int tOTALPAY) {
-			TOTALPAY = tOTALPAY;
+		public void setTotalPay(int totalPay) {
+			this.totalPay = totalPay;
 		}
+
 
 
 

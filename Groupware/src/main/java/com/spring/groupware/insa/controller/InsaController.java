@@ -306,13 +306,17 @@ public class InsaController {
 			    @RequestMapping(value="/payment.opis")
 			    public ModelAndView payment(ModelAndView mav, HttpServletRequest request) {
 			       String category = request.getParameter("category");
-			       if(category==null) {
+			       String seq = request.getParameter("seq");
+			       if(category == null) {
 			          category="6";
 			       }
+			       if(seq == "") {
+				          seq="0";
+				       }
 			       List <InsaVO> insaList = service.getInsaList(category);
 			       mav.addObject("category", category);
 			       mav.addObject("insaList", insaList);
-			       
+			       mav.addObject("seq", seq);
 			       
 			       mav.setViewName("insa/payment.tiles1");
 			       return mav;
@@ -510,7 +514,6 @@ public class InsaController {
 		    
 
 			   
-		    // === 급여 상세 페이지 요청 === //
 		    // 개인별 급여 정보 등록 완료		 
 			@ResponseBody   
 		    @RequestMapping(value="/memberPayInfo.opis", method = {RequestMethod.GET }, produces = "text/plain;charset=UTF-8")
@@ -545,8 +548,8 @@ public class InsaController {
 		       }
 		      
 		       if(pvo != null) {
-					   jsonObj.put("basePay", pvo.getBASEPAY());
-					   jsonObj.put("spePay", pvo.getSPEPAY());
+					   jsonObj.put("basePay", pvo.getBasePay());
+					   jsonObj.put("spePay", pvo.getSpePay());
 			       }
 			       else {
 			    	  // System.out.println("모모");
