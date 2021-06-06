@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath = request.getContextPath(); %>
 
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />
@@ -268,7 +269,14 @@
 		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/totaladdrlist.opis'">전체 주소록</button>
 	</div>
 	<div class="lside">
-		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/personal_addrlist.opis'">개인 주소록</button>
+		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/myAddrlist.opis'">개인 주소록</button>
+		<ul class="sideUl">
+			<c:forEach var="addrgroupvo" items="${requestScope.addrgroupList}" varStatus="status">
+			    <c:if test="${not empty addrgroupvo.addrgroup_seq}">
+			    	<li><a href="<%=ctxPath%>/myAddrlist.opis?addrgroupseq=${addrgroupvo.addrgroup_seq}">${addrgroupvo.groupname}</a></li>
+			    </c:if>
+			</c:forEach> 	
+		</ul>
 	</div>
 	<div class="lside">
 		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/addr_setting.opis'">개인 주소록 관리</button>
