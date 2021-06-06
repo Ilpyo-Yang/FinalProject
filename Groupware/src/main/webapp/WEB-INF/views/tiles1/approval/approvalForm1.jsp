@@ -6,19 +6,31 @@
 
 
 <jsp:include page="./approval_sidebar.jsp" />  
+<jsp:include page="./approvalMemberModal.jsp" /> 
 <jsp:include page="./selectMemberModal.jsp" />  
 
 
 <script type="text/javascript">
 	$(document).ready(function(){
 		
+		// 결재라인 모달창 열기
+		$("button#approvalMember").click(function(){			
+			$('#myApprovalModal').show();
+		});
+		
+		// 결재라인 모달창 열기
+		$("button#closeModal").click(function(){
+			$('#myApprovalModal').hide();
+		});
+		
+		// 참조라인 모달창 열기
 		$("button#selectMember").click(function(){			
 			$('#myModal').show();
 		});
 		
+		// 참조라인 모달창 끄기
 		$("button#closeModal").click(function(){
 			$('#myModal').hide();
-			/* $('span#selectedMember').html('${selectedMember}'); */
 		});
 		
 	}); // end of $(document).ready(function(){})---------------------------------------
@@ -33,15 +45,14 @@
 			<div id="approvalFormStyle">   
 			     	
 				<div id="top">
-					<button type="button" class="btn btn-success formBtn">결재선</button>
+					<button type="button" class="btn btn-success formBtn" id="approvalMember">결재선</button>
 					<button type="button" class="btn btn-success formBtn">결재요청</button>
 					<button type="button" class="btn btn-default formBtn" onclick="location.href='<%=ctxPath%>/approvalMain.opis';">취소</button>
 					<br>
+					<div id="signTitle">결재라인</div><br><br>
 					<table id="sign">
 						<tr>
-							<td id="sign2" class="sign">결재라인</td>
-						</tr>
-						<tr>
+							<td class="sign"></td>
 							<td class="sign"></td>
 						</tr>
 					</table>

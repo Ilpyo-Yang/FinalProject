@@ -106,20 +106,21 @@ button.formBtn2 {
 	font-size: 7pt;
 	font-weight: bold;
 }
+div#signTitle {
+	margin: 15px 10px 0 0;
+    text-align: center;
+    width: 100px;
+    float: right;
+}
 table#sign {
-	margin-top: 30px;
 	margin-right: 10px;
 	width: 100px;
 	height: 80px;
 	float: right;
 }
 td.sign {
+	border-collapse: collapse;
 	border: solid 1px gray;
-}
-td#sign1 {
-	width: 15%;
-}
-td#sign2 {
 	padding:0;
 	height: 10%;
 	text-align: center;	
