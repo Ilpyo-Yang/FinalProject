@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.spring.groupware.addrlist.model.AddrGroupVO;
 import com.spring.groupware.addrlist.model.AddrVO;
 import com.spring.groupware.addrlist.model.InterAddrDAO;
 
@@ -17,7 +18,11 @@ public class AddrService implements InterAddrService {
 
 	@Autowired
 	private InterAddrDAO adao;
-
+	
+	/*
+	 	전체 주소록
+	 */
+	
 	// === 주소록 추가 === //
 	@Override
 	public int add(AddrVO addrvo) {
@@ -64,6 +69,29 @@ public class AddrService implements InterAddrService {
 	@Override
 	public int del(Map<String, String> paraMap) {
 		int n = adao.del(paraMap);
+		return n;
+	}
+
+
+	/*
+		개인 주소록
+	*/
+	
+	/*
+		개인 주소록 관리
+	*/
+	
+	// === 페이징 처리한 주소록 그룹 목록 === //
+	@Override
+	public List<AddrGroupVO> addrgroupListWithPaging(Map<String, String> paraMap) {
+		List<AddrGroupVO> addrgroupList = adao.addrgroupListWithPaging(paraMap);
+	    return addrgroupList;
+	}
+
+	// === 총 주소록 그룹수 === //
+	@Override
+	public int getAddrgroupTotalCount(Map<String, String> paraMap) {
+		int n = adao.getAddrgroupTotalCount(paraMap);
 		return n;
 	}
 

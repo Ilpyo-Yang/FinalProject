@@ -4,6 +4,7 @@
 
 <mapper namespace="address">
 
+<!-- ============================ 전체 주소록 ============================ -->
      <!-- === 주소록 추가 === -->
      <insert id="addrAdd" parameterType="com.spring.groupware.addrlist.model.AddrVO">
    		insert into tbl_address(addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name,
@@ -68,4 +69,50 @@
    		where addr_seq=#{addr_seq}
    	</delete>
    
+   
+<!-- ============================ 개인 주소록 ============================ -->   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ============================ 개인 주소록 관리 ============================ -->   
+
+   	 <!-- === 페이징 처리한 주소록 그룹 목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것) -->  
+   	 <select id="addrgroupListWithPaging" parameterType="HashMap" resultType="com.spring.groupware.addrlist.model.AddrGroupVO">
+	   	select addrgroup_seq, groupname, groupdetail
+		from 
+		(
+		    select row_number() over(order by addrgroup_seq desc) AS rno,
+		           addrgroup_seq, groupname, groupdetail
+		    from tbl_addrlist
+		    where fk_mbr_seq=#{fk_mbr_seq}
+		) V
+		where rno between #{startRno} and #{endRno}   	 
+   	 </select>   	
+
+   	 <!-- === 총 주소록 건수(totalCount) === --> 
+   	 <select id="getAddrgroupTotalCount" parameterType="HashMap" resultType="int">
+   	 	select count(*)
+   	 	from tbl_addrlist
+   	 </select>
+   	 
 </mapper>

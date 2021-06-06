@@ -55,8 +55,7 @@ public class FormboardController {
   			  	// 사용자가 보낸 첨부파일 경로를 WAS의 webapp/resources/files 라는 폴더로 지정
 	  			HttpSession session = mrequest.getSession();
 	  			String root = session.getServletContext().getRealPath("/");
-	  			String path = root+"resources"+File.separator+"files";
-	  			// 첨부파일이 저장될 WAS의 폴더
+	  			String path = root+"resources"+File.separator+"files"; // 첨부파일이 저장될 WAS의 폴더
 
 	  			// 파일첨부를 위한 변수의 설정 및 값을 초기화
 	  			String newFileName = ""; // WAS(톰캣)의 디스크에 저장될 파일명
@@ -494,6 +493,9 @@ public class FormboardController {
   				boolean flag = false; // file 다운로드의 성공,실패 
   				flag = fileManager.doFileDownload(fileName, orgFilename, path, response);
   		        
+  				//System.out.println("확인용 path: "+path);
+  				//System.out.println("확인용 root: "+root);
+  				
   				if(!flag) {// 다운로드 실패한 경우
   	               out = response.getWriter();
   	               

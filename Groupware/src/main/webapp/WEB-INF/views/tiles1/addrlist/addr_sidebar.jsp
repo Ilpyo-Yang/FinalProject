@@ -271,6 +271,6 @@
 		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/personal_addrlist.opis'">개인 주소록</button>
 	</div>
 	<div class="lside">
-		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/addr_setting.opis">개인 주소록 관리</button>
+		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/addr_setting.opis'">개인 주소록 관리</button>
 	</div>
 </div>
