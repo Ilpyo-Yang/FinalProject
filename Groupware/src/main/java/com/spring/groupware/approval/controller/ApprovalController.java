@@ -90,6 +90,8 @@ public class ApprovalController {
 		String ap_approver = mrequest.getParameter("ap_approver");
 		String ap_manage_approver = mrequest.getParameter("ap_manage_approver");
 		String ap_referrer = mrequest.getParameter("ap_referrer");
+		String ap_title = mrequest.getParameter("ap_title");
+		String ap_contents = mrequest.getParameter("ap_contents");
 
 		avo.setAp_seq(ap_seq);
 		avo.setFk_mbr_seq(fk_mbr_seq);
@@ -97,8 +99,11 @@ public class ApprovalController {
 		avo.setAp_approver(ap_approver);
 		avo.setAp_manage_approver(ap_manage_approver);
 		avo.setAp_referrer(ap_referrer);
-			 
+		avo.setAp_title(ap_title);
+		avo.setAp_contents(ap_contents);
+		
 		MultipartFile attach = avo.getAttach();
+		
 		
 		// 첨부파일이 있는 경우
 		if(!attach.isEmpty()) {
@@ -140,10 +145,22 @@ public class ApprovalController {
 		}
 		
 		if(n==1) {	// 결재요청 성공시
+			String message = "결재요청에 성공!";
+			String loc = mrequest.getContextPath()+"/approvalProgress.opis";
+			
+			mav.addObject("message", message);
+			mav.addObject("loc", loc);
+			
 			mav.setViewName("msg");		    
 		}
 		else {	// 결재요청 실패시
-			mav.setViewName("msg");			
+			String message = "결재요청에 실패!";
+			String loc = mrequest.getContextPath()+"/approvalMain.opis";
+			
+			mav.addObject("message", message);
+			mav.addObject("loc", loc);
+			
+			mav.setViewName("msg");		
 		}
 		
 		mav.setViewName("msg");
