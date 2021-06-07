@@ -408,6 +408,25 @@ public class FormboardController {
           Map<String,String> paraMap = new HashMap<>();
           paraMap.put("form_seq", form_seq);
           
+          paraMap.put("searchType", "");
+  		  paraMap.put("searchWord", "");
+  		
+  		  // 첨부파일을 삭제
+  		  FormboardVO formboardvo = service.getViewWithNoAddCount(paraMap);
+  		  String fileName = formboardvo.getFileName();
+  		
+  		  // 첨부된 파일이 존재한다면
+  		  if(fileName != null && !"".equals(fileName)) {
+  			paraMap.put("fileName", fileName);// 삭제해야할 파일명
+  			
+  			HttpSession session = request.getSession();
+  			String root = session.getServletContext().getRealPath("/");
+  			String path = root+"resources"+File.separator+"files";
+  		
+  			paraMap.put("path", path);
+  			
+  		  }
+  		  
           int n = service.del(paraMap); 
           // n 이 1 이라면 정상적으로 삭제, n 이 0 이라면 글삭제 실패
           

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.groupware.board.model.FormboardVO;
 import com.spring.groupware.board.model.InterFormboardDAO;
+import com.spring.groupware.common.FileManager;
 
 
 //=== Service 선언 === 
@@ -20,6 +21,9 @@ public class FormboardService implements InterFormboardService {
 	@Autowired
 	private InterFormboardDAO fdao;
 
+	@Autowired    
+    private FileManager fileManager;
+	
 	// === 글쓰기(파일첨부가 없는 글쓰기) === //
 	@Override
 	public int add(FormboardVO formboardvo) {
@@ -61,6 +65,20 @@ public class FormboardService implements InterFormboardService {
 	@Override
 	public int del(Map<String, String> paraMap) {
 		int n = fdao.del(paraMap);
+		
+		if(n==1) {
+			String fileName = paraMap.get("fileName");
+			String path = paraMap.get("path");
+			
+			if(fileName != null && !"".equals(fileName)) {
+				try {
+					fileManager.doFileDelete(fileName, path);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		return n;
 	}
 
