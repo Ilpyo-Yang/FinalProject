@@ -5,6 +5,10 @@ import java.util.Map;
 
 public interface InterAddrDAO {
 
+	/*
+		전체 주소록
+	*/
+	
 	// 주소록 추가
 	int add(AddrVO addrvo);
 	
@@ -25,6 +29,31 @@ public interface InterAddrDAO {
 
 	// 주소록 삭제
 	int del(Map<String, String> paraMap);
+
+	/*
+		개인 주소록
+	*/
+	
+	// 페이징 처리한 주소록그룹 상세목록
+	List<AddrVO> myAddrlistSearchWithPaging(Map<String, String> paraMap);
+	
+	/*
+		개인 주소록 관리
+	*/
+	
+	// 페이징 처리한 주소록 그룹 목록
+	List<AddrGroupVO> addrgroupListWithPaging(Map<String, String> paraMap);
+
+	// 총 주소록 그룹 수
+	int getAddrgroupTotalCount(Map<String, String> paraMap);
+
+	// 주소록 그룹 추가
+	int addAddrgroup(AddrGroupVO agvo);
+
+	// 주소록 그룹 삭제 
+	int delAddrgroup(Map<String, String> paraMap);
+
+	
 
 
 

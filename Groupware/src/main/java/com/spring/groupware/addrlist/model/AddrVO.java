@@ -4,7 +4,7 @@ package com.spring.groupware.addrlist.model;
 public class AddrVO {
 
 	private int addr_seq;
-	private int fk_group_seq;
+	private int fk_addrgroup_seq;
 	private int fk_mbr_seq;
 	private String mbr_name;
 	private String mbr_phone_number;
@@ -44,12 +44,12 @@ public class AddrVO {
 		this.addr_seq = addr_seq;
 	}
 	
-	public int getFk_group_seq() {
-		return fk_group_seq;
+	public int getFk_addrgroup_seq() {
+		return fk_addrgroup_seq;
 	}
 	
-	public void setFk_group_seq(int fk_group_seq) {
-		this.fk_group_seq = fk_group_seq;
+	public void setFk_addrgroup_seq(int fk_addrgroup_seq) {
+		this.fk_addrgroup_seq = fk_addrgroup_seq;
 	}
 	
 	public int getFk_mbr_seq() {
