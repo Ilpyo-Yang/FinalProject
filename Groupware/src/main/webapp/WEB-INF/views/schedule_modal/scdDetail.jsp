@@ -92,7 +92,22 @@
 	
 </style>
 
+<script type="text/javascript" src="<%=ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
+
+	$(document).ready(function(){
+		
+		var startdate= '${requestScope.schedulevo.scdstartdate}';
+		var enddate = '${requestScope.schedulevo.scdenddate}';
+		
+		var sdate = startdate.substring(0,16);
+		var edate = enddate.substring(0,16);
+		
+		$("span#sTime").html(sdate);
+		$("span#eTime").html(edate);
+		
+	});
+
 
 	function goDelScd() {
 		var bool = confirm("정말 삭제하시겠습니까?");
@@ -105,6 +120,7 @@
 			frm.submit();
 			
 		}
+		
 	}// end of function goDelScd() {}----------------------
 	
 	function goClose() {
@@ -152,7 +168,7 @@
 				</tr>
 				<tr>
 					<td id="title">일자</td>
-					<td id="content">${requestScope.schedulevo.scdstartdate}&nbsp;${requestScope.schedulevo.scdstartTm} ~ ${requestScope.schedulevo.scdenddate}&nbsp;${requestScope.schedulevo.scdendTm}</td>
+					<td id="content"><span id="sTime"></span>&nbsp;~&nbsp;<span id="eTime"></span></td>
 				</tr>
 				<tr>	
 					<td id="title">위치</td>

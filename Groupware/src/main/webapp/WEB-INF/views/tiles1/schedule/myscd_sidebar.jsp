@@ -75,8 +75,13 @@
 	
 	function mtrResv() {
 		 var url = "<%=ctxPath%>/mtr_resv.opis";
-		 window.open(url, "mtrResv","left=350px, top=100px, width=900px, height=650px,");
+		 window.open(url, "mtrResv","left=350px, top=100px, width=900px, height=680px");
 	 }
+	
+	function goCancelResv() {
+		var url = "<%=ctxPath%>/CancelOneResv.opis";
+		window.open(url, "goCancel","left=350px, top=100px, width=600px, height=350px");
+	}
 	
 </script>
 
@@ -112,16 +117,16 @@
 	  		<div class="sideInfo" style="margin-bottom:50px;">수락 대기중인 일정(<span></span>)</div>
 	  		<br>
 	  		<div class="lside">
-	  			<button class="sideBtn">일정</button>
+	  			<button class="sideBtn" style="font-weight:bold;">일정</button>
 	  			<ul class="sideUl">
 	  				<li><a href="#" onclick="scdDelAll()">전체 일정 삭제</a></li>
 	  			</ul>
 	  		</div>
 	  		<div class="lside">
-	  			<button class="sideBtn">회의실</button>
+	  			<button class="sideBtn" style="font-weight:bold;">회의실</button>
 	  			<ul class="sideUl">
 	  				<li><a href="#" onclick="mtrResv()">회의실 예약</a></li>
-	  				<li><a href="#" onclick="">회의실 예약취소</a></li>
+	  				<li><a href="#" onclick="goCancelResv()">회의실 예약취소</a></li>
 	  			</ul>
 	  		</div>
 	  			

@@ -10,6 +10,8 @@ public class MtrHistoryVO {
 	private String starttime; 	// 시작시간
 	private String endtime; 	// 종료시간
 	
+	private String mtrname;		// 회의실명
+	
 	public MtrHistoryVO() {}
 
 	public MtrHistoryVO(String usemtrno, String fk_mtrno, String fk_scdno, String booker, String regDate,
@@ -88,6 +90,14 @@ public class MtrHistoryVO {
 
 	public void setBooker(String booker) {
 		this.booker = booker;
+	}
+
+	public String getMtrname() {
+		return mtrname;
+	}
+
+	public void setMtrname(String mtrname) {
+		this.mtrname = mtrname;
 	}
 	
 	

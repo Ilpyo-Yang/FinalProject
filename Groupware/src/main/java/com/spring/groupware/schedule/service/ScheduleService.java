@@ -119,7 +119,15 @@ public class ScheduleService implements InterScheduleService{
 		 return regDetailList; 
 	}
 
+	// 모든 회의실 예약 내역 가져오기
+	@Override
+	public List<MtrHistoryVO> getMtrResvList(String userid) {
+		List<MtrHistoryVO> mtrResvList = dao.getMtrResvList(userid);
+		return mtrResvList;
+	}
 
+	
+	
 	
 	
 	
