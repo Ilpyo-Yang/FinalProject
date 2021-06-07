@@ -115,7 +115,7 @@
 				</div>
 				
 				<input type="text" name="ap_seq" value="${fileNo}"/>
-				<input type="text" name="fk_apform_no" value="1"/>
+				<input type="text" name="fk_apform_no" value=1/>
 				<input type="text" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}"/>
 				<input type="text" name="ap_approver" />
 				<input type="text" name="ap_manage_approver" />

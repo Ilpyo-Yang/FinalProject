@@ -40,10 +40,10 @@ public class FormboardController {
 		    
       // === 게시판 글쓰기 폼 페이지 요청 === //
       @RequestMapping(value="/formboard_addEnd.opis", method= {RequestMethod.POST})
-      public ModelAndView addEnd(HttpServletRequest request, ModelAndView mav, FormboardVO formboardvo, MultipartHttpServletRequest mrequest) {
+      public ModelAndView addEnd(ModelAndView mav, FormboardVO formboardvo, MultipartHttpServletRequest mrequest) {
     	  
-    	  String ftitle = request.getParameter("title");
-    	  String fcontent = request.getParameter("content");
+    	  String ftitle = mrequest.getParameter("title");
+    	  String fcontent = mrequest.getParameter("content");
     	  
     	  formboardvo.setFtitle(ftitle);
     	  formboardvo.setFcontent(fcontent);
@@ -52,13 +52,8 @@ public class FormboardController {
   		
   		  if(!attach.isEmpty()) {
   			
-  			  	// 사용자가 보낸 첨부파일 경로를 WAS의 webapp/resources/files 라는 폴더로 지정
-	  			HttpSession session = mrequest.getSession();
-	  			String root = session.getServletContext().getRealPath("/");
-	  			String path = root+"resources"+File.separator+"files";
-	  			// 첨부파일이 저장될 WAS의 폴더
+	  			String path = "C:/FinalProject/GroupwareProgram/Groupware/src/main/webapp/resources/uploadFbdFile";
 
-	  			// 파일첨부를 위한 변수의 설정 및 값을 초기화
 	  			String newFileName = ""; // WAS(톰캣)의 디스크에 저장될 파일명
 	  			
 	  			byte[] bytes = null; // 첨부파일의 내용을 담는 것
@@ -87,18 +82,15 @@ public class FormboardController {
     	  
   		  int n = 0;
 		
-  		  if(attach.isEmpty()) {
-  			  // 첨부파일이 없는 경우
+  		  if(attach.isEmpty()) {// 첨부파일이 없는 경우
   			  n = service.add(formboardvo); 
   		  }
-  		  else {
-  			  // 첨부파일이 있는 경우
+  		  else {// 첨부파일이 있는 경우
   			  n = service.add_withFile(formboardvo);
   		  }
 		
     	  if(n==1) {
     		  mav.setViewName("redirect:/formboard_list.opis");
-    		  
     	  }
     	  else {
     		  mav.setViewName("board/error/add_error.tiles1");
@@ -347,15 +339,13 @@ public class FormboardController {
       
       // === #72. 글 수정 페이지 완료하기 === //
       @RequestMapping(value="/formboard_editEnd.opis", method= {RequestMethod.POST})
-      public ModelAndView editEnd(ModelAndView mav, FormboardVO formboardvo, HttpServletRequest request, MultipartHttpServletRequest mrequest) {
+      public ModelAndView editEnd(ModelAndView mav, FormboardVO formboardvo, MultipartHttpServletRequest mrequest) {
 
     	  MultipartFile attach = formboardvo.getAttach();
 
   		  if(!attach.isEmpty()) {
   			
-	  			HttpSession session = mrequest.getSession();
-	  			String root = session.getServletContext().getRealPath("/");
-	  			String path = root+"resources"+File.separator+"files";
+	  			String path = "C:/FinalProject/GroupwareProgram/Groupware/src/main/webapp/resources/uploadFbdFile";
 	  			// 첨부파일이 저장될 WAS의 폴더
 
 	  			// 파일첨부를 위한 변수의 설정 및 값을 초기화
@@ -393,7 +383,7 @@ public class FormboardController {
 	         mav.addObject("message", "글을 성공적으로 수정했습니다.");
 	      }
 	  
-          mav.addObject("loc", request.getContextPath()+"/formboard_view.opis?form_seq="+formboardvo.getForm_seq());
+          mav.addObject("loc", mrequest.getContextPath()+"/formboard_view.opis?form_seq="+formboardvo.getForm_seq());
           mav.setViewName("msg");
     	  
           return mav;
@@ -409,6 +399,23 @@ public class FormboardController {
           Map<String,String> paraMap = new HashMap<>();
           paraMap.put("form_seq", form_seq);
           
+          paraMap.put("searchType", "");
+  		  paraMap.put("searchWord", "");
+  		
+  		  // 첨부파일을 삭제
+  		  FormboardVO formboardvo = service.getViewWithNoAddCount(paraMap);
+  		  String fileName = formboardvo.getFileName();
+  		
+  		  // 첨부된 파일이 존재한다면
+  		  if(fileName != null && !"".equals(fileName)) {
+  			paraMap.put("fileName", fileName);// 삭제해야할 파일명
+  			
+  			String path = "C:/FinalProject/GroupwareProgram/Groupware/src/main/webapp/resources/uploadFbdFile";
+  		
+  			paraMap.put("path", path);
+  			
+  		  }
+  		  
           int n = service.del(paraMap); 
           // n 이 1 이라면 정상적으로 삭제, n 이 0 이라면 글삭제 실패
           
@@ -481,19 +488,17 @@ public class FormboardController {
   				return; // 종료
   			}
   			else {
-  				String fileName = formboardvo.getFileName();
-  				
-  				String orgFilename = formboardvo.getOrgFilename();
+  				String fileName = formboardvo.getFileName(); // DB에 업로드되는 파일명		
+  				String orgFilename = formboardvo.getOrgFilename(); // 원래 파일명
 			
-  				HttpSession session = request.getSession();
-  				String root = session.getServletContext().getRealPath("/");
-
-  				String path = root+"resources"+File.separator+"files";
+  				String path = "C:/FinalProject/GroupwareProgram/Groupware/src/main/webapp/resources/uploadFbdFile";
 
   				// **** file 다운로드 **** //
   				boolean flag = false; // file 다운로드의 성공,실패 
   				flag = fileManager.doFileDownload(fileName, orgFilename, path, response);
   		        
+  				System.out.println("확인용 path: "+path);
+  				
   				if(!flag) {// 다운로드 실패한 경우
   	               out = response.getWriter();
   	               

@@ -6,7 +6,7 @@ public class ApprovalVO {
 	
 	private String ap_seq; 			// 결재번호
 	private String fk_apform_no;	// 서식번호
-	private String fk_mbr_seq;  		// 작성사원번호
+	private String fk_mbr_seq;  	// 작성사원번호
 	private String ap_progress;  	// 진행상태    0:진행중 / 1: 완료 / 2: 반려
 	private String ap_title; 		// 문서제목
 	private String ap_contents;  	// 결재요청내용
