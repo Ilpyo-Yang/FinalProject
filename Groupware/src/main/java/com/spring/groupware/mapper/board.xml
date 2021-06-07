@@ -194,7 +194,7 @@
 
    <!-- ========================= 공통서식 ============================== -->  
 
-   <!-- === 글쓰기 === -->
+   <!-- === 글쓰기(파일첨부 없는) === -->
    <insert id="formAdd" parameterType="com.spring.groupware.board.model.FormboardVO">
    		insert into tbl_formboard(form_seq, fk_boardno, fk_mbr_seq, ftitle, fcontent, fwritedate, fhit)
    		values(form_seq.nextval, 3, #{fk_mbr_seq}, #{ftitle}, #{fcontent}, default, default)

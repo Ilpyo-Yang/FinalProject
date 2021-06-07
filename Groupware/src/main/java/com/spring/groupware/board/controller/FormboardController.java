@@ -52,12 +52,11 @@ public class FormboardController {
   		
   		  if(!attach.isEmpty()) {
   			
-  			  	// 사용자가 보낸 첨부파일 경로를 WAS의 webapp/resources/files 라는 폴더로 지정
+  			  	// 첨부파일 경로를 WAS의 webapp/resources/files 라는 폴더로 지정
 	  			HttpSession session = mrequest.getSession();
 	  			String root = session.getServletContext().getRealPath("/");
 	  			String path = root+"resources"+File.separator+"files"; // 첨부파일이 저장될 WAS의 폴더
 
-	  			// 파일첨부를 위한 변수의 설정 및 값을 초기화
 	  			String newFileName = ""; // WAS(톰캣)의 디스크에 저장될 파일명
 	  			
 	  			byte[] bytes = null; // 첨부파일의 내용을 담는 것
@@ -86,18 +85,15 @@ public class FormboardController {
     	  
   		  int n = 0;
 		
-  		  if(attach.isEmpty()) {
-  			  // 첨부파일이 없는 경우
+  		  if(attach.isEmpty()) {// 첨부파일이 없는 경우
   			  n = service.add(formboardvo); 
   		  }
-  		  else {
-  			  // 첨부파일이 있는 경우
+  		  else {// 첨부파일이 있는 경우
   			  n = service.add_withFile(formboardvo);
   		  }
 		
     	  if(n==1) {
     		  mav.setViewName("redirect:/formboard_list.opis");
-    		  
     	  }
     	  else {
     		  mav.setViewName("board/error/add_error.tiles1");
@@ -499,9 +495,8 @@ public class FormboardController {
   				return; // 종료
   			}
   			else {
-  				String fileName = formboardvo.getFileName();
-  				
-  				String orgFilename = formboardvo.getOrgFilename();
+  				String fileName = formboardvo.getFileName(); // DB에 업로드되는 파일명		
+  				String orgFilename = formboardvo.getOrgFilename(); // 원래 파일명
 			
   				HttpSession session = request.getSession();
   				String root = session.getServletContext().getRealPath("/");
