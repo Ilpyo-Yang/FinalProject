@@ -17,6 +17,7 @@
 <style type="text/css">
 	
 	.myTeam {
+		margin-top:20px;
 		margin-bottom: 5px;
 		padding-left: 40px;
 	}
@@ -29,11 +30,14 @@
 	#teamName {
 		text-align:center;
 		margin-bottom:40px;	
+		font-weight: bold;
+		font-size: 13pt;
+		color:#008ae6;
 	}
 		
 	#btnResv {
 	  	border: none;
-	  	padding: 15px 40px;
+	  	padding: 15px 45px;
 	  	border-radius: 2pt;
 	  	font-weight: bold;
 	  	background: #8cb1d9;
@@ -43,7 +47,7 @@
 	
 	#btnDelAll {
 	  	border: none;
-	  	padding: 15px 30px;
+	  	padding: 15px 36px;
 	  	border-radius: 2pt;
 	  	font-weight: bold;
 	  	background: #b3b3b3;
@@ -56,15 +60,23 @@
 
 <script type="text/javascript">
 	
-	$(document).ready(function(){
-		$("button#btnDelAll").click(function(){
-			var bool = confirm("전체 일정을 모두 삭제하시겠습니까?\n삭제하시면 복구할 수 없습니다.");
-			
-			if(bool) {
-				location.href = "<%=ctxPath%>/delAll.opis";
-			}
-		});
-	});
+	function scdDelAll() {
+		var bool = confirm("전체 일정을 모두 삭제하시겠습니까?\n삭제하시면 복구할 수 없습니다.");
+		
+		if(bool) {
+			location.href = "<%=ctxPath%>/delAll.opis";
+		}
+	}
+	
+	function scdReg() {
+		 var url = "<%=ctxPath%>/scd_register.opis";
+		 window.open(url, "scdRegister","left=350px, top=100px, width=700px, height=455px");
+	 }
+	
+	function mtrResv() {
+		 var url = "<%=ctxPath%>/mtr_resv.opis";
+		 window.open(url, "mtrResv","left=350px, top=100px, width=900px, height=650px,");
+	 }
 	
 </script>
 
@@ -73,7 +85,7 @@
 	  	<div id="btnDiv">
 	  		<button type="button" id="btnReg" onclick="scdReg()">일정 등록</button>	
 	    </div> 					
-	  		<div class="myTeam" style="font-weight:bold;">내소속</div>
+	  		<div class="myTeam">내소속</div>
 	  		<div id="teamName">
 				<c:choose>
 					<c:when test="${sessionScope.loginuser.fk_dept_no eq 0}">
@@ -97,14 +109,20 @@
 				</c:choose>	  			
 	  		</div>
 	  		<div class="sideInfo">수락 완료된 일정(<span></span>)</div>
-	  		<div class="sideInfo" style="margin-bottom:60px;">수락 대기중인 일정(<span></span>)</div>
+	  		<div class="sideInfo" style="margin-bottom:50px;">수락 대기중인 일정(<span></span>)</div>
 	  		<br>
-	  		<div style="text-align:center;">
-	  			<button type="button" id="btnDelAll">전체 일정 삭제 ▶</button>
+	  		<div class="lside">
+	  			<button class="sideBtn">일정</button>
+	  			<ul class="sideUl">
+	  				<li><a href="#" onclick="scdDelAll()">전체 일정 삭제</a></li>
+	  			</ul>
 	  		</div>
-	  		<br>
-	  		<div style="text-align:center;">	
-	  			<button type="button" id="btnResv" onclick="mtrResv()">회의실 예약 ▶</button>
+	  		<div class="lside">
+	  			<button class="sideBtn">회의실</button>
+	  			<ul class="sideUl">
+	  				<li><a href="#" onclick="mtrResv()">회의실 예약</a></li>
+	  				<li><a href="#" onclick="">회의실 예약취소</a></li>
+	  			</ul>
 	  		</div>
-		  		
+	  			
 </div>
