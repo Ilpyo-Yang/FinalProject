@@ -227,15 +227,15 @@
 		     , fileName, orgFilename, fileSize
 		from
 		(
-		    select lag(form_seq,1) over (order by form_seq desc) as previousseq
-		         , lag(ftitle,1) over (order by form_seq desc) as previoustitle
+		    select lag(form_seq,1) over (order by form_seq desc) as nextseq
+		         , lag(ftitle,1) over (order by form_seq desc) as nexttitle
 		         
 		         , form_seq, fk_mbr_seq, ftitle, fcontent
 		         , to_char(fwritedate, 'yyyy-mm-dd hh24:mi:ss') as fwritedate, fhit
 		         , fileName, orgFilename, fileSize
 		         
-		         , lead(form_seq,1) over (order by form_seq desc) as nextseq
-		         , lead(ftitle,1) over (order by form_seq desc) as nexttitle
+		         , lead(form_seq,1) over (order by form_seq desc) as previousseq
+		         , lead(ftitle,1) over (order by form_seq desc) as previoustitle
 		         
 		    from tbl_formboard
 		) V

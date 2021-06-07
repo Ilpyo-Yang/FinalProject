@@ -40,10 +40,10 @@ public class FormboardController {
 		    
       // === 게시판 글쓰기 폼 페이지 요청 === //
       @RequestMapping(value="/formboard_addEnd.opis", method= {RequestMethod.POST})
-      public ModelAndView addEnd(HttpServletRequest request, ModelAndView mav, FormboardVO formboardvo, MultipartHttpServletRequest mrequest) {
+      public ModelAndView addEnd(ModelAndView mav, FormboardVO formboardvo, MultipartHttpServletRequest mrequest) {
     	  
-    	  String ftitle = request.getParameter("title");
-    	  String fcontent = request.getParameter("content");
+    	  String ftitle = mrequest.getParameter("title");
+    	  String fcontent = mrequest.getParameter("content");
     	  
     	  formboardvo.setFtitle(ftitle);
     	  formboardvo.setFcontent(fcontent);
@@ -346,7 +346,7 @@ public class FormboardController {
       
       // === #72. 글 수정 페이지 완료하기 === //
       @RequestMapping(value="/formboard_editEnd.opis", method= {RequestMethod.POST})
-      public ModelAndView editEnd(ModelAndView mav, FormboardVO formboardvo, HttpServletRequest request, MultipartHttpServletRequest mrequest) {
+      public ModelAndView editEnd(ModelAndView mav, FormboardVO formboardvo, MultipartHttpServletRequest mrequest) {
 
     	  MultipartFile attach = formboardvo.getAttach();
 
@@ -392,7 +392,7 @@ public class FormboardController {
 	         mav.addObject("message", "글을 성공적으로 수정했습니다.");
 	      }
 	  
-          mav.addObject("loc", request.getContextPath()+"/formboard_view.opis?form_seq="+formboardvo.getForm_seq());
+          mav.addObject("loc", mrequest.getContextPath()+"/formboard_view.opis?form_seq="+formboardvo.getForm_seq());
           mav.setViewName("msg");
     	  
           return mav;
@@ -505,7 +505,6 @@ public class FormboardController {
 			
   				HttpSession session = request.getSession();
   				String root = session.getServletContext().getRealPath("/");
-
   				String path = root+"resources"+File.separator+"files";
 
   				// **** file 다운로드 **** //
