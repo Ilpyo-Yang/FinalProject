@@ -13,120 +13,17 @@
   
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/menu.css" />
 <link href='<%=ctxPath%>/resources/fullcalendar-5.7.0/lib/main.css' rel='stylesheet' />
+
+<jsp:include page="./myscd_sidebar.jsp" />
+
 <style>
 
-  #sideMenu {
-	width:20%;
-	height:750px;
-    background-color: #f2f2f2;
-    display: inline-block;
-  }
-
-  #btnReg {
-    margin: 30px 40px;
-    padding: 15px 50px;
-    font-size: 15pt;
-    border: none;
-    border-radius:2pt;
-    background:#336699;
-  	color:#fff;
-  	position:relative;
-  	font-size:1.6em;
-  	cursor:pointer;
-  	transition:800ms ease all;
-  }
-	
-  #btnReg:hover {
-  	background:#f2f2f2;
-  	color:#336699;
-  }
-	
-  #btnReg:before,button:after{
-	content:'';
-	position:absolute;
-	top:0;
-	right:0;
-	height:2px;
-	width:0;
-	background: #336699;
-	transition:400ms ease all;
-	}
-
-  #btnReg:after{
-    right:inherit;
-    top:inherit;
-    left:0;
-    bottom:0;
-  }
-
-  #btnReg:hover:before,#btnReg:hover:after{
-    width:100%;
-    transition:800ms ease all;
-  } 	
-  
-  #menuTitle {
-    height:80px;
-    width:400px;
-    background-color:black;
-    color:white;
-    font-size: 20pt;
-    font-weight: bold;
-    text-align: center;
-    display:table-cell;
-    vertical-align:middle;
-  }
-
-  .lside {
-    margin-top:40px;
-    padding-left:70px;
-  }
-
-  #teamName {
-  	text-align:center;
-  }
-  	
-  #chkboxes {
-    padding-left: 660px;
-    padding-top: 20px;
-  }
-
-  #function {
-  	margin: 40px 0 50px 0;
-  	padding-left:70px;
-  }	
-	
-  #option {
-  	padding: 15px 0;  	
-  }	
-  
-  #btnResv {
-  	border: none;
-  	padding: 15px 40px;
-  	border-radius: 2pt;
-  	font-weight: bold;
-  	background: #8cb1d9;
-  }
-  
-  #btnResv:hover {
-  	color:white;
-  }
-  
   #user_img {
   	padding: 0px 20px;
   	vertical-align: bottom; 
   }
   
-  #btnDelAll {
-  	border: none;
-  	padding: 15px 30px;
-  	border-radius: 2pt;
-  	font-weight: bold;
-  	background: #b3b3b3;
-  }
   
-  #btnDelAll:hover {
-  	color:white;
-  }
   
 </style>
 
@@ -135,20 +32,6 @@
 
 <script type="text/javascript">
 
-		$(document).ready(function(){
-			
-			$("button#btnDelAll").click(function(){
-				var bool = confirm("전체 일정을 모두 삭제하시겠습니까?\n삭제하시면 복구할 수 없습니다.");
-				
-				if(bool) {
-					location.href = "<%=ctxPath%>/delAll.opis";
-				}
-			});
-			
-			
-		});// end of $(document).ready(function(){})--------------------------
-
-		
 		document.addEventListener('DOMContentLoaded', function() {
 	        var calendarEl = document.getElementById('calendar');
 	        var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -233,57 +116,13 @@
 </head>
 <body>
 
-<div style="display: inline-block; width: 1400px;"> 
-    <div id="sideMenu" style="display : inline-block; float:left;">
-	  	<div id="menuTitle">일정</div>
-	  	<button type="button" id="btnReg" onclick="scdReg()">일정 등록</button>	
-	      					
-	  		<div class="lside" style="font-weight:bold;">내소속</div>
-	  		<div id="teamName">
-				<c:choose>
-					<c:when test="${sessionScope.loginuser.fk_dept_no eq 0}">
-						영업팀
-					</c:when>
-					<c:when test="${sessionScope.loginuser.fk_dept_no eq 1}">
-						인사팀
-					</c:when>
-					<c:when test="${sessionScope.loginuser.fk_dept_no eq 2}">
-						홍보팀
-					</c:when>
-					<c:when test="${sessionScope.loginuser.fk_dept_no eq 3}">
-						IT팀
-					</c:when>
-					<c:when test="${sessionScope.loginuser.fk_dept_no eq 4}">
-						회계팀
-					</c:when>
-					<c:otherwise>
-						CEO
-					</c:otherwise>
-				</c:choose>	  			
-	  		</div>
-	  		<div class="lside">수락 완료된 일정(<span></span>)</div>
-	  		<div class="lside" style="margin-bottom:60px;">수락 대기중인 일정(<span></span>)</div>
-	  		<br>
-	  		<div style="text-align:center;">
-	  			<button type="button" id="btnDelAll">전체 일정 삭제 ▶</button>
-	  		</div>
-	  		<br>
-	  		<div style="text-align:center;">	
-	  			<button type="button" id="btnResv" onclick="mtrResv()">회의실 예약 ▶</button>
-	  		</div>
-		  		
-	</div>
-	
+<div class="commoncontainer" style="width:105% !important;">
+   
 	<div id="headerInfo">
 		<table>
 			<tr>
 				<td id="user_img"><img src="<%=ctxPath%>/resources/images/menuuser.png" style="width:30px; height:30px;" /></td>
 				<td style="padding:20px 0 0px 10px;"><span style="color:#008ae6; font-weight:bold;">${sessionScope.loginuser.mbr_name}</span>&nbsp;님의 일정</td>
-				<td id="chkboxes">
-					<input type="checkbox" value="0"/>&nbsp;전체일정&nbsp;
-					<input type="checkbox" value="1"/>&nbsp;부서일정&nbsp;
-					<input type="checkbox" value="2"/>&nbsp;개인일정&nbsp;
-				</td>
 			</tr>
 		</table>
 	</div>
