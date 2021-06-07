@@ -11,17 +11,17 @@
 <script type="text/javascript">
 	$(function(){
 		
-		if("${sessionScope.loginuser}"!=null){	// ë¡ê·¸ì¸í ìí
+		if("${sessionScope.loginuser}"!=null){	// Ã«Â¡ÂÃªÂ·Â¸Ã¬ÂÂ¸Ã­ÂÂ Ã¬ÂÂÃ­ÂÂ
 			$("a#login").hide();
 			$("a#logout").show();
 		}
-		else {	// ë¡ê·¸ìì ìí
+		else {	// Ã«Â¡ÂÃªÂ·Â¸Ã¬ÂÂÃ¬ÂÂ Ã¬ÂÂÃ­ÂÂ
 			$("a#logout").hide();
 			$("a#login").show();
 		}
 		
 		$("a#snsmain").click(function(){
-			window.open("<%=ctxPath%>/sns/snsmain.opis","메신저","width:420px, height=620px");
+			window.open("<%=ctxPath%>/sns/snsmain.opis","ë©ì ì ","width=401, height=601, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
 		});
 		
 	});// end of $(function(){ -------------------------------------
