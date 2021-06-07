@@ -52,10 +52,7 @@ public class FormboardController {
   		
   		  if(!attach.isEmpty()) {
   			
-  			  	// 첨부파일 경로를 WAS의 webapp/resources/files 라는 폴더로 지정
-	  			HttpSession session = mrequest.getSession();
-	  			String root = session.getServletContext().getRealPath("/");
-	  			String path = root+"resources"+File.separator+"files"; // 첨부파일이 저장될 WAS의 폴더
+	  			String path = "C:/FinalProject/GroupwareProgram/Groupware/src/main/webapp/resources/uploadFbdFile";
 
 	  			String newFileName = ""; // WAS(톰캣)의 디스크에 저장될 파일명
 	  			
@@ -348,9 +345,7 @@ public class FormboardController {
 
   		  if(!attach.isEmpty()) {
   			
-	  			HttpSession session = mrequest.getSession();
-	  			String root = session.getServletContext().getRealPath("/");
-	  			String path = root+"resources"+File.separator+"files";
+	  			String path = "C:/FinalProject/GroupwareProgram/Groupware/src/main/webapp/resources/uploadFbdFile";
 	  			// 첨부파일이 저장될 WAS의 폴더
 
 	  			// 파일첨부를 위한 변수의 설정 및 값을 초기화
@@ -415,9 +410,7 @@ public class FormboardController {
   		  if(fileName != null && !"".equals(fileName)) {
   			paraMap.put("fileName", fileName);// 삭제해야할 파일명
   			
-  			HttpSession session = request.getSession();
-  			String root = session.getServletContext().getRealPath("/");
-  			String path = root+"resources"+File.separator+"files";
+  			String path = "C:/FinalProject/GroupwareProgram/Groupware/src/main/webapp/resources/uploadFbdFile";
   		
   			paraMap.put("path", path);
   			
@@ -498,16 +491,13 @@ public class FormboardController {
   				String fileName = formboardvo.getFileName(); // DB에 업로드되는 파일명		
   				String orgFilename = formboardvo.getOrgFilename(); // 원래 파일명
 			
-  				HttpSession session = request.getSession();
-  				String root = session.getServletContext().getRealPath("/");
-  				String path = root+"resources"+File.separator+"files";
+  				String path = "C:/FinalProject/GroupwareProgram/Groupware/src/main/webapp/resources/uploadFbdFile";
 
   				// **** file 다운로드 **** //
   				boolean flag = false; // file 다운로드의 성공,실패 
   				flag = fileManager.doFileDownload(fileName, orgFilename, path, response);
   		        
   				System.out.println("확인용 path: "+path);
-  				System.out.println("확인용 root: "+root);
   				
   				if(!flag) {// 다운로드 실패한 경우
   	               out = response.getWriter();

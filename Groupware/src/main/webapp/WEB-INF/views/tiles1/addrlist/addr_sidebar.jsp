@@ -271,13 +271,17 @@
 	<div class="lside">
 		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/myAddrlist.opis'">개인 주소록</button>
 		<ul class="sideUl">
+			<li>그룹1</li>
+			<li>그룹2</li>
+		<!-- 
 			<c:if test="${not empty sessionScope.loginuser.mbr_seq}">
-				<c:forEach var="agvo" items="${requestScope.addrgroupList}" varStatus="status">
+				<c:forEach var="agvo" items="${requestScope.myAddrlist}" varStatus="status">
 				    <c:if test="${not empty agvo.addrgroup_seq && sessionScope.loginuser.mbr_seq eq agvo.fk_mbr_seq}">
 				    	<li><a href="<%=ctxPath%>/myAddrlist.opis?addrgroup_seq=${agvo.addrgroup_seq}">${agvo.groupname}</a></li>
 				    </c:if>
 				</c:forEach> 	
 			</c:if>
+		 -->
 		</ul>
 	</div>
 	<div class="lside">
