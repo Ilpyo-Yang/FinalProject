@@ -23,6 +23,11 @@ public class AddrDAO implements InterAddrDAO {
 	private SqlSessionTemplate sqlsession3; // 로컬 DB에 hr로 연결
 
 	
+	/*
+		전체 주소록
+	*/
+	
+	
 	// === 주소록 추가 === //
 	@Override
 	public int add(AddrVO addrvo) {
@@ -69,6 +74,51 @@ public class AddrDAO implements InterAddrDAO {
 	@Override
 	public int del(Map<String, String> paraMap) {
 		int n = sqlsession.delete("address.delAddr", paraMap);		
+		return n;
+	}
+	
+	
+	/*
+		개인 주소록
+	*/
+	
+
+	// === 페이징 처리한 주소록 상세목록 === //
+	@Override
+	public List<AddrVO> myAddrlistSearchWithPaging(Map<String, String> paraMap) {
+		List<AddrVO> myAddrlist = sqlsession.selectList("address.myAddrlistSearchWithPaging", paraMap);		
+		return myAddrlist;
+	}
+	
+	/*
+		개인 주소록 관리
+	*/
+	
+	// === 페이징 처리한 주소록 그룹 목록 === //
+	@Override
+	public List<AddrGroupVO> addrgroupListWithPaging(Map<String, String> paraMap) {
+		List<AddrGroupVO> addrgroupList = sqlsession.selectList("address.addrgroupListWithPaging", paraMap);		
+		return addrgroupList;
+	}
+
+	// === 총 등록 주소록 그룹 수 === //
+	@Override
+	public int getAddrgroupTotalCount(Map<String, String> paraMap) {
+		int n = sqlsession.selectOne("address.getAddrgroupTotalCount", paraMap);
+		return n;
+	}
+
+	// === 주소록 그룹 등록하기 === //
+	@Override
+	public int addAddrgroup(AddrGroupVO agvo) {
+		int n =  sqlsession.insert("address.addAddrgroup", agvo);
+		return n;
+	}
+
+	// === 주소록 그룹 삭제 === //
+	@Override
+	public int delAddrgroup(Map<String, String> paraMap) {
+		int n = sqlsession.delete("address.delAddrgroup", paraMap);		
 		return n;
 	}
 

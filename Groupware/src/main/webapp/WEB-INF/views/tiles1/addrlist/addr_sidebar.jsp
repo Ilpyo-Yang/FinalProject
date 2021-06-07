@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath = request.getContextPath(); %>
 
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />
@@ -268,9 +269,18 @@
 		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/totaladdrlist.opis'">전체 주소록</button>
 	</div>
 	<div class="lside">
-		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/personal_addrlist.opis'">개인 주소록</button>
+		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/myAddrlist.opis'">개인 주소록</button>
+		<ul class="sideUl">
+			<c:if test="${not empty sessionScope.loginuser.mbr_seq}">
+				<c:forEach var="agvo" items="${requestScope.addrgroupList}" varStatus="status">
+				    <c:if test="${not empty agvo.addrgroup_seq && sessionScope.loginuser.mbr_seq eq agvo.fk_mbr_seq}">
+				    	<li><a href="<%=ctxPath%>/myAddrlist.opis?addrgroup_seq=${agvo.addrgroup_seq}">${agvo.groupname}</a></li>
+				    </c:if>
+				</c:forEach> 	
+			</c:if>
+		</ul>
 	</div>
 	<div class="lside">
-		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/addr_setting.opis">개인 주소록 관리</button>
+		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/addr_setting.opis'">개인 주소록 관리</button>
 	</div>
 </div>

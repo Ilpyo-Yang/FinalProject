@@ -40,10 +40,10 @@ public class FormboardController {
 		    
       // === 게시판 글쓰기 폼 페이지 요청 === //
       @RequestMapping(value="/formboard_addEnd.opis", method= {RequestMethod.POST})
-      public ModelAndView addEnd(HttpServletRequest request, ModelAndView mav, FormboardVO formboardvo, MultipartHttpServletRequest mrequest) {
+      public ModelAndView addEnd(ModelAndView mav, FormboardVO formboardvo, MultipartHttpServletRequest mrequest) {
     	  
-    	  String ftitle = request.getParameter("title");
-    	  String fcontent = request.getParameter("content");
+    	  String ftitle = mrequest.getParameter("title");
+    	  String fcontent = mrequest.getParameter("content");
     	  
     	  formboardvo.setFtitle(ftitle);
     	  formboardvo.setFcontent(fcontent);
@@ -55,8 +55,7 @@ public class FormboardController {
   			  	// 사용자가 보낸 첨부파일 경로를 WAS의 webapp/resources/files 라는 폴더로 지정
 	  			HttpSession session = mrequest.getSession();
 	  			String root = session.getServletContext().getRealPath("/");
-	  			String path = root+"resources"+File.separator+"files";
-	  			// 첨부파일이 저장될 WAS의 폴더
+	  			String path = root+"resources"+File.separator+"files"; // 첨부파일이 저장될 WAS의 폴더
 
 	  			// 파일첨부를 위한 변수의 설정 및 값을 초기화
 	  			String newFileName = ""; // WAS(톰캣)의 디스크에 저장될 파일명
@@ -347,7 +346,7 @@ public class FormboardController {
       
       // === #72. 글 수정 페이지 완료하기 === //
       @RequestMapping(value="/formboard_editEnd.opis", method= {RequestMethod.POST})
-      public ModelAndView editEnd(ModelAndView mav, FormboardVO formboardvo, HttpServletRequest request, MultipartHttpServletRequest mrequest) {
+      public ModelAndView editEnd(ModelAndView mav, FormboardVO formboardvo, MultipartHttpServletRequest mrequest) {
 
     	  MultipartFile attach = formboardvo.getAttach();
 
@@ -393,7 +392,7 @@ public class FormboardController {
 	         mav.addObject("message", "글을 성공적으로 수정했습니다.");
 	      }
 	  
-          mav.addObject("loc", request.getContextPath()+"/formboard_view.opis?form_seq="+formboardvo.getForm_seq());
+          mav.addObject("loc", mrequest.getContextPath()+"/formboard_view.opis?form_seq="+formboardvo.getForm_seq());
           mav.setViewName("msg");
     	  
           return mav;
@@ -409,6 +408,25 @@ public class FormboardController {
           Map<String,String> paraMap = new HashMap<>();
           paraMap.put("form_seq", form_seq);
           
+          paraMap.put("searchType", "");
+  		  paraMap.put("searchWord", "");
+  		
+  		  // 첨부파일을 삭제
+  		  FormboardVO formboardvo = service.getViewWithNoAddCount(paraMap);
+  		  String fileName = formboardvo.getFileName();
+  		
+  		  // 첨부된 파일이 존재한다면
+  		  if(fileName != null && !"".equals(fileName)) {
+  			paraMap.put("fileName", fileName);// 삭제해야할 파일명
+  			
+  			HttpSession session = request.getSession();
+  			String root = session.getServletContext().getRealPath("/");
+  			String path = root+"resources"+File.separator+"files";
+  		
+  			paraMap.put("path", path);
+  			
+  		  }
+  		  
           int n = service.del(paraMap); 
           // n 이 1 이라면 정상적으로 삭제, n 이 0 이라면 글삭제 실패
           
@@ -487,13 +505,15 @@ public class FormboardController {
 			
   				HttpSession session = request.getSession();
   				String root = session.getServletContext().getRealPath("/");
-
   				String path = root+"resources"+File.separator+"files";
 
   				// **** file 다운로드 **** //
   				boolean flag = false; // file 다운로드의 성공,실패 
   				flag = fileManager.doFileDownload(fileName, orgFilename, path, response);
   		        
+  				System.out.println("확인용 path: "+path);
+  				System.out.println("확인용 root: "+root);
+  				
   				if(!flag) {// 다운로드 실패한 경우
   	               out = response.getWriter();
   	               
