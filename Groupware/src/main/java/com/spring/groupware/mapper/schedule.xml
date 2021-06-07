@@ -119,6 +119,12 @@
 		on H.fk_mtrno = M.mtrno
 	</select>
 	
-	
+	<!-- === 해당 접속자가 예약한 모든 회의실 예약 내역 가져오기 === -->
+	<select id="getMtrResvList" parameterType="String" resultType="com.spring.groupware.schedule.model.MtrHistoryVO">
+		select usemtrno, mtrname, booker, mtrsubject, starttime, endtime 
+		from tbl_mtrhistory H join tbl_mtr M
+		on H.fk_mtrno = M.mtrno 
+		where booker = #{userid}
+	</select>
 	
 </mapper>

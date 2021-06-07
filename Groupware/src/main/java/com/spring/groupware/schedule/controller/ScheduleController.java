@@ -306,7 +306,7 @@ public class ScheduleController {
 	 
 	}
 	
-	// 회의실 예약취소(삭제)
+	// 회의실 예약 바로취소(삭제)
 	@RequestMapping(value="/mtrCancel.opis", method= {RequestMethod.POST})
 	public ModelAndView mtrCancel(HttpServletRequest request, ModelAndView mav, MtrHistoryVO mtrhvo) {
 		
@@ -331,5 +331,25 @@ public class ScheduleController {
 		
 		return mav;
 	}
+	
+	// 회의실 예약 취소 페이지 보여주기
+	@RequestMapping(value="/CancelOneResv.opis")
+	public ModelAndView requiredLogin_cancelOneResv(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		String userid = loginuser.getMbr_id();
+		
+		// 모든 회의실 예약 내역 가져오기
+		List<MtrHistoryVO> mtrResvList = service.getMtrResvList(userid);
+		
+		mav.addObject("mtrResvList", mtrResvList);
+		mav.setViewName("schedule_modal/mtrMyResv");
+		
+		return mav;
+	}
+	
+	// 선택된 예약 건 취소하기
 	
 }

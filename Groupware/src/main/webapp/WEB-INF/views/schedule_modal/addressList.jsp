@@ -32,33 +32,32 @@
 	
 </style>
 
+<script type="text/javascript" src="<%=ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
 
-	$(document).ready(function(){
-		
-	});
 
-	function getCheckboxValue(event) {
-		var result = "";
-		if(event.target.checked) {
-			result = event.target.value;
-		}
-		else {
-			result = "";
-		}
-		
-		document.getElementById('result').innerText
-	    = result;
-	}
+	$(document).ready(function() {
+		$("input:checkbox[name=email]").click(function() {
+			var result = "";
+			var bool = $(this).prop("checked");
+
+			console.log($(this).val());
+			if (bool) {
+				result = $(this).val();
+			} else {
+				result = "";
+			}
+			
+			$("input.getEmail").val(result);
+			
+		});
+	});
 	
 </script>
 
 <div id="container">
 <h2 style="margin-top:20px;">주소록</h2>
 <hr>
-	<div id="selected">
-		
-	</div>
 	
 	<div id="listup">
 		<table>
@@ -72,7 +71,7 @@
 			</tr>	
 			<c:forEach var="addrList" items="${requestScope.addrList}">
 				<tr>
-					<td><input type="checkbox" id="chkbox" name="email" value="${addrList.mbr_email}" onclick="getCheckboxValue(event)"/></td>
+					<td><input type="checkbox" id="chkbox" name="email" value="${addrList.mbr_email}" /></td>
 					<td>${addrList.addr_seq}</td>
 					<td>${addrList.mbr_name}</td>
 					<td>${addrList.dept_name}</td>
@@ -84,11 +83,12 @@
 	</div>
 	
 	<div>
-		<input type="text" name="mbr_email"/>
+		<input type="text" name="mbr_email" class="getEmail" id="getEmail"/>&nbsp;
+		<button type="button" onclick="">초대메일 전송</button>
 	</div>
 	
 <form name="">
-
+	
 </form>
 
 </div>
