@@ -115,7 +115,7 @@
 	
 	function goAddress() {
 		var url = "<%=ctxPath%>/show_addresslist.opis";
-		window.open(url,"showAddress","left=350px, top=100px, width=500px, height:400px");
+		window.open(url,"showAddress","left=350px, top=100px, width=600px, height=500px");
 	}
 	
 </script>

@@ -1,6 +1,7 @@
 package com.spring.groupware.approval.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.groupware.approval.model.ApprovalVO;
+import com.spring.groupware.approval.model.FileVO;
 import com.spring.groupware.approval.service.InterApprovalService;
 import com.spring.groupware.common.FileManager;
 import com.spring.groupware.common.MyUtil;
@@ -80,9 +82,9 @@ public class ApprovalController {
 	  }
 	  
 	  
-	  // === 결재요청 저장하기  === //
+	  // 결재요청 정보 저장하기 
 	  @RequestMapping(value="/approvalSubmitForm.opis", method= {RequestMethod.POST})
-	  public ModelAndView approvalSubmitForm(MultipartHttpServletRequest mrequest, ApprovalVO avo, ModelAndView mav) {
+	  public ModelAndView approvalSubmitForm(MultipartHttpServletRequest mrequest, ApprovalVO avo, FileVO fvo, ModelAndView mav) {
 		
 		String ap_seq = mrequest.getParameter("ap_seq");
 		String fk_apform_no = mrequest.getParameter("fk_apform_no");
@@ -102,11 +104,15 @@ public class ApprovalController {
 		avo.setAp_title(ap_title);
 		avo.setAp_contents(ap_contents);
 		
-		MultipartFile attach = avo.getAttach();
+		/*MultipartFile attach = avo.getAttach();*/
 		
+		List<MultipartFile> fileList = mrequest.getFiles("attach");
+		
+		int n1=0, n2=0;
+		List<FileVO> fileInfoList = new ArrayList<>();
 		
 		// 첨부파일이 있는 경우
-		if(!attach.isEmpty()) {
+		if(fileList.size()>0) {
 			HttpSession session = mrequest.getSession();
 			String root = session.getServletContext().getRealPath("/"); 			
 			String path = root+"resources"+File.separator+"files";
@@ -115,56 +121,81 @@ public class ApprovalController {
 			
 			long ap_fileSize = 0;
 			
-			try {
-				bytes = attach.getBytes();
-				// 첨부파일의 내용물을 읽어오는 것
+			for (MultipartFile mf : fileList) {
 				
-				String ap_filename = attach.getOriginalFilename();
-				
-				ap_detail_filename = fileManager.doFileUpload(bytes, ap_filename, path);
-				
-				avo.setAp_detail_filename(ap_detail_filename);
-				avo.setAp_filename(ap_filename);
-				
-				ap_fileSize = attach.getSize();
-				avo.setAp_fileSize(String.valueOf(ap_fileSize));
-				
-			} catch (Exception e) {
-				e.printStackTrace();
+				try {
+					bytes = mf.getBytes(); // 첨부파일의 내용물을 읽어오는 것
+					
+					String ap_filename = mf.getOriginalFilename();
+					
+					ap_detail_filename = fileManager.doFileUpload(bytes, ap_filename, path);
+					
+					fvo.setAp_detail_filename(ap_detail_filename);
+					fvo.setAp_filename(ap_filename);
+					
+					ap_fileSize = mf.getSize();
+					fvo.setAp_fileSize(String.valueOf(ap_fileSize));
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 					
 		}
 		
-		int n = 0;
-		
-		if(attach.isEmpty()) {	// 첨부파일이 없는 경우라면
-			n = service.submitApproval(avo); 
+		if(fileList.size()>0) {	// 첨부파일이 없는 경우라면
+			n1 = service.submitApproval(avo); 
+			
+			if(n1==1) {	// 결재요청 성공시
+				String message = "결재요청에 성공!";
+				String loc = mrequest.getContextPath()+"/approvalProgress.opis";
+				
+				mav.addObject("message", message);
+				mav.addObject("loc", loc);
+				
+				mav.setViewName("msg");		    
+			}
+			else {	// 결재요청 실패시
+				String message = "결재요청에 실패!";
+				String loc = mrequest.getContextPath()+"/approvalMain.opis";
+				
+				mav.addObject("message", message);
+				mav.addObject("loc", loc);
+				
+				mav.setViewName("msg");		
+			}
+			
+			mav.setViewName("msg");
+		 	return mav; 
 		} 
 		else {	// 첨부파일이 있는 경우라면
-			n = service.submitAttachedApproval(avo); 
+			n1 = service.submitApproval(avo); 
+			n2 = service.submitAttachedApproval(fvo); 
+			
+			if(n1==1 && n2==1) {	// 결재요청 성공시
+				String message = "결재요청에 성공!";
+				String loc = mrequest.getContextPath()+"/approvalProgress.opis";
+				
+				mav.addObject("message", message);
+				mav.addObject("loc", loc);
+				
+				mav.setViewName("msg");		    
+			}
+			else {	// 결재요청 실패시
+				String message = "결재요청에 실패!";
+				String loc = mrequest.getContextPath()+"/approvalMain.opis";
+				
+				mav.addObject("message", message);
+				mav.addObject("loc", loc);
+				
+				mav.setViewName("msg");		
+			}
+			
+			mav.setViewName("msg");
+		 	return mav; 
 		}
 		
-		if(n==1) {	// 결재요청 성공시
-			String message = "결재요청에 성공!";
-			String loc = mrequest.getContextPath()+"/approvalProgress.opis";
-			
-			mav.addObject("message", message);
-			mav.addObject("loc", loc);
-			
-			mav.setViewName("msg");		    
-		}
-		else {	// 결재요청 실패시
-			String message = "결재요청에 실패!";
-			String loc = mrequest.getContextPath()+"/approvalMain.opis";
-			
-			mav.addObject("message", message);
-			mav.addObject("loc", loc);
-			
-			mav.setViewName("msg");		
-		}
 		
-		mav.setViewName("msg");
-	 	return mav; 
 	  }
 	  
 	  

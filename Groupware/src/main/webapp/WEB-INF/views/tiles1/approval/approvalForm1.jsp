@@ -142,7 +142,7 @@
 				</div>
 				
 				<div id="bottom">
-					<input type="file" name="attach" id="attach" multiple />
+					<input type="file" name="attach" id="attach" name="attach" multiple />
 					<button type="button" class="btn btn-success formBtn" id="attachBtn" onclick="func_attach()" >파일업로드</button>			
 					<div id="attachedFile"></div>
 				</div>

@@ -23,8 +23,6 @@
   	vertical-align: bottom; 
   }
   
-  
-  
 </style>
 
 	
@@ -102,15 +100,6 @@
 	        calendar.render();
 	 });// end of document.addEventListener('DOMContentLoaded', function()----------------------
 		
-		 function scdReg() {
-			 var url = "<%=ctxPath%>/scd_register.opis";
-			 window.open(url, "scdRegister","left=350px, top=100px, width=700px, height=455px");
-		 }
-		 
-		 function mtrResv() {
-			 var url = "<%=ctxPath%>/mtr_resv.opis";
-			 window.open(url, "mtrResv","left=350px, top=100px, width=900px, height=650px,");
-		 }
 		 
 </script>
 </head>
