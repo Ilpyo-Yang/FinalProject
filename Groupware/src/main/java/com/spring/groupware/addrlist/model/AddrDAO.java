@@ -82,6 +82,13 @@ public class AddrDAO implements InterAddrDAO {
 		개인 주소록
 	*/
 	
+
+	// === 페이징 처리한 주소록 상세목록 === //
+	@Override
+	public List<AddrVO> myAddrlistSearchWithPaging(Map<String, String> paraMap) {
+		List<AddrVO> myAddrlist = sqlsession.selectList("address.myAddrlistSearchWithPaging", paraMap);		
+		return myAddrlist;
+	}
 	
 	/*
 		개인 주소록 관리

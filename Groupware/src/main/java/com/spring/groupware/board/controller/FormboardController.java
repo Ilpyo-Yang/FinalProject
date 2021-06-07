@@ -512,8 +512,8 @@ public class FormboardController {
   				boolean flag = false; // file 다운로드의 성공,실패 
   				flag = fileManager.doFileDownload(fileName, orgFilename, path, response);
   		        
-  				//System.out.println("확인용 path: "+path);
-  				//System.out.println("확인용 root: "+root);
+  				System.out.println("확인용 path: "+path);
+  				System.out.println("확인용 root: "+root);
   				
   				if(!flag) {// 다운로드 실패한 경우
   	               out = response.getWriter();

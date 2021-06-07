@@ -34,6 +34,8 @@ public interface InterAddrDAO {
 		개인 주소록
 	*/
 	
+	// 페이징 처리한 주소록그룹 상세목록
+	List<AddrVO> myAddrlistSearchWithPaging(Map<String, String> paraMap);
 	
 	/*
 		개인 주소록 관리
@@ -50,6 +52,8 @@ public interface InterAddrDAO {
 
 	// 주소록 그룹 삭제 
 	int delAddrgroup(Map<String, String> paraMap);
+
+	
 
 
 

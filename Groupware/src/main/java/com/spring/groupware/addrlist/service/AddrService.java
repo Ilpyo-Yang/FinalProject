@@ -77,6 +77,14 @@ public class AddrService implements InterAddrService {
 		개인 주소록
 	*/
 	
+	// === 페이징 처리한 주소록 그룹 상세목록 === //
+	@Override
+	public List<AddrVO> myAddrlistSearchWithPaging(Map<String, String> paraMap) {
+		List<AddrVO> myAddrlist = adao.myAddrlistSearchWithPaging(paraMap);
+	    return myAddrlist;
+	}	
+	
+	
 	/*
 		개인 주소록 관리
 	*/

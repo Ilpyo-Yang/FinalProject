@@ -69,28 +69,26 @@
    		where addr_seq=#{addr_seq}
    	</delete>
    
-   
+
 <!-- ============================ 개인 주소록 ============================ -->   
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   	 <!-- === 페이징 처리한 주소록그룹 상세목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것) -->  
+   	 <select id="myAddrlistSearchWithPaging" parameterType="HashMap" resultType="com.spring.groupware.addrlist.model.AddrVO">
+	   	select addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name
+		from 
+		(
+		    select row_number() over(order by addr_seq desc) AS rno,
+		           addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name
+		    from tbl_address A JOIN tbl_addrlist G
+		    on A.fk_addrgroup_seq = G.addrgroup_seq 
+		    where G.fk_mbr_seq=#{fk_mbr_seq}
+		    <if test='searchWord != ""'>
+		    	and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+			</if>
+		) V
+		where rno between #{startRno} and #{endRno}   	 
+   	 </select>   	 
+   	 
 
 
 
