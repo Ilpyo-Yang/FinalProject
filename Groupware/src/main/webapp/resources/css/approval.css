@@ -26,7 +26,8 @@ div.menu {
 	border: solid 1px gray;
 	font-weight: bold;
 	font-size: 12pt;
-	padding: 3%;	
+	padding: 3%;
+	cursor: pointer;	
 }
 .icon {
 	display:block;	
