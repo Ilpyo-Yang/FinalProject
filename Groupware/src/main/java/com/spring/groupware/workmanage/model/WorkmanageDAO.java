@@ -130,6 +130,13 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		WorkMemberVO workmbr = sqlsession.selectOne("workmanage.oneMbrWorkStatus", paraMap);
 		return workmbr;
 	}
+
+	// 담당자, 참조자 지정하기 위한 우선멤버 가져오기
+	@Override
+	public List<WorkVO> workListSearchWithPaging(Map<String, String> paraMap) {
+		List<WorkVO> workList = sqlsession.selectList("workmanage.workListSearchWithPaging", paraMap);
+		return workList;
+	}
 	
 	
 

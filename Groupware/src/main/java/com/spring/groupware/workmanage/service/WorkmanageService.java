@@ -136,4 +136,11 @@ public class WorkmanageService implements InterWorkmanageService {
 		return workmbr;
 	}
 
+	// 페이징 처리한 글 목록 가져오기(검색이 있든지, 없든지 모두 다)
+	@Override
+	public List<WorkVO> workListSearchWithPaging(Map<String, String> paraMap) {
+		List<WorkVO> workList = dao.workListSearchWithPaging(paraMap);
+		return workList;
+	}
+
 }

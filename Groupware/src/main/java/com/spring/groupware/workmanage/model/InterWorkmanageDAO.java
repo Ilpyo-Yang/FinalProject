@@ -55,4 +55,7 @@ public interface InterWorkmanageDAO {
 	// 담당자 한명의 업무 정보 가져오기
 	WorkMemberVO oneMbrWorkStatus(Map<String, String> paraMap);
 
+	// 담당자, 참조자 지정하기 위한 우선멤버 가져오기
+	List<WorkVO> workListSearchWithPaging(Map<String, String> paraMap);
+
 }

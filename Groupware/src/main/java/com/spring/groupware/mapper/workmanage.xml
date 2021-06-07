@@ -81,9 +81,11 @@
 	<select id="getTotalCount" parameterType="HashMap" resultType="int">
 		select count(*) as totalCount
 		from tbl_workmanage
-		where fk_wtno = #{workType} and 
-		<if test='workRole == "1"'>fk_requester_seq = #{userId}</if>
-		<if test='workRole == "2"'>fk_receiver_seq = #{userId}</if>
+		where wmno in (
+		    select wmno
+		    from tbl_workmanage_mbr
+		    where fk_mbr_seq = #{fk_mbr_seq} and fk_wrno = #{fk_wrno} and yn = 0
+		)
 	</select>
 	
 	
@@ -113,7 +115,7 @@
     		, mbr_readCheck, to_char(readcheckdate, 'yyyy-mm-dd') as readcheckdate
 		from tbl_workmanage_mbr left join tbl_mbr
 		on fk_mbr_seq = mbr_seq
-		where fk_wmno = #{wmno} and fk_wrno = 2
+		where fk_wmno = #{wmno} and fk_wrno = 2 
 	</select>
 	
 	<!-- 업무 수정하기 -->
@@ -141,4 +143,28 @@
 		where fk_wmno = #{fk_wmno} and fk_mbr_seq = #{fk_mbr_seq} and fk_wrno = #{fk_wrno}	
 	</select>
 	
+	<!-- 담당자, 참조자 지정하기 위한 우선멤버 가져오기 -->
+	<select id="workListSearchWithPaging" parameterType="HashMap" resultType="com.spring.groupware.workmanage.model.WorkVO">
+		select rno, wmno, fk_wtno, requester, receivers, subject, fk_statno, checkstatus
+		       , registerday, deadline, delayday 
+		from (
+		    select rownum as rno
+		            , wmno, fk_wtno, requester, receivers, subject, fk_statno, checkstatus
+		            , registerday, deadline, delayday
+		    from (
+		        select wmno, fk_wtno, requester, receivers, subject, fk_statno, checkstatus
+		            , to_char(registerday, 'yyyy-mm-dd') as registerday
+		            , to_char(deadline, 'yyyy-mm-dd') as deadline
+		            , to_date(to_char(sysdate, 'yyyy-mm-dd')) - to_date(to_char(deadline, 'yyyy-mm-dd')) as delayday
+		        from tbl_workmanage
+		        where fk_wtno = #{fk_wtno}
+		        and wmno in(
+		            select fk_wmno
+		            from tbl_workmanage_mbr
+		            where fk_wrno = #{fk_wrno} and fk_mbr_seq = #{fk_mbr_seq} and yn = 0
+		        )	
+		    )
+		)
+		where rno between #{startRno} and #{endRno}
+	</select>
 </mapper>

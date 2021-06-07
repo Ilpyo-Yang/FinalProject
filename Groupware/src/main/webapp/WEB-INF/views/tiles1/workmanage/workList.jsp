@@ -59,7 +59,7 @@ button.readCheck {
 
 <script>
 	$(document).ready(function() {
-		
+		setSearchInfo();
 		
 		$("#datepicker_reg").datepicker({
 			showOn : "button",
@@ -169,6 +169,36 @@ button.readCheck {
 		}
 	}
 	
+	function goSearchWorkList() {
+		var workType = "${requestScope.workType}";
+		var workRole = "${requestScope.workRole}";
+		var currentShowPageNo = "${requestScope.paraMap.currentShowPageNo}";
+		var sizePerPage = $("select[name=sizePerPage]").val();
+		var searchType = "${requestScope.searchType}";
+		var searchWord = "${requestScope.searchWord}";
+		
+		console.log(sizePerPage);
+		
+		if (currentShowPageNo == "") {
+			currentShowPageNo = 1;
+		}
+		if (sizePerPage == "") {
+			sizePerPage = 3;
+		}
+		
+		var url = "<%=ctxPath%>/workList.opis?";
+		url += "workType="+workType+"&workRole="+workRole;
+		url += "&searchType="+searchType+"&searchWord="+searchWord;
+		url += "&currentShowPageNo="+currentShowPageNo+"&sizePerPage="+sizePerPage;
+		
+		location.href=url;
+	}
+	
+	function setSearchInfo() {
+		// 페이지 당 만들기
+		var sizePerPage = "${requestScope.sizePerPage}";
+		$("select[name=sizePerPage]").val(sizePerPage);
+	}
 </script>
 
 <div class="container commoncontainer">
@@ -191,8 +221,8 @@ button.readCheck {
 
 	<ul id="todoSelectCondition">
 		<li>
-			<select id="selectViewCount">
-				<option value="3" selected>3줄</option>
+			<select id="selectViewCount" name="sizePerPage" onchange="goSearchWorkList();">
+				<option value="3">3줄</option>
 				<option value="5">5줄</option>
 				<option value="10">10줄</option>
 			</select>
@@ -280,6 +310,13 @@ button.readCheck {
 			</c:forEach>
 		</tbody>
 	</table>
+	
+	<!-- 페이지바 보여주기 -->
+	<div align="center" style="width:70%; border:solid 0px gray; margin:20px auto;">
+		${requestScope.pageBar}
+	</div>
+	
+	
 	<!-- 업무 관련 버튼 -->
 	<div align="right">
 		<button type="button" class="workEditBtn" onclick="javascript:location.href='<%=ctxPath%>/workAdd.opis?workType=${workType}'">업무등록</button>
