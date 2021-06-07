@@ -34,11 +34,7 @@
 	
 	
 	<!-- 결재요청 첨부파일 저장하기 -->
-<<<<<<< HEAD
-	<insert id="submitAttachedApproval" parameterType="com.spring.groupware.approval.model.ApprovalVO" >
-=======
 	<insert id="submitAttachedApproval" parameterType="com.spring.groupware.approval.model.ApprovalVO">
->>>>>>> branch 'main' of https://github.com/Ilpyo-Yang/GroupwareProgram.git
 		insert into tbl_ap_attached(ap_filename, ap_detail_filename, ap_fileSize)
 		values(#{ap_filename}, #{ap_detail_filename}, #{ap_fileSize})  
 	</insert>
