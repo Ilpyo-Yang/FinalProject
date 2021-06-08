@@ -118,11 +118,18 @@ public class ScheduleDAO implements InterScheduleDAO {
 		return regDetailList; 
 	}
 	
-	// 모든 회의실 예약 내역 가져오기
+	// 해당 접속자가 예약한 모든 회의실 예약 내역 가져오기
 	@Override
 	public List<MtrHistoryVO> getMtrResvList(String userid) {
 		List<MtrHistoryVO> mtrResvList = sqlsession.selectList("schedule.getMtrResvList", userid);
 		return mtrResvList;
+	}
+	
+	// 체크된 예약 내역 삭제하기
+	@Override
+	public int delOneResv(String usermtrno) {
+		int n = sqlsession.delete("schedule.delOneResv", usermtrno);
+		return n;
 	}
 
 

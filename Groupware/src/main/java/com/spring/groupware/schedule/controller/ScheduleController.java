@@ -1,19 +1,19 @@
 package com.spring.groupware.schedule.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -226,6 +226,7 @@ public class ScheduleController {
 			String loc = "javascript:history.back()";
 	        
 	        mav.addObject("message", message);
+	        mav.addObject("loc",loc);
 	        mav.setViewName("error");
 		}
 		
@@ -333,23 +334,61 @@ public class ScheduleController {
 	}
 	
 	// 회의실 예약 취소 페이지 보여주기
-	@RequestMapping(value="/CancelOneResv.opis")
-	public ModelAndView requiredLogin_cancelOneResv(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	@RequestMapping(value="/CancelResv.opis")
+	public String requiredLogin_cancelResv(HttpServletRequest request, HttpServletResponse response) {
+		return "schedule_modal/mtrMyResv";
+	}
+	
+	// 내 회의실 예약 내역 가져오기
+	@ResponseBody
+	@RequestMapping(value="/showMtrResv.opis", produces="text/plain;charset=UTF-8")
+	public String showMtrResv(HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
 		String userid = loginuser.getMbr_id();
-		
-		// 모든 회의실 예약 내역 가져오기
 		List<MtrHistoryVO> mtrResvList = service.getMtrResvList(userid);
 		
-		mav.addObject("mtrResvList", mtrResvList);
-		mav.setViewName("schedule_modal/mtrMyResv");
+		JSONArray jsonArr = new JSONArray();
 		
-		return mav;
+		if(mtrResvList != null) {
+			for(MtrHistoryVO mtrhvo : mtrResvList) {
+				JSONObject jsonObj = new JSONObject();
+				jsonObj.put("usemtrno", mtrhvo.getUsemtrno());
+				jsonObj.put("mtrname", mtrhvo.getMtrname());
+				jsonObj.put("booker", mtrhvo.getBooker());
+				jsonObj.put("mtrsubject", mtrhvo.getMtrsubject());
+				jsonObj.put("starttime", mtrhvo.getStarttime());
+				jsonObj.put("endtime", mtrhvo.getEndtime());
+				
+				jsonArr.put(jsonObj);
+			}// end of for-----------------------
+		}
+		return jsonArr.toString();
 	}
 	
 	// 선택된 예약 건 취소하기
-	
+	@ResponseBody
+	@RequestMapping(value="/delMtrResv.opis", method= {RequestMethod.GET})
+	public String delMtrResv(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="checkArr[]") List<String> checkArr ) {
+		
+		JSONObject jsonObj = new JSONObject();	
+		
+		int cnt = 0;
+		
+		for(int i=0; i<checkArr.size(); i++) {
+			String usermtrno = checkArr.get(i);
+			int n = service.delOneResv(usermtrno);
+			
+			if(n==1) {
+				cnt++;
+			}
+		}
+		int m = cnt/cnt;
+		
+		jsonObj.put("m", m);
+		
+		return jsonObj.toString();
+	}
 }
