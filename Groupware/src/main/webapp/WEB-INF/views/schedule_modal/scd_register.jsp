@@ -9,22 +9,16 @@
 
 <style type="text/css">
 	
-	h2 {
-		margin-bottom:30px;
-	}
+	h2 {margin-bottom:30px;}
 	
-	#container {
-		margin: 20px;
-	}
+	#container {margin: 20px;}
 	
 	table {
 		border-collapse: collapse;
 		margin-top: 10px; 
 	}
 	
-	td {
-		padding: 10px 0;
-	}
+	td {padding: 10px 0;}
 
 	#title {
 		padding:0 20px 0 10px;
@@ -33,9 +27,7 @@
 		text-align:right;
 	}
 	
-	#contents {
-		padding-left:10px;
-	}
+	#contents {padding-left:10px;}
 	
 	.btn {
 		border: none;
@@ -53,12 +45,32 @@
 		color: white;
 	}
 	
+	#btnScdReg:hover {
+		border: solid 2px #0099cc;
+		background: white;
+		color: #0099cc;
+	}
+	
+	#address {
+		border: none;
+		border-radius: 2pt;
+		cursor:pointer;
+		font-size:10pt;
+		font-weight:bold;
+		height:23px;
+		color: white;
+		background:#ffcc00;
+		box-shadow: 1px 1px 1px gray;
+	}
+	
 </style>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
 
 <script type="text/javascript">
 
@@ -102,7 +114,6 @@
 		    });
 		
 		    $("button#btnScdReg").click(function(){
-		    	
 		    	var frm = document.scdRegFrm;
 			    frm.method = "POST";
 			    frm.action = "<%=ctxPath%>/scdRegEnd.opis";
@@ -113,16 +124,9 @@
 		    
 	});// end of $(document).ready(function(){}---------------------------------
 	
-	function goResvMtr() {
-		
-		var url = "<%=ctxPath%>/mtr_resv.opis";
-		window.open(url, "sendParentsVal","left=350px, top=100px, width=800px, height=650px");
-		
-		var sendfrm = document.sendParentsVal;
-		sendfrm.action = url;
-		sendfrm.method = "post";
-		sendfrm.target = "sendParentsVal";
-		sendfrm.submit();
+	function goAddress() {
+		var url = "<%=ctxPath%>/show_addresslist.opis";
+		window.open(url,"showAddress","left=350px, top=100px, width=600px, height=500px");
 	}
 	
 	
@@ -155,10 +159,10 @@
 			<td id="title">일자</td>
 			<td id="contents">
 				<label for="scdstartdate" id="start">시작일</label>
-				<input type="text" id="from" name="scdstartdate" readonly/>
+				<input type="text" id="from" name="scdstartdate" readonly required/>
 				<span>&nbsp;~&nbsp;</span>
 				<label for="scdenddate" id="end">종료일</label>
-				<input type="text" id="to" name="scdenddate" readonly/>
+				<input type="text" id="to" name="scdenddate" readonly required/>
 			</td>
 		</tr>
 		<tr class="time schedule">
@@ -184,7 +188,6 @@
 			<td id="title">장소</td>
 			<td id="contents">
 				<input type="text" name="place"/>
-				<button type="button" onclick="goResvMtr()">예약하기</button>
 			</td>
 		</tr>
 		<tr class="attandance schedule">
@@ -192,12 +195,11 @@
 			<td id="contents">
 				<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}" /> 
 				<input type="text" name="attendance"/>
-				<button type="button" onclick="">주소록</button>
+				<button type="button" id="address" onclick="goAddress()">주소록</button>
 			</td>
 		</tr>
 	
 	</table>
-	
 
 	<div style="float:right;">
 		<button type="submit" id="btnScdReg" class="btn">등록</button>
@@ -206,9 +208,6 @@
 	
 </form>
 
-<form name="sendParentsVal">
-	<input type="hidden" id="parent" name="scdno" value="${requestScope.scdno}"/>
-</form>
 
 
 </div>

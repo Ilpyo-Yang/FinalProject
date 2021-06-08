@@ -23,6 +23,10 @@ String ctxPath = request.getContextPath();
 			}
 			
 		});
+		
+		$("select#status").bind(function(){
+			func_select($(this).val());
+		});
 	});
 
 
@@ -30,6 +34,13 @@ String ctxPath = request.getContextPath();
 		var frm = document.searchFrm;
 		frm.method = "get";
 		frm.action = "<%= ctxPath%>/sns/snsmain.opis";
+		frm.submit();
+	}
+	
+	function func_select(mbr_stsconnect) {
+		var frm = document.statusFrm;
+		frm.method = "get";
+		frm.action = "<%= ctxPath%>/sns/status.opis"
 		frm.submit();
 	}
 
@@ -51,21 +62,29 @@ String ctxPath = request.getContextPath();
 			
 			</div>
 			<div class="userinfotop">
-			<span class="username" >${sessionScope.loginuser.mbr_name}</span>
-			<c:if test="${sessionScope.loginuser.fk_rank_no == 0}"><span class=userjobgrade> 팀원</span></c:if>
-			<c:if test="${sessionScope.loginuser.fk_rank_no == 1}"><span class=userjobgrade> 팀장</span></c:if>
-			<c:if test="${sessionScope.loginuser.fk_rank_no == 2}"><span class=userjobgrade> 대표</span></c:if> 
-		    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="margin-left: 10px;">유저상태
-		    <span class="caret"></span></button>
-		    <ul class="dropdown-menu">
-		      <li><a href="#">온라인</a></li>
-		      <li><a href="#">오프라인</a></li>
-		      <li><a href="#">자리비움</a></li>
-			</ul>
-			<img src="<%= ctxPath%>/resources/images/pencel.png" onclick="javascript:location.href='<%= ctxPath%>/sns/infochange.opis'" style="width: 25px; height: 25px; float: right; margin-right:  60px;"/>
+				<span class="username" >${sessionScope.loginuser.mbr_name}</span>
+				<c:if test="${sessionScope.loginuser.fk_rank_no == 0}"><span class=userjobgrade> 팀원</span></c:if>
+				<c:if test="${sessionScope.loginuser.fk_rank_no == 1}"><span class=userjobgrade> 팀장</span></c:if>
+				<c:if test="${sessionScope.loginuser.fk_rank_no == 2}"><span class=userjobgrade> 대표</span></c:if> 
+			    <form name="statusFrm" class="select" >
+					<select name="mbr_stsconnect" id="mbr_stsconnect" style="height: 25px;">
+						<option value="">
+							<c:if test="${sessionScope.loginuser.mbr_stsconnect == 0}">오프라인 </c:if>
+				    		<c:if test="${sessionScope.loginuser.mbr_stsconnect == 1}">온라인 </c:if>
+				    		<c:if test="${sessionScope.loginuser.mbr_stsconnect == 2}">자리비움 </c:if>
+				    		<c:if test="${sessionScope.loginuser.mbr_stsconnect == 3}">회의중 </c:if>
+				    	</option>
+						<option value="mbr_stsconnect">온라인</option>
+						<option value="mbr_stsconnect">오프라인</option>
+						<option value="mbr_stsconnect">자리비움</option>
+						<option value="mbr_stsconnect">회의중</option>
+					</select>
+				</form>
+				<img src="<%= ctxPath%>/resources/images/pencel.png" onclick="javascript:location.href='<%= ctxPath%>/sns/infochange.opis'" style="margin-left:8px; width: 25px; height: 25px; float: left;"/>
+				
 			</div>
 			<div class=userinfobottom>
-				<div class="well">${sessionScope.loginuser.mbr_stsmsg} ${membervo.mbr_stsconnect}</div>
+				<div class="well">${sessionScope.loginuser.mbr_stsmsg}</div>
 			</div>
 			
 			

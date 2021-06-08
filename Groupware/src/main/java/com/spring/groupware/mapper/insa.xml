@@ -5,11 +5,9 @@
 <mapper namespace="insa">
 	<!-- 인사정보 등록하기 -->
 	<insert id="insaRegisterEnd" parameterType="com.spring.groupware.insa.model.InsaVO" >
-	
-		insert into tbl_mbr(mbr_seq, fk_power_no, fk_dept_no, fk_rank_no, mbr_id, mbr_pwd, mbr_name, mbr_email, mbr_com_number, mbr_phone_number,mbr_gender,mbr_registerday, mbr_retireday,mbr_status,mbr_birthday )
-		values(#{mbr_seq}, to_number(#{fk_power_no}), to_number(#{fk_dept_no}), to_number(#{fk_rank_no}), #{mbr_id}, #{mbr_pwd}, #{mbr_name}, #{mbr_com_number}, #{mbr_phone_number}, #{mbr_email},#{mbr_gender},sysdate,sysdate, '1',to_date(#{mbr_birthday}, 'yyyy-mm-dd') )
+		insert into tbl_mbr(mbr_seq, fk_power_no, fk_rank_no, fk_dept_no, mbr_id, mbr_pwd, mbr_name, mbr_email, mbr_com_number, mbr_phone_number, mbr_gender, mbr_birthday, mbr_pwd_changeday,mbr_registerday, mbr_retireday,mbr_status)
+	    values (#{mbr_seq}, to_number(#{fk_power_no}), to_number(#{fk_rank_no}), to_number(#{fk_dept_no}),#{mbr_id}, #{mbr_pwd}, #{mbr_name}, #{mbr_email},  #{mbr_com_number}, #{mbr_phone_number},#{mbr_gender},to_date(#{mbr_birthday}, 'yyyy-mm-dd'),sysdate,sysdate,sysdate,1)
 	</insert>
-	 
 	 <!-- 멤버 리스트 받아오기 -->
 	<select id="insaList" parameterType="HashMap" resultType="com.spring.groupware.insa.model.InsaVO">
 		select distinct M.mbr_seq, M.mbr_name, M.fk_dept_no, M.fk_rank_no, M.mbr_registerday, M.mbr_retireday, E.eduLevel
@@ -68,13 +66,13 @@
 
 <!-- view2 한 학력 리스트 가져오기 -->
 	<select id="getEduList" parameterType="String" resultType="com.spring.groupware.insa.model.EduVO">
-		select eduLevel , school, major
+		select edu_seq, eduLevel , school, major
 		from tbl_edu
 		where mbr_seq = #{seq}
 		order by eduLevel
 	</select>	
 	
-	<select id="getEduLevel" parameterType="String" resultType="String">
+	<select id="getMaxEduLevel" parameterType="String" resultType="int">
         select max(eduLevel) AS eduLevel
 		from tbl_edu
         where mbr_seq=#{seq}
@@ -83,7 +81,7 @@
 
 <!-- view2 한 자격증 리스트 가져오기 -->
 	<select id="getCertiList" parameterType="String" resultType="com.spring.groupware.insa.model.CertiVO">
-		select certification , certiLevel, certiDate
+		select certi_seq, certification , certiLevel, to_char(certiDate, 'yyyy-mm-dd') AS certiDate
 		from tbl_certi
 		where mbr_seq = #{seq}
 		order by certiLevel
@@ -103,15 +101,73 @@
         where mbr_seq = #{seq}		
 	</select>
 	
+	<!-- 학력 시퀀스 가져오기 -->
+	<select id="getEduSeq" resultType="int">
+		select edu_seq.nextval
+		from dual
+	</select>
+	
+	<!-- 학력 정보 등록하기 -->
 	<insert id="insaRegister2EndEdu" parameterType="com.spring.groupware.insa.model.EduVO">
-		insert into tbl_edu(mbr_seq, eduLevel, school, major )
-		values(#{mbr_seq}, #{eduLevel}, #{school}, #{major})
+		insert into tbl_edu(edu_seq, mbr_seq, eduLevel, school, major )
+		values(#{edu_seq}, #{mbr_seq}, #{eduLevel}, #{school}, #{major})
 	</insert>
 	
+	
+	<!-- 자격증 시퀀스 가져오기 -->
+	<select id="getCertiSeq" resultType="int">
+		select certi_seq.nextval
+		from dual
+	</select>
+	
+	<!-- 자격증 정보 등록하기 -->
 	<insert id="insaRegister2EndCerti" parameterType="com.spring.groupware.insa.model.CertiVO">
-		insert into tbl_certi(mbr_seq, certification, certiLevel, certiDate )
-		values(#{mbr_seq}, #{certification}, #{certiLevel}, to_date(#{certiDate}, 'yyyy-mm-dd'))
+		insert into tbl_certi(certi_seq, mbr_seq, certification, certiLevel, certiDate )
+		values(#{certi_seq} ,#{mbr_seq}, #{certification}, #{certiLevel}, to_date(#{certiDate}, 'yyyy-mm-dd'))
 	</insert>
+	
+	<!-- 학력 정보 삭제하기 -->
+	<delete id="insaEduDel" parameterType="String">
+	    delete from tbl_edu
+	    where edu_seq = #{edu_seq}
+	</delete>
+	
+	
+	<!-- 자격증 정보 삭제하기 -->
+	<delete id="insaCertiDel" parameterType="String">
+	    delete from tbl_certi
+	    where certi_seq = #{certi_seq}
+	</delete>
+	
+	<!-- 학력정보 가져오기 -->
+	<select id="getEduInfo" parameterType="String" resultType="com.spring.groupware.insa.model.EduVO">
+		select edu_seq, eduLevel , school, major
+		from tbl_edu
+		where edu_seq = #{edu_seq}
+	</select>
+	
+	<!-- 학력정보 수정하기 -->
+	<update id="eduModify">
+		update tbl_edu set eduLevel = #{eduLevel}, school=#{school}, major=#{major}
+	    where edu_seq = #{edu_seq}
+	</update>
+	
+	<!-- 자격증정보 가져오기 -->
+	<select id="getCertiInfo" parameterType="String" resultType="com.spring.groupware.insa.model.CertiVO">
+		select certi_seq, certification, certiLevel, to_char(certiDate, 'yyyy-mm-dd') AS certiDate
+		from tbl_certi
+		where certi_seq = #{certi_seq}
+	</select>
+
+
+	
+	<!-- 자격증정보 수정하기 -->
+	<update id="certiModify" >
+	    update tbl_certi set certification = #{certification}, certiLevel=#{certiLevel}, certiDate=to_date(#{certiDate}, 'yyyy-mm-dd')
+	    where certi_seq = #{certi_seq}
+	</update>
+
+	
 	
 	<select id="getPaymentList" parameterType="String" resultType="com.spring.groupware.insa.model.PaymentVO">
 		select mbr_seq, paymonth, basepay, spepay, breakpay, mealpay, timepay, totalpay
@@ -119,4 +175,40 @@
 		where mbr_seq=#{seq}
 	</select>
 
+	
+	<select id="getPayInfo" parameterType="String" resultType="com.spring.groupware.insa.model.PayInfoVO">
+		select mbr_seq, idNo, bank, accountNo
+		from tbl_payInfo
+		where mbr_seq=#{seq}
+	</select>
+	
+	
+	
+	<select id="getPayment" parameterType="String" resultType="com.spring.groupware.insa.model.PaymentVO">
+		select mbr_seq, paymonth, basepay, spepay, breakpay, mealpay, timepay, totalpay
+		from tbl_payment
+		where mbr_seq=#{seq} and paymonth = to_number(to_char(sysdate,'mm'))
+	</select>
+	
+	<!-- 개인 급여정보 등록하기 -->	
+	<insert id="payRegister" parameterType="com.spring.groupware.insa.model.PayInfoVO">
+		insert into tbl_payInfo(mbr_seq, idNo, bank, accountNo )
+		values(#{mbr_seq}, #{idNo}, #{bank}, #{accountNo} )
+	</insert>
+	
+	<!-- 개인 급여정보 수정하기 -->	
+	
+	<!-- 자격증정보 수정하기 -->
+	<update id="payModify" >
+	    update tbl_payInfo set idNo = #{idNo}, bank=#{bank}, accountNo=#{accountNo}
+	    where mbr_seq = #{mbr_seq}
+	</update>
+	
+
+	<!-- 학력 정보 삭제하기 -->
+	<delete id="payDel" parameterType="String">
+	    delete from tbl_payInfo
+	    where mbr_seq = #{seq}
+	</delete>	
+	
 </mapper>

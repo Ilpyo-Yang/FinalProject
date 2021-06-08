@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <% String ctxPath = request.getContextPath(); %>    
 
@@ -61,11 +63,11 @@
 	
 	<!-- 게시판제목 -->
 	<div style="padding: 15px; font-size: 25px; font-weight: 600; height: 60px; width: 100%; background-color: #f2f2f2; color: #555;">
-	&nbsp;&nbsp;전체 공지사항
+	&nbsp;&nbsp;공통서식
 	</div>
 	
 	<!-- 수정폼 -->
-	<form name="editFrm" id="editFrm"> 
+	<form name="editFrm" id="editFrm" enctype="multipart/form-data"> 
  
       <table id="table">
 
@@ -81,10 +83,26 @@
                <input type="text" name="ftitle" id="ftitle" class="long" value="${requestScope.formboardvo.ftitle}" />       
             </td>
          </tr>
-<!--          <tr>
-         	<th scope="row">첨부파일</th>
-            <td><input type="file" id="files[0]" name="files[0]" value=""></td>
-         </tr>   -->
+         <tr>
+            <th>기존 첨부파일</th>
+            <td>
+            <c:if test="${empty requestScope.formboardvo.orgFilename}">
+            	<span style="color: red;">첨부된 파일이 없습니다</span>
+            </c:if>
+            <c:if test="${not empty requestScope.formboardvo.orgFilename}">
+	            <a href="<%=ctxPath%>/formboard_download.opis?form_seq=${requestScope.formboardvo.form_seq}">${requestScope.formboardvo.orgFilename}</a>&nbsp;&nbsp;(<fmt:formatNumber value="${requestScope.formboardvo.fileSize}" pattern="#,###"></fmt:formatNumber>&nbsp;bytes) 	
+            </c:if>
+            </td>
+         </tr>
+         <tr>
+         	<th>수정할 파일</th>
+         	<td>
+         		<input type="file" name="attach" />
+         		<input type="hidden" name="fileName" value="${requestScope.formboardvo.fileName}"  />
+         		<input type="hidden" name="orgFilename" value="${requestScope.formboardvo.orgFilename}"  />
+         		<input type="hidden" name="fileSize" value="${requestScope.formboardvo.fileSize}"  />
+         	</td>
+         </tr>
          <tr>
             <th>내용</th>
             <td>

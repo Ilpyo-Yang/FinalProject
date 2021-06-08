@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath = request.getContextPath(); %>
 
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />
@@ -146,30 +147,33 @@
 	                   document.getElementById('postcode').value = data.zonecode;
 	                   document.getElementById("address").value = addr;
 	                   // 커서를 상세주소 필드로 이동한다.
-	                   document.getElementById("detailAddress").focus();
+	                   document.getElementById("detailaddress").focus();
 	               }
 	           }).open();
 	           
 	        }); // end of $("button#zipcodeSearch").click(function(){}--------------------------------
-	        
-	        var frm = document.addFrm;
-	        frm.method = "POST";
-	        frm.action = "<%=ctxPath%>/addr_addEnd.opis";
-	        frm.submit();
-    
+	
    }); // end of $(document).ready(function(){})------------------
   
+   function goRegister(){
+	   var frm = document.addFrm;
+       frm.method = "POST";
+       frm.action = "<%=ctxPath%>/addr_addEnd.opis";
+       frm.submit();	   
+   }
+   
 </script>
 
-<div id="sideMenu" style="width: 20%; border: 1px solid red;">
+<div id="sideMenu">
 	<div id="menuTitle">주소록</div>
 	
 	<div class="container">
 		<!-- 주소록 등록 버튼 -->
-		<button type="button" id="btnReg" class="btn btn-primary" data-toggle="modal" data-target="#myModal" value="주소록 등록">
+		<div id="btnDiv">
+		<button type="button" id="btnReg" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="color:black;" value="주소록 등록">
 		  주소록 등록
 		</button>
-		
+		</div>
 		<!-- ========== 주소록 등록 모달창 ========== -->
 		<div class="modal fade" id="myModal">
 		  <div class="modal-dialog modal-lg">
@@ -182,7 +186,7 @@
 		      </div>
 		       
 		      <!-- Modal body -->
-		      <div class="modal-body">
+		      <div class="modal-body" align="center">
 		        <form name="addFrm" id="addFrm" enctype="multipart/form-data" > 
 					
 			     <table id="table tblAddr">      
@@ -213,7 +217,7 @@
 			         <tr>
 			         	<th>생일</th>
 			            <td>
-			                <input type="text" name="mbr_birthday" placeholder="yyyymmdd" class="short"/>       
+			                <input type="date" name="mbr_birthday" placeholder="yyyymmdd" class="short"/>       
 			            </td>
 			         </tr>	
 			         <tr>
@@ -235,7 +239,7 @@
 			         <td style="width: 20%; font-weight: bold;">주소</td>
 			         <td style="width: 80%; text-align: left;">
 			            <input type="text" id="address" name="address" size="40" placeholder="주소" /><br><br>
-			            <input type="text" id="detailAddress" name="detailAddress" size="40" placeholder="상세주소" />&nbsp;<input type="text" id="extraAddress" name="extraAddress" size="40" placeholder="참고항목" /> 
+			            <input type="text" id="detailaddress" name="detailaddress" size="36" placeholder="상세주소" />&nbsp;<input type="text" id="extraAddress" name="extraAddress" size="35" placeholder="참고항목" /> 
 			            <span class="error">주소를 입력하세요</span>
 			         </td>
 			      	</tr>
@@ -249,7 +253,7 @@
 			      
 		          <!-- Modal footer -->
 		          <div class="modal-footer">
-		            <button type="button" id="btnRegister">등록</button>
+		            <button type="button" id="btnRegister" onclick="goRegister()">등록</button>
 		            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
 		          </div>
 		   	  </form>
@@ -262,12 +266,25 @@
 		 </div>
   
 	<div class="lside">
-		<a class="side" href="/groupware/totaladdrlist.opis">전체 주소록</a>
+		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/totaladdrlist.opis'">전체 주소록</button>
 	</div>
 	<div class="lside">
-		<a class="side" href="/groupware/personal_addrlist.opis">개인 주소록</a>
+		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/myAddrlist.opis'">개인 주소록</button>
+		<ul class="sideUl">
+			<li>그룹1</li>
+			<li>그룹2</li>
+		<!-- 
+			<c:if test="${not empty sessionScope.loginuser.mbr_seq}">
+				<c:forEach var="agvo" items="${requestScope.myAddrlist}" varStatus="status">
+				    <c:if test="${not empty agvo.addrgroup_seq && sessionScope.loginuser.mbr_seq eq agvo.fk_mbr_seq}">
+				    	<li><a href="<%=ctxPath%>/myAddrlist.opis?addrgroup_seq=${agvo.addrgroup_seq}">${agvo.groupname}</a></li>
+				    </c:if>
+				</c:forEach> 	
+			</c:if>
+		 -->
+		</ul>
 	</div>
 	<div class="lside">
-		<a class="side" href="/groupware/addrlist_setting.opis">개인 주소록 관리</a>
+		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/addr_setting.opis'">개인 주소록 관리</button>
 	</div>
 </div>

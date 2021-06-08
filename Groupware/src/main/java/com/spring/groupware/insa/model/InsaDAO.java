@@ -23,12 +23,9 @@ public class InsaDAO implements InterInsaDAO {
 	@Override
 	public int insaRegister1End(InsaVO insavo) {
 		int n=0;
-		
 
 		n = sqlsession.insert("insa.insaRegisterEnd", insavo);
 			
-		System.out.println("dao => "+n);
-		System.out.println("아이디=>" +insavo.getMbr_id());
 	//	System.out.println("mem=>"+insavo.getMbr_id());
 		return n;
 	}
@@ -68,9 +65,9 @@ public class InsaDAO implements InterInsaDAO {
 
 	// 최종학력 가져오기
 	@Override
-	public String getEduLevel(String seq) {
-		String eduLevel = sqlsession.selectOne("insa.getEduLevel", seq);
-		return eduLevel;
+	public int getMaxEduLevel(String seq) {
+		int maxEduLevel = sqlsession.selectOne("insa.getMaxEduLevel", seq);
+		return maxEduLevel;
 	}
 
 
@@ -122,6 +119,127 @@ public class InsaDAO implements InterInsaDAO {
 	public List<PaymentVO> getPaymentList(String seq) {
 		List<PaymentVO> paymentList = sqlsession.selectList("insa.getPaymentList", seq);
 		return paymentList;
+	}
+
+
+
+    // 학력번호 가져오기
+	@Override
+	public int getEduSeq() {
+		int edu_seq = sqlsession.selectOne("insa.getEduSeq");
+		return edu_seq;
+	}
+
+
+
+	// 학력 삭제하기
+	@Override
+	public int insaEduDel(String edu_seq) {
+		int n = sqlsession.delete("insa.insaEduDel", edu_seq);
+		return n;
+	}
+
+
+
+    // 자격증번호 가져오기
+	@Override
+	public int getCertiSeq() {
+		int certi_seq = sqlsession.selectOne("insa.getCertiSeq");
+		return certi_seq;
+	}
+
+
+
+	// 자격증 삭제하기
+	@Override
+	public int insaCertiDel(String certi_seq) {
+		int n = sqlsession.delete("insa.insaCertiDel", certi_seq);
+		return n;
+	}
+
+
+
+	// 학력정보 가져오기
+	@Override
+	public EduVO getEduInfo(String edu_seq) {
+
+		EduVO evo = sqlsession.selectOne("insa.getEduInfo", edu_seq);
+		
+		return evo;
+	}
+
+
+
+    // 학력정보 수정하기
+	@Override
+	public int eduModify(EduVO evo) {
+		int n = sqlsession.update("insa.eduModify", evo);
+		return n;
+	}
+
+
+
+	// 자격증 정보 가져오기
+	@Override
+	public CertiVO getCertiInfo(String certi_seq) {
+
+    	CertiVO cvo = sqlsession.selectOne("insa.getCertiInfo", certi_seq);
+		
+		return cvo;
+	}
+
+
+
+    // 자격증정보 수정하기
+	@Override
+	public int certiModify(CertiVO cvo) {
+		int n = sqlsession.update("insa.certiModify", cvo);
+		return n;
+	}
+
+
+
+    // 개인별 급여 정보 가져오기
+	@Override
+	public PayInfoVO getPayInfo(String seq) {
+		PayInfoVO pivo = sqlsession.selectOne("insa.getPayInfo",seq);
+		return pivo;
+	}
+
+
+
+    // 개인별 이달 급여 정보 가져오기
+	@Override
+	public PaymentVO getPayment(String seq) {
+		 PaymentVO pvo = sqlsession.selectOne("insa.getPayment", seq);
+		return pvo;
+	}
+
+
+
+    // 개인 급여 정보 등록하기
+	@Override
+	public int payRegister(PayInfoVO pivo) {
+		int n = sqlsession.insert("insa.payRegister", pivo);
+		return n;
+	}
+
+
+
+    // 개인 급여 정보 수정하기
+	@Override
+	public int payModify(PayInfoVO pivo) {
+		int n = sqlsession.update("insa.payModify", pivo);
+		return n;
+	}
+
+
+
+    // 개인 급여 정보 삭제하기
+	@Override
+	public int payDel(String seq) {
+		int n = sqlsession.delete("insa.payDel", seq);
+		return n;
 	}
 
 

@@ -90,13 +90,13 @@
 		        yearRange: 'c-99:c+99',
 		    };
 		    $.datepicker.setDefaults($.datepicker.regional['ko']);
-
+	
 		    $('#from').datepicker();
 		    $('#from').datepicker("option", "maxDate", $("#to").val());
 		    $('#from').datepicker("option", "onClose", function ( selectedDate ) {
 		        $("#to").datepicker( "option", "minDate", selectedDate );
 		    });
-
+	
 		    $('#to').datepicker();
 		    $('#to').datepicker("option", "minDate", $("#from").val());
 		    $('#to').datepicker("option", "onClose", function ( selectedDate ) {
@@ -111,11 +111,25 @@
 			    frm.submit();
 		    });
 		
+		var startdate = '${requestScope.schedulevo.scdstartdate}';
+		var sdate = startdate.substring(0,10);
+		var enddate = '${requestScope.schedulevo.scdenddate}';
+		var edate = enddate.substring(0,10);
+		
+		$("input#from").val(sdate);
+		$("input#to").val(edate);
+		
+		
+		
+		
 	});
+
 	
-	function mtrResv() {
-		 var url = "<%=ctxPath%>/mtr_resv.opis";
-		 window.open(url, "mtrResv","left=350px, top=100px, width=800px, height=650px");
+		
+	
+	function goAddress() {
+		var url = "<%=ctxPath%>/show_addresslist.opis";
+		window.open(url,"showAddress","left=350px, top=100px, width=600px, height=500px");
 	}
 	
 </script>
@@ -177,14 +191,13 @@
 			<td id="title">장소</td>
 			<td id="contents">
 				<input type="text" name="place" value="${requestScope.schedulevo.place}"/>
-				<button type="button" onclick="mtrResv()">예약하기</button>
 			</td>
 			<tr class="attandance schedule">
 			<td id="title">참석자</td>
 			<td id="contents">
 				<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}" /> 
 				<input type="text" name="attendance" value="${requestSceop.schedulevo.attendance}" />
-				<button type="button" onclick="">주소록</button>
+				<button type="button" id="address" onclick="goAddress()">주소록</button>
 			</td>
 		</tr>
 		</table>
@@ -195,4 +208,5 @@
 		</div>
 		
 	</form>
+	
 </div>

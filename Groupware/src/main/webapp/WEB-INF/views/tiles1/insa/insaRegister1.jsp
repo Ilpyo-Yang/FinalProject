@@ -8,7 +8,7 @@
 <jsp:include page="./insa_sidebar.jsp" />
 <style>
 	
-	.registerBtn{
+	.registerBtn{`
  	  margin-left: 10px;
 	  padding: 10px 20px;
 	  font-size: 15px;
@@ -171,7 +171,7 @@
 			            </select>년
 						<select id="entermm" style="margin-left: 2%; width: 55px; padding: 4px;">
 			           		<c:forEach begin="1" end="12" varStatus="count" >
-			           			<option>${count.count}</option>
+			           			<option >${count.count}</option>
 			           		</c:forEach>
 			            </select>월
 			            <select id="enterdd" style="margin-left: 2%; width: 55px; padding: 4px;">

@@ -9,36 +9,53 @@
 
 <style type="text/css">
 	
-	#container {
-		margin: 25px;
+	#container {margin: 25px;}
+	
+	table {float:right;}
+	
+	td {padding-bottom: 10px;}
+	
+	#title {
+		font-weight: bolder;
+		font-size:12pt;
+		padding-right:15px;
+		text-align:right;
 	}
 	
-	table, th, td {
-		border: 1px solid gray;
-		border-collapse: collapse;
-		padding: 10px;
+	#select_section {margin: 20px 0;}
+	
+	#btn_section {margin: 20px 0;}
+	
+	.btn {
+		border:none;
+		font-size:12pt;
+		font-weight: bold;
+		border-radius:2pt;
+		width:80px;
+		height:40px;
+		box-shadow:2pt 2pt 2pt gray;
+		cursor: pointer;
 	}
 	
-	#resv_tbl {
-		margin: 30px 100px;
-		width: 700px;
+	.btnResv {
+		background: black;
+		color: white;
 	}
 	
-	#select_section {
-		margin: 20px 0;
+	#booker {border:none;}
+	
+	#search {
+		border: none;
+		background: #666;
+		color:white;
+		vertical-align: bottom;
+		height:22px;
+		border-radius:1pt;
 	}
 	
-	#btn_section {
-		margin: 30px 0;
-	}
-	
-	#mtrname {
-		text-align:center;
-		cursor:pointer;
-	}
-	
-	#mtrname:hover {
-		font-weight:bold;
+	#cancelResv {
+		background: #737373;
+		color: white;
 	}
 	
 </style>
@@ -54,6 +71,9 @@
 	
 	$(document).ready(function(){
 		
+		func_datepicker();
+		func_resvList();
+		
 		$("button#btnResv").click(function(){
 			
 			var frm = document.mtrRegFrm;
@@ -62,9 +82,14 @@
 			frm.submit();
 		});
 		
-	
+		$("button#search").click(function(){
+			func_datepicker();
+			func_resvList();
+		});
+		
 	});// end of $(document).ready(function(){
 	
+	function func_datepicker(){	
 	 $(function() {
 	       //input을 datepicker로 선언
 	       $("#datepicker").datepicker({
@@ -85,41 +110,74 @@
 	       //초기값을 오늘 날짜로 설정해줘야 합니다.
 	       $('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
 	   });	
+	}// end of function func_datepicker(){}-----------------------------------------------------------
+	
+	function func_resvList(){
 		
-	google.charts.load("current", {packages:["timeline"]});
-	google.charts.setOnLoadCallback(drawChart);
-	function drawChart() {
-		var container = document.getElementById('example5.1');
-	    var chart = new google.visualization.Timeline(container);
-	    var dataTable = new google.visualization.DataTable();
-	    dataTable.addColumn({ type: 'string', id: 'Room' });
-	    dataTable.addColumn({ type: 'string', id: 'Name' });
-	    dataTable.addColumn({ type: 'date', id: 'Start' });
-	    dataTable.addColumn({ type: 'date', id: 'End' });
-	    dataTable.addRows([
-	    	[ '회의실1', 'Beginning JavaScript',       new Date(0,0,0,9,0,0),  new Date(0,0,0,12,00,0) ],
-		    [ '회의실1', 'Intermediate JavaScript',    new Date(0,0,0,14,0,0),  new Date(0,0,0,15,00,0) ],
-		    [ '회의실1', 'Advanced JavaScript',        new Date(0,0,0,16,0,0),  new Date(0,0,0,17,00,0) ],
-		    [ '회의실2',   'Beginning Google Charts',    new Date(0,0,0,12,00,0), new Date(0,0,0,14,0,0) ],
-		    [ '회의실2',   'Intermediate Google Charts', new Date(0,0,0,14,00,0), new Date(0,0,0,16,0,0) ],
-		    [ '회의실3',   'Advanced Google Charts',     new Date(0,0,0,16,00,0), new Date(0,0,0,18,0,0) ],
-		    [ '회의실4',   'Advanced Google Charts',     new Date(0,0,0,16,00,0), new Date(0,0,0,18,0,0) ],
-		    [ '회의실4',   'Advanced Google Charts',     new Date(0,0,0,10,00,0), new Date(0,0,0,11,00,0) ],
-		    [ '회의실5',   'Advanced Google Charts',     new Date(0,0,0,16,00,0), new Date(0,0,0,18,0,0) ],
-		    [ '회의실6',   'Advanced Google Charts',     new Date(0,0,0,16,00,0), new Date(0,0,0,18,0,0) ]
-	    ]);
-	    
-	   	var options = {
-	      timeline: { colorByRowLabel: true }
-	    };
+		var mtrArr = [];
+		$.ajax({
+	    	url:"<%=ctxPath%>/showRegMtr.opis",
+	    	dataType:"json",
+	    	success:function(json) {
+	    		
+	    		var date = document.getElementById('datepicker').value;
+	    		$.each(json,function(index,item){
+	    			var starttime = item.starttime.substring(0,10);
+	    			console.log(starttime);
+	    			
+	    			if(starttime == date){
+	    				var startyear = item.starttime.substring(0,4);
+		    			var startmonth = item.starttime.substring(5,7);
+		    			var startday = item.starttime.substring(8,10);
+		    			var starth = item.starttime.substring(11,13);
+		    			
+		    			var endyear = item.endtime.substring(0,4);
+		    			var endmonth = item.endtime.substring(5,7);
+		    			var endday = item.endtime.substring(8,10);
+		    			var endh = item.endtime.substring(11,13);
+		    		
+	    				mtrArr.push([item.mtrname, item.mtrsubject, new Date(0,0,0,starth,0,0), new Date(0,0,0,endh,0,0)])	
+	    			}
 
-	    chart.draw(dataTable, options);
-	  }
+	    		});// end of $.each(json,function(index,item){})-----------
+	    		
+	    	},
+	    	error:function(request,status,error) {
+	    		  alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	    	}
+	    });// end of $.ajax({})----------------------------------------
+	 	
+	    google.charts.load("current", {packages:["timeline"]});
+		google.charts.setOnLoadCallback(drawChart);
+		function drawChart() {
+			var container = document.getElementById('example5.1');
+		    var chart = new google.visualization.Timeline(container);
+		    var dataTable = new google.visualization.DataTable();
+		    dataTable.addColumn({ type: 'string', id: 'Room' });
+		    dataTable.addColumn({ type: 'string', id: 'Subject' });
+		    dataTable.addColumn({ type: 'date', id: 'Start' });
+		    dataTable.addColumn({ type: 'date', id: 'End' });
+		    dataTable.addRows(mtrArr);
+		    
+			    var options = {
+			      timeline: { colorByRowLabel: true }
+			    };
+ 
+		    chart.draw(dataTable, options);
+		  }// end of function drawChart() {}------------------------
+		  
+	}// end of function func_resvList(){}--------------------------
+	
+	function goCancelResv() {
+		var url = "<%=ctxPath%>/CancelOneResv.opis";
+		window.open(url, "goCancel","left=350px, top=100px, width=600px, height=350px");
+	}
+	
 	
 </script>
 
 <div id="container">
-<h3>회의실 예약하기</h3>
+<h2>회의실 예약하기</h2>
 <hr>
 
 	<div>
@@ -128,47 +186,76 @@
 	</div>
 <form name="mtrRegFrm">
 	<div id="search_date" align="right" style="padding-bottom:10px">
-		<span>예약일자:</span>
+		<span style="font-size:12pt; font-weight:bold;">예약일자</span>&nbsp;&nbsp;
 		<input type="text" id="datepicker" name="regDate" size="10" autocomplete="off" readonly/>
-		<button type="button" onclick="" >조회</button>
+		<button type="button" id="search">조회</button>
 	</div>
 
 	<div id="example5.1" style="height: 300px;"></div>
 
-	<div id="select_section" align="right">
-		
-		<input type="hidden" id="child" name="fk_scdno" value="${requestScope.scdno}"/>
-		
-		<select name="fk_mtrno">
-			<option>회의실 선택</option>
-			<option value="1">회의실1</option>
-			<option value="2">회의실2</option>
-			<option value="3">회의실3</option>
-			<option value="4">회의실4</option>
-			<option value="5">회의실5</option>
-			<option value="6">회의실6</option>
-		</select>&nbsp;
-		<select id="time1" name="starttime">
-			<option>시작 시간</option>
-			<c:forEach var="i" begin="9" end="18">
-				<c:set var="startTm" value="${i>9?i:'0'}${i>9?'':i}"/>
-				<option value="${i>9?i:'0'}${i>9?'':i}:00" <c:if test="${data.startDispTm eq startTm}">selected</c:if>>${i>9?i:'0'}${i>9?'':i}:00</option>
-			</c:forEach>
-		</select>
-		<span>&nbsp;~&nbsp;</span>
-		<select id="time2" name="endtime">
-			<option>종료 시간</option>
-			<c:forEach var="i" begin="10" end="18">
-				<c:set var="endTm" value="${i>9?i:'0'}${i>9?'':i}"/>
-				<option value="${i>9?i:'0'}${i>9?'':i}:00" <c:if test="${data.endDispTm eq endTm}">selected</c:if>>${i>9?i:'0'}${i>9?'':i}:00</option>
-			</c:forEach>
-		</select>
-		
+	<div id="select_section" align="left">
+		<table>
+			<tr>
+				<td id="title">예약명</td>
+				<td>
+					
+					<c:if test="${requestScope.scdno eq null}">
+						<input type="text" name="mtrsubject" placeholder="예약명 입력" required/>
+					</c:if>
+					<c:if test="${requestScope.scdno ne null}">
+						<input type="hidden" id="child" name="fk_scdno" value="${requestScope.scdno}"/>
+						<input type="text" name="mtrsubject" value="${requestScope.scdsubject}" />
+					</c:if>
+				</td>
+			</tr>
+			<tr>
+				<td id="title">예약자명</td>
+				<td>
+				<input type="text" name="booker" id="booker" value="${sessionScope.loginuser.mbr_id}" readonly/>
+				</td>
+			</tr>
+			<tr>
+				<td id="title">회의실명</td>
+				<td>
+					<select name="fk_mtrno">
+						<option>회의실 선택</option>
+						<option value="1">회의실1</option>
+						<option value="2">회의실2</option>
+						<option value="3">회의실3</option>
+						<option value="4">회의실4</option>
+						<option value="5">회의실5</option>
+						<option value="6">회의실6</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td id="title">예약 시간</td>
+				<td>
+					<select id="time1" name="starttime">
+						<option>시작 시간</option>
+						<c:forEach var="i" begin="9" end="18">
+							<c:set var="startTm" value="${i>9?i:'0'}${i>9?'':i}"/>
+							<option value="${i>9?i:'0'}${i>9?'':i}:00" <c:if test="${data.startDispTm eq startTm}">selected</c:if>>${i>9?i:'0'}${i>9?'':i}:00</option>
+						</c:forEach>
+					</select>	
+					<span>&nbsp;~&nbsp;</span>
+					<select id="time2" name="endtime">
+						<option>종료 시간</option>
+						<c:forEach var="i" begin="10" end="18">
+							<c:set var="endTm" value="${i>9?i:'0'}${i>9?'':i}"/>
+							<option value="${i>9?i:'0'}${i>9?'':i}:00" <c:if test="${data.endDispTm eq endTm}">selected</c:if>>${i>9?i:'0'}${i>9?'':i}:00</option>
+						</c:forEach>
+					</select>
+				</td>
+			</tr>
+		</table>
 	</div>
+	<div style="clear:both;"></div>
 	
 	<div id="btn_section" align="right">
-		<button type="button" id="btnResv">예약하기</button>
-		<button type="button">취소</button>
+		<button type="button" class="btn btnResv" id="btnResv">예약하기</button>&nbsp;
+		<button type="button" class="btn cancelResv" id="cancelResv" onclick="goCancelResv()">예약취소</button>&nbsp;
+		<button type="button" class="btn" onclick="javascript:window.close()">닫기</button>
 	</div>
 
 </form>

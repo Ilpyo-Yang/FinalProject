@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.ModelAndViewDefiningException;
 
 import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.sns.service.IntersnsMemberService;
@@ -29,11 +28,14 @@ public class GroupwareSnsController {
 	
 	// sns메인페이지 요청
 	@RequestMapping(value="/sns/snsmain.opis")
-	public ModelAndView requiredLogin_sns_main(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	public ModelAndView requiredLogin_sns_main(HttpServletRequest request, HttpServletResponse response, ModelAndView mav, MemberVO membervo) {
+		
 		
 		List<MemberVO> memberList = null;
 		
+		
 		String searchWord = request.getParameter("searchWord");
+		
 		
 		if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty()) {
 			searchWord = "";
@@ -92,4 +94,22 @@ public class GroupwareSnsController {
 		}
 		return mav;
 	}
+	
+	/*
+	 * @RequestMapping(value="/sns/status.opis") public ModelAndView
+	 * status(ModelAndView mav, MemberVO membervo, HttpServletRequest request) {
+	 * 
+	 * int n = service.statuschange(membervo);
+	 * 
+	 * if(n==1) { HttpSession session = request.getSession();
+	 * 
+	 * MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	 * loginuser.setMbr_stsconnect(membervo.getMbr_stsconnect());
+	 * 
+	 * mav.setViewName("redirect:/sns/snsmain.opis"); }
+	 * 
+	 * mav.setViewName("sns/snsmain");
+	 * 
+	 * return mav; }
+	 */
 }

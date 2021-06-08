@@ -42,6 +42,13 @@ public class snsMemberService implements IntersnsMemberService {
 		return n;
 	}
 
+	// 상태수정하기
+	@Override
+	public int statuschange(MemberVO membervo) {
+		int n = dao.statuschange(membervo);
+		return n;
+	}
+
 
 
 
