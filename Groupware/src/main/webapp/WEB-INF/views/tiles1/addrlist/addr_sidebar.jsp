@@ -271,7 +271,9 @@
 	<div class="lside">
 		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/myAddrlist.opis'">개인 주소록</button>
 		<ul class="sideUl">
-	<!-- 		<c:forEach var="agvo" items="${requestScope.addrgroupList}" varStatus="status">
+	<!-- 	
+			나중 참고용 하위메뉴
+			<c:forEach var="agvo" items="${requestScope.addrgroupList}" varStatus="status">
 		    	<c:if test="${not empty agvo.addrgroup_seq}">
 		      		<li><a href="<%=ctxPath%>/myAddrlist.opis=${agvo.addrgroup_seq}">${agvo.groupname}</a></li>		
 		      	</c:if>
