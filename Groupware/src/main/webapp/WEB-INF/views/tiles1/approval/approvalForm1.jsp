@@ -148,12 +148,12 @@
 				</div>
 				<br>
 				
-				<input type="text" name="ap_seq" value="${fileNo}"/>
-				<input type="text" name="fk_apform_no" value="0"/>
-				<input type="text" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}"/>
-				<input type="text" name="ap_approver" />
-				<input type="text" name="ap_manage_approver" />
-				<input type="text" name="ap_referrer" />
+				<input type="hidden" name="ap_seq" value="${fileNo}"/>
+				<input type="hidden" name="fk_apform_no" value="0"/>
+				<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}"/>
+				<input type="hidden" name="ap_approver" />
+				<input type="hidden" name="ap_manage_approver" />
+				<input type="hidden" name="ap_referrer" />
 	
 			</div>
 		</form>
