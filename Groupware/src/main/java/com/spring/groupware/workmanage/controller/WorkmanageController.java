@@ -234,7 +234,7 @@ public class WorkmanageController {
 		Map<String, Object> paraMap = new HashedMap<>();
 		
 		// 검색어를 통한 리스트 조회가 아닐 경우
-		if (searchType == null || (!"subject".equals(searchType) && !"name".equals(searchType))) {
+		if (searchType == null || (!"subject".equals(searchType) && !"contents".equals(searchType))) {
 			searchType = "";
 		}
 		
