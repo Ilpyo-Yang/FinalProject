@@ -77,15 +77,30 @@
 		where wmno = #{wmno}
 	</select>
 	
-	<!-- == 페이징 처리 - 총 게시물 건수 가져오기 == -->
+	<!-- == 페이징 처리 - 총 게시물 건수 가져오기 (검색이 있을 경우와 없을 경우 모두에 대해서 처리)== -->
 	<select id="getTotalCount" parameterType="HashMap" resultType="int">
 		select count(*) as totalCount
 		from tbl_workmanage
 		where wmno in (
 		    select wmno
 		    from tbl_workmanage_mbr
-		    where fk_mbr_seq = #{fk_mbr_seq} and fk_wrno = #{fk_wrno} and yn = 0
+		    where fk_mbr_seq = 5 and fk_wrno = 1 and yn = 0
 		)
+		<if test='str_workStatus != ""'>
+			and fk_statno in 
+			<foreach collection="fk_statno" item="statno" separator="," open="(" close=")">
+			#{statno}
+			</foreach>
+		</if>
+		<if test='searchWord != ""'>
+		and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%'
+		</if>
+		<if test='registerday != ""'>
+		and registerday &gt;= #{registerday}
+		</if>
+		<if test='deadline != ""'>
+		and deadline &lt;= #{deadline}
+		</if>
 	</select>
 	
 	
@@ -143,7 +158,7 @@
 		where fk_wmno = #{fk_wmno} and fk_mbr_seq = #{fk_mbr_seq} and fk_wrno = #{fk_wrno}	
 	</select>
 	
-	<!-- 담당자, 참조자 지정하기 위한 우선멤버 가져오기 -->
+	<!-- 검색 조건을 가지고 검색하기 -->
 	<select id="workListSearchWithPaging" parameterType="HashMap" resultType="com.spring.groupware.workmanage.model.WorkVO">
 		select rno, wmno, fk_wtno, requester, receivers, subject, fk_statno, checkstatus
 		       , registerday, deadline, delayday 
@@ -162,7 +177,22 @@
 		            select fk_wmno
 		            from tbl_workmanage_mbr
 		            where fk_wrno = #{fk_wrno} and fk_mbr_seq = #{fk_mbr_seq} and yn = 0
-		        )	
+		        )
+		        <if test='str_workStatus != ""'>
+					and fk_statno in 
+					<foreach collection="fk_statno" item="statno" separator="," open="(" close=")">
+					#{statno}
+					</foreach>
+				</if>
+				<if test='searchWord != ""'>
+				and lower(${searchType}) like '%'|| lower(#{searchWord}) ||'%'
+				</if>
+				<if test='registerday != ""'>
+				and registerday &gt;= #{registerday}
+				</if>
+				<if test='deadline != ""'>
+				and deadline &lt;= #{deadline}
+				</if>
 		    )
 		)
 		where rno between #{startRno} and #{endRno}

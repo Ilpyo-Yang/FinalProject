@@ -65,14 +65,16 @@ button.readCheck {
 			showOn : "button",
 			buttonImage : "<%=request.getContextPath()%>/resources/images/icon_calendar.png",
 			buttonImageOnly : true,
-			buttonText : "Select date"
+			buttonText : "Select date",
+			dateFormat: 'yy-mm-dd'
 		});
 		
 		$("#datepicker_dead").datepicker({
 			showOn : "button",
 			buttonImage : "<%=request.getContextPath()%>/resources/images/icon_calendar.png",
 			buttonImageOnly : true,
-			buttonText : "Select date"
+			buttonText : "Select date",
+			dateFormat: 'yy-mm-dd'
 		});
 		
 		// 버튼 색상 적용하는 js 함수 호출
@@ -103,6 +105,26 @@ button.readCheck {
 		});
 		
 		
+		// 검색시 검색조건 및 검색어 값 유지시키기
+		if (${not empty requestScope.paraMap}) {
+			// 검색조건 및 검색어
+			$("select#searchType").val("${requestScope.paraMap.searchType}");
+			$("input#searchWord").val("${requestScope.paraMap.searchWord}");
+			
+			// 검색 날짜 조건 
+			$("input#datepicker_reg").val("${requestScope.paraMap.registerday}");
+			$("input#datepicker_dead").val("${requestScope.paraMap.deadline}");
+			
+			// 업무 상태 조건
+			var workStatusArr = "${requestScope.paraMap.str_workStatus}".split(",");
+			for (var i=0; i<workStatusArr.length; i++) {
+				$("input.searchWorkStatus").each(function(index, item){
+					if ($(item).val() == workStatusArr[i]) {
+						$(item).prop("checked", true);
+					}
+				});
+			}
+		}
 	});
 	
 	function goDetailWork(wmno) {
@@ -169,30 +191,23 @@ button.readCheck {
 		}
 	}
 	
-	function goSearchWorkList() {
-		var workType = "${requestScope.workType}";
-		var workRole = "${requestScope.workRole}";
-		var currentShowPageNo = "${requestScope.paraMap.currentShowPageNo}";
-		var sizePerPage = $("select[name=sizePerPage]").val();
-		var searchType = "${requestScope.searchType}";
-		var searchWord = "${requestScope.searchWord}";
+	function goSearch() {
+		// 업무 검색을 위한 체크박스 중 선택한 것들 담기
+		var searchWorkStatusArr = []; 
+		$("input.searchWorkStatus").each(function(index, item) {
+			if ($(item).prop("checked") == true) {
+				searchWorkStatusArr.push($(item).val());
+			}
+		});
+		var str_searchWorkStatus = searchWorkStatusArr.join();
+		$("input[name=workStatus]").val(str_searchWorkStatus);
 		
-		console.log(sizePerPage);
-		
-		if (currentShowPageNo == "") {
-			currentShowPageNo = 1;
-		}
-		if (sizePerPage == "") {
-			sizePerPage = 3;
-		}
-		
-		var url = "<%=ctxPath%>/workList.opis?";
-		url += "workType="+workType+"&workRole="+workRole;
-		url += "&searchType="+searchType+"&searchWord="+searchWord;
-		url += "&currentShowPageNo="+currentShowPageNo+"&sizePerPage="+sizePerPage;
-		
-		location.href=url;
+		var frm = document.searchFrm;
+		frm.method = "get";
+		frm.action = "<%=ctxPath%>/workList.opis";
+		frm.submit();
 	}
+	
 	
 	function setSearchInfo() {
 		// 페이지 당 만들기
@@ -219,9 +234,10 @@ button.readCheck {
 	</c:if>
 	<hr>
 
+	<form name="searchFrm">
 	<ul id="todoSelectCondition">
 		<li>
-			<select id="selectViewCount" name="sizePerPage" onchange="goSearchWorkList();">
+			<select id="selectViewCount" name="sizePerPage" onchange="goSearch();">
 				<option value="3">3줄</option>
 				<option value="5">5줄</option>
 				<option value="10">10줄</option>
@@ -230,6 +246,7 @@ button.readCheck {
 
 		<li>전체 <span>3</span></li>
 		
+		<!-- 검색 바 열 맞추기 위해서 히든으로 숨겨둠 -->
 		<li style="width: 50px;">
 			<label for="checkImp" hidden>중요</label>
 			<input type="checkbox" id="checkImp" hidden/>
@@ -242,23 +259,35 @@ button.readCheck {
 				<label for="complete">완료</label>
 			</div>
 			<div class="checkWorkStatus">
-				<input type="checkbox" id="delay" /> 
-				<input type="checkbox" id="noncomplete" />
-				<input type="checkbox" id="complete" />
+				<input type="checkbox" id="delay" class="searchWorkStatus" value="0"/> 
+				<input type="checkbox" id="noncomplete" class="searchWorkStatus" value="1"/>
+				<input type="checkbox" id="complete" class="searchWorkStatus" value="2"/>
 			</div>
 		</li>
 
 		<li>
-			<input type="text" id="datepicker_reg" /> ~ 
-			<input type="text" id="datepicker_dead" />
+			<input type="text" id="datepicker_reg" name="registerday"/> ~ 
+			<input type="text" id="datepicker_dead" name="deadline" />
+		</li>
+		
+		<li>
+			<select id="searchType" name="searchType" >
+				<option value="subject">제목</option>
+				<option value="contents">내용</option>
+			</select>
 		</li>
 
 		<li>
-			<input type="text" id="search" />
-			<img class="searchImg" src="<%=request.getContextPath()%>/resources/images/icon_search.png" alt="searchImg" />
+			<input type="text" id="searchWord" name="searchWord" />
+			<button type="button" onclick="goSearch();" >검색</button>
+			<%-- <img class="searchImg" src="<%=request.getContextPath()%>/resources/images/icon_search.png" alt="searchImg" /> --%>
 		</li>
 	</ul>
-
+	<input type="hidden" name="workType" value="${workType}"/>
+	<input type="hidden" name="workRole" value="${workRole}"/>
+	<input type="hidden" name="workStatus"/>
+	</form>
+	
 	<table class="table table-striped tdtable">
 		<thead>
 			<tr>

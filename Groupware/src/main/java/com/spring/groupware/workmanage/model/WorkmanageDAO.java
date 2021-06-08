@@ -63,7 +63,7 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 
 	// == 페이징 처리 - 총 게시물 건수 가져오기 == //
 	@Override
-	public int getTotalCount(Map<String, String> paraMap) {
+	public int getTotalCount(Map<String, Object> paraMap) {
 		int n = sqlsession.selectOne("workmanage.getTotalCount", paraMap);
 		return n;
 	}
@@ -133,7 +133,7 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 
 	// 담당자, 참조자 지정하기 위한 우선멤버 가져오기
 	@Override
-	public List<WorkVO> workListSearchWithPaging(Map<String, String> paraMap) {
+	public List<WorkVO> workListSearchWithPaging(Map<String, Object> paraMap) {
 		List<WorkVO> workList = sqlsession.selectList("workmanage.workListSearchWithPaging", paraMap);
 		return workList;
 	}

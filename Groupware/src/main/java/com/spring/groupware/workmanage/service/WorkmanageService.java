@@ -82,7 +82,7 @@ public class WorkmanageService implements InterWorkmanageService {
 
 	// == 페이징 처리 - 총 게시물 건수 가져오기 == //
 	@Override
-	public int getTotalCount(Map<String, String> paraMap) {
+	public int getTotalCount(Map<String, Object> paraMap) {
 		int n = dao.getTotalCount(paraMap);
 		return n;
 	}
@@ -138,7 +138,7 @@ public class WorkmanageService implements InterWorkmanageService {
 
 	// 페이징 처리한 글 목록 가져오기(검색이 있든지, 없든지 모두 다)
 	@Override
-	public List<WorkVO> workListSearchWithPaging(Map<String, String> paraMap) {
+	public List<WorkVO> workListSearchWithPaging(Map<String, Object> paraMap) {
 		List<WorkVO> workList = dao.workListSearchWithPaging(paraMap);
 		return workList;
 	}

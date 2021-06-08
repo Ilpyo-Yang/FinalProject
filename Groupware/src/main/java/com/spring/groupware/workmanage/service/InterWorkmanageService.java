@@ -29,7 +29,7 @@ public interface InterWorkmanageService {
 	List<WorkVO> workListForRefer(Map<String, String> paraMap);
 
 	// 페이징 처리 - 총 게시물 건수 가져오기
-	int getTotalCount(Map<String, String> paraMap);
+	int getTotalCount(Map<String, Object> paraMap);
 
 	// 선택한 업무(요청,보고) 상세 보기 
 	WorkVO showDetailWork(Map<String, String> paraMap);
@@ -53,7 +53,7 @@ public interface InterWorkmanageService {
 	WorkMemberVO oneMbrWorkStatus(Map<String, String> paraMap);
 
 	// 페이징 처리한 글 목록 가져오기(검색이 있든지, 없든지 모두 다)
-	List<WorkVO> workListSearchWithPaging(Map<String, String> paraMap);
+	List<WorkVO> workListSearchWithPaging(Map<String, Object> paraMap);
 
 
 }

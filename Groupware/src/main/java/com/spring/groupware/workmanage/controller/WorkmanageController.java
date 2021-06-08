@@ -225,8 +225,13 @@ public class WorkmanageController {
 		// 검색어 및 현재 페이지 번호
 		String searchType = request.getParameter("searchType");
 		String searchWord = request.getParameter("searchWord");
-		String str_currentShowPageNo = request.getParameter("currentShowPageNo");
 		String str_sizePerPage = request.getParameter("sizePerPage");
+		String str_currentShowPageNo = request.getParameter("currentShowPageNo");
+		String str_workStatus = request.getParameter("workStatus");
+		String registerday = request.getParameter("registerday");
+		String deadline = request.getParameter("deadline");
+		
+		Map<String, Object> paraMap = new HashedMap<>();
 		
 		// 검색어를 통한 리스트 조회가 아닐 경우
 		if (searchType == null || (!"subject".equals(searchType) && !"name".equals(searchType))) {
@@ -236,19 +241,32 @@ public class WorkmanageController {
 		if (searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty()) {
 			searchWord = "";
 		}
-		
-		if (str_sizePerPage == null) {
-			str_sizePerPage = "3";
-		}
-		
-		// 정보 담기
-		Map<String, String> paraMap = new HashedMap<>();
-
-		paraMap.put("fk_wtno", workType); // 업무요청:1, 업무보고:2
-		paraMap.put("fk_wrno", workRole); // 내가 발신자일때:1, 수신자일때:2, 참조자일때:3
-
 		paraMap.put("searchType", searchType);
 		paraMap.put("searchWord", searchWord);
+		
+		// 업무 상태에 따른 검색이 없을 경우
+		if (str_workStatus == null || "".equals(str_workStatus)) {
+			str_workStatus = "";
+		}
+		String[] fk_statno = str_workStatus.split(",");
+		paraMap.put("fk_statno", fk_statno);
+		paraMap.put("str_workStatus", str_workStatus);
+		
+		// 등록일자와 마감일자가 비어있을 경우
+		if (registerday == null || "".equals(registerday)) {
+			registerday = "";
+		}
+		
+		if (deadline == null || "".equals(deadline)) {
+			deadline = "";
+		}
+		paraMap.put("registerday", registerday);
+		paraMap.put("deadline", deadline);
+
+		
+		// 검색한 사용자의 정보검사를 위해 
+		paraMap.put("fk_wtno", workType); // 업무요청:1, 업무보고:2
+		paraMap.put("fk_wrno", workRole); // 내가 발신자일때:1, 수신자일때:2, 참조자일때:3
 
 		// 사용자 시퀀스번호 가져오기 
 		try {
@@ -265,13 +283,17 @@ public class WorkmanageController {
 //		List<WorkVO> workList = service.workList(paraMap);
 
 		// ======= 페이징 처리해서 글 가져오기 ======= // 
-		int totalCount = 0; 									// 총 업무 건수
-		int sizePerPage = Integer.parseInt(str_sizePerPage); 	// 한 페이당 보여주는 업무 건수
-		int currentShowPageNo = 1; 								// 현재 보여주는 페이지 번호, 디폴트 1
-		int totalPage = 0; 										// 총 페이지 수
+		int totalCount = 0; 			// 총 업무 건수
+		int sizePerPage = 3; 			// 한 페이당 보여주는 업무 건수
+		int currentShowPageNo = 1; 		// 현재 보여주는 페이지 번호, 디폴트 1
+		int totalPage = 0; 				// 총 페이지 수
 		
 		int startRno = 0; 		// 시작 행 번호 
 		int endRno = 0; 		// 끝 행 번호
+		
+		if (str_sizePerPage != null) {
+			sizePerPage = Integer.parseInt(str_sizePerPage);
+		}
 
 		totalCount = service.getTotalCount(paraMap);
 		totalPage = (int) Math.ceil((double) totalCount / sizePerPage);
