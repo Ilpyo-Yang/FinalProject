@@ -53,8 +53,11 @@ public interface InterScheduleService {
 	// 회의실 예약현황 보여주기(구글 차트) 
 	List<Map<String, String>> goRegMtr();
 	
-	// 모든 회의실 예약 내역 가져오기
+	// 해당 접속자가 예약한 모든 회의실 예약 내역 가져오기
 	List<MtrHistoryVO> getMtrResvList(String userid);
+	
+	// 체크된 예약 내역 삭제하기
+	int delOneResv(String usermtrno);
 
 
 	
