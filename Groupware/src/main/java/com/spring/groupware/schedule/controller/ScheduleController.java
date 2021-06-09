@@ -97,7 +97,7 @@ public class ScheduleController {
 		
 		// 아래는 검색대상 컬럼과 검색어를 유지시키기 위한 것임.
 		if(!"".equals(searchType) && !"".equals(searchWord)) {
-			mav.addObject("paraMap",paraMap);
+			mav.addObject("paraMap", paraMap);
 		}
 		
 		mav.addObject("addrList",addrList);

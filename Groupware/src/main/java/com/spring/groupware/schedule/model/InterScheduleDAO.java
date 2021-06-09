@@ -34,6 +34,9 @@ public interface InterScheduleDAO {
 	// 모든 일정 삭제하기
 	int delAll();
 	
+	// 초대메일 발송할 사람 목록 가져오기
+	List<Map<String, String>> getRsvpList();
+	
 	//////////////////////////////////////////////////////
 	
 	// 회의실 이용기록번호 채번하기
@@ -59,6 +62,8 @@ public interface InterScheduleDAO {
 	
 	// 체크된 예약 내역 삭제하기
 	int delOneResv(String usermtrno);
+	
+	
 	
 	
 

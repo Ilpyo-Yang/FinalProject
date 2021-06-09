@@ -82,6 +82,31 @@ public class ScheduleService implements InterScheduleService{
 		return n;
 	}
 	
+	// 회의 초대 메일 보내기
+	@Override
+	public void scdEmailSending() throws Exception {
+		
+		List<Map<String, String>> rsvpList = dao.getRsvpList();
+		
+		if(rsvpList != null && rsvpList.size() > 0) {
+			
+			for(int i=0; i<rsvpList.size(); i++) {
+				String contents = "회원 ID: " + rsvpList.get(i).get("");
+				
+			//	 = rsvpList.get(i).get(key);
+				
+			}// end of for-----------------------
+			
+			Map<String, String[]> paraMap = new HashMap<>();
+			// paraMap.putIfAbsent("", );
+			
+			
+		//	dao.SendMailNCheck(paraMap);
+			
+		}
+		
+	}
+	
 	///////////////////////////////////////////////////////////일정끝
 	
 	// 회의실 이용기록번호 채번하기
@@ -139,6 +164,8 @@ public class ScheduleService implements InterScheduleService{
 		int n = dao.delOneResv(usermtrno);
 		return n;
 	}
+	
+	
 
 	
 

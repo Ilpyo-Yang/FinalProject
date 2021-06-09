@@ -23,11 +23,16 @@
 		font-weight:bold;
 	}
 	
-	.sideInfo {
+	.myName {
 		margin-bottom: 25px;
 		padding-left: 40px;
-		font-weight:bold;
 	}
+	
+	.myEmail {
+		padding-left: 40px;
+		font-weight: bold;
+		color:#008ae6;
+	}	
 	
 	#teamName {
 		text-align:center;
@@ -115,8 +120,8 @@
 					</c:otherwise>
 				</c:choose>	  			
 	  		</div>
-	  		<div class="sideInfo">수락 완료된 일정(<span></span>)</div>
-	  		<div class="sideInfo" style="margin-bottom:50px;">수락 대기중인 일정(<span></span>)</div>
+	  		<div class="myName"><span style="font-weight:bold; color:#008ae6;">${sessionScope.loginuser.mbr_name}</span>&nbsp;님</div>
+	  		<div class="myEmail">${sessionScope.loginuser.mbr_email}</div>
 	  		<br>
 	  		<div class="lside">
 	  			<button class="sideBtn" style="font-weight:bold;">일정</button>

@@ -36,6 +36,9 @@ public interface InterScheduleService {
 	// 모든 일정 삭제하기
 	int delAll();
 	
+	// 회의 초대 메일 보내기
+	void scdEmailSending() throws Exception;
+	
 	//////////////////////////////////////////////////////
 	
 	// 회의실 이용기록번호 채번하기
