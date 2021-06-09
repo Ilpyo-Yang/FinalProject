@@ -33,6 +33,13 @@ public class ScheduleService implements InterScheduleService{
 		return addrList;
 	}
 	
+	// 검색한 주소 목록 보여주기
+	@Override
+	public List<AddrVO> addrList_Search(Map<String, String> paraMap) {
+		List<AddrVO> addrList = dao.addrList_Search(paraMap);
+		return addrList;
+	}
+	
 	// 일정 등록하기
 	@Override
 	public int scdAdd(ScheduleVO schedulevo) {
@@ -132,6 +139,8 @@ public class ScheduleService implements InterScheduleService{
 		int n = dao.delOneResv(usermtrno);
 		return n;
 	}
+
+	
 
 	
 	

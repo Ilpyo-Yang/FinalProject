@@ -18,6 +18,16 @@
 		from tbl_address
 	</select>
 	
+	<!-- === 검색한 주소 목록 보여주기 === -->
+	<select id="addrList_Search" parameterType="HashMap" resultType="com.spring.groupware.addrlist.model.AddrVO">
+		select addr_seq, mbr_name, mbr_email, dept_name, mbr_phone_number
+		from tbl_address
+		<if test="searchType != '' and searchWord != '' ">
+			where lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+		</if>
+		order by addr_seq
+	</select>
+	
 	<!-- === 일정 추가하기 === -->
 	<insert id="scdAdd" parameterType="com.spring.groupware.schedule.model.ScheduleVO">
 		insert into tbl_schedule(scdno, fk_scdno2, fk_mbr_seq, scdsubject, scdstartdate, scdenddate, place, attendance)

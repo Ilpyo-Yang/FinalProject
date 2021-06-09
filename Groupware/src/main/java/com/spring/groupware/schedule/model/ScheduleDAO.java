@@ -131,6 +131,13 @@ public class ScheduleDAO implements InterScheduleDAO {
 		int n = sqlsession.delete("schedule.delOneResv", usermtrno);
 		return n;
 	}
+	
+	// 검색한 주소 목록 보여주기
+	@Override
+	public List<AddrVO> addrList_Search(Map<String, String> paraMap) {
+		List<AddrVO> addrList = sqlsession.selectList("schedule.addrList_Search", paraMap);
+		return addrList;
+	}
 
 
 	

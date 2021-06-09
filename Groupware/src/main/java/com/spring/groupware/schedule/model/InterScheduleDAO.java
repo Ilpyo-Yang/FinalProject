@@ -13,6 +13,9 @@ public interface InterScheduleDAO {
 	// 주소록 가져오기
 	List<AddrVO> getAddrList();
 		
+	// 검색한 주소 목록 보여주기
+	List<AddrVO> addrList_Search(Map<String, String> paraMap);
+
 	// 일정 등록하기
 	int scdAdd(ScheduleVO schedulevo);
 	
@@ -56,7 +59,8 @@ public interface InterScheduleDAO {
 	
 	// 체크된 예약 내역 삭제하기
 	int delOneResv(String usermtrno);
-
+	
+	
 
 	
 

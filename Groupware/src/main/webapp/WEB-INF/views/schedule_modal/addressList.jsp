@@ -13,13 +13,14 @@
 	#listup {
 		margin: 10px;
 		overflow: hidden;
-		height: 290px;
+		height: 270px;
 		width: 550px;
 	}
 	
 	table, th, td, tr {
 		text-align: center !important;
 		border-collapse: collapse;
+		font-size: 11pt;
 	}
 	
 	table {margin-left:20px;}
@@ -60,9 +61,7 @@
 		color: white;
 	}
 	
-	#sendBtn {
-		padding-left: 40px;
-	}
+	#sendBtn {padding-left: 40px;}
 	
 </style>
 
@@ -84,14 +83,30 @@
 			
 			var result = resultArr.join();
 			
-			console.log(result);
-			
 			$("input.getEmail").val(result);
 			
 		});
 		
+		$("input#searchWord").bing("keydown", function(){
+			if(event.keyCode == 13) {
+				goSearch();
+			}
+		});
+		
+		// 검색시 검색조건 및 검색어 값 유지시키기
+		if(${not empty requestScope.paraMap}) {
+			$("select#searchType").val();
+			$("input#searchWord").val();
+		}
+		
 	});// end of $(document).ready(function() {}---------------------------------- 
 	
+	function goSearch() {
+		var frm = document.searchFrm;
+		frm.action = "<%=ctxPath%>/scd_searchAddr.opis";
+		frm.submit();
+	}		
+			
 	function sendMail() {
 		
 	}
@@ -106,8 +121,8 @@
 		<form name="searchFrm">
 			<select name="searchType" id="searchType" >
 				<option>선택</option>
-				<option>부서</option>
-				<option>이름</option>
+				<option value="dept_name">부서</option>
+				<option value="mbr_name">이름</option>
 			</select>
 			
 			<input type="text" name="searchWord" id="searchWord" size="20" autocomplete="off">
