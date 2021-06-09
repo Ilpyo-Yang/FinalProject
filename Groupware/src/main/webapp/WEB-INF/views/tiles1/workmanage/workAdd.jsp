@@ -67,8 +67,8 @@ ul#setmbrList li.receiverName:hover {
 <script type="text/javascript">
 	$(document).ready(function(){
 		
-		$("input[name=workType]").each(function(index, item){
-			if (index == "${workType}") {
+		$("input[name=fk_wtno]").each(function(index, item){
+			if (index == "${fk_wtno}") {
 				$(item).attr("checked",true);
 			}
 		});
@@ -81,7 +81,7 @@ ul#setmbrList li.receiverName:hover {
 			dateFormat: 'yy-mm-dd'
 		});
 
-		var checkRadio = $("input[name=workType]:checked");
+		var checkRadio = $("input[name=fk_wtno]:checked");
 		onlyWorkInput(checkRadio);
 		
 		<%-- === #107. 검색어 입력시 자동글 완성하기 2 === --%>
@@ -184,8 +184,8 @@ ul#setmbrList li.receiverName:hover {
 		}
 		
 		// 담당자
-		var workType = $("input[name=workType]:checked").val();
-		if (workType != 0) {
+		var fk_wtno = $("input[name=fk_wtno]:checked").val();
+		if (fk_wtno != 0) {
 			var rcvlen = $("input.receiverName").length;
 			
 			if (rcvlen == 0) {
@@ -194,16 +194,16 @@ ul#setmbrList li.receiverName:hover {
 			}
 		}
 		
-		$("input[name=fk_wtno]").val(workType); // DB 컬럼명이랑 맞추기
+		$("input[name=fk_wtno]").val(fk_wtno); // DB 컬럼명이랑 맞추기
 		
-		if (workType == 1) {
+		if (fk_wtno == 1) {
 			$("input[name=fk_statno]").val("1");
 		}
-		else if (workType == 2) {
+		else if (fk_wtno == 2) {
 			$("input[name=fk_statno]").val("3");
 		}
 		
-		if (workType == 0) submitTodoRegFrm(); 
+		if (fk_wtno == 0) submitTodoRegFrm(); 
 		else submitWorkRegFrm();
 	}
 	
@@ -257,13 +257,13 @@ ul#setmbrList li.receiverName:hover {
 				<tr>
 					<td><span class="star">*</span>업무형태</td>
 					<td>
-						<input type="radio" id="mytodo" value="0" name="workType" onclick="onlyWorkInput(this);"/> 
+						<input type="radio" id="mytodo" value="0" name="fk_wtno" onclick="onlyWorkInput(this);"/> 
 						<label for="mytodo">나의 할일</label> 
 							
-						<input type="radio" id="workRequest" value="1" name="workType" onclick="onlyWorkInput(this);"/> 
+						<input type="radio" id="workRequest" value="1" name="fk_wtno" onclick="onlyWorkInput(this);"/> 
 						<label for="workRequest">업무 요청</label>
 	
-						<input type="radio" id="workReport" value="2" name="workType" onclick="onlyWorkInput(this);"/>
+						<input type="radio" id="workReport" value="2" name="fk_wtno" onclick="onlyWorkInput(this);"/>
 						<label for="workReport">업무 보고</label>
 					</td>
 				</tr>

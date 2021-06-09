@@ -128,7 +128,7 @@ button.readCheck {
 	});
 	
 	function goDetailWork(wmno) {
-		<%-- location.href="<%=request.getContextPath()%>/showDetailWork.opis?workType="+${workType}+"&workRole="+${workRole}+"&wmno="+wmno; --%>
+		<%-- location.href="<%=request.getContextPath()%>/showDetailWork.opis?fk_wtno="+${fk_wtno}+"&fk_wrno="+${fk_wrno}+"&wmno="+wmno; --%>
 		var frm = document.detailFrm;
 		frm.wmno.value = wmno;
 	    frm.searchType.value = "${requestScope.paraMap.searchType}";
@@ -225,19 +225,19 @@ button.readCheck {
 </script>
 
 <div class="container commoncontainer">
-	<c:if test="${workType == 1}">
+	<c:if test="${fk_wtno == 1}">
 		<c:choose>
-			<c:when test="${workRole == 1}"><h3>내가 한 업무 요청</h3></c:when>
-			<c:when test="${workRole == 2}"><h3>수신 업무 요청</h3></c:when>
-			<c:when test="${workRole == 3}"><h3>참조 업무 요청</h3></c:when>
+			<c:when test="${fk_wrno == 1}"><h3>내가 한 업무 요청</h3></c:when>
+			<c:when test="${fk_wrno == 2}"><h3>수신 업무 요청</h3></c:when>
+			<c:when test="${fk_wrno == 3}"><h3>참조 업무 요청</h3></c:when>
 		</c:choose>
 	</c:if>
 	
-	<c:if test="${workType == 2}">
+	<c:if test="${fk_wtno == 2}">
 		<c:choose>
-			<c:when test="${workRole == 1}"><h3>내가 한 업무 보고</h3></c:when>
-			<c:when test="${workRole == 2}"><h3>수신 업무 보고</h3></c:when>
-			<c:when test="${workRole == 3}"><h3>참조 업무 보고</h3></c:when>
+			<c:when test="${fk_wrno == 1}"><h3>내가 한 업무 보고</h3></c:when>
+			<c:when test="${fk_wrno == 2}"><h3>수신 업무 보고</h3></c:when>
+			<c:when test="${fk_wrno == 3}"><h3>참조 업무 보고</h3></c:when>
 		</c:choose>
 	</c:if>
 	<hr>
@@ -291,8 +291,8 @@ button.readCheck {
 			<%-- <img class="searchImg" src="<%=request.getContextPath()%>/resources/images/icon_search.png" alt="searchImg" /> --%>
 		</li>
 	</ul>
-	<input type="hidden" name="workType" value="${workType}"/>
-	<input type="hidden" name="workRole" value="${workRole}"/>
+	<input type="hidden" name="fk_wtno" value="${fk_wtno}"/>
+	<input type="hidden" name="fk_wrno" value="${fk_wrno}"/>
 	<input type="hidden" name="workStatus"/>
 	</form>
 	
@@ -302,13 +302,13 @@ button.readCheck {
 				<th><input type="checkbox" id="allCheckbox" onclick="clickAllCheckbox();" /></th>
 				<th>번호</th>
 				<th>제목</th>
-				<c:if test="${workRole == 1}">
-					<c:if test="${workType == 1}"><th>담당자</th></c:if>
-					<c:if test="${workType == 2}"><th>수신자</th></c:if>
+				<c:if test="${fk_wrno == 1}">
+					<c:if test="${fk_wtno == 1}"><th>담당자</th></c:if>
+					<c:if test="${fk_wtno == 2}"><th>수신자</th></c:if>
 				</c:if>
-				<c:if test="${workRole == 2 or workRole == 3}">
-					<c:if test="${workType == 1}"><th>요청자</th></c:if>
-					<c:if test="${workType == 2}"><th>보고자</th></c:if>
+				<c:if test="${fk_wrno == 2 or fk_wrno == 3}">
+					<c:if test="${fk_wtno == 1}"><th>요청자</th></c:if>
+					<c:if test="${fk_wtno == 2}"><th>보고자</th></c:if>
 				</c:if>
 				<th>등록일</th>
 				<th>마감일</th>
@@ -324,8 +324,8 @@ button.readCheck {
 					<td>${status.count}</td>
 					<td><span class="workSubject" onclick="goDetailWork('${work.wmno}')" style="cursor: pointer;">${work.subject}</span></td>
 					
-					<c:if test="${workRole == 1}"><td>${work.receivers}</td></c:if>
-					<c:if test="${workRole == 2 or workRole == 3}"><td>${work.requester}</td></c:if>
+					<c:if test="${fk_wrno == 1}"><td>${work.receivers}</td></c:if>
+					<c:if test="${fk_wrno == 2 or fk_wrno == 3}"><td>${work.requester}</td></c:if>
 					
 					<td>${work.registerday}</td>
 					<td>${work.deadline}</td>
@@ -356,7 +356,7 @@ button.readCheck {
 	
 	<!-- 업무 관련 버튼 -->
 	<div align="right">
-		<button type="button" class="workEditBtn" onclick="javascript:location.href='<%=ctxPath%>/workAdd.opis?workType=${workType}'">업무등록</button>
+		<button type="button" class="workEditBtn" onclick="javascript:location.href='<%=ctxPath%>/workAdd.opis?fk_wtno=${fk_wtno}'">업무등록</button>
 		<button type="button" class="workListBtn" onclick="javascript:location.href='<%=ctxPath%>/workList.opis?'">업무완료</button>
 		<button type="button" class="workDeleteBtn" onclick="goWorkDel();">삭제</button>
 	</div>
@@ -366,16 +366,16 @@ button.readCheck {
 		<input type="hidden" name="wmno" />
 		<input type="hidden" name="searchType" />
       	<input type="hidden" name="searchWord" />
-      	<input type="hidden" name="fk_wtno" value="${workType}"/>
-		<input type="hidden" name="fk_wrno" value="${workRole}"/>
+      	<input type="hidden" name="fk_wtno" value="${fk_wtno}"/>
+		<input type="hidden" name="fk_wrno" value="${fk_wrno}"/>
 		<input type="hidden" name="gobackURL" value="${requestScope.gobackURL}" />
 	</form>	
 	
 	<!-- 삭제할 업무 번호 폼 -->
 	<form name="delFrm">
 		<input type="hidden" name="wmnoStr" />
-		<input type="hidden" name="fk_wtno" value="${workType}"/>
-		<input type="hidden" name="fk_wrno" value="${workRole}"/>
+		<input type="hidden" name="fk_wtno" value="${fk_wtno}"/>
+		<input type="hidden" name="fk_wrno" value="${fk_wrno}"/>
 		<input type="hidden" name="gobackURL" value="${requestScope.gobackURL}"/>
 	</form>
 	

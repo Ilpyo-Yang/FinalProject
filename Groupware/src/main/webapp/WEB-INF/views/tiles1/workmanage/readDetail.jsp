@@ -4,80 +4,64 @@
 
 <%-- 업무요청 처리내역 --%>
 <c:if test="${fk_wtno == 1}">
-	<form id="workRegFrm">
-		<table class="table table-striped workShowtable">
-			<thead>
-				<tr>
-					<th>처리내역</th>
-					<th colspan="3" style="text-align: right;">
-						<button type="button" class="workStatus" style="background-color: #66ccff; font-weight: normal;">처리중 40%</button>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>담당자</td>
-					<td>${wmvo.fk_receiver_seq}</td>
-					
-					<td>최종수정일</td>
-					<td>2020.01.13 12:10</td>
-				</tr>
-				<tr>
-					<td>진척률</td>
-					<td colspan="3">40%</td>
-				</tr>
-				<tr>
-					<td>내용</td>
-					<td colspan="3"></td>
-				</tr>
+	<table class="table table-striped workShowtable">
+		<thead>
+			<tr style="background: #f2f2f2;">
+				<th colspan="4">담당자 처리내역&nbsp;
+					<select id="mbrListSelect" onchange="mbrWorkStatusChange();">
+					<c:forEach var="workmbr" items="${requestScope.workmbrList}" varStatus="status">
+						<option value="${workmbr.fk_mbr_seq}">${workmbr.mbr_name}</option>
+					</c:forEach>	
+					</select>
+				</th>
+			</tr>		
+		</thead>
+		<tbody>
+			<tr>
+				<td>담당자</td>
+				<td id="mbr_name"></td>
 				
-				<tr id="workShwoBtn">
-				<td colspan="4">
-					<button type="button" onclick="submitWorkRegFrm()">저장</button>
-					<button type="button" >취소</button>
-				</td>
+				<td>최종수정일</td>
+				<td id="lasteditdate"></td>
 			</tr>
-			</tbody>
-		</table>
-	</form>
+			<tr>
+				<td>진척률</td>
+				<td colspan="3" id="mbr_workPercent">%</td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td colspan="3"></td>
+			</tr>
+		</tbody>
+	</table>
 </c:if>
 	
 <%-- 업무보고 처리내역 --%>
 <c:if test="${fk_wtno == 2}">
-	<form id="workRegFrm">
-		<table class="table table-striped workShowtable">
-			<thead>
-				<tr>
-					<th>확인내역</th>
-					<th style="text-align: right;" colspan="3">
-						<button type="button" class="workStatus" style="background-color: #66ccff; font-weight: normal;">처리중 40%</button>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>수신자</td>
-					<td>${wmvo.fk_receiver_seq}</td>
-					
-					<td style="background-color: white;"></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>최종수정일</td>
-					<td colspan="3">2020.01.13 12:10</td>
-				</tr>
-				<tr>
-					<td>의견</td>
-					<td colspan="3"></td>
-				</tr>
+	<table class="table table-striped workShowtable">
+		<thead>
+			<tr style="background: #f2f2f2;">
+				<th colspan="4">담당자 확인내역&nbsp;
+					<select id="mbrListSelect" onchange="mbrWorkStatusChange();">
+					<c:forEach var="workmbr" items="${requestScope.workmbrList}" varStatus="status">
+						<option value="${workmbr.fk_mbr_seq}">${workmbr.mbr_name}</option>
+					</c:forEach>	
+					</select>
+				</th>
+			</tr>		
+		</thead>
+		<tbody>
+			<tr>
+				<td>수신자</td>
+				<td id="mbr_name"></td>
 				
-				<tr id="workShwoBtn">
-					<td colspan="4">
-						<button type="button" onclick="submitWorkRegFrm()">저장</button>
-						<button type="button" >취소</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</form>
+				<td>최종수정일</td>
+				<td id="lasteditdate"></td>
+			</tr>
+			<tr>
+				<td>의견</td>
+				<td colspan="3"></td>
+			</tr>
+		</tbody>
+	</table>
 </c:if>
