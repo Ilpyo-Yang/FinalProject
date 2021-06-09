@@ -9,6 +9,13 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 	
+		$.ajax({
+			url:"<%=ctxPath%>/approvalNeeded.opis?seq=${sessionScope.loginuser.mbr_seq}",
+			dataType:"json",
+			/* data: {mbr_seq:"${sessionScope.loginuser.mbr_seq}"}, */
+			success: function(json){	
+				
+			}
 		
 	}); // end of $(document).ready(function(){})---------------------------------------
 	
@@ -59,6 +66,9 @@
 					</tr>
 				</thead>
 				<tbody>
+					<c:forEach var="boardvo" items="${requestScope.approvalList}" varStatus="status">
+					
+					</c:forEach>
 					<tr>
 						<td><input type="checkbox" /></td>
 						<td></td>

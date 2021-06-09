@@ -47,6 +47,13 @@ public class ApprovalDAO implements InterApprovalDAO {
 		int n = sqlsession.insert("approval.submitAttachedApproval", paraMap);
 		return n;
 	}
+
+	// 결재대기 문서 가져오기
+	@Override
+	public List<ApprovalVO> getApprovalList(String mbr_seq) {
+		List<ApprovalVO> approvalList = sqlsession.selectList("approval.getApprovalList", mbr_seq);
+		return approvalList;
+	}
 	
 
 	

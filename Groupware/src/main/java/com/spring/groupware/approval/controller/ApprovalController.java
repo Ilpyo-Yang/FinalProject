@@ -6,11 +6,13 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -208,11 +210,29 @@ public class ApprovalController {
 	  
 	  
 	  // === 결재대기문서 === //
+	  @ResponseBody
 	  @RequestMapping(value="/approvalNeeded.opis")
-	  public ModelAndView approvalNeeded(ModelAndView mav) {   	  
-		 mav.setViewName("approval/approvalNeeded.tiles1");
-		 return mav;
+	  public String approvalNeeded(HttpServletRequest request) { 	
+		 String mbr_seq = request.getParameter("mbr_seq");
+		 List<ApprovalVO> approvalList = service.getApprovalList(mbr_seq); 
+		
+		 JSONArray jsonArr = new JSONArray(); 
+		 
+		 if(approvalList != null) {
+		     for(ApprovalVO avo : approvalList) {
+					JSONObject jsonObj = new JSONObject();	
+					jsonObj.put("apform_name", avo.getApform_name());
+					jsonObj.put("ap_title", avo.getAp_title());
+					jsonObj.put("ap_dept", avo.getAp_dept());
+					jsonObj.put("ap_start_day", avo.getAp_start_day());
+					
+					jsonArr.put(jsonObj);
+		      }
+		  }
+			
+		  return jsonArr.toString(); 
 	  }
+
 	  
 	  
 	  // === 서명관리 === //

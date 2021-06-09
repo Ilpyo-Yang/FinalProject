@@ -19,4 +19,7 @@ public interface InterApprovalDAO {
 	// 첨부파일 정보 결재요청
 	int submitAttachedApproval(Map<String, String> paraMap);
 
+	// 결재대기 문서 가져오기
+	List<ApprovalVO> getApprovalList(String mbr_seq);
+
 }

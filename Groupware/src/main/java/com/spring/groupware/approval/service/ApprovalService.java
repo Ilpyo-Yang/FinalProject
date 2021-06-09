@@ -48,6 +48,13 @@ public class ApprovalService implements InterApprovalService {
 		return n;
 	}
 
+	// 결재대기 문서 가져오기
+	@Override
+	public List<ApprovalVO> getApprovalList(String mbr_seq) {
+		List<ApprovalVO> approvalList = adao.getApprovalList(mbr_seq);
+		return approvalList;
+	}
+
 
 	
 	

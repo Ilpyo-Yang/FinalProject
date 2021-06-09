@@ -40,4 +40,23 @@
 	</insert>
 	
 
+	<!-- 결재대기 문서 가져오기 -->
+	<select id="getApprovalList" parameterType="String" resultType="com.spring.groupware.approval.model.ApprovalVO">	
+		select ap_seq, fk_apform_no, fk_mbr_seq, ap_dept, ap_progress, ap_title, ap_contents, ap_approver, ap_manage_approver
+		     , ap_referrer, ap_start_day, apform_name
+		from 
+		(        
+		select ap_seq, fk_apform_no, fk_mbr_seq, ap_progress, ap_title, ap_contents, ap_approver, ap_manage_approver
+		     , ap_referrer, ap_start_day
+		from tbl_approval
+		)A left join 
+		(
+		select apform_name, apform_no from tbl_apform
+		) B
+		on fk_apform_no = apform_no
+		where fk_mbr_seq='#{mbr_seq}' and ap_progress=0
+		order by ap_start_day
+	</select>
+	
+	
 </mapper>
