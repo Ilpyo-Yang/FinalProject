@@ -46,8 +46,8 @@ public class ApprovalService implements InterApprovalService {
 
 	// 첨부파일 있는 결재요청
 	@Override
-	public int submitAttachedApproval(FileVO fvo) {
-		int n = adao.submitAttachedApproval(fvo);
+	public int submitAttachedApproval(List<FileVO> fvoList) {
+		int n = adao.submitAttachedApproval(fvoList);
 		return n;
 	}
 

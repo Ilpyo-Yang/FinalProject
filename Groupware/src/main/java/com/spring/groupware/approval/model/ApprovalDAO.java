@@ -42,8 +42,8 @@ public class ApprovalDAO implements InterApprovalDAO {
 
 	// 첨부파일 있는 결재요청
 	@Override
-	public int submitAttachedApproval(FileVO fvo) {
-		int n = sqlsession.insert("approval.submitAttachedApproval", fvo);
+	public int submitAttachedApproval(List<FileVO> fvoList) {
+		int n = sqlsession.insert("approval.submitAttachedApproval", fvoList);
 		return n;
 	}
 	

@@ -15,16 +15,20 @@ public class FileVO {
 	
 	public FileVO() {}
 
-	//////////////////////////////////////////////////////////////
-	
-
-	
 	public MultipartFile getAttach() {
 		return attach;
 	}
 
 	public void setAttach(MultipartFile attach) {
 		this.attach = attach;
+	}
+
+	public String getFk_ap_seq() {
+		return fk_ap_seq;
+	}
+
+	public void setFk_ap_seq(String fk_ap_seq) {
+		this.fk_ap_seq = fk_ap_seq;
 	}
 
 	public String getAp_filename() {
@@ -50,6 +54,9 @@ public class FileVO {
 	public void setAp_fileSize(String ap_fileSize) {
 		this.ap_fileSize = ap_fileSize;
 	}
-		
-}
-		
+
+	//////////////////////////////////////////////////////////////
+	
+
+	
+}	

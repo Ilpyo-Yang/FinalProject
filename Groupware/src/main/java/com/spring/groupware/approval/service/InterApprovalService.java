@@ -20,7 +20,7 @@ public interface InterApprovalService {
 	int submitApproval(ApprovalVO avo);
 
 	// 첨부파일 있는 결재요청
-	int submitAttachedApproval(FileVO fvo);
+	int submitAttachedApproval(List<FileVO> fvoList);
 
 
 
