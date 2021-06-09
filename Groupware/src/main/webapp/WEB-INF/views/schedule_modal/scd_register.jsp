@@ -194,7 +194,7 @@
 			<td id="title">참석자</td>
 			<td id="contents">
 				<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}" /> 
-				<input type="text" name="attendance"/>
+				<input type="text" id="attendance" name="attendance"/>
 				<button type="button" id="address" onclick="goAddress()">주소록</button>
 			</td>
 		</tr>

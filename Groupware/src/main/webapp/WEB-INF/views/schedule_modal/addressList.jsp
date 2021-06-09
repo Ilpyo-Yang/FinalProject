@@ -13,13 +13,14 @@
 	#listup {
 		margin: 10px;
 		overflow: hidden;
-		height: 290px;
+		height: 270px;
 		width: 550px;
 	}
 	
 	table, th, td, tr {
 		text-align: center !important;
 		border-collapse: collapse;
+		font-size: 11pt;
 	}
 	
 	table {margin-left:20px;}
@@ -60,9 +61,7 @@
 		color: white;
 	}
 	
-	#sendBtn {
-		padding-left: 40px;
-	}
+	#sendBtn {padding-left: 40px;}
 	
 </style>
 
@@ -75,25 +74,49 @@
 
 	$(document).ready(function() {
 		$("input:checkbox[name=email]").click(function() {
-			var resultArr = [];
+			var emailArr = [];
+			var nameArr = [];
 			var bool = $(this).prop("checked");
 
 			if (bool) {
-				resultArr.push($(this).val());
+				emailArr.push($(this).val());
+				nameArr.push($(this).parent().next().next().text());
 			} 
 			
-			var result = resultArr.join();
+			var emailList = emailArr.join();
+			var nameList = nameArr.join();
 			
-			console.log(result);
+			console.log(emailList);
+			console.log(nameList);
 			
-			$("input.getEmail").val(result);
+			$("input.getEmail").val(emailList);
+			$("input.getName").val(nameList);
+			
 			
 		});
 		
+		$("input#searchWord").bind("keydown", function(){
+			if(event.keyCode == 13) {
+				goSearch();
+			}
+		});
+		
+		// 검색시 검색조건 및 검색어 값 유지시키기
+		if(${not empty requestScope.paraMap}){
+			$("select#searchType").val("${requestScope.paraMap.searchType}");
+			$("input#searchWord").val("${requestScope.paraMap.searchWord}");
+		}
+		
 	});// end of $(document).ready(function() {}---------------------------------- 
 	
-	function sendMail() {
-		
+	function goSearch() {
+		var frm = document.searchFrm;
+		frm.action = "<%=ctxPath%>/scd_searchAddr.opis";
+		frm.submit();
+	}		
+			
+	function sendtoParent() {
+		opener.document.getElementById("attendance").value = document.getElementById("mbr_name").value;
 	}
 	
 </script>
@@ -106,8 +129,8 @@
 		<form name="searchFrm">
 			<select name="searchType" id="searchType" >
 				<option>선택</option>
-				<option>부서</option>
-				<option>이름</option>
+				<option value="dept_name">부서</option>
+				<option value="mbr_name">이름</option>
 			</select>
 			
 			<input type="text" name="searchWord" id="searchWord" size="20" autocomplete="off">
@@ -125,14 +148,14 @@
 				<th>이메일</th>
 				<th>전화번호</th>
 			</tr>	
-			<c:forEach var="addrList" items="${requestScope.addrList}">
+			<c:forEach var="address" items="${requestScope.addrList}">
 				<tr>
-					<td><input type="checkbox" id="chkbox" name="email" value="${addrList.mbr_email}" /></td>
-					<td>${addrList.addr_seq}</td>
-					<td>${addrList.mbr_name}</td>
-					<td>${addrList.dept_name}</td>
-					<td>${addrList.mbr_email}</td>
-					<td id="phonenum">${addrList.mbr_phone_number}</td>
+					<td><input type="checkbox" id="chkbox" name="email" value="${address.mbr_email}" /></td>
+					<td>${address.addr_seq}</td>
+					<td>${address.mbr_name}</td>
+					<td>${address.dept_name}</td>
+					<td>${address.mbr_email}</td>
+					<td id="phonenum">${address.mbr_phone_number}</td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -148,3 +171,8 @@
 		<button type="button" class="cbtn ok" onclick="sendtoParent()">확인</button>
 		<button type="button" class="cbtn" onclick="javascript:window.close();">닫기</button>
 	</div>
+
+<form name="nameListFrm">
+	<input type="hidden" class="getName" id="mbr_name" name="mbr_name" />
+</form>
+	
