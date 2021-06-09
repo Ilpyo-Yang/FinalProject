@@ -90,6 +90,13 @@ public class AddrDAO implements InterAddrDAO {
 		return myAddrlist;
 	}
 	
+	// === 등록한 개인주소록 하위메뉴로 불러오기  === //
+	@Override
+	public List<AddrGroupVO> getAddrGNamelist(String fk_mbr_seq) {
+		List<AddrGroupVO> addrGNamelist = sqlsession.selectList("address.getAddrGNamelist", fk_mbr_seq);
+		return addrGNamelist;
+	}
+	
 	/*
 		개인 주소록 관리
 	*/

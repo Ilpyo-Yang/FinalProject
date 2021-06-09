@@ -84,6 +84,12 @@ public class AddrService implements InterAddrService {
 	    return myAddrlist;
 	}	
 	
+	// === 등록한 개인주소록 하위메뉴로 불러오기 === //
+	@Override
+	public List<AddrGroupVO> getAddrGNamelist(String fk_mbr_seq) {
+		List<AddrGroupVO> addrNamelist = adao.getAddrGNamelist(fk_mbr_seq); 
+		return addrNamelist;
+	}
 	
 	/*
 		개인 주소록 관리
@@ -118,6 +124,7 @@ public class AddrService implements InterAddrService {
 		int n = adao.delAddrgroup(paraMap);
 		return n;
 	}
+
 	
 	
 }

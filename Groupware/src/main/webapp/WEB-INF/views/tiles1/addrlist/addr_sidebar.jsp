@@ -15,6 +15,9 @@
 
    $(document).ready(function(){
       
+	  showAddrGNamelist();
+	  
+	  // ========== 주소록 등록 유효성 검사 시작 ========== //
       $("span.error").hide();
       
       // ========== 이름 검사 ========== // 
@@ -113,54 +116,78 @@
 	      $("button#zipcodeSearch").click(function(){
 	         new daum.Postcode({
 	               oncomplete: function(data) {
-	                   // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 	                   var addr = ''; // 주소 변수
 	                   var extraAddr = ''; // 참고항목 변수
-	                   //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
 	                   if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
 	                       addr = data.roadAddress;
 	                   } else { // 사용자가 지번 주소를 선택했을 경우(J)
 	                       addr = data.jibunAddress;
 	                   }
-	                   // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+	                   // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합
 	                   if(data.userSelectedType === 'R'){
-	                       // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-	                       // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+	                       // 법정동명이 있을 경우 추가 (법정리는 제외)
 	                       if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
 	                           extraAddr += data.bname;
 	                       }
-	                       // 건물명이 있고, 공동주택일 경우 추가한다.
+	                       // 건물명이 있고, 공동주택일 경우 추가
 	                       if(data.buildingName !== '' && data.apartment === 'Y'){
 	                           extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
 	                       }
-	                       // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
 	                       if(extraAddr !== ''){
 	                           extraAddr = ' (' + extraAddr + ')';
 	                       }
-	                       // 조합된 참고항목을 해당 필드에 넣는다.
 	                       document.getElementById("extraAddress").value = extraAddr;
 	                   
 	                   } else {
 	                       document.getElementById("extraAddress").value = '';
 	                   }
-	                   // 우편번호와 주소 정보를 해당 필드에 넣는다.
 	                   document.getElementById('postcode').value = data.zonecode;
 	                   document.getElementById("address").value = addr;
-	                   // 커서를 상세주소 필드로 이동한다.
 	                   document.getElementById("detailaddress").focus();
 	               }
 	           }).open();
 	           
 	        }); // end of $("button#zipcodeSearch").click(function(){}--------------------------------
 	
+	     // ========== 주소록 등록 유효성 검사 끝 ========== //
+	     
    }); // end of $(document).ready(function(){})------------------
   
+   // 주소록 등록
    function goRegister(){
 	   var frm = document.addFrm;
        frm.method = "POST";
        frm.action = "<%=ctxPath%>/addr_addEnd.opis";
        frm.submit();	   
-   }
+   }// function goRegister(){}----------------------------------------------------------------
+   
+   // 개인 주소록 하위메뉴 읽어오기
+   function showAddrGNamelist(){
+      
+      $.ajax({
+        url: "<%=ctxPath%>/showAddrGNamelist.opis",
+        type: "GET",
+        data:{"fk_mbr_seq":"${sessionScope.loginuser.mbr_seq}"},
+        dataType:"json",
+        success:function(json){
+           	var html = "";
+               if(json.length > 0 ){ 
+                  $.each(json,function(item){
+                     html += "<li>"+item.groupname+"</li>";
+                  });
+                  
+               }
+               
+               $("ul#addrlistDisplay").html(html);
+               
+        	  },
+        error: function(request, status, error){
+                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+              }
+      });
+       
+   }//end of function viewAddrGNamelist(){} ----------------------
+   
    
 </script>
 
@@ -270,15 +297,7 @@
 	</div>
 	<div class="lside">
 		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/myAddrlist.opis'">개인 주소록</button>
-		<ul class="sideUl">
-	<!-- 	
-			나중 참고용 하위메뉴
-			<c:forEach var="agvo" items="${requestScope.addrgroupList}" varStatus="status">
-		    	<c:if test="${not empty agvo.addrgroup_seq}">
-		      		<li><a href="<%=ctxPath%>/myAddrlist.opis=${agvo.addrgroup_seq}">${agvo.groupname}</a></li>		
-		      	</c:if>
-			</c:forEach>  -->
-		</ul>
+		<ul class="sideUl" id="addrlistDisplay"></ul>
 	</div>
 	<div class="lside">
 		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/addr_setting.opis'">개인 주소록 관리</button>

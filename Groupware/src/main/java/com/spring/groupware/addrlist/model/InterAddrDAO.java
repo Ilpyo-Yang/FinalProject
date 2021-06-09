@@ -36,7 +36,11 @@ public interface InterAddrDAO {
 	
 	// 페이징 처리한 주소록그룹 상세목록
 	List<AddrVO> myAddrlistSearchWithPaging(Map<String, String> paraMap);
-	
+
+	// 등록한 개인주소록 하위메뉴로 불러오기 
+	List<AddrGroupVO> getAddrGNamelist(String fk_mbr_seq);
+
+
 	/*
 		개인 주소록 관리
 	*/
@@ -53,7 +57,6 @@ public interface InterAddrDAO {
 	// 주소록 그룹 삭제 
 	int delAddrgroup(Map<String, String> paraMap);
 
-	
 
 
 

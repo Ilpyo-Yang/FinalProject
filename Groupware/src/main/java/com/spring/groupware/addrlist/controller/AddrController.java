@@ -414,6 +414,31 @@ public class AddrController {
  	  return mav;
    }
    
+   // 개인 주소록 하위메뉴 불러오기
+	@ResponseBody
+	@RequestMapping(value="/showAddrGNmaelist.opis", method= {RequestMethod.GET}, produces="text/plain;charset=UTF-8")
+	public String showAddrlist(HttpServletRequest request) {
+		
+		String fk_mbr_seq = request.getParameter("fk_mbr_seq"); 
+		System.out.println("확인용 하위메뉴 번호"+fk_mbr_seq);
+		
+		List<AddrGroupVO> addrGNamelist = service.getAddrGNamelist(fk_mbr_seq);
+		
+		JSONArray jsonArr = new JSONArray(); // []
+		
+		if(addrGNamelist != null) {
+			for(AddrGroupVO agvo : addrGNamelist) {
+				JSONObject jsonObj = new JSONObject();
+				jsonObj.put("addrgroup_seq", agvo.getAddrgroup_seq());
+				jsonObj.put("groupname", agvo.getGroupname());
+				
+				jsonArr.put(jsonObj);
+			}
+		}
+		
+		return jsonArr.toString();
+	}
+
    
    // ============================ 개인 주소록 관리 ============================ //
    // === 주소록 목록 === //
