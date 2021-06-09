@@ -84,13 +84,13 @@
 	<div id="approvalContainer">
 		<form name="approvalSubmitForm" enctype="multipart/form-data">
 			<span class="subtitle">기안문작성</span>
-			<hr>
+			<hr class="hr">
 			<div id="approvalFormStyle">   
 			     	
 				<div id="top">
-					<button type="button" class="btn btn-success formBtn" id="approvalMember">결재선</button>
-					<button type="button" class="btn btn-success formBtn" id="approvalSubmit">결재요청</button>
-					<button type="button" class="btn btn-default formBtn" onclick="location.href='<%=ctxPath%>/approvalMain.opis';">취소</button>
+					<button type="button" class="btn btn-success formBtn3" id="approvalMember">결재선</button>
+					<button type="button" class="btn btn-success formBtn3" id="approvalSubmit">결재요청</button>
+					<button type="button" class="btn btn-default formBtn3" onclick="location.href='<%=ctxPath%>/approvalMain.opis';">취소</button>
 					<br>
 					<div id="signTitle">결재라인</div><br><br>
 					<table id="sign">
@@ -128,7 +128,7 @@
 							<tr>
 								<td>문서제목</td>
 								<td colspan="3">
-									<input type="text" class="form-control" id="ap_title" name="ap_title"/>
+									<input type="text" class="form-control size1" name="ap_title"/>
 								</td>
 							</tr>
 							<tr>
@@ -143,7 +143,7 @@
 				
 				<div id="bottom">
 					<input type="file" name="attach" id="attach" name="attach" multiple />
-					<button type="button" class="btn btn-success formBtn" id="attachBtn" onclick="func_attach()" >파일업로드</button>			
+					<button type="button" class="btn btn-success formBtn3" id="attachBtn" onclick="func_attach()" >파일업로드</button>			
 					<div id="attachedFile"></div>
 				</div>
 				<br>

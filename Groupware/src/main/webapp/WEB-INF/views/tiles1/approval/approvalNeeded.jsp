@@ -17,15 +17,15 @@
 <body>
 
 	<div id="approvalContainer">
-		<span class="subtitle">결재진행함</span>
+		<span class="subtitle">결재대기문서</span>
 		<hr> 	
 		<div id="searchOption">
 			<table>
 				<tr>
 					<td>기안자</td>
-					<td id=""><input type="text" class="form-control searchInput"/></td>
+					<td><input type="text" class="form-control searchInput" style="width: 50%;"/></td>
 					<td>기안일</td>
-					<td id="">
+					<td>
 						<input type="text" class="form-control searchInput"/>
 						<span class="space">-</span>
 						<input type="text" class="form-control searchInput"/>
@@ -34,8 +34,8 @@
 				<tr>
 					<td>문서제목</td>
 					<td colspan="3">
-						<input type="text" class="form-control" id="searchInput"/>
-						<button type="button" class="btn btn-success" id="search">조회하기</button>
+						<input type="text" class="form-control searchInput"/>
+						<button type="button" class="btn formBtn4" id="search">조회하기</button>
 					</td>
 				</tr>
 			</table>
@@ -46,7 +46,8 @@
 				<option>8개</option>
 				<option>4개</option>
 			</select>
-			<table>
+			
+			<table class="table table-striped">
 				<thead>
 					<tr>
 						<th><input type="checkbox" /></th>
@@ -67,8 +68,10 @@
 						<td></td>
 					</tr>
 				</tbody>
-			</table>
-			<button type="button" class="btn btn-success" id="approval">일괄결재</button>
+			</table> 			
+						
+			<button type="button" class="btn btn-success formBtn4" id="approval">일괄결재</button>
+			
 		</div>
 	</div>
 

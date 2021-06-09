@@ -58,7 +58,14 @@ public class ApprovalController {
 	  
 	  // === 지출결의서 === //
 	  @RequestMapping(value="/approvalForm2.opis")
-	  public ModelAndView approvalForm2(ModelAndView mav) {   	  
+	  public ModelAndView approvalForm2(ModelAndView mav) { 
+		 String today = MyUtil.getToday();
+		 String fileNo = service.getFileNo(); 
+		 List<MemberVO> memberList = service.getMemberList(); 
+		 
+		 mav.addObject("today",today);
+		 mav.addObject("fileNo",fileNo);
+		 mav.addObject("memberList",memberList); 
 		 mav.setViewName("approval/approvalForm2.tiles1");
 		 return mav;
 	  }
@@ -67,6 +74,13 @@ public class ApprovalController {
 	  // === 휴가계획서 === //
 	  @RequestMapping(value="/approvalForm3.opis")
 	  public ModelAndView approvalForm3(ModelAndView mav) {   	  
+		 String today = MyUtil.getToday();
+		 String fileNo = service.getFileNo(); 
+		 List<MemberVO> memberList = service.getMemberList(); 
+		 
+		 mav.addObject("today",today);
+		 mav.addObject("fileNo",fileNo);
+		 mav.addObject("memberList",memberList); 
 		 mav.setViewName("approval/approvalForm3.tiles1");
 		 return mav;
 	  }
@@ -184,10 +198,10 @@ public class ApprovalController {
 	  }
 	  
 	  
-	  // === 결재진행함 === //
-	  @RequestMapping(value="/approvalProcess.opis")
-	  public ModelAndView approvalProcess(ModelAndView mav) {   	  
-		 mav.setViewName("approval/approvalProcess.tiles1");
+	  // === 결재대기문서 === //
+	  @RequestMapping(value="/approvalNeeded.opis")
+	  public ModelAndView approvalNeeded(ModelAndView mav) {   	  
+		 mav.setViewName("approval/approvalNeeded.tiles1");
 		 return mav;
 	  }
 	  
