@@ -49,7 +49,7 @@ String ctxPath = request.getContextPath();
 </script>
 </head>
 <body>
-<form name="changeFrm">
+<form name="changeFrm" enctype="multipart/form-data">
 	<div class=snsmaincontainer style="background-color: white;">
 		<div class="form-group">
 		  <label for="usr" class="lform">이름: </label>
@@ -62,7 +62,7 @@ String ctxPath = request.getContextPath();
 		</div>
 		<div class="form-group" >
 		  <label for="usr" class="lform">프로필사진: </label>
-		  <input type="file" class="form-control" id="file">
+		  <input type="file" class="form-control" id="file" name="mbr_photo">
 		</div>
 		<div class="form-group" >
 		  <button type="button" class="btn btn-success" onclick="goinfochangeend()" >수정하기</button>
