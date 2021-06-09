@@ -172,6 +172,7 @@
 				<input type="hidden" name="ap_seq" value="${fileNo}"/>
 				<input type="hidden" name="fk_apform_no" value="2"/>
 				<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}"/>
+				<input type="hidden" name="ap_dept" value="${sessionScope.loginuser.dept_detail}"/>
 				<input type="hidden" name="ap_approver" />
 				<input type="hidden" name="ap_manage_approver" />
 				<input type="hidden" name="ap_referrer" />
