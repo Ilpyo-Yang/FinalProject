@@ -24,7 +24,7 @@ String ctxPath = request.getContextPath();
 			
 		});
 		
-		$("select#status").bind(function(){
+		$("select#mbr_stsconnect").bind("change", function(){
 			func_select($(this).val());
 		});
 	});
@@ -58,8 +58,12 @@ String ctxPath = request.getContextPath();
 	<div class="snsmaincontainer">
 		<div class="userinfo">
 			<div class="userinfoside">
-			<img class="mainuserimg" src="<%= ctxPath%>/resources/images/${sessionScope.loginuser.mbr_img}"  style="margin-top: 20px; margin-left: 20px;"/>
-			
+			<c:if test="${sessionScope.loginuser.mbr_img == 'nomaluserimg.png'}">
+				<img class="mainuserimg" src="<%= ctxPath%>/resources/images/nomaluserimg.png"  style="margin-top: 20px; margin-left: 20px;"/>
+			</c:if>
+			<c:if test="${sessionScope.loginuser.mbr_img != 'nomaluserimg.png'}">
+				<img class="mainuserimg" src="<%= ctxPath%>/resources/images/files/${sessionScope.loginuser.mbr_img}"  style="margin-top: 20px; margin-left: 20px;"/>
+			</c:if>
 			</div>
 			<div class="userinfotop">
 				<span class="username" >${sessionScope.loginuser.mbr_name}</span>
@@ -74,11 +78,12 @@ String ctxPath = request.getContextPath();
 				    		<c:if test="${sessionScope.loginuser.mbr_stsconnect == 2}">자리비움 </c:if>
 				    		<c:if test="${sessionScope.loginuser.mbr_stsconnect == 3}">회의중 </c:if>
 				    	</option>
-						<option value="mbr_stsconnect">온라인</option>
-						<option value="mbr_stsconnect">오프라인</option>
-						<option value="mbr_stsconnect">자리비움</option>
-						<option value="mbr_stsconnect">회의중</option>
+						<option value="1">온라인</option>
+						<option value="0">오프라인</option>
+						<option value="2">자리비움</option>
+						<option value="3">회의중</option>
 					</select>
+					<input type="hidden" class="form-control" id="mbr_id" name="mbr_id" value='${sessionScope.loginuser.mbr_id}'>
 				</form>
 				<img src="<%= ctxPath%>/resources/images/pencel.png" onclick="javascript:location.href='<%= ctxPath%>/sns/infochange.opis'" style="margin-left:8px; width: 25px; height: 25px; float: left;"/>
 				
@@ -112,7 +117,12 @@ String ctxPath = request.getContextPath();
 					<c:if test="${membervo.mbr_stsconnect == 1}"><img class="constatus" src="<%= ctxPath%>/resources/images/online.PNG" /></c:if>
 					<c:if test="${membervo.mbr_stsconnect == 2}"><img class="constatus" src="<%= ctxPath%>/resources/images/leave.PNG" /></c:if> 
 					<c:if test="${membervo.mbr_stsconnect == 3}"><img class="constatus" src="<%= ctxPath%>/resources/images/conference.PNG" /></c:if>
-						<img class="mainuserimg" src="<%= ctxPath%>/resources/images/${membervo.mbr_img}" style="margin-left: 20px;"/>
+						<c:if test="${sessionScope.loginuser.mbr_img == 'nomaluserimg.png'}">
+							<img class="mainuserimg" src="<%= ctxPath%>/resources/images/nomaluserimg.png"  style="margin-top: 20px; margin-left: 20px;"/>
+						</c:if>
+						<c:if test="${sessionScope.loginuser.mbr_img != 'nomaluserimg.png'}">
+							<img class="mainuserimg" src="<%= ctxPath%>/resources/images/files/${sessionScope.loginuser.mbr_img}"  style="margin-top: 20px; margin-left: 20px;"/>
+						</c:if>
 					</div>
 					
 					<div class="userinforightside">
