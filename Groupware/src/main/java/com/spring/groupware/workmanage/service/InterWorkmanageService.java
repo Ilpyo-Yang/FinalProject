@@ -43,8 +43,8 @@ public interface InterWorkmanageService {
 	// 담당자들의 업무 정보 가져오기
 	List<WorkMemberVO> getWorkStatusEachMember(String wmno);
 
-	// 업무 수정하기
-	int workEditEnd(WorkVO workvo);
+	// 업무 수정하기 및 수정일자 업데이트 하기
+	int workEditEnd(WorkVO workvo, Map<String, String> paraMap);
 
 	// 업무 삭제하기
 	int workDel(Map<String, Object> paraMap);

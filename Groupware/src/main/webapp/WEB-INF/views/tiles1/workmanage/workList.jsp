@@ -128,7 +128,15 @@ button.readCheck {
 	});
 	
 	function goDetailWork(wmno) {
-		location.href="<%=request.getContextPath()%>/showDetailWork.opis?workType="+${workType}+"&workRole="+${workRole}+"&wmno="+wmno;
+		<%-- location.href="<%=request.getContextPath()%>/showDetailWork.opis?workType="+${workType}+"&workRole="+${workRole}+"&wmno="+wmno; --%>
+		var frm = document.detailFrm;
+		frm.wmno.value = wmno;
+	    frm.searchType.value = "${requestScope.paraMap.searchType}";
+	    frm.searchWord.value = "${requestScope.paraMap.searchWord}";
+	    
+		frm.method = "get";
+		frm.action = "<%=ctxPath%>/showDetailWork.opis";
+		frm.submit();
 	}
 	
 	// 업무 삭제하기 
@@ -352,6 +360,16 @@ button.readCheck {
 		<button type="button" class="workListBtn" onclick="javascript:location.href='<%=ctxPath%>/workList.opis?'">업무완료</button>
 		<button type="button" class="workDeleteBtn" onclick="goWorkDel();">삭제</button>
 	</div>
+	
+	<!-- 상세한 업무 내용 보내기 폼 -->
+	<form name="detailFrm">
+		<input type="hidden" name="wmno" />
+		<input type="hidden" name="searchType" />
+      	<input type="hidden" name="searchWord" />
+      	<input type="hidden" name="fk_wtno" value="${workType}"/>
+		<input type="hidden" name="fk_wrno" value="${workRole}"/>
+		<input type="hidden" name="gobackURL" value="${requestScope.gobackURL}" />
+	</form>	
 	
 	<!-- 삭제할 업무 번호 폼 -->
 	<form name="delFrm">

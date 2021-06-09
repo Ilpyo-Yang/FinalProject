@@ -247,7 +247,7 @@ ul#setmbrList li.receiverName:hover {
 	
 	<br>
 	
-	<form name="workRegFrm">
+	<form name="workRegFrm" enctype="multipart/form-data">
 		<table class="table table-striped workRegtable">
 			<tbody>
 				<tr>
@@ -291,7 +291,7 @@ ul#setmbrList li.receiverName:hover {
 			
 				<tr>
 					<td>파일 업로드</td>
-					<td><button name="addfile" type="button">파일추가</button></td>
+					<td><input type="file" name="attach" /></td>
 				</tr>
 				<tr>
 					<td>내용</td>

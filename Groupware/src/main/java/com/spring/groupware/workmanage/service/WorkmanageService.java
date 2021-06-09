@@ -50,18 +50,24 @@ public class WorkmanageService implements InterWorkmanageService {
 	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
 	public int workAddEnd(WorkVO workvo, List<WorkMemberVO> workmbrList) {
 		int n = dao.workAddEnd(workvo);
-		int m = 0;
+		int m = 0, k = 1;
 		
 		if (n == 1) {
+			
 			for (WorkMemberVO workmbr: workmbrList) {
 				workmbr.setFk_wmno(workvo.getWmno());
 				m = dao.workAddMember(workmbr);
 				
 				if (m == 0) break;
 			}
+			
+			if (m != 0 && !workvo.getAttach().isEmpty()) {
+				System.out.println("attach true" + workvo.getAttach().toString());
+				k = dao.workAddFile(workvo);
+			}
 		}
 		
-		return n*m;
+		return n*m*k;
 	}
 
 	// == 업무 리스트(요청,보고) 보여주기 == // 
@@ -89,8 +95,16 @@ public class WorkmanageService implements InterWorkmanageService {
 
 	// == 선택한 업무(요청,보고) 상세 보기  == //
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
 	public WorkVO showDetailWork(Map<String, String> paraMap) {
 		WorkVO workvo = dao.showDetailWork(paraMap);
+		
+		// 수신함에 있는 업무를 클릭해서 보게될 경우 읽은 날짜로 업데이트 해주기 
+		String fk_wrno = paraMap.get("fk_wrno");
+		if ("2".equals(fk_wrno)) {
+			dao.updateReadcheckdate(paraMap);
+		}
+		
 		return workvo;
 	}
 
@@ -115,11 +129,18 @@ public class WorkmanageService implements InterWorkmanageService {
 		return workmbrList;
 	}
 
-	// 업무 수정하기
+	// 업무 수정하기 및 수정일자 업데이트 하기
 	@Override
-	public int workEditEnd(WorkVO workvo) {
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
+	public int workEditEnd(WorkVO workvo, Map<String,String> paraMap) {
 		int n = dao.workEditEnd(workvo);
-		return n;
+		int m = 0;
+		
+		if (n == 1) {
+			m = dao.updateLasteditdate(paraMap);
+		}
+		
+		return n*m;
 	}
 
 	// 업무 삭제하기
@@ -142,5 +163,6 @@ public class WorkmanageService implements InterWorkmanageService {
 		List<WorkVO> workList = dao.workListSearchWithPaging(paraMap);
 		return workList;
 	}
+
 
 }

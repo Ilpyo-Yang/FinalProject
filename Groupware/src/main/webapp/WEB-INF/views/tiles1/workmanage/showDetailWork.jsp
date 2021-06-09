@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	  
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <% String ctxPath = request.getContextPath(); %>  
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -104,7 +105,7 @@
 				<td>${workvo.registerday}</td>
 				
 				<td>수정일</td>
-				<td>2020.01.11 12:10</td>
+				<td>${workvo.lasteditdate}</td>
 			</tr>
 			<tr>
 				<td>수신자</td>
@@ -125,7 +126,8 @@
 		</tbody>
 	</table>
 	
-	<!-- 처리내역 테이블 만들기 -->
+	<!-- 처리내역 테이블 만들기 (내가 요청한 업무, 참조 업무일 경우)-->
+	<c:if test="${requestScope.workRole ne 2}">
 	<table class="table table-striped workShowtable">
 		<thead>
 			<tr style="background: #f2f2f2;">
@@ -156,12 +158,47 @@
 			</tr>
 		</tbody>
 	</table>
+	</c:if>
+	
+	<!-- 처리내역 테이블 만들기 (수신 업무일 경우) -->
+	<c:if test="${requestScope.workRole ne 2}">
+	<table class="table table-striped workShowtable">
+		<thead>
+			<tr style="background: #f2f2f2;">
+				<th colspan="4">담당자 처리내역&nbsp;
+					<select id="mbrListSelect" onchange="mbrWorkStatusChange();">
+					<c:forEach var="workmbr" items="${requestScope.workmbrList}" varStatus="status">
+						<option value="${workmbr.fk_mbr_seq}">${workmbr.mbr_name}</option>
+					</c:forEach>	
+					</select>
+				</th>
+			</tr>		
+		</thead>
+		<tbody>
+			<tr>
+				<td>담당자</td>
+				<td id="mbr_name"></td>
+				
+				<td>최종수정일</td>
+				<td id="lasteditdate"></td>
+			</tr>
+			<tr>
+				<td>진척률</td>
+				<td colspan="3" id="mbr_workPercent">%</td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td colspan="3"></td>
+			</tr>
+		</tbody>
+	</table>
+	</c:if>
 	
 	<!-- 업무 관련 버튼 -->
 	<div align="right">
 		<button type="button" class="workEditBtn" onclick="javascript:location.href='<%=ctxPath%>/workEdit.opis?wmno=${workvo.wmno}'">수정</button>
 		<button type="button" class="workDeleteBtn" onclick="goWorkDel();">삭제</button>
-		<button type="button" class="workListBtn" onclick="javascript:location.href='<%=ctxPath%>/workList.opis?'">목록</button>
+		<button type="button" class="workListBtn" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
 	</div>
 	
 	<!-- 삭제할 업무 번호 폼 -->
