@@ -34,13 +34,9 @@
 	
 	
 	<!-- 결재요청 첨부파일 저장하기 -->
-	<insert id="submitAttachedApproval" parameterType="java.util.List">
+	<insert id="submitAttachedApproval" parameterType="HashMap">	
 		insert into tbl_ap_attached(fk_ap_seq, ap_filename, ap_detail_filename, ap_fileSize)
-		values(
-		<foreach collection="list" item="item" separator=","> 
-			#{item.fk_ap_seq}, #{item.ap_filename}, #{item.ap_detail_filename}, #{item.ap_fileSize}
-		</foreach>
-		)
+		values (#{fk_ap_seq}, #{ap_filename}, #{ap_detail_filename}, #{ap_fileSize})
 	</insert>
 	
 

@@ -1,8 +1,7 @@
 package com.spring.groupware.approval.controller;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,7 +16,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.groupware.approval.model.ApprovalVO;
-import com.spring.groupware.approval.model.FileVO;
 import com.spring.groupware.approval.service.InterApprovalService;
 import com.spring.groupware.common.FileManager;
 import com.spring.groupware.common.MyUtil;
@@ -98,7 +96,7 @@ public class ApprovalController {
 	  
 	  // 결재요청 정보 저장하기 
 	  @RequestMapping(value="/approvalSubmitForm.opis", method= {RequestMethod.POST})
-	  public ModelAndView approvalSubmitForm(MultipartHttpServletRequest mrequest, ApprovalVO avo, FileVO fvo, ModelAndView mav) {
+	  public ModelAndView approvalSubmitForm(MultipartHttpServletRequest mrequest, ApprovalVO avo, ModelAndView mav) {
 		
 		String ap_seq = mrequest.getParameter("ap_seq");
 		String fk_apform_no = mrequest.getParameter("fk_apform_no");
@@ -107,7 +105,21 @@ public class ApprovalController {
 		String ap_manage_approver = mrequest.getParameter("ap_manage_approver");
 		String ap_referrer = mrequest.getParameter("ap_referrer");
 		String ap_title = mrequest.getParameter("ap_title");
-		String ap_contents = mrequest.getParameter("ap_contents");
+		String ap_contents = "";
+		
+		if("0".equals(fk_apform_no)) {
+			ap_contents = mrequest.getParameter("ap_contents");
+		} else if ("1".equals(fk_apform_no)) {
+			ap_contents = mrequest.getParameter("payDate")+"%%%"+
+						  mrequest.getParameter("payAmount")+"%%%"+
+						  mrequest.getParameter("payReason");
+		} else {
+			ap_contents = mrequest.getParameter("vacationStartDate")+"%%%"+
+					      mrequest.getParameter("vacationEndDate")+"%%%"+
+					      mrequest.getParameter("vacationType")+"%%%"+
+					      mrequest.getParameter("takeover");
+		}
+
 
 		avo.setAp_seq(ap_seq);
 		avo.setFk_mbr_seq(fk_mbr_seq);
@@ -123,7 +135,7 @@ public class ApprovalController {
 		List<MultipartFile> fileList = mrequest.getFiles("attach");
 		
 		int n1=0, n2=0;
-		List<FileVO> fvoList = new ArrayList<>();
+		Map<String, String> paraMap = new HashMap<>();
 		
 		// 첨부파일이 있는 경우
 		if(fileList.size()>0) {
@@ -144,14 +156,11 @@ public class ApprovalController {
 					
 					ap_detail_filename = fileManager.doFileUpload(bytes, ap_filename, path);
 					
-					fvo.setFk_ap_seq(ap_seq);
-					fvo.setAp_detail_filename(ap_detail_filename);
-					fvo.setAp_filename(ap_filename);
+					paraMap.put("fk_ap_seq", ap_seq);
+					paraMap.put("ap_filename", ap_filename);
+					paraMap.put("ap_detail_filename", ap_detail_filename);
+					paraMap.put("ap_fileSize", String.valueOf(ap_fileSize));
 					
-					ap_fileSize = mf.getSize();
-					fvo.setAp_fileSize(String.valueOf(ap_fileSize));
-					
-					fvoList.add(fvo);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -167,7 +176,7 @@ public class ApprovalController {
 			
 			if(n1==1) {	// 결재요청 성공시
 				message = "결재요청에 성공!";
-				loc = mrequest.getContextPath()+"/approvalProgress.opis";   
+				loc = mrequest.getContextPath()+"/approvalNeeded.opis";   
 			}
 			else {	// 결재요청 실패시
 				message = "결재요청에 실패!";
@@ -177,11 +186,11 @@ public class ApprovalController {
 		} 
 		else {	// 첨부파일이 있는 경우라면
 			n1 = service.submitApproval(avo); 
-			n2 = service.submitAttachedApproval(fvoList); 
+			n2 = service.submitAttachedApproval(paraMap); 
 			
 			if(n1==1 && n2==1) {	// 결재요청 성공시
 				message = "결재요청에 성공!";
-				loc = mrequest.getContextPath()+"/approvalProgress.opis";	    
+				loc = mrequest.getContextPath()+"/approvalNeeded.opis";	    
 			}
 			else {	// 결재요청 실패시
 				message = "결재요청에 실패!";

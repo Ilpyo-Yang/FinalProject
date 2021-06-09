@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.spring.groupware.member.model.MemberVO;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -42,8 +43,8 @@ public class ApprovalDAO implements InterApprovalDAO {
 
 	// 첨부파일 있는 결재요청
 	@Override
-	public int submitAttachedApproval(List<FileVO> fvoList) {
-		int n = sqlsession.insert("approval.submitAttachedApproval", fvoList);
+	public int submitAttachedApproval(Map<String, String> paraMap) {
+		int n = sqlsession.insert("approval.submitAttachedApproval", paraMap);
 		return n;
 	}
 	

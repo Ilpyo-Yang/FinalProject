@@ -1,16 +1,13 @@
 package com.spring.groupware.approval.service;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import com.spring.groupware.approval.model.ApprovalVO;
-import com.spring.groupware.approval.model.FileVO;
-import com.spring.groupware.approval.model.InterApprovalDAO;
+import com.spring.groupware.approval.model.*;
 import com.spring.groupware.member.model.MemberVO;
 
 
@@ -46,8 +43,8 @@ public class ApprovalService implements InterApprovalService {
 
 	// 첨부파일 있는 결재요청
 	@Override
-	public int submitAttachedApproval(List<FileVO> fvoList) {
-		int n = adao.submitAttachedApproval(fvoList);
+	public int submitAttachedApproval(Map<String, String> paraMap) {
+		int n = adao.submitAttachedApproval(paraMap);
 		return n;
 	}
 

@@ -60,6 +60,10 @@
 		           alert("제출사유를 입력해주세요!");
 		           return;
 		    }
+	        if($("td.sign").val()==null || $("td#sign").val()=="") {
+	        	alert("결재라인을 선택해주세요!");
+		        return;
+	        }
 	        
 	        // 폼 전송하기
 	        var frm = document.approvalSubmitForm;
@@ -125,23 +129,23 @@
 							</tr>
 							<tr>
 								<td>문서제목</td>
-								<td id="" colspan="3">
-									<input type="text" class="form-control" id="formTitle"/>
+								<td colspan="3">
+									<input type="text" class="form-control" name="ap_title"/>
 								</td>
 							</tr>
 							<tr>
 								<td>휴가신청일자</td>
-								<td id="" colspan="3">
-									<input type="text" class="form-control formDetail"/>
+								<td colspan="3">
+									<input type="text" class="form-control formDetail" name="vacationStartDate"/>
 									<span class="space">-</span>
-									<input type="text" class="form-control formDetail"/>
+									<input type="text" class="form-control formDetail" name="vacationEndDate"/>
 									<span class="space">총<span class="space"></span>일간</span>
 								</td>
 							</tr>
 							<tr>
 								<td>구분</td>
-								<td id="" colspan="3">
-									<select id="vacationType">
+								<td colspan="3">
+									<select id="vacationType" name="vacationType">
 										<option>연차</option>
 										<option>반차</option>
 									</select>
@@ -150,8 +154,8 @@
 							</tr>
 							<tr>
 								<td>인수인계자</td>
-								<td id="" colspan="3">
-									<input type="text" class="form-control formDetail"/>
+								<td colspan="3">
+									<input type="text" class="form-control formDetail" name="takeover"/>
 								</td>
 							</tr>
 						</tbody>

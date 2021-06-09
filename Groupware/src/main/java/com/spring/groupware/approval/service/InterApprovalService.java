@@ -1,12 +1,8 @@
 package com.spring.groupware.approval.service;
 
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 import com.spring.groupware.approval.model.ApprovalVO;
-import com.spring.groupware.approval.model.FileVO;
-import com.spring.groupware.member.model.CompanyVO;
-import com.spring.groupware.member.model.MemberVO;
+import com.spring.groupware.member.model.*;
 
 public interface InterApprovalService {
 
@@ -20,7 +16,7 @@ public interface InterApprovalService {
 	int submitApproval(ApprovalVO avo);
 
 	// 첨부파일 있는 결재요청
-	int submitAttachedApproval(List<FileVO> fvoList);
+	int submitAttachedApproval(Map<String, String> paraMap);
 
 
 

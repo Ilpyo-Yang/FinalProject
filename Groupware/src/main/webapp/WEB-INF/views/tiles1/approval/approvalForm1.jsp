@@ -57,9 +57,13 @@
 	           return;
 	        }
 	        if($("textarea").val().trim() == "") {
-		           alert("제출사유를 입력해주세요!");
-		           return;
+	           alert("제출사유를 입력해주세요!");
+	           return;
 		    }
+	        if($("td.sign").val()==null || $("td#sign").val()=="") {
+	        	alert("결재라인을 선택해주세요!");
+		        return;
+	        }
 	        
 	        // 폼 전송하기
 	        var frm = document.approvalSubmitForm;
@@ -128,7 +132,7 @@
 							<tr>
 								<td>문서제목</td>
 								<td colspan="3">
-									<input type="text" class="form-control size1" name="ap_title"/>
+									<input type="text" class="form-control size1" id="ap_title" name="ap_title"/>
 								</td>
 							</tr>
 							<tr>

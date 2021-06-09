@@ -56,10 +56,22 @@
 	           alert("문서제목을 입력해주세요!");
 	           return;
 	        }
-	        if($("textarea").val().trim() == "") {
-		           alert("제출사유를 입력해주세요!");
+	        if($("input#payDate").val().trim() == "") {
+		           alert("지출예상일자를 입력해주세요!");
 		           return;
 		    }
+	        if($("input#payAmount").val().trim() == "") {
+		           alert("지출금액을 입력해주세요!");
+		           return;
+		    }
+	        if($("textarea").val().trim() == "") {
+		           alert("지출사유를 입력해주세요!");
+		           return;
+		    }
+	        if($("td.sign").val()==null || $("td#sign").val()=="") {
+	        	alert("결재라인을 선택해주세요!");
+		        return;
+	        }
 	        
 	        // 폼 전송하기
 	        var frm = document.approvalSubmitForm;
@@ -125,25 +137,25 @@
 							<tr>
 								<td>문서제목</td>
 								<td colspan="3">
-									<input type="text" class="form-control size1" id="formTitle"/>
+									<input type="text" class="form-control size1" id="ap_title" name="ap_title"/>
 								</td>
 							</tr>
 							<tr>
 								<td>지출(예상)일자</td>
 								<td colspan="3">
-									<input type="text" class="form-control size2" id="formDetail"/>
+									<input type="text" class="form-control size2" id="payDate" name="payDate"/>
 								</td>
 							</tr>
 							<tr>
 								<td>지출금액</td>
 								<td colspan="3">
-									<input type="text" class="form-control size2" id="formDetail"/>&nbsp;&nbsp;&nbsp;원
+									<input type="text" class="form-control size2" id="payAmount" name="payAmount"/>&nbsp;&nbsp;&nbsp;원
 								</td>
 							</tr>
 							<tr>
 								<td>지출사유</td>
 								<td colspan="3">
-									<textarea class="form-control" rows="5" id="comment"></textarea>
+									<textarea class="form-control" rows="5" id="payReason" name="payReason"></textarea>
 								</td>
 							</tr>
 						</tbody>
