@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.spring.groupware.addrlist.model.AddrVO;
+import com.spring.groupware.common.GoogleMail;
 import com.spring.groupware.schedule.model.InterScheduleDAO;
 import com.spring.groupware.schedule.model.MtrHistoryVO;
 import com.spring.groupware.schedule.model.ScheduleVO;
@@ -19,6 +20,9 @@ public class ScheduleService implements InterScheduleService{
 	@Autowired
 	private InterScheduleDAO dao;
 	
+	@Autowired
+    private GoogleMail mail;
+	
 	// 일정번호 채번해오기
 	@Override
 	public int getScdno() {
@@ -30,6 +34,13 @@ public class ScheduleService implements InterScheduleService{
 	@Override
 	public List<AddrVO> getAddrList() {
 		List<AddrVO> addrList = dao.getAddrList();
+		return addrList;
+	}
+	
+	// 검색한 주소 목록 보여주기
+	@Override
+	public List<AddrVO> addrList_Search(Map<String, String> paraMap) {
+		List<AddrVO> addrList = dao.addrList_Search(paraMap);
 		return addrList;
 	}
 	
@@ -73,6 +84,27 @@ public class ScheduleService implements InterScheduleService{
 	public int delAll() {
 		int n = dao.delAll();
 		return n;
+	}
+	
+	// 선택한 사람에게 회의 초대 메일 보내기
+	@Override
+	public void invitedListEmailSending(Map<String, String> paraMap) throws Exception {
+		
+		String emailList = paraMap.get("emailList");
+		
+		if( emailList != null && !"".equals(emailList)) {
+			String[] emailArr = emailList.split(",");
+			
+			for(int i=0; i<emailArr.length; i++) {
+				String contents = paraMap.get("mbrName") + " 님, " + paraMap.get("myName") + " 님께서 회의에 초대하셨습니다."
+								+ "<br>일정명:";
+				mail.sendmail(emailArr[i], contents);
+			}
+		}
+		
+		
+		
+		
 	}
 	
 	///////////////////////////////////////////////////////////일정끝
@@ -119,12 +151,27 @@ public class ScheduleService implements InterScheduleService{
 		 return regDetailList; 
 	}
 
-	// 모든 회의실 예약 내역 가져오기
+	// 해당 접속자가 예약한 모든 회의실 예약 내역 가져오기
 	@Override
 	public List<MtrHistoryVO> getMtrResvList(String userid) {
 		List<MtrHistoryVO> mtrResvList = dao.getMtrResvList(userid);
 		return mtrResvList;
 	}
+	
+	// 체크된 예약 내역 삭제하기
+	@Override
+	public int delOneResv(String usermtrno) {
+		int n = dao.delOneResv(usermtrno);
+		return n;
+	}
+
+	
+
+	
+	
+	
+
+	
 
 	
 	

@@ -10,78 +10,139 @@
 <style>
 	
 	#resvList {
+		position: relative;
 		overflow:hidden;
 		margin-top:30px;
-		width: 588px;
-		height: 170px;
+		width:630px;
+		height:180px;
 	}
 	
 	table, tr, th, td {
-		border: solid 1px green;
-		border-collapse: collapse;
 		font-size: 11pt;
+		text-align:center !important;
 	}
 	
-	table {margin-left:17px;}
+	table {margin-left:5px;}
 	
-	td {text-align:center;}
-	
-	#btns {
+	#mtrBtns {
 		text-align:right;
 		padding-right: 20px;
+	}
+
+	.cbtn {
+		border: none;
+		border-radius: 2pt;
+		margin-right:5px;
+		width:70px;
+		height:30px;
+		box-shadow: 1pt 1pt 1pt gray;
+		font-weight: bold;
+		cursor:pointer;
+	}
+	
+	.btnCancel {
+		background:#737373;
+		color: white;
 	}
 	
 </style>
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 <script type="text/javascript" src="<%=ctxPath%>/resources/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
 	
-	function cancelMtr() {
+	$(document).ready(function(){
 		
-		var checkArr = new Array();
+		func_select();
+		
+	});
+	
+	function func_cancel() {
+	
+		var checkArr = [];
 		
 		$("input#usemtrno[name=usemtrno]:checked").each(function(){
 			checkArr.push($(this).val());
 		});
 		
 		
+		$.ajax({
+			url:"<%=ctxPath%>/delMtrResv.opis",
+		//	type:"post",
+			data: {"checkArr":checkArr},
+			dataType:"json",
+			success:function(json) {
+				if(json.m==1){
+					alert("삭제되었습니다.");
+					func_select();
+				}
+				else {
+					alert("삭제에 실패하였습니다. 다시 시도해주세요.");
+				}
+			},
+			error:function(request, status, error) {
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+	}// end of function cancelMtr() {}----------------------------
+	
+	
+	function func_select(){
 		
-	}
+		$("div#resvList").empty();
+		
+		$.ajax({
+			url:"<%=ctxPath%>/showMtrResv.opis",
+			dataType:"json",
+			success:function(json) {
+				var html = 	"<table class='table table-striped'>" +
+							"<tr>" +
+							"<th>선택</th>" +
+							"<th>회의실명</th>" +
+							"<th>예약자</th>" +
+							"<th>예약명</th>" +
+							"<th>시작시간</th>" +
+							"<th>종료시간</th>" +
+							"</tr>";
+				
+				$.each(json,function(index, item){
+					var starttime = item.starttime.substring(0,16);
+					var endtime = item.endtime.substring(0,16);
+					
+					html += "<tr>"+
+							"<td><input type='checkbox' name='usemtrno' id='usemtrno' value='"+item.usemtrno+"'/></td>"+
+							"<td>"+item.mtrname+"</td>"+
+							"<td>"+item.booker+"</td>"+
+							"<td>"+item.mtrsubject+"</td>"+
+							"<td>"+starttime+"</td>"+
+							"<td>"+endtime+"</td>"+
+							"</tr>";
+				});
+				
+				html += "</table>"
+				
+				$("div#resvList").html(html);
+			},
+			error:function(request, status, error) {
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+	}// end of function func_select(){}------------------------
+	 
 
 </script>
 
-<div id="container">
-<h2>${sessionScope.loginuser.mbr_name} 님의 예약내역</h2>
+<div id="container" class="container">
+<h3 style="font-weight:bold;">${sessionScope.loginuser.mbr_name} 님의 예약내역</h3>
 <hr>
 
-	<div id="resvList">
-		<table>
-			<tr>
-				<th>선택</th>
-				<th>회의실명</th>
-				<th>예약자</th>
-				<th>예약명</th>
-				<th>시작시간</th>
-				<th>종료시간</th>
-			</tr>
-			<c:forEach var="mtrResvList" items="${requestScope.mtrResvList}">
-				<tr>
-					<td><input type="checkbox" id="usemtrno" name="usemtrno" value="${mtrResvList.usemtrno}"/></td>
-					<td>${mtrResvList.mtrname}</td>
-					<td>${mtrResvList.booker}</td>
-					<td>${mtrResvList.mtrsubject}</td>
-					<td>${mtrResvList.starttime}</td>
-					<td>${mtrResvList.endtime}</td>
-				</tr>
-			</c:forEach>
-		</table>
-		
-	</div>
-	<br>
-	<div id="btns">
-		<button type="button" class="btn " onclick="cancelMtr()">취소하기</button>
-		<button type="button" class="btn close" onclick="javascript:window.close();">닫기</button>
-	</div>
+	<div id="resvList"></div>
+</div>
 
-
+<div id="mtrBtns">
+	<button type="button" class="cbtn btnCancel" onclick="func_cancel()">취소하기</button>
+	<button type="button" class="cbtn" onclick="javascript:window.close();">닫기</button>
 </div>

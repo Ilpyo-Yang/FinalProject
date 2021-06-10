@@ -15,7 +15,7 @@ public class MtrHistoryVO {
 	public MtrHistoryVO() {}
 
 	public MtrHistoryVO(String usemtrno, String fk_mtrno, String fk_scdno, String booker, String regDate,
-			String starttime,String endtime, String mtrsubject) {
+			String starttime,String endtime, String mtrsubject, String mtrname) {
 		super();
 		this.usemtrno = usemtrno;
 		this.fk_mtrno = fk_mtrno;
@@ -25,6 +25,7 @@ public class MtrHistoryVO {
 		this.regDate = regDate;
 		this.starttime = starttime;
 		this.endtime = endtime;
+		this.mtrname = mtrname;
 	}
 
 

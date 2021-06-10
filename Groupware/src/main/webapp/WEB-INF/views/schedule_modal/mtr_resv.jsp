@@ -169,8 +169,8 @@
 	}// end of function func_resvList(){}--------------------------
 	
 	function goCancelResv() {
-		var url = "<%=ctxPath%>/CancelOneResv.opis";
-		window.open(url, "goCancel","left=350px, top=100px, width=600px, height=350px");
+		var url = "<%=ctxPath%>/CancelResv.opis";
+		window.open(url, "goCancel","left=350px, top=100px, width=650px, height=320px");
 	}
 	
 	
