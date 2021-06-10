@@ -22,7 +22,7 @@ public class ApprovalVO {
 	private String apform_name;		// 서식명
 	private String mbr_name;
 	
-	private MultipartFile attach;    
+	private MultipartFile files;    
 	
 	private String fk_ap_seq; 				// 결재번호
 	private String ap_filename;				// 결재첨부파일 이름
@@ -161,12 +161,12 @@ public class ApprovalVO {
 		this.mbr_name = mbr_name;
 	}
 
-	public MultipartFile getAttach() {
-		return attach;
+	public MultipartFile getFiles() {
+		return files;
 	}
 
-	public void setAttach(MultipartFile attach) {
-		this.attach = attach;
+	public void setFiles(MultipartFile files) {
+		this.files = files;
 	}
 
 	public String getFk_ap_seq() {
@@ -201,7 +201,6 @@ public class ApprovalVO {
 		this.ap_fileSize = ap_fileSize;
 	}
 
-	//////////////////////////////////////////////////////////////
 	
 	
 	

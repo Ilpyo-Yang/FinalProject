@@ -16,15 +16,10 @@ public interface InterApprovalService {
 	int submitApproval(ApprovalVO avo);
 
 	// 첨부파일 있는 결재요청
-	int submitAttachedApproval(Map<String, String> paraMap);
+	int submitAttachedApproval(List<Map<String, String>> fileInfoList);
 
 	// 결재대기 문서 가져오기
 	List<ApprovalVO> getApprovalList(String managePerson);
-
-
-
-	
-
 
 
 

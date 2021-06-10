@@ -133,15 +133,17 @@ public class ApprovalController {
 		avo.setAp_title(ap_title);
 		avo.setAp_contents(ap_contents);
 		
-		/* MultipartFile attach = fvo.getAttach(); */
 		
-		List<MultipartFile> fileList = mrequest.getFiles("attach");
+		List<MultipartFile> fileList = mrequest.getFiles("attach");	// 실제 등록된 파일정보를 받아오는 리스트
 		
-		int n1=0, n2=0;
-		Map<String, String> paraMap = new HashMap<>();
+		List<Map<String, String>> fileInfoList = new ArrayList<>();	// 파일정보를 넘기기 위한 리스트
+				
+		String message="", loc="";
 		
-		// 첨부파일이 있는 경우
-		if(fileList.size()>0) {
+		
+		if(fileList.size()>0) {	// 첨부파일이 있는 경우
+			System.out.println(fileList);
+			
 			HttpSession session = mrequest.getSession();
 			String root = session.getServletContext().getRealPath("/"); 			
 			String path = root+"resources"+File.separator+"files";
@@ -151,6 +153,7 @@ public class ApprovalController {
 			long ap_fileSize = 0;
 			
 			for (MultipartFile mf : fileList) {
+				Map<String, String> paraMap = new HashMap<>();
 				
 				try {
 					bytes = mf.getBytes(); // 첨부파일의 내용물을 읽어오는 것
@@ -164,32 +167,15 @@ public class ApprovalController {
 					paraMap.put("ap_detail_filename", ap_detail_filename);
 					paraMap.put("ap_fileSize", String.valueOf(ap_fileSize));
 					
+					fileInfoList.add(paraMap);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-					
-		}
-		
-		String message="", loc="";
-		
-		if(fileList.size()==0) {	// 첨부파일이 없는 경우라면
-			n1 = service.submitApproval(avo); 
 			
-			if(n1==1) {	// 결재요청 성공시
-				message = "결재요청에 성공!";
-				loc = mrequest.getContextPath()+"/approvalNeeded.opis";   
-			}
-			else {	// 결재요청 실패시
-				message = "결재요청에 실패!";
-				loc = mrequest.getContextPath()+"/approvalMain.opis";
-			}
-
-		} 
-		else {	// 첨부파일이 있는 경우라면
-			n1 = service.submitApproval(avo); 
-			n2 = service.submitAttachedApproval(paraMap); 
+			int n1 = service.submitApproval(avo); 
+			int n2 = service.submitAttachedApproval(fileInfoList); 
 			
 			if(n1==1 && n2==1) {	// 결재요청 성공시
 				message = "결재요청에 성공!";
@@ -199,8 +185,21 @@ public class ApprovalController {
 				message = "결재요청에 실패!";
 				loc = mrequest.getContextPath()+"/approvalMain.opis";
 			}
-
+					
 		}
+		else {	// 첨부파일이 없는 경우라면
+			System.out.println("하하");
+			int n1 = service.submitApproval(avo); 
+			
+			if(n1==1) {	// 결재요청 성공시
+				message = "결재요청에 성공!";
+				loc = mrequest.getContextPath()+"/approvalNeeded.opis";   
+			}
+			else {	// 결재요청 실패시
+				message = "결재요청에 실패!";
+				loc = mrequest.getContextPath()+"/approvalMain.opis";
+			}
+		} 		
 
 		mav.addObject("message", message);
 		mav.addObject("loc", loc);
@@ -209,17 +208,18 @@ public class ApprovalController {
 		
 	  }
 	  
+	  
 
 	  // === 결재대기문서  === //
 	  @RequestMapping(value="/approvalNeeded.opis")
-	  public ModelAndView requiredLogin_approvalNeeded(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {   	  
+	  public ModelAndView requiredLogin_approvalNeeded(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {    	  
 		 mav.setViewName("approval/approvalNeeded.tiles1");
 		 return mav;
 	  }
 	  
 	  // === 결재대기문서 리스트 가져오기 === //
 	  @ResponseBody
-	  @RequestMapping(value="/approvalNeededList.opis")
+	  @RequestMapping(value="/approvalNeededList.opis", produces="text/plain;charset=UTF-8")
 	  public String approvalNeeded(HttpServletRequest request) { 	
 		 String managePerson = request.getParameter("managePerson");
 		 
@@ -242,6 +242,7 @@ public class ApprovalController {
 		  return jsonArr.toString(); 
 	  }
 
+	  
 	  
 	  // === 서명관리 === //
 	  @RequestMapping(value="/sign.opis")

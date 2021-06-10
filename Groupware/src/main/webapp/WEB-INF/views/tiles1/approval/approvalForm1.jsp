@@ -13,7 +13,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		
-		$("input[name=attach]").hide();
+		$("input[name=attach]").show();
 		
 		// 결재라인 모달창 열기
 		$("button#approvalMember").click(function(){			
@@ -146,7 +146,7 @@
 				</div>
 				
 				<div id="bottom">
-					<input type="file" name="attach" id="attach" name="attach" multiple />
+					<input type="file" name="attach" id="attach" multiple />
 					<button type="button" class="btn btn-success formBtn3" id="attachBtn" onclick="func_attach()" >파일업로드</button>			
 					<div id="attachedFile"></div>
 				</div>

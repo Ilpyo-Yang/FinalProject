@@ -43,8 +43,8 @@ public class ApprovalService implements InterApprovalService {
 
 	// 첨부파일 있는 결재요청
 	@Override
-	public int submitAttachedApproval(Map<String, String> paraMap) {
-		int n = adao.submitAttachedApproval(paraMap);
+	public int submitAttachedApproval(List<Map<String, String>> fileInfoList) {
+		int n = adao.submitAttachedApproval(fileInfoList);
 		return n;
 	}
 

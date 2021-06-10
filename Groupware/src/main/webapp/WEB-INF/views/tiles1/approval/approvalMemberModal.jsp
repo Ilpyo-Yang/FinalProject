@@ -264,7 +264,7 @@
 			   		<label><input type="checkbox" class="rightCheckbox" id="ITCheckbox"/>&nbsp;&nbsp;IT팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq 'IT팀'}">
-				        	<label><input type="checkbox" class="rightCheckbox ITMemberCheckbox memberCheckbox" value="${memberVO.dept_detail} ;${memberVO.rank_detail} ${memberVO.mbr_name}"/>
+				        	<label><input type="checkbox" class="rightCheckbox ITMemberCheckbox memberCheckbox" value="${memberVO.dept_detail} ${memberVO.rank_detail} ${memberVO.mbr_name}"/>
 				        		&nbsp;&nbsp;└─&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>

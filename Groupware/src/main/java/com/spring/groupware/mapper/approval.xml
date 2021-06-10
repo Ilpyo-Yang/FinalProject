@@ -38,7 +38,7 @@
 		insert into tbl_ap_attached(fk_ap_seq, ap_filename, ap_detail_filename, ap_fileSize)
 		values (#{fk_ap_seq}, #{ap_filename}, #{ap_detail_filename}, #{ap_fileSize})
 	</insert>
-	
+
 
 	<!-- 결재대기 문서 가져오기 -->
 	<select id="getApprovalList" parameterType="String" resultType="com.spring.groupware.approval.model.ApprovalVO">	
