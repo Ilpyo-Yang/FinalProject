@@ -20,6 +20,9 @@ public interface InterApprovalDAO {
 	int submitAttachedApproval(List<Map<String, String>> fileInfoList);
 
 	// 결재대기 문서 가져오기
-	List<ApprovalVO> getApprovalList(String managePerson);
+	List<ApprovalVO> getApprovalNeededList(String managePerson);
+
+	// 결재요청한 문서 가져오기
+	List<ApprovalVO> getApprovalSubmitList(String fk_mbr_seq);
 
 }

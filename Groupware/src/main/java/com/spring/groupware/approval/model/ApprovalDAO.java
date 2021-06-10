@@ -54,10 +54,15 @@ public class ApprovalDAO implements InterApprovalDAO {
 
 	// 결재대기 문서 가져오기
 	@Override
-	public List<ApprovalVO> getApprovalList(String managePerson) {
-		List<ApprovalVO> approvalList = sqlsession.selectList("approval.getApprovalList", managePerson);
+	public List<ApprovalVO> getApprovalNeededList(String managePerson) {
+		List<ApprovalVO> approvalList = sqlsession.selectList("approval.getApprovalNeededList", managePerson);
+		return approvalList;
+	}
 
-		System.out.println(approvalList);
+	// 결재요청한 문서 가져오기
+	@Override
+	public List<ApprovalVO> getApprovalSubmitList(String fk_mbr_seq) {
+		List<ApprovalVO> approvalList = sqlsession.selectList("approval.getApprovalSubmitList", fk_mbr_seq);
 		return approvalList;
 	}
 	

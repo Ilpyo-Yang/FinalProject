@@ -104,6 +104,7 @@ public class ApprovalController {
 		String ap_seq = mrequest.getParameter("ap_seq");
 		String fk_apform_no = mrequest.getParameter("fk_apform_no");
 		String fk_mbr_seq = mrequest.getParameter("fk_mbr_seq");
+		String ap_dept = mrequest.getParameter("ap_dept");
 		String ap_approver = mrequest.getParameter("ap_approver");
 		String ap_manage_approver = mrequest.getParameter("ap_manage_approver");
 		String ap_referrer = mrequest.getParameter("ap_referrer");
@@ -126,6 +127,7 @@ public class ApprovalController {
 
 		avo.setAp_seq(ap_seq);
 		avo.setFk_mbr_seq(fk_mbr_seq);
+		avo.setAp_dept(ap_dept);
 		avo.setFk_apform_no(fk_apform_no);
 		avo.setAp_approver(ap_approver);
 		avo.setAp_manage_approver(ap_manage_approver);
@@ -223,7 +225,7 @@ public class ApprovalController {
 	  public String approvalNeeded(HttpServletRequest request) { 	
 		 String managePerson = request.getParameter("managePerson");
 		 
-		 List<ApprovalVO> approvalList = service.getApprovalList(managePerson); 
+		 List<ApprovalVO> approvalList = service.getApprovalNeededList(managePerson); 
 		
 		 JSONArray jsonArr = new JSONArray(); 
 		 JSONObject jsonObj = new JSONObject();	
@@ -243,6 +245,39 @@ public class ApprovalController {
 	  }
 
 	  
+	  // === 결재요청한 문서  === //
+	  @RequestMapping(value="/approvalSubmit.opis")
+	  public ModelAndView requiredLogin_approvalSubmit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {    	  
+		 mav.setViewName("approval/approvalSubmit.tiles1");
+		 return mav;
+	  }
+	  
+	  // === 결재요청한 문서 리스트 가져오기 === //
+	  @ResponseBody
+	  @RequestMapping(value="/approvalSubmitList.opis", produces="text/plain;charset=UTF-8")
+	  public String approvalSubmit(HttpServletRequest request) { 	
+		 String fk_mbr_seq = request.getParameter("fk_mbr_seq");
+		 
+		 List<ApprovalVO> approvalList = service.getApprovalSubmitList(fk_mbr_seq); 
+		
+		 JSONArray jsonArr = new JSONArray(); 
+		 JSONObject jsonObj = new JSONObject();	
+
+		 if(approvalList.size() != 0) {
+		     for(ApprovalVO avo : approvalList) {
+					jsonObj.put("apform_name", avo.getApform_name());
+					jsonObj.put("ap_title", avo.getAp_title());
+					jsonObj.put("ap_start_day", avo.getAp_start_day());
+					jsonObj.put("ap_manage_approver", avo.getAp_manage_approver());
+					jsonObj.put("ap_end_day", avo.getAp_end_day());
+					jsonObj.put("ap_progress", avo.getAp_progress());
+
+					jsonArr.put(jsonObj);
+		      }
+		  } 
+		  return jsonArr.toString(); 
+	  }
+  
 	  
 	  // === 서명관리 === //
 	  @RequestMapping(value="/sign.opis")
