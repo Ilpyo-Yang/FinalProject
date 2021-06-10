@@ -1,9 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ page import="java.net.InetAddress"%>    
 <%
-String ctxPath = request.getContextPath();
+	String ctxPath = request.getContextPath();
+
+	// 서버 ip 알아오기
+	InetAddress inet = InetAddress.getLocalHost(); 
+	String serverIP = inet.getHostAddress();
+	// 서버 포트 번호 알아오기
+	int portnumber = request.getServerPort();
+	String serverName = "http://"+serverIP+":"+portnumber; 
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -79,9 +87,83 @@ button.btn-success {
 }
 
 </style>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
 
+	$(document).ready(function(){  
+	   var url = window.location.host; // 웹브라우저의 주소창의 포트까지 가져옴 
+	   var pathname = window.location.pathname; // '/'부터 오른쪽에 있는 모든 경로
+	   var appCtx = pathname.substring(0, pathname.lastIndexOf("/"));  // "전체 문자열".lastIndexOf("검사할 문자");   
+	   var root = url+appCtx;
+	   var wsUrl = "ws://"+root+"/multichatstart.action";  
+	   // 웹소켓통신을 하기위해서는 http:// 을 사용하는 것이 아니라 ws:// 을 사용해야 한다. 
+	   var websocket = new WebSocket(wsUrl);
+	 // /WEB-INF/web.xml 에 가서 appServlet 의 contextConfigLocation 을 수정한다.  	
+	    
+	   var messageObj = {}; // 자바스크립트 객체 생성함.
+	    
+	    // === 웹소켓에 최초로 연결이 되었을 경우에 실행되어지는 콜백함수 정의하기 ===  
+	   websocket.onopen = function(){
+	 	  $("div#talk").text("정보 : 웹소켓에 연결이 성공됨!!");
+	 	  
+	 	  messageObj = {  message : "채팅방에 <span style='color: red;'>입장</span>했습니다"
+			     	        , type : "all"
+			     	        , to : "all" }; // 자바스크립트에서 객체의 데이터값 초기화
+			     	        
+	 	  websocket.send(JSON.stringify(messageObj));   	        
+	 	 // JSON.stringify(자바객체) 는 자바객체를 JSON 표기법의 문자열(String)로 변환한다
+	    };
+	    
+	    
+	    // === 메시지 수신시 콜백함수 정의하기 === 
+	    websocket.onmessage = function(event) {
+			if(event.data.substr(0,1)=="「" && event.data.substr(event.data.length-1)=="」") { 
+				$("div#connectingUserList").html(event.data);
+			}
+			else {
+	          $("div#talk").append(event.data);
+	          $("div#talk").append("<br/>");
+	          $("div#talk").scrollTop(99999999);
+			}
+	    };
+		    
+		    
+		 // === 웹소캣 연결 해제시 콜백함수 정의하기 === 
+	     websocket.onclose = function() {
+	     }
+		    
+		    
+	     // 메시지 입력후 엔터하기 
+	     $("textarea#talkuser").keyup(function (key) {
+	         if (key.keyCode == 13) {
+	             $("input#btnSendMessage").click();
+	         }
+	     });
+		    
+	     
+	     // 메시지 보내기
+	     $("button#btnSendMessage").click(function() {
+	         if( $("textarea#talkuser").val() != "") {
+	             
+	             var messageVal = $("textarea#talkuser").val();
+	             messageVal = messageVal.replace(/<script/gi, "&lt;script"); 
+	             // 크로스사이트 스크립트 공격을 막으려고 한 것임.
+	         	
+	             messageObj = {};
+	             messageObj.message = messageVal;
+	             messageObj.type = "all";
+	             messageObj.to = "all";
+	           
+	             websocket.send(JSON.stringify(messageObj));
+	             // JSON.stringify() 는 값을 그 값을 나타내는 JSON 표기법의 문자열로 변환한다
+	             
+	             $("div#talk").append("<span style='color:navy; font-weight:bold;'>[나] ▷ " + messageVal + "</span><br/>");
+	             $("div#talk").scrollTop(99999999);
+	              
+	             $("textarea#talkuser").val("");
+	         }
+	     });
+	});
 
 </script>
 
@@ -109,7 +191,7 @@ button.btn-success {
 
 	</div>
 	
-	<div class="talk">
+	<div class="talk" id="talk">
 	
 	</div>
 	
@@ -119,7 +201,7 @@ button.btn-success {
 			<img class="iconimg" src="<%= ctxPath%>/resources/images/emoticon.png" />
 		</div>
 		 	<textarea class="tArea" rows="5" id="talkuser" style="resize: none;"></textarea>
-		 	<button type="button" class="btn btn-success">전송</button>
+		 	<button type="button" class="btn btn-success" id="btnSendMessage">전송</button>
 	</div>
 	
 </div>

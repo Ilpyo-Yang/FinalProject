@@ -9,17 +9,11 @@
 
 <style type="text/css">
 	
-	#container {
-		margin: 25px;
-	}
+	#container {margin: 25px;}
 	
-	table {
-		float:right;
-	}
+	table {float:right;}
 	
-	td {
-		padding-bottom: 10px;
-	}
+	td {padding-bottom: 10px;}
 	
 	#title {
 		font-weight: bolder;
@@ -28,13 +22,9 @@
 		text-align:right;
 	}
 	
-	#select_section {
-		margin: 20px 0;
-	}
+	#select_section {margin: 20px 0;}
 	
-	#btn_section {
-		margin: 30px 0;
-	}
+	#btn_section {margin: 20px 0;}
 	
 	.btn {
 		border:none;
@@ -52,9 +42,7 @@
 		color: white;
 	}
 	
-	#booker {
-		border:none;
-	}
+	#booker {border:none;}
 	
 	#search {
 		border: none;
@@ -63,6 +51,11 @@
 		vertical-align: bottom;
 		height:22px;
 		border-radius:1pt;
+	}
+	
+	#cancelResv {
+		background: #737373;
+		color: white;
 	}
 	
 </style>
@@ -175,9 +168,12 @@
 		  
 	}// end of function func_resvList(){}--------------------------
 	
-	function goCancel() {
-			window.close();	
-	}// end of function drawChart() {}---
+	function goCancelResv() {
+		var url = "<%=ctxPath%>/CancelResv.opis";
+		window.open(url, "goCancel","left=350px, top=100px, width=650px, height=320px");
+	}
+	
+	
 </script>
 
 <div id="container">
@@ -258,7 +254,8 @@
 	
 	<div id="btn_section" align="right">
 		<button type="button" class="btn btnResv" id="btnResv">예약하기</button>&nbsp;
-		<button type="button" class="btn" onclick="goCancel()">취소</button>
+		<button type="button" class="btn cancelResv" id="cancelResv" onclick="goCancelResv()">예약취소</button>&nbsp;
+		<button type="button" class="btn" onclick="javascript:window.close()">닫기</button>
 	</div>
 
 </form>

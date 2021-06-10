@@ -70,6 +70,8 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+
 <script type="text/javascript">
 
 	$(document).ready(function(){
@@ -192,7 +194,7 @@
 			<td id="title">참석자</td>
 			<td id="contents">
 				<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}" /> 
-				<input type="text" name="attendance"/>
+				<input type="text" id="attendance" name="attendance"/>
 				<button type="button" id="address" onclick="goAddress()">주소록</button>
 			</td>
 		</tr>

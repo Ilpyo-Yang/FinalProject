@@ -1,5 +1,11 @@
 package com.spring.groupware.workmanage.model;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class WorkVO {
 	private String wmno; 				//업무관리고유번호
 	private String fk_wtno; 			// 업무분류번호
@@ -13,6 +19,8 @@ public class WorkVO {
 	private String checkstatus;			// 확인여부 (0 or 1)
 	private String important;			// 중요여부 (0 or 1)
 	private String fk_statno;  			// 업무상태번호
+	
+	private String delayday;  			// 마감일자 지난 일 수 
 	
 	public WorkVO() {}
 	
@@ -129,6 +137,16 @@ public class WorkVO {
 
 	public void setFk_statno(String fk_statno) {
 		this.fk_statno = fk_statno;
+	}
+
+	// --------------------------------------
+	
+	public String getDelayday() {
+		return delayday;
+	}
+
+	public void setDelayday(String delayday) {
+		this.delayday = delayday;
 	}
 	
 	

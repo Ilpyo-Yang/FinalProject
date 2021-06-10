@@ -15,6 +15,9 @@ public interface InterScheduleService {
 	// 주소록 가져오기
 	List<AddrVO> getAddrList();
 	
+	// 검색한 주소 목록 보여주기
+	List<AddrVO> addrList_Search(Map<String, String> paraMap);
+	
 	// 일정 등록하기
 	int scdAdd(ScheduleVO schedulevo);
 	
@@ -32,6 +35,9 @@ public interface InterScheduleService {
 	
 	// 모든 일정 삭제하기
 	int delAll();
+	
+	// 회의 초대 메일 보내기
+	void scdEmailSending() throws Exception;
 	
 	//////////////////////////////////////////////////////
 	
@@ -52,6 +58,16 @@ public interface InterScheduleService {
 	
 	// 회의실 예약현황 보여주기(구글 차트) 
 	List<Map<String, String>> goRegMtr();
+	
+	// 해당 접속자가 예약한 모든 회의실 예약 내역 가져오기
+	List<MtrHistoryVO> getMtrResvList(String userid);
+	
+	// 체크된 예약 내역 삭제하기
+	int delOneResv(String usermtrno);
+
+	
+
+	
 
 
 	

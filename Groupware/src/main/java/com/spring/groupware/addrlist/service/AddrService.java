@@ -83,7 +83,7 @@ public class AddrService implements InterAddrService {
 		List<AddrVO> myAddrlist = adao.myAddrlistSearchWithPaging(paraMap);
 	    return myAddrlist;
 	}	
-	
+
 	
 	/*
 		개인 주소록 관리
