@@ -46,6 +46,12 @@
 		where mbr_id = #{mbr_id}
 	</update>
 	
+	<update id="statuschange" parameterType="com.spring.groupware.member.model.MemberVO">
+		update tbl_mbr 
+		set mbr_stsconnect=#{mbr_stsconnect}              
+		where mbr_id = #{mbr_id}
+	</update>
+	
 
 
 </mapper>

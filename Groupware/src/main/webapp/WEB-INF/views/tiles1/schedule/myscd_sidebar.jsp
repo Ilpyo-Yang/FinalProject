@@ -20,12 +20,20 @@
 		margin-top:20px;
 		margin-bottom: 5px;
 		padding-left: 40px;
+		font-weight:bold;
 	}
 	
-	.sideInfo {
+	#myName {
 		margin-bottom: 25px;
-		padding-left: 40px;
+		text-align:center;
+		color: #008ae6;
+		font-weight:bold;
+		font-size:14pt;
 	}
+	
+	#myEmail {
+		font-weight: bold;
+	}	
 	
 	#teamName {
 		text-align:center;
@@ -79,8 +87,8 @@
 	 }
 	
 	function goCancelResv() {
-		var url = "<%=ctxPath%>/CancelOneResv.opis";
-		window.open(url, "goCancel","left=350px, top=100px, width=600px, height=350px");
+		var url = "<%=ctxPath%>/CancelResv.opis";
+		window.open(url, "goCancel","left=350px, top=100px, width=650px, height=320px");
 	}
 	
 </script>
@@ -89,7 +97,10 @@
 	  	<div id="menuTitle">일정</div>
 	  	<div id="btnDiv">
 	  		<button type="button" id="btnReg" onclick="scdReg()">일정 등록</button>	
-	    </div> 					
+	    </div>
+	    
+	    	<div style="text-align:center;"><span id="myName">${sessionScope.loginuser.mbr_id}</span>&nbsp;님&nbsp;/&nbsp;<span id="myEmail">${sessionScope.loginuser.mbr_email}</span></div>
+	  		<br><br>
 	  		<div class="myTeam">내소속</div>
 	  		<div id="teamName">
 				<c:choose>
@@ -113,8 +124,7 @@
 					</c:otherwise>
 				</c:choose>	  			
 	  		</div>
-	  		<div class="sideInfo">수락 완료된 일정(<span></span>)</div>
-	  		<div class="sideInfo" style="margin-bottom:50px;">수락 대기중인 일정(<span></span>)</div>
+	  		
 	  		<br>
 	  		<div class="lside">
 	  			<button class="sideBtn" style="font-weight:bold;">일정</button>

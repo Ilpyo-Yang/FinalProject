@@ -1,5 +1,6 @@
 package com.spring.groupware.sns.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,8 +14,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.groupware.common.FileManager;
 import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.sns.service.IntersnsMemberService;
 
@@ -25,6 +29,9 @@ public class GroupwareSnsController {
 
 	@Autowired	// Type에 따라 알아서 Bean 을 주입해준다.
 	private IntersnsMemberService service;
+	
+	@Autowired     // Type에 따라 알아서 Bean 을 주입해준다.
+	private FileManager fileManager;
 	
 	// sns메인페이지 요청
 	@RequestMapping(value="/sns/snsmain.opis")
@@ -77,39 +84,68 @@ public class GroupwareSnsController {
 	
 	// 글 수정 완료하기
 	@RequestMapping(value="/infochangeend.opis", method= {RequestMethod.POST})
-	public ModelAndView editEnd(ModelAndView mav, MemberVO membervo, HttpServletRequest request) {
-		
-		
-		int n = service.infochange(membervo);
-		
-		// System.out.println("확인용 n :" + n);
-		if(n==1) {
-			HttpSession session = request.getSession();
-			
-			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-			loginuser.setMbr_name(membervo.getMbr_name());
-			loginuser.setMbr_stsmsg(membervo.getMbr_stsmsg());
-			
-			mav.setViewName("redirect:/sns/snsmain.opis");
-		}
-		return mav;
-	}
+	public ModelAndView editEnd(ModelAndView mav, MemberVO membervo, MultipartHttpServletRequest mrequest) {
 	
-	/*
-	 * @RequestMapping(value="/sns/status.opis") public ModelAndView
-	 * status(ModelAndView mav, MemberVO membervo, HttpServletRequest request) {
-	 * 
-	 * int n = service.statuschange(membervo);
-	 * 
-	 * if(n==1) { HttpSession session = request.getSession();
-	 * 
-	 * MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-	 * loginuser.setMbr_stsconnect(membervo.getMbr_stsconnect());
-	 * 
-	 * mav.setViewName("redirect:/sns/snsmain.opis"); }
-	 * 
-	 * mav.setViewName("sns/snsmain");
-	 * 
-	 * return mav; }
-	 */
-}
+			MultipartFile mbr_photo = membervo.getMbr_photo();
+			HttpSession session = mrequest.getSession();
+			String path = "C:\\FinalProject\\GroupwareProgram\\Groupware\\src\\main\\webapp\\resources\\images"+File.separator+"files";
+			String mbr_img = "";
+			byte[] bytes = null;
+			try {
+				bytes = mbr_photo.getBytes();
+				String originalFilename = mbr_photo.getOriginalFilename();
+				mbr_img = fileManager.doFileUpload(bytes, originalFilename, path);
+				membervo.setMbr_photo(mbr_photo);
+				membervo.setMbr_img(mbr_img);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+					
+			int n = service.infochange(membervo);
+			
+			
+			if(n==1) {
+				session = mrequest.getSession();
+				
+				MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+				loginuser.setMbr_name(membervo.getMbr_name());
+				loginuser.setMbr_stsmsg(membervo.getMbr_stsmsg());
+				loginuser.setMbr_img(membervo.getMbr_img());
+				loginuser.setMbr_photo(membervo.getMbr_photo());
+				
+				mav.setViewName("redirect:/sns/snsmain.opis");
+		
+			}
+			return mav;
+	}
+
+	// 접속상태 수정하기
+	  @RequestMapping(value="/sns/status.opis") public ModelAndView
+	  status(ModelAndView mav, MemberVO membervo, HttpServletRequest request) {
+	  
+	  int n = service.statuschange(membervo);
+	  
+	  if(n==1) { 
+		  HttpSession session = request.getSession();
+	  
+		  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		  loginuser.setMbr_stsconnect(membervo.getMbr_stsconnect());
+		  
+		  mav.setViewName("redirect:/sns/snsmain.opis"); 
+		  }
+	  else {
+		  mav.setViewName("redirect:/sns/snsmain.opis");
+	  }
+	  return mav; 
+	  }
+	  
+	  
+	  //채팅방 호출
+	  @RequestMapping(value="/sns/talkroom.opis", method= {RequestMethod.GET})
+	   public String requiredLogin_multichat(HttpServletRequest request, HttpServletResponse response) {
+		   
+		   return "/sns/talkroom";
+	   }
+}	
+
