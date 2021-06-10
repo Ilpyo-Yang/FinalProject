@@ -137,6 +137,29 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		List<WorkVO> workList = sqlsession.selectList("workmanage.workListSearchWithPaging", paraMap);
 		return workList;
 	}
+
+	// 업무 첨부 파일 등록
+	@Override
+	public int workAddFile(WorkFileVO filevo) {
+		int n = sqlsession.insert("workmanage.workAddFile", filevo);
+		return n;
+	}
+
+	// 수신자가 읽었을 때 읽음확인 업데이트 하기 
+	@Override
+	public int updateReadcheckdate(Map<String, String> paraMap) {
+		int n = sqlsession.update("workmanage.updateReadcheckdate", paraMap);
+		return n;
+	}
+
+	// 수정일자 업데이트 하기
+	@Override
+	public int updateLasteditdate(Map<String, String> paraMap) {
+		int n = sqlsession.update("workmanage.updateLasteditdate", paraMap);
+		return n;
+	}
+
+	
 	
 	
 

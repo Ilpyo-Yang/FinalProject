@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
+<% String ctxPath = request.getContextPath(); %>
 
 <style type="text/css">
 #processBtn > button {
@@ -20,7 +21,12 @@
 			
 			$(this).css({"background-color": "#ffcccc"});
 		});
+		
+		$.ajax({
+			
+		});
 	});
+	
 </script>
 
 <%-- 업무요청 처리내역 --%>
@@ -29,19 +35,16 @@
 		<table class="table table-striped workShowtable">
 			<thead>
 				<tr>
-					<th>처리내역</th>
-					<th colspan="3" style="text-align: right;">
-						<button type="button" class="workStatus" style="background-color: #66ccff; font-weight: normal;">처리중 40%</button>
-					</th>
+					<th colspan="4">처리내역</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td>담당자</td>
-					<td>${wmvo.fk_receiver_seq}</td>
+					<td>수신자</td>
+					<td></td>
 					
 					<td>최종수정일</td>
-					<td>2020.01.13 12:10</td>
+					<td></td>
 				</tr>
 				<tr>
 					<td>진척률</td>
@@ -58,13 +61,6 @@
 					<td>내용</td>
 					<td colspan="3"><textarea cols="70" rows="5"></textarea></td>
 				</tr>
-				
-				<tr id="workShwoBtn">
-				<td colspan="4">
-					<button type="button" onclick="submitWorkRegFrm()">처리</button>
-					<button type="button" >목록</button>
-				</td>
-			</tr>
 			</tbody>
 		</table>
 	</form>
@@ -98,14 +94,6 @@
 					<td>의견</td>
 					<td colspan="3"><textarea cols="70" rows="5"></textarea></td>
 				</tr>
-				
-				<tr id="workShwoBtn">
-				<td colspan="4">
-					<button type="button" onclick="submitWorkRegFrm()">수정</button>
-					<button type="button" >삭제</button>
-					<button type="button" >목록</button>
-				</td>
-			</tr>
 			</tbody>
 		</table>
 	</form>

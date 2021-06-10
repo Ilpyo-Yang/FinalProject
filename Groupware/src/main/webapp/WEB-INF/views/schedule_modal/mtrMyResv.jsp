@@ -28,7 +28,7 @@
 		text-align:right;
 		padding-right: 20px;
 	}
-	
+
 	.cbtn {
 		border: none;
 		border-radius: 2pt;

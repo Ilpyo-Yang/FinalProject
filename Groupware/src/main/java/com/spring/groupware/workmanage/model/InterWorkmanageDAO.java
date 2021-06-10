@@ -58,4 +58,14 @@ public interface InterWorkmanageDAO {
 	// 담당자, 참조자 지정하기 위한 우선멤버 가져오기
 	List<WorkVO> workListSearchWithPaging(Map<String, Object> paraMap);
 
+	// 업무 첨부 파일 등록
+	int workAddFile(WorkFileVO filevo);
+
+	// 수신자가 읽었을 때 읽음확인 업데이트 하기 
+	int updateReadcheckdate(Map<String, String> paraMap);
+
+	// 수정일자 업데이트 하기
+	int updateLasteditdate(Map<String, String> paraMap);
+
+
 }

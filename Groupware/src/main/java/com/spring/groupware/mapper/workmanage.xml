@@ -41,13 +41,19 @@
 	<!-- == 업무(요청,보고) 등록하기 == -->
 	<insert id="workAddEnd" parameterType="com.spring.groupware.workmanage.model.WorkVO">
 		insert into tbl_workmanage(wmno, fk_wtno, requester, receivers, referrers, subject, contents, deadline, fk_statno)
-		values (#{wmno}, #{fk_wtno}, #{requester}, #{receivers}, #{referrers}, #{subject}, #{contents}, to_date(#{deadline}), #{fk_statno})
+		values (to_number(#{wmno}), to_number(#{fk_wtno}), #{requester}, #{receivers}, #{referrers}, #{subject}, #{contents}, to_date(#{deadline}), to_number(#{fk_statno}))
 	</insert>
 	
 	<!-- 업무에 해당하는 멤버 seq저장 -->
 	<insert id="workAddMember" parameterType="com.spring.groupware.workmanage.model.WorkMemberVO">
 		insert into tbl_workmanage_mbr(fk_wmno, fk_wrno, fk_mbr_seq)
 		values (#{fk_wmno}, #{fk_wrno}, to_number(#{fk_mbr_seq}))	
+	</insert>
+	
+	<!-- 첨부 파일이 있을 경우 파일 추가하는 부분 -->
+	<insert id="workAddFile" parameterType="com.spring.groupware.workmanage.model.WorkFileVO">
+		insert into tbl_wmaddfile (fileno, fk_wmno, fileName, orgFilename, fileSize)
+		values (seq_wmaddfile_fileno.nextval, #{fk_wmno}, #{fileName}, #{orgFilename}, #{fileSize})
 	</insert>
 	<!-- 트랜잭션 처리 부분 끝-->
 	
@@ -72,6 +78,7 @@
 		select wmno, fk_wtno, requester, receivers, subject, fk_statno, contents
 		    , to_char(registerday, 'yyyy-mm-dd') as registerday
 		    , to_char(deadline, 'yyyy-mm-dd') as deadline
+		    , to_char(lasteditdate, 'yyyy-mm-dd hh24:mi:ss') as lasteditdate
 		    , to_date(to_char(sysdate, 'yyyy-mm-dd')) - to_date(to_char(deadline, 'yyyy-mm-dd')) as delayday
 		from tbl_workmanage
 		where wmno = #{wmno}
@@ -81,10 +88,11 @@
 	<select id="getTotalCount" parameterType="HashMap" resultType="int">
 		select count(*) as totalCount
 		from tbl_workmanage
-		where wmno in (
-		    select wmno
+		where fk_wtno = #{fk_wtno}
+		and wmno in (
+		    select fk_wmno
 		    from tbl_workmanage_mbr
-		    where fk_mbr_seq = 5 and fk_wrno = 1 and yn = 0
+		    where fk_mbr_seq = #{fk_mbr_seq} and fk_wrno = #{fk_wrno} and yn = 0
 		)
 		<if test='str_workStatus != ""'>
 			and fk_statno in 
@@ -126,8 +134,8 @@
 	<!-- 담당자들의 업무 정보 가져오기  -->	
 	<select id="getWorkStatusEachMember" parameterType="String" resultType="com.spring.groupware.workmanage.model.WorkMemberVO">
 		select fk_wmno, fk_mbr_seq, mbr_name, mbr_workpercent
-		    , mbr_workPercent, to_char(lasteditdate, 'yyyy-mm-dd') as lasteditdate
-    		, mbr_readCheck, to_char(readcheckdate, 'yyyy-mm-dd') as readcheckdate
+		    , mbr_workPercent, to_char(lasteditdate, 'yyyy-mm-dd hh24:mi:ss') as lasteditdate
+    		, mbr_readCheck, to_char(readcheckdate, 'yyyy-mm-dd hh24:mi:ss') as readcheckdate
 		from tbl_workmanage_mbr left join tbl_mbr
 		on fk_mbr_seq = mbr_seq
 		where fk_wmno = #{wmno} and fk_wrno = 2 
@@ -197,4 +205,15 @@
 		)
 		where rno between #{startRno} and #{endRno}
 	</select>
+	
+	<!-- 수신자가 읽었을 때 읽음확인 업데이트 하기  -->
+	<update id="updateReadcheckdate" parameterType="HashMap">
+		update tbl_workmanage_mbr set readcheckdate = sysdate
+		where fk_wmno = #{wmno} and fk_wrno = #{fk_wrno} and fk_mbr_seq = #{fk_mbr_seq} and readcheckdate is null
+	</update>
+	
+	<update id="updateLasteditdate" parameterType="HashMap">
+		update tbl_workmanage set lasteditdate = sysdate
+		where wmno = #{wmno} 
+	</update>
 </mapper>

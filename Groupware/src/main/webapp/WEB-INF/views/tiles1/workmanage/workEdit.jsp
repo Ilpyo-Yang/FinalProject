@@ -38,7 +38,7 @@ div#diplayList {
 			dateFormat: 'yy-mm-dd'
 		});
 
-		var checkRadio = $("input[name=workType]:checked");
+		var checkRadio = $("input[name=fk_wtno]:checked");
 		onlyWorkInput(checkRadio);
 		
 		<%-- === #107. 검색어 입력시 자동글 완성하기 2 === --%>
@@ -130,9 +130,9 @@ div#diplayList {
 		}
 		
 		
-		var workType = ${requestScope.workvo.fk_wtno};
+		var fk_wtno = ${requestScope.workvo.fk_wtno};
 		
-		if (workType == 0) submitTodoRegFrm(); 
+		if (fk_wtno == 0) submitTodoRegFrm(); 
 		else submitWorkRegFrm();
 	}
 	
@@ -167,12 +167,12 @@ div#diplayList {
 					<td>업무형태</td>
 					<td>
 						<c:if test="${requestScope.workvo.fk_wtno == 1}">
-							<input type="hidden" value="1" id="workType" name="workType" onclick="onlyWorkInput(this);"/>
-							<label for="workType">업무요청</label>
+							<input type="hidden" value="1" id="fk_wtno" name="fk_wtno" onclick="onlyWorkInput(this);"/>
+							<label for="fk_wtno">업무요청</label>
 						</c:if>
 						<c:if test="${requestScope.workvo.fk_wtno == 2}">
-							<input type="hidden" value="2" id="workType" name="workType" onclick="onlyWorkInput(this);"/>
-							<label for="workType">업무보고</label>
+							<input type="hidden" value="2" id="fk_wtno" name="fk_wtno" onclick="onlyWorkInput(this);"/>
+							<label for="fk_wtno">업무보고</label>
 						</c:if>
 					</td>
 				</tr>
