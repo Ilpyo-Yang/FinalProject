@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.workmanage.model.InterWorkmanageDAO;
 import com.spring.groupware.workmanage.model.TodoVO;
+import com.spring.groupware.workmanage.model.WorkFileVO;
 import com.spring.groupware.workmanage.model.WorkMemberVO;
 import com.spring.groupware.workmanage.model.WorkVO;
 
@@ -48,12 +49,12 @@ public class WorkmanageService implements InterWorkmanageService {
 	// == 업무(요청,보고) 등록하기 트랜잭션 처리  == //
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
-	public int workAddEnd(WorkVO workvo, List<WorkMemberVO> workmbrList) {
-		int n = dao.workAddEnd(workvo);
+	public int workAddEnd(WorkVO workvo, List<WorkMemberVO> workmbrList, List<WorkFileVO> fileList) {
+		int n = dao.workAddEnd(workvo); // 업무테이블에 업무 정보 insert 
 		int m = 0, k = 1;
 		
-		if (n == 1) {
-			
+		// 업무관련 회원테이블에 정보 insert
+		if (n == 1) {	 
 			for (WorkMemberVO workmbr: workmbrList) {
 				workmbr.setFk_wmno(workvo.getWmno());
 				m = dao.workAddMember(workmbr);
@@ -61,9 +62,13 @@ public class WorkmanageService implements InterWorkmanageService {
 				if (m == 0) break;
 			}
 			
-			if (m != 0 && !workvo.getAttach().isEmpty()) {
-				System.out.println("attach true" + workvo.getAttach().toString());
-				k = dao.workAddFile(workvo);
+			// 첨부파일이 있을 때 첨부파일 테이블에 파일 insert
+			if (m != 0 && fileList != null) {
+				for (WorkFileVO filevo : fileList) {
+					k = dao.workAddFile(filevo);
+					
+					if (k == 0) break;
+				}
 			}
 		}
 		

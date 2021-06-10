@@ -59,7 +59,7 @@ public interface InterWorkmanageDAO {
 	List<WorkVO> workListSearchWithPaging(Map<String, Object> paraMap);
 
 	// 업무 첨부 파일 등록
-	int workAddFile(WorkVO workvo);
+	int workAddFile(WorkFileVO filevo);
 
 	// 수신자가 읽었을 때 읽음확인 업데이트 하기 
 	int updateReadcheckdate(Map<String, String> paraMap);

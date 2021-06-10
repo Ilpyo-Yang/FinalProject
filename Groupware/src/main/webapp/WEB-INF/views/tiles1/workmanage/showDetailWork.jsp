@@ -28,11 +28,14 @@
 			setworkStatusBtn(item, delayday);
 		});	
 		
-		mbrWorkStatusChange();
-		
+		var fk_wrno = "${requestScope.fk_wrno}";
+		if (fk_wrno != 2) {
+			mbrWorkStatusChange();	
+		}
 		
 	});
 	
+	// 담당자별 업무처리 확인하기 
 	function mbrWorkStatusChange() {
 		var fk_mbr_seq = $("select#mbrListSelect").val();
 		
@@ -72,11 +75,15 @@
 
 <div class="container commoncontainer">
 	<c:if test="${fk_wtno == 1}">
-		<h3>내가 한 업무 요청 조회</h3>
+		<c:if test="${fk_wrno == 1}"><h3>내가 한 업무 요청 조회</h3></c:if>
+		<c:if test="${fk_wrno == 2}"><h3>수신 업무 요청 조회</h3></c:if>
+		<c:if test="${fk_wrno == 3}"><h3>참조 업무 요청 조회</h3></c:if>
 	</c:if>
 	
 	<c:if test="${fk_wtno == 2}">
-		<h3>내가 한 업무 보고 조회</h3>
+		<c:if test="${fk_wrno == 1}"><h3>내가 한 업무 보고 조회</h3></c:if>
+		<c:if test="${fk_wrno == 2}"><h3>수신 업무 보고 조회</h3></c:if>
+		<c:if test="${fk_wrno == 3}"><h3>참조 업무 보고 조회</h3></c:if>
 	</c:if>
 
 	<br>
@@ -148,6 +155,7 @@
 		</c:if>
 		
 		<c:if test="${requestScope.fk_wrno eq 2}">
+			<button type="button" class="workEditBtn" onclick="javascript:location.href='<%=ctxPath%>/workEdit.opis?wmno=${workvo.wmno}'">수정</button>
 			<button type="button" class="" onclick="">처리</button>
 			<button type="button" class="workListBtn" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
 		</c:if>

@@ -140,8 +140,8 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 
 	// 업무 첨부 파일 등록
 	@Override
-	public int workAddFile(WorkVO workvo) {
-		int n = sqlsession.insert("workmanage.workAddFile", workvo);
+	public int workAddFile(WorkFileVO filevo) {
+		int n = sqlsession.insert("workmanage.workAddFile", filevo);
 		return n;
 	}
 

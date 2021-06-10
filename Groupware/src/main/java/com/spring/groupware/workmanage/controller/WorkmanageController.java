@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.spring.groupware.common.*;
 import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.workmanage.model.TodoVO;
+import com.spring.groupware.workmanage.model.WorkFileVO;
 import com.spring.groupware.workmanage.model.WorkMemberVO;
 import com.spring.groupware.workmanage.model.WorkVO;
 import com.spring.groupware.workmanage.service.InterWorkmanageService;
@@ -159,45 +160,57 @@ public class WorkmanageController {
 	// == 업무(요청,보고) 등록하기 == //
 	@RequestMapping(value = "/workAddEnd.opis", method = { RequestMethod.POST })
 	public ModelAndView workAddEnd(ModelAndView mav, WorkVO workvo, MultipartHttpServletRequest mrequest) {
-		
-		MultipartFile attach = workvo.getAttach();
-		
-		if (!attach.isEmpty()) { // 첨부파일이 있는 경우 처리하기
-			
-			// WAS의 webapp 의 절대경로 알아오기
-			HttpSession session = mrequest.getSession();
-			String root = session.getServletContext().getRealPath("/");
-			String path = root+"resources"+File.separator+"files"; // File.separator 는 운영체제에서 사용하는 폴더와 파일의 구분자
-			
-			String newFileName = ""; // WAS(톰캣)의 디스크에 저장될 파일명 
-			byte[] bytes = null; // 첨부파일의 내용을 담는 것
-			long fileSize = 0; // 첨부파일의 크기
-			
-			try {
-				bytes = attach.getBytes(); // 첨부파일의 내용물을 읽기
-				String originalFilename = attach.getOriginalFilename(); // originalFilename ==> "강아지.png"
-				
-				newFileName = fileManager.doFileUpload(bytes, originalFilename, path);
-				
-				workvo.setFileName(newFileName);	
-				System.out.println("newFileName" + newFileName);
-				// WAS(톰캣)에 저장될 파일명(20210603123943385139567592900.png)
-				
-				workvo.setOrgFilename(originalFilename);
-				// 게시판 페이지에서 첨부된 파일(강아지.png)을 보여줄 때 사용.
-	            // 또한 사용자가 파일을 다운로드 할때 사용되어지는 파일명으로 사용.
-				
-				fileSize = attach.getSize(); // 첨부파일의 크기(단위는 byte임)
-				workvo.setFileSize(String.valueOf(fileSize));
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
 
 		String wmno = service.getWorkno(); // 채번해오기
 		workvo.setWmno(wmno);
+		
+		// 첨부파일이 있을 경우 첨부파일 테이블에 넣어줄 것들
+		List<MultipartFile> attachList = mrequest.getFiles("attach");
+		List<WorkFileVO> fileList = null;
+		
+		if (!attachList.isEmpty()) {
+			fileList = new ArrayList<>();
+			
+			for (MultipartFile attach : attachList) {
+				WorkFileVO filevo = new WorkFileVO();
+				
+				filevo.setFk_wmno(wmno);
+				filevo.setAttach(attach);
+				
+				// WAS의 webapp 의 절대경로 알아오기
+				HttpSession session = mrequest.getSession();
+				String root = session.getServletContext().getRealPath("/");
+				String path = root+"resources"+File.separator+"files"; // File.separator 는 운영체제에서 사용하는 폴더와 파일의 구분자
+				
+				String newFileName = ""; // WAS(톰캣)의 디스크에 저장될 파일명 
+				byte[] bytes = null; // 첨부파일의 내용을 담는 것
+				long fileSize = 0; // 첨부파일의 크기
+				
+				try {
+					bytes = attach.getBytes(); // 첨부파일의 내용물을 읽기
+					String originalFilename = attach.getOriginalFilename(); // originalFilename ==> "강아지.png"
+					
+					newFileName = fileManager.doFileUpload(bytes, originalFilename, path);
+					
+					filevo.setFileName(newFileName);	
+					System.out.println("newFileName" + newFileName);
+					// WAS(톰캣)에 저장될 파일명(20210603123943385139567592900.png)
+					
+					filevo.setOrgFilename(originalFilename);
+					// 게시판 페이지에서 첨부된 파일(강아지.png)을 보여줄 때 사용.
+		            // 또한 사용자가 파일을 다운로드 할때 사용되어지는 파일명으로 사용.
+					
+					fileSize = attach.getSize(); // 첨부파일의 크기(단위는 byte임)
+					filevo.setFileSize(String.valueOf(fileSize));
+					
+					fileList.add(filevo);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 
 		// 업무관리자 테이블에 넣어줄 것
 		List<WorkMemberVO> workmbrList = new ArrayList<>();
@@ -231,7 +244,7 @@ public class WorkmanageController {
 			}
 		}
 
-		int n = service.workAddEnd(workvo, workmbrList); // 업무테이블에 삽입
+		int n = service.workAddEnd(workvo, workmbrList, fileList); // 업무테이블에 삽입
 
 		if (n == 1) {
 			String fk_wrno = mrequest.getParameter("fk_wrno");
@@ -378,8 +391,8 @@ public class WorkmanageController {
 		
 		// == [맨처음][이전] 만들기 == //
 		if (pageNo != 1) {
-			pageBar += "<li style='display:inline-block; width:70px; font-size:12pt;'><a href='"+url+"?fk_wtno="+fk_wtno+"&fk_wrno="+fk_wrno+"&searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo=1'>[맨처음]</a></li>";
-			pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='"+url+"?fk_wtno="+fk_wtno+"&fk_wrno="+fk_wrno+"searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+			pageBar += "<li style='display:inline-block; width:70px; font-size:12pt;'><a href='"+url+"?fk_wtno="+fk_wtno+"&fk_wrno="+fk_wrno+"&registerday="+registerday+"&deadline="+deadline+"&workStatus="+str_workStatus+"&searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo=1'>[맨처음]</a></li>";
+			pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='"+url+"?fk_wtno="+fk_wtno+"&fk_wrno="+fk_wrno+"&registerday="+registerday+"&deadline="+deadline+"&workStatus="+str_workStatus+"searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
 		}
 		
 		while(!(loop > blockSize || pageNo > totalPage)) {
@@ -388,7 +401,7 @@ public class WorkmanageController {
 				pageBar += "<li style='display:inline-block; width:30px; font-size:12pt; border:solid 1px gray; color:red; padding:2px 4px;'>"+pageNo+"</li>";
 			}
 			else {
-				pageBar += "<li style='display:inline-block; width:30px; font-size:12pt;'><a href='"+url+"?fk_wtno="+fk_wtno+"&fk_wrno="+fk_wrno+"&searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+				pageBar += "<li style='display:inline-block; width:30px; font-size:12pt;'><a href='"+url+"?fk_wtno="+fk_wtno+"&fk_wrno="+fk_wrno+"&registerday="+registerday+"&deadline="+deadline+"&workStatus="+str_workStatus+"&searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
 			}
 			
 			loop++;
@@ -397,8 +410,8 @@ public class WorkmanageController {
 		
 		// == [다음][마지막] 만들기 == //
 		if (pageNo <= totalPage) {
-			pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='"+url+"?fk_wtno="+fk_wtno+"&fk_wrno="+fk_wrno+"&searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
-			pageBar += "<li style='display:inline-block; width:70px; font-size:12pt;'><a href='"+url+"?fk_wtno="+fk_wtno+"&fk_wrno="+fk_wrno+"&searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+totalPage+"'>[마지막]</a></li>";
+			pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='"+url+"?fk_wtno="+fk_wtno+"&fk_wrno="+fk_wrno+"&registerday="+registerday+"&deadline="+deadline+"&workStatus="+str_workStatus+"&searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
+			pageBar += "<li style='display:inline-block; width:70px; font-size:12pt;'><a href='"+url+"?fk_wtno="+fk_wtno+"&fk_wrno="+fk_wrno+"&registerday="+registerday+"&deadline="+deadline+"&workStatus="+str_workStatus+"&searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+totalPage+"'>[마지막]</a></li>";
 		}
 		
 		pageBar += "</ul>";

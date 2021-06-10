@@ -1,7 +1,5 @@
 package com.spring.groupware.workmanage.model;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class WorkVO {
 	private String wmno; 				//업무관리고유번호
 	private String fk_wtno; 			// 업무분류번호
@@ -19,20 +17,12 @@ public class WorkVO {
 	private String delayday;  			// 마감일자 지난 일 수 
 	private String lasteditdate; 	// 마지막으로 수정한 날짜
 	
-	private MultipartFile attach;
-	// form 태그에서 type="file" 인 파일을 받아서 저장되는 필드. 진짜파일 ==> WAS(톰캣) 디스크에 저장됨.
-	// jsp 파일에서 input type="file" 인 name 의 이름(attach)과 동일해야한다. 
-	
-	private String fileName; // WAS(톰캣)에 저장될 파일명(2020120809271535243254235235234.png)
-	private String orgFilename; // 진짜 파일명(강아지.png) // 사용자가 파일을 업로드 하거나 파일을 다운로드 할때 사용되어지는 파일명
-	private String fileSize; // 파일크기
-
 	
 	public WorkVO() {}
 	
 	public WorkVO(String wmno, String fk_wtno, String requester, String receivers, String referrers, String subject,
-			String contents, String registerday, String deadline, String checkstatus, String important,
-			String fk_statno, String fileName, String orgFilename, String fileSize) {
+			String contents, String registerday, String deadline, String checkstatus, String important, String lasteditdate,
+			String fk_statno) {
 	
 		this.wmno = wmno;
 		this.fk_wtno = fk_wtno;
@@ -43,12 +33,10 @@ public class WorkVO {
 		this.contents = contents;
 		this.registerday = registerday;
 		this.deadline = deadline;
+		this.lasteditdate = lasteditdate;
 		this.checkstatus = checkstatus;
 		this.important = important;
 		this.fk_statno = fk_statno;
-		this.fileName = fileName;
-		this.orgFilename = orgFilename;
-		this.fileSize = fileSize;
 	}
 
 	public String getWmno() {
@@ -166,39 +154,6 @@ public class WorkVO {
 		this.lasteditdate = lasteditdate;
 	}
 	
-	// 첨부 파일 관련 ------------------------------
-
-	public MultipartFile getAttach() {
-		return attach;
-	}
-
-	public void setAttach(MultipartFile attach) {
-		this.attach = attach;
-	}
-
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
-	public String getOrgFilename() {
-		return orgFilename;
-	}
-
-	public void setOrgFilename(String orgFilename) {
-		this.orgFilename = orgFilename;
-	}
-
-	public String getFileSize() {
-		return fileSize;
-	}
-
-	public void setFileSize(String fileSize) {
-		this.fileSize = fileSize;
-	}
 	
 	
 }

@@ -51,9 +51,9 @@
 	</insert>
 	
 	<!-- 첨부 파일이 있을 경우 파일 추가하는 부분 -->
-	<insert id="workAddFile" parameterType="com.spring.groupware.workmanage.model.WorkVO">
+	<insert id="workAddFile" parameterType="com.spring.groupware.workmanage.model.WorkFileVO">
 		insert into tbl_wmaddfile (fileno, fk_wmno, fileName, orgFilename, fileSize)
-		values (seq_wmaddfile_fileno.nextval, #{wmno}, #{fileName}, #{orgFilename}, #{fileSize})
+		values (seq_wmaddfile_fileno.nextval, #{fk_wmno}, #{fileName}, #{orgFilename}, #{fileSize})
 	</insert>
 	<!-- 트랜잭션 처리 부분 끝-->
 	

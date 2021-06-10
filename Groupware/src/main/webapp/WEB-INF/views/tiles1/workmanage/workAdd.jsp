@@ -291,7 +291,9 @@ ul#setmbrList li.receiverName:hover {
 			
 				<tr>
 					<td>파일 업로드</td>
-					<td><input type="file" name="attach" /></td>
+					<td>
+						<input multiple="multiple" type="file" name="attach" />
+					</td>
 				</tr>
 				<tr>
 					<td>내용</td>
