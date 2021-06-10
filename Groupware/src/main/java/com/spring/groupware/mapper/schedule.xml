@@ -16,6 +16,7 @@
 	<select id="getAddrList" parameterType="String" resultType="com.spring.groupware.addrlist.model.AddrVO">
 		select addr_seq, mbr_name, mbr_email, dept_name, mbr_phone_number
 		from tbl_address
+		order by addr_seq
 	</select>
 	
 	<!-- === 검색한 주소 목록 보여주기 === -->

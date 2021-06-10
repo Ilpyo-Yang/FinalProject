@@ -81,12 +81,6 @@ public class ScheduleDAO implements InterScheduleDAO {
 		return n;
 	}
 	
-	// 초대메일 발송할 사람 목록 가져오기
-	@Override
-	public List<Map<String, String>> getRsvpList() {
-		List<Map<String, String>> rsvpList = sqlsession.selectList("schedule.getRsvpList");
-		return rsvpList;
-	}
 	
 	///////////////////////////////////////////////////////////////////
 	
@@ -146,8 +140,6 @@ public class ScheduleDAO implements InterScheduleDAO {
 		return n;
 	}
 	
-	
-
 
 	
 	

@@ -36,8 +36,8 @@ public interface InterScheduleService {
 	// 모든 일정 삭제하기
 	int delAll();
 	
-	// 회의 초대 메일 보내기
-	void scdEmailSending() throws Exception;
+	// 선택한 사람에게 회의 초대 메일 보내기
+	void invitedListEmailSending(Map<String, String> paraMap) throws Exception;
 	
 	//////////////////////////////////////////////////////
 	
@@ -64,6 +64,10 @@ public interface InterScheduleService {
 	
 	// 체크된 예약 내역 삭제하기
 	int delOneResv(String usermtrno);
+
+	
+
+	
 
 	
 

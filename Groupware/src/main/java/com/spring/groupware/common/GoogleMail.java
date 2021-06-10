@@ -16,7 +16,7 @@ public class GoogleMail {
 		
         // 2. SMTP(Simple Mail Transfer Protocoal) 서버의 계정 설정
         //     Google Gmail 과 연결할 경우 Gmail 의 email 주소를 지정
-        prop.put("mail.smtp.user", "groupware0609@gmail.com");
+        prop.put("mail.smtp.user", "groupware02@gmail.com");
         
         // 3. SMTP 서버 정보 설정
         //    Google Gmail 인 경우  smtp.gmail.com
@@ -43,11 +43,11 @@ public class GoogleMail {
         MimeMessage msg = new MimeMessage(ses);
         
         // 제목 설정
-        String subject = "회의에 초대되셨습니다.";
+        String subject = "[알림]회의에 초대되셨습니다.";
         msg.setSubject(subject);	// 메일 제목을 담아줌
         
         // 보내는 사람의 메일주소
-        String sender = "groupware0609@gmail.com";
+        String sender = "groupware02@gmail.com";
         Address fromAddr = new InternetAddress(sender);
         msg.setFrom(fromAddr);
         

@@ -11,10 +11,11 @@
 <style type="text/css">
 
 	#listup {
+		overflow:auto;
 		margin: 10px;
-		overflow: hidden;
 		height: 270px;
-		width: 550px;
+		width: 560px;
+		margin-left:30px;
 	}
 	
 	table, th, td, tr {
@@ -22,8 +23,6 @@
 		border-collapse: collapse;
 		font-size: 11pt;
 	}
-	
-	table {margin-left:20px;}
 	
 	th {padding: 10px;}
 	
@@ -91,8 +90,6 @@
 			
 			$("input.getEmail").val(emailList);
 			$("input.getName").val(nameList);
-			
-			
 		});
 		
 		$("input#searchWord").bind("keydown", function(){
@@ -107,6 +104,8 @@
 			$("input#searchWord").val("${requestScope.paraMap.searchWord}");
 		}
 		
+		
+		
 	});// end of $(document).ready(function() {}---------------------------------- 
 	
 	function goSearch() {
@@ -117,6 +116,13 @@
 			
 	function sendtoParent() {
 		opener.document.getElementById("attendance").value = document.getElementById("mbr_name").value;
+	}
+	
+	function sendMail() {
+		var frm = document.pInfoFrm;
+		frm.method = "POST";
+		frm.action = "show_addresslist.opis";
+		frm.submit();
 	}
 	
 </script>
@@ -148,6 +154,7 @@
 				<th>이메일</th>
 				<th>전화번호</th>
 			</tr>	
+			
 			<c:forEach var="address" items="${requestScope.addrList}">
 				<tr>
 					<td><input type="checkbox" id="chkbox" name="email" value="${address.mbr_email}" /></td>
@@ -161,18 +168,20 @@
 		</table>
 	</div>
 </div>	
-	
+
+<form name="pInfoFrm">
 	<div id="sendBtn">
 		<input type="text" name="mbr_email" class="getEmail" id="getEmail"/>&nbsp;
 		<button type="button" onclick="sendMail()">초대메일 전송</button>
 	</div>
 	
+	<input type="hidden" class="getName" id="mbr_name" name="mbr_name" />
+	<input type="hidden" name="myName" id="myName" value="${sessionScope.loginuser.mbr_name}"/>
+	<input type="text" id="scdSubject" name="scdSubject"/>
+</form>
+	
 	<div id="btns">
 		<button type="button" class="cbtn ok" onclick="sendtoParent()">확인</button>
 		<button type="button" class="cbtn" onclick="javascript:window.close();">닫기</button>
 	</div>
-
-<form name="nameListFrm">
-	<input type="hidden" class="getName" id="mbr_name" name="mbr_name" />
-</form>
 	

@@ -34,8 +34,7 @@ public interface InterScheduleDAO {
 	// 모든 일정 삭제하기
 	int delAll();
 	
-	// 초대메일 발송할 사람 목록 가져오기
-	List<Map<String, String>> getRsvpList();
+	
 	
 	//////////////////////////////////////////////////////
 	

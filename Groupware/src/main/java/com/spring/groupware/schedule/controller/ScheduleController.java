@@ -65,6 +65,24 @@ public class ScheduleController {
 		// 주소록 리스트 가져오기
 		List<AddrVO> addrList = service.getAddrList();
 		
+		String emailList = request.getParameter("mbr_email");
+		String mbrName = request.getParameter("mbr_name");
+		String myName = request.getParameter("myName");
+		
+		Map<String, String> paraMap = new HashMap<>();
+		
+		if(emailList != null && !"".equals(emailList)) {
+			paraMap.put("emailList", emailList);
+			paraMap.put("mbrName", mbrName);
+			paraMap.put("myName", myName);
+		}
+		
+		try {
+			service.invitedListEmailSending(paraMap);
+		} catch (Exception e) {
+			
+		}
+		
 		mav.addObject("addrList", addrList);
 		mav.setViewName("schedule_modal/addressList");
 		
