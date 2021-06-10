@@ -38,17 +38,17 @@
 	<div class="lside">
 		<button class="sideBtn">업무 요청</button>
 		<ul class="sideUl">
-			<li><a href="<%=ctxPath%>/workList.opis?workType=1&workRole=1">내가 한 업무 요청</a></li>
-			<li><a href="<%=ctxPath%>/workList.opis?workType=1&workRole=2">수신 업무 요청</a></li>
-			<li><a href="<%=ctxPath%>/workList.opis?workType=1&workRole=3">참조 업무 요청</a></li>
+			<li><a href="<%=ctxPath%>/workList.opis?fk_wtno=1&fk_wrno=1">내가 한 업무 요청</a></li>
+			<li><a href="<%=ctxPath%>/workList.opis?fk_wtno=1&fk_wrno=2">수신 업무 요청</a></li>
+			<li><a href="<%=ctxPath%>/workList.opis?fk_wtno=1&fk_wrno=3">참조 업무 요청</a></li>
 		</ul>
 	</div>
 	<div class="lside">
 		<button class="sideBtn">업무 보고</button>
 		<ul class="sideUl">
-			<li><a href="<%=ctxPath%>/workList.opis?workType=2&workRole=1">내가 한 업무 보고</a></li>
-			<li><a href="<%=ctxPath%>/workList.opis?workType=2&workRole=2">수신 업무 보고</a></li>
-			<li><a href="<%=ctxPath%>/workList.opis?workType=2&workRole=3">참조 업무 보고</a></li>
+			<li><a href="<%=ctxPath%>/workList.opis?fk_wtno=2&fk_wrno=1">내가 한 업무 보고</a></li>
+			<li><a href="<%=ctxPath%>/workList.opis?fk_wtno=2&fk_wrno=2">수신 업무 보고</a></li>
+			<li><a href="<%=ctxPath%>/workList.opis?fk_wtno=2&fk_wrno=3">참조 업무 보고</a></li>
 		</ul>
 	</div>
 </div>

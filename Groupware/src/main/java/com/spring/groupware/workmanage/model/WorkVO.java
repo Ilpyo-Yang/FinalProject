@@ -1,11 +1,5 @@
 package com.spring.groupware.workmanage.model;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 public class WorkVO {
 	private String wmno; 				//업무관리고유번호
 	private String fk_wtno; 			// 업무분류번호
@@ -21,11 +15,13 @@ public class WorkVO {
 	private String fk_statno;  			// 업무상태번호
 	
 	private String delayday;  			// 마감일자 지난 일 수 
+	private String lasteditdate; 	// 마지막으로 수정한 날짜
+	
 	
 	public WorkVO() {}
 	
 	public WorkVO(String wmno, String fk_wtno, String requester, String receivers, String referrers, String subject,
-			String contents, String registerday, String deadline, String checkstatus, String important,
+			String contents, String registerday, String deadline, String checkstatus, String important, String lasteditdate,
 			String fk_statno) {
 	
 		this.wmno = wmno;
@@ -37,6 +33,7 @@ public class WorkVO {
 		this.contents = contents;
 		this.registerday = registerday;
 		this.deadline = deadline;
+		this.lasteditdate = lasteditdate;
 		this.checkstatus = checkstatus;
 		this.important = important;
 		this.fk_statno = fk_statno;
@@ -148,6 +145,15 @@ public class WorkVO {
 	public void setDelayday(String delayday) {
 		this.delayday = delayday;
 	}
+	
+	public String getLasteditdate() {
+		return lasteditdate;
+	}
+
+	public void setLasteditdate(String lasteditdate) {
+		this.lasteditdate = lasteditdate;
+	}
+	
 	
 	
 }

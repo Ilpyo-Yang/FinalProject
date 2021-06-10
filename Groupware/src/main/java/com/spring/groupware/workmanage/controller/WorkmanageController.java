@@ -1,5 +1,6 @@
 package com.spring.groupware.workmanage.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,11 +19,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.groupware.common.*;
 import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.workmanage.model.TodoVO;
+import com.spring.groupware.workmanage.model.WorkFileVO;
 import com.spring.groupware.workmanage.model.WorkMemberVO;
 import com.spring.groupware.workmanage.model.WorkVO;
 import com.spring.groupware.workmanage.service.InterWorkmanageService;
@@ -33,6 +37,10 @@ public class WorkmanageController {
 
 	@Autowired // type에 따라 자동 객체 삽입
 	private InterWorkmanageService service;
+	
+	@Autowired     // Type에 따라 알아서 Bean 을 주입해준다.
+	private FileManager fileManager;
+
 
 	// == 업무 등록 페이지 보여주기 (할일, 요청, 보고 등록) == //
 	@RequestMapping(value = "/workAdd.opis")
@@ -40,13 +48,13 @@ public class WorkmanageController {
 			ModelAndView mav) {
 
 		// 사이드 바가 아닌 업무리스트 페이지에서 업무 등록을 눌렀을 때 해당 타입을 전달한다.
-		mav.addObject("workType", request.getParameter("workType"));
+		mav.addObject("fk_wtno", request.getParameter("fk_wtno"));
 
 		mav.setViewName("workmanage/workAdd.tiles1");
 		return mav;
 	}
 
-	// === 검색어 입력시 자동글 완성하기 3 === //
+	// === 검색어 입력시 자동글 완성하기  === //
 	@ResponseBody
 	@RequestMapping(value = "/memberSearchShow.opis", method = {
 			RequestMethod.GET }, produces = "text/plain;charset=UTF-8")
@@ -151,23 +159,64 @@ public class WorkmanageController {
 
 	// == 업무(요청,보고) 등록하기 == //
 	@RequestMapping(value = "/workAddEnd.opis", method = { RequestMethod.POST })
-	public ModelAndView workAddEnd(ModelAndView mav, WorkVO workvo, HttpServletRequest request) {
-
-		/*
-		 * >> 추가로 해야할 일 - 내용(contens) 등록할 때 inject처리, 개행문자 처리 => 추후 스마트 에디터 사용 예정 -
-		 * 첨부파일(addfile) 등록처리
-		 */
-//		System.out.println("getRequester: " + workvo.getRequester()); // getRequester: 김정수
-//		System.out.println("getReceivers: " + workvo.getReceivers()); // receiverSeqs: 김고양,김초코,김산타
+	public ModelAndView workAddEnd(ModelAndView mav, WorkVO workvo, MultipartHttpServletRequest mrequest) {
 
 		String wmno = service.getWorkno(); // 채번해오기
 		workvo.setWmno(wmno);
+		
+		// 첨부파일이 있을 경우 첨부파일 테이블에 넣어줄 것들
+		List<MultipartFile> attachList = mrequest.getFiles("attach");
+		List<WorkFileVO> fileList = null;
+		
+		if (!attachList.isEmpty()) {
+			fileList = new ArrayList<>();
+			
+			for (MultipartFile attach : attachList) {
+				WorkFileVO filevo = new WorkFileVO();
+				
+				filevo.setFk_wmno(wmno);
+				filevo.setAttach(attach);
+				
+				// WAS의 webapp 의 절대경로 알아오기
+				HttpSession session = mrequest.getSession();
+				String root = session.getServletContext().getRealPath("/");
+				String path = root+"resources"+File.separator+"files"; // File.separator 는 운영체제에서 사용하는 폴더와 파일의 구분자
+				
+				String newFileName = ""; // WAS(톰캣)의 디스크에 저장될 파일명 
+				byte[] bytes = null; // 첨부파일의 내용을 담는 것
+				long fileSize = 0; // 첨부파일의 크기
+				
+				try {
+					bytes = attach.getBytes(); // 첨부파일의 내용물을 읽기
+					String originalFilename = attach.getOriginalFilename(); // originalFilename ==> "강아지.png"
+					
+					newFileName = fileManager.doFileUpload(bytes, originalFilename, path);
+					
+					filevo.setFileName(newFileName);	
+					System.out.println("newFileName" + newFileName);
+					// WAS(톰캣)에 저장될 파일명(20210603123943385139567592900.png)
+					
+					filevo.setOrgFilename(originalFilename);
+					// 게시판 페이지에서 첨부된 파일(강아지.png)을 보여줄 때 사용.
+		            // 또한 사용자가 파일을 다운로드 할때 사용되어지는 파일명으로 사용.
+					
+					fileSize = attach.getSize(); // 첨부파일의 크기(단위는 byte임)
+					filevo.setFileSize(String.valueOf(fileSize));
+					
+					fileList.add(filevo);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 
 		// 업무관리자 테이블에 넣어줄 것
 		List<WorkMemberVO> workmbrList = new ArrayList<>();
-		String requesterSeq = request.getParameter("requesterSeq");
-		String receiverSeqs = request.getParameter("receiverSeqs");
-		String referrerSeqs = request.getParameter("referrerSeqs");
+		String requesterSeq = mrequest.getParameter("requesterSeq");
+		String receiverSeqs = mrequest.getParameter("receiverSeqs");
+		String referrerSeqs = mrequest.getParameter("referrerSeqs");
 
 		// 요청자 정보 (requester)
 		WorkMemberVO mbr = new WorkMemberVO();
@@ -195,11 +244,11 @@ public class WorkmanageController {
 			}
 		}
 
-		int n = service.workAddEnd(workvo, workmbrList); // 업무테이블에 삽입
+		int n = service.workAddEnd(workvo, workmbrList, fileList); // 업무테이블에 삽입
 
 		if (n == 1) {
-			String fk_wrno = request.getParameter("fk_wrno");
-			mav.setViewName("redirect:/workList.opis?workType=" + workvo.getFk_wtno() + "&workRole=" + fk_wrno);
+			String fk_wrno = mrequest.getParameter("fk_wrno");
+			mav.setViewName("redirect:/workList.opis?fk_wtno=" + workvo.getFk_wtno() + "&fk_wrno=" + fk_wrno);
 		} else {
 			String message = "업무 등록에 실패하였습니다. 다시 시도하세요";
 			String loc = "javascript:history.back()";
@@ -219,8 +268,8 @@ public class WorkmanageController {
 			ModelAndView mav) {
 		
 		// 사용자가 선택한 업무와 역할
-		String workType = request.getParameter("workType");
-		String workRole = request.getParameter("workRole");
+		String fk_wtno = request.getParameter("fk_wtno");
+		String fk_wrno = request.getParameter("fk_wrno");
 		
 		// 검색어 및 현재 페이지 번호
 		String searchType = request.getParameter("searchType");
@@ -265,8 +314,8 @@ public class WorkmanageController {
 
 		
 		// 검색한 사용자의 정보검사를 위해 
-		paraMap.put("fk_wtno", workType); // 업무요청:1, 업무보고:2
-		paraMap.put("fk_wrno", workRole); // 내가 발신자일때:1, 수신자일때:2, 참조자일때:3
+		paraMap.put("fk_wtno", fk_wtno); // 업무요청:1, 업무보고:2
+		paraMap.put("fk_wrno", fk_wrno); // 내가 발신자일때:1, 수신자일때:2, 참조자일때:3
 
 		// 사용자 시퀀스번호 가져오기 
 		try {
@@ -342,8 +391,8 @@ public class WorkmanageController {
 		
 		// == [맨처음][이전] 만들기 == //
 		if (pageNo != 1) {
-			pageBar += "<li style='display:inline-block; width:70px; font-size:12pt;'><a href='"+url+"?workType="+workType+"&workRole="+workRole+"&searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo=1'>[맨처음]</a></li>";
-			pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='"+url+"?workType="+workType+"&workRole="+workRole+"searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+			pageBar += "<li style='display:inline-block; width:70px; font-size:12pt;'><a href='"+url+"?fk_wtno="+fk_wtno+"&fk_wrno="+fk_wrno+"&registerday="+registerday+"&deadline="+deadline+"&workStatus="+str_workStatus+"&searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo=1'>[맨처음]</a></li>";
+			pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='"+url+"?fk_wtno="+fk_wtno+"&fk_wrno="+fk_wrno+"&registerday="+registerday+"&deadline="+deadline+"&workStatus="+str_workStatus+"searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
 		}
 		
 		while(!(loop > blockSize || pageNo > totalPage)) {
@@ -352,7 +401,7 @@ public class WorkmanageController {
 				pageBar += "<li style='display:inline-block; width:30px; font-size:12pt; border:solid 1px gray; color:red; padding:2px 4px;'>"+pageNo+"</li>";
 			}
 			else {
-				pageBar += "<li style='display:inline-block; width:30px; font-size:12pt;'><a href='"+url+"?workType="+workType+"&workRole="+workRole+"&searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+				pageBar += "<li style='display:inline-block; width:30px; font-size:12pt;'><a href='"+url+"?fk_wtno="+fk_wtno+"&fk_wrno="+fk_wrno+"&registerday="+registerday+"&deadline="+deadline+"&workStatus="+str_workStatus+"&searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
 			}
 			
 			loop++;
@@ -361,16 +410,16 @@ public class WorkmanageController {
 		
 		// == [다음][마지막] 만들기 == //
 		if (pageNo <= totalPage) {
-			pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='"+url+"?workType="+workType+"&workRole="+workRole+"&searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
-			pageBar += "<li style='display:inline-block; width:70px; font-size:12pt;'><a href='"+url+"?workType="+workType+"&workRole="+workRole+"&searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+totalPage+"'>[마지막]</a></li>";
+			pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='"+url+"?fk_wtno="+fk_wtno+"&fk_wrno="+fk_wrno+"&registerday="+registerday+"&deadline="+deadline+"&workStatus="+str_workStatus+"&searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
+			pageBar += "<li style='display:inline-block; width:70px; font-size:12pt;'><a href='"+url+"?fk_wtno="+fk_wtno+"&fk_wrno="+fk_wrno+"&registerday="+registerday+"&deadline="+deadline+"&workStatus="+str_workStatus+"&searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+totalPage+"'>[마지막]</a></li>";
 		}
 		
 		pageBar += "</ul>";
 		mav.addObject("pageBar", pageBar);
 		
 		// 해당 정보를 다시 넘겨줘서 화면단 조정하기 위함
-		mav.addObject("workType", workType);
-		mav.addObject("workRole", workRole);
+		mav.addObject("fk_wtno", fk_wtno);
+		mav.addObject("fk_wrno", fk_wrno);
 		
 		// 상세 페이지에서 목록보기를 클릭했을 때 돌아갈 페이지를 알려주기 위해 
 		String gobackURL = MyUtil.getCurrentURL(request);
@@ -432,17 +481,32 @@ public class WorkmanageController {
 
 		// 업무고유 번호 받아오기
 		String wmno = request.getParameter("wmno");
+		String fk_wrno = request.getParameter("fk_wrno");
+		String fk_wtno = request.getParameter("fk_wtno");
+		String gobackURL = request.getParameter("gobackURL");
+		
+		// 수신 업무 읽었을 때 읽음 처리하기 위해 필요한 것들
 		Map<String, String> paraMap = new HashedMap<>();
 		paraMap.put("wmno", wmno);
+		paraMap.put("fk_wrno", fk_wrno);
+		paraMap.put("fk_wtno", fk_wtno);
+		paraMap.put("gobackURL", gobackURL);
+		
+		// 사용자 시퀀스번호
+		String userId = null;
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 
-		// 업무에 대한 상세 정보 가져오기
+		if (loginuser != null) {
+			userId = String.valueOf(loginuser.getMbr_seq());
+			paraMap.put("fk_mbr_seq", userId);
+		}
+
+		// 업무에 대한 상세 정보 가져오기 및 읽음 확인 업데이트
 		WorkVO workvo = service.showDetailWork(paraMap);
 
-		String workType = request.getParameter("workType");
-		String workRole = request.getParameter("workRole");
-
-		mav.addObject("workType", workType);
-		mav.addObject("workRole", workRole);
+		mav.addObject("fk_wtno", fk_wtno);
+		mav.addObject("fk_wrno", fk_wrno);
 		mav.addObject("workvo", workvo);
 
 		// 업무의 처리내역 정보 가져오기
@@ -475,12 +539,27 @@ public class WorkmanageController {
 	// 업무 수정하기 마지막
 	@RequestMapping(value = "workEditEnd.opis", method = { RequestMethod.POST })
 	public ModelAndView workEditEnd(ModelAndView mav, WorkVO workvo, HttpServletRequest request) {
+		
+		// 업무 수정시 수정한 일자를 업데이트하기 위해 필요한 정보
+		Map<String,String> paraMap = new HashedMap<>();
+		paraMap.put("wmno", workvo.getWmno());
 
-		int n = service.workEditEnd(workvo);
+		// 사용자 시퀀스번호
+		String userId = null;
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		if (loginuser != null) {
+			userId = String.valueOf(loginuser.getMbr_seq());
+			paraMap.put("fk_mbr_seq", userId);
+		}
+		
+		// 업무 수정하기 및 수정일자 업데이트 하기
+		int n = service.workEditEnd(workvo, paraMap);
 
 		if (n == 1) {
 			String fk_wrno = request.getParameter("fk_wrno");
-			mav.setViewName("redirect:/workList.opis?workType=" + workvo.getFk_wtno() + "&workRole=" + fk_wrno);
+			mav.setViewName("redirect:/workList.opis?fk_wtno=" + workvo.getFk_wtno() + "&fk_wrno=" + fk_wrno);
 		} else {
 			String message = "업무 수정에 실패하였습니다. 다시 시도하세요";
 			String loc = "javascript:history.back()";
@@ -525,7 +604,7 @@ public class WorkmanageController {
 			if (gobackURL != null) {
 				mav.setViewName("redirect:/" + gobackURL);
 			} else {
-				mav.setViewName("redirect:/workList.opis?workType=" + fk_wtno + "&workRole=" + fk_wrno);
+				mav.setViewName("redirect:/workList.opis?fk_wtno=" + fk_wtno + "&fk_wrno=" + fk_wrno);
 			}
 		} else {
 			String message = "업무 삭제에 실패하였습니다. 다시 시도하세요";
@@ -541,8 +620,7 @@ public class WorkmanageController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "oneMbrWorkStatus.opis", method = {
-			RequestMethod.GET }, produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "oneMbrWorkStatus.opis", method = {RequestMethod.GET }, produces = "text/plain;charset=UTF-8")
 	public String oneMbrWorkStatus(HttpServletRequest request) {
 
 		String fk_mbr_seq = request.getParameter("fk_mbr_seq");

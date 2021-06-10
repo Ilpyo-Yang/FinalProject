@@ -58,5 +58,6 @@ public interface InterAddrService {
 	// 주소록 그룹 삭제
 	int delAddrgroup(Map<String, String> paraMap);
 
+
 	
 }

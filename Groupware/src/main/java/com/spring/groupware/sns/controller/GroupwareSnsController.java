@@ -120,7 +120,7 @@ public class GroupwareSnsController {
 			return mav;
 	}
 
-	
+	// 접속상태 수정하기
 	  @RequestMapping(value="/sns/status.opis") public ModelAndView
 	  status(ModelAndView mav, MemberVO membervo, HttpServletRequest request) {
 	  
@@ -139,5 +139,13 @@ public class GroupwareSnsController {
 	  }
 	  return mav; 
 	  }
+	  
+	  
+	  //채팅방 호출
+	  @RequestMapping(value="/sns/talkroom.opis", method= {RequestMethod.GET})
+	   public String requiredLogin_multichat(HttpServletRequest request, HttpServletResponse response) {
+		   
+		   return "/sns/talkroom";
+	   }
 }	
 

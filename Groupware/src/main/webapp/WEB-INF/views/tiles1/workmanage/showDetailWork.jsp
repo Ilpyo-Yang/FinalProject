@@ -1,6 +1,8 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	  
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <% String ctxPath = request.getContextPath(); %>  
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -26,11 +28,14 @@
 			setworkStatusBtn(item, delayday);
 		});	
 		
-		mbrWorkStatusChange();
-		
+		var fk_wrno = "${requestScope.fk_wrno}";
+		if (fk_wrno != 2) {
+			mbrWorkStatusChange();	
+		}
 		
 	});
 	
+	// 담당자별 업무처리 확인하기 
 	function mbrWorkStatusChange() {
 		var fk_mbr_seq = $("select#mbrListSelect").val();
 		
@@ -69,12 +74,16 @@
 
 
 <div class="container commoncontainer">
-	<c:if test="${workType == 1}">
-		<h3>내가 한 업무 요청 조회</h3>
+	<c:if test="${fk_wtno == 1}">
+		<c:if test="${fk_wrno == 1}"><h3>내가 한 업무 요청 조회</h3></c:if>
+		<c:if test="${fk_wrno == 2}"><h3>수신 업무 요청 조회</h3></c:if>
+		<c:if test="${fk_wrno == 3}"><h3>참조 업무 요청 조회</h3></c:if>
 	</c:if>
 	
-	<c:if test="${workType == 2}">
-		<h3>내가 한 업무 보고 조회</h3>
+	<c:if test="${fk_wtno == 2}">
+		<c:if test="${fk_wrno == 1}"><h3>내가 한 업무 보고 조회</h3></c:if>
+		<c:if test="${fk_wrno == 2}"><h3>수신 업무 보고 조회</h3></c:if>
+		<c:if test="${fk_wrno == 3}"><h3>참조 업무 보고 조회</h3></c:if>
 	</c:if>
 
 	<br>
@@ -104,7 +113,7 @@
 				<td>${workvo.registerday}</td>
 				
 				<td>수정일</td>
-				<td>2020.01.11 12:10</td>
+				<td>${workvo.lasteditdate}</td>
 			</tr>
 			<tr>
 				<td>수신자</td>
@@ -125,53 +134,38 @@
 		</tbody>
 	</table>
 	
-	<!-- 처리내역 테이블 만들기 -->
-	<table class="table table-striped workShowtable">
-		<thead>
-			<tr style="background: #f2f2f2;">
-				<th colspan="4">담당자 처리내역&nbsp;
-					<select id="mbrListSelect" onchange="mbrWorkStatusChange();">
-					<c:forEach var="workmbr" items="${requestScope.workmbrList}" varStatus="status">
-						<option value="${workmbr.fk_mbr_seq}">${workmbr.mbr_name}</option>
-					</c:forEach>	
-					</select>
-				</th>
-			</tr>		
-		</thead>
-		<tbody>
-			<tr>
-				<td>담당자</td>
-				<td id="mbr_name"></td>
-				
-				<td>최종수정일</td>
-				<td id="lasteditdate"></td>
-			</tr>
-			<tr>
-				<td>진척률</td>
-				<td colspan="3" id="mbr_workPercent">%</td>
-			</tr>
-			<tr>
-				<td>내용</td>
-				<td colspan="3"></td>
-			</tr>
-		</tbody>
-	</table>
-	
-	<!-- 업무 관련 버튼 -->
-	<div align="right">
-		<button type="button" class="workEditBtn" onclick="javascript:location.href='<%=ctxPath%>/workEdit.opis?wmno=${workvo.wmno}'">수정</button>
-		<button type="button" class="workDeleteBtn" onclick="goWorkDel();">삭제</button>
-		<button type="button" class="workListBtn" onclick="javascript:location.href='<%=ctxPath%>/workList.opis?'">목록</button>
-	</div>
 	
 	<!-- 삭제할 업무 번호 폼 -->
 	<form name="delFrm">
 		<input type="hidden" name="wmnoStr" value="${workvo.wmno}"/>
-		<input type="hidden" name="fk_wtno" value="${workType}"/>
-		<input type="hidden" name="fk_wrno" value="${workRole}"/>
+		<input type="hidden" name="fk_wtno" value="${fk_wtno}"/>
+		<input type="hidden" name="fk_wrno" value="${fk_wrno}"/>
 	</form>
 	
-	<c:if test="${requestScope.workRole ne 2}"><jsp:include page="./readDetail.jsp" /></c:if>
-	<c:if test="${requestScope.workRole eq 2}"><jsp:include page="./writeDetail.jsp" /></c:if>
+	<!-- 처리내역 테이블 페이지 -->
+	<c:if test="${requestScope.fk_wrno ne 2}"><jsp:include page="./readDetail.jsp" /></c:if>
+	<c:if test="${requestScope.fk_wrno eq 2}"><jsp:include page="./writeDetail.jsp" /></c:if>
+	
+	<!-- 업무 관련 버튼 -->
+	<div align="right">
+		<c:if test="${requestScope.fk_wrno eq 1}">
+			<button type="button" class="workEditBtn" onclick="javascript:location.href='<%=ctxPath%>/workEdit.opis?wmno=${workvo.wmno}'">수정</button>
+			<button type="button" class="workDeleteBtn" onclick="goWorkDel();">삭제</button>
+			<button type="button" class="workListBtn" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
+		</c:if>
+		
+		<c:if test="${requestScope.fk_wrno eq 2}">
+			<button type="button" class="workEditBtn" onclick="javascript:location.href='<%=ctxPath%>/workEdit.opis?wmno=${workvo.wmno}'">수정</button>
+			<button type="button" class="" onclick="">처리</button>
+			<button type="button" class="workListBtn" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
+		</c:if>
+		
+		<c:if test="${requestScope.fk_wrno eq 3}">
+			<button type="button" class="workDeleteBtn" onclick="goWorkDel();">삭제</button>
+			<button type="button" class="workListBtn" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
+		</c:if>
+	</div>
+	
+	
 </div>
 

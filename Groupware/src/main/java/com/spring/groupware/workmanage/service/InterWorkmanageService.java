@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.workmanage.model.TodoVO;
+import com.spring.groupware.workmanage.model.WorkFileVO;
 import com.spring.groupware.workmanage.model.WorkMemberVO;
 import com.spring.groupware.workmanage.model.WorkVO;
 
@@ -20,7 +21,7 @@ public interface InterWorkmanageService {
 	TodoVO showDetailTodo(Map<String, String> paraMap);
 	
 	// 업무(요청,보고) 등록하기   
-	int workAddEnd(WorkVO workvo, List<WorkMemberVO> workmbrList);
+	int workAddEnd(WorkVO workvo, List<WorkMemberVO> workmbrList, List<WorkFileVO> fileList);
 
 	// 업무 리스트(요청,보고) 보여주기 
 	List<WorkVO> workList(Map<String, String> paraMap);
@@ -43,8 +44,8 @@ public interface InterWorkmanageService {
 	// 담당자들의 업무 정보 가져오기
 	List<WorkMemberVO> getWorkStatusEachMember(String wmno);
 
-	// 업무 수정하기
-	int workEditEnd(WorkVO workvo);
+	// 업무 수정하기 및 수정일자 업데이트 하기
+	int workEditEnd(WorkVO workvo, Map<String, String> paraMap);
 
 	// 업무 삭제하기
 	int workDel(Map<String, Object> paraMap);

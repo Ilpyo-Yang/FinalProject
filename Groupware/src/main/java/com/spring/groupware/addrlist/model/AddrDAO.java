@@ -89,7 +89,7 @@ public class AddrDAO implements InterAddrDAO {
 		List<AddrVO> myAddrlist = sqlsession.selectList("address.myAddrlistSearchWithPaging", paraMap);		
 		return myAddrlist;
 	}
-	
+
 	/*
 		개인 주소록 관리
 	*/

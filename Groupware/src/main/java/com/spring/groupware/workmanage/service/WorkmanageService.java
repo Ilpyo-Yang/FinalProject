@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.workmanage.model.InterWorkmanageDAO;
 import com.spring.groupware.workmanage.model.TodoVO;
+import com.spring.groupware.workmanage.model.WorkFileVO;
 import com.spring.groupware.workmanage.model.WorkMemberVO;
 import com.spring.groupware.workmanage.model.WorkVO;
 
@@ -48,20 +49,30 @@ public class WorkmanageService implements InterWorkmanageService {
 	// == 업무(요청,보고) 등록하기 트랜잭션 처리  == //
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
-	public int workAddEnd(WorkVO workvo, List<WorkMemberVO> workmbrList) {
-		int n = dao.workAddEnd(workvo);
-		int m = 0;
+	public int workAddEnd(WorkVO workvo, List<WorkMemberVO> workmbrList, List<WorkFileVO> fileList) {
+		int n = dao.workAddEnd(workvo); // 업무테이블에 업무 정보 insert 
+		int m = 0, k = 1;
 		
-		if (n == 1) {
+		// 업무관련 회원테이블에 정보 insert
+		if (n == 1) {	 
 			for (WorkMemberVO workmbr: workmbrList) {
 				workmbr.setFk_wmno(workvo.getWmno());
 				m = dao.workAddMember(workmbr);
 				
 				if (m == 0) break;
 			}
+			
+			// 첨부파일이 있을 때 첨부파일 테이블에 파일 insert
+			if (m != 0 && fileList != null) {
+				for (WorkFileVO filevo : fileList) {
+					k = dao.workAddFile(filevo);
+					
+					if (k == 0) break;
+				}
+			}
 		}
 		
-		return n*m;
+		return n*m*k;
 	}
 
 	// == 업무 리스트(요청,보고) 보여주기 == // 
@@ -89,8 +100,16 @@ public class WorkmanageService implements InterWorkmanageService {
 
 	// == 선택한 업무(요청,보고) 상세 보기  == //
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
 	public WorkVO showDetailWork(Map<String, String> paraMap) {
 		WorkVO workvo = dao.showDetailWork(paraMap);
+		
+		// 수신함에 있는 업무를 클릭해서 보게될 경우 읽은 날짜로 업데이트 해주기 
+		String fk_wrno = paraMap.get("fk_wrno");
+		if ("2".equals(fk_wrno)) {
+			dao.updateReadcheckdate(paraMap);
+		}
+		
 		return workvo;
 	}
 
@@ -115,11 +134,18 @@ public class WorkmanageService implements InterWorkmanageService {
 		return workmbrList;
 	}
 
-	// 업무 수정하기
+	// 업무 수정하기 및 수정일자 업데이트 하기
 	@Override
-	public int workEditEnd(WorkVO workvo) {
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
+	public int workEditEnd(WorkVO workvo, Map<String,String> paraMap) {
 		int n = dao.workEditEnd(workvo);
-		return n;
+		int m = 0;
+		
+		if (n == 1) {
+			m = dao.updateLasteditdate(paraMap);
+		}
+		
+		return n*m;
 	}
 
 	// 업무 삭제하기
@@ -142,5 +168,6 @@ public class WorkmanageService implements InterWorkmanageService {
 		List<WorkVO> workList = dao.workListSearchWithPaging(paraMap);
 		return workList;
 	}
+
 
 }

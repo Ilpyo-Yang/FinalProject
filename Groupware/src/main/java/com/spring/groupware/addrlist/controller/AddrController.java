@@ -312,7 +312,8 @@ public class AddrController {
 	  
 	  // 로그인한 사원의 사원번호 가져오기
 	  int fk_mbr_seq = loginuser.getMbr_seq();
- 	  System.out.println("확인용 : "+fk_mbr_seq);
+	  String addrgroup_seq = request.getParameter("addrgroup_seq");
+ 	  System.out.println("확인용 : "+fk_mbr_seq+"/"+addrgroup_seq);
 	  
 	  if(searchType == null || (!"dept_name".contentEquals(searchType) && !"mbr_name".contentEquals(searchType)) ) {
  		  searchType="";
@@ -359,6 +360,7 @@ public class AddrController {
       paraMap.put("startRno", String.valueOf(startRno));
       paraMap.put("endRno", String.valueOf(endRno));
       paraMap.put("fk_mbr_seq", String.valueOf(fk_mbr_seq));
+      paraMap.put("addrgroup_seq", addrgroup_seq);
       
       myAddrlist = service.myAddrlistSearchWithPaging(paraMap);
  	  // 페이징 처리한 주소록 목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것)
@@ -414,7 +416,7 @@ public class AddrController {
  	  return mav;
    }
    
-   
+
    // ============================ 개인 주소록 관리 ============================ //
    // === 주소록 목록 === //
    @RequestMapping(value="/addr_setting.opis")
@@ -517,7 +519,7 @@ public class AddrController {
    
    // === 주소록 목록 추가 === //
    @ResponseBody
-   @RequestMapping(value="/addAddrgroup.opis", method= {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+   @RequestMapping(value="/addAddrgroup.opis", method= {RequestMethod.POST})
    public String addAddrgroup(AddrGroupVO agvo) {
   
 	  int n = 0;
