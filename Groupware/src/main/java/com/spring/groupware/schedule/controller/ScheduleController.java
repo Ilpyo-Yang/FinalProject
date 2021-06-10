@@ -71,6 +71,40 @@ public class ScheduleController {
 		return mav;
 	}
 	
+	// 검색으로 원하는 정보 찾기
+	@RequestMapping(value="/scd_searchAddr.opis")
+	public ModelAndView scd_searchAddr(ModelAndView mav, HttpServletRequest request) {
+		
+		List<AddrVO> addrList = null;
+		addrList = service.getAddrList();
+		
+		String searchType = request.getParameter("searchType");
+		String searchWord = request.getParameter("searchWord");
+		
+		if(searchType == null || (!"dept_name".equals(searchType) && !"mbr_name".equals(searchType)) ) {
+			searchType= "";
+		}
+		
+		if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty()) {
+			searchType= "";
+		}
+		
+		Map<String, String> paraMap = new HashMap<>();
+		paraMap.put("searchType", searchType);
+		paraMap.put("searchWord", searchWord);
+		
+		addrList = service.addrList_Search(paraMap);
+		
+		// 아래는 검색대상 컬럼과 검색어를 유지시키기 위한 것임.
+		if(!"".equals(searchType) && !"".equals(searchWord)) {
+			mav.addObject("paraMap", paraMap);
+		}
+		
+		mav.addObject("addrList",addrList);
+		mav.setViewName("schedule_modal/addressList");
+		
+		return mav;
+	}
 	// 일정 등록하기
 	@RequestMapping(value="/scdRegEnd.opis", method = {RequestMethod.POST})
 	public ModelAndView requiredLogin_scdRegEnd(HttpServletRequest request, HttpServletResponse response, ModelAndView mav, ScheduleVO schedulevo) {
