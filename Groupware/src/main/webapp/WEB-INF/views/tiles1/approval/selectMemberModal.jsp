@@ -215,7 +215,7 @@
 		   		<div style="border: solid 1px #f2f2f2; padding: 2%; overflow: scroll; height: 380px;" >	   
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq 'CEO'}">
-				        	<label><input type="checkbox" class="rightCheckbox2 memberCheckbox2" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}" />
+				        	<label><input type="checkbox" class="rightCheckbox2 memberCheckbox2" value="${memberVO.dept_detail} ${memberVO.rank_detail} ${memberVO.mbr_name}" />
 				        		&nbsp;&nbsp;${memberVO.dept_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
@@ -225,7 +225,7 @@
 			   		<label><input type="checkbox" class="rightCheckbox2" id="salesCheckbox2"/>&nbsp;&nbsp;영업팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq '영업팀'}">
-				        	<label><input type="checkbox" class="rightCheckbox2 salesmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
+				        	<label><input type="checkbox" class="rightCheckbox2 salesmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail} ${memberVO.rank_detail} ${memberVO.mbr_name}"/>
 				        		&nbsp;&nbsp;└─&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
@@ -235,7 +235,7 @@
 			   		<label><input type="checkbox" class="rightCheckbox2" id="HRCheckbox2"/>&nbsp;&nbsp;인사팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq '인사팀'}">
-				        	<label><input type="checkbox" class="rightCheckbox2 HRmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
+				        	<label><input type="checkbox" class="rightCheckbox2 HRmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail} ${memberVO.rank_detail} ${memberVO.mbr_name}"/>
 				        		&nbsp;&nbsp;└─&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
@@ -245,7 +245,7 @@
 			   		<label><input type="checkbox" class="rightCheckbox2" id="PRCheckbox2"/>&nbsp;&nbsp;홍보팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq '홍보팀'}">
-				        	<label><input type="checkbox" class="rightCheckbox2 PRmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
+				        	<label><input type="checkbox" class="rightCheckbox2 PRmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail} ${memberVO.rank_detail} ${memberVO.mbr_name}"/>
 				        		&nbsp;&nbsp;└─&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
@@ -255,7 +255,7 @@
 			   		<label><input type="checkbox" class="rightCheckbox2" id="ITCheckbox2"/>&nbsp;&nbsp;IT팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq 'IT팀'}">
-				        	<label><input type="checkbox" class="rightCheckbox2 ITmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
+				        	<label><input type="checkbox" class="rightCheckbox2 ITmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail} ${memberVO.rank_detail} ${memberVO.mbr_name}"/>
 				        		&nbsp;&nbsp;└─&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>

@@ -10,7 +10,7 @@
 	$(document).ready(function(){
 		
 		var managePerson = '${sessionScope.loginuser.dept_detail} ${sessionScope.loginuser.rank_detail}'
-		                   +' ${sessionScope.loginuser.mbr_name}';
+						   +' ${sessionScope.loginuser.mbr_name}';
 		
 		
 		var html="";
@@ -61,7 +61,7 @@
 					<td>기안일</td>
 					<td>
 						<input type="text" class="form-control searchInput"/>
-						<span class="space">-</span>
+						<span>-</span>
 						<input type="text" class="form-control searchInput"/>
 					</td>
 				</tr>
