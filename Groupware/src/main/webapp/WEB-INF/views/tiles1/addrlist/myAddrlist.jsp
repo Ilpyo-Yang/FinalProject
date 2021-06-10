@@ -4,17 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath = request.getContextPath(); %>
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>개인 주소록</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  
   <jsp:include page="./addr_sidebar.jsp" />
 
 	<script type="text/javascript">
@@ -90,7 +79,7 @@
 		
 		location.href="<%=ctxPath%>/addr_view.opis?addr_seq="+addr_seq;
 		
-	} // end of function goView(cnotice_seq)---------------------------------------------------- 
+	} // end of function goView(addr_seq)---------------------------------------------------- 
 	
 	function goSearch(){
 		
@@ -102,8 +91,6 @@
 	} // end of goSearch(){}------------------------------------------------------------
 	
 </script>
-</head>
-<body>
 
 <div style="width: 1460px"> 
 	
@@ -139,7 +126,7 @@
 	      </tr>
 	    </thead>
 	    <tbody>
- 	      <c:forEach var="addrvo" items="${requestScope.addrList}" varStatus="status">
+ 	      <c:forEach var="addrvo" items="${requestScope.myAddrlist}" varStatus="status">
 	      	<tr>
 				<td align="center">
 					<span class="name" onclick="goView('${addrvo.addr_seq}')">${addrvo.mbr_name}</span>
@@ -147,7 +134,7 @@
 				<td align="left">${addrvo.mbr_phone_number}</td>
 				<td align="center">${addrvo.mbr_email}</td>
 				<td align="center">${addrvo.dept_name}</td>
-				<td align="center">${addrvo.position_name}</td>      	
+				<td align="center">${addrvo.position_name}</td>
 	      	</tr>		
 	      </c:forEach>
 	      
@@ -159,9 +146,6 @@
    		${requestScope.pageBar}
     </div>
 
-  	</div>	  	
-	
+  </div>	  	
 	
 </div>
-</body>
-</html>

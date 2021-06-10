@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <% String ctxPath = request.getContextPath(); %>
 
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />
@@ -15,8 +15,7 @@
 
    $(document).ready(function(){
       
-	  showAddrGNamelist();
-	  
+	   
 	  // ========== 주소록 등록 유효성 검사 시작 ========== //
       $("span.error").hide();
       
@@ -161,34 +160,6 @@
        frm.submit();	   
    }// function goRegister(){}----------------------------------------------------------------
    
-   // 개인 주소록 하위메뉴 읽어오기
-   function showAddrGNamelist(){
-      
-      $.ajax({
-        url: "<%=ctxPath%>/showAddrGNamelist.opis",
-        type: "GET",
-        data:{"fk_mbr_seq":"${sessionScope.loginuser.mbr_seq}"},
-        dataType:"json",
-        success:function(json){
-           	var html = "";
-               if(json.length > 0 ){ 
-                  $.each(json,function(item){
-                     html += "<li>"+item.groupname+"</li>";
-                  });
-                  
-               }
-               
-               $("ul#addrlistDisplay").html(html);
-               
-        	  },
-        error: function(request, status, error){
-                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-              }
-      });
-       
-   }//end of function viewAddrGNamelist(){} ----------------------
-   
-   
 </script>
 
 <div id="sideMenu">
@@ -291,15 +262,11 @@
 		    </div>
 		  </div>
 		 </div>
-  
+
 	<div class="lside">
 		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/totaladdrlist.opis'">전체 주소록</button>
 	</div>
 	<div class="lside">
-		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/myAddrlist.opis'">개인 주소록</button>
-		<ul class="sideUl" id="addrlistDisplay"></ul>
-	</div>
-	<div class="lside">
-		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/addr_setting.opis'">개인 주소록 관리</button>
+		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/addr_setting.opis'">개인 주소록</button>
 	</div>
 </div>

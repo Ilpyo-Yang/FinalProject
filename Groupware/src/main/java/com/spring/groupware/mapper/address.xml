@@ -82,6 +82,9 @@
 		    from tbl_address A JOIN tbl_addrlist G
 		    on A.fk_addrgroup_seq = G.addrgroup_seq 
 		    where G.fk_mbr_seq=#{fk_mbr_seq}
+		    <if test='addrgroup_seq != null '>
+		    	and G.addrgroup_seq = #{addrgroup_seq}
+			</if> 
 		    <if test='searchWord != ""'>
 		    	and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
 			</if>
@@ -96,7 +99,7 @@
 	 	from tbl_addrlist
 	 	where fk_mbr_seq=#{fk_mbr_seq}
 	 	order by addrgroup_seq desc
-	 </select>	
+	 </select>
 
 
 <!-- ============================ 개인 주소록 관리 ============================ -->   

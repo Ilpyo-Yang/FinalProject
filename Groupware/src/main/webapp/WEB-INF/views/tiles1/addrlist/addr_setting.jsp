@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath = request.getContextPath(); %>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,15 +12,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://kit.fontawesome.com/16816a49c3.js" crossorigin="anonymous"></script>
+  
   
   <jsp:include page="./addr_sidebar.jsp" />
-
+  
 	<script type="text/javascript">
 
 	$(document).ready(function(){
-		
+		console.log("addr_setting");
 	}); // end of $(document).ready(function(){})---------------------------------------
 
 	function goAdd(){
@@ -91,21 +93,23 @@
 			    	<c:if test="${not empty addrgroupvo.addrgroup_seq}">
 			      	<tr>
 						<td>
-							<span class="name">${addrgroupvo.groupname}</span>
+							<span class="name">${addrgroupvo.groupname}</span>&nbsp;
+							<span style="font-size: 9px;" onclick="javascript:location.href='<%=ctxPath%>/myAddrlist.opis?addrgroup_seq='+${addrgroupvo.addrgroup_seq}"><i class="fas fa-search fa-2x"></i></span>
+
 						</td>
 						<td>
 							<span class="detail">${addrgroupvo.groupdetail}</span>
 						</td>  
 						<td style="text-align: center;">
 							<button type="button">수정</button>&nbsp;
-							<button type="button" onclick="goDelete(${addrgroupvo.addrgroup_seq})">삭제</button>
+							<button type="button" onclick="goDelete('${addrgroupvo.addrgroup_seq}')">삭제</button>
 						</td>	
 			      	</tr>		
 			      	</c:if>
 				</c:forEach>
 		    </tbody>
 		</table>
-	  
+		
 		<!-- 페이지바 -->  
 		<div align="center" style="width: 70%; border: solid 0px gray; margin: 20px auto;">
 	   		${requestScope.pageBar}
