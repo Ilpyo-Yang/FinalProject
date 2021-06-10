@@ -47,7 +47,7 @@
 		from 
 		(        
 		select ap_seq, fk_apform_no, fk_mbr_seq, ap_progress, ap_title, ap_contents, ap_approver, ap_manage_approver
-		     , ap_referrer, ap_start_day, ap_dept
+		     , ap_referrer, to_char(ap_start_day,'YYYY-MM-DD') as ap_start_day, ap_dept
 		from tbl_approval
 		)A left join 
 		(
