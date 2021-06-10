@@ -41,7 +41,7 @@
 	<!-- == 업무(요청,보고) 등록하기 == -->
 	<insert id="workAddEnd" parameterType="com.spring.groupware.workmanage.model.WorkVO">
 		insert into tbl_workmanage(wmno, fk_wtno, requester, receivers, referrers, subject, contents, deadline, fk_statno)
-		values (#{wmno}, #{fk_wtno}, #{requester}, #{receivers}, #{referrers}, #{subject}, #{contents}, to_date(#{deadline}), #{fk_statno})
+		values (to_number(#{wmno}), to_number(#{fk_wtno}), #{requester}, #{receivers}, #{referrers}, #{subject}, #{contents}, to_date(#{deadline}), to_number(#{fk_statno}))
 	</insert>
 	
 	<!-- 업무에 해당하는 멤버 seq저장 -->
