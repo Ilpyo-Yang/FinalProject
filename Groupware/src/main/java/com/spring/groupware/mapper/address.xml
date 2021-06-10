@@ -91,15 +91,6 @@
 		) V
 		where rno between #{startRno} and #{endRno}   	 
    	 </select>   	 
-   	 
-
-	 <!-- === 등록한 개인주소록 하위메뉴로 불러오기 === -->
-	 <select id="getAddrGNamelist" parameterType="String" resultType="com.spring.groupware.addrlist.model.AddrGroupVO">
-	 	select addrgroup_seq, groupname
-	 	from tbl_addrlist
-	 	where fk_mbr_seq=#{fk_mbr_seq}
-	 	order by addrgroup_seq desc
-	 </select>
 
 
 <!-- ============================ 개인 주소록 관리 ============================ -->   

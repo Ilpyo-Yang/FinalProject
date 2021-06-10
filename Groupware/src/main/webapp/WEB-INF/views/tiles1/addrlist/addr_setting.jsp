@@ -93,8 +93,8 @@
 			    	<c:if test="${not empty addrgroupvo.addrgroup_seq}">
 			      	<tr>
 						<td>
-							<span class="name">${addrgroupvo.groupname}</span>&nbsp;
-							<span style="font-size: 9px;" onclick="javascript:location.href='<%=ctxPath%>/myAddrlist.opis?addrgroup_seq='+${addrgroupvo.addrgroup_seq}"><i class="fas fa-search fa-2x"></i></span>
+							<span class="name">${addrgroupvo.groupname}</span>&nbsp;&nbsp;
+							<span style="font-size: 7px; color: #3d5c5c;" onclick="javascript:location.href='<%=ctxPath%>/myAddrlist.opis?addrgroup_seq='+${addrgroupvo.addrgroup_seq}"><i class="fas fa-search fa-2x"></i></span>
 
 						</td>
 						<td>
