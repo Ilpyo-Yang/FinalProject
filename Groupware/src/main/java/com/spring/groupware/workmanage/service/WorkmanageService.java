@@ -6,10 +6,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.workmanage.model.InterWorkmanageDAO;
 import com.spring.groupware.workmanage.model.TodoVO;
+import com.spring.groupware.workmanage.model.WorkMemberVO;
 import com.spring.groupware.workmanage.model.WorkVO;
 
 @Component
@@ -41,16 +45,30 @@ public class WorkmanageService implements InterWorkmanageService {
 	}
 
 	
-	// == 업무(요청,보고) 등록하기   == //
+	// == 업무(요청,보고) 등록하기 트랜잭션 처리  == //
 	@Override
-	public int workAddEnd(WorkVO workvo) {
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
+	public int workAddEnd(WorkVO workvo, List<WorkMemberVO> workmbrList) {
 		int n = dao.workAddEnd(workvo);
-		return n;
+		int m = 0;
+		
+		if (n == 1) {
+			for (WorkMemberVO workmbr: workmbrList) {
+				workmbr.setFk_wmno(workvo.getWmno());
+				m = dao.workAddMember(workmbr);
+				
+				if (m == 0) break;
+			}
+		}
+		
+		return n*m;
 	}
 
 	// == 업무 리스트(요청,보고) 보여주기 == // 
 	@Override
 	public List<WorkVO> workList(Map<String, String> paraMap) {
+		dao.updateWorkStatusByTime(paraMap); // 마감 지난 업무상태 변경하기
+		
 		List<WorkVO> workList = dao.workList(paraMap);
 		return workList;
 	}
@@ -64,7 +82,7 @@ public class WorkmanageService implements InterWorkmanageService {
 
 	// == 페이징 처리 - 총 게시물 건수 가져오기 == //
 	@Override
-	public int getTotalCount(Map<String, String> paraMap) {
+	public int getTotalCount(Map<String, Object> paraMap) {
 		int n = dao.getTotalCount(paraMap);
 		return n;
 	}
@@ -81,6 +99,48 @@ public class WorkmanageService implements InterWorkmanageService {
 	public List<MemberVO> memberSearchShow(Map<String, String> paraMap) {
 		List<MemberVO> memberList = dao.memberSearchShow(paraMap);
 		return memberList;
+	}
+
+	// 채번 해오기
+	@Override
+	public String getWorkno() {
+		String wmno = dao.getWorkno();
+		return wmno;
+	}
+
+	// 담당자들의 업무 정보 가져오기
+	@Override
+	public List<WorkMemberVO> getWorkStatusEachMember(String wmno) {
+		List<WorkMemberVO> workmbrList = dao.getWorkStatusEachMember(wmno);
+		return workmbrList;
+	}
+
+	// 업무 수정하기
+	@Override
+	public int workEditEnd(WorkVO workvo) {
+		int n = dao.workEditEnd(workvo);
+		return n;
+	}
+
+	// 업무 삭제하기
+	@Override
+	public int workDel(Map<String, Object> paraMap) {
+		int n = dao.workDel(paraMap);
+		return n;
+	}
+
+	// 담당자 한명의 업무 정보 가져오기
+	@Override
+	public WorkMemberVO oneMbrWorkStatus(Map<String, String> paraMap) {
+		WorkMemberVO workmbr = dao.oneMbrWorkStatus(paraMap);
+		return workmbr;
+	}
+
+	// 페이징 처리한 글 목록 가져오기(검색이 있든지, 없든지 모두 다)
+	@Override
+	public List<WorkVO> workListSearchWithPaging(Map<String, Object> paraMap) {
+		List<WorkVO> workList = dao.workListSearchWithPaging(paraMap);
+		return workList;
 	}
 
 }

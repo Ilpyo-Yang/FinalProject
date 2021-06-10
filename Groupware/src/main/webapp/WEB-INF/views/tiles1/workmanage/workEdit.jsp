@@ -14,7 +14,7 @@
 <jsp:include page="./workmanage_sidebar.jsp" />
 
 <style type="text/css">
-div#displayList {
+div#diplayList {
 	border: solid 1px gray;
 	border-top: 100;
 	width: 206px;
@@ -25,53 +25,10 @@ div#displayList {
 	z-index: 1000;
 	background-color: white;
 }
-.receiverName {
-	width: 80px;
-}
-
-.close {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  right: 0%;
-  /* padding: 12px 16px; */
-  transform: translate(0%, -50%);
-}
-.close:hover {background: #bbb;}
-
-ul#setmbrList {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  display: inline-block;
-}
-
-ul#setmbrList li.receiverName {
-  border: 1px solid #ddd;
-  margin-top: -1px; /* Prevent double borders */
-  margin-right: 5px;
-  background-color: #f6f6f6;
-  /* padding: 12px; */
-  text-decoration: none;
-  /* font-size: 18px; */
-  color: black;
-  display: inline-block;
-  position: relative;
-}
-
-ul#setmbrList li.receiverName:hover {
-  background-color: #eee;
-}
 </style>
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		
-		$("input[name=workType]").each(function(index, item){
-			if (index == "${workType}") {
-				$(item).attr("checked",true);
-			}
-		});
 		
 		$("#datepicker_deadline").datepicker({
 			showOn : "button",
@@ -119,7 +76,7 @@ ul#setmbrList li.receiverName:hover {
 								
 								word = word.substr(0,index) + "<span style='color:blue;'>"+ word.substr(index,len) +"</span>" + word.substr(index+len);
 								
-								html += "<span style='cursor:pointer;' class='word'>"+ word +"</span><span hidden>"+item.seq+"</span><br>";
+								html += "<span style='cursor:pointer;' class='word'>"+ word +"</span><br>";
 							});
 							$("div#displayList").html(html);
 							$("div#displayList").show();
@@ -133,27 +90,16 @@ ul#setmbrList li.receiverName:hover {
 			
 		});
 		
-		<%-- === 검색어 입력시 자동글 완성하기 === --%>
+		<%-- === #113. 검색어 입력시 자동글 완성하기 8 === --%>
 		$(document).on("click", "span.word", function(){
+			$("input#searchWord").val($(this).text()); 
 			// 텍스트박스에 검색된 결과의 문자열을 입력해준다.
-			var html = "";
-			html += '<li type="text" class="receiverName">'+$(this).text();
-			html += '<input type="hidden" class="receiverName" value="'+$(this).text()+'"/>';
-			html += '<input type="hidden" class="receiverSeq" value="'+$(this).next().text()+'"/>';
-			html += '<span class="close" onclick="nameDel(this);">&times;</span></li>';
-			$("ul#setmbrList").append(html);
 			
-			$("input#searchWord").val("").focus();
 			$("div#displayList").hide();
+			goSearch();
 		});
 		
-		
 	});
-	
-	function nameDel(item) {
-		$(item).parent().remove();
-	} 
-	
 	
 	// == 업무 요청, 업무 보고 일 경우에만 담당자, 참조자  input 보여주기 == //
 	function onlyWorkInput(item) {
@@ -183,25 +129,8 @@ ul#setmbrList li.receiverName:hover {
 			return;
 		}
 		
-		// 담당자
-		var workType = $("input[name=workType]:checked").val();
-		if (workType != 0) {
-			var rcvlen = $("input.receiverName").length;
-			
-			if (rcvlen == 0) {
-				alert("담당자를 한명 이상 지정해주세요");
-				return;
-			}
-		}
 		
-		$("input[name=fk_wtno]").val(workType); // DB 컬럼명이랑 맞추기
-		
-		if (workType == 1) {
-			$("input[name=fk_statno]").val("1");
-		}
-		else if (workType == 2) {
-			$("input[name=fk_statno]").val("3");
-		}
+		var workType = ${requestScope.workvo.fk_wtno};
 		
 		if (workType == 0) submitTodoRegFrm(); 
 		else submitWorkRegFrm();
@@ -218,32 +147,16 @@ ul#setmbrList li.receiverName:hover {
 	
 	// == 업무 정보 폼 전송하기 == //
 	function submitWorkRegFrm() {
-		// reciever의 name, seq 문자열로 보내기
-		var receiverNames = [];
-		var receiverSeqs = [];
-		
-		$("input.receiverName").each(function(index, item){
-			receiverNames.push($(item).val());
-		});
-		$("input.receiverSeq").each(function(index, item){
-			receiverSeqs.push($(item).val());
-		});
-		
-		$("input[name=receivers]").val(receiverNames.join());
-		$("input[name=receiverSeqs]").val(receiverSeqs.join());
-		
-		$("input[name=referrers]").val('');
-		$("input[name=referrerSeqs]").val();
 		
 		var frm = document.workRegFrm;
-		frm.action = "<%=ctxPath%>/workAddEnd.opis";
+		frm.action = "<%=ctxPath%>/workEditEnd.opis";
 		frm.method = "post";
 		frm.submit();
 	}
 </script>
 
 <div class="container commoncontainer">
-	<h3>업무 등록</h3>
+	<h3>업무 수정</h3>
 	
 	<br>
 	
@@ -251,66 +164,49 @@ ul#setmbrList li.receiverName:hover {
 		<table class="table table-striped workRegtable">
 			<tbody>
 				<tr>
-					<td style="width: 10%;"><span class="star">*</span>제목</td>
-					<td style="width: 70%;"><input name="subject"/></td>
+					<td>업무형태</td>
+					<td>
+						<c:if test="${requestScope.workvo.fk_wtno == 1}">
+							<input type="hidden" value="1" id="workType" name="workType" onclick="onlyWorkInput(this);"/>
+							<label for="workType">업무요청</label>
+						</c:if>
+						<c:if test="${requestScope.workvo.fk_wtno == 2}">
+							<input type="hidden" value="2" id="workType" name="workType" onclick="onlyWorkInput(this);"/>
+							<label for="workType">업무보고</label>
+						</c:if>
+					</td>
 				</tr>
 				<tr>
-					<td><span class="star">*</span>업무형태</td>
-					<td>
-						<input type="radio" id="mytodo" value="0" name="workType" onclick="onlyWorkInput(this);"/> 
-						<label for="mytodo">나의 할일</label> 
-							
-						<input type="radio" id="workRequest" value="1" name="workType" onclick="onlyWorkInput(this);"/> 
-						<label for="workRequest">업무 요청</label>
-	
-						<input type="radio" id="workReport" value="2" name="workType" onclick="onlyWorkInput(this);"/>
-						<label for="workReport">업무 보고</label>
-					</td>
+					<td>담당자</td>
+					<td><label>${requestScope.workvo.receivers}</label></td>
+				</tr>
+				<tr>
+					<td style="width: 10%;"><span class="star">*</span>제목</td>
+					<td style="width: 70%;"><input name="subject" value="${requestScope.workvo.subject}"/></td>
 				</tr>
 				<tr>
 					<td><span class="star">*</span>업무기한</td>
-					<td><input type="text" name="deadline" id="datepicker_deadline" /></td>
+					<td><input type="text" name="deadline" id="datepicker_deadline" value="${requestScope.workvo.deadline}"/></td>
 				</tr>
-				
-				<tr class="onlyWorkInput">
-					<td><span class="star">*</span>담당자</td>
-					<td>
-						<input type="text" id="searchWord" name="searchWord" placeholder="사용자"  autocomplete="off" />
-						<ul id="setmbrList"></ul>
-						<div id="displayList"></div>
-					</td>
+				<tr>
+					<td>내용</td>
+					<td><textarea name="contents" cols="60" rows="10">${requestScope.workvo.contents}</textarea></td>
 				</tr>
-				
-				<tr class="onlyWorkInput">
-					<td>참조자</td>
-					<td>
-						
-						<input name="fk_referrer_seq" placeholder="사용자" />
-					</td>
-				</tr>
-			
 				<tr>
 					<td>파일 업로드</td>
 					<td><button name="addfile" type="button">파일추가</button></td>
 				</tr>
-				<tr>
-					<td>내용</td>
-					<td><textarea name="contents" cols="60" rows="10"></textarea></td>
-				</tr>
 				<tr id="workRegBtn">
 					<td colspan="2">
-						<button type="button" onclick="checkStar()">저장</button>
+						<button type="button" onclick="checkStar()">수정</button>
 						<button type="button" >취소</button>
 					</td>
 				</tr>
 			</tbody>
 		</table>	
-		<input type="hidden" name="requester" value="${sessionScope.loginuser.mbr_name}"/><input type="hidden" name="requesterSeq" value="5"/>
-		<input type="hidden" name="receivers" /><input type="hidden" name="receiverSeqs" />
-		<input type="hidden" name="referrers" /><input type="hidden" name="referrerSeqs" />
+		<input type="hidden" name="wmno" value="${requestScope.workvo.wmno}"/>
 		<input type="hidden" name="fk_wrno" value="1"/>
-		<input type="hidden" name="fk_wtno" />
-		<input type="hidden" name="fk_statno" />
+		<input type="hidden" name="fk_wtno" value="${requestScope.workvo.fk_wtno}"/>
 	</form>
 </div>
 

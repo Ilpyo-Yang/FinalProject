@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.workmanage.model.TodoVO;
+import com.spring.groupware.workmanage.model.WorkMemberVO;
 import com.spring.groupware.workmanage.model.WorkVO;
 
 public interface InterWorkmanageService {
@@ -19,7 +20,7 @@ public interface InterWorkmanageService {
 	TodoVO showDetailTodo(Map<String, String> paraMap);
 	
 	// 업무(요청,보고) 등록하기   
-	int workAddEnd(WorkVO workvo);
+	int workAddEnd(WorkVO workvo, List<WorkMemberVO> workmbrList);
 
 	// 업무 리스트(요청,보고) 보여주기 
 	List<WorkVO> workList(Map<String, String> paraMap);
@@ -28,12 +29,31 @@ public interface InterWorkmanageService {
 	List<WorkVO> workListForRefer(Map<String, String> paraMap);
 
 	// 페이징 처리 - 총 게시물 건수 가져오기
-	int getTotalCount(Map<String, String> paraMap);
+	int getTotalCount(Map<String, Object> paraMap);
 
 	// 선택한 업무(요청,보고) 상세 보기 
 	WorkVO showDetailWork(Map<String, String> paraMap);
 
 	// 담당자, 참조자 지정하기 위한 우선멤버 가져오기
 	List<MemberVO> memberSearchShow(Map<String, String> paraMap);
+
+	// 업무 번호 채번해오기
+	String getWorkno();
+
+	// 담당자들의 업무 정보 가져오기
+	List<WorkMemberVO> getWorkStatusEachMember(String wmno);
+
+	// 업무 수정하기
+	int workEditEnd(WorkVO workvo);
+
+	// 업무 삭제하기
+	int workDel(Map<String, Object> paraMap);
+
+	// 담당자 한명의 업무 정보 가져오기
+	WorkMemberVO oneMbrWorkStatus(Map<String, String> paraMap);
+
+	// 페이징 처리한 글 목록 가져오기(검색이 있든지, 없든지 모두 다)
+	List<WorkVO> workListSearchWithPaging(Map<String, Object> paraMap);
+
 
 }

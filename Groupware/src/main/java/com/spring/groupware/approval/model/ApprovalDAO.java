@@ -33,7 +33,7 @@ public class ApprovalDAO implements InterApprovalDAO {
 		return memberList;
 	}
 
-	// 첨부파일 없는 결재요청
+	// 결재요청 정보 저장하기
 	@Override
 	public int submitApproval(ApprovalVO avo) {
 		int n = sqlsession.insert("approval.submitApproval", avo);
@@ -42,12 +42,8 @@ public class ApprovalDAO implements InterApprovalDAO {
 
 	// 첨부파일 있는 결재요청
 	@Override
-	public int submitAttachedApproval(ApprovalVO avo) {
-		int n1 = sqlsession.insert("approval.submitApproval", avo);
-		int n2 = sqlsession.insert("approval.submitAttachedApproval", avo);
-		
-		int n=0;
-		if(n1==1 && n2==1) n=1;
+	public int submitAttachedApproval(FileVO fvo) {
+		int n = sqlsession.insert("approval.submitAttachedApproval", fvo);
 		return n;
 	}
 	

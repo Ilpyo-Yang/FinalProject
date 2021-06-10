@@ -33,6 +33,13 @@ public class ScheduleService implements InterScheduleService{
 		return addrList;
 	}
 	
+	// 검색한 주소 목록 보여주기
+	@Override
+	public List<AddrVO> addrList_Search(Map<String, String> paraMap) {
+		List<AddrVO> addrList = dao.addrList_Search(paraMap);
+		return addrList;
+	}
+	
 	// 일정 등록하기
 	@Override
 	public int scdAdd(ScheduleVO schedulevo) {
@@ -73,6 +80,31 @@ public class ScheduleService implements InterScheduleService{
 	public int delAll() {
 		int n = dao.delAll();
 		return n;
+	}
+	
+	// 회의 초대 메일 보내기
+	@Override
+	public void scdEmailSending() throws Exception {
+		
+		List<Map<String, String>> rsvpList = dao.getRsvpList();
+		
+		if(rsvpList != null && rsvpList.size() > 0) {
+			
+			for(int i=0; i<rsvpList.size(); i++) {
+				String contents = "회원 ID: " + rsvpList.get(i).get("");
+				
+			//	 = rsvpList.get(i).get(key);
+				
+			}// end of for-----------------------
+			
+			Map<String, String[]> paraMap = new HashMap<>();
+			// paraMap.putIfAbsent("", );
+			
+			
+		//	dao.SendMailNCheck(paraMap);
+			
+		}
+		
 	}
 	
 	///////////////////////////////////////////////////////////일정끝
@@ -119,12 +151,23 @@ public class ScheduleService implements InterScheduleService{
 		 return regDetailList; 
 	}
 
-	// 모든 회의실 예약 내역 가져오기
+	// 해당 접속자가 예약한 모든 회의실 예약 내역 가져오기
 	@Override
 	public List<MtrHistoryVO> getMtrResvList(String userid) {
 		List<MtrHistoryVO> mtrResvList = dao.getMtrResvList(userid);
 		return mtrResvList;
 	}
+	
+	// 체크된 예약 내역 삭제하기
+	@Override
+	public int delOneResv(String usermtrno) {
+		int n = dao.delOneResv(usermtrno);
+		return n;
+	}
+	
+	
+
+	
 
 	
 	
