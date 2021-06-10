@@ -193,7 +193,7 @@ public class WorkmanageController {
 					newFileName = fileManager.doFileUpload(bytes, originalFilename, path);
 					
 					filevo.setFileName(newFileName);	
-					System.out.println("newFileName" + newFileName);
+//					System.out.println("newFileName" + newFileName);
 					// WAS(톰캣)에 저장될 파일명(20210603123943385139567592900.png)
 					
 					filevo.setOrgFilename(originalFilename);
@@ -244,6 +244,16 @@ public class WorkmanageController {
 			}
 		}
 
+		System.out.println("getWmno() => "+workvo.getWmno());
+		System.out.println("getFk_wtno() => "+workvo.getFk_wtno());
+		System.out.println("getRequester() => "+workvo.getRequester());
+		System.out.println("getReceivers() => "+workvo.getReceivers());
+		System.out.println("getReferrers() => "+workvo.getReferrers());
+		System.out.println("getSubject() => "+workvo.getSubject());
+		System.out.println("getContents() => "+workvo.getContents());
+		System.out.println("getDeadline() => "+workvo.getDeadline());
+		
+		
 		int n = service.workAddEnd(workvo, workmbrList, fileList); // 업무테이블에 삽입
 
 		if (n == 1) {

@@ -194,7 +194,7 @@ ul#setmbrList li.receiverName:hover {
 			}
 		}
 		
-		$("input[name=fk_wtno]").val(fk_wtno); // DB 컬럼명이랑 맞추기
+		//$("input[name=fk_wtno]").val(fk_wtno); // DB 컬럼명이랑 맞추기
 		
 		if (fk_wtno == 1) {
 			$("input[name=fk_statno]").val("1");
@@ -311,7 +311,7 @@ ul#setmbrList li.receiverName:hover {
 		<input type="hidden" name="receivers" /><input type="hidden" name="receiverSeqs" />
 		<input type="hidden" name="referrers" /><input type="hidden" name="referrerSeqs" />
 		<input type="hidden" name="fk_wrno" value="1"/>
-		<input type="hidden" name="fk_wtno" />
+		<!-- <input type="hidden" name="fk_wtno" /> -->
 		<input type="hidden" name="fk_statno" />
 	</form>
 </div>
