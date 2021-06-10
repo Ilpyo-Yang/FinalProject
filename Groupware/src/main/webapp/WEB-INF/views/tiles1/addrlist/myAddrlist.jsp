@@ -115,7 +115,7 @@
 	    </div>
 
 	<!-- 본문(게시판) -->
-	  <table class="table table-striped">
+	  <table class="table table-striped" style="font-size: 14px;">
 	    <thead>
 	      <tr>
 	        <th style="width: 7%;  text-align: center;">이름</th>
@@ -126,26 +126,36 @@
 	      </tr>
 	    </thead>
 	    <tbody>
- 	      <c:forEach var="addrvo" items="${requestScope.myAddrlist}" varStatus="status">
-	      	<tr>
-				<td align="center">
-					<span class="name" onclick="goView('${addrvo.addr_seq}')">${addrvo.mbr_name}</span>
-				</td>
-				<td align="left">${addrvo.mbr_phone_number}</td>
-				<td align="center">${addrvo.mbr_email}</td>
-				<td align="center">${addrvo.dept_name}</td>
-				<td align="center">${addrvo.position_name}</td>
-	      	</tr>		
-	      </c:forEach>
-	      
+	    	<c:if test="${not empty requestScope.myAddrlist}">	    	
+ 	      		<c:forEach var="addrvo" items="${requestScope.myAddrlist}" varStatus="status">
+			      	<tr>
+						<td align="center">
+							<span class="name" onclick="goView('${addrvo.addr_seq}')">${addrvo.mbr_name}</span>
+						</td>
+						<td align="left">${addrvo.mbr_phone_number}</td>
+						<td align="center">${addrvo.mbr_email}</td>
+						<td align="center">${addrvo.dept_name}</td>
+						<td align="center">${addrvo.position_name}</td>
+			      	</tr>		      
+		      	</c:forEach>
+		      </c:if>
+	      <c:if test="${empty requestScope.myAddrlist}">
+		      	<tr>
+					<td align="center" colspan="5">
+						주소록에 등록된 사람이 없습니다.
+					</td>
+		      	</tr>
+	      	</c:if>
 	    </tbody>
 	  </table>
 	  
 	<!-- 페이지바 -->  
-	<div align="center" style="width: 70%; border: solid 0px gray; margin: 20px auto;">
-   		${requestScope.pageBar}
-    </div>
-
+	<c:if test="${not empty requestScope.myAddrlist}">
+		<div align="center" style="width: 70%; border: solid 0px gray; margin: 20px auto;">
+	   		${requestScope.pageBar}
+	    </div>
+	</c:if>
+	
   </div>	  	
 	
 </div>

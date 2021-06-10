@@ -150,18 +150,17 @@
 	
 	<div class="container" style="float: right; width: 80%; margin-top: 50px;">        
 
-  	<!-- 검색 -->
-		<form name="searchFrm" style="margin-top: 20px;">
-	      <select name="searchType" id="searchType" style="height: 26px; font-size: 13px;">
-	         <option value="dept_name">부서</option>
-	         <option value="mbr_name">이름</option>
-	      </select>
-	      <input type="text" name="searchWord" id="searchWord" size="30" style="height: 26px;" autocomplete="off" /> 
-	      <button type="button" onclick="goSearch()">검색</button>
-	   	</form>
-	   
-	    <div id="displayList" style="border:solid 1px gray; width:250px; height: 100px; border-top: 0px; margin-left: 71px; overflow: auto; padding-top: 2px;"> 	
-	    </div>
+	<form name="addMyaddrFrm" style="margin: 0 0 20px 0;">
+      <select name="searchType" id="searchType" style="height: 26px; font-size: 13px;">
+      	<c:forEach var="agvo" items="${requestScope.addrgroupList}" varStatus="status">
+        	<c:if test="${not empty agvo.addrgroup_seq}">
+         		<option value="groupname">${agvo.groupname}</option>
+         	</c:if>
+      	</c:forEach>
+      </select>
+      <button type="button" onclick="goAddmyAddr()">추가</button>
+   	</form>
+
 
 	<!-- 본문(게시판) -->
 	  <table class="table table-striped" style="font-size: 14px; text-align: center;">
@@ -195,6 +194,19 @@
 	<!-- 페이지바 -->  
 	<div align="center" style="width: 70%; border: solid 0px gray; margin: 20px auto;">
    		${requestScope.pageBar}
+    </div>
+
+  	<!-- 검색 -->
+	<form name="searchFrm" style="margin: 20px 0 0 0;">
+      <select name="searchType" id="searchType" style="height: 26px; font-size: 13px;">
+         <option value="dept_name">부서</option>
+         <option value="mbr_name">이름</option>
+      </select>
+      <input type="text" name="searchWord" id="searchWord" size="30" style="height: 26px;" autocomplete="off" /> 
+      <button type="button" onclick="goSearch()">검색</button>
+   	</form>
+	   
+    <div id="displayList" style="border:solid 1px gray; width:250px; height: 100px; border-top: 0px; margin-left: 71px; overflow: auto; padding-top: 2px;"> 	
     </div>
 
   	</div>	  	

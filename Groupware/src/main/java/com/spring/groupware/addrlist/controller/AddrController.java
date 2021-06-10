@@ -28,7 +28,13 @@ public class AddrController {
 
    @Autowired // Type에 따라 알아서 Bean 을 주입해준다.
    private InterAddrService service;
-      
+   
+   @RequestMapping(value="/addAddrModal.opis", method= {RequestMethod.GET})
+   public String addAddrModal() {
+	   return "/tiles1/addrlist/addAddrModal";
+   }
+   
+   
    // ============================ 전체 주소록 ============================ //
    
    // === 주소록 추가 === //
