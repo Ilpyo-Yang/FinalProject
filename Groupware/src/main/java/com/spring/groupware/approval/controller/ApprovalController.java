@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
@@ -88,7 +89,7 @@ public class ApprovalController {
 	  
 	  // === 모달창에 입력될 전체 사원명 가져오기  === //
 	  @RequestMapping(value="/getMemberList.opis")
-	  public String getMemberList(HttpServletRequest request, ModelAndView mav) {
+	  public String getMemberList(HttpServletRequest request) {
 		 List<MemberVO> memberList = service.getMemberList(); 
 		 JSONObject jsonObj = new JSONObject();
 		 jsonObj.put("memberList", memberList); 		
@@ -208,32 +209,39 @@ public class ApprovalController {
 		
 	  }
 	  
-	  
-	  // === 결재대기문서 === //
-	  @ResponseBody
+
+	  // === 결재대기문서  === //
 	  @RequestMapping(value="/approvalNeeded.opis")
+	  public ModelAndView requiredLogin_approvalNeeded(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {   	  
+		 mav.setViewName("approval/approvalNeeded.tiles1");
+		 return mav;
+	  }
+	  
+	  // === 결재대기문서 리스트 가져오기 === //
+	  @ResponseBody
+	  @RequestMapping(value="/approvalNeededList.opis")
 	  public String approvalNeeded(HttpServletRequest request) { 	
-		 String mbr_seq = request.getParameter("mbr_seq");
-		 List<ApprovalVO> approvalList = service.getApprovalList(mbr_seq); 
+		 String managePerson = request.getParameter("managePerson");
+		 
+		 List<ApprovalVO> approvalList = service.getApprovalList(managePerson); 
 		
 		 JSONArray jsonArr = new JSONArray(); 
+		 JSONObject jsonObj = new JSONObject();	
 		 
-		 if(approvalList != null) {
+		 if(approvalList.size() != 0) {
 		     for(ApprovalVO avo : approvalList) {
-					JSONObject jsonObj = new JSONObject();	
 					jsonObj.put("apform_name", avo.getApform_name());
 					jsonObj.put("ap_title", avo.getAp_title());
+					jsonObj.put("mbr_name", avo.getMbr_name());
 					jsonObj.put("ap_dept", avo.getAp_dept());
 					jsonObj.put("ap_start_day", avo.getAp_start_day());
-					
+
 					jsonArr.put(jsonObj);
 		      }
-		  }
-			
+		  } 
 		  return jsonArr.toString(); 
 	  }
 
-	  
 	  
 	  // === 서명관리 === //
 	  @RequestMapping(value="/sign.opis")

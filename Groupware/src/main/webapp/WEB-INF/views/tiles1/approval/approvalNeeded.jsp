@@ -8,14 +8,41 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-	
+		
+		var managePerson = '${sessionScope.loginuser.dept_detail} ${sessionScope.loginuser.rank_detail}'
+		                   +' ${sessionScope.loginuser.mbr_name}';
+		
+		
+		var html="";
+		
+		// 결재대기 문서 리스트 가져오기
 		$.ajax({
-			url:"<%=ctxPath%>/approvalNeeded.opis?seq=${sessionScope.loginuser.mbr_seq}",
+			url:"<%=ctxPath%>/approvalNeededList.opis",
 			dataType:"json",
-			/* data: {mbr_seq:"${sessionScope.loginuser.mbr_seq}"}, */
-			success: function(json){	
-				
-			}
+			data:{managePerson:managePerson},
+			success: function(json){		
+				if(json.length>0){
+					$.each(json, function(index, item){
+						html += "<tr>"+
+						"<td><input type='checkbox' class='approvalList'/></td>"+
+						"<td>"+item.apform_name+"</td>"+
+						"<td>"+item.ap_title+"</td>"+
+						"<td>"+item.mbr_name+"</td>"+
+						"<td>"+item.ap_dept+"</td>"+
+						"<td>"+item.ap_start_day+"</td>"+
+					    "</tr>";
+					});
+				}
+				else {
+					html += "<tr><td></td><td>결재 대기중인 문서가 없습니다.</td><td></td><td></td><td></td><td></td></tr>"
+				}
+					
+				$("tbody#list").html(html);
+			},
+			error: function(request, status, error){
+                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+            }
+		}); 
 		
 	}); // end of $(document).ready(function(){})---------------------------------------
 	
@@ -57,7 +84,7 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th><input type="checkbox" /></th>
+						<th><input type="checkbox" id="alllList"/></th>
 						<th>종류</th>
 						<th>문서제목</th>
 						<th>기안자</th>
@@ -65,24 +92,10 @@
 						<th>기안일</th>
 					</tr>
 				</thead>
-				<tbody>
-					<c:forEach var="boardvo" items="${requestScope.approvalList}" varStatus="status">
-					
-					</c:forEach>
-					<tr>
-						<td><input type="checkbox" /></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-				</tbody>
-			</table> 			
-						
-			<button type="button" class="btn btn-success formBtn4" id="approval">일괄결재</button>
-			
+				<tbody id="list" ></tbody>
+			</table> 					
 		</div>
+		<button type="button" class="btn btn-success formBtn4" id="approval">일괄결재</button>
 	</div>
 
 </body>

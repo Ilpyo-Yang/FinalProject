@@ -20,6 +20,7 @@ public class ApprovalVO {
 	private String ap_end_day; 		// 완료(반려)일자 
 	
 	private String apform_name;		// 서식명
+	private String mbr_name;
 	
 	private MultipartFile attach;    
 	
@@ -32,8 +33,6 @@ public class ApprovalVO {
 	
 	public ApprovalVO() {}
 
-	//////////////////////////////////////////////////////////////
-	
 	public String getAp_seq() {
 		return ap_seq;
 	}
@@ -154,6 +153,14 @@ public class ApprovalVO {
 		this.apform_name = apform_name;
 	}
 
+	public String getMbr_name() {
+		return mbr_name;
+	}
+
+	public void setMbr_name(String mbr_name) {
+		this.mbr_name = mbr_name;
+	}
+
 	public MultipartFile getAttach() {
 		return attach;
 	}
@@ -195,7 +202,7 @@ public class ApprovalVO {
 	}
 
 	//////////////////////////////////////////////////////////////
-
+	
 	
 	
 	

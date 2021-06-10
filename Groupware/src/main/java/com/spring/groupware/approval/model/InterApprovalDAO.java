@@ -20,6 +20,6 @@ public interface InterApprovalDAO {
 	int submitAttachedApproval(Map<String, String> paraMap);
 
 	// 결재대기 문서 가져오기
-	List<ApprovalVO> getApprovalList(String mbr_seq);
+	List<ApprovalVO> getApprovalList(String managePerson);
 
 }
