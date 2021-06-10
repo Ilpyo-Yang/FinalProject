@@ -19,14 +19,24 @@
 			success: function(json){		
 				if(json.length>0){
 					$.each(json, function(index, item){
+						var ap_manage_approver = item.ap_manage_approver;
+						var ap_progress = "";
+						if(item.ap_progress=='0'){
+							ap_progress+="<span>진행중</span>";
+						} else if(item.ap_progress=='1') {
+							ap_progress+="<span style='color:#04AA6D;'>완료</span>";
+						} else {
+							ap_progress+="<span style='color:red;'>반려</span>";
+						}
+						
 						html += "<tr>"+
 						"<td><input type='checkbox' class='approvalList'/></td>"+
 						"<td>"+item.apform_name+"</td>"+
 						"<td>"+item.ap_title+"</td>"+
 						"<td>"+item.ap_start_day+"</td>"+
-						"<td>"+item.ap_manage_approver+"</td>"+
+						"<td>"+ap_manage_approver.substr(6)+"</td>"+
 						"<td>"+item.ap_end_day+"</td>"+
-						"<td>"+item.ap_progress+"</td>"+
+						"<td>"+ap_progress+"</td>"+
 					    "</tr>";
 					});
 				}
@@ -48,13 +58,20 @@
 <body>
 
 	<div id="approvalContainer">
-		<span class="subtitle">결재요청문서</span>
+		<span class="subtitle">결재요청한 문서</span>
 		<hr> 	
 		<div id="searchOption">
 			<table>
 				<tr>
-					<td>기안자</td>
-					<td><input type="text" class="form-control searchInput" style="width: 50%;"/></td>
+					<td>진행상황</td>
+					<td>
+						<select name="listCnt" class="form-control searchInput" id="selectProcess">
+							<option>전체</option>
+							<option>진행중</option>
+							<option>완료</option>
+							<option>반려</option>
+						</select>
+					</td>
 					<td>기안일</td>
 					<td>
 						<input type="text" class="form-control searchInput"/>
@@ -72,13 +89,13 @@
 			</table>
 		</div>
 		<div id="searchList">
-			<select>
+			<select name="listCnt" id="listCnt">
 				<option>10개</option>
 				<option>8개</option>
 				<option>4개</option>
 			</select>
 			
-			<table class="table table-striped">
+			<table class="table table-striped" >
 				<thead>
 					<tr>
 						<th><input type="checkbox" id="alllList"/></th>

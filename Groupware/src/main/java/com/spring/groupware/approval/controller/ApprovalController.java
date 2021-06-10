@@ -105,6 +105,7 @@ public class ApprovalController {
 		String fk_apform_no = mrequest.getParameter("fk_apform_no");
 		String fk_mbr_seq = mrequest.getParameter("fk_mbr_seq");
 		String ap_dept = mrequest.getParameter("ap_dept");
+		System.out.println(ap_dept);
 		String ap_approver = mrequest.getParameter("ap_approver");
 		String ap_manage_approver = mrequest.getParameter("ap_manage_approver");
 		String ap_referrer = mrequest.getParameter("ap_referrer");

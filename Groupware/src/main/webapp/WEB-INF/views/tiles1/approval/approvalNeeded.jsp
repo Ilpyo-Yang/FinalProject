@@ -51,7 +51,7 @@
 <body>
 
 	<div id="approvalContainer">
-		<span class="subtitle">결재대기문서</span>
+		<span class="subtitle">결재 대기중인 문서</span>
 		<hr> 	
 		<div id="searchOption">
 			<table>
@@ -75,7 +75,7 @@
 			</table>
 		</div>
 		<div id="searchList">
-			<select>
+			<select name="listCnt" id="listCnt">
 				<option>10개</option>
 				<option>8개</option>
 				<option>4개</option>
