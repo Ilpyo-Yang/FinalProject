@@ -180,6 +180,19 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		return workmbrList;
 	}
 
+	// 수신자 업무 처리내역 등록하기
+	@Override
+	public int receiverWorkAdd(WorkMemberVO workmbrvo) {
+		int n = sqlsession.insert("workmanage.receiverWorkAdd", workmbrvo);
+		return n;
+	}
+
+	// 수신자 업무 처리내역 수정하기
+	@Override
+	public int receiverWorkEdit(WorkMemberVO workmbrvo) {
+		int n = sqlsession.insert("workmanage.receiverWorkEdit", workmbrvo);
+		return n;
+	}
 	
 	
 	

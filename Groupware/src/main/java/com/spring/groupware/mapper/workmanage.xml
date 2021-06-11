@@ -160,8 +160,8 @@
 	
 	<!-- 담당자 한명의 업무 정보 가져오기 -->
 	<select id="oneMbrWorkStatus" parameterType="HashMap" resultType="com.spring.groupware.workmanage.model.WorkMemberVO">
-		select fk_mbr_seq, mbr_name, fk_wrno, workPercent, contents, lasteditdate
-		from (select fk_mbr_seq, fk_wrno, workPercent, contents
+		select workmbr_seq, fk_mbr_seq, mbr_name, fk_wrno, nvl(workPercent,0) workPercent, contents, lasteditdate
+		from (select workmbr_seq, fk_mbr_seq, fk_wrno, workPercent, contents
 		    , to_char(lasteditdate, 'yyyy-mm-dd hh24:mi:ss') as lasteditdate 
 		from tbl_workmbr left join tbl_workreceiver on workmbr_seq = fk_workmbr_seq
 		where fk_wmno = #{fk_wmno} and fk_wrno = 2 and fk_mbr_seq = #{fk_mbr_seq}
@@ -245,4 +245,18 @@
 		from tbl_workmbr left join tbl_mbr on fk_mbr_seq = mbr_seq
 		where fk_wmno = #{wmno} and (fk_wrno = 2 or fk_wrno = 3)		
 	</select>
+	
+	<!-- 수신자 업무 처리내역 등록하기 -->
+	<insert id="receiverWorkAdd" parameterType="com.spring.groupware.workmanage.model.WorkMemberVO">
+		insert into tbl_workreceiver(fk_workmbr_seq, contents, workPercent, lasteditdate)
+		values (#{workmbr_seq}, #{contents}, #{workPercent}, sysdate)
+	</insert>
+	
+	<!-- 수신자 업무 처리내역 수정하기 -->
+	<insert id="receiverWorkEdit" parameterType="com.spring.groupware.workmanage.model.WorkMemberVO">
+		update tbl_workreceiver set contents = #{contents} 
+		, workPercent = #{workPercent} 
+		, lasteditdate = sysdate
+		where fk_workmbr_seq = #{workmbr_seq}
+	</insert>
 </mapper>

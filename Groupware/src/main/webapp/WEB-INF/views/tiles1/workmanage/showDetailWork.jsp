@@ -35,6 +35,8 @@
 			mbrWorkStatusChange();	
 		}
 		
+		$("input[name=gobackWorkDetilURL]").val("${requestScope.gobackWorkDetilURL}");
+		getMyWorkStatus();
 	});
 	
 	// 담당자별 업무처리 확인하기 
@@ -73,6 +75,93 @@
 		frm.submit();
 	}
 	
+	// 나의 업무처리내역 가져오기 
+	function getMyWorkStatus() {
+		var fk_mbr_seq = ${sessionScope.loginuser.mbr_seq};
+		
+		$.ajax({
+			url:"<%=ctxPath%>/oneMbrWorkStatus.opis",
+			data:{
+				"fk_mbr_seq": fk_mbr_seq,
+				"fk_wmno": "${workvo.wmno}",
+				"fk_wrno":2},
+			dataType:"json",
+			success:function(json) {
+				$("input[name=workmbr_seq]").val(json.workmbr_seq);
+				
+				var lasteditdate = json.lasteditdate;
+				
+				// 이미 처리한 내역이 있다면 수정하기로 진행해야한다.
+				if (lasteditdate == null) {
+					$("button.recworkAddBtn").show();
+					return;
+				}
+				else {
+					$("button.recworkEditBtn").show();
+					$("span#contentsText").hide();
+					$("textarea[name=contents]").show();	// 내용입력보이기
+				}
+				
+				// 수정한 날짜 넣어주기
+				$("td#lasteditdate").html(json.lasteditdate);
+				
+				// 업무진행상황체크해주기
+				var workPercent = json.workPercent;
+				$("#processBtn > button").each(function(index, item){
+					if ($(item).val() == workPercent) {
+						$(item).css({"background-color": "#ffcccc"});
+						$("input[name=workPercent]").val(workPercent);
+						return false;
+					}
+				});
+				$("span#processText").html(workPercent+"%");
+				
+				// 처리내역 넣어주기
+				$("textarea[name=contents]").html(json.contents);
+			},
+			error: function(request, status, error){
+               	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+            }
+		});
+	}
+	
+	// 업무처리하기버튼 클릭시
+	function goRecworkAdd() {
+		$("button.recworkAddBtn").hide(); 		// 업무처리하기버튼숨기기
+		// $("span#processText").hide();
+		$("span#contentsText").hide();
+		
+		$("#processBtn > button").show();
+		$("textarea[name=contents]").prop("readonly", false);
+		$("button.recworkAddEndBtn").show();	// 처리버튼보이기
+		$("textarea[name=contents]").show();	// 내용입력보이기
+	}
+	
+	// 업무수정하기버튼 클릭시
+	function goRecworkEdit() {
+		$("button.recworkEditBtn").hide(); 		// 업무수정하기버튼숨기기
+		$("span#processText").hide();
+		
+		$("#processBtn > button").show();
+		$("textarea[name=contents]").prop("readonly", false);
+		$("button.recworkEditEndBtn").show();	// 수정버튼보이기
+	}
+	
+	// 처리버튼 클릭시 form 전송 (insert)
+	function goRecworkAddEnd() {
+		var frm = document.workRegFrm;
+		frm.method = "post";
+		frm.action = "<%=ctxPath%>/receiverWorkAdd.opis";
+		frm.submit();
+	}
+	
+	// 수정버튼 클릭시 form 전송 (update)
+	function goRecworkEditEnd() {
+		var frm = document.workRegFrm;
+		frm.method = "post";
+		frm.action = "<%=ctxPath%>/receiverWorkEdit.opis";
+		frm.submit();
+	}
 </script>
 
 
@@ -165,7 +254,10 @@
 		</c:if>
 		
 		<c:if test="${requestScope.fk_wrno eq 2}">
-			<button type="button" class="btn btn-success" onclick="">처리</button>
+			<button type="button" class="recworkAddBtn btn btn-success" onclick="goRecworkAdd();" hidden>업무처리하기</button>
+			<button type="button" class="recworkEditBtn btn btn-success" onclick="goRecworkEdit();" hidden>처리내역수정하기</button>
+			<button type="button" class="recworkAddEndBtn btn btn-success" onclick="goRecworkAddEnd();" hidden>처리</button>
+			<button type="button" class="recworkEditEndBtn btn btn-success" onclick="goRecworkEditEnd();" hidden>수정</button>
 			<button type="button" class="workListBtn btn " onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
 		</c:if>
 		

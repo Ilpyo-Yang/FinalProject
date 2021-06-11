@@ -191,5 +191,17 @@ public class WorkmanageService implements InterWorkmanageService {
 		return workmbrList;
 	}
 
+	// 수신자 업무 처리내역 등록하기
+	@Override
+	public int receiverWorkAdd(WorkMemberVO workmbrvo) {
+		int n = dao.receiverWorkAdd(workmbrvo);
+		return n;
+	}
 
+	// 수신자 업무 처리내역 수정하기
+	@Override
+	public int receiverWorkEdit(WorkMemberVO workmbrvo) {
+		int n = dao.receiverWorkEdit(workmbrvo);
+		return n;
+	}
 }

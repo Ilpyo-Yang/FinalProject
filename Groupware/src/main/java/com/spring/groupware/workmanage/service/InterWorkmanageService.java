@@ -65,5 +65,10 @@ public interface InterWorkmanageService {
 	// 담당자들의 읽음확인 정보 가져오기
 	List<WorkMemberVO> workmbrReadcheckdate(String wmno);
 
+	// 수신자 업무 처리내역 등록하기
+	int receiverWorkAdd(WorkMemberVO workmbrvo);
+
+	// 수신자 업무 처리내역 수정
+	int receiverWorkEdit(WorkMemberVO workmbrvo);
 
 }

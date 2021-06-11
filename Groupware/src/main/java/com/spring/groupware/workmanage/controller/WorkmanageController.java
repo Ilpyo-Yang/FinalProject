@@ -537,6 +537,10 @@ public class WorkmanageController {
 
 		mav.addObject("workmbrList", workmbrList);
 		mav.addObject("paraMap", paraMap);
+		
+		// 업무처리에서 해당 페이지로 다시 돌아오기 위해
+		String gobackWorkDetilURL = MyUtil.getCurrentURL(request);
+		mav.addObject("gobackWorkDetilURL", gobackWorkDetilURL);
 
 		mav.setViewName("workmanage/showDetailWork.tiles1");
 		return mav;
@@ -663,9 +667,11 @@ public class WorkmanageController {
 		WorkMemberVO workmbr = service.oneMbrWorkStatus(paraMap);
 
 		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("workmbr_seq", workmbr.getWorkmbr_seq());
 		jsonObj.put("mbr_name", workmbr.getMbr_name());
 		jsonObj.put("lasteditdate", workmbr.getLasteditdate());
 		jsonObj.put("workPercent", workmbr.getWorkPercent());
+		jsonObj.put("contents", workmbr.getContents());
 
 		return jsonObj.toString();
 	}
@@ -741,5 +747,53 @@ public class WorkmanageController {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	// 수신자 업무 처리내역 등록하기
+	@RequestMapping(value="/receiverWorkAdd.opis", method = { RequestMethod.POST }, produces = "text/plain;charset=UTF-8")
+	public ModelAndView requiredLogin_receiverWorkAdd(HttpServletRequest request, HttpServletResponse response, 
+			ModelAndView mav, WorkMemberVO workmbrvo) {
+		
+		int n = service.receiverWorkAdd(workmbrvo);
+		
+		// 기존페이지로 다시 이동
+		if (n == 1) {
+			String gobackWorkDetilURL = request.getParameter("gobackWorkDetilURL");
+			mav.setViewName("redirect:/" + gobackWorkDetilURL);
+		} else {
+			String message = "업무 삭제에 실패하였습니다. 다시 시도하세요";
+			String loc = "javascript:history.back()";
+
+			mav.addObject("message", message);
+			mav.addObject("loc", loc);
+
+			mav.setViewName("msg");
+		}
+		
+		return mav;
+	}
+	
+	// 수신자 업무 처리내역 수정하기
+	@RequestMapping(value = "/receiverWorkEdit.opis", method = {RequestMethod.POST }, produces = "text/plain;charset=UTF-8")
+	public ModelAndView requiredLogin_receiverWorkEdit(HttpServletRequest request, HttpServletResponse response,
+			ModelAndView mav, WorkMemberVO workmbrvo) {
+
+		int n = service.receiverWorkEdit(workmbrvo);
+
+		// 기존페이지로 다시 이동
+		if (n == 1) {
+			String gobackWorkDetilURL = request.getParameter("gobackWorkDetilURL");
+			mav.setViewName("redirect:/" + gobackWorkDetilURL);
+		} else {
+			String message = "업무 삭제에 실패하였습니다. 다시 시도하세요";
+			String loc = "javascript:history.back()";
+
+			mav.addObject("message", message);
+			mav.addObject("loc", loc);
+
+			mav.setViewName("msg");
+		}
+
+		return mav;
 	}
 }
