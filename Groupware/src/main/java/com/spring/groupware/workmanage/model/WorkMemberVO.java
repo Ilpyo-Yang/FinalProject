@@ -2,33 +2,35 @@ package com.spring.groupware.workmanage.model;
 
 
 public class WorkMemberVO {
-	private String fk_wmno;		// 업무 고유번호
-	private String fk_wrno;		// 해당 업무에 대한 역할(발신자, 수신자, 참조자)
-	private String fk_mbr_seq;	// 멤버 seq 
 	
-	private String mbr_workPercent;	// 개인 업무 진행 상태
-	private String mbr_readCheck;	// 개인 읽음 확인
-	private String lasteditdate; 	// 마지막으로 수정한 날짜
+	// == 사원업무관리테이블 == //
+	private String workmbr_seq; 	// 사원업무관리고유번호
+	private String fk_wmno;			// 업무고유번호
+	private String fk_wrno;			// 해당 업무에 대한 역할(발신자, 수신자, 참조자)
+	private String fk_mbr_seq;		// 멤버 seq
 	private String readcheckdate; 	// 읽은 날짜
 	
-//	private MemberVO mbr;
-	private String mbr_name;	// 멤버 이름 저장하기 위해 생성
+	// == 업무처리내역테이블 == //
+	private String contents;		// 처리내역
+	private String workPercent;		// 개인 업무 진행 상태
+	private String lasteditdate; 	// 마지막으로 수정한 날짜
+	
+	// == 부모 테이블의 정보 == //
+	private String mbr_name;		// 멤버 이름 저장하기 위해 생성
 	
 	public WorkMemberVO() {}
 	
 	
-	public WorkMemberVO(String fk_wmno, String fk_wrno, String fk_mbr_seq, String mbr_workPercent, String mbr_readCheck,
+	public WorkMemberVO(String fk_wmno, String fk_wrno, String fk_mbr_seq, String workPercent, 
 			String lasteditdate, String readcheckdate) {
 		super();
 		this.fk_wmno = fk_wmno;
 		this.fk_wrno = fk_wrno;
 		this.fk_mbr_seq = fk_mbr_seq;
-		this.mbr_workPercent = mbr_workPercent;
-		this.mbr_readCheck = mbr_readCheck;
+		this.workPercent = workPercent;
 		this.lasteditdate = lasteditdate;
 		this.readcheckdate = readcheckdate;
 	}
-
 
 	public String getFk_wmno() {
 		return fk_wmno;
@@ -54,22 +56,6 @@ public class WorkMemberVO {
 		this.fk_mbr_seq = fk_mbr_seq;
 	}
 
-	public String getMbr_workPercent() {
-		return mbr_workPercent;
-	}
-
-	public void setMbr_workPercent(String mbr_workPercent) {
-		this.mbr_workPercent = mbr_workPercent;
-	}
-
-	public String getMbr_readCheck() {
-		return mbr_readCheck;
-	}
-
-	public void setMbr_readCheck(String mbr_readCheck) {
-		this.mbr_readCheck = mbr_readCheck;
-	}
-
 	public String getLasteditdate() {
 		return lasteditdate;
 	}
@@ -85,10 +71,37 @@ public class WorkMemberVO {
 	public void setReadcheckdate(String readcheckdate) {
 		this.readcheckdate = readcheckdate;
 	}
-	
-	// -------------------------------------------
-	
 
+	public String getWorkmbr_seq() {
+		return workmbr_seq;
+	}
+
+
+	public void setWorkmbr_seq(String workmbr_seq) {
+		this.workmbr_seq = workmbr_seq;
+	}
+
+
+	public String getContents() {
+		return contents;
+	}
+
+
+	public void setContents(String contents) {
+		this.contents = contents;
+	}
+
+
+	public String getWorkPercent() {
+		return workPercent;
+	}
+
+
+	public void setWorkPercent(String workPercent) {
+		this.workPercent = workPercent;
+	}
+
+	// == 부모테이블 관련 함수 == //	
 	public String getMbr_name() {
 		return mbr_name;
 	}

@@ -51,7 +51,7 @@
 			success:function(json) {
 				$("td#mbr_name").html(json.mbr_name);
 				$("td#lasteditdate").html(json.lasteditdate);
-				$("td#mbr_workPercent").html(json.mbr_workPercent);
+				$("td#workPercent").html(json.workPercent);
 			},
 			error: function(request, status, error){
                	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -159,20 +159,19 @@
 	<!-- 업무 관련 버튼 -->
 	<div align="right">
 		<c:if test="${requestScope.fk_wrno eq 1}">
-			<button type="button" class="workEditBtn" onclick="javascript:location.href='<%=ctxPath%>/workEdit.opis?wmno=${workvo.wmno}'">수정</button>
-			<button type="button" class="workDeleteBtn" onclick="goWorkDel();">삭제</button>
-			<button type="button" class="workListBtn" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
+			<button type="button" class="workEditBtn btn btn-success" onclick="javascript:location.href='<%=ctxPath%>/workEdit.opis?wmno=${workvo.wmno}'">수정</button>
+			<button type="button" class="workDeleteBtn btn btn-success" onclick="goWorkDel();">삭제</button>
+			<button type="button" class="workListBtn btn btn-success" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
 		</c:if>
 		
 		<c:if test="${requestScope.fk_wrno eq 2}">
-			<button type="button" class="workEditBtn" onclick="javascript:location.href='<%=ctxPath%>/workEdit.opis?wmno=${workvo.wmno}'">수정</button>
-			<button type="button" class="" onclick="">처리</button>
-			<button type="button" class="workListBtn" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
+			<button type="button" class="btn btn-success" onclick="">처리</button>
+			<button type="button" class="workListBtn btn " onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
 		</c:if>
 		
 		<c:if test="${requestScope.fk_wrno eq 3}">
-			<button type="button" class="workDeleteBtn" onclick="goWorkDel();">삭제</button>
-			<button type="button" class="workListBtn" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
+			<button type="button" class="workDeleteBtn btn btn-success" onclick="goWorkDel();">삭제</button>
+			<button type="button" class="workListBtn btn btn-success" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
 		</c:if>
 	</div>
 	

@@ -484,7 +484,7 @@ public class WorkmanageController {
 		paraMap.put("fk_statno", fk_statno);
 		paraMap.put("delayday", delayday);
 
-		List<WorkMemberVO> workmbrList = service.getWorkStatusEachMember(wmno);
+		List<WorkMemberVO> workmbrList = service.workmbrReadcheckdate(wmno);
 
 		mav.addObject("workmbrList", workmbrList);
 		mav.addObject("paraMap", paraMap);
@@ -665,7 +665,7 @@ public class WorkmanageController {
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("mbr_name", workmbr.getMbr_name());
 		jsonObj.put("lasteditdate", workmbr.getLasteditdate());
-		jsonObj.put("mbr_workPercent", workmbr.getMbr_workPercent());
+		jsonObj.put("workPercent", workmbr.getWorkPercent());
 
 		return jsonObj.toString();
 	}

@@ -62,5 +62,8 @@ public interface InterWorkmanageService {
 	// 첨부파일 정보 가져오기
 	List<WorkFileVO> getWorkFile(Map<String, String> paraMap);
 
+	// 담당자들의 읽음확인 정보 가져오기
+	List<WorkMemberVO> workmbrReadcheckdate(String wmno);
+
 
 }

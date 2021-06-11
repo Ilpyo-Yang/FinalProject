@@ -46,8 +46,8 @@
 	
 	<!-- 업무에 해당하는 멤버 seq저장 -->
 	<insert id="workAddMember" parameterType="com.spring.groupware.workmanage.model.WorkMemberVO">
-		insert into tbl_workmanage_mbr(fk_wmno, fk_wrno, fk_mbr_seq)
-		values (#{fk_wmno}, #{fk_wrno}, to_number(#{fk_mbr_seq}))	
+		insert into tbl_workmbr(workmbr_seq, fk_wmno, fk_wrno, fk_mbr_seq)
+		values (workmbr_seq.nextval, #{fk_wmno}, #{fk_wrno}, to_number(#{fk_mbr_seq}))	
 	</insert>
 	
 	<!-- 첨부 파일이 있을 경우 파일 추가하는 부분 -->
@@ -68,7 +68,7 @@
 		where fk_wtno = #{fk_wtno}
 		and wmno in(
 		    select fk_wmno
-		    from tbl_workmanage_mbr
+		    from tbl_workmbr
 		    where fk_wrno = #{fk_wrno} and fk_mbr_seq = #{fk_mbr_seq} and yn = 0
 		)		
 	</select>
@@ -91,7 +91,7 @@
 		where fk_wtno = #{fk_wtno}
 		and wmno in (
 		    select fk_wmno
-		    from tbl_workmanage_mbr
+		    from tbl_workmbr
 		    where fk_mbr_seq = #{fk_mbr_seq} and fk_wrno = #{fk_wrno} and yn = 0
 		)
 		<if test='str_workStatus != ""'>
@@ -125,7 +125,7 @@
 		where fk_wtno = #{fk_wtno}
 		and wmno in(
 		    select fk_wmno
-		    from tbl_workmanage_mbr
+		    from tbl_workmbr
 		    where fk_wrno = #{fk_wrno} and fk_mbr_seq = #{fk_mbr_seq}
 		)	
 		and to_date(to_char(deadline, 'yyyy-mm-dd')) &lt; to_date(to_char(sysdate, 'yyyy-mm-dd'))
@@ -133,12 +133,12 @@
 
 	<!-- 담당자들의 업무 정보 가져오기  -->	
 	<select id="getWorkStatusEachMember" parameterType="String" resultType="com.spring.groupware.workmanage.model.WorkMemberVO">
-		select fk_wmno, fk_mbr_seq, mbr_name, mbr_workpercent
-		    , mbr_workPercent, to_char(lasteditdate, 'yyyy-mm-dd hh24:mi:ss') as lasteditdate
-    		, mbr_readCheck, to_char(readcheckdate, 'yyyy-mm-dd hh24:mi:ss') as readcheckdate
-		from tbl_workmanage_mbr left join tbl_mbr
-		on fk_mbr_seq = mbr_seq
-		where fk_wmno = #{wmno} and fk_wrno = 2 
+		select fk_mbr_seq, mbr_name, fk_wrno, workPercent, contents, lasteditdate
+		from (select fk_mbr_seq, fk_wrno, workPercent, contents
+		    , to_char(lasteditdate, 'yyyy-mm-dd hh24:mi:ss') as lasteditdate 
+		from tbl_workmbr left join tbl_workreceiver on workmbr_seq = fk_workmbr_seq
+		where fk_wmno = #{wmno} and fk_wrno = 2
+		) left join tbl_mbr on fk_mbr_seq = mbr_seq
 	</select>
 	
 	<!-- 업무 수정하기 -->
@@ -150,7 +150,7 @@
 	
 	<!-- 업무 삭제하기 -->
 	<update id="workDel" parameterType="HashMap">
-		update tbl_workmanage_mbr set yn = 1
+		update tbl_workmbr set yn = 1
 		where fk_mbr_seq = #{userId} and fk_wrno = #{fk_wrno}
 		and fk_wmno in 
 		<foreach collection="wmnoList" item="wmno" separator="," open="(" close=")">
@@ -160,10 +160,12 @@
 	
 	<!-- 담당자 한명의 업무 정보 가져오기 -->
 	<select id="oneMbrWorkStatus" parameterType="HashMap" resultType="com.spring.groupware.workmanage.model.WorkMemberVO">
-		select fk_wmno, fk_wrno, fk_mbr_seq, mbr_workPercent, mbr_readCheck
-		    , lasteditdate, readcheckdate, mbr_name
-		from tbl_workmanage_mbr left join (select mbr_name, mbr_seq from tbl_mbr where mbr_seq = #{fk_mbr_seq}) on fk_mbr_seq = mbr_seq
-		where fk_wmno = #{fk_wmno} and fk_mbr_seq = #{fk_mbr_seq} and fk_wrno = #{fk_wrno}	
+		select fk_mbr_seq, mbr_name, fk_wrno, workPercent, contents, lasteditdate
+		from (select fk_mbr_seq, fk_wrno, workPercent, contents
+		    , to_char(lasteditdate, 'yyyy-mm-dd hh24:mi:ss') as lasteditdate 
+		from tbl_workmbr left join tbl_workreceiver on workmbr_seq = fk_workmbr_seq
+		where fk_wmno = #{fk_wmno} and fk_wrno = 2 and fk_mbr_seq = #{fk_mbr_seq}
+		) left join tbl_mbr on fk_mbr_seq = mbr_seq	
 	</select>
 	
 	<!-- 검색 조건을 가지고 검색하기 -->
@@ -183,7 +185,7 @@
 		        where fk_wtno = #{fk_wtno}
 		        and wmno in(
 		            select fk_wmno
-		            from tbl_workmanage_mbr
+		            from tbl_workmbr
 		            where fk_wrno = #{fk_wrno} and fk_mbr_seq = #{fk_mbr_seq} and yn = 0
 		        )
 		        <if test='str_workStatus != ""'>
@@ -208,7 +210,7 @@
 	
 	<!-- 수신자가 읽었을 때 읽음확인 업데이트 하기  -->
 	<update id="updateReadcheckdate" parameterType="HashMap">
-		update tbl_workmanage_mbr set readcheckdate = sysdate
+		update tbl_workmbr set readcheckdate = sysdate
 		where fk_wmno = #{wmno} and fk_wrno = #{fk_wrno} and fk_mbr_seq = #{fk_mbr_seq} and readcheckdate is null
 	</update>
 	
@@ -234,5 +236,13 @@
 		select fileno, fk_wmno, fileName, orgFilename, fileSize
 		from tbl_wmaddfile
 		where fk_wmno = #{wmno}
+	</select>
+	
+	<!-- 담당자들의 읽음확인 정보 가져오기 -->
+	<select id="workmbrReadcheckdate" parameterType="String" resultType="com.spring.groupware.workmanage.model.WorkMemberVO">
+		select fk_mbr_seq, mbr_name, fk_wrno
+		    , to_char(readcheckdate, 'yyyy-mm-dd hh24:mi:ss') as readcheckdate
+		from tbl_workmbr left join tbl_mbr on fk_mbr_seq = mbr_seq
+		where fk_wmno = #{wmno} and (fk_wrno = 2 or fk_wrno = 3)		
 	</select>
 </mapper>

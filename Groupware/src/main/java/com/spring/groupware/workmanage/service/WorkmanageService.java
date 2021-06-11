@@ -184,5 +184,12 @@ public class WorkmanageService implements InterWorkmanageService {
 		return fileList;
 	}
 
+	// 담당자들의 읽음확인 정보 가져오기
+	@Override
+	public List<WorkMemberVO> workmbrReadcheckdate(String wmno) {
+		List<WorkMemberVO> workmbrList = dao.workmbrReadcheckdate(wmno);
+		return workmbrList;
+	}
+
 
 }

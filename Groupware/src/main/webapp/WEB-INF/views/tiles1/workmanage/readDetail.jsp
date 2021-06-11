@@ -26,7 +26,7 @@
 			</tr>
 			<tr>
 				<td>진척률</td>
-				<td colspan="3" id="mbr_workPercent">%</td>
+				<td colspan="3" id="workPercent">%</td>
 			</tr>
 			<tr>
 				<td>내용</td>
