@@ -161,9 +161,6 @@ ul#setmbrList li.receiverName:hover {
 	        for (var i=0; i<files.length; i++) { 
 	            file = files[i];
 	            $("div#attachedFile").append('<span>'+file.name+'&nbsp;&nbsp;</span><br>');
-	            /* if(i%2==1){
-	        		$("div#attachedFile").append('<br>');
-	        	} */
 	        }
 		});
 		
@@ -261,6 +258,7 @@ ul#setmbrList li.receiverName:hover {
 		frm.submit();
 	}
 	
+	// 파일업로드 버튼클릭시
 	function func_attach() {
 		 $("input[name=attach]").click();	
 	}

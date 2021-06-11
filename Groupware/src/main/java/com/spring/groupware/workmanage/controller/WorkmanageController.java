@@ -556,20 +556,74 @@ public class WorkmanageController {
 		Map<String, String> paraMap = new HashedMap<>();
 		paraMap.put("wmno", wmno);
 
+		// 업무 기본 정보가져오기
 		WorkVO workvo = service.showDetailWork(paraMap);
-
 		mav.addObject("workvo", workvo);
+		
+		// 첨부파일 정보 가져오기
+		List<WorkFileVO> fileList = service.getWorkFile(paraMap);
+		mav.addObject("fileList", fileList);
+
 		mav.setViewName("workmanage/workEdit.tiles1");
 		return mav;
 	}
 
 	// 업무 수정하기 마지막
 	@RequestMapping(value = "workEditEnd.opis", method = { RequestMethod.POST })
-	public ModelAndView workEditEnd(ModelAndView mav, WorkVO workvo, HttpServletRequest request) {
+	public ModelAndView workEditEnd(ModelAndView mav, WorkVO workvo, MultipartHttpServletRequest mrequest) {
+		
+		String wmno = workvo.getWmno();
+		
+		// 첨부파일이 있을 경우 첨부파일 테이블에 넣어줄 것들
+		List<MultipartFile> attachList = mrequest.getFiles("attach");
+		List<WorkFileVO> fileList = null;
+		
+		if (attachList.size() > 0) {
+			fileList = new ArrayList<>();
+			
+			for (MultipartFile attach : attachList) {
+				WorkFileVO filevo = new WorkFileVO();
+				System.out.println("attach => " + attach);
+				
+				filevo.setFk_wmno(wmno);
+				filevo.setAttach(attach);
+				
+				// WAS의 webapp 의 절대경로 알아오기
+				HttpSession session = mrequest.getSession();
+				String root = session.getServletContext().getRealPath("/");
+				String path = root+"resources"+File.separator+"files"; // File.separator 는 운영체제에서 사용하는 폴더와 파일의 구분자
+				
+				String newFileName = ""; // WAS(톰캣)의 디스크에 저장될 파일명 
+				byte[] bytes = null; // 첨부파일의 내용을 담는 것
+				long fileSize = 0; // 첨부파일의 크기
+				
+				try {
+					bytes = attach.getBytes(); // 첨부파일의 내용물을 읽기
+					String originalFilename = attach.getOriginalFilename(); // originalFilename ==> "강아지.png"
+					
+					newFileName = fileManager.doFileUpload(bytes, originalFilename, path);
+					
+					filevo.setFileName(newFileName);	
+					// WAS(톰캣)에 저장될 파일명(20210603123943385139567592900.png)
+					
+					filevo.setOrgFilename(originalFilename);
+					// 게시판 페이지에서 첨부된 파일(강아지.png)을 보여줄 때 사용.
+		            // 또한 사용자가 파일을 다운로드 할때 사용되어지는 파일명으로 사용.
+					
+					fileSize = attach.getSize(); // 첨부파일의 크기(단위는 byte임)
+					filevo.setFileSize(String.valueOf(fileSize));
+					
+					fileList.add(filevo);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		
 		// 업무 수정시 수정한 일자를 업데이트하기 위해 필요한 정보
-		String fk_wrno = request.getParameter("fk_wrno");
-		String fk_wtno = request.getParameter("fk_wtno");
+		String fk_wrno = mrequest.getParameter("fk_wrno");
+		String fk_wtno = mrequest.getParameter("fk_wtno");
 		
 		Map<String,String> paraMap = new HashedMap<>();
 		paraMap.put("wmno", workvo.getWmno());
@@ -578,7 +632,7 @@ public class WorkmanageController {
 
 		// 사용자 시퀀스번호
 		String userId = null;
-		HttpSession session = request.getSession();
+		HttpSession session = mrequest.getSession();
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
 		if (loginuser != null) {
@@ -587,7 +641,7 @@ public class WorkmanageController {
 		}
 		
 		// 업무 수정하기 및 수정일자 업데이트 하기
-		int n = service.workEditEnd(workvo, paraMap);
+		int n = service.workEditEnd(workvo, paraMap, fileList);
 
 		if (n == 1) {
 			

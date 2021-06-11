@@ -137,12 +137,21 @@ public class WorkmanageService implements InterWorkmanageService {
 	// 업무 수정하기 및 수정일자 업데이트 하기
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
-	public int workEditEnd(WorkVO workvo, Map<String,String> paraMap) {
+	public int workEditEnd(WorkVO workvo, Map<String,String> paraMap, List<WorkFileVO> fileList) {
 		int n = dao.workEditEnd(workvo);
-		int m = 0;
+		int m = 0, k = 1;
 		
 		if (n == 1) {
 			m = dao.updateLasteditdate(paraMap);
+			
+			// 첨부파일이 있을 때 첨부파일 테이블에 파일 insert
+			if (m != 0 && fileList.get(0).getFileName() != null) {
+				for (WorkFileVO filevo : fileList) {
+					k = dao.workAddFile(filevo);
+					
+					if (k == 0) break;
+				}
+			}
 		}
 		
 		return n*m;
