@@ -1,4 +1,6 @@
 
+<%@page import="java.util.List"%>
+<%@page import="com.spring.groupware.workmanage.model.WorkFileVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -53,7 +55,7 @@
 			},
 			error: function(request, status, error){
                	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-               }
+            }
 		});
 	}
 	
@@ -70,6 +72,7 @@
 		frm.action = "<%=ctxPath%>/workDel.opis";
 		frm.submit();
 	}
+	
 </script>
 
 
@@ -129,7 +132,14 @@
 			</tr>
 			<tr>
 				<td>첨부파일</td>
-				<td colspan="3"></td>
+				<td colspan="3">
+					<c:forEach var="file" items="${requestScope.fileList}" varStatus="status">
+						<c:if test="${sessionScope.loginuser != null}">
+							<a href="<%=ctxPath%>/download.opis?orgFilename=${file.orgFilename}&fileName=${file.fileName}">${file.orgFilename}</a>
+						</c:if>
+						<br>
+					</c:forEach>
+				</td>
 			</tr>
 		</tbody>
 	</table>

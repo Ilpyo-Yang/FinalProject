@@ -166,6 +166,13 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		return n;
 	}
 
+	// 첨부파일 정보 가져오기
+	@Override
+	public List<WorkFileVO> getWorkFile(Map<String, String> paraMap) {
+		List<WorkFileVO> fileList = sqlsession.selectList("workmanage.getWorkFile", paraMap);
+		return fileList;
+	}
+
 	
 	
 	

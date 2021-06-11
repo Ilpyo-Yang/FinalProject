@@ -177,5 +177,12 @@ public class WorkmanageService implements InterWorkmanageService {
 		return n;
 	}
 
+	// 첨부파일 정보 가져오기
+	@Override
+	public List<WorkFileVO> getWorkFile(Map<String, String> paraMap) {
+		List<WorkFileVO> fileList = dao.getWorkFile(paraMap);
+		return fileList;
+	}
+
 
 }

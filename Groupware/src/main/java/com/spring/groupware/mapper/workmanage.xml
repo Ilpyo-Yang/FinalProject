@@ -228,4 +228,11 @@
 			#{wmno}
 		</foreach>
 	</update>
+	
+	<!-- 첨부파일 가져오기 -->
+	<select id="getWorkFile" parameterType="HashMap" resultType="com.spring.groupware.workmanage.model.WorkFileVO">
+		select fileno, fk_wmno, fileName, orgFilename, fileSize
+		from tbl_wmaddfile
+		where fk_wmno = #{wmno}
+	</select>
 </mapper>

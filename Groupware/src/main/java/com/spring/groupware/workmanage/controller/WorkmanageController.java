@@ -1,6 +1,8 @@
 package com.spring.groupware.workmanage.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +18,8 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -56,8 +60,7 @@ public class WorkmanageController {
 
 	// === 검색어 입력시 자동글 완성하기  === //
 	@ResponseBody
-	@RequestMapping(value = "/memberSearchShow.opis", method = {
-			RequestMethod.GET }, produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "/memberSearchShow.opis", method = {RequestMethod.GET }, produces = "text/plain;charset=UTF-8")
 	public String memberSearchShow(HttpServletRequest request) {
 
 		String searchWord = request.getParameter("searchWord");
@@ -113,12 +116,18 @@ public class WorkmanageController {
 
 	// == 나의 할 일 리스트 보여주기 (전체) == //
 	@RequestMapping(value = "/todoList.opis")
-	public ModelAndView requiredLogin_todoList(HttpServletRequest request, HttpServletResponse response,
+	public ModelAndView todoList(HttpServletRequest request, HttpServletResponse response,
 			ModelAndView mav) {
 
 		HttpSession session = request.getSession();
+		MemberVO loginuser = new MemberVO();
+		
+		session.setAttribute("loginuser", loginuser);
+		loginuser.setMbr_seq(5);
+		loginuser.setMbr_name("테스트2");
+		
 		try {
-			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+//			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 
 			// 현재 로그인 되어있는 멤버의 seq를 통해 해당 멤버의 할일 리스트 가져온다.
 			String fk_mbr_seq = String.valueOf(loginuser.getMbr_seq());
@@ -518,6 +527,10 @@ public class WorkmanageController {
 		mav.addObject("fk_wtno", fk_wtno);
 		mav.addObject("fk_wrno", fk_wrno);
 		mav.addObject("workvo", workvo);
+		
+		// 첨부파일 정보 가져오기
+		List<WorkFileVO> fileList = service.getWorkFile(paraMap);
+		mav.addObject("fileList", fileList);
 
 		// 업무의 처리내역 정보 가져오기
 		List<WorkMemberVO> workmbrList = service.getWorkStatusEachMember(wmno);
@@ -693,5 +706,40 @@ public class WorkmanageController {
 		}
 		
 		return mav;
+	}
+	
+	// 첨부파일 다운로드 받기
+	@RequestMapping(value="/download.opis", method = { RequestMethod.GET }, produces = "text/plain;charset=UTF-8")
+	public void requiredLogin_download(HttpServletRequest request, HttpServletResponse response) {
+		
+		String fileName = request.getParameter("fileName"); // WAS(톰캣) 디스크에 저장된 파일명
+		String orgFilename = request.getParameter("orgFilename");
+		
+		System.out.println("fileName => " +fileName);
+		System.out.println("orgFilename => " +orgFilename);
+		
+		response.setContentType("text/html; charset=UTF-8");
+		
+		HttpSession session = request.getSession();
+		String root = session.getServletContext().getRealPath("/"); // WAS 의 webapp 의 절대경로를 알아오기
+		
+		String path = root+"resources"+File.separator+"files"; 	// 첨부파일이 저장될 WAS(톰캣) 의 폴더
+		System.out.println("path => " + path);
+		
+		// file 다운로드 하기  
+		boolean flag = false; // file 다운로드의 성공 시 true,실패시 false 
+		flag = fileManager.doFileDownload(fileName, orgFilename, path, response);
+		
+		PrintWriter out = null;
+		
+		try {
+			out = response.getWriter(); // 웹브라우저상에 메시지를 쓰기 위한 객체생성
+			
+			if (!flag) {
+				out.println("<script type='text/javascript'>alert('파일 다운로드가 실패되었습니다!!'); history.back();</script>");
+			}
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
