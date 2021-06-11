@@ -123,6 +123,7 @@ public class ScheduleController {
 		
 		return mav;
 	}
+	
 	// 일정 등록하기
 	@RequestMapping(value="/scdRegEnd.opis", method = {RequestMethod.POST})
 	public ModelAndView requiredLogin_scdRegEnd(HttpServletRequest request, HttpServletResponse response, ModelAndView mav, ScheduleVO schedulevo) {
@@ -369,7 +370,7 @@ public class ScheduleController {
 		
 		int n = service.delMtrReg(usemtrno);
 		
-		System.out.println(usemtrno);
+		// System.out.println(usemtrno);
 		
 		if(n==1) {
 			mav.setViewName("redirect:/mtr_resv.opis");

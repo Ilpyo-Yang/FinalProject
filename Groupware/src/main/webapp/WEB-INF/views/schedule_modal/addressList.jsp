@@ -3,6 +3,8 @@
 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <% String ctxPath = request.getContextPath(); %>
 
 <meta charset="utf-8">
@@ -171,7 +173,10 @@
 					<td>${address.mbr_name}</td>
 					<td>${address.dept_name}</td>
 					<td>${address.mbr_email}</td>
-					<td id="phonenum">${address.mbr_phone_number}</td>
+					<td id="phonenum">
+						<fmt:formatNumber var="phoneNum" value="${address.mbr_phone_number}" pattern="###,####,####"/>
+						0<c:out value="${fn:replace(phoneNum, ',', '-')}" />
+					</td>
 				</tr>
 			</c:forEach>
 		</table>

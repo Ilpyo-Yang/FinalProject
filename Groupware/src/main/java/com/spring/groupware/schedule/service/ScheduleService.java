@@ -91,6 +91,7 @@ public class ScheduleService implements InterScheduleService{
 	public void invitedListEmailSending(Map<String, String> paraMap) throws Exception {
 		
 		String emailList = paraMap.get("emailList");
+		String nameList = paraMap.get("");
 		
 		if( emailList != null && !"".equals(emailList)) {
 			String[] emailArr = emailList.split(",");

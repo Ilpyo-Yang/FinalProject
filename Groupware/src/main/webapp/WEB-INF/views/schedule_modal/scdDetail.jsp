@@ -103,6 +103,7 @@
 		var sdate = startdate.substring(0,16);
 		var edate = enddate.substring(0,16);
 		
+		
 		$("span#sTime").html(sdate);
 		$("span#eTime").html(edate);
 		
@@ -168,7 +169,16 @@
 				</tr>
 				<tr>
 					<td id="title">일자</td>
-					<td id="content"><span id="sTime"></span>&nbsp;~&nbsp;<span id="eTime"></span></td>
+					<td id="content">
+						<c:choose>
+							<c:when test="${requestScope.schedulevo.scdstartTm != null and requestScope.schedulevo.scdendTm != null}">
+								${requestScope.schedulevo.scdstartdate}&nbsp;${requestScope.schedulevo.scdstartTm} ~ ${requestScope.schedulevo.scdenddate}&nbsp;${requestScope.schedulevo.scdendTm}
+							</c:when>
+							<c:otherwise>
+								<span id="sTime"></span>&nbsp;~&nbsp;<span id="eTime"></span>
+							</c:otherwise>
+						</c:choose>
+					</td>
 				</tr>
 				<tr>	
 					<td id="title">위치</td>
