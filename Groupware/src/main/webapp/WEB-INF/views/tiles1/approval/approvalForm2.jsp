@@ -10,8 +10,20 @@
 <jsp:include page="./selectMemberModal.jsp" />  
 
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
 <script type="text/javascript">
 	$(document).ready(function(){
+		
+		$("input#payDate").datepicker({
+			  dateFormat: 'yy-mm-dd', 
+		      changeMonth: true,
+		      changeYear: true
+		});
 		
 		$("input[name=attach]").hide();
 		
@@ -137,19 +149,19 @@
 							<tr>
 								<td>문서제목</td>
 								<td colspan="3">
-									<input type="text" class="form-control size1" id="ap_title" name="ap_title"/>
+									<input type="text" class="form-control size1" id="ap_title" name="ap_title" autocomplete="off"/>
 								</td>
 							</tr>
 							<tr>
 								<td>지출(예상)일자</td>
 								<td colspan="3">
-									<input type="text" class="form-control size2" id="payDate" name="payDate"/>
+									<input type="text" class="form-control size2" id="payDate" name="payDate" autocomplete="off"/>
 								</td>
 							</tr>
 							<tr>
 								<td>지출금액</td>
 								<td colspan="3">
-									<input type="text" class="form-control size2" id="payAmount" name="payAmount"/>&nbsp;&nbsp;&nbsp;원
+									<input type="text" class="form-control size2" id="payAmount" name="payAmount" autocomplete="off"/>&nbsp;&nbsp;&nbsp;원
 								</td>
 							</tr>
 							<tr>

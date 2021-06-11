@@ -4,10 +4,28 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath = request.getContextPath(); %>
 
-<jsp:include page="./approval_sidebar.jsp" />  
+<jsp:include page="./approval_sidebar.jsp" /> 
+ 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		
+		$("input#datepicker").datepicker({
+			 dateFormat: 'yy-mm-dd', 
+		      changeMonth: true,
+		      changeYear: true
+		});
+		
+		$("input#datepicker2").datepicker({
+			 dateFormat: 'yy-mm-dd', 
+		      changeMonth: true,
+		      changeYear: true
+		});
 		
 		var managePerson = '${sessionScope.loginuser.dept_detail} ${sessionScope.loginuser.rank_detail}'
 						   +' ${sessionScope.loginuser.mbr_name}';
@@ -22,9 +40,10 @@
 			data:{managePerson:managePerson},
 			success: function(json){		
 				if(json.length>0){
+					console.log(json.length);
 					$.each(json, function(index, item){
 						html += "<tr>"+
-						"<td><input type='checkbox' class='approvalList'/></td>"+
+						"<td><input type='checkbox' class='approvalList' value='"+item.ap_seq+"'/></td>"+
 						"<td>"+item.apform_name+"</td>"+
 						"<td>"+item.ap_title+"</td>"+
 						"<td>"+item.mbr_name+"</td>"+
@@ -60,9 +79,9 @@
 					<td><input type="text" class="form-control searchInput" style="width: 50%;"/></td>
 					<td>기안일</td>
 					<td>
-						<input type="text" class="form-control searchInput"/>
+						<input type="text" class="form-control searchInput" id="datepicker"/>
 						<span>-</span>
-						<input type="text" class="form-control searchInput"/>
+						<input type="text" class="form-control searchInput" id="datepicker2"/>
 					</td>
 				</tr>
 				<tr>

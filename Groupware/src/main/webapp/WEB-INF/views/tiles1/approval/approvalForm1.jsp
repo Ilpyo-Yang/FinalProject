@@ -132,7 +132,7 @@
 							<tr>
 								<td>문서제목</td>
 								<td colspan="3">
-									<input type="text" class="form-control size1" id="ap_title" name="ap_title"/>
+									<input type="text" class="form-control size1" id="ap_title" name="ap_title" autocomplete="off"/>
 								</td>
 							</tr>
 							<tr>

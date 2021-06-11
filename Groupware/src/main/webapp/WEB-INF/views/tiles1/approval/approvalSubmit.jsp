@@ -6,8 +6,26 @@
 
 <jsp:include page="./approval_sidebar.jsp" />  
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
 <script type="text/javascript">
 	$(document).ready(function(){
+		
+		$("input#datepicker").datepicker({
+			 dateFormat: 'yy-mm-dd', 
+		      changeMonth: true,
+		      changeYear: true
+		});
+		
+		$("input#datepicker2").datepicker({
+			 dateFormat: 'yy-mm-dd', 
+		      changeMonth: true,
+		      changeYear: true
+		});
 		
 		var html="";
 
@@ -30,7 +48,7 @@
 						}
 						
 						html += "<tr>"+
-						"<td><input type='checkbox' class='approvalList'/></td>"+
+						"<td><input type='checkbox' class='approvalList' value='"+item.ap_seq+"'/></td>"+
 						"<td>"+item.apform_name+"</td>"+
 						"<td>"+item.ap_title+"</td>"+
 						"<td>"+item.ap_start_day+"</td>"+
@@ -74,9 +92,9 @@
 					</td>
 					<td>기안일</td>
 					<td>
-						<input type="text" class="form-control searchInput"/>
+						<input type="text" class="form-control searchInput" id="datepicker"/>
 						<span>-</span>
-						<input type="text" class="form-control searchInput"/>
+						<input type="text" class="form-control searchInput" id="datepicker2"/>
 					</td>
 				</tr>
 				<tr>
@@ -89,7 +107,7 @@
 			</table>
 		</div>
 		<div id="searchList">
-			<select name="listCnt" id="listCnt">
+			<select name="listCnt" class="selectCommon" id="listCnt">
 				<option>10개</option>
 				<option>8개</option>
 				<option>4개</option>

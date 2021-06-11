@@ -9,9 +9,26 @@
 <jsp:include page="./approvalMemberModal.jsp" /> 
 <jsp:include page="./selectMemberModal.jsp" />  
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		
+		$("input#datepicker").datepicker({
+			 dateFormat: 'yy-mm-dd', 
+		      changeMonth: true,
+		      changeYear: true
+		});
+		
+		$("input#datepicker2").datepicker({
+			 dateFormat: 'yy-mm-dd', 
+		      changeMonth: true,
+		      changeYear: true
+		});
 		
 		$("input[name=attach]").hide();
 		
@@ -130,22 +147,22 @@
 							<tr>
 								<td>문서제목</td>
 								<td colspan="3">
-									<input type="text" class="form-control" name="ap_title"/>
+									<input type="text" class="form-control size1" name="ap_title" autocomplete="off"/>
 								</td>
 							</tr>
 							<tr>
 								<td>휴가신청일자</td>
 								<td colspan="3">
-									<input type="text" class="form-control formDetail" name="vacationStartDate"/>
+									<input type="text" class="form-control formDetail" name="vacationStartDate" id="datepicker"/>
 									<span class="space">-</span>
-									<input type="text" class="form-control formDetail" name="vacationEndDate"/>
+									<input type="text" class="form-control formDetail" name="vacationEndDate" id="datepicker2"/>
 									<span class="space">총<span class="space"></span>일간</span>
 								</td>
 							</tr>
 							<tr>
 								<td>구분</td>
 								<td colspan="3">
-									<select id="vacationType" name="vacationType">
+									<select class="selectCommon" id="vacationType" name="vacationType" style="margin: 0">
 										<option>연차</option>
 										<option>반차</option>
 									</select>
@@ -155,7 +172,8 @@
 							<tr>
 								<td>인수인계자</td>
 								<td colspan="3">
-									<input type="text" class="form-control formDetail" name="takeover"/>
+									<input type="text" class="form-control formDetail" name="takeover" autocomplete="off"/>
+									<button type="button" class="btn formBtn2" id="selectMember">선택하기</button>
 								</td>
 							</tr>
 						</tbody>
