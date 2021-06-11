@@ -120,14 +120,9 @@ public class WorkmanageController {
 			ModelAndView mav) {
 
 		HttpSession session = request.getSession();
-		MemberVO loginuser = new MemberVO();
-		
-		session.setAttribute("loginuser", loginuser);
-		loginuser.setMbr_seq(5);
-		loginuser.setMbr_name("테스트2");
 		
 		try {
-//			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 
 			// 현재 로그인 되어있는 멤버의 seq를 통해 해당 멤버의 할일 리스트 가져온다.
 			String fk_mbr_seq = String.valueOf(loginuser.getMbr_seq());
