@@ -356,8 +356,8 @@ button.readCheck {
 	
 	<!-- 업무 관련 버튼 -->
 	<div align="right">
-		<button type="button" class="workEditBtn" onclick="javascript:location.href='<%=ctxPath%>/workAdd.opis?fk_wtno=${fk_wtno}'">업무등록</button>
-		<button type="button" class="workListBtn" onclick="javascript:location.href='<%=ctxPath%>/workList.opis?'">업무완료</button>
+		<button type="button" class="workEditBtn" onclick="javascript:location.href='<%=ctxPath%>/workAdd.opis'">업무등록</button>
+		<button type="button" class="workListBtn" onclick="javascript:location.href='<%=ctxPath%>/workList.opis'">업무완료</button>
 		<button type="button" class="workDeleteBtn" onclick="goWorkDel();">삭제</button>
 	</div>
 	

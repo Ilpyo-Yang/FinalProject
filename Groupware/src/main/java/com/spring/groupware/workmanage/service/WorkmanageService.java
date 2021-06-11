@@ -63,7 +63,7 @@ public class WorkmanageService implements InterWorkmanageService {
 			}
 			
 			// 첨부파일이 있을 때 첨부파일 테이블에 파일 insert
-			if (m != 0 && fileList != null) {
+			if (m != 0 && fileList.get(0).getFileName() != null) {
 				for (WorkFileVO filevo : fileList) {
 					k = dao.workAddFile(filevo);
 					

@@ -148,6 +148,26 @@ ul#setmbrList li.receiverName:hover {
 		});
 		
 		
+		// 파일첨부 숨기기
+		$("input[name=attach]").hide();
+		
+		// 첨부파일 목록 보여주기
+		$("input[type=file]").change(function(){
+			var files = document.getElementById("attach").files;
+	        var file;
+	        
+	        $("div#attachedFile").html("");
+	        
+	        for (var i=0; i<files.length; i++) { 
+	            file = files[i];
+	            $("div#attachedFile").append('<span>'+file.name+'&nbsp;&nbsp;</span><br>');
+	            /* if(i%2==1){
+	        		$("div#attachedFile").append('<br>');
+	        	} */
+	        }
+		});
+		
+		
 	});
 	
 	function nameDel(item) {
@@ -240,6 +260,10 @@ ul#setmbrList li.receiverName:hover {
 		frm.method = "post";
 		frm.submit();
 	}
+	
+	function func_attach() {
+		 $("input[name=attach]").click();	
+	}
 </script>
 
 <div class="container commoncontainer">
@@ -292,7 +316,10 @@ ul#setmbrList li.receiverName:hover {
 				<tr>
 					<td>파일 업로드</td>
 					<td>
-						<input multiple="multiple" type="file" name="attach" />
+						<!-- <input multiple="multiple" type="file" name="attach" /> -->
+						<input type="file" name="attach" id="attach" name="attach" multiple />
+						<button type="button" class="btn btn-success formBtn" id="attachBtn" onclick="func_attach()" >파일업로드</button>			
+						<div id="attachedFile"></div>
 					</td>
 				</tr>
 				<tr>

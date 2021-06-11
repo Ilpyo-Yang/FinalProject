@@ -168,11 +168,12 @@ public class WorkmanageController {
 		List<MultipartFile> attachList = mrequest.getFiles("attach");
 		List<WorkFileVO> fileList = null;
 		
-		if (!attachList.isEmpty()) {
+		if (attachList.size() > 0) {
 			fileList = new ArrayList<>();
 			
 			for (MultipartFile attach : attachList) {
 				WorkFileVO filevo = new WorkFileVO();
+				System.out.println("attach => " + attach);
 				
 				filevo.setFk_wmno(wmno);
 				filevo.setAttach(attach);
@@ -193,7 +194,6 @@ public class WorkmanageController {
 					newFileName = fileManager.doFileUpload(bytes, originalFilename, path);
 					
 					filevo.setFileName(newFileName);	
-//					System.out.println("newFileName" + newFileName);
 					// WAS(톰캣)에 저장될 파일명(20210603123943385139567592900.png)
 					
 					filevo.setOrgFilename(originalFilename);
@@ -244,14 +244,14 @@ public class WorkmanageController {
 			}
 		}
 
-		System.out.println("getWmno() => "+workvo.getWmno());
-		System.out.println("getFk_wtno() => "+workvo.getFk_wtno());
-		System.out.println("getRequester() => "+workvo.getRequester());
-		System.out.println("getReceivers() => "+workvo.getReceivers());
-		System.out.println("getReferrers() => "+workvo.getReferrers());
-		System.out.println("getSubject() => "+workvo.getSubject());
-		System.out.println("getContents() => "+workvo.getContents());
-		System.out.println("getDeadline() => "+workvo.getDeadline());
+//		System.out.println("getWmno() => "+workvo.getWmno());
+//		System.out.println("getFk_wtno() => "+workvo.getFk_wtno());
+//		System.out.println("getRequester() => "+workvo.getRequester());
+//		System.out.println("getReceivers() => "+workvo.getReceivers());
+//		System.out.println("getReferrers() => "+workvo.getReferrers());
+//		System.out.println("getSubject() => "+workvo.getSubject());
+//		System.out.println("getContents() => "+workvo.getContents());
+//		System.out.println("getDeadline() => "+workvo.getDeadline());
 		
 		
 		int n = service.workAddEnd(workvo, workmbrList, fileList); // 업무테이블에 삽입
@@ -551,8 +551,13 @@ public class WorkmanageController {
 	public ModelAndView workEditEnd(ModelAndView mav, WorkVO workvo, HttpServletRequest request) {
 		
 		// 업무 수정시 수정한 일자를 업데이트하기 위해 필요한 정보
+		String fk_wrno = request.getParameter("fk_wrno");
+		String fk_wtno = request.getParameter("fk_wtno");
+		
 		Map<String,String> paraMap = new HashedMap<>();
 		paraMap.put("wmno", workvo.getWmno());
+		paraMap.put("fk_wtno", fk_wtno);
+		paraMap.put("fk_wrno", fk_wrno);
 
 		// 사용자 시퀀스번호
 		String userId = null;
@@ -568,8 +573,8 @@ public class WorkmanageController {
 		int n = service.workEditEnd(workvo, paraMap);
 
 		if (n == 1) {
-			String fk_wrno = request.getParameter("fk_wrno");
-			mav.setViewName("redirect:/workList.opis?fk_wtno=" + workvo.getFk_wtno() + "&fk_wrno=" + fk_wrno);
+			
+			mav.setViewName("redirect:/workList.opis?fk_wtno=" + fk_wtno + "&fk_wrno=" + fk_wrno);
 		} else {
 			String message = "업무 수정에 실패하였습니다. 다시 시도하세요";
 			String loc = "javascript:history.back()";
@@ -629,6 +634,7 @@ public class WorkmanageController {
 		return mav;
 	}
 
+	// 업무 관리자 한명의 상태 정보 가져오기
 	@ResponseBody
 	@RequestMapping(value = "oneMbrWorkStatus.opis", method = {RequestMethod.GET }, produces = "text/plain;charset=UTF-8")
 	public String oneMbrWorkStatus(HttpServletRequest request) {

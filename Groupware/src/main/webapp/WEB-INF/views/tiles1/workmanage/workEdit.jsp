@@ -204,9 +204,9 @@ div#diplayList {
 				</tr>
 			</tbody>
 		</table>	
-		<input type="hidden" name="wmno" value="${requestScope.workvo.wmno}"/>
-		<input type="hidden" name="fk_wrno" value="1"/>
-		<input type="hidden" name="fk_wtno" value="${requestScope.workvo.fk_wtno}"/>
+		<input type="text" name="wmno" value="${requestScope.workvo.wmno}"/>
+		<input type="text" name="fk_wrno" value="1"/>
+		<input type="text" name="fk_wtno" value="${requestScope.workvo.fk_wtno}"/>
 	</form>
 </div>
 
