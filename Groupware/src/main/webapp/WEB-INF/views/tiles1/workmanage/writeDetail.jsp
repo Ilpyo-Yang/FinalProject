@@ -59,7 +59,6 @@
 						<button type="button" value="80">80%</button>
 						<button type="button" value="100">100%</button>
 						<span id="processText"></span>
-						<input type="hidden" name="workPercent" />
 					</td>
 				</tr>
 			</c:if>
@@ -72,6 +71,7 @@
 			</tr>
 		</tbody>
 	</table>
+	<input type="hidden" name="workPercent" />
 	<input type="hidden" name="workmbr_seq"/>
 	<input type="hidden" name="gobackWorkDetilURL" value="${requeseScope.gobackWorkDetilURL}"/>
 </form>

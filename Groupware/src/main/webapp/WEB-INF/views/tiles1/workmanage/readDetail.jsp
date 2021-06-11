@@ -26,11 +26,11 @@
 			</tr>
 			<tr>
 				<td>진척률</td>
-				<td colspan="3" id="workPercent">%</td>
+				<td colspan="3"><span id="workPercent"></span>%</td>
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td colspan="3"></td>
+				<td colspan="3"><textarea cols="70" rows="5" class="contents" readonly="readonly"></textarea></td>
 			</tr>
 		</tbody>
 	</table>
@@ -60,7 +60,7 @@
 			</tr>
 			<tr>
 				<td>의견</td>
-				<td colspan="3"></td>
+				<td colspan="3"><textarea cols="70" rows="5" class="contents" readonly="readonly"></textarea></td>
 			</tr>
 		</tbody>
 	</table>

@@ -34,9 +34,10 @@
 		if (fk_wrno != 2) {
 			mbrWorkStatusChange();	
 		}
-		
-		$("input[name=gobackWorkDetilURL]").val("${requestScope.gobackWorkDetilURL}");
-		getMyWorkStatus();
+		else {
+			$("input[name=gobackWorkDetilURL]").val("${requestScope.gobackWorkDetilURL}");
+			getMyWorkStatus();	
+		}
 	});
 	
 	// 담당자별 업무처리 확인하기 
@@ -53,7 +54,8 @@
 			success:function(json) {
 				$("td#mbr_name").html(json.mbr_name);
 				$("td#lasteditdate").html(json.lasteditdate);
-				$("td#workPercent").html(json.workPercent);
+				$("span#workPercent").html(json.workPercent);
+				$("textarea.contents").html(json.contents);
 			},
 			error: function(request, status, error){
                	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -88,6 +90,7 @@
 			dataType:"json",
 			success:function(json) {
 				$("input[name=workmbr_seq]").val(json.workmbr_seq);
+				$("input[name=workPercent]").val(json.workPercent);
 				
 				var lasteditdate = json.lasteditdate;
 				
@@ -248,9 +251,9 @@
 	<!-- 업무 관련 버튼 -->
 	<div align="right">
 		<c:if test="${requestScope.fk_wrno eq 1}">
-			<button type="button" class="workEditBtn btn btn-success" onclick="javascript:location.href='<%=ctxPath%>/workEdit.opis?wmno=${workvo.wmno}'">수정</button>
-			<button type="button" class="workDeleteBtn btn btn-success" onclick="goWorkDel();">삭제</button>
-			<button type="button" class="workListBtn btn btn-success" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
+			<button type="button" class="workEditBtn btn btn-success" onclick="javascript:location.href='<%=ctxPath%>/workEdit.opis?wmno=${workvo.wmno}'">업무수정</button>
+			<button type="button" class="workDeleteBtn btn btn-danger" onclick="goWorkDel();">삭제</button>
+			<button type="button" class="workListBtn btn btn-default" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
 		</c:if>
 		
 		<c:if test="${requestScope.fk_wrno eq 2}">
