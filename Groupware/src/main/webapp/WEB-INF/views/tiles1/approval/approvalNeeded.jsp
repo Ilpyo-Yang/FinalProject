@@ -94,7 +94,7 @@
 			</table>
 		</div>
 		<div id="searchList">
-			<select name="listCnt" id="listCnt">
+			<select name="listCnt" class="selectCommon" id="listCnt">
 				<option>10개</option>
 				<option>8개</option>
 				<option>4개</option>

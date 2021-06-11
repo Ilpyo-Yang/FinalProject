@@ -47,8 +47,7 @@
 							ap_progress+="<span style='color:red;'>반려</span>";
 						}
 						
-						html += "<tr>"+
-						"<td><input type='checkbox' class='approvalList' value='"+item.ap_seq+"'/></td>"+
+						html += "<tr id='"+item.ap_seq+"'>"+
 						"<td>"+item.apform_name+"</td>"+
 						"<td>"+item.ap_title+"</td>"+
 						"<td>"+item.ap_start_day+"</td>"+
@@ -116,7 +115,6 @@
 			<table class="table table-striped" >
 				<thead>
 					<tr>
-						<th><input type="checkbox" id="alllList"/></th>
 						<th>종류</th>
 						<th>문서제목</th>
 						<th>기안일자</th>

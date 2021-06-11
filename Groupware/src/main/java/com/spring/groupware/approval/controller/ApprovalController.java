@@ -105,7 +105,6 @@ public class ApprovalController {
 		String fk_apform_no = mrequest.getParameter("fk_apform_no");
 		String fk_mbr_seq = mrequest.getParameter("fk_mbr_seq");
 		String ap_dept = mrequest.getParameter("ap_dept");
-		System.out.println(ap_dept);
 		String ap_approver = mrequest.getParameter("ap_approver");
 		String ap_manage_approver = mrequest.getParameter("ap_manage_approver");
 		String ap_referrer = mrequest.getParameter("ap_referrer");
@@ -142,10 +141,8 @@ public class ApprovalController {
 		List<Map<String, String>> fileInfoList = new ArrayList<>();	// 파일정보를 넘기기 위한 리스트
 				
 		String message="", loc="";
-		
-		
+		System.out.println(fileList);
 		if(fileList.size()>0) {	// 첨부파일이 있는 경우
-			System.out.println(fileList);
 			
 			HttpSession session = mrequest.getSession();
 			String root = session.getServletContext().getRealPath("/"); 			
@@ -191,7 +188,7 @@ public class ApprovalController {
 					
 		}
 		else {	// 첨부파일이 없는 경우라면
-			System.out.println("하하");
+		
 			int n1 = service.submitApproval(avo); 
 			
 			if(n1==1) {	// 결재요청 성공시

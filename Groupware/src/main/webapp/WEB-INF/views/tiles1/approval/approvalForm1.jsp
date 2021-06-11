@@ -40,9 +40,12 @@
 			var files = document.getElementById("attach").files;
 	        var file;
 	        
+	        $("div#attachedFile").html("");
+	        
 	        for (var i=0; i<files.length; i++) { 
 	            file = files[i];
-	            $("div#attachedFile").append('<span>'+file.name+'<button type="button" class="btn formBtn2 delFile" onclick="func_delFile()">X</button></span>');
+	            
+	            $("div#attachedFile").append('<span id="del'+i+'">'+file.name+'<button type="button" class="btn formBtn2 delFile" id="del'+i+'" onclick="func_delFile(this.id)">X</button></span>');
 	            if(i%2==1){
 	        		$("div#attachedFile").append('<br>');
 	        	}
@@ -80,6 +83,9 @@
 	}// end of function func_attach() ------------------------------------------
 	
 	
+	function func_delFile(id) {
+		 $("span#"+id).remove();
+	}// end of function func_delFile(this.id) ---------------------------------------
 	
 </script>
 </head>
