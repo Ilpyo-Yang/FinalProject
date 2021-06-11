@@ -24,6 +24,9 @@ public interface InterApprovalService {
 	// 결재요청한 문서 가져오기
 	List<ApprovalVO> getApprovalSubmitList(String fk_mbr_seq);
 
+	// 결재참조된 문서 가져오기
+	List<ApprovalVO> getApprovalReferredList(String managePerson);
+
 
 
 	

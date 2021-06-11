@@ -8,16 +8,14 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		
 		var managePerson = '${sessionScope.loginuser.dept_detail} ${sessionScope.loginuser.rank_detail}'
-						   +' ${sessionScope.loginuser.mbr_name}';
-		
-		
+			   +' ${sessionScope.loginuser.mbr_name}';
+			   
 		var html="";
 		
-		// 결재대기 문서 리스트 가져오기
+		// 결재참조된 문서 리스트 가져오기
 		$.ajax({
-			url:"<%=ctxPath%>/approvalNeededList.opis",
+			url:"<%=ctxPath%>/approvalReferredList.opis",
 			dataType:"json",
 			data:{managePerson:managePerson},
 			success: function(json){		
@@ -34,7 +32,7 @@
 					});
 				}
 				else {
-					html += "<tr><td></td><td>결재 대기중인 문서가 없습니다.</td><td></td><td></td><td></td><td></td></tr>"
+					html += "<tr><td></td><td>결재참조된 문서가 없습니다.</td><td></td><td></td><td></td><td></td></tr>"
 				}
 					
 				$("tbody#list").html(html);
@@ -51,7 +49,7 @@
 <body>
 
 	<div id="approvalContainer">
-		<span class="subtitle">결재 대기중인 문서</span>
+		<span class="subtitle">결재 참조된 문서</span>
 		<hr> 	
 		<div id="searchOption">
 			<table>

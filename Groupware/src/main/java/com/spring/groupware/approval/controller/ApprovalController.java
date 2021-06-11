@@ -223,7 +223,7 @@ public class ApprovalController {
 	  // === 결재대기문서 리스트 가져오기 === //
 	  @ResponseBody
 	  @RequestMapping(value="/approvalNeededList.opis", produces="text/plain;charset=UTF-8")
-	  public String approvalNeeded(HttpServletRequest request) { 	
+	  public String approvalNeededList(HttpServletRequest request) { 	
 		 String managePerson = request.getParameter("managePerson");
 		 
 		 List<ApprovalVO> approvalList = service.getApprovalNeededList(managePerson); 
@@ -256,7 +256,7 @@ public class ApprovalController {
 	  // === 결재요청한 문서 리스트 가져오기 === //
 	  @ResponseBody
 	  @RequestMapping(value="/approvalSubmitList.opis", produces="text/plain;charset=UTF-8")
-	  public String approvalSubmit(HttpServletRequest request) { 	
+	  public String approvalSubmitList(HttpServletRequest request) { 	
 		 String fk_mbr_seq = request.getParameter("fk_mbr_seq");
 		 
 		 List<ApprovalVO> approvalList = service.getApprovalSubmitList(fk_mbr_seq); 
@@ -280,6 +280,39 @@ public class ApprovalController {
 	  }
   
 	  
+	  // === 결재참조된 문서  === //
+	  @RequestMapping(value="/approvalReferred.opis")
+	  public ModelAndView requiredLogin_approvalReferred(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {    	  
+		 mav.setViewName("approval/approvalReferred.tiles1");
+		 return mav;
+	  }
+	  
+	  // === 결재참조된 문서 리스트 가져오기 === //
+	  @ResponseBody
+	  @RequestMapping(value="/approvalReferredList.opis", produces="text/plain;charset=UTF-8")
+	  public String approvalReferredList(HttpServletRequest request) { 	
+		 String managePerson = request.getParameter("managePerson");
+		 
+		 List<ApprovalVO> approvalList = service.getApprovalReferredList(managePerson); 
+		
+		 JSONArray jsonArr = new JSONArray(); 
+		 JSONObject jsonObj = new JSONObject();	
+
+		 if(approvalList.size() != 0) {
+		     for(ApprovalVO avo : approvalList) {
+					jsonObj.put("apform_name", avo.getApform_name());
+					jsonObj.put("ap_title", avo.getAp_title());
+					jsonObj.put("ap_start_day", avo.getAp_start_day());
+					jsonObj.put("ap_manage_approver", avo.getAp_manage_approver());
+					jsonObj.put("ap_end_day", avo.getAp_end_day());
+					jsonObj.put("ap_progress", avo.getAp_progress());
+
+					jsonArr.put(jsonObj);
+		      }
+		  } 
+		  return jsonArr.toString(); 
+	  }
+		  
 	  // === 서명관리 === //
 	  @RequestMapping(value="/sign.opis")
 	  public ModelAndView sign(ModelAndView mav) {   	  
