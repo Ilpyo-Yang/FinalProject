@@ -317,6 +317,11 @@ public class ScheduleController {
 		
 		mtrhvo.setUsemtrno(String.valueOf(usemtrno));
 		
+		if(mtrhvo.getFk_scdno() == null) {
+			String fk_scdno = "";
+			mtrhvo.setFk_scdno(fk_scdno);
+ 		}
+		
 		int n = service.resvMtrEnd(mtrhvo);
 		
 		String mtrname = service.getMtrName(mtrhvo.getFk_mtrno());	// 회의실 이름 가져오기

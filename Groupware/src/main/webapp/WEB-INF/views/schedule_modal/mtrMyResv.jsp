@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <% String ctxPath = request.getContextPath(); %>
     
 <meta charset="utf-8">
@@ -10,8 +11,6 @@
 <style>
 	
 	#resvList {
-		position: relative;
-		overflow:hidden;
 		margin-top:30px;
 		width:630px;
 		height:180px;
@@ -43,6 +42,12 @@
 	.btnCancel {
 		background:#737373;
 		color: white;
+	}
+	
+	#passed {
+		font-weight: bold;
+		font-style: italic;
+		color: red;
 	}
 	
 </style>
@@ -93,6 +98,7 @@
 	function func_select(){
 		
 		$("div#resvList").empty();
+		var today = new Date();
 		
 		$.ajax({
 			url:"<%=ctxPath%>/showMtrResv.opis",
@@ -112,6 +118,9 @@
 					var starttime = item.starttime.substring(0,16);
 					var endtime = item.endtime.substring(0,16);
 					
+					var endTm = new Date(item.endtime);
+					
+					if(today <= endTm){
 					html += "<tr>"+
 							"<td><input type='checkbox' name='usemtrno' id='usemtrno' value='"+item.usemtrno+"'/></td>"+
 							"<td>"+item.mtrname+"</td>"+
@@ -120,6 +129,17 @@
 							"<td>"+starttime+"</td>"+
 							"<td>"+endtime+"</td>"+
 							"</tr>";
+					}
+					else {
+						html += "<tr>"+
+						"<td><input type='checkbox' name='usemtrno' id='usemtrno' value='"+item.usemtrno+"'/></td>"+
+						"<td>"+item.mtrname+"</td>"+
+						"<td>"+item.booker+"</td>"+
+						"<td>"+item.mtrsubject+"</td>"+
+						"<td>"+starttime+"</td>"+
+						"<td><span id='passed'>"+endtime+"</span></td>"+
+						"</tr>";
+					}
 				});
 				
 				html += "</table>"
@@ -138,7 +158,7 @@
 <div id="container" class="container">
 <h3 style="font-weight:bold;">${sessionScope.loginuser.mbr_name} 님의 예약내역</h3>
 <hr>
-
+	<span>※지난 예약내역은 종료일자가 빨간색으로 표시됩니다.</span>
 	<div id="resvList"></div>
 </div>
 
