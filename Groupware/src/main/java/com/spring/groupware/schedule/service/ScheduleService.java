@@ -97,7 +97,7 @@ public class ScheduleService implements InterScheduleService{
 			
 			for(int i=0; i<emailArr.length; i++) {
 				String contents = paraMap.get("mbrName") + " 님, " + paraMap.get("myName") + " 님께서 회의에 초대하셨습니다."
-								+ "<br>일정명:";
+								+ "<br>";
 				mail.sendmail(emailArr[i], contents);
 			}
 		}

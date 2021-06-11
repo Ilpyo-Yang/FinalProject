@@ -105,7 +105,7 @@
 		}
 		
 		
-		
+			
 	});// end of $(document).ready(function() {}---------------------------------- 
 	
 	function goSearch() {
@@ -116,6 +116,7 @@
 			
 	function sendtoParent() {
 		opener.document.getElementById("attendance").value = document.getElementById("mbr_name").value;
+		window.close();
 	}
 	
 	function sendMail() {
@@ -177,7 +178,6 @@
 	
 	<input type="hidden" class="getName" id="mbr_name" name="mbr_name" />
 	<input type="hidden" name="myName" id="myName" value="${sessionScope.loginuser.mbr_name}"/>
-	<input type="text" id="scdSubject" name="scdSubject"/>
 </form>
 	
 	<div id="btns">

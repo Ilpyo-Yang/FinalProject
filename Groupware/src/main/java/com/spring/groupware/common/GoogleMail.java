@@ -43,7 +43,7 @@ public class GoogleMail {
         MimeMessage msg = new MimeMessage(ses);
         
         // 제목 설정
-        String subject = "[알림]회의에 초대되셨습니다.";
+        String subject = "[알림] 회의에 초대되셨습니다.";
         msg.setSubject(subject);	// 메일 제목을 담아줌
         
         // 보내는 사람의 메일주소

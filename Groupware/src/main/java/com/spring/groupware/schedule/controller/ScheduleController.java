@@ -270,6 +270,8 @@ public class ScheduleController {
 		
 		int n = service.delAll();
 		
+		System.out.println(n);
+		
 		if(n==1) {
 			mav.setViewName("schedule/myscd.tiles1");
 		}
