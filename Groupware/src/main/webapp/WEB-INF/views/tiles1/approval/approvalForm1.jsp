@@ -13,7 +13,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		
-		$("input[name=attach]").hide();
+		$("input[name=attach]").show();
 		
 		// 결재라인 모달창 열기
 		$("button#approvalMember").click(function(){			
@@ -35,8 +35,15 @@
 			$('div#myModal2').hide();
 		});
 		
+		
+		var fileCnt = document.getElementById("attach").files.length;
+		$("input[name=file]").val(fileCnt);
+		
 		// 첨부파일 목록 보여주기
 		$("input[type=file]").change(function(){
+			fileCnt = document.getElementById("attach").files.length;
+			$("input[name=file]").html(fileCnt);
+			
 			var files = document.getElementById("attach").files;
 	        var file;
 	        
@@ -44,8 +51,8 @@
 	        
 	        for (var i=0; i<files.length; i++) { 
 	            file = files[i];
-	            
-	            $("div#attachedFile").append('<span id="del'+i+'">'+file.name+'<button type="button" class="btn formBtn2 delFile" id="del'+i+'" onclick="func_delFile(this.id)">X</button></span>');
+
+	            $("div#attachedFile").append('<span id="'+i+'">'+file.name+'<button type="button" class="btn formBtn2 delFile" id="'+i+'" onclick="func_delFile(this.id)">X</button></span>');
 	            if(i%2==1){
 	        		$("div#attachedFile").append('<br>');
 	        	}
@@ -85,6 +92,8 @@
 	
 	function func_delFile(id) {
 		 $("span#"+id).remove();
+		 var files = document.getElementById("attach").files;
+		 files.splice(Number(id),1);
 	}// end of function func_delFile(this.id) ---------------------------------------
 	
 </script>
@@ -165,7 +174,8 @@
 				<input type="hidden" name="ap_approver" />
 				<input type="hidden" name="ap_manage_approver" />
 				<input type="hidden" name="ap_referrer" />
-	
+				<input type="hidden" name="file" />
+				
 			</div>
 		</form>
 	</div>

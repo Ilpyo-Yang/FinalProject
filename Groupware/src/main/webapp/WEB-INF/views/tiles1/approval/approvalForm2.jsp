@@ -46,9 +46,14 @@
 		$("button#closeModal2").click(function(){
 			$('div#myModal2').hide();
 		});
+		var fileCnt = document.getElementById("attach").files.length;
+		$("input[name=file]").val(fileCnt);
 		
 		// 첨부파일 목록 보여주기
 		$("input[type=file]").change(function(){
+			fileCnt = document.getElementById("attach").files.length;
+			$("input[name=file]").html(fileCnt);
+			
 			var files = document.getElementById("attach").files;
 	        var file;
 	        
@@ -194,6 +199,7 @@
 				<input type="hidden" name="ap_approver" />
 				<input type="hidden" name="ap_manage_approver" />
 				<input type="hidden" name="ap_referrer" />
+				<input type="hidden" name="file" />
 	
 			</div>
 		</form>

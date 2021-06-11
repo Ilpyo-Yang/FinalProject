@@ -141,8 +141,9 @@ public class ApprovalController {
 		List<Map<String, String>> fileInfoList = new ArrayList<>();	// 파일정보를 넘기기 위한 리스트
 				
 		String message="", loc="";
-		System.out.println(fileList);
-		if(fileList.size()>0) {	// 첨부파일이 있는 경우
+		int fileCnt = Integer.parseInt(mrequest.getParameter("file"));
+		
+		if(fileCnt>0) {	// 첨부파일이 있는 경우
 			
 			HttpSession session = mrequest.getSession();
 			String root = session.getServletContext().getRealPath("/"); 			
@@ -158,10 +159,10 @@ public class ApprovalController {
 				try {
 					bytes = mf.getBytes(); // 첨부파일의 내용물을 읽어오는 것
 					
-					String ap_filename = mf.getOriginalFilename();
-					
-					ap_detail_filename = fileManager.doFileUpload(bytes, ap_filename, path);
-					
+					String ap_filename = mf.getOriginalFilename();					
+					ap_detail_filename = fileManager.doFileUpload(bytes, ap_filename, path);				
+					ap_fileSize = mf.getSize();
+							
 					paraMap.put("fk_ap_seq", ap_seq);
 					paraMap.put("ap_filename", ap_filename);
 					paraMap.put("ap_detail_filename", ap_detail_filename);
