@@ -72,25 +72,33 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
-		$("input:checkbox[name=email]").click(function() {
-			var emailArr = [];
-			var nameArr = [];
-			var bool = $(this).prop("checked");
-
-			if (bool) {
-				emailArr.push($(this).val());
-				nameArr.push($(this).parent().next().next().text());
-			} 
+		
+		
+		
+		$("input:checkbox[name=email]").click(function(){
 			
-			var emailList = emailArr.join();
-			var nameList = nameArr.join();
+			var emailList = "";
+			var nameList= "";
+			
+			$("input[name=email]:checked").each(function() {
+				
+				emailList += $(this).val();
+				nameList += $(this).parent().next().next().text();
+				
+				emailList += ",";
+				nameList += ",";
+			});
+			
+			emailLists = emailList.substr(0, emailList.length-1);
+			nameLists = nameList.substr(0, nameList.length-1);
+			
+			$("input.getEmail").val(emailLists);
+			$("input.getName").val(nameLists);
 			
 			console.log(emailList);
 			console.log(nameList);
-			
-			$("input.getEmail").val(emailList);
-			$("input.getName").val(nameList);
 		});
+		
 		
 		$("input#searchWord").bind("keydown", function(){
 			if(event.keyCode == 13) {
@@ -105,7 +113,7 @@
 		}
 		
 		
-		
+			
 	});// end of $(document).ready(function() {}---------------------------------- 
 	
 	function goSearch() {
@@ -116,6 +124,7 @@
 			
 	function sendtoParent() {
 		opener.document.getElementById("attendance").value = document.getElementById("mbr_name").value;
+		window.close();
 	}
 	
 	function sendMail() {
@@ -177,7 +186,6 @@
 	
 	<input type="hidden" class="getName" id="mbr_name" name="mbr_name" />
 	<input type="hidden" name="myName" id="myName" value="${sessionScope.loginuser.mbr_name}"/>
-	<input type="text" id="scdSubject" name="scdSubject"/>
 </form>
 	
 	<div id="btns">
