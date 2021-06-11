@@ -182,7 +182,6 @@ public class WorkmanageController {
 			
 			for (MultipartFile attach : attachList) {
 				WorkFileVO filevo = new WorkFileVO();
-				System.out.println("attach => " + attach);
 				
 				filevo.setFk_wmno(wmno);
 				filevo.setAttach(attach);
@@ -552,7 +551,6 @@ public class WorkmanageController {
 			ModelAndView mav) {
 
 		String wmno = request.getParameter("wmno"); // 업무고유 번호 받아오기
-
 		Map<String, String> paraMap = new HashedMap<>();
 		paraMap.put("wmno", wmno);
 
@@ -564,6 +562,10 @@ public class WorkmanageController {
 		List<WorkFileVO> fileList = service.getWorkFile(paraMap);
 		mav.addObject("fileList", fileList);
 
+		// 다시돌아오기 위해
+		String gobackWorkDetilURL = request.getParameter("gobackWorkDetilURL"); 
+		mav.addObject("gobackWorkDetilURL", gobackWorkDetilURL);
+
 		mav.setViewName("workmanage/workEdit.tiles1");
 		return mav;
 	}
@@ -573,6 +575,7 @@ public class WorkmanageController {
 	public ModelAndView workEditEnd(ModelAndView mav, WorkVO workvo, MultipartHttpServletRequest mrequest) {
 		
 		String wmno = workvo.getWmno();
+		String gobackWorkDetilURL = mrequest.getParameter("gobackWorkDetilURL"); 
 		
 		// 첨부파일이 있을 경우 첨부파일 테이블에 넣어줄 것들
 		List<MultipartFile> attachList = mrequest.getFiles("attach");
@@ -583,7 +586,6 @@ public class WorkmanageController {
 			
 			for (MultipartFile attach : attachList) {
 				WorkFileVO filevo = new WorkFileVO();
-				System.out.println("attach => " + attach);
 				
 				filevo.setFk_wmno(wmno);
 				filevo.setAttach(attach);
@@ -645,7 +647,7 @@ public class WorkmanageController {
 
 		if (n == 1) {
 			
-			mav.setViewName("redirect:/workList.opis?fk_wtno=" + fk_wtno + "&fk_wrno=" + fk_wrno);
+			mav.setViewName("redirect:/"+gobackWorkDetilURL);
 		} else {
 			String message = "업무 수정에 실패하였습니다. 다시 시도하세요";
 			String loc = "javascript:history.back()";

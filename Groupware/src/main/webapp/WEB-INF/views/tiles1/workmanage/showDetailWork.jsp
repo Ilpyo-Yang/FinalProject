@@ -165,6 +165,14 @@
 		frm.action = "<%=ctxPath%>/receiverWorkEdit.opis";
 		frm.submit();
 	}
+	
+	// 내가 요청한 업무에 대해 수정하기 할 때
+	function goWorkEdit() {
+		var frm = document.editFrm;
+		frm.method = "post";
+		frm.action = "<%=ctxPath%>/workEdit.opis";
+		frm.submit();
+	}
 </script>
 
 
@@ -244,6 +252,12 @@
 		<input type="hidden" name="fk_wrno" value="${fk_wrno}"/>
 	</form>
 	
+	<!-- 수정할 업무 번호 폼 -->
+	<form name="editFrm">
+		<input type="hidden" name="wmno" value="${workvo.wmno}"/>
+		<input type="hidden" name="gobackWorkDetilURL" value="${gobackWorkDetilURL}"/>
+	</form>
+	
 	<!-- 처리내역 테이블 페이지 -->
 	<c:if test="${requestScope.fk_wrno ne 2}"><jsp:include page="./readDetail.jsp" /></c:if>
 	<c:if test="${requestScope.fk_wrno eq 2}"><jsp:include page="./writeDetail.jsp" /></c:if>
@@ -251,7 +265,7 @@
 	<!-- 업무 관련 버튼 -->
 	<div align="right">
 		<c:if test="${requestScope.fk_wrno eq 1}">
-			<button type="button" class="workEditBtn btn btn-success" onclick="javascript:location.href='<%=ctxPath%>/workEdit.opis?wmno=${workvo.wmno}'">업무수정</button>
+			<button type="button" class="workEditBtn btn btn-success" onclick="goWorkEdit();">업무수정</button>
 			<button type="button" class="workDeleteBtn btn btn-danger" onclick="goWorkDel();">삭제</button>
 			<button type="button" class="workListBtn btn btn-default" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
 		</c:if>

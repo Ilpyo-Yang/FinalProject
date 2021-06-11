@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>	
 <% String ctxPath = request.getContextPath(); %>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -235,8 +236,8 @@ div#diplayList {
 				</tr>
 				<tr id="workRegBtn">
 					<td colspan="2">
-						<button type="button" onclick="checkStar()">수정</button>
-						<button type="button" >취소</button>
+						<button type="button" class="btn btn-success" onclick="checkStar()">수정</button>
+						<button type="button" class="btn btn-danger" onclick="javascript:location.href='<%=ctxPath%>/${requestScope.gobackWorkDetilURL}'">취소</button>
 					</td>
 				</tr>
 			</tbody>
@@ -244,6 +245,7 @@ div#diplayList {
 		<input type="hidden" name="wmno" value="${requestScope.workvo.wmno}"/>
 		<input type="hidden" name="fk_wrno" value="1"/>
 		<input type="hidden" name="fk_wtno" value="${requestScope.workvo.fk_wtno}"/>
+		<input type="hidden" name="gobackWorkDetilURL" value="${requestScope.gobackWorkDetilURL}"/>
 	</form>
 </div>
 
