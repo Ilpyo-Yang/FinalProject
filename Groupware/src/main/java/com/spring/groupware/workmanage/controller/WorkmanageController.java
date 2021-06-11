@@ -613,7 +613,6 @@ public class WorkmanageController {
 
 		// 사용자의 역할에 따른 업무삭제 (실제는 yn의 상태를 0->1로 변환 시키는 작업)
 		int n = service.workDel(paraMap);
-		// System.out.println("gobackURL" + gobackURL);
 
 		if (n >= 1) {
 			if (gobackURL != null) {
@@ -657,5 +656,42 @@ public class WorkmanageController {
 
 		return jsonObj.toString();
 	}
+	
+	// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
+	@RequestMapping(value = "workStatusChangeToComplete.opis", method = { RequestMethod.POST })
+	public ModelAndView requiredLogin_workStatusChangeToComplete(HttpServletRequest request, HttpServletResponse response,
+			ModelAndView mav) {
+		
+		String gobackURL = request.getParameter("gobackURL");
+		String wmnoStr = request.getParameter("wmnoStr"); // 삭제하려는 업무번호들
+		String fk_wrno = request.getParameter("fk_wrno"); // 사용자의 역할
+		String fk_wtno = request.getParameter("fk_wtno");
 
+		Map<String, Object> paraMap = new HashedMap<>();
+
+		String[] wmnoList = wmnoStr.split(",");
+		paraMap.put("wmnoList", wmnoList);
+		paraMap.put("fk_wtno", fk_wtno);
+
+		// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
+		int n = service.workStatusChangeToComplete(paraMap);
+
+		if (n >= 1) {
+			if (gobackURL != null) {
+				mav.setViewName("redirect:/" + gobackURL);
+			} else {
+				mav.setViewName("redirect:/workList.opis?fk_wtno=" + fk_wtno + "&fk_wrno=" + fk_wrno);
+			}
+		} else {
+			String message = "업무 삭제에 실패하였습니다. 다시 시도하세요";
+			String loc = "javascript:history.back()";
+
+			mav.addObject("message", message);
+			mav.addObject("loc", loc);
+
+			mav.setViewName("msg");
+		}
+		
+		return mav;
+	}
 }

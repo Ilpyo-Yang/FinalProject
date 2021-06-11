@@ -159,6 +159,13 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		return n;
 	}
 
+	// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
+	@Override
+	public int workStatusChangeToComplete(Map<String, Object> paraMap) {
+		int n = sqlsession.update("workmanage.workStatusChangeToComplete", paraMap);
+		return n;
+	}
+
 	
 	
 	

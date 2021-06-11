@@ -67,5 +67,8 @@ public interface InterWorkmanageDAO {
 	// 수정일자 업데이트 하기
 	int updateLasteditdate(Map<String, String> paraMap);
 
+	// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
+	int workStatusChangeToComplete(Map<String, Object> paraMap);
+
 
 }
