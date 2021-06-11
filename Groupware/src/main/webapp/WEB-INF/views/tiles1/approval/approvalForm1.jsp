@@ -51,7 +51,6 @@
 	        
 	        for (var i=0; i<files.length; i++) { 
 	            file = files[i];
-
 	            $("div#attachedFile").append('<span id="'+i+'">'+file.name+'<button type="button" class="btn formBtn2 delFile" id="'+i+'" onclick="func_delFile(this.id)">X</button></span>');
 	            if(i%2==1){
 	        		$("div#attachedFile").append('<br>');

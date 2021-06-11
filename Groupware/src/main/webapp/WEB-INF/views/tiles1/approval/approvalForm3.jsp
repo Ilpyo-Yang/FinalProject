@@ -106,7 +106,6 @@
 	function func_delFile(id) {
 		 $("span#"+id).remove();
 	}// end of function func_delFile(this.id) ---------------------------------------
-
 </script>
 </head>
 <body>
