@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -330,8 +329,9 @@ public class AddrController {
  	   for(i=0; i<checkCnt; i++) { // 선택한 주소록 번호 맵에 넣고 추가하기
    			paraMap.put("addrSeq",addrSeqArr[i]);
    			n = service.addmyAddr(paraMap);
-   			i++;
  	   }
+ 	   
+// 	   System.out.println("확인용 N : "+n+"확인용 i :"+i+"확인용 checkCnt : "+checkCnt);
    		
 	   	if(n==1 && i==checkCnt) { // n값이 1 이고 총 반복횟수가 체크개수와 같다면 성공
 	   		mav.setViewName("redirect:/addr_setting.opis");  
