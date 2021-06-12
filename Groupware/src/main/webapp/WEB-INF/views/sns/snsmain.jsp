@@ -17,8 +17,12 @@ String ctxPath = request.getContextPath();
 	
 	$(document).ready(function(){
 		
+		/* func_hide_talkroom_list(); */
+		
 		$("input#searchWord").bind("keydown", function(event){
 			if(event.keyCode == 13) {
+				/* func_hide_talkroom_list(); */
+				func_show_mbr_list();
 				goSearch();
 			}
 			
@@ -27,6 +31,27 @@ String ctxPath = request.getContextPath();
 		$("select#mbr_stsconnect").bind("change", function(){
 			func_select($(this).val());
 		});
+		
+		$("img#btn_mbr_list").bind("click", function(){
+			 func_show_mbr_list();
+			/*  func_hide_talkroom_list(); */
+		});
+		
+		$("img#btn_talkroom_list").bind("click", function(){
+			/* func_hide_mbr_list(); 
+			 func_show_talkroom_list();
+			 goRoomlist(); */
+			window.open("<%=ctxPath%>/sns/talkroom.opis","ë©ì ì ","width=401, height=601, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+		});
+		
+		/* $("img#x").bind("click", function(){
+			 /* func_hide_mbr_list(); 
+			 func_show_talkroom_list();
+			 goDelRoomlist();
+		}); */
+		
+		
+		
 	});
 
 
@@ -43,6 +68,60 @@ String ctxPath = request.getContextPath();
 		frm.action = "<%= ctxPath%>/sns/status.opis"
 		frm.submit();
 	}
+	
+	<%-- function goRoomlist(){
+		$.ajax({
+			url:"<%= ctxPath%>/talkroomlist.opis",
+			data:{"fk_mbr_id":"${sessionScope.loginuser.mbr_id}"},
+			type:"GET",
+			dataType:"json",
+			success:function(json){ 
+				var html = "";
+				
+				$.each(json, function(index, item){
+					
+				html +=	"<div class='memberList'>";
+				html += 	"<div class='constatus'>";
+				html +=			"<img class='mainuserimg' src='<%= ctxPath%>/resources/images/nomaluserimg.png'  style='margin-left: 20px;'/>";
+				html +=		"</div>";
+				html +=		"<div class='userinforightside'>";
+				html +=			"<span class='name'>"+item.room_name+"</span>";
+				html +=		"</div>";
+				html +=	"</div>";
+				
+				});
+			
+				$("div#talkroom_list").html(html);
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		 	}
+		});
+	} --%>
+	
+	
+	
+	/* function func_hide_mbr_list() {
+		$("div#mbr_list").hide();
+	} */
+	
+	function func_show_mbr_list() {
+		$("div#mbr_list").show();
+	}
+	
+	/* function func_hide_talkroom_list() {
+		$("div#talkroom_list").hide();
+		$("img#plus").hide();
+		$("img#x").hide();
+		
+	}
+	
+	function func_show_talkroom_list() {
+		$("div#talkroom_list").show();
+		$("img#x").show();
+		$("img#plus").show();
+	} */
+
 
 
 </script>
@@ -96,8 +175,10 @@ String ctxPath = request.getContextPath();
 		</div>
 		
 		<div class="menu">
-			<img class="menuimg" src="<%= ctxPath%>/resources/images/menuuser.png" />
-			<img class="menuimg" src="<%= ctxPath%>/resources/images/chat.png" />
+			<img class="menuimg" id="btn_mbr_list" src="<%= ctxPath%>/resources/images/menuuser.png" />
+			<img class="menuimg" id="btn_talkroom_list" src="<%= ctxPath%>/resources/images/chat.png" />
+			<%-- <img id = "x" src="<%= ctxPath%>/resources/images/x.png" style="margin-top:8px; margin-left:8px; width: 25px; height: 25px; float: right;"/>
+			<img id = "plus" src="<%= ctxPath%>/resources/images/+.png" style="margin-top:8px; margin-left:8px; width: 25px; height: 25px; float: right;"/> --%>
 		</div>
 		
 		<form name="searchFrm">
@@ -109,7 +190,7 @@ String ctxPath = request.getContextPath();
 		    </div>
 		</form>
 		
-		<div class="tflist">
+		<div class="tflist" id="mbr_list">
 			<c:forEach var="membervo" items="${requestScope.memberList}" varStatus="status"> 
 				<div class="memberList">
 					<div class="constatus">
@@ -131,10 +212,12 @@ String ctxPath = request.getContextPath();
 					<div class="userinfobottom2" >
 						<span class="dept">${membervo.dept_detail}</span>
 					</div>
-					
-					
 				</div>
-			</c:forEach> 
+			</c:forEach>
+		</div>
+		
+		<div class="tflist" id="talkroom_list">
+			
 		</div>
 		
 	</div>

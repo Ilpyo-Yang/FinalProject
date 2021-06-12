@@ -3,9 +3,9 @@ package com.spring.groupware.sns.service;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 
 import com.spring.groupware.member.model.MemberVO;
+import com.spring.groupware.sns.model.TalkroomVO;
 
 public interface IntersnsMemberService {
 
@@ -20,6 +20,13 @@ public interface IntersnsMemberService {
 
 	// 상태수정하기
 	int statuschange(MemberVO membervo);
+
+	/*
+	 * // 채팅방 리스트가져오기 List<TalkroomVO> getTalkroomlist(String fk_mbr_id);
+	 */
+
+	// 접속시 유저 온라인 상태로 만들기
+	int onlinestatus(MemberVO membervo);
 
 	
 

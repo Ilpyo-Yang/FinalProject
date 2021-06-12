@@ -29,10 +29,11 @@ div.input-group {
 
 div.tflist {
 	<!--border: 1px solid green;-->
-	width:400px;
-	height: 395px;
+	width:415px;
+	height: 412px;
 	display:inline-block;
 	overflow:auto;
+	background-color: white;
 }
 
 div.userinfoside {
