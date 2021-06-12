@@ -124,7 +124,7 @@
 		
 		// 수정해야할 부분
 		$(document).on("cilck", "input.checkedMember", function(){	// 결재라인이 모두 선택된 경우 모두 선택/해제 체크박스 체크설정하기
-			console.log("하하");
+			
 			if($("input.checkedMember:checked").length == $("input.checkedMember").length){ 
 				$("input#allRightCheckbox").prop("checked",true);
 			} else {

@@ -41,11 +41,8 @@
 		
 		// 첨부파일 목록 보여주기
 		$("input[type=file]").change(function(){
-			delIndex=[];
-			$("index[name=delIndex").html(delIndex);
-			
 			fileCnt = document.getElementById("attach").files.length;
-			$("input[name=file]").html(fileCnt);
+			$("input[name=file]").val(fileCnt);
 			
 			var files = document.getElementById("attach").files;
 	        var file;
@@ -87,18 +84,15 @@
 	}); // end of $(document).ready(function(){})---------------------------------------
 	
 	
-	function func_attach() {	// input 파일업로드를 button 대체
+	function func_attach() {
 		 $("input[name=attach]").click();	
 	}// end of function func_attach() ------------------------------------------
 	
 	
-	var delIndex=[];	// 부분삭제 파일인덱스 배열
-	
-	function func_delFile(id) {	// 첨부파일 부분삭제하기
+	function func_delFile(id) {
 		 $("span#"+id).remove();
-		 delIndex.push(id);
-		 
-		 $("index[name=delIndex").html(delIndex);
+		 var files = document.getElementById("attach").files;
+		 files.splice(Number(id),1);
 	}// end of function func_delFile(this.id) ---------------------------------------
 	
 </script>
@@ -179,9 +173,7 @@
 				<input type="hidden" name="ap_approver" />
 				<input type="hidden" name="ap_manage_approver" />
 				<input type="hidden" name="ap_referrer" />
-				
-				<input type="hidden" name="file" />
-				<input type="hidden" name="delIndex" />
+				<input type="text" name="file" />
 				
 			</div>
 		</form>
