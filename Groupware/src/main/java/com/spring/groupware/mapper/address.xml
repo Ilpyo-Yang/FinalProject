@@ -13,6 +13,21 @@
    				#{mbr_birthday}, #{postcode}, #{address}, #{detailaddress}, #{addrmemo})
      </insert>
 
+   	 <!-- === 사원번호로 등록할 주소록 사원 검색 === -->  
+   	 <select id="searchMbr" parameterType="String" resultType="com.spring.groupware.member.model.MemberVO">
+	   	select mbr_seq, mbr_id, mbr_name, mbr_email,mbr_phone_number, mbr_birthday, rank_detail, dept_detail
+		from 
+			(        
+			select mbr_seq, mbr_id, mbr_name, mbr_email,mbr_phone_number, mbr_birthday, fk_rank_no, fk_dept_no
+			from tbl_mbr
+			)A left join tbl_dept B
+			on fk_dept_no = dept_no
+			join tbl_rank CS
+			on fk_rank_no = rank_no
+		where mbr_seq=#{mbr_seq}
+
+   	 </select> 
+
    	 <!-- === 총 주소록 건수(totalCount) === --> 
    	 <select id="getAddrTotalCount" parameterType="HashMap" resultType="int">
    	 	select count(*)

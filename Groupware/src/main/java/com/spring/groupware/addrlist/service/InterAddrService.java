@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.spring.groupware.addrlist.model.AddrGroupVO;
 import com.spring.groupware.addrlist.model.AddrVO;
+import com.spring.groupware.member.model.MemberVO;
 
 public interface InterAddrService {
 
@@ -14,6 +15,9 @@ public interface InterAddrService {
 	
 	// 주소록 작성
 	int add(AddrVO addrvo);
+	
+	// 사원번호로 등록할 주소록 사원 검색
+	List<MemberVO> searchMbr(String mbr_seq);
 
 	// 전체 주소록 개수
 	int getTotalCount(Map<String, String> paraMap);
@@ -66,6 +70,7 @@ public interface InterAddrService {
 
 	// 주소록 그룹 삭제
 	int delAddrgroup(Map<String, String> paraMap);
+
 
 
 	

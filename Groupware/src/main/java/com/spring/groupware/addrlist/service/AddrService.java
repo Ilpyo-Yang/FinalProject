@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.spring.groupware.addrlist.model.AddrGroupVO;
 import com.spring.groupware.addrlist.model.AddrVO;
 import com.spring.groupware.addrlist.model.InterAddrDAO;
+import com.spring.groupware.member.model.MemberVO;
 
 @Component
 @Service
@@ -28,6 +29,13 @@ public class AddrService implements InterAddrService {
 	public int add(AddrVO addrvo) {
 		int n = adao.add(addrvo);
 		return n;
+	}
+
+	// === 사원번호로 등록할 주소록 사원 검색 === //
+	@Override
+	public List<MemberVO> searchMbr(String mbr_seq) {
+		List<MemberVO> searchMbrList = adao.searchMbrList(mbr_seq);
+	    return searchMbrList;
 	}
 	
 	// === 총 주소록 수 === //

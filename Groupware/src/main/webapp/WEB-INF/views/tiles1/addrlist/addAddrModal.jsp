@@ -148,8 +148,9 @@
 	function searchMbr(){
 		
 		var mbr_seq = $("input#mbrSeq").val();
+		var url = "<%=ctxPath%>/searchMbr.opis?mbr_seq="+mbr_seq;
 		
-		location.href="<%=ctxPath%>/searchMbr.opis?mbr_seq="+mbr_seq;
+		var popup = window.open(url,'searchMbr','top=100, left=500, width=450px, height=400px, scrollbars=yes');
 		
 	}// end of function searchMbr()-----------------------------------------------------
 	
@@ -180,7 +181,7 @@
 		<th>사원번호</th>
    		<td>
    			<input type="text" name="mbr_seq" id="mbrSeq" placeholder="사원번호" class="short"/>
-   			&nbsp;&nbsp;<button type="button" id="searchMbr" onclick="searchMbr()">검색</button>
+   			&nbsp;&nbsp;<a onclick="searchMbr()"><button type="button">검색</button></a>
    		</td>		
    </tr>      
    <tr>

@@ -64,6 +64,29 @@ public class AddrController {
  	  return mav;
    }
    
+   // === 사원번호로 등록할 주소록 사원 검색 === //
+   @RequestMapping(value="/searchMbr.opis")
+   public ModelAndView searchMbrList(HttpServletRequest request, ModelAndView mav) {
+	   
+	   List<MemberVO> searchMbrList = null; 
+	   
+	   String mbr_seq = request.getParameter("mbr_seq");
+//	   System.out.println("확인용 mbr_seq : "+mbr_seq);
+	   
+	   try {
+		   searchMbrList = service.searchMbr(mbr_seq);
+	   } catch (NumberFormatException e1) {
+		   e1.printStackTrace();
+	   } catch (Exception e2) {
+		   e2.printStackTrace();
+	   } 
+	   
+	   mav.addObject("searchMbrList", searchMbrList);
+	   mav.setViewName("tiles1/addrlist/searchMbr");
+	   
+	   return mav;
+   }
+   
    // === 주소록 목록 === //
    @RequestMapping(value="/totaladdrlist.opis")
    public ModelAndView requiredLogin_addrlist(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {

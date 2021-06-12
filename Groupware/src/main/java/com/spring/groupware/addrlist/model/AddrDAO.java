@@ -9,6 +9,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import com.spring.groupware.member.model.MemberVO;
+
 @Component
 @Repository
 public class AddrDAO implements InterAddrDAO {	
@@ -33,6 +35,13 @@ public class AddrDAO implements InterAddrDAO {
 	public int add(AddrVO addrvo) {
 		int n =  sqlsession.insert("address.addrAdd", addrvo);
 		return n;
+	}
+	
+	// === 사원번호로 등록할 주소록 사원 검색 === //
+	@Override
+	public List<MemberVO> searchMbrList(String mbr_seq) {
+		List<MemberVO> searchMbrList = sqlsession.selectList("address.searchMbr", mbr_seq);
+		return searchMbrList;
 	}
 	
 	// === 총 등록 주소록 수 === //
@@ -143,8 +152,6 @@ public class AddrDAO implements InterAddrDAO {
 		int n = sqlsession.delete("address.delAddrgroup", paraMap);		
 		return n;
 	}
-
-
 
 
 
