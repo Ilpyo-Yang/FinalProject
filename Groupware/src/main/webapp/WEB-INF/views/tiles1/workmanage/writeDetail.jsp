@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
+<% String ctxPath = request.getContextPath(); %>
 
 <style type="text/css">
 #processBtn > button {
@@ -19,94 +20,60 @@
 			});
 			
 			$(this).css({"background-color": "#ffcccc"});
+			$("input[name=workPercent]").val($(this).val());
 		});
+		
+		// 버튼 숨겨두기
+		$("#processBtn > button").hide();
+		$("textarea[name=contents]").hide();
 	});
+	
+	
 </script>
 
-<%-- 업무요청 처리내역 --%>
-<c:if test="${fk_wtno == 1}">
-	<form id="workRegFrm">
-		<table class="table table-striped workShowtable">
-			<thead>
-				<tr>
-					<th>처리내역</th>
-					<th colspan="3" style="text-align: right;">
-						<button type="button" class="workStatus" style="background-color: #66ccff; font-weight: normal;">처리중 40%</button>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>담당자</td>
-					<td>${wmvo.fk_receiver_seq}</td>
-					
-					<td>최종수정일</td>
-					<td>2020.01.13 12:10</td>
-				</tr>
+
+
+<form name="workRegFrm">
+	<table class="table table-striped workShowtable">
+		<thead>
+			<tr style="background: #f2f2f2;">
+				<th colspan="4">처리내역</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>수신자</td>
+				<td>${sessionScope.loginuser.mbr_name}</td>
+				
+				<td>최종수정일</td>
+				<td id="lasteditdate"></td>
+			</tr>
+			<c:if test="${fk_wtno == 1}">
 				<tr>
 					<td>진척률</td>
 					<td colspan="3" id="processBtn">
-						<button type="button">0%</button>
-						<button type="button">20%</button>
-						<button type="button">40%</button>
-						<button type="button">60%</button>
-						<button type="button">80%</button>
-						<button type="button">100%</button>
+						<button type="button" value="0">0%</button>
+						<button type="button" value="20">20%</button>
+						<button type="button" value="40">40%</button>
+						<button type="button" value="60">60%</button>
+						<button type="button" value="80">80%</button>
+						<button type="button" value="100">100%</button>
+						<span id="processText"></span>
 					</td>
 				</tr>
-				<tr>
-					<td>내용</td>
-					<td colspan="3"><textarea cols="70" rows="5"></textarea></td>
-				</tr>
-				
-				<tr id="workShwoBtn">
-				<td colspan="4">
-					<button type="button" onclick="submitWorkRegFrm()">처리</button>
-					<button type="button" >목록</button>
+			</c:if>
+			<tr>
+				<td>내용</td>
+				<td colspan="3">
+					<textarea cols="70" rows="5" name="contents" readonly="readonly"></textarea>
+					<span id="contentsText">처리내역이 없습니다.</span>
 				</td>
 			</tr>
-			</tbody>
-		</table>
-	</form>
-</c:if>
-	
-<%-- 업무보고 처리내역 --%>
-<c:if test="${fk_wtno == 2}">
-	<form id="workRegFrm">
-		<table class="table table-striped workShowtable">
-			<thead>
-				<tr>
-					<th>확인내역</th>
-					<th style="text-align: right;" colspan="3">
-						<button type="button" class="workStatus" style="background-color: #66ccff; font-weight: normal;">처리중 40%</button>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>수신자</td>
-					<td>${wmvo.fk_receiver_seq}</td>
-					
-					<td style="background-color: white;"></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>최종수정일</td>
-					<td colspan="3">2020.01.13 12:10</td>
-				</tr>
-				<tr>
-					<td>의견</td>
-					<td colspan="3"><textarea cols="70" rows="5"></textarea></td>
-				</tr>
-				
-				<tr id="workShwoBtn">
-				<td colspan="4">
-					<button type="button" onclick="submitWorkRegFrm()">수정</button>
-					<button type="button" >삭제</button>
-					<button type="button" >목록</button>
-				</td>
-			</tr>
-			</tbody>
-		</table>
-	</form>
-</c:if>    
+		</tbody>
+	</table>
+	<input type="hidden" name="workPercent" />
+	<input type="hidden" name="workmbr_seq"/>
+	<input type="hidden" name="gobackWorkDetilURL" value="${requestScope.gobackWorkDetilURL}"/>
+</form>
+
+	 

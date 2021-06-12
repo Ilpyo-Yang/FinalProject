@@ -6,10 +6,15 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.groupware.member.model.MemberVO;
 import com.spring.groupware.workmanage.model.InterWorkmanageDAO;
 import com.spring.groupware.workmanage.model.TodoVO;
+import com.spring.groupware.workmanage.model.WorkFileVO;
+import com.spring.groupware.workmanage.model.WorkMemberVO;
 import com.spring.groupware.workmanage.model.WorkVO;
 
 @Component
@@ -41,16 +46,40 @@ public class WorkmanageService implements InterWorkmanageService {
 	}
 
 	
-	// == 업무(요청,보고) 등록하기   == //
+	// == 업무(요청,보고) 등록하기 트랜잭션 처리  == //
 	@Override
-	public int workAddEnd(WorkVO workvo) {
-		int n = dao.workAddEnd(workvo);
-		return n;
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
+	public int workAddEnd(WorkVO workvo, List<WorkMemberVO> workmbrList, List<WorkFileVO> fileList) {
+		int n = dao.workAddEnd(workvo); // 업무테이블에 업무 정보 insert 
+		int m = 0, k = 1;
+		
+		// 업무관련 회원테이블에 정보 insert
+		if (n == 1) {	 
+			for (WorkMemberVO workmbr: workmbrList) {
+				workmbr.setFk_wmno(workvo.getWmno());
+				m = dao.workAddMember(workmbr);
+				
+				if (m == 0) break;
+			}
+			
+			// 첨부파일이 있을 때 첨부파일 테이블에 파일 insert
+			if (m != 0 && fileList.get(0).getFileName() != null) {
+				for (WorkFileVO filevo : fileList) {
+					k = dao.workAddFile(filevo);
+					
+					if (k == 0) break;
+				}
+			}
+		}
+		
+		return n*m*k;
 	}
 
 	// == 업무 리스트(요청,보고) 보여주기 == // 
 	@Override
 	public List<WorkVO> workList(Map<String, String> paraMap) {
+		dao.updateWorkStatusByTime(paraMap); // 마감 지난 업무상태 변경하기
+		
 		List<WorkVO> workList = dao.workList(paraMap);
 		return workList;
 	}
@@ -64,15 +93,23 @@ public class WorkmanageService implements InterWorkmanageService {
 
 	// == 페이징 처리 - 총 게시물 건수 가져오기 == //
 	@Override
-	public int getTotalCount(Map<String, String> paraMap) {
+	public int getTotalCount(Map<String, Object> paraMap) {
 		int n = dao.getTotalCount(paraMap);
 		return n;
 	}
 
 	// == 선택한 업무(요청,보고) 상세 보기  == //
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
 	public WorkVO showDetailWork(Map<String, String> paraMap) {
 		WorkVO workvo = dao.showDetailWork(paraMap);
+		
+		// 수신함에 있는 업무를 클릭해서 보게될 경우 읽은 날짜로 업데이트 해주기 
+		String fk_wrno = paraMap.get("fk_wrno");
+		if ("2".equals(fk_wrno)) {
+			dao.updateReadcheckdate(paraMap);
+		}
+		
 		return workvo;
 	}
 
@@ -83,4 +120,97 @@ public class WorkmanageService implements InterWorkmanageService {
 		return memberList;
 	}
 
+	// 채번 해오기
+	@Override
+	public String getWorkno() {
+		String wmno = dao.getWorkno();
+		return wmno;
+	}
+
+	// 담당자들의 업무 정보 가져오기
+	@Override
+	public List<WorkMemberVO> getWorkStatusEachMember(String wmno) {
+		List<WorkMemberVO> workmbrList = dao.getWorkStatusEachMember(wmno);
+		return workmbrList;
+	}
+
+	// 업무 수정하기 및 수정일자 업데이트 하기
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
+	public int workEditEnd(WorkVO workvo, Map<String,String> paraMap, List<WorkFileVO> fileList) {
+		int n = dao.workEditEnd(workvo);
+		int m = 0, k = 1;
+		
+		if (n == 1) {
+			m = dao.updateLasteditdate(paraMap);
+			
+			// 첨부파일이 있을 때 첨부파일 테이블에 파일 insert
+			if (m != 0 && fileList.get(0).getFileName() != null) {
+				for (WorkFileVO filevo : fileList) {
+					k = dao.workAddFile(filevo);
+					
+					if (k == 0) break;
+				}
+			}
+		}
+		
+		return n*m;
+	}
+
+	// 업무 삭제하기
+	@Override
+	public int workDel(Map<String, Object> paraMap) {
+		int n = dao.workDel(paraMap);
+		return n;
+	}
+
+	// 담당자 한명의 업무 정보 가져오기
+	@Override
+	public WorkMemberVO oneMbrWorkStatus(Map<String, String> paraMap) {
+		WorkMemberVO workmbr = dao.oneMbrWorkStatus(paraMap);
+		return workmbr;
+	}
+
+	// 페이징 처리한 글 목록 가져오기(검색이 있든지, 없든지 모두 다)
+	@Override
+	public List<WorkVO> workListSearchWithPaging(Map<String, Object> paraMap) {
+		List<WorkVO> workList = dao.workListSearchWithPaging(paraMap);
+		return workList;
+	}
+
+	// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
+	@Override
+	public int workStatusChangeToComplete(Map<String, Object> paraMap) {
+		
+		int n = dao.workStatusChangeToComplete(paraMap);
+		return n;
+	}
+
+	// 첨부파일 정보 가져오기
+	@Override
+	public List<WorkFileVO> getWorkFile(Map<String, String> paraMap) {
+		List<WorkFileVO> fileList = dao.getWorkFile(paraMap);
+		return fileList;
+	}
+
+	// 담당자들의 읽음확인 정보 가져오기
+	@Override
+	public List<WorkMemberVO> workmbrReadcheckdate(String wmno) {
+		List<WorkMemberVO> workmbrList = dao.workmbrReadcheckdate(wmno);
+		return workmbrList;
+	}
+
+	// 수신자 업무 처리내역 등록하기
+	@Override
+	public int receiverWorkAdd(WorkMemberVO workmbrvo) {
+		int n = dao.receiverWorkAdd(workmbrvo);
+		return n;
+	}
+
+	// 수신자 업무 처리내역 수정하기
+	@Override
+	public int receiverWorkEdit(WorkMemberVO workmbrvo) {
+		int n = dao.receiverWorkEdit(workmbrvo);
+		return n;
+	}
 }

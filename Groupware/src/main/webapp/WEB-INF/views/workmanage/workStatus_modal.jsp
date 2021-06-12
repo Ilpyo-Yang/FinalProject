@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/workmanage.js"></script>
 
 <style type="text/css">
 li {
@@ -20,9 +22,22 @@ button {
 	
 </style>
 
+<script type="text/javascript">
+	$(document).ready(function() {
+		
+		$("button.workStatus").each(function(index, item){
+			var delayday = ${requestScope.paraMap.delayday};
+			setworkStatusBtn(item, delayday)
+		});
+		
+		setworkStatusMbrBtn();
+	});
+</script>
+
 <div class="container">
+	
 	<ul style="list-style: none; padding: 0;">
-		<li>■ 업무상태 : <button type="button" class="workStatus" style="background-color: #ff3300; ">지연<span>+2</span></button></li>
+		<li>■ 업무상태 : <button type="button" class="workStatus" value="${requestScope.paraMap.fk_statno}"></button></li>
 		<li>■ 담당자 별 처리 현황</li>
 	</ul>    
 	
@@ -35,16 +50,13 @@ button {
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>${requestScope.paraMap.receiver}</td>
-				<td></td>
-				<td><button type="button" class="workStatus" style="background-color: white; border: 1px solid; color: black;">완료</button></td>
-			</tr>
-			<tr>
-				<td>이용우 사장</td>
-				<td>2020.01.11</td>
-				<td><button type="button" class="workStatus" style="background-color: #ff3300; border: 1px solid ">처리중 40%</button></td>
-			</tr>
+			<c:forEach var="workmbr" items="${requestScope.workmbrList}">
+				<tr>
+					<td>${workmbr.mbr_name}</td>
+					<td>${workmbr.lasteditdate}</td>
+					<td><button type="button" class="workStatusMbr" value="${workmbr.workPercent}"></button></td>
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
 </div>

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.spring.groupware.member.model.MemberVO;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -33,7 +34,7 @@ public class ApprovalDAO implements InterApprovalDAO {
 		return memberList;
 	}
 
-	// 첨부파일 없는 결재요청
+	// 결재요청 정보 저장하기
 	@Override
 	public int submitApproval(ApprovalVO avo) {
 		int n = sqlsession.insert("approval.submitApproval", avo);
@@ -42,13 +43,34 @@ public class ApprovalDAO implements InterApprovalDAO {
 
 	// 첨부파일 있는 결재요청
 	@Override
-	public int submitAttachedApproval(ApprovalVO avo) {
-		int n1 = sqlsession.insert("approval.submitApproval", avo);
-		int n2 = sqlsession.insert("approval.submitAttachedApproval", avo);
-		
+	public int submitAttachedApproval(List<Map<String, String>> fileInfoList) {
 		int n=0;
-		if(n1==1 && n2==1) n=1;
+		for (int i=0; i<fileInfoList.size(); i++) {
+			n = sqlsession.insert("approval.submitAttachedApproval", fileInfoList.get(i));
+			if(n!=1) break;
+		}
 		return n;
+	}
+
+	// 결재대기 문서 가져오기
+	@Override
+	public List<ApprovalVO> getApprovalNeededList(String managePerson) {
+		List<ApprovalVO> approvalList = sqlsession.selectList("approval.getApprovalNeededList", managePerson);
+		return approvalList;
+	}
+
+	// 결재요청한 문서 가져오기
+	@Override
+	public List<ApprovalVO> getApprovalSubmitList(String fk_mbr_seq) {
+		List<ApprovalVO> approvalList = sqlsession.selectList("approval.getApprovalSubmitList", fk_mbr_seq);
+		return approvalList;
+	}
+
+	// 결재참조된 문서 가져오기
+	@Override
+	public List<ApprovalVO> getApprovalReferredList(String managePerson) {
+		List<ApprovalVO> approvalList = sqlsession.selectList("approval.getApprovalReferredList", managePerson);
+		return approvalList;
 	}
 	
 

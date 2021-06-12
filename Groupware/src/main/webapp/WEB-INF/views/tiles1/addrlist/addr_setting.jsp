@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath = request.getContextPath(); %>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,15 +12,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://kit.fontawesome.com/16816a49c3.js" crossorigin="anonymous"></script>
+  
   
   <jsp:include page="./addr_sidebar.jsp" />
-
+  
 	<script type="text/javascript">
 
 	$(document).ready(function(){
-		
+		console.log("addr_setting");
 	}); // end of $(document).ready(function(){})---------------------------------------
 
 	function goAdd(){
@@ -48,11 +50,17 @@
 		
 	}// end of function goAdd()----------------------------------------	
 	
+	function goEditGroup(addrgroup_seq){
+		
+		
+		
+	}// end of function goEditGroup(addrgroup_seq)---------------------
+	
 	function goDelete(addrgroup_seq){
 		if(confirm("정말로 삭제하시겠습니까? 삭제한 주소록은 복구 불가능합니다.")==true){
         	location.href="<%=ctxPath%>/addrgroup_delEnd.opis?addrgroup_seq="+addrgroup_seq;
     	}
-	}
+	}// end of function goDelete(addrgroup_seq)------------------------
 	
 </script>
 </head>
@@ -65,10 +73,10 @@
 	&nbsp;&nbsp;개인 주소록 관리
 	</div>
 	
-	<div class="container" style="float: right; width: 80%; margin-top: 50px;">        
+	<div class="container" style="float: right; width: 80%; margin-top: 50px; font-size: 14px;">        
 
   		<!-- 등록 -->
-		<form name="addAddrGRFrm" style="margin-top: 20px;">
+		<form name="addAddrGRFrm" style="margin: 0 0 40px 0;">
 		  <span>추가&nbsp;&nbsp;</span>	
 		  <input type="hidden" name="fk_mbr_seq" id="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}" />
 	      <input type="text" name="groupname" id="groupname" size="20" placeholder="그룹명" /> 
@@ -79,10 +87,10 @@
 		<!-- 본문(게시판) -->
 		<table class="table table-striped">
 		    <thead>
-		      <tr>
-		        <th style="width: 15%; text-align: center;">그룹명</th>
-		        <th style="width: 35%; text-align: center;">그룹설명</th>
-		        <th style="width: 10%; text-align: center;">수정/삭제</th>
+		      <tr style="text-align: center;">
+		        <th style="width: 7%;">그룹명</th>
+		        <th style="width: 20%;">그룹설명</th>
+		        <th style="width: 5%;">수정/삭제</th>
 		      </tr>
 		    </thead>
 		    <tbody>
@@ -90,22 +98,24 @@
 		    
 			    	<c:if test="${not empty addrgroupvo.addrgroup_seq}">
 			      	<tr>
-						<td>
-							<span class="name">${addrgroupvo.groupname}</span>
+						<td style="text-align: center;">
+							<span class="name">${addrgroupvo.groupname}</span>&nbsp;&nbsp;
+							<span style="font-size: 7px; color: #3d5c5c;" onclick="javascript:location.href='<%=ctxPath%>/myAddrlist.opis?addrgroup_seq='+${addrgroupvo.addrgroup_seq}"><i class="fas fa-search fa-2x"></i></span>
+
 						</td>
 						<td>
-							<span class="detail">${addrgroupvo.groupdetail}</span>
+							<span class="detail" style="text-align: left;">${addrgroupvo.groupdetail}</span>
 						</td>  
 						<td style="text-align: center;">
-							<button type="button">수정</button>&nbsp;
-							<button type="button" onclick="goDelete(${addrgroupvo.addrgroup_seq})">삭제</button>
+							<button type="button" onclick="goEditGroup('${addrgroupvo.addrgroup_seq}')">수정</button>
+							<button type="button" onclick="goDelete('${addrgroupvo.addrgroup_seq}')">삭제</button>
 						</td>	
 			      	</tr>		
 			      	</c:if>
 				</c:forEach>
 		    </tbody>
 		</table>
-	  
+		
 		<!-- 페이지바 -->  
 		<div align="center" style="width: 70%; border: solid 0px gray; margin: 20px auto;">
 	   		${requestScope.pageBar}

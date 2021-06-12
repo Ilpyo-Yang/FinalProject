@@ -14,7 +14,7 @@
 <jsp:include page="./workmanage_sidebar.jsp" />
 
 <style type="text/css">
-div#diplayList {
+div#displayList {
 	border: solid 1px gray;
 	border-top: 100;
 	width: 206px;
@@ -25,10 +25,53 @@ div#diplayList {
 	z-index: 1000;
 	background-color: white;
 }
+.receiverName {
+	width: 80px;
+}
+
+.close {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 0%;
+  /* padding: 12px 16px; */
+  transform: translate(0%, -50%);
+}
+.close:hover {background: #bbb;}
+
+ul#setmbrList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+}
+
+ul#setmbrList li.receiverName {
+  border: 1px solid #ddd;
+  margin-top: -1px; /* Prevent double borders */
+  margin-right: 5px;
+  background-color: #f6f6f6;
+  /* padding: 12px; */
+  text-decoration: none;
+  /* font-size: 18px; */
+  color: black;
+  display: inline-block;
+  position: relative;
+}
+
+ul#setmbrList li.receiverName:hover {
+  background-color: #eee;
+}
 </style>
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		
+		$("input[name=fk_wtno]").each(function(index, item){
+			if (index == "${fk_wtno}") {
+				$(item).attr("checked",true);
+			}
+		});
 		
 		$("#datepicker_deadline").datepicker({
 			showOn : "button",
@@ -38,13 +81,13 @@ div#diplayList {
 			dateFormat: 'yy-mm-dd'
 		});
 
-		var checkRadio = $("input[name=workType]:checked");
+		var checkRadio = $("input[name=fk_wtno]:checked");
 		onlyWorkInput(checkRadio);
 		
 		<%-- === #107. 검색어 입력시 자동글 완성하기 2 === --%>
 		$("div#displayList").hide();
 		
-		$("input#searchWord").keyup(function(){
+		$("input#searchWord").keyup(function(event){
 			var wordlen = $(this).val().trim().length;
 			
 			if (wordlen == 0) {
@@ -76,7 +119,7 @@ div#diplayList {
 								
 								word = word.substr(0,index) + "<span style='color:blue;'>"+ word.substr(index,len) +"</span>" + word.substr(index+len);
 								
-								html += "<span style='cursor:pointer;' class='word'>"+ word +"</span><br>";
+								html += "<span style='cursor:pointer;' class='word'>"+ word +"</span><span hidden>"+item.seq+"</span><br>";
 							});
 							$("div#displayList").html(html);
 							$("div#displayList").show();
@@ -87,18 +130,47 @@ div#diplayList {
 	                }
 				});
 			}
+			
 		});
 		
-		<%-- === #113. 검색어 입력시 자동글 완성하기 8 === --%>
+		<%-- === 검색어 입력시 자동글 완성하기 === --%>
 		$(document).on("click", "span.word", function(){
-			$("input#searchWord").val($(this).text()); 
 			// 텍스트박스에 검색된 결과의 문자열을 입력해준다.
+			var html = "";
+			html += '<li type="text" class="receiverName">'+$(this).text();
+			html += '<input type="hidden" class="receiverName" value="'+$(this).text()+'"/>';
+			html += '<input type="hidden" class="receiverSeq" value="'+$(this).next().text()+'"/>';
+			html += '<span class="close" onclick="nameDel(this);">&times;</span></li>';
+			$("ul#setmbrList").append(html);
 			
+			$("input#searchWord").val("").focus();
 			$("div#displayList").hide();
-			goSearch();
 		});
+		
+		
+		// 파일첨부 숨기기
+		$("input[name=attach]").hide();
+		
+		// 첨부파일 목록 보여주기
+		$("input[type=file]").change(function(){
+			var files = document.getElementById("attach").files;
+	        var file;
+	        
+	        $("div#attachedFile").html("");
+	        
+	        for (var i=0; i<files.length; i++) { 
+	            file = files[i];
+	            $("div#attachedFile").append('<span>'+file.name+'&nbsp;&nbsp;</span><br>');
+	        }
+		});
+		
 		
 	});
+	
+	function nameDel(item) {
+		$(item).parent().remove();
+	} 
+	
 	
 	// == 업무 요청, 업무 보고 일 경우에만 담당자, 참조자  input 보여주기 == //
 	function onlyWorkInput(item) {
@@ -129,26 +201,26 @@ div#diplayList {
 		}
 		
 		// 담당자
-		var workType = $("input[name=workType]:checked").val();
-		if (workType != 0) {
-			var manager = $("input[name=fk_receiver_seq]").val().trim();
+		var fk_wtno = $("input[name=fk_wtno]:checked").val();
+		if (fk_wtno != 0) {
+			var rcvlen = $("input.receiverName").length;
 			
-			if (manager == "") {
-				alert("담당자를 입력하세요");
+			if (rcvlen == 0) {
+				alert("담당자를 한명 이상 지정해주세요");
 				return;
 			}
 		}
 		
-		$("input[name=fk_wtno]").val(workType); // DB 컬럼명이랑 맞추기
+		//$("input[name=fk_wtno]").val(fk_wtno); // DB 컬럼명이랑 맞추기
 		
-		if (workType == 1) {
+		if (fk_wtno == 1) {
 			$("input[name=fk_statno]").val("1");
 		}
-		else if (workType == 2) {
+		else if (fk_wtno == 2) {
 			$("input[name=fk_statno]").val("3");
 		}
 		
-		if (workType == 0) submitTodoRegFrm(); 
+		if (fk_wtno == 0) submitTodoRegFrm(); 
 		else submitWorkRegFrm();
 	}
 	
@@ -164,21 +236,31 @@ div#diplayList {
 	// == 업무 정보 폼 전송하기 == //
 	function submitWorkRegFrm() {
 		// reciever의 name, seq 문자열로 보내기
-		var receiverNames = "";
-		var receiverSeqs = "";
+		var receiverNames = [];
+		var receiverSeqs = [];
 		
-		$("input.receiverName").each(function(item, index, array){
-			receiverNames += $(item).val() + ",";
-			receiverSeqs += $(item).val() + ",";
+		$("input.receiverName").each(function(index, item){
+			receiverNames.push($(item).val());
+		});
+		$("input.receiverSeq").each(function(index, item){
+			receiverSeqs.push($(item).val());
 		});
 		
-		$("input[name=receivers]").val(receiverNames);
-		$("input[name=receivers]").val(receiverSeqs);
+		$("input[name=receivers]").val(receiverNames.join());
+		$("input[name=receiverSeqs]").val(receiverSeqs.join());
+		
+		$("input[name=referrers]").val('');
+		$("input[name=referrerSeqs]").val();
 		
 		var frm = document.workRegFrm;
 		frm.action = "<%=ctxPath%>/workAddEnd.opis";
 		frm.method = "post";
 		frm.submit();
+	}
+	
+	// 파일업로드 버튼클릭시
+	function func_attach() {
+		 $("input[name=attach]").click();	
 	}
 </script>
 
@@ -187,7 +269,7 @@ div#diplayList {
 	
 	<br>
 	
-	<form name="workRegFrm">
+	<form name="workRegFrm" enctype="multipart/form-data">
 		<table class="table table-striped workRegtable">
 			<tbody>
 				<tr>
@@ -197,13 +279,13 @@ div#diplayList {
 				<tr>
 					<td><span class="star">*</span>업무형태</td>
 					<td>
-						<input type="radio" id="mytodo" value="0" name="workType" onclick="onlyWorkInput(this);" checked="checked"/> 
+						<input type="radio" id="mytodo" value="0" name="fk_wtno" onclick="onlyWorkInput(this);"/> 
 						<label for="mytodo">나의 할일</label> 
 							
-						<input type="radio" id="workRequest" value="1" name="workType" onclick="onlyWorkInput(this);"/> 
+						<input type="radio" id="workRequest" value="1" name="fk_wtno" onclick="onlyWorkInput(this);"/> 
 						<label for="workRequest">업무 요청</label>
 	
-						<input type="radio" id="workReport" value="2" name="workType" onclick="onlyWorkInput(this);"/>
+						<input type="radio" id="workReport" value="2" name="fk_wtno" onclick="onlyWorkInput(this);"/>
 						<label for="workReport">업무 보고</label>
 					</td>
 				</tr>
@@ -215,35 +297,28 @@ div#diplayList {
 				<tr class="onlyWorkInput">
 					<td><span class="star">*</span>담당자</td>
 					<td>
-						<div>
-							<input type="hidden" name="receivers" /><input type="hidden" name="receiversSeq" />
-							
-							<input type="text" class="receiverName" value="김고양"/><input type="hidden" class="receiverSeq" value="65"/>
-							<input type="text" class="receiverName" value="김초코"/><input type="hidden" class="receiverSeq" value="51"/>
-							<input type="text" class="receiverName" value="김산타"/><input type="hidden" class="receiverSeq" value="68"/>
-						</div>
 						<input type="text" id="searchWord" name="searchWord" placeholder="사용자"  autocomplete="off" />
+						<ul id="setmbrList"></ul>
 						<div id="displayList"></div>
 					</td>
 				</tr>
 				
-				<!-- <tr>
-					<td><span class="star">*</span>담당자</td>
-					<td>
-						<div class="autocomplete" style="width:300px;">
-		    				<input id="myInput" type="text" name="Receiver" placeholder="사용자">
-		  				</div>
-  					</td>
-  				</tr> -->
-				
 				<tr class="onlyWorkInput">
 					<td>참조자</td>
-					<td><input name="fk_referrer_seq" placeholder="사용자" /></td>
+					<td>
+						
+						<input name="fk_referrer_seq" placeholder="사용자" />
+					</td>
 				</tr>
 			
 				<tr>
 					<td>파일 업로드</td>
-					<td><button name="addfile" type="button">파일추가</button></td>
+					<td>
+						<!-- <input multiple="multiple" type="file" name="attach" /> -->
+						<input type="file" name="attach" id="attach" name="attach" multiple />
+						<button type="button" class="btn btn-success formBtn" id="attachBtn" onclick="func_attach()" >파일업로드</button>			
+						<div id="attachedFile"></div>
+					</td>
 				</tr>
 				<tr>
 					<td>내용</td>
@@ -257,12 +332,12 @@ div#diplayList {
 				</tr>
 			</tbody>
 		</table>	
-		
-		<input type="hidden" name="workRole" value="1"/>
-		<input type="hidden" name="fk_wtno" />
+		<input type="hidden" name="requester" value="${sessionScope.loginuser.mbr_name}"/><input type="hidden" name="requesterSeq" value="5"/>
+		<input type="hidden" name="receivers" /><input type="hidden" name="receiverSeqs" />
+		<input type="hidden" name="referrers" /><input type="hidden" name="referrerSeqs" />
+		<input type="hidden" name="fk_wrno" value="1"/>
+		<!-- <input type="hidden" name="fk_wtno" /> -->
 		<input type="hidden" name="fk_statno" />
-		<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}"/><!-- 나의 할 일 등록할 때 사용 -->
-		<input type="hidden" name="fk_requester_seq" value="${sessionScope.loginuser.mbr_seq}"/><!-- 업무 요청,보고할 때 사용 -->
 	</form>
 </div>
 

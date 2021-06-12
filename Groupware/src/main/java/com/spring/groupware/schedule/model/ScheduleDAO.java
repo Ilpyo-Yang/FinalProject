@@ -32,6 +32,13 @@ public class ScheduleDAO implements InterScheduleDAO {
 		return addrList;
 	}
 
+	// 검색한 주소 목록 보여주기
+	@Override
+	public List<AddrVO> addrList_Search(Map<String, String> paraMap) {
+		List<AddrVO> addrList = sqlsession.selectList("schedule.addrList_Search", paraMap);
+		return addrList;
+	}
+	
 	// 일정 등록하기
 	@Override
 	public int scdAdd(ScheduleVO schedulevo) {
@@ -73,6 +80,7 @@ public class ScheduleDAO implements InterScheduleDAO {
 		int n = sqlsession.delete("schedule.delAll");
 		return n;
 	}
+	
 	
 	///////////////////////////////////////////////////////////////////
 	
@@ -117,7 +125,21 @@ public class ScheduleDAO implements InterScheduleDAO {
 		List<Map<String,String>> regDetailList = sqlsession.selectList("schedule.goRegMtr"); 
 		return regDetailList; 
 	}
-
+	
+	// 해당 접속자가 예약한 모든 회의실 예약 내역 가져오기
+	@Override
+	public List<MtrHistoryVO> getMtrResvList(String userid) {
+		List<MtrHistoryVO> mtrResvList = sqlsession.selectList("schedule.getMtrResvList", userid);
+		return mtrResvList;
+	}
+	
+	// 체크된 예약 내역 삭제하기
+	@Override
+	public int delOneResv(String usermtrno) {
+		int n = sqlsession.delete("schedule.delOneResv", usermtrno);
+		return n;
+	}
+	
 
 	
 	

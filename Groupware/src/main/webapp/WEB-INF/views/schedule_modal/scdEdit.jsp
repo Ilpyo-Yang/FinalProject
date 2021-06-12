@@ -90,13 +90,13 @@
 		        yearRange: 'c-99:c+99',
 		    };
 		    $.datepicker.setDefaults($.datepicker.regional['ko']);
-
+	
 		    $('#from').datepicker();
 		    $('#from').datepicker("option", "maxDate", $("#to").val());
 		    $('#from').datepicker("option", "onClose", function ( selectedDate ) {
 		        $("#to").datepicker( "option", "minDate", selectedDate );
 		    });
-
+	
 		    $('#to').datepicker();
 		    $('#to').datepicker("option", "minDate", $("#from").val());
 		    $('#to').datepicker("option", "onClose", function ( selectedDate ) {
@@ -111,7 +111,21 @@
 			    frm.submit();
 		    });
 		
+		var startdate = '${requestScope.schedulevo.scdstartdate}';
+		var sdate = startdate.substring(0,10);
+		var enddate = '${requestScope.schedulevo.scdenddate}';
+		var edate = enddate.substring(0,10);
+		
+		$("input#from").val(sdate);
+		$("input#to").val(edate);
+		
+		
+		
+		
 	});
+
+	
+		
 	
 	function goAddress() {
 		var url = "<%=ctxPath%>/show_addresslist.opis";

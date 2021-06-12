@@ -16,6 +16,17 @@
 	<select id="getAddrList" parameterType="String" resultType="com.spring.groupware.addrlist.model.AddrVO">
 		select addr_seq, mbr_name, mbr_email, dept_name, mbr_phone_number
 		from tbl_address
+		order by addr_seq
+	</select>
+	
+	<!-- === 검색한 주소 목록 보여주기 === -->
+	<select id="addrList_Search" parameterType="HashMap" resultType="com.spring.groupware.addrlist.model.AddrVO">
+		select addr_seq, mbr_name, mbr_email, dept_name, mbr_phone_number
+		from tbl_address
+		<if test="searchType != '' and searchWord != '' ">
+			where lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+		</if>
+		order by addr_seq
 	</select>
 	
 	<!-- === 일정 추가하기 === -->
@@ -61,8 +72,8 @@
 		where mbr_id = #{userid}
 	</select>
 	
-	<!-- 모든 일정 삭제하기 -->
-	<delete id="delAll" parameterType="int">
+	<!-- === 모든 일정 삭제하기 === -->
+	<delete id="delAll">
 		delete from tbl_schedule
 	</delete>
 	
@@ -119,6 +130,18 @@
 		on H.fk_mtrno = M.mtrno
 	</select>
 	
+	<!-- === 해당 접속자가 예약한 모든 회의실 예약 내역 가져오기 === -->
+	<select id="getMtrResvList" parameterType="String" resultType="com.spring.groupware.schedule.model.MtrHistoryVO">
+		select usemtrno, mtrname, booker, mtrsubject, starttime, endtime 
+		from tbl_mtrhistory H join tbl_mtr M
+		on H.fk_mtrno = M.mtrno 
+		where booker = #{userid}
+	</select>
 	
+	<!-- 체크된 예약 내역 삭제하기 -->
+	<delete id="delOneResv" parameterType="String">
+		delete from tbl_mtrhistory
+		where usemtrno = #{usemtrno}
+	</delete>
 	
 </mapper>

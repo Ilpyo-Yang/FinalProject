@@ -1,19 +1,19 @@
 package com.spring.groupware.schedule.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -65,7 +65,60 @@ public class ScheduleController {
 		// 주소록 리스트 가져오기
 		List<AddrVO> addrList = service.getAddrList();
 		
+		String emailList = request.getParameter("mbr_email");
+		String mbrName = request.getParameter("mbr_name");
+		String myName = request.getParameter("myName");
+		
+		Map<String, String> paraMap = new HashMap<>();
+		
+		if(emailList != null && !"".equals(emailList)) {
+			paraMap.put("emailList", emailList);
+			paraMap.put("mbrName", mbrName);
+			paraMap.put("myName", myName);
+		}
+		
+		try {
+			service.invitedListEmailSending(paraMap);
+		} catch (Exception e) {
+			
+		}
+		
 		mav.addObject("addrList", addrList);
+		mav.setViewName("schedule_modal/addressList");
+		
+		return mav;
+	}
+	
+	// 검색으로 원하는 정보 찾기
+	@RequestMapping(value="/scd_searchAddr.opis")
+	public ModelAndView scd_searchAddr(ModelAndView mav, HttpServletRequest request) {
+		
+		List<AddrVO> addrList = null;
+		addrList = service.getAddrList();
+		
+		String searchType = request.getParameter("searchType");
+		String searchWord = request.getParameter("searchWord");
+		
+		if(searchType == null || (!"dept_name".equals(searchType) && !"mbr_name".equals(searchType)) ) {
+			searchType= "";
+		}
+		
+		if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty()) {
+			searchType= "";
+		}
+		
+		Map<String, String> paraMap = new HashMap<>();
+		paraMap.put("searchType", searchType);
+		paraMap.put("searchWord", searchWord);
+		
+		addrList = service.addrList_Search(paraMap);
+		
+		// 아래는 검색대상 컬럼과 검색어를 유지시키기 위한 것임.
+		if(!"".equals(searchType) && !"".equals(searchWord)) {
+			mav.addObject("paraMap", paraMap);
+		}
+		
+		mav.addObject("addrList",addrList);
 		mav.setViewName("schedule_modal/addressList");
 		
 		return mav;
@@ -218,6 +271,8 @@ public class ScheduleController {
 		
 		int n = service.delAll();
 		
+		System.out.println(n);
+		
 		if(n==1) {
 			mav.setViewName("schedule/myscd.tiles1");
 		}
@@ -226,6 +281,7 @@ public class ScheduleController {
 			String loc = "javascript:history.back()";
 	        
 	        mav.addObject("message", message);
+	        mav.addObject("loc",loc);
 	        mav.setViewName("error");
 		}
 		
@@ -260,6 +316,11 @@ public class ScheduleController {
 		int usemtrno = service.getNum(); // 채번하기
 		
 		mtrhvo.setUsemtrno(String.valueOf(usemtrno));
+		
+		if(mtrhvo.getFk_scdno() == null) {
+			String fk_scdno = "";
+			mtrhvo.setFk_scdno(fk_scdno);
+ 		}
 		
 		int n = service.resvMtrEnd(mtrhvo);
 		
@@ -306,7 +367,7 @@ public class ScheduleController {
 	 
 	}
 	
-	// 회의실 예약취소(삭제)
+	// 회의실 예약 바로취소(삭제)
 	@RequestMapping(value="/mtrCancel.opis", method= {RequestMethod.POST})
 	public ModelAndView mtrCancel(HttpServletRequest request, ModelAndView mav, MtrHistoryVO mtrhvo) {
 		
@@ -314,7 +375,7 @@ public class ScheduleController {
 		
 		int n = service.delMtrReg(usemtrno);
 		
-		System.out.println(usemtrno);
+		// System.out.println(usemtrno);
 		
 		if(n==1) {
 			mav.setViewName("redirect:/mtr_resv.opis");
@@ -332,4 +393,62 @@ public class ScheduleController {
 		return mav;
 	}
 	
+	// 회의실 예약 취소 페이지 보여주기
+	@RequestMapping(value="/CancelResv.opis")
+	public String requiredLogin_cancelResv(HttpServletRequest request, HttpServletResponse response) {
+		return "schedule_modal/mtrMyResv";
+	}
+	
+	// 내 회의실 예약 내역 가져오기
+	@ResponseBody
+	@RequestMapping(value="/showMtrResv.opis", produces="text/plain;charset=UTF-8")
+	public String showMtrResv(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		String userid = loginuser.getMbr_id();
+		List<MtrHistoryVO> mtrResvList = service.getMtrResvList(userid);
+		
+		JSONArray jsonArr = new JSONArray();
+		
+		if(mtrResvList != null) {
+			for(MtrHistoryVO mtrhvo : mtrResvList) {
+				JSONObject jsonObj = new JSONObject();
+				jsonObj.put("usemtrno", mtrhvo.getUsemtrno());
+				jsonObj.put("mtrname", mtrhvo.getMtrname());
+				jsonObj.put("booker", mtrhvo.getBooker());
+				jsonObj.put("mtrsubject", mtrhvo.getMtrsubject());
+				jsonObj.put("starttime", mtrhvo.getStarttime());
+				jsonObj.put("endtime", mtrhvo.getEndtime());
+				
+				jsonArr.put(jsonObj);
+			}// end of for-----------------------
+		}
+		return jsonArr.toString();
+	}
+	
+	// 선택된 예약 건 취소하기
+	@ResponseBody
+	@RequestMapping(value="/delMtrResv.opis", method= {RequestMethod.GET})
+	public String delMtrResv(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="checkArr[]") List<String> checkArr ) {
+		
+		JSONObject jsonObj = new JSONObject();	
+		
+		int cnt = 0;
+		
+		for(int i=0; i<checkArr.size(); i++) {
+			String usermtrno = checkArr.get(i);
+			int n = service.delOneResv(usermtrno);
+			
+			if(n==1) {
+				cnt++;
+			}
+		}
+		int m = cnt/cnt;
+		
+		jsonObj.put("m", m);
+		
+		return jsonObj.toString();
+	}
 }

@@ -26,12 +26,60 @@ public interface InterWorkmanageDAO {
 	List<WorkVO> workListForRefer(Map<String, String> paraMap);
 
 	// 페이징 처리 - 총 게시물 건수 가져오기
-	int getTotalCount(Map<String, String> paraMap);
+	int getTotalCount(Map<String, Object> paraMap);
 
 	// 선택한 업무(요청,보고) 상세 보기 
 	WorkVO showDetailWork(Map<String, String> paraMap);
 
 	// 담당자, 참조자 지정하기 위한 우선멤버 가져오기
 	List<MemberVO> memberSearchShow(Map<String, String> paraMap);
+
+	// 업무번호 채번해오기
+	String getWorkno();
+
+	// 업무에 해당하는 멤버 seq저장
+	int workAddMember(WorkMemberVO workmbr);
+
+	// 마감일자지난 업무상태 변경
+	int updateWorkStatusByTime(Map<String, String> paraMap);
+
+	// 담당자들의 업무 정보 가져오기
+	List<WorkMemberVO> getWorkStatusEachMember(String wmno);
+
+	// 업무 수정하기
+	int workEditEnd(WorkVO workvo);
+
+	// 업무 삭제하기
+	int workDel(Map<String, Object> paraMap);
+
+	// 담당자 한명의 업무 정보 가져오기
+	WorkMemberVO oneMbrWorkStatus(Map<String, String> paraMap);
+
+	// 담당자, 참조자 지정하기 위한 우선멤버 가져오기
+	List<WorkVO> workListSearchWithPaging(Map<String, Object> paraMap);
+
+	// 업무 첨부 파일 등록
+	int workAddFile(WorkFileVO filevo);
+
+	// 수신자가 읽었을 때 읽음확인 업데이트 하기 
+	int updateReadcheckdate(Map<String, String> paraMap);
+
+	// 수정일자 업데이트 하기
+	int updateLasteditdate(Map<String, String> paraMap);
+
+	// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
+	int workStatusChangeToComplete(Map<String, Object> paraMap);
+
+	// 첨부파일 정보 가져오기
+	List<WorkFileVO> getWorkFile(Map<String, String> paraMap);
+
+	// 담당자들의 읽음확인 정보 가져오기
+	List<WorkMemberVO> workmbrReadcheckdate(String wmno);
+
+	// 수신자 업무 처리내역 등록하기
+	int receiverWorkAdd(WorkMemberVO workmbrvo);
+
+	// 수신자 업무 처리내역 수정하기
+	int receiverWorkEdit(WorkMemberVO workmbrvo);
 
 }

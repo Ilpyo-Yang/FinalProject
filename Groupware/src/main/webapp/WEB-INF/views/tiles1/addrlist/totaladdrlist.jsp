@@ -101,6 +101,42 @@
 		
 	} // end of goSearch(){}------------------------------------------------------------
 	
+
+	// 전체선택 체크 박스를 클릭했을 때 
+	function clickAllCheckbox() {
+		// input#allCheckbox ==> 전체선택 체크박스  id="allCheckbox"
+		// input.oneCheckbox ==> 하위선택 체크박스  class="oneCheckbox"
+		
+		var stat = $("input#allCheckbox").prop("checked");
+		
+		$("input.oneCheckbox").each(function(index, item){
+			$(item).prop("checked", stat);
+		});
+	}
+	
+	// 하위 체크박스를 클릭했을 때
+	function clickOneCheckbox(target) {
+		// onclick="clickOneCheckbox(this)";
+		
+		var stat = $(target).prop("checked");
+		
+		if (!stat) { // 체크가 풀린 경우라면
+			$("input#allCheckbox").prop("checked", false);
+		}
+		else {
+			var check; // 다른 하위 체크박스 검사
+			$("input.oneCheckbox").each(function(index, item){
+				check = $(item).prop("checked");
+				if (check == false) {
+					return false;
+				}
+			});
+			if (check) { // 전부 true 일 때
+				$("input#allCheckbox").prop("checked", true);	
+			}
+		}
+	}
+	
 </script>
 </head>
 <body>
@@ -114,40 +150,41 @@
 	
 	<div class="container" style="float: right; width: 80%; margin-top: 50px;">        
 
-  	<!-- 검색 -->
-		<form name="searchFrm" style="margin-top: 20px;">
-	      <select name="searchType" id="searchType" style="height: 26px;">
-	         <option value="dept_name">부서</option>
-	         <option value="mbr_name">이름</option>
-	      </select>
-	      <input type="text" name="searchWord" id="searchWord" size="30" autocomplete="off" /> 
-	      <button type="button" onclick="goSearch()">검색</button>
-	   	</form>
-	   
-	    <div id="displayList" style="border:solid 1px gray; width:250px; height: 100px; border-top: 0px; margin-left: 71px; overflow: auto; padding-top: 2px;"> 	
-	    </div>
+	<form name="addMyaddrFrm" style="margin: 0 0 20px 0;">
+      <select name="searchType" id="searchType" style="height: 26px; font-size: 13px;">
+      	<c:forEach var="agvo" items="${requestScope.addrgroupList}" varStatus="status">
+        	<c:if test="${not empty agvo.addrgroup_seq}">
+         		<option value="groupname">${agvo.groupname}</option>
+         	</c:if>
+      	</c:forEach>
+      </select>
+      <button type="button" onclick="goAddmyAddr()">추가</button>
+   	</form>
+
 
 	<!-- 본문(게시판) -->
-	  <table class="table table-striped">
+	  <table class="table table-striped" style="font-size: 14px; text-align: center;">
 	    <thead>
 	      <tr>
+	      	<th style="width: 1%;"><input type="checkbox" id="allCheckbox" onclick="clickAllCheckbox();" /></th>
 	        <th style="width: 7%;  text-align: center;">이름</th>
-	        <th style="width: 13%; text-align: center;">전화번호</th>
-	        <th style="width: 13%;  text-align: center;">이메일</th>
+	        <th style="width: 10%; text-align: center;">전화번호</th>
+	        <th style="width: 10%;  text-align: center;">이메일</th>
 	        <th style="width: 7%; text-align: center;">부서</th>
 	        <th style="width: 7%;  text-align: center;">직책</th>
 	      </tr>
 	    </thead>
 	    <tbody>
  	      <c:forEach var="addrvo" items="${requestScope.addrList}" varStatus="status">
-	      	<tr>
-				<td align="center">
+	      	<tr>	   
+	      		<td><input type="checkbox" class="oneCheckbox" value="${work.wmno}" onclick="clickOneCheckbox(this);"/></td>   	
+				<td>
 					<span class="name" onclick="goView('${addrvo.addr_seq}')">${addrvo.mbr_name}</span>
 				</td>
-				<td align="left">${addrvo.mbr_phone_number}</td>
-				<td align="center">${addrvo.mbr_email}</td>
-				<td align="center">${addrvo.dept_name}</td>
-				<td align="center">${addrvo.position_name}</td>      	
+				<td>${addrvo.mbr_phone_number}</td>
+				<td>${addrvo.mbr_email}</td>
+				<td>${addrvo.dept_name}</td>
+				<td>${addrvo.position_name}</td>      	
 	      	</tr>		
 	      </c:forEach>
 	      
@@ -157,6 +194,19 @@
 	<!-- 페이지바 -->  
 	<div align="center" style="width: 70%; border: solid 0px gray; margin: 20px auto;">
    		${requestScope.pageBar}
+    </div>
+
+  	<!-- 검색 -->
+	<form name="searchFrm" style="margin: 20px 0 0 0;">
+      <select name="searchType" id="searchType" style="height: 26px; font-size: 13px;">
+         <option value="dept_name">부서</option>
+         <option value="mbr_name">이름</option>
+      </select>
+      <input type="text" name="searchWord" id="searchWord" size="30" style="height: 26px;" autocomplete="off" /> 
+      <button type="button" onclick="goSearch()">검색</button>
+   	</form>
+	   
+    <div id="displayList" style="border:solid 1px gray; width:250px; height: 100px; border-top: 0px; margin-left: 71px; overflow: auto; padding-top: 2px;"> 	
     </div>
 
   	</div>	  	

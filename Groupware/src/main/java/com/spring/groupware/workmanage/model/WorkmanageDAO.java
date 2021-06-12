@@ -63,7 +63,7 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 
 	// == 페이징 처리 - 총 게시물 건수 가져오기 == //
 	@Override
-	public int getTotalCount(Map<String, String> paraMap) {
+	public int getTotalCount(Map<String, Object> paraMap) {
 		int n = sqlsession.selectOne("workmanage.getTotalCount", paraMap);
 		return n;
 	}
@@ -81,6 +81,119 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		List<MemberVO> memberList = sqlsession.selectList("workmanage.memberSearchShow", paraMap);
 		return memberList;
 	}
+
+	// 업무번호 채번해오기
+	@Override
+	public String getWorkno() {
+		String wmno = sqlsession.selectOne("workmanage.getWorkno");
+		return wmno;
+	}
+
+	// 업무에 해당하는 멤버 seq저장
+	@Override
+	public int workAddMember(WorkMemberVO workmbr) {
+		int n = sqlsession.insert("workmanage.workAddMember", workmbr);
+		return n;
+	}
+
+	// 마감일자지난 업무상태 변경
+	@Override
+	public int updateWorkStatusByTime(Map<String, String> paraMap) {
+		int n = sqlsession.update("workmanage.updateWorkStatusByTime", paraMap);
+		return n;
+	}
+
+	// 담당자들의 업무 정보 가져오기
+	@Override
+	public List<WorkMemberVO> getWorkStatusEachMember(String wmno) {
+		List<WorkMemberVO> workmbrList = sqlsession.selectList("workmanage.getWorkStatusEachMember", wmno);
+		return workmbrList;
+	}
+
+	// 업무 수정하기
+	@Override
+	public int workEditEnd(WorkVO workvo) {
+		int n = sqlsession.update("workmanage.workEditEnd", workvo);
+		return n;
+	}
+
+	// 업무 삭제하기
+	@Override
+	public int workDel(Map<String, Object> paraMap) {
+		int n = sqlsession.update("workmanage.workDel", paraMap);
+		return n;
+	}
+
+	// 담당자 한명의 업무 정보 가져오기
+	@Override
+	public WorkMemberVO oneMbrWorkStatus(Map<String, String> paraMap) {
+		WorkMemberVO workmbr = sqlsession.selectOne("workmanage.oneMbrWorkStatus", paraMap);
+		return workmbr;
+	}
+
+	// 담당자, 참조자 지정하기 위한 우선멤버 가져오기
+	@Override
+	public List<WorkVO> workListSearchWithPaging(Map<String, Object> paraMap) {
+		List<WorkVO> workList = sqlsession.selectList("workmanage.workListSearchWithPaging", paraMap);
+		return workList;
+	}
+
+	// 업무 첨부 파일 등록
+	@Override
+	public int workAddFile(WorkFileVO filevo) {
+		int n = sqlsession.insert("workmanage.workAddFile", filevo);
+		return n;
+	}
+
+	// 수신자가 읽었을 때 읽음확인 업데이트 하기 
+	@Override
+	public int updateReadcheckdate(Map<String, String> paraMap) {
+		int n = sqlsession.update("workmanage.updateReadcheckdate", paraMap);
+		return n;
+	}
+
+	// 수정일자 업데이트 하기
+	@Override
+	public int updateLasteditdate(Map<String, String> paraMap) {
+		int n = sqlsession.update("workmanage.updateLasteditdate", paraMap);
+		return n;
+	}
+
+	// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
+	@Override
+	public int workStatusChangeToComplete(Map<String, Object> paraMap) {
+		int n = sqlsession.update("workmanage.workStatusChangeToComplete", paraMap);
+		return n;
+	}
+
+	// 첨부파일 정보 가져오기
+	@Override
+	public List<WorkFileVO> getWorkFile(Map<String, String> paraMap) {
+		List<WorkFileVO> fileList = sqlsession.selectList("workmanage.getWorkFile", paraMap);
+		return fileList;
+	}
+
+	// 담당자들의 읽음확인 정보 가져오기
+	@Override
+	public List<WorkMemberVO> workmbrReadcheckdate(String wmno) {
+		List<WorkMemberVO> workmbrList = sqlsession.selectList("workmanage.workmbrReadcheckdate", wmno);
+		return workmbrList;
+	}
+
+	// 수신자 업무 처리내역 등록하기
+	@Override
+	public int receiverWorkAdd(WorkMemberVO workmbrvo) {
+		int n = sqlsession.insert("workmanage.receiverWorkAdd", workmbrvo);
+		return n;
+	}
+
+	// 수신자 업무 처리내역 수정하기
+	@Override
+	public int receiverWorkEdit(WorkMemberVO workmbrvo) {
+		int n = sqlsession.insert("workmanage.receiverWorkEdit", workmbrvo);
+		return n;
+	}
+	
 	
 	
 

@@ -1,15 +1,13 @@
 package com.spring.groupware.approval.service;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import com.spring.groupware.approval.model.ApprovalVO;
-import com.spring.groupware.approval.model.InterApprovalDAO;
+import com.spring.groupware.approval.model.*;
 import com.spring.groupware.member.model.MemberVO;
 
 
@@ -36,7 +34,7 @@ public class ApprovalService implements InterApprovalService {
 		return memberList;
 	}
 
-	// 첨부파일 없는 결재요청
+	// 결재요청 정보 저장하기
 	@Override
 	public int submitApproval(ApprovalVO avo) {
 		int n = adao.submitApproval(avo);
@@ -45,9 +43,30 @@ public class ApprovalService implements InterApprovalService {
 
 	// 첨부파일 있는 결재요청
 	@Override
-	public int submitAttachedApproval(ApprovalVO avo) {
-		int n = adao.submitAttachedApproval(avo);
+	public int submitAttachedApproval(List<Map<String, String>> fileInfoList) {
+		int n = adao.submitAttachedApproval(fileInfoList);
 		return n;
+	}
+
+	// 결재대기 문서 가져오기
+	@Override
+	public List<ApprovalVO> getApprovalNeededList(String managePerson) {
+		List<ApprovalVO> approvalList = adao.getApprovalNeededList(managePerson);
+		return approvalList;
+	}
+
+	// 결재요청한 문서 가져오기
+	@Override
+	public List<ApprovalVO> getApprovalSubmitList(String fk_mbr_seq) {
+		List<ApprovalVO> approvalList = adao.getApprovalSubmitList(fk_mbr_seq);
+		return approvalList;
+	}
+
+	// 결재참조된 문서 가져오기
+	@Override
+	public List<ApprovalVO> getApprovalReferredList(String managePerson) {
+		List<ApprovalVO> approvalList = adao.getApprovalReferredList(managePerson);
+		return approvalList;
 	}
 
 
