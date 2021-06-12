@@ -51,49 +51,103 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 
+		var searchType = $("input#hiddenSearchType").val();
+		var searchWord= $("input#hiddenSearchWord").val();
+		var category = $("input#hiddenCategory").val();
+		
+
 		var htmlYear = "";
 		for(var i=1950;i<2050;i++){
-			htmlYear += "<option>"+i+"</option><br>";
+			htmlYear += '<option class="enteryy" id="enteryy">'+i+'</option><br>';
 		}
 			$("select#enteryy").html(htmlYear);
+			
+		htmlYear = "";
+		for(var i=1950;i<2050;i++){
+			htmlYear += '<option class="quityy" id="quityy">'+i+'</option><br>';
+		}
 			$("select#quityy").html(htmlYear);
+			
+		htmlYear = "";
+		for(var i=1950;i<2050;i++){
+			htmlYear += '<option class="birthyy" id="birthyy">'+i+'</option><br>';
+		}
 			$("select#birthyy").html(htmlYear);
+		
 		
 		
 		$("button#registerBtn").click(function(){
 			
-			var finalEdu = $('input[class="finalEdu"]:checked').val();
+
+			var bflag = true;
+
+			var name = $("input[name=mbr_name]").val();
+				if(name.trim()==""){
+					bflag = false;
+				}
+			var id = $("input[name=mbr_id]").val();
+				if(id.trim()==""){
+					bflag = false;
+				}	
+			var pwd = $("input[name=mbr_pwd]").val();
+				if(pwd.trim()==""){
+					bflag = false;
+				}	
+			var com_number = $("input[name=mbr_com_number]").val();
+				if(com_number.trim()==""){
+					bflag = false;
+				}		
+			var phone_number = $("input[name=mbr_phone_number]").val();
+				if(phone_number.trim()==""){
+					bflag = false;
+				}		
+			var email = $("input[name=mbr_email]").val();
+				if(email.trim()==""){
+					bflag = false;
+				}
+			
+			
+			
 
 
 		 	var enteryy = $("#enteryy option:selected").val();
 			var entermm = $("#entermm option:selected").val();
 			var enterdd = $("#enterdd option:selected").val();
+			if(entermm <10){
+				entermm = "0"+entermm;
+			}
+			if(enterdd <10){
+				enterdd = "0"+enterdd;
+			}
 			var enter = enteryy+"-"+entermm+"-"+enterdd;
 			var htmlEnter =  '<input name = "mbr_registerday" type="hidden" value="'+enter+'"/>';
 			$("div#enterDiv").html(htmlEnter);
 			
 
-		 	var quityy = $("#quityy option:selected").val();
-			var quitmm = $("#quitmm option:selected").val();
-			var quitdd = $("#quitdd option:selected").val();
-			var quit = quityy+"-"+quitmm+"-"+quitdd;
-			var htmlQuit =  '<input name = "mbr_entireday" type="hidden" value="'+quit+'"/>';
-			$("div#quitDiv").html(htmlQuit);
-			
 
 		 	var birthyy = $("#birthyy option:selected").val();
 			var birthmm = $("#birthmm option:selected").val();
 			var birthdd = $("#birthdd option:selected").val();
+			if(birthmm <10){
+				birthmm = "0"+birthmm;
+			}
+			if(birthdd <10){
+				birthdd = "0"+birthdd;
+			}
 			var birth = birthyy+"-"+birthmm+"-"+birthdd;
 			var htmlBirth =  '<input name = "mbr_birthday" type="hidden" value="'+birth+'"/>';
 			$("div#birthDiv").html(htmlBirth);
 			
-	
+
+			if(!bflag){
+				alert("모든 항목을 입력하세요!!");
+			}
+			else{
 			var frm = document.insaRegister1Frm;
 			frm.method = "POST";
-			frm.action = "<%=ctxPath%>/insaRegister1End.opis?finalEdu="+finalEdu;
+			frm.action = '<%=ctxPath%>/insaRegister1End.opis';  
 			frm.submit(); 
-			
+			}
 		});
 		
 	});
@@ -110,7 +164,7 @@
 			<td style="width: 10px;"></td>
 			<td style="width: 500px;"></td>
 			<td><button class="registerBtn" id="registerBtn"  type="submit" style="display: inline-block; vertical-align: top;">등록</button></td>
-			<td><button class="registerBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis'">회원목록으로</button></td>
+			<td><button class="registerBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis?seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">회원목록으로</button></td>
 		</tr>
 		</table> 
 
@@ -183,25 +237,6 @@
 					</td>
 				</tr>
 				<tr>
-					<th>퇴사일자</th>
-					<td>
-			             <select id="quityy" style=" width: 80px; padding: 4px;">
-			           		
-			            </select>년
-						<select id="quitmm" style="margin-left: 2%; width: 55px; padding: 4px;">
-			           		<c:forEach begin="1" end="12" varStatus="count" >
-			           			<option>${count.count}</option>
-			           		</c:forEach>
-			            </select>월
-			            <select id="quitdd" style="margin-left: 2%; width: 55px; padding: 4px;">
-				            	<c:forEach begin="1" end="31" varStatus="count" >
-				           			<option>${count.count}</option>
-				           		</c:forEach>
-			         </select>일 
-			         <div id="quitDiv"></div> 	
-					</td>
-				</tr>
-				<tr>
 					<th>학력</th>
 					<td> 
 					</td>
@@ -250,6 +285,10 @@
 				</tr>
 			</table>
 			</form>
+			<input id="hiddenSeq" type="hidden" value="${seq}"/>
+			<input id="hiddenCategory" type="hidden" value="${category}" />
+			<input id="hiddenSearchType" type="hidden" value="${searchType}" />
+			<input id="hiddenSearchWord" type="hidden" value="${searchWord}" />
 	
 </div>
 

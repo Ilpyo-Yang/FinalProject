@@ -176,6 +176,7 @@
 	});
 	
 	function memberInfoView(seq){
+		
 		$("div#registerDiv").hide();
 
 		$("tr.clickMemberPay").children().removeClass("green");
@@ -194,8 +195,6 @@
 			data:{"seq":seq},
 			dataType:"json",
 			success:function(json){
-			
-				
 				if (json.status == 1){
 					html = 	'<div class="paymentInfoDiv" style="width: 100%; ">'+
 								'<div id="buttons" style="float: right; margin-right: 15px;">'+
@@ -281,37 +280,66 @@
 	function goPaymentDetail(){
 		var seq = $("input#hiddenSeq").text();
 		var category = $("input#hiddenCategory").val();
-		location.href='<%=ctxPath%>/paymentDetail.opis?category='+category+'&seq='+seq;
+		var searchType = $("input#hiddenSearchType").val();
+		var searchWord = $("input#hiddenSearchWord").val();
+		location.href='<%=ctxPath%>/paymentDetail.opis?category='+category+'&seq='+seq+'&searchType='+searchType+'&searchWord='+searchWord; 
 	}
 	function goRegisterEnd(){
 		var seq = $("input#hiddenSeq").text();
 
+		var bflag = true;
 		
-		$.ajax({
-			url:"<%=ctxPath%>/payRegisterEnd.opis",
-			type:"get",
-			data:{"seq":seq,
-				  "idNo":$("input#idNo").val(),
-				  "accountNo":$("input#accountNo").val(),
-				  "bank":$("input#bank").val(),
-				  },
-			dataType:"json",
-			success:function(json){
-				if(json == 1){
-					$("div#registerDiv").hide();
-					$("div#paymentInfoBorder").show();
-					alert("등록성공!!");
-				}
-				else{
-					alert("등록실패!!");
-				}
-			},
-			error: function(request, status, error){
-            	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-            }
-		});
+		var idNo = $("input#idNo").val();
+		var accountNo = $("input#accountNo").val();
+		var bank = $("input#bank").val();
 		
-		memberInfoView(seq);
+		if(idNo.trim()==""){
+			bflag = false;
+		}
+		if(accountNo.trim()==""){
+			bflag = false;
+		}
+		if(bank.trim()==""){
+			bflag = false;
+		}
+		
+
+		if(!bflag){
+			alert("모든 항목을 입력하세요!!");
+		}
+		else{
+			$.ajax({
+				url:"<%=ctxPath%>/payRegisterEnd.opis",
+				type:"get",
+				data:{"seq":seq,
+					  "idNo":idNo,
+					  "accountNo":accountNo,
+					  "bank":bank
+					  },
+				dataType:"json",
+				success:function(json){
+
+					if(json == 1){
+						$("div#registerDiv").hide();
+						$("div#paymentInfoBorder").show();
+						alert("등록성공!!");
+
+						memberInfoView(seq);
+					}
+					else{
+						alert("등록실패!!");
+						
+
+						memberInfoView(seq);
+					}
+				},
+				error: function(request, status, error){
+	            	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	            }
+			});			
+		}
+		
+
 		
 	}
 	
@@ -405,9 +433,11 @@
 					$("div#registerModiDiv").hide();
 					$("div#paymentInfoBorder").show();
 					alert("수정성공!!");
+					memberInfoView(seq);
 				}
 				else{
 					alert("수정실패!!");
+					memberInfoView(seq);
 				}
 			},
 			error: function(request, status, error){
@@ -415,7 +445,6 @@
             }
 		});
 		
-		memberInfoView(seq);
 	}
 	
 	
@@ -431,34 +460,57 @@
 				success:function(json){
 					if(json == 1){
 						alert("삭제성공!!");
+						memberInfoView(seq);
 					}
 					else{
 						alert("삭제실패!!");
+						memberInfoView(seq);
 					}
 				},
 				error: function(request, status, error){
 	            	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 	            }
 			});
-			
-			memberInfoView(seq);		
+					
 	}
 	
+	function goSearch(){
+
+		var searchType = $(".searchType option:selected").val();
+		var searchWord= $("input.searchWord").val();
+		var seq = $("input#hiddenSeq").text();
+		var category = $("input#hiddenCategory").val();
+
+		location.href='<%=ctxPath%>/payment.opis?category='+category+'&seq='+seq+'&searchType='+searchType+'&searchWord='+searchWord; 
+	}
 </script>
 
 <div id="insa" style="width: 80%; display: inline-block; margin-top: 70px; padding-left: 30px;">
 			<table style="margin-bottom: 30px;">
 				<tr>
 					<td>
-						<form name="form1" id="form1" action="/action_page.php">
-				 			<select name="subject" id="subject">
-						    	<option value="" selected="selected">사원번호</option>
-						    	<option value="" selected="selected">사원명</option>
-						    	<option value="" selected="selected">부서명</option>
+				 			<select name="searchType" class="searchType" id="subject">
+				 				<c:if test="${searchType == 'mbr_seq' }" >
+							    	<option value="mbr_seq" selected="selected">사원번호</option>
+							    	<option value="mbr_name">사원명</option>
+				 				</c:if>
+				 				<c:if test="${searchType == 'mbr_name' }" >
+							    	<option value="mbr_seq">사원번호</option>
+							    	<option value="mbr_name" selected="selected">사원명</option>
+				 				</c:if>
+				 				<c:if test="${searchType == '' }" >
+							    	<option value="mbr_seq" selected="selected">사원번호</option>
+							    	<option value="mbr_name">사원명</option>
+				 				</c:if>
 						  	</select>
-						  	<input type="text" placeholder="Search.." name="search" style="height: 20px;">
-						 	<input type="submit" value="검색">
-						</form>
+						  	
+			 				<c:if test="${searchWord != '' }" >
+			 					<input type="text" class="searchWord" placeholder="Search.." value="${searchWord}" name="search" style="height: 20px;">
+						 	</c:if>
+			 				<c:if test="${searchWord == '' }" >
+						 		<input type="text" class="searchWord" placeholder="Search.." name="search" style="height: 20px;">
+						 	</c:if>
+								<input type="submit" onclick="goSearch()" value="검색">
 
 					</td>
 				</tr>
@@ -510,9 +562,16 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			<input id="hiddenSeq" type="hidden""/>
+			
+		   <br>
+	    <div align="center" style="width: 80%; border: solid 0px gray; margin-right: 20px;">
+	    	${requestScope.pageBar}
+	    </div>
+			<input id="hiddenSeq" type="hidden"/>
 			<input id="hiddenSeqVal" type="hidden" value="${seq}"/>
 			<input id="hiddenCategory" type="hidden" value="${category}" />
+			<input id="hiddenSearchType" type="hidden" value="${searchType}" />
+			<input id="hiddenSearchWord" type="hidden" value="${searchWord}" />
 			<input id="hiddenParameter" type="hidden" />
 			</div>
 			<div id='paymentInfoBorder' class='paymentBorder' >
@@ -524,6 +583,7 @@
 			
 			<div id="registerModiDiv" class="paymentBorder">
 			</div>
+	   
 	
 </div>
 

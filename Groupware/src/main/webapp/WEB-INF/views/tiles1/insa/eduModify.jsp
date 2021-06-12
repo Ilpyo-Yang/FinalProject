@@ -83,7 +83,13 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-			
+
+		var searchType = $("input#hiddenSearchType").val();
+		var searchWord= $("input#hiddenSearchWord").val();
+		var seq = $("input#hiddenSeq").val();
+		var category = $("input#hiddenCategory").val();
+		
+		
 		var yearOptionHtml = "";
 		for(var i=1950; i<2050; i++){
 			if(i==2021){
@@ -99,6 +105,9 @@
 			
 			// 등록하기1
 			$("button#modifyBtn1").click(function(){
+				
+				bflag = true;
+				
 				var eduLevel = $(".eduLevel option:selected").val();
 				if(eduLevel==""){
 					bflag = false;
@@ -116,12 +125,16 @@
 
 				if(!bflag){
 					alert("먼저 모든 항목을 입력하세요!!");
+					return;
+					<%--
+					location.href = "<%=ctxPath%>/insaView2.opis?seq="+seq+"&searchType="+searchType+"&searchWord="+searchWord+"&category="+category; 
+					--%>
 				}
 				else{
 
 					var frm = document.eduModifyFrm;
 					frm.method = "POST";
-					frm.action = "<%=ctxPath%>/eduModifyEnd.opis?eduLevel="+eduLevel+"&school="+school+"&major="+major+"&seq="+${seq}+"&edu_seq="+${edu_seq};
+					frm.action = "<%=ctxPath%>/eduModifyEnd.opis?edu_seq="+${edu_seq}+"&seq="+seq+"&searchType="+searchType+"&searchWord="+searchWord+"&category="+category;  
 					frm.submit(); 
 				}
 			
@@ -141,11 +154,11 @@
 
 <table style="margin-bottom: 50px;">
 		<tr id="insaDetailButton">
-			<td><button class="registerBtn" style="background-color: #e6e6e6; " onclick="javascript:location.href='<%=ctxPath%>/insaView1.opis?seq=${seq}'">인적사항</button></td>
+			<td><button class="registerBtn" style="background-color: #e6e6e6; " onclick="javascript:location.href='<%=ctxPath%>/insaView1.opis?seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">인적사항</button></td>
 			<td style="width: 10px;"></td>
 			<td><button class="registerBtn" >서류정보</button></td>
 			<td style="width: 360px;"></td>
-			<td><button class="registerBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis'">회원목록으로</button></td>
+			<td><button class="registerBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis?seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">회원목록으로</button></td>
 		</tr>
 		</table> 
 			<div>
@@ -263,9 +276,9 @@
 							 				</c:if>
 									  	</select>
 								</td>
-								<td><input id="school" class="school" style="width: 100px;" value="${edu.school}"/></td>
-								<td><input id="major" style="width: 80px;"  value="${edu.major}"/>
-									<button class="modifyBtnSmall" id="modifyBtn1"  type="submit">수정완료</button>
+								<td><input id="school" name="school" class="school" style="width: 100px;" value="${edu.school}"/></td>
+								<td><input id="major" name="major" style="width: 80px;"  value="${edu.major}"/>
+									<button class="modifyBtnSmall" id="modifyBtn1"  type="button">수정완료</button>
 								</td>
 							</tr>
 						</c:if>
@@ -303,6 +316,10 @@
 					</tbody>
 				</table>
 			</div>
+			<input id="hiddenSeq" type="hidden" value="${seq}"/>
+			<input id="hiddenCategory" type="hidden" value="${category}" />
+			<input id="hiddenSearchType" type="hidden" value="${searchType}" />
+			<input id="hiddenSearchWord" type="hidden" value="${searchWord}" />
 		
 </div>
 

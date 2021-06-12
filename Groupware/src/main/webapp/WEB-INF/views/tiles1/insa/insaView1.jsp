@@ -41,6 +41,9 @@
 		display: inline-block;
 	    vertical-align: top;
 	}
+	table td{
+		width: 300px;
+	}
 </style>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -58,9 +61,9 @@
 		<tr id="insaDetailButton">
 			<td><button class="modifyBtn">인적사항</button></td>
 			<td style="width: 10px;"></td>
-			<td><button class="modifyBtn" style="background-color: #e6e6e6; " onclick="javascript:location.href='<%=ctxPath%>/insaView2.opis?seq=${insavo.mbr_seq}'">서류정보</button></td>
+			<td><button class="modifyBtn" style="background-color: #e6e6e6; " onclick="javascript:location.href='<%=ctxPath%>/insaView2.opis?seq=${insavo.mbr_seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">서류정보</button></td>
 			<td style="width: 580px;"></td>
-			<td><button class="modifyBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis'">회원목록으로</button></td>
+			<td><button class="modifyBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis?seq=${insavo.mbr_seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">회원목록으로</button></td>
 		</tr>
 		</table> 
 
@@ -130,9 +133,13 @@
 					<td>${insavo.mbr_registerday}</td>
 				</tr>
 				<tr>
+				<c:if test="${insavo.mbr_status == 0}">
+				<tr>
 					<td>퇴사일자</td>
 					<td>${insavo.mbr_retireday}</td>
 				</tr>
+				</c:if>
+			
 				<tr>
 					<td>학력</td>
 					<c:if test="${insavo.eduLevel == 0}">
@@ -185,10 +192,14 @@
 					</c:if>
 				</tr>
 			</table>
-			<button class="modifyBtn"  id="modifyBtn" type="submit" style="display: inline-block; vertical-align: top;" onclick="javascript:location.href='<%=ctxPath%>/insaModify1.opis'">수정</button>
+			<button class="modifyBtn"  id="modifyBtn" type="submit" style="display: inline-block; vertical-align: top;" onclick="javascript:location.href='<%=ctxPath%>/insaModify1.opis?seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">수정</button>
 			
+			<input id="hiddenSeq" type="hidden" value="${seq}"/>
+			<input id="hiddenCategory" type="hidden" value="${category}" />
+			<input id="hiddenSearchType" type="hidden" value="${searchType}" />
+			<input id="hiddenSearchWord" type="hidden" value="${searchWord}" />
+
 	
-	</div>
 </div>
 
 

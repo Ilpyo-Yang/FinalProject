@@ -1,8 +1,9 @@
 package com.spring.groupware.insa.model;
 
-import java.util.HashMap;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Locale.Category;
+import java.util.ListIterator;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -11,7 +12,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import com.spring.groupware.insa.model.InsaVO;
 @Component
 @Repository
 public class InsaDAO implements InterInsaDAO {
@@ -34,9 +34,10 @@ public class InsaDAO implements InterInsaDAO {
 
 	// 멤버정보 불러오기
 	@Override
-	public List<InsaVO> getInsaList(String category) {
-		Map<String,String> paraMap = new HashMap<>();
-		paraMap.put("category", category);
+	public List<InsaVO> getInsaList(Map<String, String> paraMap) {
+		System.out.println("1. " + paraMap.get("category"));
+		System.out.println("2. " + paraMap.get("searchType"));
+		System.out.println("3. " + paraMap.get("searchWord"));
 		List<InsaVO> insaList= sqlsession.selectList("insa.insaList",paraMap);
 		return insaList;
 	}
@@ -59,6 +60,7 @@ public class InsaDAO implements InterInsaDAO {
 	// view2할 멤버 정보 가져오기@Override
 	public List<EduVO> getEduList(String seq) {
 		List<EduVO> eduList = sqlsession.selectList("insa.getEduList", seq);
+		
 		return eduList;
 	}
 
@@ -66,7 +68,12 @@ public class InsaDAO implements InterInsaDAO {
 	// 최종학력 가져오기
 	@Override
 	public int getMaxEduLevel(String seq) {
-		int maxEduLevel = sqlsession.selectOne("insa.getMaxEduLevel", seq);
+		int maxEduLevel=0;
+		try {
+			maxEduLevel = sqlsession.selectOne("insa.getMaxEduLevel", seq);
+		} catch (Exception e) {
+			maxEduLevel = 7;
+		}
 		return maxEduLevel;
 	}
 
@@ -241,6 +248,63 @@ public class InsaDAO implements InterInsaDAO {
 		int n = sqlsession.delete("insa.payDel", seq);
 		return n;
 	}
+
+
+
+    // 개인별 급여 상세 등록하기
+	@Override
+	public int paymentRegiEnd(PaymentVO pavo) {
+		int n = sqlsession.insert("insa.paymentRegiEnd", pavo);
+		return n;
+	}
+
+
+
+    // 개인 월별 급여정보 가져오기
+	@Override
+	public List<PaymentVO> payModiGetInfo(String seq) {
+		List<PaymentVO> payList = sqlsession.selectList("insa.payModiGetInfo", seq);
+		return payList;
+	}
+
+
+
+	// 급여 내역 수정하기
+	@Override
+	public int paymentModiEnd(PaymentVO pavo) {
+		int n = sqlsession.update("insa.paymentModiEnd", pavo);
+		return n;
+	}
+
+
+
+    // 인사정보 수정 등록하기
+	@Override
+	public int insaModify1End(InsaVO insavo) {
+		int n = sqlsession.update("insa.insaModify1End", insavo);
+		return n;
+	}
+
+
+
+	// 급여 내역 삭제하기
+	@Override
+	public int paymentDelEnd(PaymentVO pavo) {
+		int n = sqlsession.delete("insa.paymentDelEnd", pavo);
+		return n;
+	}
+
+
+
+	// 총 게시물 건수(totalCount)
+	@Override
+	public int getTotalCount(Map<String, String> paraMap) {
+		int n = Integer.parseInt(sqlsession.selectOne("insa.getTotalCount", paraMap));
+		return n;
+	}
+
+
+
 
 
 

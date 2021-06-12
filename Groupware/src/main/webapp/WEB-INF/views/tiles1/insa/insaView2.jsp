@@ -87,11 +87,11 @@
 <div id="insa" style="width: 80%; display: inline-block; margin-top: 70px; padding-left: 30px;">
 		<table style="margin-bottom: 50px;">
 		<tr id="insaDetailButton">
-			<td><button class="modifyBtn" style="background-color: #e6e6e6;" onclick="javascript:location.href='<%=ctxPath%>/insaView1.opis?seq=${seq}'" >인적사항</button></td>
+			<td><button class="modifyBtn" style="background-color: #e6e6e6;" onclick="javascript:location.href='<%=ctxPath%>/insaView1.opis?seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'" >인적사항</button></td>
 			<td style="width: 10px;"></td>
 			<td><button class="modifyBtn">서류정보</button></td>
 			<td style="width: 580px;"></td>
-			<td><button class="modifyBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis'">회원목록으로</button></td>
+			<td><button class="modifyBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis?seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">회원목록으로</button></td>
 		</tr>
 		</table> 
 		
@@ -124,7 +124,6 @@
 					<c:if test="${maxEduLevel == 6 }">
 						<td colspan="2">박사</td>
 					</c:if>
-					</td>
 				</tr>
 				<c:if test="${not empty eduList}">
 					<c:forEach var="edu" items="${eduList}">
@@ -152,8 +151,8 @@
 							</c:if>
 							<td>${edu.school}<input type="hidden" value="${edu.edu_seq}" /></td>
 							<td>${edu.major}
-							<button class="modifyBtnSmall" id="modifyBtn1"  type="button" onclick="javascript:location.href='<%=ctxPath%>/insaEduModi.opis?edu_seq=${edu.edu_seq}&seq=${seq}'">수정</button>
-								<button class="modifyBtnSmall" id="modifyBtn1"  type="button" onclick="javascript:location.href='<%=ctxPath%>/insaEduDel.opis?edu_seq=${edu.edu_seq}&seq=${seq}'">삭제</button></td>
+							<button class="modifyBtnSmall" id="modifyBtn1"  type="button" onclick="javascript:location.href='<%=ctxPath%>/insaEduModi.opis?edu_seq=${edu.edu_seq}&seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">수정</button>
+								<button class="modifyBtnSmall" id="modifyBtn1"  type="button" onclick="javascript:location.href='<%=ctxPath%>/insaEduDel.opis?edu_seq=${edu.edu_seq}&seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">삭제</button></td>
 						</tr>
 					</c:forEach>
 				</c:if>
@@ -163,7 +162,7 @@
 			</table>
 					<br>
 					<br>
-					<button class="modifyBtnSmall" id="modifyBtn1"  type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaRegister2.opis?insaType=1&seq=${seq}'">+추가</button>
+					<button class="modifyBtnSmall" id="modifyBtn1"  type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaRegister2.opis?insaType=1&seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">+추가</button>
 			</div>	
 				
 			<div class="insaDetailDiv" style="width: 50%; margin-left: 35px;">
@@ -188,8 +187,8 @@
 							<td>${certi.certification}</td>
 							<td>${certi.certiLevel}</td>
 							<td>${certi.certiDate}<input type="hidden" value="${certi.certi_seq}" />
-							<button class="modifyBtnSmall" id="modifyBtn2"  type="button" onclick="javascript:location.href='<%=ctxPath%>/insaCertiModi.opis?certi_seq=${certi.certi_seq}&seq=${seq}'">수정</button>
-							<button class="modifyBtnSmall" id="modifyBtn2"  type="button" onclick="javascript:location.href='<%=ctxPath%>/insaCertiDel.opis?certi_seq=${certi.certi_seq}&seq=${seq}'">삭제</button>
+							<button class="modifyBtnSmall" id="modifyBtn2"  type="button" onclick="javascript:location.href='<%=ctxPath%>/insaCertiModi.opis?certi_seq=${certi.certi_seq}&seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">수정</button>
+							<button class="modifyBtnSmall" id="modifyBtn2"  type="button" onclick="javascript:location.href='<%=ctxPath%>/insaCertiDel.opis?certi_seq=${certi.certi_seq}&seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">삭제</button>
 							</td>
 						</tr>
 						</c:forEach>
@@ -199,7 +198,7 @@
 			</table>
 					<br>
 					<br>
-					<button class="modifyBtnSmall" id="modifyBtn2"  type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaRegister2.opis?insaType=2&seq=${seq}'">+추가</button>
+					<button class="modifyBtnSmall" id="modifyBtn2"  type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaRegister2.opis?insaType=2&seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">+추가</button>
 			</div>
 </div>
 

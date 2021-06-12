@@ -127,22 +127,51 @@
 		  }
 		} 
 	
+
+	function goSearch(){
+
+		var searchType = $(".searchType option:selected").val();
+		var searchWord= $("input.searchWord").val();
+		var category = $("input#hiddenCategory").val();
+
+		location.href='<%=ctxPath%>/insa.opis?category='+category+'&searchType='+searchType+'&searchWord='+searchWord; 
+	}	
 	
+	function goInsaDetail(seq){
+
+		var searchType = $("input#hiddenSearchType").val();
+		var searchWord= $("input#hiddenSearchWord").val();
+		var category = $("input#hiddenCategory").val();
+		location.href='<%=ctxPath%>/insaView1.opis?category='+category+'&seq='+seq+'&searchType='+searchType+'&searchWord='+searchWord; 
+	}
 </script>
 
 <div id="insa" style="width: 80%; display: inline-block; margin-top: 70px; padding-left: 30px;">
 			<table style="margin-bottom: 30px;">
 				<tr>
 					<td>
-						<form name="form1" id="form1" action="/action_page.php">
-				 			<select name="subject" id="subject">
-						    	<option value="" selected="selected">사원번호</option>
-						    	<option value="" selected="selected">사원명</option>
-						    	<option value="" selected="selected">부서명</option>
+						<select name="searchType" class="searchType" id="subject">
+				 				<c:if test="${searchType == 'mbr_seq' }" >
+							    	<option value="mbr_seq" selected="selected">사원번호</option>
+							    	<option value="mbr_name">사원명</option>
+				 				</c:if>
+				 				<c:if test="${searchType == 'mbr_name' }" >
+							    	<option value="mbr_seq">사원번호</option>
+							    	<option value="mbr_name" selected="selected">사원명</option>
+				 				</c:if>
+				 				<c:if test="${searchType == '' }" >
+							    	<option value="mbr_seq" selected="selected">사원번호</option>
+							    	<option value="mbr_name">사원명</option>
+				 				</c:if>
 						  	</select>
-						  	<input type="text" placeholder="Search.." name="search" style="height: 20px;">
-						 	<input type="submit" value="검색">
-						</form>
+						  	
+			 				<c:if test="${searchWord != '' }" >
+			 					<input type="text" class="searchWord" placeholder="Search.." value="${searchWord}" name="search" style="height: 20px;">
+						 	</c:if>
+			 				<c:if test="${searchWord == '' }" >
+						 		<input type="text" class="searchWord" placeholder="Search.." name="search" style="height: 20px;">
+						 	</c:if>
+								<input type="submit" onclick="goSearch()" value="검색">
 
 					</td>
 				</tr>
@@ -161,7 +190,7 @@
 					</thead>
 					<tbody>
 					<c:forEach var="insaList" items="${requestScope.insaList}">
-					<tr onclick="javascript:location.href='<%=ctxPath%>/insaView1.opis?seq=${insaList.mbr_seq}'">
+					<tr onclick="goInsaDetail(${insaList.mbr_seq})">
 						<td>${insaList.mbr_seq}</td>
 						<td>${insaList.mbr_name}</td>
 						<c:if test="${insaList.fk_dept_no == 0}">
@@ -215,11 +244,27 @@
 						<c:if test="${insaList.eduLevel == 6}">
 							<td>박사</td>
 						</c:if>
-						<td><%-- ${insaList.mbr_retireday} --%></td>
+						<c:if test="${insaList.mbr_status == 1}">
+							<td style="color: blue;">재직</td>
+						</c:if>
+						<c:if test="${insaList.mbr_status == 0}">
+							<td style="color: red;">퇴사</td>
+						</c:if>
 					</tr>
 					</c:forEach>
 				</tbody>
 			</table>
+			
+				
+	    <br><br>
+	    <div align="center" style="width: 70%; border: solid 0px gray; margin: 20px auto;">
+	    	${requestScope.pageBar}
+	    </div>
+			
+			<input id="hiddenSeq" type="hidden" value="${seq}"/>
+			<input id="hiddenCategory" type="hidden" value="${category}" />
+			<input id="hiddenSearchType" type="hidden" value="${searchType}" />
+			<input id="hiddenSearchWord" type="hidden" value="${searchWord}" />
 </div>
 
 
