@@ -97,7 +97,12 @@ public class AddrService implements InterAddrService {
 	    return myAddrlist;
 	}	
 
-	
+	// === 각 주소록 그룹의 주소록 개수 === //
+	@Override
+	public int getmyAddrTotalCount(Map<String, String> paraMap) {
+		int n = adao.getmyAddrTotalCount(paraMap);
+		return n;
+	}	
 	/*
 		개인 주소록 관리
 	*/
@@ -131,6 +136,7 @@ public class AddrService implements InterAddrService {
 		int n = adao.delAddrgroup(paraMap);
 		return n;
 	}
+
 
 
 

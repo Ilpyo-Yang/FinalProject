@@ -144,14 +144,24 @@
 
 	}); // end of $(document).ready(function(){})---------------------------------------
 
-	   // 주소록 등록
-	   function goRegister(){
-		   var frm = document.addFrm;
-	       frm.method = "POST";
-	       frm.action = "<%=ctxPath%>/addr_addEnd.opis";
-	       frm.submit();	   
-	   }// function goRegister(){}----------------------------------------------------------------
-	   
+	// 사원번호로 검색	
+	function searchMbr(){
+		
+		var mbr_seq = $("input#mbrSeq").val();
+		
+		location.href="<%=ctxPath%>/searchMbr.opis?mbr_seq="+mbr_seq;
+		
+	}// end of function searchMbr()-----------------------------------------------------
+	
+	
+    // 주소록 등록
+    function goRegister(){
+	    var frm = document.addFrm;
+        frm.method = "POST";
+        frm.action = "<%=ctxPath%>/addr_addEnd.opis";
+        frm.submit();	   
+    }// end of function goRegister(){}----------------------------------------------------------
+   
 </script>	
 	
  
@@ -165,7 +175,14 @@
 <div class="modal-body" align="center">
   <form name="addFrm" id="addFrm" enctype="multipart/form-data" > 
 
-<table id="table tblAddr">      
+<table id="table tblAddr">
+   <tr>
+		<th>사원번호</th>
+   		<td>
+   			<input type="text" name="mbr_seq" id="mbrSeq" placeholder="사원번호" class="short"/>
+   			&nbsp;&nbsp;<button type="button" id="searchMbr" onclick="searchMbr()">검색</button>
+   		</td>		
+   </tr>      
    <tr>
     	<th>이름</th>
        <td>

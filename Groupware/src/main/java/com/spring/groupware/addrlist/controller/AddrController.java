@@ -37,6 +37,8 @@ public class AddrController {
    
    // ============================ 전체 주소록 ============================ //
    
+   // === 사원번호로 주소록 검색 === //
+   
    // === 주소록 추가 === //
    @RequestMapping(value="/addr_addEnd.opis", method= {RequestMethod.POST})
    public ModelAndView addEnd(HttpServletRequest request, ModelAndView mav, AddrVO addrvo) {
@@ -361,7 +363,8 @@ public class AddrController {
 	  // 로그인한 사원의 사원번호 가져오기
 	  int fk_mbr_seq = loginuser.getMbr_seq();
 	  String addrgroup_seq = request.getParameter("addrgroup_seq");
- 	  System.out.println("확인용 : "+fk_mbr_seq+"/"+addrgroup_seq);
+	  String fk_addrgroup_seq = addrgroup_seq;
+// 	  System.out.println("확인용 : "+fk_mbr_seq+"/"+addrgroup_seq);
 	  
 	  if(searchType == null || (!"dept_name".contentEquals(searchType) && !"mbr_name".contentEquals(searchType)) ) {
  		  searchType="";
@@ -374,7 +377,8 @@ public class AddrController {
  	  Map<String,String> paraMap = new HashMap<>();    	  
  	  paraMap.put("searchType", searchType);
  	  paraMap.put("searchWord", searchWord);
- 	  
+ 	  paraMap.put("addrgroup_seq", addrgroup_seq);
+      paraMap.put("fk_addrgroup_seq", fk_addrgroup_seq);
  	  
  	  int totalCount = 0; 			// 총 게시물 건수
  	  int sizePerPage = 10;       	// 한 페이지당 보여줄 게시물 건수     	  
@@ -385,7 +389,7 @@ public class AddrController {
       int endRno = 0;             	// 끝 행번호 
        
       // 총 주소록 건수(totalCount)
-      totalCount = service.getTotalCount(paraMap);      
+      totalCount = service.getmyAddrTotalCount(paraMap);      
       totalPage = (int)Math.ceil((double)totalCount/sizePerPage);	
        
  	  if(str_currentShowPageNo == null) {
@@ -408,7 +412,7 @@ public class AddrController {
       paraMap.put("startRno", String.valueOf(startRno));
       paraMap.put("endRno", String.valueOf(endRno));
       paraMap.put("fk_mbr_seq", String.valueOf(fk_mbr_seq));
-      paraMap.put("addrgroup_seq", addrgroup_seq);
+      
       
       myAddrlist = service.myAddrlistSearchWithPaging(paraMap);
  	  // 페이징 처리한 주소록 목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것)
@@ -424,12 +428,12 @@ public class AddrController {
  	  int pageNo = ((currentShowPageNo - 1)/blockSize) * blockSize + 1;
 
  	  String pageBar = "<ul style='list-style: none;'>";
- 	  String url = "myAddrlist.opis";
+ 	  String url = "myAddrlist.opis?addrgroup_seq="+addrgroup_seq;
  	  
  	  // === [맨처음][이전] 만들기 ===
  	  if(pageNo != 1) {
- 		  pageBar += "<li style='display:inline-block; width:70px; font-size:12pt;'><a href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo=1'>[맨처음]</a></li>";
- 		  pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+ 		  pageBar += "<li style='display:inline-block; width:70px; font-size:12pt;'><a href='"+url+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo=1'>[맨처음]</a></li>";
+ 		  pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='"+url+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
  	  }
  	  
  	  while(!(loop > blockSize || pageNo > totalPage )) {
@@ -438,7 +442,7 @@ public class AddrController {
  			  pageBar += "<li style='display:inline-block; width:30px; font-size:12pt; border:solid 1px gray; color:red; padding:2px 4px;'>"+pageNo+"</li>";
  		  }
  		  else {
- 			  pageBar += "<li style='display:inline-block; width:30px; font-size:12pt;'><a href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+ 			  pageBar += "<li style='display:inline-block; width:30px; font-size:12pt;'><a href='"+url+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
  		  }
  		  
  		  loop++;
@@ -447,8 +451,8 @@ public class AddrController {
  	  
  	  // === [다음][마지막] 만들기 ===
  	  if(pageNo <= totalPage) {
- 		  pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
- 		  pageBar += "<li style='display:inline-block; width:70px; font-size:12pt;'><a href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+totalPage+"'>[마지막]</a></li>";
+ 		  pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='"+url+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
+ 		  pageBar += "<li style='display:inline-block; width:70px; font-size:12pt;'><a href='"+url+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+totalPage+"'>[마지막]</a></li>";
  	  }
  	  
  	  pageBar += "</ul>";
