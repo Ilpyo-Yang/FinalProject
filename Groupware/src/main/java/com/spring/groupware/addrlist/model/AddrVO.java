@@ -17,8 +17,6 @@ public class AddrVO {
 	private String detailaddress;
 	private String addrmemo;
 	
-	private AddrGroupVO addrgroupvo;
-	
 	public AddrVO() {}
 	
 	public AddrVO(int addr_seq, String mbr_name, String mbr_phone_number, String mbr_email, String dept_name, String position_name,
@@ -141,15 +139,5 @@ public class AddrVO {
 	public void setAddrmemo(String addrmemo) {
 		this.addrmemo = addrmemo;
 	}
-
-	public AddrGroupVO getAddrgroupvo() {
-		return addrgroupvo;
-	}
-
-	public void setAddrgroupvo(AddrGroupVO addrgroupvo) {
-		this.addrgroupvo = addrgroupvo;
-	}
-
-	
 
 }

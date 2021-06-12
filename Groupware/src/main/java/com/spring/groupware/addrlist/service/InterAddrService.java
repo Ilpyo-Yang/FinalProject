@@ -33,6 +33,9 @@ public interface InterAddrService {
 	// 주소록 삭제
 	int del(Map<String, String> paraMap);
 
+	// 개인 주소록에 추가
+	int addmyAddr(Map<String,String> paraMap);
+
 
 	/*
 	 	개인 주소록
@@ -58,6 +61,7 @@ public interface InterAddrService {
 	// 주소록 그룹 삭제
 	int delAddrgroup(Map<String, String> paraMap);
 
+	
 
 	
 }

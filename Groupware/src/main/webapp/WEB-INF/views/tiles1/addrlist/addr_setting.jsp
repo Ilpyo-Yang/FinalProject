@@ -5,16 +5,9 @@
 <% String ctxPath = request.getContextPath(); %>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>개인 주소록 관리</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="https://kit.fontawesome.com/16816a49c3.js" crossorigin="anonymous"></script>
-  
   
   <jsp:include page="./addr_sidebar.jsp" />
   
@@ -63,8 +56,6 @@
 	}// end of function goDelete(addrgroup_seq)------------------------
 	
 </script>
-</head>
-<body>
 
 <div style="width: 1460px"> 
 	
@@ -125,5 +116,3 @@
 	
 	
 </div>
-</body>
-</html>

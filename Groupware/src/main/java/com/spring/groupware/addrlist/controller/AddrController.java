@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -64,13 +65,18 @@ public class AddrController {
    
    // === 주소록 목록 === //
    @RequestMapping(value="/totaladdrlist.opis")
-   public ModelAndView list(ModelAndView mav, HttpServletRequest request) {
+   public ModelAndView requiredLogin_addrlist(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 
  	  List<AddrVO> addrList = null; 
- 	   	  
+ 	  List<AddrGroupVO> addrgroupList = null;
+ 	  
+ 	  HttpSession session = request.getSession();
+	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+ 	  
  	  String searchType = request.getParameter("searchType");
  	  String searchWord = request.getParameter("searchWord");    	  
  	  String str_currentShowPageNo = request.getParameter("currentShowPageNo");
+ 	  int fk_mbr_seq = loginuser.getMbr_seq();
  	  
  	  if(searchType == null || (!"dept_name".contentEquals(searchType) && !"mbr_name".contentEquals(searchType)) ) {
  		  searchType="";
@@ -83,6 +89,7 @@ public class AddrController {
  	  Map<String,String> paraMap = new HashMap<>();    	  
  	  paraMap.put("searchType", searchType);
  	  paraMap.put("searchWord", searchWord);
+ 	  paraMap.put("fk_mbr_seq", String.valueOf(fk_mbr_seq));
  	  
  	  int totalCount = 0; 			// 총 게시물 건수
  	  int sizePerPage = 10;       	// 한 페이지당 보여줄 게시물 건수     	  
@@ -121,6 +128,9 @@ public class AddrController {
  	  addrList = service.addrListSearchWithPaging(paraMap);
  	  // 페이징 처리한 주소록 목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것)
 	  
+ 	  addrgroupList = service.addrgroupListWithPaging(paraMap);
+ 	  // 개인주소록 목록 가져오기
+ 	  
  	  // 검색대상 컬럼과 검색어 유지
  	  if(!"".equals(searchType) && !"".equals(searchWord)) {
  		  mav.addObject("paraMap", paraMap);
@@ -167,6 +177,7 @@ public class AddrController {
 
  	  mav.addObject("gobackURL", gobackURL);
  	  mav.addObject("addrList", addrList);
+ 	  mav.addObject("addrgroupList", addrgroupList);
  	  mav.setViewName("addrlist/totaladdrlist.tiles1");
  	 
  	  return mav;
@@ -301,6 +312,37 @@ public class AddrController {
        return mav;
    }
    
+   
+   //=== 개인 주소록에 추가 === //
+   @RequestMapping(value="/addmyAddr.opis")
+   public ModelAndView addmyAddr(HttpServletRequest request, ModelAndView mav) {
+   	
+	   String[] checkAddrSeq = request.getParameterValues("checkAddrSeq");
+	   String[] addrSeqArr = checkAddrSeq[0].toString().split(","); // 가져온 addr_seq 분리해서 배열에 담기
+	   int checkCnt = Integer.parseInt(request.getParameter("checkCnt")); // 총 체크개수 가져오기
+	   String addrgroup_seq = request.getParameter("addrgroup_seq"); // 선택한 주소록 그룹 번호 가져오기
+
+	   // 추가할 주소록 번호 map에 담기
+	   Map<String,String> paraMap = new HashMap<>();
+ 	   paraMap.put("addrgroup_seq",addrgroup_seq);
+	
+ 	   int n = 0,i = 0;
+ 	   for(i=0; i<checkCnt; i++) { // 선택한 주소록 번호 맵에 넣고 추가하기
+   			paraMap.put("addrSeq",addrSeqArr[i]);
+   			n = service.addmyAddr(paraMap);
+   			i++;
+ 	   }
+   		
+	   	if(n==1 && i==checkCnt) { // n값이 1 이고 총 반복횟수가 체크개수와 같다면 성공
+	   		mav.setViewName("redirect:/addr_setting.opis");  
+	   	}
+	   	else {
+	   	    mav.setViewName("board/error/add_error.tiles1");
+	   	}
+	   	  
+	   	return mav;
+   		
+   }
    
    // ============================ 개인 주소록 ============================ //  
    // === 주소록 목록 === //

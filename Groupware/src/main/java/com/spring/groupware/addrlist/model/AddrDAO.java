@@ -77,6 +77,12 @@ public class AddrDAO implements InterAddrDAO {
 		return n;
 	}
 	
+	// === 개인 주소록에 추가 === //
+	@Override
+	public int addmyAddr(Map<String, String> paraMap) {
+		int n = sqlsession.update("address.addmyAddr", paraMap);
+		return n;
+	}
 	
 	/*
 		개인 주소록
@@ -122,7 +128,5 @@ public class AddrDAO implements InterAddrDAO {
 		return n;
 	}
 
-	
-	
 
 }

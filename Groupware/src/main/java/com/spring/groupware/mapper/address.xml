@@ -69,6 +69,12 @@
    		where addr_seq=#{addr_seq}
    	</delete>
    
+    <!-- === 개인 주소록에 추가 === -->
+    <update id="addmyAddr" parameterType="String">
+    	update tbl_address
+    	set fk_addrgroup_seq = #{addrgroup_seq}
+    	where addr_seq = #{addrSeq}
+    </update>
 
 <!-- ============================ 개인 주소록 ============================ -->   
 
