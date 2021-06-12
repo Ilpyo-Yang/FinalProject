@@ -18,7 +18,8 @@
 	   	select mbr_seq, mbr_id, mbr_name, mbr_email,mbr_phone_number, mbr_birthday, rank_detail, dept_detail
 		from 
 			(        
-			select mbr_seq, mbr_id, mbr_name, mbr_email,mbr_phone_number, mbr_birthday, fk_rank_no, fk_dept_no
+			select mbr_seq, mbr_id, mbr_name, mbr_email,mbr_phone_number, 
+			to_char(mbr_birthday, 'yyyy-mm-dd') as mbr_birthday, fk_rank_no, fk_dept_no
 			from tbl_mbr
 			)A left join tbl_dept B
 			on fk_dept_no = dept_no
