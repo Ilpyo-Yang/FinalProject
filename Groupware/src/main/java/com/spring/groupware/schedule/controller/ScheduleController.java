@@ -83,6 +83,7 @@ public class ScheduleController {
 			
 		}
 		
+		mav.addObject("emailList",emailList);
 		mav.addObject("addrList", addrList);
 		mav.setViewName("schedule_modal/addressList");
 		
@@ -115,7 +116,8 @@ public class ScheduleController {
 		
 		// 아래는 검색대상 컬럼과 검색어를 유지시키기 위한 것임.
 		if(!"".equals(searchType) && !"".equals(searchWord)) {
-			mav.addObject("paraMap", paraMap);
+			mav.addObject("searchType", searchType);
+			mav.addObject("searchWord", searchWord);
 		}
 		
 		mav.addObject("addrList",addrList);
@@ -401,8 +403,10 @@ public class ScheduleController {
 	
 	// 회의실 예약 취소 페이지 보여주기
 	@RequestMapping(value="/CancelResv.opis")
-	public String requiredLogin_cancelResv(HttpServletRequest request, HttpServletResponse response) {
-		return "schedule_modal/mtrMyResv";
+	public ModelAndView requiredLogin_cancelResv(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		mav.setViewName("schedule_modal/mtrMyResv");
+		return mav;
 	}
 	
 	// 내 회의실 예약 내역 가져오기
@@ -457,4 +461,7 @@ public class ScheduleController {
 		
 		return jsonObj.toString();
 	}
+	
+	
+	
 }

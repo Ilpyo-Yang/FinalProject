@@ -70,40 +70,4 @@ public interface InterScheduleService {
 	
 	
 
-	
-
-	
-
-	
-
-	
-
-
-	
-
-
-
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-
-
-	
-	
-
 }
