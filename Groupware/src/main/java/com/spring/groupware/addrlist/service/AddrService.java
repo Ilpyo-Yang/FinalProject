@@ -79,6 +79,13 @@ public class AddrService implements InterAddrService {
 		return n;
 	}
 
+	// === 페이징 처리 없는 개인 주소록 그룹 === //
+	@Override
+	public List<AddrGroupVO> addrgroupListNoPaging(Map<String, String> paraMap) {
+		List<AddrGroupVO> addrgroupList = adao.addrgroupListNoPaging(paraMap);
+	    return addrgroupList;
+	}
+	
 	/*
 		개인 주소록
 	*/
@@ -124,6 +131,8 @@ public class AddrService implements InterAddrService {
 		int n = adao.delAddrgroup(paraMap);
 		return n;
 	}
+
+
 
 
 	

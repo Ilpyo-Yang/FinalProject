@@ -128,7 +128,7 @@ public class AddrController {
  	  addrList = service.addrListSearchWithPaging(paraMap);
  	  // 페이징 처리한 주소록 목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것)
 	  
- 	  addrgroupList = service.addrgroupListWithPaging(paraMap);
+ 	  addrgroupList = service.addrgroupListNoPaging(paraMap);
  	  // 개인주소록 목록 가져오기
  	  
  	  // 검색대상 컬럼과 검색어 유지

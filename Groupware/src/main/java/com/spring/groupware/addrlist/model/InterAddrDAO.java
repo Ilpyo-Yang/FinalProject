@@ -32,7 +32,11 @@ public interface InterAddrDAO {
 
 	// 개인 주소록에 추가
 	int addmyAddr(Map<String, String> paraMap);
-	
+
+	// 페이징 처리 없는 개인 주소록 그룹
+	List<AddrGroupVO> addrgroupListNoPaging(Map<String, String> paraMap);
+
+
 	/*
 		개인 주소록
 	*/

@@ -76,6 +76,15 @@
     	where addr_seq = #{addrSeq}
     </update>
 
+	<!-- === 페이징 처리 없는 개인 주소록 그룹 === -->
+	
+   	<select id="addrgroupListNoPaging" parameterType="HashMap" resultType="com.spring.groupware.addrlist.model.AddrGroupVO">
+   	select addrgroup_seq, groupname
+	from tbl_addrlist
+	where fk_mbr_seq=#{fk_mbr_seq}	 
+  	</select>   	
+
+
 <!-- ============================ 개인 주소록 ============================ -->   
 
    	 <!-- === 페이징 처리한 주소록그룹 상세목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것) -->  
