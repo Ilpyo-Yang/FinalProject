@@ -102,11 +102,15 @@ public class ScheduleService implements InterScheduleService{
 				mail.sendmail(emailArr[i], contents);
 			}
 		}
-		
-		
-		
-		
 	}
+	
+	// 나의 일정 개수 확인하기
+	@Override
+	public int cntMyTotalScd(int mbr_seq) {
+		int totalCnt = dao.cntMyTotalScd(mbr_seq);
+		return totalCnt;
+	}
+
 	
 	///////////////////////////////////////////////////////////일정끝
 	
@@ -165,6 +169,8 @@ public class ScheduleService implements InterScheduleService{
 		int n = dao.delOneResv(usermtrno);
 		return n;
 	}
+	
+	
 
 	
 

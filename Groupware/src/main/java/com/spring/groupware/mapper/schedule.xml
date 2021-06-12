@@ -77,6 +77,14 @@
 		delete from tbl_schedule
 	</delete>
 	
+	<!-- === 나의 일정 개수 확인하기 === -->
+	<select id="cntMyTotalScd" parameterType="int" resultType="int">
+		select count(*)
+		from tbl_schedule
+		where fk_mbr_seq = #{mbr_seq}
+	</select>
+	
+	
 	<!-- ========================================================================================================== -->
 	
 	<!-- === 회의실 예약 번호 채번하기 === -->

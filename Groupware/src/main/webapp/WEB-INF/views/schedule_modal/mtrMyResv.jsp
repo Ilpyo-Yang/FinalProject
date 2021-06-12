@@ -44,11 +44,7 @@
 		color: white;
 	}
 	
-	#passed {
-		font-weight: bold;
-		font-style: italic;
-		color: red;
-	}
+
 	
 </style>
 
@@ -105,6 +101,7 @@
 			dataType:"json",
 			success:function(json) {
 				var html = 	"<table class='table table-striped'>" +
+							"<thead>" +
 							"<tr>" +
 							"<th>선택</th>" +
 							"<th>회의실명</th>" +
@@ -112,7 +109,8 @@
 							"<th>예약명</th>" +
 							"<th>시작시간</th>" +
 							"<th>종료시간</th>" +
-							"</tr>";
+							"</tr>" +
+							"</thead>";
 				
 				$.each(json,function(index, item){
 					var starttime = item.starttime.substring(0,16);
@@ -121,30 +119,24 @@
 					var endTm = new Date(item.endtime);
 					
 					if(today <= endTm){
-					html += "<tr>"+
+					html += "<tbody id='listBody'>" +
+							"<tr>"+
 							"<td><input type='checkbox' name='usemtrno' id='usemtrno' value='"+item.usemtrno+"'/></td>"+
 							"<td>"+item.mtrname+"</td>"+
 							"<td>"+item.booker+"</td>"+
 							"<td>"+item.mtrsubject+"</td>"+
 							"<td>"+starttime+"</td>"+
 							"<td>"+endtime+"</td>"+
-							"</tr>";
-					}
-					else {
-						html += "<tr>"+
-						"<td><input type='checkbox' name='usemtrno' id='usemtrno' value='"+item.usemtrno+"'/></td>"+
-						"<td>"+item.mtrname+"</td>"+
-						"<td>"+item.booker+"</td>"+
-						"<td>"+item.mtrsubject+"</td>"+
-						"<td>"+starttime+"</td>"+
-						"<td><span id='passed'>"+endtime+"</span></td>"+
-						"</tr>";
+							"</tr>" +
+							"</tbody>";
 					}
 				});
 				
 				html += "</table>"
 				
 				$("div#resvList").html(html);
+				
+				page();
 			},
 			error:function(request, status, error) {
 				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -152,13 +144,12 @@
 		});
 	}// end of function func_select(){}------------------------
 	 
-
+	
 </script>
 
 <div id="container" class="container">
 <h3 style="font-weight:bold;">${sessionScope.loginuser.mbr_name} 님의 예약내역</h3>
 <hr>
-	<span>※지난 예약내역은 종료일자가 빨간색으로 표시됩니다.</span>
 	<div id="resvList"></div>
 </div>
 

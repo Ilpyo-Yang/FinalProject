@@ -75,8 +75,6 @@
 
 	$(document).ready(function() {
 		
-		
-		
 		$("input:checkbox[name=email]").click(function(){
 			
 			var emailList = "";
@@ -97,25 +95,36 @@
 			$("input.getEmail").val(emailLists);
 			$("input.getName").val(nameLists);
 			
-			console.log(emailList);
-			console.log(nameList);
-		});
-		
+		});// end of $("input:checkbox[name=email]").click(function(){}---------------------
 		
 		$("input#searchWord").bind("keydown", function(){
 			if(event.keyCode == 13) {
 				goSearch();
 			}
-		});
+		});// end of $("input#searchWord").bind("keydown", function(){}---------------------
 		
-		// 검색시 검색조건 및 검색어 값 유지시키기
-		if(${not empty requestScope.paraMap}){
-			$("select#searchType").val("${requestScope.paraMap.searchType}");
-			$("input#searchWord").val("${requestScope.paraMap.searchWord}");
+		// 체크박스의 체크 유지 시키기		
+		var chkedEmails = '${requestScope.emailList}';
+		
+		if(chkedEmails != "") {
+			var chkedEmailArr = chkedEmails.split(",");
+			
+			$("input:checkbox[name=email]").each(function(index, item){
+				for(var i=0; i<chkedEmailArr.length; i++) {
+					if($(item).val() == chkedEmailArr[i]) {
+						$(item).prop("checked",true);
+						break;
+					}
+				}
+			});
 		}
 		
+		// 검색시 검색조건 및 검색어 값 유지시키기
+		if(${requestScope.searchType != null} && ${requestScope.searchWord != null}){
+			$("select#searchType").val("${requestScope.searchType}");
+			$("input#searchWord").val("${requestScope.searchWord}");
+		}
 		
-			
 	});// end of $(document).ready(function() {}---------------------------------- 
 	
 	function goSearch() {

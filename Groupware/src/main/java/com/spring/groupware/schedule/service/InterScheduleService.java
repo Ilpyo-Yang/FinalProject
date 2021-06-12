@@ -18,6 +18,9 @@ public interface InterScheduleService {
 	// 검색한 주소 목록 보여주기
 	List<AddrVO> addrList_Search(Map<String, String> paraMap);
 	
+	// 선택한 사람에게 회의 초대 메일 보내기
+	void invitedListEmailSending(Map<String, String> paraMap) throws Exception;
+	
 	// 일정 등록하기
 	int scdAdd(ScheduleVO schedulevo);
 	
@@ -36,8 +39,8 @@ public interface InterScheduleService {
 	// 모든 일정 삭제하기
 	int delAll();
 	
-	// 선택한 사람에게 회의 초대 메일 보내기
-	void invitedListEmailSending(Map<String, String> paraMap) throws Exception;
+	// 나의 일정 개수 확인하기
+	int cntMyTotalScd(int mbr_seq);
 	
 	//////////////////////////////////////////////////////
 	
@@ -64,40 +67,6 @@ public interface InterScheduleService {
 	
 	// 체크된 예약 내역 삭제하기
 	int delOneResv(String usermtrno);
-
-	
-
-	
-
-	
-
-	
-
-
-	
-
-
-
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-
-
 	
 	
 
