@@ -34,6 +34,8 @@ public interface InterScheduleDAO {
 	// 모든 일정 삭제하기
 	int delAll();
 	
+	// 나의 일정 개수 확인하기
+	int cntMyTotalScd(int mbr_seq);
 	
 	//////////////////////////////////////////////////////
 	
@@ -60,6 +62,8 @@ public interface InterScheduleDAO {
 	
 	// 체크된 예약 내역 삭제하기
 	int delOneResv(String usermtrno);
+	
+	
 	
 	
 	

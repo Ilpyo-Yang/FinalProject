@@ -269,11 +269,17 @@ public class ScheduleController {
 	@RequestMapping(value="/delAll.opis")
 	public ModelAndView requiredLogin_delAll(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		int mbr_seq = loginuser.getMbr_seq();
+		
+		// 나의 일정 개수 확인하기
+		int totalCnt = service.cntMyTotalScd(mbr_seq);
+		
 		int n = service.delAll();
 		
-		System.out.println(n);
-		
-		if(n==1) {
+		if(n == totalCnt) {
 			mav.setViewName("schedule/myscd.tiles1");
 		}
 		else {

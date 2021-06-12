@@ -81,6 +81,12 @@ public class ScheduleDAO implements InterScheduleDAO {
 		return n;
 	}
 	
+	// 나의 일정 개수 확인하기
+	@Override
+	public int cntMyTotalScd(int mbr_seq) {
+		int totalCnt = sqlsession.selectOne("schedule.cntMyTotalScd", mbr_seq);
+		return totalCnt;
+	}
 	
 	///////////////////////////////////////////////////////////////////
 	
@@ -139,6 +145,8 @@ public class ScheduleDAO implements InterScheduleDAO {
 		int n = sqlsession.delete("schedule.delOneResv", usermtrno);
 		return n;
 	}
+	
+	
 	
 
 	
