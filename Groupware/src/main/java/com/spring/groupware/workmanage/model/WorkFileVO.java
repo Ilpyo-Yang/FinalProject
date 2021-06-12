@@ -7,7 +7,8 @@ public class WorkFileVO {
 	private MultipartFile attach;
 	// form 태그에서 type="file" 인 파일을 받아서 저장되는 필드. 진짜파일 ==> WAS(톰캣) 디스크에 저장됨.
 	// jsp 파일에서 input type="file" 인 name 의 이름(attach)과 동일해야한다.
-
+	
+	private String fileno;
 	private String fileName; // WAS(톰캣)에 저장될 파일명(2020120809271535243254235235234.png)
 	private String orgFilename; // 진짜 파일명(강아지.png) // 사용자가 파일을 업로드 하거나 파일을 다운로드 할때 사용되어지는 파일명
 	private String fileSize; // 파일크기
@@ -16,6 +17,14 @@ public class WorkFileVO {
 	
 	// 첨부 파일 관련 ------------------------------
 
+	public String getFileno() {
+		return fileno;
+	}
+
+	public void setFileno(String fileno) {
+		this.fileno = fileno;
+	}
+	
 	public String getFk_wmno() {
 		return fk_wmno;
 	}

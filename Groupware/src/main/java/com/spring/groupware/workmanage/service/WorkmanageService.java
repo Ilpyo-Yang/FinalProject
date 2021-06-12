@@ -63,7 +63,7 @@ public class WorkmanageService implements InterWorkmanageService {
 			}
 			
 			// 첨부파일이 있을 때 첨부파일 테이블에 파일 insert
-			if (m != 0 && fileList != null) {
+			if (m != 0 && fileList.get(0).getFileName() != null) {
 				for (WorkFileVO filevo : fileList) {
 					k = dao.workAddFile(filevo);
 					
@@ -137,12 +137,21 @@ public class WorkmanageService implements InterWorkmanageService {
 	// 업무 수정하기 및 수정일자 업데이트 하기
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
-	public int workEditEnd(WorkVO workvo, Map<String,String> paraMap) {
+	public int workEditEnd(WorkVO workvo, Map<String,String> paraMap, List<WorkFileVO> fileList) {
 		int n = dao.workEditEnd(workvo);
-		int m = 0;
+		int m = 0, k = 1;
 		
 		if (n == 1) {
 			m = dao.updateLasteditdate(paraMap);
+			
+			// 첨부파일이 있을 때 첨부파일 테이블에 파일 insert
+			if (m != 0 && fileList.get(0).getFileName() != null) {
+				for (WorkFileVO filevo : fileList) {
+					k = dao.workAddFile(filevo);
+					
+					if (k == 0) break;
+				}
+			}
 		}
 		
 		return n*m;
@@ -169,5 +178,39 @@ public class WorkmanageService implements InterWorkmanageService {
 		return workList;
 	}
 
+	// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
+	@Override
+	public int workStatusChangeToComplete(Map<String, Object> paraMap) {
+		
+		int n = dao.workStatusChangeToComplete(paraMap);
+		return n;
+	}
 
+	// 첨부파일 정보 가져오기
+	@Override
+	public List<WorkFileVO> getWorkFile(Map<String, String> paraMap) {
+		List<WorkFileVO> fileList = dao.getWorkFile(paraMap);
+		return fileList;
+	}
+
+	// 담당자들의 읽음확인 정보 가져오기
+	@Override
+	public List<WorkMemberVO> workmbrReadcheckdate(String wmno) {
+		List<WorkMemberVO> workmbrList = dao.workmbrReadcheckdate(wmno);
+		return workmbrList;
+	}
+
+	// 수신자 업무 처리내역 등록하기
+	@Override
+	public int receiverWorkAdd(WorkMemberVO workmbrvo) {
+		int n = dao.receiverWorkAdd(workmbrvo);
+		return n;
+	}
+
+	// 수신자 업무 처리내역 수정하기
+	@Override
+	public int receiverWorkEdit(WorkMemberVO workmbrvo) {
+		int n = dao.receiverWorkEdit(workmbrvo);
+		return n;
+	}
 }

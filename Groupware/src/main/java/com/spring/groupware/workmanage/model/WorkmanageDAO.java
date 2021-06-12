@@ -159,6 +159,40 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		return n;
 	}
 
+	// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
+	@Override
+	public int workStatusChangeToComplete(Map<String, Object> paraMap) {
+		int n = sqlsession.update("workmanage.workStatusChangeToComplete", paraMap);
+		return n;
+	}
+
+	// 첨부파일 정보 가져오기
+	@Override
+	public List<WorkFileVO> getWorkFile(Map<String, String> paraMap) {
+		List<WorkFileVO> fileList = sqlsession.selectList("workmanage.getWorkFile", paraMap);
+		return fileList;
+	}
+
+	// 담당자들의 읽음확인 정보 가져오기
+	@Override
+	public List<WorkMemberVO> workmbrReadcheckdate(String wmno) {
+		List<WorkMemberVO> workmbrList = sqlsession.selectList("workmanage.workmbrReadcheckdate", wmno);
+		return workmbrList;
+	}
+
+	// 수신자 업무 처리내역 등록하기
+	@Override
+	public int receiverWorkAdd(WorkMemberVO workmbrvo) {
+		int n = sqlsession.insert("workmanage.receiverWorkAdd", workmbrvo);
+		return n;
+	}
+
+	// 수신자 업무 처리내역 수정하기
+	@Override
+	public int receiverWorkEdit(WorkMemberVO workmbrvo) {
+		int n = sqlsession.insert("workmanage.receiverWorkEdit", workmbrvo);
+		return n;
+	}
 	
 	
 	
