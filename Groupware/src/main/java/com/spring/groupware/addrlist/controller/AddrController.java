@@ -334,7 +334,7 @@ public class AddrController {
 // 	   System.out.println("확인용 N : "+n+"확인용 i :"+i+"확인용 checkCnt : "+checkCnt);
    		
 	   	if(n==1 && i==checkCnt) { // n값이 1 이고 총 반복횟수가 체크개수와 같다면 성공
-	   		mav.setViewName("redirect:/addr_setting.opis");  
+	   		mav.setViewName("redirect:/myAddrlist.opis?addrgroup_seq="+addrgroup_seq);  
 	   	}
 	   	else {
 	   	    mav.setViewName("board/error/add_error.tiles1");
