@@ -51,7 +51,10 @@ button {
 			<c:forEach var="workmbr" items="${requestScope.workmbrList}">
 				<tr>
 					<td>${workmbr.mbr_name}</td>
-					<td>담당자</td>
+					<td>
+						<c:if test="${workmbr.fk_wrno == 2}">담당자</c:if>
+						<c:if test="${workmbr.fk_wrno == 3}">참조자</c:if>
+					</td>
 					<td>${workmbr.readcheckdate}</td>
 				</tr>
 			</c:forEach>

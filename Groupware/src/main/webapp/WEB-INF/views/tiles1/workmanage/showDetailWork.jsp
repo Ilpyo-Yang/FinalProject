@@ -1,4 +1,6 @@
 
+<%@page import="java.util.List"%>
+<%@page import="com.spring.groupware.workmanage.model.WorkFileVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -32,7 +34,10 @@
 		if (fk_wrno != 2) {
 			mbrWorkStatusChange();	
 		}
-		
+		else {
+			$("input[name=gobackWorkDetilURL]").val("${requestScope.gobackWorkDetilURL}");
+			getMyWorkStatus();	
+		}
 	});
 	
 	// 담당자별 업무처리 확인하기 
@@ -49,11 +54,12 @@
 			success:function(json) {
 				$("td#mbr_name").html(json.mbr_name);
 				$("td#lasteditdate").html(json.lasteditdate);
-				$("td#mbr_workPercent").html(json.mbr_workPercent);
+				$("span#workPercent").html(json.workPercent);
+				$("textarea.contents").html(json.contents);
 			},
 			error: function(request, status, error){
                	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-               }
+            }
 		});
 	}
 	
@@ -68,6 +74,103 @@
 		var frm = document.delFrm;
 		frm.method = "post";
 		frm.action = "<%=ctxPath%>/workDel.opis";
+		frm.submit();
+	}
+	
+	// 나의 업무처리내역 가져오기 
+	function getMyWorkStatus() {
+		var fk_mbr_seq = ${sessionScope.loginuser.mbr_seq};
+		
+		$.ajax({
+			url:"<%=ctxPath%>/oneMbrWorkStatus.opis",
+			data:{
+				"fk_mbr_seq": fk_mbr_seq,
+				"fk_wmno": "${workvo.wmno}",
+				"fk_wrno":2},
+			dataType:"json",
+			success:function(json) {
+				$("input[name=workmbr_seq]").val(json.workmbr_seq);
+				$("input[name=workPercent]").val(json.workPercent);
+				
+				var lasteditdate = json.lasteditdate;
+				
+				// 이미 처리한 내역이 있다면 수정하기로 진행해야한다.
+				if (lasteditdate == null) {
+					$("button.recworkAddBtn").show();
+					return;
+				}
+				else {
+					$("button.recworkEditBtn").show();
+					$("span#contentsText").hide();
+					$("textarea[name=contents]").show();	// 내용입력보이기
+				}
+				
+				// 수정한 날짜 넣어주기
+				$("td#lasteditdate").html(json.lasteditdate);
+				
+				// 업무진행상황체크해주기
+				var workPercent = json.workPercent;
+				$("#processBtn > button").each(function(index, item){
+					if ($(item).val() == workPercent) {
+						$(item).css({"background-color": "#ffcccc"});
+						$("input[name=workPercent]").val(workPercent);
+						return false;
+					}
+				});
+				$("span#processText").html(workPercent+"%");
+				
+				// 처리내역 넣어주기
+				$("textarea[name=contents]").html(json.contents);
+			},
+			error: function(request, status, error){
+               	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+            }
+		});
+	}
+	
+	// 업무처리하기버튼 클릭시
+	function goRecworkAdd() {
+		$("button.recworkAddBtn").hide(); 		// 업무처리하기버튼숨기기
+		// $("span#processText").hide();
+		$("span#contentsText").hide();
+		
+		$("#processBtn > button").show();
+		$("textarea[name=contents]").prop("readonly", false);
+		$("button.recworkAddEndBtn").show();	// 처리버튼보이기
+		$("textarea[name=contents]").show();	// 내용입력보이기
+	}
+	
+	// 업무수정하기버튼 클릭시
+	function goRecworkEdit() {
+		$("button.recworkEditBtn").hide(); 		// 업무수정하기버튼숨기기
+		$("span#processText").hide();
+		
+		$("#processBtn > button").show();
+		$("textarea[name=contents]").prop("readonly", false);
+		$("button.recworkEditEndBtn").show();	// 수정버튼보이기
+	}
+	
+	// 처리버튼 클릭시 form 전송 (insert)
+	function goRecworkAddEnd() {
+		var frm = document.workRegFrm;
+		frm.method = "post";
+		frm.action = "<%=ctxPath%>/receiverWorkAdd.opis";
+		frm.submit();
+	}
+	
+	// 수정버튼 클릭시 form 전송 (update)
+	function goRecworkEditEnd() {
+		var frm = document.workRegFrm;
+		frm.method = "post";
+		frm.action = "<%=ctxPath%>/receiverWorkEdit.opis";
+		frm.submit();
+	}
+	
+	// 내가 요청한 업무에 대해 수정하기 할 때
+	function goWorkEdit() {
+		var frm = document.editFrm;
+		frm.method = "post";
+		frm.action = "<%=ctxPath%>/workEdit.opis";
 		frm.submit();
 	}
 </script>
@@ -129,7 +232,14 @@
 			</tr>
 			<tr>
 				<td>첨부파일</td>
-				<td colspan="3"></td>
+				<td colspan="3">
+					<c:forEach var="file" items="${requestScope.fileList}" varStatus="status">
+						<c:if test="${sessionScope.loginuser != null}">
+							<a href="<%=ctxPath%>/download.opis?orgFilename=${file.orgFilename}&fileName=${file.fileName}">${file.orgFilename}</a>
+						</c:if>
+						<br>
+					</c:forEach>
+				</td>
 			</tr>
 		</tbody>
 	</table>
@@ -142,6 +252,12 @@
 		<input type="hidden" name="fk_wrno" value="${fk_wrno}"/>
 	</form>
 	
+	<!-- 수정할 업무 번호 폼 -->
+	<form name="editFrm">
+		<input type="hidden" name="wmno" value="${workvo.wmno}"/>
+		<input type="hidden" name="gobackWorkDetilURL" value="${gobackWorkDetilURL}"/>
+	</form>
+	
 	<!-- 처리내역 테이블 페이지 -->
 	<c:if test="${requestScope.fk_wrno ne 2}"><jsp:include page="./readDetail.jsp" /></c:if>
 	<c:if test="${requestScope.fk_wrno eq 2}"><jsp:include page="./writeDetail.jsp" /></c:if>
@@ -149,20 +265,22 @@
 	<!-- 업무 관련 버튼 -->
 	<div align="right">
 		<c:if test="${requestScope.fk_wrno eq 1}">
-			<button type="button" class="workEditBtn" onclick="javascript:location.href='<%=ctxPath%>/workEdit.opis?wmno=${workvo.wmno}'">수정</button>
-			<button type="button" class="workDeleteBtn" onclick="goWorkDel();">삭제</button>
-			<button type="button" class="workListBtn" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
+			<button type="button" class="workEditBtn btn btn-success" onclick="goWorkEdit();">업무수정</button>
+			<button type="button" class="workDeleteBtn btn btn-danger" onclick="goWorkDel();">삭제</button>
+			<button type="button" class="workListBtn btn btn-default" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
 		</c:if>
 		
 		<c:if test="${requestScope.fk_wrno eq 2}">
-			<button type="button" class="workEditBtn" onclick="javascript:location.href='<%=ctxPath%>/workEdit.opis?wmno=${workvo.wmno}'">수정</button>
-			<button type="button" class="" onclick="">처리</button>
-			<button type="button" class="workListBtn" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
+			<button type="button" class="recworkAddBtn btn btn-success" onclick="goRecworkAdd();" hidden>업무처리하기</button>
+			<button type="button" class="recworkEditBtn btn btn-success" onclick="goRecworkEdit();" hidden>처리내역수정하기</button>
+			<button type="button" class="recworkAddEndBtn btn btn-success" onclick="goRecworkAddEnd();" hidden>처리</button>
+			<button type="button" class="recworkEditEndBtn btn btn-success" onclick="goRecworkEditEnd();" hidden>수정</button>
+			<button type="button" class="workListBtn btn " onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
 		</c:if>
 		
 		<c:if test="${requestScope.fk_wrno eq 3}">
-			<button type="button" class="workDeleteBtn" onclick="goWorkDel();">삭제</button>
-			<button type="button" class="workListBtn" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
+			<button type="button" class="workDeleteBtn btn btn-success" onclick="goWorkDel();">삭제</button>
+			<button type="button" class="workListBtn btn btn-success" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
 		</c:if>
 	</div>
 	

@@ -13,7 +13,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		
-		$("input[name=attach]").hide();
+		$("input[name=attach]").show();
 		
 		// 결재라인 모달창 열기
 		$("button#approvalMember").click(function(){			
@@ -35,14 +35,23 @@
 			$('div#myModal2').hide();
 		});
 		
+		
+		var fileCnt = document.getElementById("attach").files.length;
+		$("input[name=file]").val(fileCnt);
+		
 		// 첨부파일 목록 보여주기
 		$("input[type=file]").change(function(){
+			fileCnt = document.getElementById("attach").files.length;
+			$("input[name=file]").html(fileCnt);
+			
 			var files = document.getElementById("attach").files;
 	        var file;
 	        
+	        $("div#attachedFile").html("");
+	        
 	        for (var i=0; i<files.length; i++) { 
 	            file = files[i];
-	            $("div#attachedFile").append('<span>'+file.name+'<button type="button" class="btn formBtn2 delFile" onclick="func_delFile()">X</button></span>');
+	            $("div#attachedFile").append('<span id="'+i+'">'+file.name+'<button type="button" class="btn formBtn2 delFile" id="'+i+'" onclick="func_delFile(this.id)">X</button></span>');
 	            if(i%2==1){
 	        		$("div#attachedFile").append('<br>');
 	        	}
@@ -57,9 +66,13 @@
 	           return;
 	        }
 	        if($("textarea").val().trim() == "") {
-		           alert("제출사유를 입력해주세요!");
-		           return;
+	           alert("제출사유를 입력해주세요!");
+	           return;
 		    }
+	        if($("td.sign").val()==null || $("td#sign").val()=="") {
+	        	alert("결재라인을 선택해주세요!");
+		        return;
+	        }
 	        
 	        // 폼 전송하기
 	        var frm = document.approvalSubmitForm;
@@ -76,6 +89,11 @@
 	}// end of function func_attach() ------------------------------------------
 	
 	
+	function func_delFile(id) {
+		 $("span#"+id).remove();
+		 var files = document.getElementById("attach").files;
+		 files.splice(Number(id),1);
+	}// end of function func_delFile(this.id) ---------------------------------------
 	
 </script>
 </head>
@@ -84,13 +102,13 @@
 	<div id="approvalContainer">
 		<form name="approvalSubmitForm" enctype="multipart/form-data">
 			<span class="subtitle">기안문작성</span>
-			<hr>
+			<hr class="hr">
 			<div id="approvalFormStyle">   
 			     	
 				<div id="top">
-					<button type="button" class="btn btn-success formBtn" id="approvalMember">결재선</button>
-					<button type="button" class="btn btn-success formBtn" id="approvalSubmit">결재요청</button>
-					<button type="button" class="btn btn-default formBtn" onclick="location.href='<%=ctxPath%>/approvalMain.opis';">취소</button>
+					<button type="button" class="btn btn-success formBtn3" id="approvalMember">결재선</button>
+					<button type="button" class="btn btn-success formBtn3" id="approvalSubmit">결재요청</button>
+					<button type="button" class="btn btn-default formBtn3" onclick="location.href='<%=ctxPath%>/approvalMain.opis';">취소</button>
 					<br>
 					<div id="signTitle">결재라인</div><br><br>
 					<table id="sign">
@@ -128,7 +146,7 @@
 							<tr>
 								<td>문서제목</td>
 								<td colspan="3">
-									<input type="text" class="form-control" id="ap_title" name="ap_title"/>
+									<input type="text" class="form-control size1" id="ap_title" name="ap_title" autocomplete="off"/>
 								</td>
 							</tr>
 							<tr>
@@ -142,8 +160,8 @@
 				</div>
 				
 				<div id="bottom">
-					<input type="file" name="attach" id="attach" name="attach" multiple />
-					<button type="button" class="btn btn-success formBtn" id="attachBtn" onclick="func_attach()" >파일업로드</button>			
+					<input type="file" name="attach" id="attach" multiple />
+					<button type="button" class="btn btn-success formBtn3" id="attachBtn" onclick="func_attach()" >파일업로드</button>			
 					<div id="attachedFile"></div>
 				</div>
 				<br>
@@ -151,10 +169,12 @@
 				<input type="hidden" name="ap_seq" value="${fileNo}"/>
 				<input type="hidden" name="fk_apform_no" value="0"/>
 				<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}"/>
+				<input type="hidden" name="ap_dept" value="${sessionScope.loginuser.dept_detail}"/>
 				<input type="hidden" name="ap_approver" />
 				<input type="hidden" name="ap_manage_approver" />
 				<input type="hidden" name="ap_referrer" />
-	
+				<input type="hidden" name="file" />
+				
 			</div>
 		</form>
 	</div>

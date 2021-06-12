@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>	
 <% String ctxPath = request.getContextPath(); %>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -99,6 +100,22 @@ div#diplayList {
 			goSearch();
 		});
 		
+		// 파일첨부 숨기기
+		$("input[name=attach]").hide();
+		
+		// 첨부파일 목록 보여주기
+		$("input[type=file]").change(function(){
+			var files = document.getElementById("attach").files;
+	        var file;
+	        
+	        $("div#attachedFile").html("");
+	        
+	        for (var i=0; i<files.length; i++) { 
+	            file = files[i];
+	            $("div#attachedFile").append('<span>'+file.name+'&nbsp;&nbsp;</span><br>');
+	        }
+		});
+		
 	});
 	
 	// == 업무 요청, 업무 보고 일 경우에만 담당자, 참조자  input 보여주기 == //
@@ -153,6 +170,13 @@ div#diplayList {
 		frm.method = "post";
 		frm.submit();
 	}
+	
+	// 파일업로드 버튼클릭시
+	function func_attach() {
+		 $("input[name=attach]").click();	
+	}
+	
+	
 </script>
 
 <div class="container commoncontainer">
@@ -160,7 +184,7 @@ div#diplayList {
 	
 	<br>
 	
-	<form name="workRegFrm">
+	<form name="workRegFrm" enctype="multipart/form-data">
 		<table class="table table-striped workRegtable">
 			<tbody>
 				<tr>
@@ -193,13 +217,27 @@ div#diplayList {
 					<td><textarea name="contents" cols="60" rows="10">${requestScope.workvo.contents}</textarea></td>
 				</tr>
 				<tr>
-					<td>파일 업로드</td>
-					<td><button name="addfile" type="button">파일추가</button></td>
+					<td>파일</td>
+					<td>
+						<c:forEach var="file" items="${requestScope.fileList}" varStatus="status">
+							<c:if test="${sessionScope.loginuser != null}">
+								<a href="<%=ctxPath%>/download.opis?orgFilename=${file.orgFilename}&fileName=${file.fileName}">${file.orgFilename}</a>&nbsp;
+							</c:if>
+						</c:forEach>
+					</td>
+				</tr>
+				<tr>
+					<td>추가파일 업로드</td>
+					<td>
+						<input type="file" name="attach" id="attach" name="attach" multiple />
+						<button type="button" class="btn btn-success formBtn" id="attachBtn" onclick="func_attach()" >파일업로드</button>			
+						<div id="attachedFile"></div>
+					</td>
 				</tr>
 				<tr id="workRegBtn">
 					<td colspan="2">
-						<button type="button" onclick="checkStar()">수정</button>
-						<button type="button" >취소</button>
+						<button type="button" class="btn btn-success" onclick="checkStar()">수정</button>
+						<button type="button" class="btn btn-danger" onclick="javascript:location.href='<%=ctxPath%>/${requestScope.gobackWorkDetilURL}'">취소</button>
 					</td>
 				</tr>
 			</tbody>
@@ -207,6 +245,7 @@ div#diplayList {
 		<input type="hidden" name="wmno" value="${requestScope.workvo.wmno}"/>
 		<input type="hidden" name="fk_wrno" value="1"/>
 		<input type="hidden" name="fk_wtno" value="${requestScope.workvo.fk_wtno}"/>
+		<input type="hidden" name="gobackWorkDetilURL" value="${requestScope.gobackWorkDetilURL}"/>
 	</form>
 </div>
 

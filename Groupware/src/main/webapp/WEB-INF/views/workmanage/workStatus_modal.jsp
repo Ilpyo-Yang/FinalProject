@@ -54,7 +54,7 @@ button {
 				<tr>
 					<td>${workmbr.mbr_name}</td>
 					<td>${workmbr.lasteditdate}</td>
-					<td><button type="button" class="workStatusMbr" value="${workmbr.mbr_workPercent}"></button></td>
+					<td><button type="button" class="workStatusMbr" value="${workmbr.workPercent}"></button></td>
 				</tr>
 			</c:forEach>
 		</tbody>

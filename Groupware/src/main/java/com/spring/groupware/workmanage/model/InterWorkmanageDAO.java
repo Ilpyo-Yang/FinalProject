@@ -67,5 +67,19 @@ public interface InterWorkmanageDAO {
 	// 수정일자 업데이트 하기
 	int updateLasteditdate(Map<String, String> paraMap);
 
+	// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
+	int workStatusChangeToComplete(Map<String, Object> paraMap);
+
+	// 첨부파일 정보 가져오기
+	List<WorkFileVO> getWorkFile(Map<String, String> paraMap);
+
+	// 담당자들의 읽음확인 정보 가져오기
+	List<WorkMemberVO> workmbrReadcheckdate(String wmno);
+
+	// 수신자 업무 처리내역 등록하기
+	int receiverWorkAdd(WorkMemberVO workmbrvo);
+
+	// 수신자 업무 처리내역 수정하기
+	int receiverWorkEdit(WorkMemberVO workmbrvo);
 
 }
