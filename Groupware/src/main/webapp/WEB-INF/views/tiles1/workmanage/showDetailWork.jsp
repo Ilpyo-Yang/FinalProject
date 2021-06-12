@@ -224,7 +224,7 @@
 			</tr>
 			<tr>
 				<td>참조자</td>
-				<td colspan="3"></td>
+				<td colspan="3">${workvo.referrers}</td>
 			</tr>
 			<tr>
 				<td>내용</td>

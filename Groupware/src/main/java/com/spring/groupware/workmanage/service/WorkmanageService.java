@@ -1,9 +1,17 @@
 package com.spring.groupware.workmanage.service;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -78,8 +86,6 @@ public class WorkmanageService implements InterWorkmanageService {
 	// == 업무 리스트(요청,보고) 보여주기 == // 
 	@Override
 	public List<WorkVO> workList(Map<String, String> paraMap) {
-		dao.updateWorkStatusByTime(paraMap); // 마감 지난 업무상태 변경하기
-		
 		List<WorkVO> workList = dao.workList(paraMap);
 		return workList;
 	}
@@ -212,5 +218,27 @@ public class WorkmanageService implements InterWorkmanageService {
 	public int receiverWorkEdit(WorkMemberVO workmbrvo) {
 		int n = dao.receiverWorkEdit(workmbrvo);
 		return n;
+	}
+	
+	// 마감 지난 업무상태 변경하기
+	@Override
+	@Scheduled(cron="0 0 0 * * ?")
+	public void updateWorkStatusByTime() { // 스케줄러로 사용되어지는 메소드는 반드시 파라미터가 없어야 함
+		
+		dao.updateWorkStatusByTime(); // 마감 지난 업무상태 변경하기
+	}
+
+	// 사원 정보 가져오기
+	@Override
+	public List<MemberVO> getMemberList(Map<String, String> paraMap) {
+		List<MemberVO> memberList = dao.getMemberList(paraMap);
+		return memberList;
+	}
+
+	// 부서 정보 가져오기
+	@Override
+	public List<HashMap<String,String>> getDeptList() {
+		List<HashMap<String,String>> deptList = dao.getDeptList();
+		return deptList;
 	}
 }

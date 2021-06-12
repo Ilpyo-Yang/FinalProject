@@ -12,6 +12,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <jsp:include page="./workmanage_sidebar.jsp" />
+<jsp:include page="../approval/selectMemberModal.jsp" />  
 
 <style type="text/css">
 div#displayList {
@@ -25,7 +26,7 @@ div#displayList {
 	z-index: 1000;
 	background-color: white;
 }
-.receiverName {
+.receiverName, .referrerName {
 	width: 80px;
 }
 
@@ -39,14 +40,15 @@ div#displayList {
 }
 .close:hover {background: #bbb;}
 
-ul#setmbrList {
+ul#receiversUl, ul#referrersUl {
   list-style-type: none;
   padding: 0;
   margin: 0;
   display: inline-block;
 }
 
-ul#setmbrList li.receiverName {
+ul#receiversUl li.receiverName,
+ul#referrersUl li.referrerName {
   border: 1px solid #ddd;
   margin-top: -1px; /* Prevent double borders */
   margin-right: 5px;
@@ -59,7 +61,8 @@ ul#setmbrList li.receiverName {
   position: relative;
 }
 
-ul#setmbrList li.receiverName:hover {
+ul#receiversUl li.receiverName:hover
+ul#referrersUl li.referrerName:hover {
   background-color: #eee;
 }
 </style>
@@ -84,7 +87,7 @@ ul#setmbrList li.receiverName:hover {
 		var checkRadio = $("input[name=fk_wtno]:checked");
 		onlyWorkInput(checkRadio);
 		
-		<%-- === #107. 검색어 입력시 자동글 완성하기 2 === --%>
+		<%-- === 검색어 입력시 자동글 완성하기  === --%>
 		$("div#displayList").hide();
 		
 		$("input#searchWord").keyup(function(event){
@@ -141,7 +144,7 @@ ul#setmbrList li.receiverName:hover {
 			html += '<input type="hidden" class="receiverName" value="'+$(this).text()+'"/>';
 			html += '<input type="hidden" class="receiverSeq" value="'+$(this).next().text()+'"/>';
 			html += '<span class="close" onclick="nameDel(this);">&times;</span></li>';
-			$("ul#setmbrList").append(html);
+			$("ul#receiversUl").append(html);
 			
 			$("input#searchWord").val("").focus();
 			$("div#displayList").hide();
@@ -163,7 +166,6 @@ ul#setmbrList li.receiverName:hover {
 	            $("div#attachedFile").append('<span>'+file.name+'&nbsp;&nbsp;</span><br>');
 	        }
 		});
-		
 		
 	});
 	
@@ -249,8 +251,19 @@ ul#setmbrList li.receiverName:hover {
 		$("input[name=receivers]").val(receiverNames.join());
 		$("input[name=receiverSeqs]").val(receiverSeqs.join());
 		
-		$("input[name=referrers]").val('');
-		$("input[name=referrerSeqs]").val();
+		// referrer의 name, seq 문자열 보내기
+		var referrerNames = [];
+		var referrerSeqs = [];
+		
+		$("input.referrerName").each(function(index, item){
+			referrerNames.push($(item).val());
+		});
+		$("input.referrerSeq").each(function(index, item){
+			referrerSeqs.push($(item).val());
+		});
+		
+		$("input[name=referrers]").val(referrerNames.join());
+		$("input[name=referrerSeqs]").val(referrerSeqs.join());
 		
 		var frm = document.workRegFrm;
 		frm.action = "<%=ctxPath%>/workAddEnd.opis";
@@ -262,6 +275,14 @@ ul#setmbrList li.receiverName:hover {
 	function func_attach() {
 		 $("input[name=attach]").click();	
 	}
+	
+	// 주소록으로 이동
+	function goAddress(targetUl) {
+		var url = "<%=ctxPath%>/showAddresslist_work.opis?targetUl="+targetUl;
+		window.open(url,"showAddress","left=350px, top=100px, width=600px, height=500px");
+	}
+	
+	
 </script>
 
 <div class="container commoncontainer">
@@ -297,17 +318,17 @@ ul#setmbrList li.receiverName:hover {
 				<tr class="onlyWorkInput">
 					<td><span class="star">*</span>담당자</td>
 					<td>
-						<input type="text" id="searchWord" name="searchWord" placeholder="사용자"  autocomplete="off" />
-						<ul id="setmbrList"></ul>
-						<div id="displayList"></div>
+						<!-- <input type="text" id="searchWord" name="searchWord" placeholder="사용자"  autocomplete="off" /> -->
+						<button type="button" onclick="goAddress('receiversUl')">사원찾기</button>
+						<ul id="receiversUl"></ul>
 					</td>
 				</tr>
 				
 				<tr class="onlyWorkInput">
 					<td>참조자</td>
 					<td>
-						
-						<input name="fk_referrer_seq" placeholder="사용자" />
+						<button type="button" onclick="goAddress('referrersUl')">사원찾기</button>
+						<ul id="referrersUl"></ul>
 					</td>
 				</tr>
 			
@@ -333,8 +354,8 @@ ul#setmbrList li.receiverName:hover {
 			</tbody>
 		</table>	
 		<input type="hidden" name="requester" value="${sessionScope.loginuser.mbr_name}"/><input type="hidden" name="requesterSeq" value="5"/>
-		<input type="hidden" name="receivers" /><input type="hidden" name="receiverSeqs" />
-		<input type="hidden" name="referrers" /><input type="hidden" name="referrerSeqs" />
+		<input type="hidden" name="receivers" id="receivers"/><input type="hidden" name="receiverSeqs" id="receiverSeqs"/>
+		<input type="hidden" name="referrers" id="referrers"/><input type="hidden" name="referrerSeqs" id="referrerSeqs"/>
 		<input type="hidden" name="fk_wrno" value="1"/>
 		<!-- <input type="hidden" name="fk_wtno" /> -->
 		<input type="hidden" name="fk_statno" />

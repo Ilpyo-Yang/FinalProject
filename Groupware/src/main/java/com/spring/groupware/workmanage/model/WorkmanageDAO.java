@@ -1,5 +1,6 @@
 package com.spring.groupware.workmanage.model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -98,8 +99,8 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 
 	// 마감일자지난 업무상태 변경
 	@Override
-	public int updateWorkStatusByTime(Map<String, String> paraMap) {
-		int n = sqlsession.update("workmanage.updateWorkStatusByTime", paraMap);
+	public int updateWorkStatusByTime() {
+		int n = sqlsession.update("workmanage.updateWorkStatusByTime");
 		return n;
 	}
 
@@ -193,8 +194,20 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		int n = sqlsession.insert("workmanage.receiverWorkEdit", workmbrvo);
 		return n;
 	}
+
+	// 사원 정보 가져오기
+	@Override
+	public List<MemberVO> getMemberList(Map<String, String> paraMap) {
+		List<MemberVO> memberList = sqlsession.selectList("workmanage.getMemberList", paraMap);
+		return memberList;
+	}
 	
-	
+	// 부서 정보 가져오기
+	@Override
+	public List<HashMap<String, String>> getDeptList() {
+		List<HashMap<String, String>> deptList = sqlsession.selectList("workmanage.getDeptList");
+		return deptList;
+	}
 	
 
 }

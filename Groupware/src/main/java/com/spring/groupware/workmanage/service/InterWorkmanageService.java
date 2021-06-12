@@ -1,5 +1,6 @@
 package com.spring.groupware.workmanage.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,4 +72,12 @@ public interface InterWorkmanageService {
 	// 수신자 업무 처리내역 수정
 	int receiverWorkEdit(WorkMemberVO workmbrvo);
 
+	// 마감일자 지나면 업무 상태 변화를 하기 위해 스케줄 처리
+	void updateWorkStatusByTime();
+
+	// 사원 정보 가져오기
+	List<MemberVO> getMemberList(Map<String, String> paraMap);
+
+	// 부서 정보 가져오기
+	List<HashMap<String,String>> getDeptList();
 }

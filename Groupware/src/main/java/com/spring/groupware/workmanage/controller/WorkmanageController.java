@@ -27,8 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.groupware.addrlist.model.AddrVO;
 import com.spring.groupware.common.*;
 import com.spring.groupware.member.model.MemberVO;
+import com.spring.groupware.schedule.service.InterScheduleService;
 import com.spring.groupware.workmanage.model.TodoVO;
 import com.spring.groupware.workmanage.model.WorkFileVO;
 import com.spring.groupware.workmanage.model.WorkMemberVO;
@@ -41,6 +43,7 @@ public class WorkmanageController {
 
 	@Autowired // type에 따라 자동 객체 삽입
 	private InterWorkmanageService service;
+	
 	
 	@Autowired     // Type에 따라 알아서 Bean 을 주입해준다.
 	private FileManager fileManager;
@@ -847,4 +850,41 @@ public class WorkmanageController {
 
 		return mav;
 	}
+	
+	// 회원 정보 가져오기
+	@RequestMapping(value="/showAddresslist_work.opis")
+	public ModelAndView showAddresslist_work(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		String searchType = request.getParameter("searchType");
+		String searchWord = request.getParameter("searchWord");
+		String targetUl = request.getParameter("targetUl");
+		
+		if(searchType == null || (!"dept_detail".equals(searchType) && !"mbr_name".equals(searchType)) ) {
+			searchType= "";
+		}
+		
+		if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty()) {
+			searchWord= "";
+		}
+		
+		Map<String, String> paraMap = new HashMap<>();
+		paraMap.put("searchType", searchType);
+		paraMap.put("searchWord", searchWord);
+		
+		List<MemberVO> memberList = service.getMemberList(paraMap);
+		List<HashMap<String,String>> deptList = service.getDeptList();
+		
+		mav.addObject("memberList", memberList);
+		mav.addObject("deptList", deptList);
+		mav.addObject("targetUl", targetUl);
+		
+		// 아래는 검색대상 컬럼과 검색어를 유지
+		if(!"".equals(searchType) && !"".equals(searchWord)) {
+			mav.addObject("paraMap", paraMap);
+		}
+		
+		mav.setViewName("workmanage/selectMember");
+		return mav;
+	}
+	
 }

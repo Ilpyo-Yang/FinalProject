@@ -1,5 +1,6 @@
 package com.spring.groupware.workmanage.model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,7 +42,7 @@ public interface InterWorkmanageDAO {
 	int workAddMember(WorkMemberVO workmbr);
 
 	// 마감일자지난 업무상태 변경
-	int updateWorkStatusByTime(Map<String, String> paraMap);
+	int updateWorkStatusByTime();
 
 	// 담당자들의 업무 정보 가져오기
 	List<WorkMemberVO> getWorkStatusEachMember(String wmno);
@@ -81,5 +82,11 @@ public interface InterWorkmanageDAO {
 
 	// 수신자 업무 처리내역 수정하기
 	int receiverWorkEdit(WorkMemberVO workmbrvo);
+
+	// 사원 정보 가져오기
+	List<MemberVO> getMemberList(Map<String, String> paraMap);
+
+	// 부서 정보 가져오기
+	List<HashMap<String, String>> getDeptList();
 
 }
