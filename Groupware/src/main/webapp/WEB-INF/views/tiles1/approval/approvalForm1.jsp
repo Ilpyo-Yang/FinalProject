@@ -173,7 +173,7 @@
 				<input type="hidden" name="ap_approver" />
 				<input type="hidden" name="ap_manage_approver" />
 				<input type="hidden" name="ap_referrer" />
-				<input type="text" name="file" />
+				<input type="hidden" name="file" />
 				
 			</div>
 		</form>

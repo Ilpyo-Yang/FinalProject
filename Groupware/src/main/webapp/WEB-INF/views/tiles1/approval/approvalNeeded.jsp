@@ -5,7 +5,7 @@
 <% String ctxPath = request.getContextPath(); %>
 
 <jsp:include page="./approval_sidebar.jsp" /> 
- 
+
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -14,6 +14,43 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		
+		var managePerson = '${sessionScope.loginuser.dept_detail} ${sessionScope.loginuser.rank_detail}'
+						   +' ${sessionScope.loginuser.mbr_name}';
+		
+		
+		// 결재대기 문서 리스트 가져오기
+		$.ajax({
+			url:"<%=ctxPath%>/approvalNeededList.opis",
+			dataType:"json",
+			data:{managePerson:managePerson},
+			success: function(json){	
+				var html="";
+				
+				if(json.length>0){	
+					$.each(json, function(index, item){
+						/* console.log(item); */
+						html += "<tr id='"+item.ap_seq+"' style='cursor:pointer;'>"+
+								"<td><input type='checkbox' class='approvalList' /></td>"+
+								"<td>"+item.apform_name+"</td>"+
+								"<td>"+item.ap_title+"</td>"+
+								"<td>"+item.mbr_name+"</td>"+
+								"<td>"+item.ap_dept+"</td>"+
+								"<td>"+item.ap_start_day+"</td>"+
+							    "</tr>";
+					});
+				}
+				else {
+					html += "<tr><td></td><td>결재 대기중인 문서가 없습니다.</td><td></td><td></td><td></td><td></td></tr>"
+				}
+					
+				$("tbody#list").append(html);
+			},
+			error: function(request, status, error){
+                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+            }
+		}); 
+		
 		
 		$("input#datepicker").datepicker({
 			 dateFormat: 'yy-mm-dd', 
@@ -26,42 +63,6 @@
 		      changeMonth: true,
 		      changeYear: true
 		});
-		
-		var managePerson = '${sessionScope.loginuser.dept_detail} ${sessionScope.loginuser.rank_detail}'
-						   +' ${sessionScope.loginuser.mbr_name}';
-		
-		
-		var html="";
-		
-		// 결재대기 문서 리스트 가져오기
-		$.ajax({
-			url:"<%=ctxPath%>/approvalNeededList.opis",
-			dataType:"json",
-			data:{managePerson:managePerson},
-			success: function(json){		
-				if(json.length>0){
-					console.log(json.length);
-					$.each(json, function(index, item){
-						html += "<tr>"+
-						"<td><input type='checkbox' class='approvalList' value='"+item.ap_seq+"'/></td>"+
-						"<td>"+item.apform_name+"</td>"+
-						"<td>"+item.ap_title+"</td>"+
-						"<td>"+item.mbr_name+"</td>"+
-						"<td>"+item.ap_dept+"</td>"+
-						"<td>"+item.ap_start_day+"</td>"+
-					    "</tr>";
-					});
-				}
-				else {
-					html += "<tr><td></td><td>결재 대기중인 문서가 없습니다.</td><td></td><td></td><td></td><td></td></tr>"
-				}
-					
-				$("tbody#list").html(html);
-			},
-			error: function(request, status, error){
-                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-            }
-		}); 
 		
 	}); // end of $(document).ready(function(){})---------------------------------------
 	

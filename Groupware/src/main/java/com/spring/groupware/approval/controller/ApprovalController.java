@@ -225,12 +225,12 @@ public class ApprovalController {
 		 String managePerson = request.getParameter("managePerson");
 		 
 		 List<ApprovalVO> approvalList = service.getApprovalNeededList(managePerson); 
-		
+		 
 		 JSONArray jsonArr = new JSONArray(); 
-		 JSONObject jsonObj = new JSONObject();	
 		 
 		 if(approvalList.size() != 0) {
 		     for(ApprovalVO avo : approvalList) {
+		    	 	JSONObject jsonObj = new JSONObject();	
 					jsonObj.put("apform_name", avo.getApform_name());
 					jsonObj.put("ap_title", avo.getAp_title());
 					jsonObj.put("mbr_name", avo.getMbr_name());
@@ -260,10 +260,10 @@ public class ApprovalController {
 		 List<ApprovalVO> approvalList = service.getApprovalSubmitList(fk_mbr_seq); 
 		
 		 JSONArray jsonArr = new JSONArray(); 
-		 JSONObject jsonObj = new JSONObject();	
-
+		 
 		 if(approvalList.size() != 0) {
 		     for(ApprovalVO avo : approvalList) {
+		    	 	JSONObject jsonObj = new JSONObject();	
 					jsonObj.put("apform_name", avo.getApform_name());
 					jsonObj.put("ap_title", avo.getAp_title());
 					jsonObj.put("ap_start_day", avo.getAp_start_day());
@@ -294,10 +294,10 @@ public class ApprovalController {
 		 List<ApprovalVO> approvalList = service.getApprovalReferredList(managePerson); 
 		
 		 JSONArray jsonArr = new JSONArray(); 
-		 JSONObject jsonObj = new JSONObject();	
 
 		 if(approvalList.size() != 0) {
 		     for(ApprovalVO avo : approvalList) {
+		    	 	JSONObject jsonObj = new JSONObject();	
 					jsonObj.put("apform_name", avo.getApform_name());
 					jsonObj.put("ap_title", avo.getAp_title());
 					jsonObj.put("ap_start_day", avo.getAp_start_day());
