@@ -275,12 +275,12 @@
 			<button type="button" class="recworkEditBtn btn btn-success" onclick="goRecworkEdit();" hidden>처리내역수정하기</button>
 			<button type="button" class="recworkAddEndBtn btn btn-success" onclick="goRecworkAddEnd();" hidden>처리</button>
 			<button type="button" class="recworkEditEndBtn btn btn-success" onclick="goRecworkEditEnd();" hidden>수정</button>
-			<button type="button" class="workListBtn btn " onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
+			<button type="button" class="workListBtn btn btn-default" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
 		</c:if>
 		
 		<c:if test="${requestScope.fk_wrno eq 3}">
-			<button type="button" class="workDeleteBtn btn btn-success" onclick="goWorkDel();">삭제</button>
-			<button type="button" class="workListBtn btn btn-success" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
+			<button type="button" class="workDeleteBtn btn btn-danger" onclick="goWorkDel();">삭제</button>
+			<button type="button" class="workListBtn btn btn-default" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
 		</c:if>
 	</div>
 	

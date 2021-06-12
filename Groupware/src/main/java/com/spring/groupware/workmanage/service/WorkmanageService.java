@@ -112,7 +112,7 @@ public class WorkmanageService implements InterWorkmanageService {
 		
 		// 수신함에 있는 업무를 클릭해서 보게될 경우 읽은 날짜로 업데이트 해주기 
 		String fk_wrno = paraMap.get("fk_wrno");
-		if ("2".equals(fk_wrno)) {
+		if ("2".equals(fk_wrno) || "3".equals(fk_wrno)) {
 			dao.updateReadcheckdate(paraMap);
 		}
 		

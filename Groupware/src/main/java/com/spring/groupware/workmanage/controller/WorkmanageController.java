@@ -414,7 +414,7 @@ public class WorkmanageController {
 		while(!(loop > blockSize || pageNo > totalPage)) {
 			
 			if (pageNo == currentShowPageNo) {
-				pageBar += "<li style='display:inline-block; width:30px; font-size:12pt; border:solid 1px gray; color:red; padding:2px 4px;'>"+pageNo+"</li>";
+				pageBar += "<li style='display:inline-block; width:30px; font-size:12pt; border-radius: 50%; background-color: #e6e6e6; color:red; padding:2px 4px;'>"+pageNo+"</li>";
 			}
 			else {
 				pageBar += "<li style='display:inline-block; width:30px; font-size:12pt;'><a href='"+url+"?fk_wtno="+fk_wtno+"&fk_wrno="+fk_wrno+"&registerday="+registerday+"&deadline="+deadline+"&workStatus="+str_workStatus+"&searchType="+searchType+"&searchWord="+searchWord+"&sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";

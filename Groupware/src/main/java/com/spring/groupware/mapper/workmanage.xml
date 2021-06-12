@@ -202,7 +202,7 @@
 		where rno between #{startRno} and #{endRno}
 	</select>
 	
-	<!-- 수신자가 읽었을 때 읽음확인 업데이트 하기  -->
+	<!-- 수신자, 참조자가 읽었을 때 읽음확인 업데이트 하기  -->
 	<update id="updateReadcheckdate" parameterType="HashMap">
 		update tbl_workmbr set readcheckdate = sysdate
 		where fk_wmno = #{wmno} and fk_wrno = #{fk_wrno} and fk_mbr_seq = #{fk_mbr_seq} and readcheckdate is null
