@@ -451,7 +451,7 @@ public class ScheduleController {
 	// 선택된 예약 건 취소하기
 	@ResponseBody
 	@RequestMapping(value="/delMtrResv.opis", method= {RequestMethod.GET})
-	public String delMtrResv(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="checkArr[]") List<String> checkArr ) {
+	public String delMtrResv(HttpServletRequest request, @RequestParam(value="checkArr[]") List<String> checkArr ) {
 		
 		JSONObject jsonObj = new JSONObject();	
 		
