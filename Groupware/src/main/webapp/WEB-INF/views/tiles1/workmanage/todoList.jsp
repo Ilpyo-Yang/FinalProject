@@ -96,8 +96,16 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 		}
 	});
 	
+	// 선택한 할일 상세보러가기
 	function goDetailTodo(tdno) {
-		location.href="<%=request.getContextPath()%>/showDetailTodo.opis?tdno="+tdno+"&mbr_seq=${sessionScope.loginuser.mbr_seq}";
+		var frm = document.detailFrm;
+		frm.tdno.value = tdno;
+	    frm.searchType.value = "${requestScope.paraMap.searchType}";
+	    frm.searchWord.value = "${requestScope.paraMap.searchWord}";
+	    
+		frm.method = "get";
+		frm.action = "<%=ctxPath%>/showDetailTodo.opis";
+		frm.submit();
 	}
 	
 	// 전체선택 체크 박스를 클릭했을 때 
@@ -271,6 +279,7 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 		</li>
 	</ul>
 	<input type="hidden" name="workStatus"/>
+	<input type="hidden" name="gobackURL" value="${requestScope.gobackURL}"/>
 	</form>
 	
 	<table class="table table-striped tdtable">
@@ -314,6 +323,15 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 		<button type="button" class="workListBtn btn btn-default" onclick="goTodoComplete();">할일완료</button>
 		<button type="button" class="workDeleteBtn btn btn-danger" onclick="goTodoDel();">삭제</button>
 	</div>
+	
+	<!-- 상세한 업무 내용 보내기 폼 -->
+	<form name="detailFrm">
+		<input type="hidden" name="tdno" />
+		<input type="hidden" name="mbr_seq" value="${sessionScope.loginuser.mbr_seq}"/>
+		<input type="hidden" name="searchType" />
+      	<input type="hidden" name="searchWord" />
+		<input type="hidden" name="gobackURL" value="${requestScope.gobackURL}" />
+	</form>	
 	
 	<!-- 삭제버튼, 완료버튼 클릭시 전송할 업무 번호 폼 -->
 	<form name="workInfoFrm">

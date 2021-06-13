@@ -33,6 +33,7 @@
 		select tdno, fk_mbr_seq, subject, contents, important, fk_statno
 		    , to_char(registerday, 'yyyy-mm-dd') as registerday
 		    , to_char(deadline, 'yyyy-mm-dd') as deadline
+		    , to_date(to_char(sysdate, 'yyyy-mm-dd')) - to_date(to_char(deadline, 'yyyy-mm-dd')) as delayday
 		from tbl_todolist
 		where tdno = #{tdno} and fk_mbr_seq = #{fk_mbr_seq}
 	</select>
@@ -248,9 +249,9 @@
 				and deadline &lt;= #{deadline}
 				</if>
 		    )
+		    order by wmno desc
 		)
 		where rno between #{startRno} and #{endRno}
-		order by wmno desc
 	</select>
 	
 	<!-- 수신자, 참조자가 읽었을 때 읽음확인 업데이트 하기  -->
@@ -372,8 +373,8 @@
 				and deadline &lt;= #{deadline}
 				</if>
 		    )
+		    order by tdno desc
 		)
 		where rno between #{startRno} and #{endRno}		
-		order by tdno desc
 	</select>
 </mapper>

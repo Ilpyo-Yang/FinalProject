@@ -25,6 +25,20 @@
 			setworkStatusBtn(item, delayday);
 		});	
 	});
+	
+	// 할일 삭제하기 
+	function goTodoDel() {
+		var delcheck = confirm("삭제하시겠습니까?");
+		if (!delcheck) {
+			return; // 삭제하지 않으면 함수 종료
+		}
+		
+		// 삭제할 업무 전송하기 (POST 방식)
+		var frm = document.delFrm;
+		frm.method = "post";
+		frm.action = "<%=ctxPath%>/workDel.opis";
+		frm.submit();
+	}
 </script>
 
 <div class="container workcontainer">
@@ -65,9 +79,15 @@
 		</tbody>
 	</table>
 	
+	<!-- 삭제할 업무 번호 폼 -->
+	<form name="delFrm">
+		<input type="hidden" name="tdnoStr" value="${tdvo.tdno}"/>
+		<input type="text" name="gobackURL" value="${requestScope.paraMap.gobackURL}"/>
+	</form>
+	
 	<div align="right">
 		<button type="button" class="workEditBtn btn btn-success" onclick="goWorkEdit();">수정</button>
-		<button type="button" class="workDeleteBtn btn btn-danger" onclick="goWorkDel();">삭제</button>
+		<button type="button" class="workDeleteBtn btn btn-danger" onclick="goTodoDel();">삭제</button>
 		<button type="button" class="workListBtn btn btn-default" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
 	</div>
 </div>

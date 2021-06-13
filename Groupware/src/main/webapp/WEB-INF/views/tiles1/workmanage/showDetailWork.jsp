@@ -248,6 +248,7 @@
 		<input type="hidden" name="wmnoStr" value="${workvo.wmno}"/>
 		<input type="hidden" name="fk_wtno" value="${fk_wtno}"/>
 		<input type="hidden" name="fk_wrno" value="${fk_wrno}"/>
+		<input type="text" name="gobackURL" value="${requestScope.paraMap.gobackURL}"/>
 	</form>
 	
 	<!-- 수정할 업무 번호 폼 -->

@@ -199,6 +199,7 @@ public class WorkmanageController {
 		paraMap.put("tdno", tdno);
 		paraMap.put("fk_mbr_seq", fk_mbr_seq);
 		paraMap.put("gobackURL", gobackURL);
+		mav.addObject("paraMap", paraMap);
 
 		// 선택한 나의할일 정보 가져오기
 		TodoVO tdvo = service.showDetailTodo(paraMap);
@@ -766,6 +767,9 @@ public class WorkmanageController {
 		if (tdnoStr != null && !"".equals(tdnoStr)) {
 			String[] tdnoList = tdnoStr.split(",");
 			paraMap.put("tdnoList", tdnoList);
+			
+			fk_wtno = "";
+			fk_wrno = "";
 		}
 
 		// 사용자의 역할에 따른 업무삭제 (실제는 yn의 상태를 0->1로 변환 시키는 작업)
