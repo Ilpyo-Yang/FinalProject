@@ -383,12 +383,11 @@ public class ApprovalController {
 		 if(approvalList.size() != 0) {
 		     for(ApprovalVO avo : approvalList) {
 		    	 	JSONObject jsonObj = new JSONObject();	
-					jsonObj.put("apform_name", avo.getApform_name());
+		    	 	jsonObj.put("apform_name", avo.getApform_name());
 					jsonObj.put("ap_title", avo.getAp_title());
+					jsonObj.put("mbr_name", avo.getMbr_name());
+					jsonObj.put("ap_dept", avo.getAp_dept());
 					jsonObj.put("ap_start_day", avo.getAp_start_day());
-					jsonObj.put("ap_manage_approver", avo.getAp_manage_approver());
-					jsonObj.put("ap_end_day", avo.getAp_end_day());
-					jsonObj.put("ap_progress", avo.getAp_progress());
 
 					jsonArr.put(jsonObj);
 		      }
