@@ -19,13 +19,13 @@ public interface InterApprovalService {
 	int submitAttachedApproval(List<Map<String, String>> fileInfoList);
 
 	// 결재대기 문서 가져오기
-	List<ApprovalVO> getApprovalNeededList(String managePerson);
+	List<ApprovalVO> getApprovalNeededList(Map<String, String> paraMap);
 
 	// 결재요청한 문서 가져오기
-	List<ApprovalVO> getApprovalSubmitList(String fk_mbr_seq);
+	List<ApprovalVO> getApprovalSubmitList(Map<String, String> paraMap);
 
 	// 결재참조된 문서 가져오기
-	List<ApprovalVO> getApprovalReferredList(String managePerson);
+	List<ApprovalVO> getApprovalReferredList(Map<String, String> paraMap);
 
 
 

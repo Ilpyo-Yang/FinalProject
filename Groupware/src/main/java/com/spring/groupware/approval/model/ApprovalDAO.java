@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.spring.groupware.member.model.MemberVO;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,26 +55,24 @@ public class ApprovalDAO implements InterApprovalDAO {
 
 	// 결재대기 문서 가져오기
 	@Override
-	public List<ApprovalVO> getApprovalNeededList(String managePerson) {
-		List<ApprovalVO> approvalList = sqlsession.selectList("approval.getApprovalNeededList", managePerson);
+	public List<ApprovalVO> getApprovalNeededList(Map<String, String> paraMap) {
+		List<ApprovalVO> approvalList = sqlsession.selectList("approval.getApprovalNeededList", paraMap);		
 		return approvalList;
 	}
 
 	// 결재요청한 문서 가져오기
 	@Override
-	public List<ApprovalVO> getApprovalSubmitList(String fk_mbr_seq) {
-		List<ApprovalVO> approvalList = sqlsession.selectList("approval.getApprovalSubmitList", fk_mbr_seq);
+	public List<ApprovalVO> getApprovalSubmitList(Map<String, String> paraMap) {
+		List<ApprovalVO> approvalList = sqlsession.selectList("approval.getApprovalSubmitList", paraMap);
 		return approvalList;
 	}
 
 	// 결재참조된 문서 가져오기
 	@Override
-	public List<ApprovalVO> getApprovalReferredList(String managePerson) {
-		List<ApprovalVO> approvalList = sqlsession.selectList("approval.getApprovalReferredList", managePerson);
+	public List<ApprovalVO> getApprovalReferredList(Map<String, String> paraMap) {
+		List<ApprovalVO> approvalList = sqlsession.selectList("approval.getApprovalReferredList", paraMap);
 		return approvalList;
 	}
-	
-
 	
 
 }

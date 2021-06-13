@@ -27,20 +27,36 @@
 		      changeYear: true
 		});
 		
+		showList();	// 결재참조된 문서 리스트 가져오기
+		
+		// 조회하기 버튼을 클릭한 경우
+		$("button#search").click(function(){	
+			$("input[name=writer]").val("$('input#searchWriter').val()");
+			$("input[name=submitStartDate]").val("$('input#datepicker').val()");
+			$("input[name=submitEndDate]").val("$('input#datepicker2').val()");
+			$("input[name=word]").val("$('input#searchWord').val()");			
+			showList();
+		});
+		
+	}); // end of $(document).ready(function(){})---------------------------------------
+	
+	
+	function showList() {
 		var managePerson = '${sessionScope.loginuser.dept_detail} ${sessionScope.loginuser.rank_detail}'
 			   +' ${sessionScope.loginuser.mbr_name}';
 			   
 		var html="";
 		
-		// 결재참조된 문서 리스트 가져오기
 		$.ajax({
 			url:"<%=ctxPath%>/approvalReferredList.opis",
 			dataType:"json",
-			data:{managePerson:managePerson},
+			data:{managePerson:managePerson, listCnt:$("select[name=listCnt]").val(),
+				  writer:$("input[name=writer]").val(), submitStartDate:$("input[name=submitStartDate]").val(),
+				  submitEndDate:$("input[name=submitEndDate]").val(), word:$("input[name=word]").val()},
 			success: function(json){		
 				if(json.length>0){
 					$.each(json, function(index, item){
-						html += "<tr id='"+item.ap_seq+"'>"+
+						html += "<tr id='"+item.ap_seq+"' style='cursor:pointer;'>"+
 						"<td>"+item.apform_name+"</td>"+
 						"<td>"+item.ap_title+"</td>"+
 						"<td>"+item.mbr_name+"</td>"+
@@ -53,14 +69,13 @@
 					html += "<tr><td></td><td>결재참조된 문서가 없습니다.</td><td></td><td></td><td></td><td></td></tr>"
 				}
 					
-				$("tbody#list").html(html);
+				$("tbody#list").append(html);
 			},
 			error: function(request, status, error){
-                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-            }
+             alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+         }
 		}); 
-		
-	}); // end of $(document).ready(function(){})---------------------------------------
+	}// end of function showList() -------------------------------------------
 	
 </script>
 </head>
@@ -91,7 +106,7 @@
 			</table>
 		</div>
 		<div id="searchList">
-			<select name="listCnt" class="selectCommon" id="listCnt">
+			<select name="listCnt" class="selectCommon" name="listCnt" id="listCnt">
 				<option>10개</option>
 				<option>8개</option>
 				<option>4개</option>
@@ -110,6 +125,12 @@
 				<tbody id="list" ></tbody>
 			</table> 					
 		</div>
+		
+		<br>
+		<input type="hidden" name="word" value="" />
+		<input type="hidden" name="writer" value="" />
+		<input type="hidden" name="submitStartDate" value="" />
+		<input type="hidden" name="submitEndDate" value="" />
 		
 	</div>
 

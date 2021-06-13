@@ -26,14 +26,32 @@
 		      changeMonth: true,
 		      changeYear: true
 		});
+
+			
+		showList();	 // 결재요청 내역 가져오기	
 		
+		// 조회하기 버튼을 클릭한 경우
+		$("button#search").click(function(){	
+			$("input[name=status]").val("$('select#status').val()");
+			$("input[name=submitStartDate]").val("$('input#datepicker').val()");
+			$("input[name=submitEndDate]").val("$('input#datepicker2').val()");
+			$("input[name=word]").val("$('input#searchWord').val()");			
+			showList();
+		});
+		
+	}); // end of $(document).ready(function(){})---------------------------------------
+	
+	
+	
+	function showList() {
 		var html="";
 
-		// 결재요청 내역 가져오기
 		$.ajax({
 			url:"<%=ctxPath%>/approvalSubmitList.opis",
 			dataType:"json",
-			data:{fk_mbr_seq:'${sessionScope.loginuser.mbr_seq}'},
+			data:{fk_mbr_seq:'${sessionScope.loginuser.mbr_seq}', listCnt:$("select[name=listCnt]").val(),
+				  status:$("select[name=status]").val(), submitStartDate:$("input[name=submitStartDate]").val(),
+				  submitEndDate:$("input[name=submitEndDate]").val(), word:$("input[name=word]").val()},
 			success: function(json){		
 				if(json.length>0){
 					$.each(json, function(index, item){
@@ -66,9 +84,8 @@
 			error: function(request, status, error){
                 alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
             }
-		}); 
-		
-	}); // end of $(document).ready(function(){})---------------------------------------
+		});
+	}// end of function showList() ------------------------------------------------
 	
 </script>
 </head>
@@ -82,11 +99,11 @@
 				<tr>
 					<td>진행상황</td>
 					<td>
-						<select name="listCnt" class="form-control searchInput" id="selectProcess">
-							<option>전체</option>
-							<option>진행중</option>
-							<option>완료</option>
-							<option>반려</option>
+						<select name="status" class="form-control searchInput" id="status">
+							<option value="">전체</option>
+							<option value="0">진행중</option>
+							<option value="1">완료</option>
+							<option value="2">반려</option>
 						</select>
 					</td>
 					<td>기안일</td>
@@ -106,7 +123,7 @@
 			</table>
 		</div>
 		<div id="searchList">
-			<select name="listCnt" class="selectCommon" id="listCnt">
+			<select name="listCnt" class="selectCommon" name="listCnt" id="listCnt">
 				<option>10개</option>
 				<option>8개</option>
 				<option>4개</option>
@@ -126,6 +143,13 @@
 				<tbody id="list" ></tbody>
 			</table> 					
 		</div>
+		
+		<br>
+		<input type="hidden" name="word" value="" />
+		<input type="hidden" name="status" value="" />
+		<input type="hidden" name="submitStartDate" value="" />
+		<input type="hidden" name="submitEndDate" value="" />
+		
 	</div>
 
 </body>

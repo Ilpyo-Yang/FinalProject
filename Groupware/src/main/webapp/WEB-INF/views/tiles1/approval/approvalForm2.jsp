@@ -52,7 +52,7 @@
 		// 첨부파일 목록 보여주기
 		$("input[type=file]").change(function(){
 			fileCnt = document.getElementById("attach").files.length;
-			$("input[name=file]").html(fileCnt);
+			$("input[name=file]").val(fileCnt);
 			
 			var files = document.getElementById("attach").files;
 	        var file;

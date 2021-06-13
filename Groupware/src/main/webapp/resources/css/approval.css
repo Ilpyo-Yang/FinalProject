@@ -50,11 +50,11 @@ div.menu {
     width: 50%; 
     height: 70%;               
 }
-div.memberModel {
-	width: 40%;
-	font-weight: bold;
-	font-size: 12pt;
-	padding: 5%;
+div.memberModal {
+	width: 40%;  
+	height: 90%; 
+	margin: 0 10px; 
+	display: inline-block;
 }
 div#memberMove {
 	display: inline-block;
@@ -281,18 +281,19 @@ div#searchOption > td:nth-child(2n) {
 	padding: 5px 15px;
 }
 button.formBtn4 {
-	height: 12px;
+	height: 20px;
 	width: 150px;
 	padding: 0 5px;
 	vertical-align: middle;
 	line-height: 20px;
 	font-size: 10pt;
 	font-weight: bold;
+	float: right;
 }
 .searchInput {
 	margin: 5px 10px;
 	padding-left: 10px;
-	width: 20%;
+	width: 30%;
 	height: 25px;
 	display: inline-block;
 }
@@ -336,5 +337,5 @@ div#searchList > table > tr > td {
 button#approval {
 	float: right;
 	height: 30px;
-	margin-right: 10%;
+	margin-right: 25px;
 }
