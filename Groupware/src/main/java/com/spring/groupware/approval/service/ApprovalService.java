@@ -50,8 +50,8 @@ public class ApprovalService implements InterApprovalService {
 
 	// 결재대기 문서 가져오기
 	@Override
-	public List<ApprovalVO> getApprovalNeededList(String managePerson) {
-		List<ApprovalVO> approvalList = adao.getApprovalNeededList(managePerson);
+	public List<ApprovalVO> getApprovalNeededList(Map<String, String> paraMap) {
+		List<ApprovalVO> approvalList = adao.getApprovalNeededList(paraMap);
 		return approvalList;
 	}
 

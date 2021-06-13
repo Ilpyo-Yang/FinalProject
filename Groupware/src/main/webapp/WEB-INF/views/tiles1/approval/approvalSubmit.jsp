@@ -26,14 +26,21 @@
 		      changeMonth: true,
 		      changeYear: true
 		});
+
+			
+		showList();	 // 결재요청 내역 가져오기	
 		
+	}); // end of $(document).ready(function(){})---------------------------------------
+	
+	
+	
+	function showList() {
 		var html="";
 
-		// 결재요청 내역 가져오기
 		$.ajax({
 			url:"<%=ctxPath%>/approvalSubmitList.opis",
 			dataType:"json",
-			data:{fk_mbr_seq:'${sessionScope.loginuser.mbr_seq}'},
+			data:{fk_mbr_seq:'${sessionScope.loginuser.mbr_seq}', listCnt:$("select[name=listCnt]").val()},
 			success: function(json){		
 				if(json.length>0){
 					$.each(json, function(index, item){
@@ -67,8 +74,7 @@
                 alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
             }
 		}); 
-		
-	}); // end of $(document).ready(function(){})---------------------------------------
+	}// end of function showList() ------------------------------------------------
 	
 </script>
 </head>
@@ -106,7 +112,7 @@
 			</table>
 		</div>
 		<div id="searchList">
-			<select name="listCnt" class="selectCommon" id="listCnt">
+			<select name="listCnt" class="selectCommon" name="listCnt" id="listCnt">
 				<option>10개</option>
 				<option>8개</option>
 				<option>4개</option>

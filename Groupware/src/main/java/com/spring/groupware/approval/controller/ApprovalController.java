@@ -223,9 +223,36 @@ public class ApprovalController {
 	  @RequestMapping(value="/approvalNeededList.opis", produces="text/plain;charset=UTF-8")
 	  public String approvalNeededList(HttpServletRequest request) { 	
 		 String managePerson = request.getParameter("managePerson");
+		 String s_listCnt = request.getParameter("listCnt").substring(0,request.getParameter("listCnt").indexOf('개'));
+		 String writer = request.getParameter("writer");
+		 String submitStartDate = request.getParameter("submitStartDate");
+		 String submitEndDate = request.getParameter("submitEndDate");
+		 String word = request.getParameter("word");
 		 
-		 List<ApprovalVO> approvalList = service.getApprovalNeededList(managePerson); 
+		 int totalCount = 0;         // 총 게시물 건수
+		 int currentShowPageNo = 1;  // 현재 보여주는 페이지 번호 
+		 int startRno = 0;           // 시작 행번호
+		 int endRno = 0;             // 끝 행번호 
+		 int totalPage = 0;
+		 int listCnt = Integer.parseInt(s_listCnt);
 		 
+		 startRno = ((currentShowPageNo - 1 ) * listCnt) + 1;
+		 endRno = startRno + listCnt - 1;
+		  
+		 Map<String, String> paraMap = new HashMap<>();
+		 paraMap.put("managePerson", managePerson);
+		 paraMap.put("writer", writer);
+		 paraMap.put("submitStartDate", submitStartDate);
+		 paraMap.put("submitEndDate", submitEndDate);
+		 paraMap.put("word", word);	 
+		 paraMap.put("startRno", String.valueOf(startRno));
+		 paraMap.put("endRno", String.valueOf(endRno));
+		
+		 
+		 List<ApprovalVO> approvalList = service.getApprovalNeededList(paraMap); 
+		 totalCount = approvalList.size();
+		 totalPage = (int) Math.ceil((double)totalCount/listCnt); 
+			
 		 JSONArray jsonArr = new JSONArray(); 
 		 
 		 if(approvalList.size() != 0) {
@@ -256,9 +283,19 @@ public class ApprovalController {
 	  @RequestMapping(value="/approvalSubmitList.opis", produces="text/plain;charset=UTF-8")
 	  public String approvalSubmitList(HttpServletRequest request) { 	
 		 String fk_mbr_seq = request.getParameter("fk_mbr_seq");
+		 String listCnt = request.getParameter("listCnt");
 		 
+		 int totalCount = 0;         // 총 게시물 건수
+		 int currentShowPageNo = 0;  // 현재 보여주는 페이지 번호
+		 int totalPage = 0;          // 총 페이지수  
+		 int startRno = 0;           // 시작 행번호
+		 int endRno = 0;             // 끝 행번호 
 		 List<ApprovalVO> approvalList = service.getApprovalSubmitList(fk_mbr_seq); 
 		
+		 totalCount = approvalList.size();
+		 totalPage = (int) Math.ceil((double)totalCount/Integer.parseInt(listCnt)); 
+		 
+		 
 		 JSONArray jsonArr = new JSONArray(); 
 		 
 		 if(approvalList.size() != 0) {
@@ -290,9 +327,19 @@ public class ApprovalController {
 	  @RequestMapping(value="/approvalReferredList.opis", produces="text/plain;charset=UTF-8")
 	  public String approvalReferredList(HttpServletRequest request) { 	
 		 String managePerson = request.getParameter("managePerson");
+		 String listCnt = request.getParameter("listCnt");
 		 
+		 int totalCount = 0;         // 총 게시물 건수
+		 int currentShowPageNo = 0;  // 현재 보여주는 페이지 번호
+		 int totalPage = 0;          // 총 페이지수  
+		 int startRno = 0;           // 시작 행번호
+		 int endRno = 0;             // 끝 행번호 
 		 List<ApprovalVO> approvalList = service.getApprovalReferredList(managePerson); 
 		
+		 totalCount = approvalList.size();
+		 totalPage = (int) Math.ceil((double)totalCount/Integer.parseInt(listCnt)); 
+		 
+		 
 		 JSONArray jsonArr = new JSONArray(); 
 
 		 if(approvalList.size() != 0) {
