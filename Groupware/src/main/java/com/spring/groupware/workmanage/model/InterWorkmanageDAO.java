@@ -104,4 +104,10 @@ public interface InterWorkmanageDAO {
 	// 할일 번호 채번하기
 	String getTodono();
 
+	// 할일완료 클릭시 선택한 할일의 상태를 완료로 변경하기
+	int workStatusChangeToComplete_todo(Map<String, Object> paraMap);
+
+	// 할일 삭제하기
+	int todoDel(Map<String, Object> paraMap);
+
 }

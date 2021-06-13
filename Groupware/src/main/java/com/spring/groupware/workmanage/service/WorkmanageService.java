@@ -172,7 +172,15 @@ public class WorkmanageService implements InterWorkmanageService {
 	// 업무 삭제하기
 	@Override
 	public int workDel(Map<String, Object> paraMap) {
-		int n = dao.workDel(paraMap);
+		int n = 0;
+		
+		if (paraMap.get("tdnoList") == null) { 	
+			n = dao.workDel(paraMap); // 업무
+		}
+		else { 
+			n = dao.todoDel(paraMap); // 할일
+		}
+		
 		return n;
 	}
 
@@ -193,8 +201,15 @@ public class WorkmanageService implements InterWorkmanageService {
 	// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
 	@Override
 	public int workStatusChangeToComplete(Map<String, Object> paraMap) {
+		int n = 0;
 		
-		int n = dao.workStatusChangeToComplete(paraMap);
+		if (paraMap.get("tdnoList") == null) { 	
+			n = dao.workStatusChangeToComplete(paraMap); // 업무
+		}
+		else { 
+			n = dao.workStatusChangeToComplete_todo(paraMap); // 할일
+		}
+		
 		return n;
 	}
 

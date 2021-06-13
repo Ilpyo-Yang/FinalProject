@@ -112,6 +112,63 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 		});
 	}
 	
+	// 업무 삭제하기 힘수
+	function goTodoDel() {
+		var delcheck = confirm("삭제하시겠습니까?");
+		if (!delcheck) {
+			return; // 삭제하지 않으면 함수 종료
+		}
+		
+		var tdnoArr = []; // 체크박스에 선택된 업무 리스트 담기
+		$("input.oneCheckbox").each(function(index, item){
+			if ($(item).prop("checked") == true) {
+				var tdno = $(item).val();
+				tdnoArr.push(tdno);	
+			}
+		});
+		var tdnoStr = tdnoArr.join();
+		$("input[name=tdnoStr]").val(tdnoStr);
+		
+		// 삭제할 리스트 전송하기 (POST 방식)
+		var frm = document.workInfoFrm;
+		frm.method = "post";
+		frm.action = "<%=ctxPath%>/workDel.opis";
+		frm.submit();
+	}
+	
+	// 할일 완료 버튼 클릭시 할일 상태 변경하는 함수
+	function goTodoComplete() {
+		var tdnoArr = []; // 체크박스에 선택된 할일 리스트 담기
+		$("input.oneCheckbox").each(function(index, item){
+			if ($(item).prop("checked") == true) {
+				var tdno = $(item).val();
+				tdnoArr.push(tdno);	
+			}
+		});
+		
+		// 선택을 하나도 하지 않았을 경우 경고
+		if (tdnoArr.length == 0) {
+			alert("하나 이상의 업무를 선택해주세요!");
+			return; 
+		}
+		
+		// 리스트 담기
+		var tdnoStr = tdnoArr.join();
+		$("input[name=tdnoStr]").val(tdnoStr);
+		
+		// 재확인
+		var check = confirm("할일 완료 하시겠습니까?");
+		if (!check) {
+			return; // 취소시 함수 종료
+		}
+		
+		// 수정할 리스트 전송하기 (POST 방식)
+		var frm = document.workInfoFrm;
+		frm.method = "post";
+		frm.action = "<%=ctxPath%>/workStatusChangeToComplete.opis";
+		frm.submit();
+	}
+	
 	// 하위 체크박스를 클릭했을 때
 	function clickOneCheckbox(target) {
 		// onclick="clickOneCheckbox(this)";
@@ -253,10 +310,15 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 	
 	<!-- 업무 관련 버튼 -->
 	<div align="right">
-		<button type="button" class="workEditBtn btn btn-success" onclick="javascript:location.href='<%=ctxPath%>/workAdd.opis'">업무등록</button>
-		<button type="button" class="workListBtn btn btn-default" onclick="goWorkComplete();">업무완료</button>
-		<button type="button" class="workDeleteBtn btn btn-danger" onclick="goWorkDel();">삭제</button>
+		<button type="button" class="workEditBtn btn btn-success" onclick="javascript:location.href='<%=ctxPath%>/workAdd.opis'">할일등록</button>
+		<button type="button" class="workListBtn btn btn-default" onclick="goTodoComplete();">할일완료</button>
+		<button type="button" class="workDeleteBtn btn btn-danger" onclick="goTodoDel();">삭제</button>
 	</div>
 	
+	<!-- 삭제버튼, 완료버튼 클릭시 전송할 업무 번호 폼 -->
+	<form name="workInfoFrm">
+		<input type="hidden" name="tdnoStr" />
+		<input type="hidden" name="gobackURL" value="${requestScope.gobackURL}"/>
+	</form>
 </div>
 

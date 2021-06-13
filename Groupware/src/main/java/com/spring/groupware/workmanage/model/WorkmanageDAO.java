@@ -250,6 +250,20 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		String tdno = sqlsession.selectOne("workmanage.getTodono");
 		return tdno;
 	}
+
+	// 할일완료 클릭시 선택한 할일의 상태를 완료로 변경하기
+	@Override
+	public int workStatusChangeToComplete_todo(Map<String, Object> paraMap) {
+		int n = sqlsession.update("workmanage.workStatusChangeToComplete_todo", paraMap);
+		return n;
+	}
+
+	// 할일 삭제하기
+	@Override
+	public int todoDel(Map<String, Object> paraMap) {
+		int n = sqlsession.update("workmanage.todoDel", paraMap);
+		return n;
+	}
 	
 
 }

@@ -193,6 +193,15 @@
 		</foreach>
 	</update>
 	
+	<!-- 할일 삭제하기 -->
+	<update id="todoDel" parameterType="HashMap">
+		delete tbl_todolist 
+		where tdno in 
+		<foreach collection="tdnoList" item="tdno" separator="," open="(" close=")">
+			#{tdno}
+		</foreach>
+	</update>
+	
 	<!-- 담당자 한명의 업무 정보 가져오기 -->
 	<select id="oneMbrWorkStatus" parameterType="HashMap" resultType="com.spring.groupware.workmanage.model.WorkMemberVO">
 		select workmbr_seq, fk_mbr_seq, mbr_name, fk_wrno, nvl(workPercent,0) workPercent, contents, lasteditdate
@@ -264,6 +273,15 @@
 		where wmno in 
 		<foreach collection="wmnoList" item="wmno" separator="," open="(" close=")">
 			#{wmno}
+		</foreach>
+	</update>
+	
+	<!-- 할일완료 클릭시 선택한 할일의 상태를 완료로 변경하기 -->
+	<update id="workStatusChangeToComplete_todo" parameterType="HashMap">
+		update tbl_todolist set fk_statno = 2
+		where tdno in 
+		<foreach collection="tdnoList" item="tdno" separator="," open="(" close=")">
+			#{tdno}
 		</foreach>
 	</update>
 	

@@ -463,9 +463,9 @@ public class WorkmanageController {
 		}
 		
 		// 검색대상 컬럼과 검색어를 유지시키기 위해
-		if (!"".equals(searchType) && !"".equals(searchWord)) {
+		// if (!"".equals(searchType) && !"".equals(searchWord)) {
 			mav.addObject("paraMap", paraMap);
-		}
+		// }
 		
 		// ======= 페이지바 만들기 ======= //
 		int blockSize = 10;	// 한블럭당 보여질 페이지의 개수
@@ -754,9 +754,19 @@ public class WorkmanageController {
 		String userId = String.valueOf(loginuser.getMbr_seq());
 		paraMap.put("userId", userId);
 
-		String[] wmnoList = wmnoStr.split(",");
-		paraMap.put("wmnoList", wmnoList);
-		paraMap.put("fk_wrno", fk_wrno);
+		// 업무요청, 업무보고일 경우
+		if (wmnoStr != null && !"".equals(wmnoStr)) {
+			String[] wmnoList = wmnoStr.split(",");
+			paraMap.put("wmnoList", wmnoList);
+			paraMap.put("fk_wrno", fk_wrno);
+		}
+		
+		// 할일로 넘어온 것일 때
+		String tdnoStr = request.getParameter("tdnoStr"); // 할일번호들
+		if (tdnoStr != null && !"".equals(tdnoStr)) {
+			String[] tdnoList = tdnoStr.split(",");
+			paraMap.put("tdnoList", tdnoList);
+		}
 
 		// 사용자의 역할에 따른 업무삭제 (실제는 yn의 상태를 0->1로 변환 시키는 작업)
 		int n = service.workDel(paraMap);
@@ -811,16 +821,26 @@ public class WorkmanageController {
 	public ModelAndView requiredLogin_workStatusChangeToComplete(HttpServletRequest request, HttpServletResponse response,
 			ModelAndView mav) {
 		
+		Map<String, Object> paraMap = new HashedMap<>();
+		
 		String gobackURL = request.getParameter("gobackURL");
-		String wmnoStr = request.getParameter("wmnoStr"); // 삭제하려는 업무번호들
+		String wmnoStr = request.getParameter("wmnoStr"); // 업무번호들
 		String fk_wrno = request.getParameter("fk_wrno"); // 사용자의 역할
 		String fk_wtno = request.getParameter("fk_wtno");
-
-		Map<String, Object> paraMap = new HashedMap<>();
-
-		String[] wmnoList = wmnoStr.split(",");
-		paraMap.put("wmnoList", wmnoList);
-		paraMap.put("fk_wtno", fk_wtno);
+		
+		// 업무요청, 업무보고일 경우
+		if (wmnoStr != null && !"".equals(wmnoStr)) {
+			String[] wmnoList = wmnoStr.split(",");
+			paraMap.put("wmnoList", wmnoList);
+			paraMap.put("fk_wtno", fk_wtno);
+		}
+		
+		// 할일로 넘어온 것일 때
+		String tdnoStr = request.getParameter("tdnoStr"); // 할일번호들
+		if (tdnoStr != null && !"".equals(tdnoStr)) {
+			String[] tdnoList = tdnoStr.split(",");
+			paraMap.put("tdnoList", tdnoList);
+		}
 
 		// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
 		int n = service.workStatusChangeToComplete(paraMap);
@@ -850,9 +870,6 @@ public class WorkmanageController {
 		
 		String fileName = request.getParameter("fileName"); // WAS(톰캣) 디스크에 저장된 파일명
 		String orgFilename = request.getParameter("orgFilename");
-		
-		System.out.println("fileName => " +fileName);
-		System.out.println("orgFilename => " +orgFilename);
 		
 		response.setContentType("text/html; charset=UTF-8");
 		
