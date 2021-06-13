@@ -50,11 +50,11 @@ div.menu {
     width: 50%; 
     height: 70%;               
 }
-div.memberModel {
-	width: 40%;
-	font-weight: bold;
-	font-size: 12pt;
-	padding: 5%;
+div.memberModal {
+	width: 40%;  
+	height: 90%; 
+	margin: 0 10px; 
+	display: inline-block;
 }
 div#memberMove {
 	display: inline-block;

@@ -207,8 +207,7 @@
        
        <div id="modal" style="line-height: 1.5;">
        
-		   <div class="memberModal" id="memberModal1" 
-		        style="width: 40%;  height: 90%; margin: 0 10px; display: inline-block;">
+		   <div class="memberModal" id="memberModal1" >
 		   		<label><input type="checkbox" id="allLeftCheckbox2"/>&nbsp;&nbsp;모두 선택/해제하기</label>
 		   		<hr style="margin: 0 0 15px 0;"> 	
 		   		
@@ -275,12 +274,12 @@
 		   
 		   <%-- 사원선택해서 이동하기 --%>
 		   <div id="memberMove" 
-		        style="width: 10%;  height: 90%; display: inline-block; text-align: center; align-items: center; border: solid 1px black;">
+		        style="width: 10%;  height: 90%; display: inline-block; text-align: center; align-items: center;">
 		   		<i class="fas fa-arrow-right fa-2x" id="rightMove" onclick="func_rightMove2()"></i><br>
+		   		<div style="height: 180px;"></div><br>
 		   </div>
 		   
-		   <div class="memberModal" id="memberModal2" 
-		   		style="width: 40%;  height: 90%; margin: 0 10px; display: inline-block;">
+		   <div class="memberModal" id="memberModal2" >
 		   		<label><input type="checkbox" id="allrightCheckbox2" />&nbsp;&nbsp;참조자 모두 선택/해제하기</label>
 		   		<hr style="margin: 0 0 15px 0;"> 	
 		   		
