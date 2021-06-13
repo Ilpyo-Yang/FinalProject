@@ -112,7 +112,7 @@
 		$("input.oneCheckbox").each(function(index, item){
 			$(item).prop("checked", stat);
 		});
-	}
+	}// end of function clickAllCheckbox()----------------------------
 	
 	// 하위 체크박스를 클릭했을 때
 	function clickOneCheckbox(target) {
@@ -135,7 +135,35 @@
 				$("input#allCheckbox").prop("checked", true);	
 			}
 		}
-	}
+	}// end of function clickOneCheckbox(target)-------------------------
+	
+	// 개인 주소록에 추가
+	function goAddmyAddr(addrgroup_seq){
+		
+		var check = $("input[name=checkAddrSeq]");
+		var len = check.length;
+		var checkCnt = 0;
+		
+		// 체크된 총 개수 구하기
+		for(var i=0; i<len; i++){
+			if(check[i].checked == true){
+				checkCnt++;
+			}
+		}
+		
+		if(checkCnt == 0){ // 체크된 값이 없을때
+			alert("체크된 항목이 없습니다.");
+			return false;
+		}
+		
+		var checkAddrSeq = [];
+		$("input[name=checkAddrSeq]:checked").each(function(){
+			checkAddrSeq.push($(this).val());
+		});
+			
+		location.href="<%=ctxPath%>/addmyAddr.opis?addrgroup_seq="+addrgroup_seq+"&checkCnt="+checkCnt+"&checkAddrSeq="+checkAddrSeq;
+		
+	}// end of function goAddmyAddr(fk_mbr_seq)---------------------------
 	
 </script>
 </head>
@@ -150,34 +178,35 @@
 	
 	<div class="container" style="float: right; width: 80%; margin-top: 50px;">        
 
-	<form name="addMyaddrFrm" style="margin: 0 0 20px 0;">
-      <select name="searchType" id="searchType" style="height: 26px; font-size: 13px;">
-      	<c:forEach var="agvo" items="${requestScope.addrgroupList}" varStatus="status">
-        	<c:if test="${not empty agvo.addrgroup_seq}">
-         		<option value="groupname">${agvo.groupname}</option>
-         	</c:if>
-      	</c:forEach>
-      </select>
-      <button type="button" onclick="goAddmyAddr()">추가</button>
-   	</form>
+	  <div class="dropdown">
+	    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="background-color:gray; border:none; font-size:13px; float: right; margin: 0 10px 20px 0;">
+	    	개인주소록에 추가
+	    </button>
+	    <ul class="dropdown-menu">
+	   		<c:forEach var="agvo" items="${addrgroupList}" varStatus="status">
+	   			<c:if test="${not empty agvo}">
+		      		<li><a onclick="goAddmyAddr(${agvo.addrgroup_seq})">${agvo.groupname}</a></li>
+		      	</c:if>
+	      	</c:forEach>	
+	    </ul>
+	  </div>
 
-
-	<!-- 본문(게시판) -->
+	<!-- 본문(전체주소록) -->
 	  <table class="table table-striped" style="font-size: 14px; text-align: center;">
 	    <thead>
 	      <tr>
 	      	<th style="width: 1%;"><input type="checkbox" id="allCheckbox" onclick="clickAllCheckbox();" /></th>
-	        <th style="width: 7%;  text-align: center;">이름</th>
-	        <th style="width: 10%; text-align: center;">전화번호</th>
-	        <th style="width: 10%;  text-align: center;">이메일</th>
-	        <th style="width: 7%; text-align: center;">부서</th>
-	        <th style="width: 7%;  text-align: center;">직책</th>
+	        <th style="width: 7%;">이름</th>
+	        <th style="width: 10%;">전화번호</th>
+	        <th style="width: 10%;">이메일</th>
+	        <th style="width: 7%;">부서</th>
+	        <th style="width: 7%;">직책</th>
 	      </tr>
 	    </thead>
 	    <tbody>
  	      <c:forEach var="addrvo" items="${requestScope.addrList}" varStatus="status">
 	      	<tr>	   
-	      		<td><input type="checkbox" class="oneCheckbox" value="${work.wmno}" onclick="clickOneCheckbox(this);"/></td>   	
+	      		<td><input type="checkbox" class="oneCheckbox" name="checkAddrSeq" value="${addrvo.addr_seq}" onclick="clickOneCheckbox(this);"/></td>   	
 				<td>
 					<span class="name" onclick="goView('${addrvo.addr_seq}')">${addrvo.mbr_name}</span>
 				</td>
@@ -206,7 +235,7 @@
       <button type="button" onclick="goSearch()">검색</button>
    	</form>
 	   
-    <div id="displayList" style="border:solid 1px gray; width:250px; height: 100px; border-top: 0px; margin-left: 71px; overflow: auto; padding-top: 2px;"> 	
+    <div id="displayList" style="border:solid 1px gray; width:171px; height: 100px; border-top: 0px; margin-left: 53px; overflow: auto; padding-top: 2px;"> 	
     </div>
 
   	</div>	  	

@@ -7,11 +7,27 @@
 <!-- ============================ 전체 주소록 ============================ -->
      <!-- === 주소록 추가 === -->
      <insert id="addrAdd" parameterType="com.spring.groupware.addrlist.model.AddrVO">
-   		insert into tbl_address(addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name,
+   		insert into tbl_address(addr_seq, fk_mbr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name,
 	   		   				 mbr_birthday, postcode, address, detailaddress, addrmemo)
-   		values(addr_seq.nextval, #{mbr_name}, #{mbr_phone_number}, #{mbr_email}, #{dept_name}, #{position_name}, 
+   		values(addr_seq.nextval, #{fk_mbr_seq}, #{mbr_name}, #{mbr_phone_number}, #{mbr_email}, #{dept_name}, #{position_name}, 
    				#{mbr_birthday}, #{postcode}, #{address}, #{detailaddress}, #{addrmemo})
      </insert>
+
+   	 <!-- === 사원번호로 등록할 주소록 사원 검색 === -->  
+   	 <select id="searchMbr" parameterType="String" resultType="com.spring.groupware.member.model.MemberVO">
+	   	select mbr_seq, mbr_id, mbr_name, mbr_email,mbr_phone_number, mbr_birthday, rank_detail, dept_detail
+		from 
+			(        
+			select mbr_seq, mbr_id, mbr_name, mbr_email,mbr_phone_number, 
+			to_char(mbr_birthday, 'yyyy-mm-dd') as mbr_birthday, fk_rank_no, fk_dept_no
+			from tbl_mbr
+			)A left join tbl_dept B
+			on fk_dept_no = dept_no
+			join tbl_rank CS
+			on fk_rank_no = rank_no
+		where mbr_seq=#{mbr_seq}
+
+   	 </select> 
 
    	 <!-- === 총 주소록 건수(totalCount) === --> 
    	 <select id="getAddrTotalCount" parameterType="HashMap" resultType="int">
@@ -69,10 +85,25 @@
    		where addr_seq=#{addr_seq}
    	</delete>
    
+    <!-- === 개인 주소록에 추가 === -->
+    <update id="addmyAddr" parameterType="String">
+    	update tbl_address
+    	set fk_addrgroup_seq = #{addrgroup_seq}
+    	where addr_seq = #{addrSeq}
+    </update>
+
+	<!-- === 페이징 처리 없는 개인 주소록 그룹 === -->
+	
+   	<select id="addrgroupListNoPaging" parameterType="HashMap" resultType="com.spring.groupware.addrlist.model.AddrGroupVO">
+   	select addrgroup_seq, groupname
+	from tbl_addrlist
+	where fk_mbr_seq=#{fk_mbr_seq}	 
+  	</select>   	
+
 
 <!-- ============================ 개인 주소록 ============================ -->   
 
-   	 <!-- === 페이징 처리한 주소록그룹 상세목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것) -->  
+   	 <!-- === 페이징 처리한 주소록그룹 상세목록 가져오기 -->  
    	 <select id="myAddrlistSearchWithPaging" parameterType="HashMap" resultType="com.spring.groupware.addrlist.model.AddrVO">
 	   	select addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name
 		from 
@@ -81,10 +112,7 @@
 		           addr_seq, mbr_name, mbr_phone_number, mbr_email, dept_name, position_name
 		    from tbl_address A JOIN tbl_addrlist G
 		    on A.fk_addrgroup_seq = G.addrgroup_seq 
-		    where G.fk_mbr_seq=#{fk_mbr_seq}
-		    <if test='addrgroup_seq != null '>
-		    	and G.addrgroup_seq = #{addrgroup_seq}
-			</if> 
+		    where G.fk_mbr_seq=#{fk_mbr_seq} and G.addrgroup_seq = #{addrgroup_seq} 
 		    <if test='searchWord != ""'>
 		    	and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
 			</if>
@@ -92,7 +120,16 @@
 		where rno between #{startRno} and #{endRno}   	 
    	 </select>   	 
 
-
+   	 <!-- === 총 주소록 건수(totalCount) === --> 
+   	 <select id="getmyAddrTotalCount" parameterType="HashMap" resultType="int">
+   	 	select count(*)
+   	 	from tbl_address
+   	 	where fk_addrgroup_seq = #{fk_addrgroup_seq}
+   	 	<if test='searchWord != ""'> 
+   	 		and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+   	 	</if>
+   	 </select>
+   	 
 <!-- ============================ 개인 주소록 관리 ============================ -->   
 
    	 <!-- === 페이징 처리한 주소록 그룹 목록 가져오기 -->  

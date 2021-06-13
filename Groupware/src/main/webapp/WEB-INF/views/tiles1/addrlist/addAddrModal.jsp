@@ -141,17 +141,29 @@
 		
 		     // ========== 주소록 등록 유효성 검사 끝 ========== //
 		
-
+		      
 	}); // end of $(document).ready(function(){})---------------------------------------
 
-	   // 주소록 등록
-	   function goRegister(){
-		   var frm = document.addFrm;
-	       frm.method = "POST";
-	       frm.action = "<%=ctxPath%>/addr_addEnd.opis";
-	       frm.submit();	   
-	   }// function goRegister(){}----------------------------------------------------------------
-	   
+	// 사원번호로 검색	
+	function searchMbr(){
+		
+		var mbr_seq = $("input#mbrSeq").val();
+		var url = "<%=ctxPath%>/searchMbr.opis?mbr_seq="+mbr_seq;
+		
+		var popup = window.open(url,'searchMbr','top=100, left=500, width=450px, height=400px, scrollbars=yes');
+
+		
+	}// end of function searchMbr()-----------------------------------------------------
+	
+	
+    // 주소록 등록
+    function goRegister(){
+	    var frm = document.addFrm;
+        frm.method = "POST";
+        frm.action = "<%=ctxPath%>/addr_addEnd.opis";
+        frm.submit();	   
+    }// end of function goRegister(){}----------------------------------------------------------
+   
 </script>	
 	
  
@@ -163,75 +175,82 @@
  
 <!-- Modal body -->
 <div class="modal-body" align="center">
-  <form name="addFrm" id="addFrm" enctype="multipart/form-data" > 
+  <form name="addFrm" id="addFrm" > 
 
-<table id="table tblAddr">      
-   <tr>
-    	<th>이름</th>
-       <td>
-           <input type="text" name="mbr_name" placeholder="이름" class="short"/>
-           <span class="error">이름은 필수입력 사항입니다.</span>
-       </td>
-    </tr>		
-    <tr>
-    	<th>전화번호</th>
-       <td>
-        <input type="text" id="hp1" name="hp1" size="6" maxlength="3" value="010" readonly />&nbsp;&nbsp;
-        <input type="text" id="hp2" name="hp2" size="6" maxlength="4" />&nbsp;&nbsp;
-        <input type="text" id="hp3" name="hp3" size="6" maxlength="4" />
-        <span class="error">휴대폰 형식이 아닙니다.</span>  
-       </td>
-    </tr>	
-    <tr>
-    	<th>이메일</th>
-       <td>
-           <input type="text" name="mbr_email" id="email" class="short requiredInfo" placeholder="abcd@opis.com" />
-           <span id="emailCheckResult"></span>
-           <span class="error">이메일 형식에 맞지 않습니다.</span>
-       </td>
-    </tr>	         
-    <tr>
-    	<th>생일</th>
-       <td>
-           <input type="date" name="mbr_birthday" placeholder="yyyymmdd" class="short"/>       
-       </td>
-    </tr>	
-    <tr>
-    	<th>소속</th>
-       <td>
-           <input type="text" name="dept_name" placeholder="부서" class="short"/> 
-           <input type="text" name="position_name" placeholder="직책" class="short"/>      
-       </td>
-    </tr>
-    <tr>
-    	<td style="width: 20%; font-weight: bold;">우편번호</td>
-    	<td style="width: 80%; text-align: left;">
-       <input type="text" id="postcode" name="postcode" size="6" maxlength="5" />&nbsp;&nbsp;
-       <%-- 우편번호 찾기 --%>
-       <button type="button" id="zipcodeSearch" style="vertical-align: middle;"> 우편번호 검색 </button>
-       <span class="error">우편번호 형식이 아닙니다.</span>
-    </tr>
-    <tr>
-    <td style="width: 20%; font-weight: bold;">주소</td>
-    <td style="width: 80%; text-align: left;">
-        <input type="text" id="address" name="address" size="40" placeholder="주소" /><br><br>
-        <input type="text" id="detailaddress" name="detailaddress" size="36" placeholder="상세주소" />&nbsp;<input type="text" id="extraAddress" name="extraAddress" size="35" placeholder="참고항목" /> 
-        <span class="error">주소를 입력하세요</span>
-     </td>
-  	</tr>
-     <tr>
-     	<th>메모</th>
-        <td>
-			<textarea rows="4" cols="100" style="width: 80%; height: 200px;" name="addrmemo" id="content" placeholder="메모를 입력해주세요"></textarea>                   
-		</td>
-      </tr>	 
-   </table>
-   
+	<table id="table tblAddr">
+	   <tr>
+			<th>사원번호</th>
+	   		<td>
+	   			<input type="text" name="mbr_seq" id="mbrSeq" placeholder="사원번호" class="short"/>
+	   			&nbsp;&nbsp;<a onclick="searchMbr()"><button type="button">검색</button></a>
+	   		</td>		
+	   </tr>      
+	   <tr>
+	    	<th>이름</th>
+	       <td>
+	           <input type="text" name="mbr_name" id="mbr_name" placeholder="이름" class="short" value=""/>
+	           <span class="error">이름은 필수입력 사항입니다.</span>
+	       </td>
+	    </tr>		
+	    <tr>
+	    	<th>전화번호</th>
+	       <td>
+	        <input type="text" id="hp1" name="hp1" size="6" maxlength="3" value="010" readonly />&nbsp;&nbsp;
+	        <input type="text" id="hp2" name="hp2" size="6" maxlength="4" value=""/>&nbsp;&nbsp;
+	        <input type="text" id="hp3" name="hp3" size="6" maxlength="4" value=""/>
+	        <span class="error">휴대폰 형식이 아닙니다.</span>  
+	       </td>
+	    </tr>	
+	    <tr>
+	    	<th>이메일</th>
+	       <td>
+	           <input type="text" name="mbr_email" id="mbr_email" class="short requiredInfo" placeholder="abcd@opis.com" value=""/>
+	           <span id="emailCheckResult"></span>
+	           <span class="error">이메일 형식에 맞지 않습니다.</span>
+	       </td>
+	    </tr>	         
+	    <tr>
+	    	<th>생일</th>
+	       <td>
+	           <input type="date" name="mbr_birthday" id="mbr_birthday" placeholder="yyyymmdd" class="short" value=""/>       
+	       </td>
+	    </tr>	
+	    <tr>
+	    	<th>소속</th>
+	       <td>
+	           <input type="text" name="dept_name" id="dept_name" placeholder="부서" class="short" value=""/> 
+	           <input type="text" name="position_name" id="position_name" placeholder="직책" class="short" value=""/>      
+	       </td>
+	    </tr>
+	    <tr>
+	    	<td style="width: 20%; font-weight: bold;">우편번호</td>
+	    	<td style="width: 80%; text-align: left;">
+	       <input type="text" id="postcode" name="postcode" size="6" maxlength="5" />&nbsp;&nbsp;
+	       <%-- 우편번호 찾기 --%>
+	       <button type="button" id="zipcodeSearch" style="vertical-align: middle;"> 우편번호 검색 </button>
+	       <span class="error">우편번호 형식이 아닙니다.</span>
+	    </tr>
+	    <tr>
+	    <td style="width: 20%; font-weight: bold;">주소</td>
+	    <td style="width: 80%; text-align: left;">
+	        <input type="text" id="address" name="address" size="40" placeholder="주소" /><br><br>
+	        <input type="text" id="detailaddress" name="detailaddress" size="36" placeholder="상세주소" />&nbsp;<input type="text" id="extraAddress" name="extraAddress" size="35" placeholder="참고항목" /> 
+	        <span class="error">주소를 입력하세요</span>
+	     </td>
+	  	</tr>
+	     <tr>
+	     	<th>메모</th>
+	        <td>
+				<textarea rows="4" cols="100" style="width: 80%; height: 200px;" name="addrmemo" id="content" placeholder="메모를 입력해주세요"></textarea>                   
+			</td>
+	      </tr>	 
+	   </table>
+	   
       <!-- Modal footer -->
     <div class="modal-footer">
       <button type="button" id="btnRegister" onclick="goRegister()">등록</button>
       <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
     </div>
-</form>
+	</form>
 
 </div>

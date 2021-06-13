@@ -3,6 +3,8 @@ package com.spring.groupware.addrlist.model;
 import java.util.List;
 import java.util.Map;
 
+import com.spring.groupware.member.model.MemberVO;
+
 public interface InterAddrDAO {
 
 	/*
@@ -11,6 +13,9 @@ public interface InterAddrDAO {
 	
 	// 주소록 추가
 	int add(AddrVO addrvo);
+
+	// 사원번호로 등록할 주소록 사원 검색
+	List<MemberVO> searchMbrList(String mbr_seq);
 	
 	// 총 주소록 수
 	int getTotalCount(Map<String, String> paraMap);
@@ -30,12 +35,22 @@ public interface InterAddrDAO {
 	// 주소록 삭제
 	int del(Map<String, String> paraMap);
 
+	// 개인 주소록에 추가
+	int addmyAddr(Map<String, String> paraMap);
+
+	// 페이징 처리 없는 개인 주소록 그룹
+	List<AddrGroupVO> addrgroupListNoPaging(Map<String, String> paraMap);
+
+
 	/*
 		개인 주소록
 	*/
 	
 	// 페이징 처리한 주소록그룹 상세목록
 	List<AddrVO> myAddrlistSearchWithPaging(Map<String, String> paraMap);
+
+	// 각 주소록 그룹의 주소록 개수 
+	int getmyAddrTotalCount(Map<String, String> paraMap);
 
 
 	/*
@@ -53,6 +68,9 @@ public interface InterAddrDAO {
 
 	// 주소록 그룹 삭제 
 	int delAddrgroup(Map<String, String> paraMap);
+
+
+
 
 
 

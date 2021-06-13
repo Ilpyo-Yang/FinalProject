@@ -9,6 +9,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import com.spring.groupware.member.model.MemberVO;
+
 @Component
 @Repository
 public class AddrDAO implements InterAddrDAO {	
@@ -33,6 +35,13 @@ public class AddrDAO implements InterAddrDAO {
 	public int add(AddrVO addrvo) {
 		int n =  sqlsession.insert("address.addrAdd", addrvo);
 		return n;
+	}
+	
+	// === 사원번호로 등록할 주소록 사원 검색 === //
+	@Override
+	public List<MemberVO> searchMbrList(String mbr_seq) {
+		List<MemberVO> searchMbrList = sqlsession.selectList("address.searchMbr", mbr_seq);
+		return searchMbrList;
 	}
 	
 	// === 총 등록 주소록 수 === //
@@ -77,6 +86,20 @@ public class AddrDAO implements InterAddrDAO {
 		return n;
 	}
 	
+	// === 개인 주소록에 추가 === //
+	@Override
+	public int addmyAddr(Map<String, String> paraMap) {
+		int n = sqlsession.update("address.addmyAddr", paraMap);
+		return n;
+	}
+	
+	// === 페이징 처리 없는 개인 주소록 그룹 === //
+	@Override
+	public List<AddrGroupVO> addrgroupListNoPaging(Map<String, String> paraMap) {
+		List<AddrGroupVO> addrgroupList = sqlsession.selectList("address.addrgroupListNoPaging", paraMap);		
+		return addrgroupList;
+	}
+
 	
 	/*
 		개인 주소록
@@ -90,6 +113,14 @@ public class AddrDAO implements InterAddrDAO {
 		return myAddrlist;
 	}
 
+	// === 각 주소록 그룹의 주소록 개수 === //
+	@Override
+	public int getmyAddrTotalCount(Map<String, String> paraMap) {
+		int n = sqlsession.selectOne("address.getmyAddrTotalCount", paraMap);
+		return n;
+	}
+	
+	
 	/*
 		개인 주소록 관리
 	*/
@@ -122,7 +153,6 @@ public class AddrDAO implements InterAddrDAO {
 		return n;
 	}
 
-	
-	
+
 
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.spring.groupware.addrlist.model.AddrGroupVO;
 import com.spring.groupware.addrlist.model.AddrVO;
 import com.spring.groupware.addrlist.model.InterAddrDAO;
+import com.spring.groupware.member.model.MemberVO;
 
 @Component
 @Service
@@ -28,6 +29,13 @@ public class AddrService implements InterAddrService {
 	public int add(AddrVO addrvo) {
 		int n = adao.add(addrvo);
 		return n;
+	}
+
+	// === 사원번호로 등록할 주소록 사원 검색 === //
+	@Override
+	public List<MemberVO> searchMbr(String mbr_seq) {
+		List<MemberVO> searchMbrList = adao.searchMbrList(mbr_seq);
+	    return searchMbrList;
 	}
 	
 	// === 총 주소록 수 === //
@@ -72,7 +80,20 @@ public class AddrService implements InterAddrService {
 		return n;
 	}
 
+	// === 개인 주소록에 추가 === //
+	@Override
+	public int addmyAddr(Map<String,String> paraMap) {
+		int n = adao.addmyAddr(paraMap);
+		return n;
+	}
 
+	// === 페이징 처리 없는 개인 주소록 그룹 === //
+	@Override
+	public List<AddrGroupVO> addrgroupListNoPaging(Map<String, String> paraMap) {
+		List<AddrGroupVO> addrgroupList = adao.addrgroupListNoPaging(paraMap);
+	    return addrgroupList;
+	}
+	
 	/*
 		개인 주소록
 	*/
@@ -84,7 +105,12 @@ public class AddrService implements InterAddrService {
 	    return myAddrlist;
 	}	
 
-	
+	// === 각 주소록 그룹의 주소록 개수 === //
+	@Override
+	public int getmyAddrTotalCount(Map<String, String> paraMap) {
+		int n = adao.getmyAddrTotalCount(paraMap);
+		return n;
+	}	
 	/*
 		개인 주소록 관리
 	*/
@@ -118,6 +144,11 @@ public class AddrService implements InterAddrService {
 		int n = adao.delAddrgroup(paraMap);
 		return n;
 	}
+
+
+
+
+
 	
 	
 }
