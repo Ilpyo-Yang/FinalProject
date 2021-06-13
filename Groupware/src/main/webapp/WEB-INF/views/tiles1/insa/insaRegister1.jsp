@@ -160,10 +160,8 @@
 		<form name="insaRegister1Frm">
 		<table style="margin-bottom: 50px;">
 		<tr id="insaDetailButton">
-			<td><button class="registerBtn">인적사항</button></td>
-			<td style="width: 10px;"></td>
-			<td style="width: 500px;"></td>
 			<td><button class="registerBtn" id="registerBtn"  type="submit" style="display: inline-block; vertical-align: top;">등록</button></td>
+			<td style="width: 10px;"></td>
 			<td><button class="registerBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis?seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">회원목록으로</button></td>
 		</tr>
 		</table> 

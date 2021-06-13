@@ -12,6 +12,12 @@
 <style type="text/css">
 	
 	
+select:hover{
+	cursor: pointer;
+}
+tr.memberInfo:hover{
+	cursor: pointer;
+}
 
 	
 	/* Dropdown Button */
@@ -190,7 +196,7 @@
 					</thead>
 					<tbody>
 					<c:forEach var="insaList" items="${requestScope.insaList}">
-					<tr onclick="goInsaDetail(${insaList.mbr_seq})">
+					<tr onclick="goInsaDetail(${insaList.mbr_seq})" class="memberInfo">
 						<td>${insaList.mbr_seq}</td>
 						<td>${insaList.mbr_name}</td>
 						<c:if test="${insaList.fk_dept_no == 0}">

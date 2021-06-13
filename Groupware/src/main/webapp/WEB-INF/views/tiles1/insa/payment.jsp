@@ -10,6 +10,17 @@
 
 
 <style>
+
+	
+select:hover{
+	cursor: pointer;
+}
+tr.memberInfo:hover{
+	cursor: pointer;
+}
+
+
+
 	/* Dropdown Button */
 	.dropbtn {
 	  background-color: #68b658;
@@ -132,7 +143,7 @@
 	}
 	div.paymentBorder{
 		display: inline-block;
-		border: solid 3px #68b658;
+		border: solid 3px gray;
 		background-color: white;
 		width: 50%;
 		height: 450px;
@@ -198,8 +209,8 @@
 				if (json.status == 1){
 					html = 	'<div class="paymentInfoDiv" style="width: 100%; ">'+
 								'<div id="buttons" style="float: right; margin-right: 15px;">'+
-								'<button id="payModiBtn" class="paymentInfoBtn" onclick="goModifyPayment()" type="button">수정</button>'+
-								'<button id="payDelBtn" class="paymentInfoBtn" onclick="goPaymentDel()" type="button">삭제</button>'+
+								'<button id="payModiBtn" onclick="goModifyPayment()" type="button">수정</button>&nbsp;&nbsp;'+
+								'<button id="payDelBtn" onclick="goPaymentDel()" type="button">삭제</button>'+
 								'<br><br>'+
 								'</div>'+
 								'<table id="paymentInfo" class="paymentTbl" style="clear: both;">'+
@@ -221,8 +232,8 @@
 								'</table>'+
 							'</div>'+
 							'<div class="paymentInfoDiv" style="margin-top: 15px;">'+
-								'<button id="closeBtn" class="paymentInfoBtn" onclick="goBackPayment()">닫기</button>'+
-								'<button id="payDetailBtn" class="paymentInfoBtn" onclick="goPaymentDetail()">자세히</button>'+
+								'<button id="closeBtn" onclick="goBackPayment()">닫기</button>&nbsp;&nbsp;'+
+								'<button id="payDetailBtn" onclick="goPaymentDetail()">자세히</button>'+
 							'</div>';	
 					
 					var parameter = json.idNo + "," + json.basePay + "," + json.spePay + "," + json.bank + "," + json.accountNo + "," + json.mbr_name;
@@ -231,8 +242,8 @@
 				}
 				else{
 						html = 	'<div class="paymentInfoDiv" style="width: 100%; ">'+
-						'<div id="buttons" style="float: right; margin-right: 15px;">'+
-						'<button id="payModiBtn" class="paymentInfoBtn" onclick="goPaymentRegister()" type="button">등록</button>'+
+						'<div id="buttons" style="float: right; margin-right: 15px;">&nbsp;&nbsp;'+
+						'<button id="payModiBtn" onclick="goPaymentRegister()" type="button">등록</button>'+
 						'<br><br>'+
 						'</div>'+
 						'<table id="paymentInfo" class="paymentTbl" style="clear: both;">'+
@@ -254,8 +265,8 @@
 						'</table>'+
 					'</div>'+
 					'<div class="paymentInfoDiv" style="margin-top: 15px;">'+
-						'<button id="closeBtn" class="paymentInfoBtn" onclick="goBackPayment()">닫기</button>'+
-						'<button id="payDetailBtn" class="paymentInfoBtn" onclick="goPaymentDetail()">자세히</button>'+
+						'<button id="closeBtn" onclick="goBackPayment()">닫기</button>&nbsp;&nbsp;'+
+						'<button id="payDetailBtn" onclick="goPaymentDetail()">자세히</button>'+
 					'</div>';	
 				}
 
@@ -275,6 +286,7 @@
 	}
 	function goBackPaymentInfo(){
 		$("div#registerDiv").hide();
+		$("div#registerModiDiv").hide();
 		$("div#paymentInfoBorder").show();
 	}
 	function goPaymentDetail(){
@@ -346,7 +358,7 @@
 	function goPaymentRegister(){
 		$("div#paymentInfoBorder").hide();
 		var html = 	'<div class="paymentInfoDiv" style="width: 100%; ">'+
-						'<button id="payRegisterEndBtn" class="paymentInfoBtn" type="button" onClick="goRegisterEnd()">저장</button>'+
+						'<button id="payRegisterEndBtn" type="button" onClick="goRegisterEnd()">저장</button>'+
 						'<br><br>'+
 						'</div>'+
 						'<table id="paymentInfo" class="paymentTbl" style="clear: both;">'+
@@ -368,7 +380,7 @@
 						'</table>'+
 					  '</div>'+
 					  '<div class="paymentInfoDiv" style="margin-top: 15px;">'+
-						'<button id="closeBtn" class="paymentInfoBtn" onclick="goBackPaymentInfo()">닫기</button>'+
+						'<button id="closeBtn" onclick="goBackPaymentInfo()">닫기</button>'+
 					  '</div>';
 		$("div#registerDiv").html(html);
 		$("div#registerDiv").show();
@@ -385,7 +397,7 @@
 		
 				
 		var html = 	'<div class="paymentInfoDiv" style="width: 100%; ">'+
-						'<button id="payModifyEndBtn" class="paymentInfoBtn" type="button" onClick="goModifyEnd()">저장</button>'+
+						'<button id="payModifyEndBtn" type="button" onClick="goModifyEnd()">저장</button>'+
 						'<br><br>'+
 						'</div>'+
 						'<table id="paymentInfo" class="paymentTbl" style="clear: both;">'+
@@ -407,7 +419,7 @@
 						'</table>'+
 					  '</div>'+
 					  '<div class="paymentInfoDiv" style="margin-top: 15px;">'+
-						'<button id="closeBtn" class="paymentInfoBtn" onclick="goBackPaymentInfo()">닫기</button>'+
+						'<button id="closeBtn" onclick="goBackPaymentInfo()">닫기</button>'+
 					  '</div>';
 		$("div#registerModiDiv").html(html);
 		$("div#registerModiDiv").show();
@@ -527,7 +539,7 @@
 					</thead>
 					<tbody>
 					<c:forEach var="insaList" items="${requestScope.insaList}">
-					<tr class="clickMemberPay" onclick="memberInfoView(${insaList.mbr_seq})" >
+					<tr class="clickMemberPay memberInfo" onclick="memberInfoView(${insaList.mbr_seq})">
 						<td class="seq">${insaList.mbr_seq}</td>
 						<td>${insaList.mbr_name}</td>
 						<c:if test="${insaList.fk_dept_no == 0}">
@@ -574,6 +586,7 @@
 			<input id="hiddenSearchWord" type="hidden" value="${searchWord}" />
 			<input id="hiddenParameter" type="hidden" />
 			</div>
+			&nbsp;&nbsp;
 			<div id='paymentInfoBorder' class='paymentBorder' >
 
 			</div>
