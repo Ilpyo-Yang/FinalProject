@@ -80,4 +80,7 @@ public interface InterWorkmanageService {
 
 	// 부서 정보 가져오기
 	List<HashMap<String,String>> getDeptList();
+
+	// 페이징 처리한 글 목록 가져오기(검색이 있든지, 없든지 모두 다) - todo 테이블
+	List<TodoVO> todoListSearchWithPaging(Map<String, Object> paraMap);
 }

@@ -1,11 +1,5 @@
 package com.spring.groupware.workmanage.service;
 
-import java.awt.Desktop;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -240,5 +234,12 @@ public class WorkmanageService implements InterWorkmanageService {
 	public List<HashMap<String,String>> getDeptList() {
 		List<HashMap<String,String>> deptList = dao.getDeptList();
 		return deptList;
+	}
+
+	// 페이징 처리한 글 목록 가져오기(검색이 있든지, 없든지 모두 다) - todo 테이블
+	@Override
+	public List<TodoVO> todoListSearchWithPaging(Map<String, Object> paraMap) {
+		List<TodoVO> todoList = dao.todoListSearchWithPaging(paraMap);
+		return todoList;
 	}
 }

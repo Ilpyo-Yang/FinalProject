@@ -298,6 +298,13 @@ public class WorkmanageController {
 		
 		Map<String, Object> paraMap = new HashedMap<>();
 		
+		boolean isTodo = false;
+		// 나의 할일로 넘어온 경우
+		if (fk_wtno == null) {
+			paraMap.put("todo", true);
+			isTodo = true;
+		}
+		
 		// 검색어를 통한 리스트 조회가 아닐 경우
 		if (searchType == null || (!"subject".equals(searchType) && !"contents".equals(searchType))) {
 			searchType = "";
@@ -359,7 +366,7 @@ public class WorkmanageController {
 		if (str_sizePerPage != null) {
 			sizePerPage = Integer.parseInt(str_sizePerPage);
 		}
-
+		
 		totalCount = service.getTotalCount(paraMap);
 		totalPage = (int) Math.ceil((double) totalCount / sizePerPage);
 
@@ -388,9 +395,16 @@ public class WorkmanageController {
 		paraMap.put("endRno", String.valueOf(endRno));
 		mav.addObject("sizePerPage", String.valueOf(sizePerPage));
 		
-		// 페이징 처리한 글 목록 가져오기(검색이 있든지, 없든지 모두 다)
-		List<WorkVO> workList = service.workListSearchWithPaging(paraMap); 
-		mav.addObject("workList", workList);
+		// 할일 테이블과 구분하여 리스트 가져오기
+		if (!isTodo) {
+			// 페이징 처리한 글 목록 가져오기(검색이 있든지, 없든지 모두 다)
+			List<WorkVO> workList = service.workListSearchWithPaging(paraMap); 
+			mav.addObject("workList", workList);
+		}
+		else {
+			List<TodoVO> todoList = service.todoListSearchWithPaging(paraMap);
+			mav.addObject("todoList", todoList);
+		}
 		
 		// 검색대상 컬럼과 검색어를 유지시키기 위해
 		if (!"".equals(searchType) && !"".equals(searchWord)) {
@@ -440,8 +454,14 @@ public class WorkmanageController {
 		// 상세 페이지에서 목록보기를 클릭했을 때 돌아갈 페이지를 알려주기 위해 
 		String gobackURL = MyUtil.getCurrentURL(request);
 		mav.addObject("gobackURL", gobackURL);
-
-		mav.setViewName("workmanage/workList.tiles1");
+		
+		if (!isTodo) {
+			mav.setViewName("workmanage/workList.tiles1");
+		}
+		else {
+			mav.setViewName("workmanage/todoList.tiles1");
+		}
+		
 		return mav;
 	}
 

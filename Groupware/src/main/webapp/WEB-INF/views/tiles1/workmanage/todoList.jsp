@@ -9,6 +9,7 @@
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="<%=ctxPath%>/resources/js/workmanage.js"></script>
 
 <jsp:include page="./workmanage_sidebar.jsp" />
 
@@ -48,6 +49,7 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 
 <script>
 	$(document).ready(function() {
+		setSearchInfo();
 		
 		$("#datepicker_reg").datepicker({
 			showOn : "button",
@@ -62,10 +64,99 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 			buttonImageOnly : true,
 			buttonText : "Select date"
 		});
+		
+		// 버튼 색상 적용하는 js 함수 호출
+		$("button.workStatus").each(function(index, item){
+			var delayday = $(item).prev().val();
+			
+			setworkStatusBtn(item, delayday);
+		});
+		
+		// 검색시 검색조건 및 검색어 값 유지시키기
+		if (${not empty requestScope.paraMap}) {
+			// 검색조건 및 검색어
+			$("select#searchType").val("${requestScope.paraMap.searchType}");
+			$("input#searchWord").val("${requestScope.paraMap.searchWord}");
+			
+			// 검색 날짜 조건 
+			$("input#datepicker_reg").val("${requestScope.paraMap.registerday}");
+			$("input#datepicker_dead").val("${requestScope.paraMap.deadline}");
+			
+			// 업무 상태 조건
+			var workStatusArr = "${requestScope.paraMap.str_workStatus}".split(",");
+			for (var i=0; i<workStatusArr.length; i++) {
+				$("input.searchWorkStatus").each(function(index, item){
+					if ($(item).val() == workStatusArr[i]) {
+						$(item).prop("checked", true);
+					}
+				});
+			}
+		}
 	});
 	
 	function goDetailTodo(tdno) {
 		location.href="<%=request.getContextPath()%>/showDetailTodo.opis?tdno="+tdno+"&mbr_seq=${sessionScope.loginuser.mbr_seq}";
+	}
+	
+	// 전체선택 체크 박스를 클릭했을 때 
+	function clickAllCheckbox() {
+		// input#allCheckbox ==> 전체선택 체크박스  id="allCheckbox"
+		// input.oneCheckbox ==> 하위선택 체크박스  class="oneCheckbox"
+		
+		var stat = $("input#allCheckbox").prop("checked");
+		
+		$("input.oneCheckbox").each(function(index, item){
+			$(item).prop("checked", stat);
+		});
+	}
+	
+	// 하위 체크박스를 클릭했을 때
+	function clickOneCheckbox(target) {
+		// onclick="clickOneCheckbox(this)";
+		
+		var stat = $(target).prop("checked");
+		
+		if (!stat) { // 체크가 풀린 경우라면
+			$("input#allCheckbox").prop("checked", false);
+		}
+		else {
+			var check; // 다른 하위 체크박스 검사
+			$("input.oneCheckbox").each(function(index, item){
+				check = $(item).prop("checked");
+				if (check == false) {
+					return false;
+				}
+			});
+			if (check) { // 전부 true 일 때
+				$("input#allCheckbox").prop("checked", true);	
+			}
+		}
+	}
+	
+	// 검색 조건을 가지고 검색하러 가는 함수 
+	function goSearch() {
+		// 업무 검색을 위한 체크박스 중 선택한 것들 담기
+		var searchWorkStatusArr = []; 
+		$("input.searchWorkStatus").each(function(index, item) {
+			if ($(item).prop("checked") == true) {
+				searchWorkStatusArr.push($(item).val());
+			}
+		});
+		var str_searchWorkStatus = searchWorkStatusArr.join();
+		$("input[name=workStatus]").val(str_searchWorkStatus);
+		
+		var frm = document.searchFrm;
+		frm.method = "get";
+		frm.action = "<%=ctxPath%>/workList.opis";
+		frm.submit();
+	}
+	
+	
+	// 검색된 조건들 고정시키는 함수 
+	function setSearchInfo() {
+		// 페이지 당 만들기
+		var sizePerPage = "${requestScope.sizePerPage}";
+		$("select[name=sizePerPage]").val(sizePerPage);
 	}
 </script>
 
@@ -136,22 +227,18 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 					<td>${todo.registerday}</td>
 					<td>${todo.deadline}</td>
 					<td>
-					<c:choose>
-						<%-- 나의 할일 상태 종류 --%>
-						<c:when test="${todo.fk_statno == 0}">
-							<button type="button" class="workStatus" style="background-color: #ff3300;">지연<span>+2</span></button>	
-						</c:when>
-						<c:when test="${todo.fk_statno == 1}">
-							<button type="button" class="workStatus" style="background-color: #66ccff;">미완료</button>
-						</c:when>
-						<c:when test="${todo.fk_statno == 2}">
-							<button type="button" class="workStatus" style="background-color: white; border: 1px solid black; color: black;">완료</button>
-						</c:when>
-					</c:choose>
+					<input type="hidden" value="${todo.delayday}"/>
+					<button type="button" class="workStatus" value="${todo.fk_statno}"></button>
 					</td>	
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
+	
+	<!-- 페이지바 보여주기 -->
+	<div align="center" style="width:70%; border:solid 0px gray; margin:20px auto;">
+		${requestScope.pageBar}
+	</div>
+	
 </div>
 

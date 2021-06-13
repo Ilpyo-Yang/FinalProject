@@ -65,7 +65,14 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 	// == 페이징 처리 - 총 게시물 건수 가져오기 == //
 	@Override
 	public int getTotalCount(Map<String, Object> paraMap) {
-		int n = sqlsession.selectOne("workmanage.getTotalCount", paraMap);
+		int n = 0;
+		
+		if (paraMap.get("todo") != null) {
+			n = sqlsession.selectOne("workmanage.getTotalCount_todo", paraMap);
+		}
+		else {
+			n = sqlsession.selectOne("workmanage.getTotalCount", paraMap);
+		}
 		return n;
 	}
 
@@ -207,6 +214,13 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 	public List<HashMap<String, String>> getDeptList() {
 		List<HashMap<String, String>> deptList = sqlsession.selectList("workmanage.getDeptList");
 		return deptList;
+	}
+
+	// 페이징 처리한 글 목록 가져오기(검색이 있든지, 없든지 모두 다) - todo 테이블
+	@Override
+	public List<TodoVO> todoListSearchWithPaging(Map<String, Object> paraMap) {
+		List<TodoVO> todoList = sqlsession.selectList("workmanage.todoListSearchWithPaging", paraMap);
+		return todoList;
 	}
 	
 

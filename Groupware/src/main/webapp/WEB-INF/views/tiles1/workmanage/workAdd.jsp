@@ -353,7 +353,7 @@ ul#referrersUl li.referrerName:hover {
 				</tr>
 			</tbody>
 		</table>	
-		<input type="hidden" name="requester" value="${sessionScope.loginuser.mbr_name}"/><input type="hidden" name="requesterSeq" value="5"/>
+		<input type="hidden" name="requester" value="${sessionScope.loginuser.mbr_name}"/><input type="hidden" name="requesterSeq" value="${sessionScope.loginuser.mbr_seq}"/>
 		<input type="hidden" name="receivers" id="receivers"/><input type="hidden" name="receiverSeqs" id="receiverSeqs"/>
 		<input type="hidden" name="referrers" id="referrers"/><input type="hidden" name="referrerSeqs" id="referrerSeqs"/>
 		<input type="hidden" name="fk_wrno" value="1"/>
