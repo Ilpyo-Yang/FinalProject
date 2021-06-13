@@ -48,10 +48,12 @@ public class AddrController {
 	  String hp3 = request.getParameter("hp3");
 	  
 	  String mbr_phone_number = hp1 + hp2 + hp3;
+	  int fk_mbr_seq = Integer.parseInt(request.getParameter("mbr_seq"));
 	  
 	  addrvo.setMbr_phone_number(mbr_phone_number);
- 	  
-	  int n = service.add(addrvo);
+ 	  addrvo.setFk_mbr_seq(fk_mbr_seq);
+
+ 	  int n = service.add(addrvo);
  	  
  	  if(n==1) {
  		  mav.setViewName("redirect:/totaladdrlist.opis");
