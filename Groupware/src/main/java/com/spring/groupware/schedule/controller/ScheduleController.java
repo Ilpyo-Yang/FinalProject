@@ -157,17 +157,9 @@ public class ScheduleController {
 		
 		ScheduleVO schedulevo = service.getViewScd(scdno);
 		
-		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		mav.addObject("schedulevo", schedulevo);
+		mav.setViewName("schedule_modal/scdDetail");
 		
-		if(loginuser.getMbr_seq() == Integer.parseInt(schedulevo.getFk_mbr_seq())) {
-			mav.addObject("schedulevo", schedulevo);
-			mav.setViewName("schedule_modal/scdDetail");
-		}
-		else {
-			mav.addObject("message","잘못된 접근입니다.");
-			mav.setViewName("msg");
-		}
 		return mav;
 	}
 	
@@ -202,17 +194,18 @@ public class ScheduleController {
 	@RequestMapping(value="/editEndScd.opis", method={RequestMethod.POST})
 	public ModelAndView requiredLogin_editEndScd(HttpServletRequest request, HttpServletResponse response, ModelAndView mav, ScheduleVO schedulevo) {
 		
-		int n = service.editScd(schedulevo);
 		
-		if(n == 1) {
-			mav.addObject("schedulevo", schedulevo);
-			mav.setViewName("schedule_modal/scdDetail");
-		}
-		else {
-			mav.addObject("message", "일정 수정 실패");
-			mav.addObject("loc","javascript:history.back()");
-			mav.setViewName("msg");
-		}
+			int n = service.editScd(schedulevo);
+			
+			if(n == 1) {
+				mav.addObject("schedulevo", schedulevo);
+				mav.setViewName("schedule_modal/scdDetail");
+			}
+			else {
+				mav.addObject("message", "일정 수정 실패");
+				mav.addObject("loc","javascript:history.back()");
+				mav.setViewName("msg");
+			}
 		
 		return mav;
 	}
@@ -222,19 +215,31 @@ public class ScheduleController {
 	public ModelAndView delScd(HttpServletRequest request, ModelAndView mav, ScheduleVO schedulevo) {
 		
 		String scdno = request.getParameter("scdno");
+		String fk_mbr_seq = request.getParameter("fk_mbr_seq");
 		
-		int n = service.delScd(scdno);
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
-		if(n==1) {
-			mav.setViewName("redirect:/scd_register.opis");
+		if(loginuser.getMbr_seq() == Integer.parseInt(fk_mbr_seq)) {
+			int n = service.delScd(scdno);
+			
+			if(n==1) {
+				mav.setViewName("redirect:/scd_register.opis");
+			}
+			else {
+				String message = "일정 삭제에 실패하였습니다.";
+		        mav.addObject("message", message);
+		        mav.setViewName("msg");
+			}
 		}
 		else {
-			String message = "일정 삭제에 실패하였습니다.";
+			String message = "다른 사용자의 일정은 삭제가 불가합니다.";
+	        String loc = "javascript:history.back()";
 	        
 	        mav.addObject("message", message);
+	        mav.addObject("loc", loc);
 	        mav.setViewName("msg");
 		}
-		
 		return mav;
 	}
 	
@@ -247,8 +252,13 @@ public class ScheduleController {
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
 		String userid = loginuser.getMbr_id();
+		String dept_detail = loginuser.getDept_detail();
 		
-		List<Map<String, String>> scdList = service.showScd(userid);
+		Map<String, String> paraMap = new HashMap<>();
+		paraMap.put("userid", userid);
+		paraMap.put("dept_detail", dept_detail);
+		
+		List<Map<String, String>> scdList = service.showScd(paraMap);
 		
 		JsonArray jsonArr = new JsonArray();
 		
@@ -461,7 +471,6 @@ public class ScheduleController {
 		
 		return jsonObj.toString();
 	}
-	
 	
 	
 }

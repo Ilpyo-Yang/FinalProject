@@ -29,7 +29,7 @@ public interface InterScheduleDAO {
 	int delScd(String scdno);
 	
 	// 캘린더에 일정 보여주기
-	List<Map<String, String>> showScd(String userid);
+	List<Map<String, String>> showScd(Map<String, String> paraMap);
 	
 	// 모든 일정 삭제하기
 	int delAll();

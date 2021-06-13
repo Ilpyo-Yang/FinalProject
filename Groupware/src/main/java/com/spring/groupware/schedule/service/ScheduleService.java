@@ -74,8 +74,8 @@ public class ScheduleService implements InterScheduleService{
 	
 	// 캘린더에 일정 보여주기
 	@Override
-	public List<Map<String, String>> showScd(String userid) {
-		List<Map<String, String>> scdList = dao.showScd(userid);
+	public List<Map<String, String>> showScd(Map<String, String> paraMap) {
+		List<Map<String, String>> scdList = dao.showScd(paraMap);
 		return scdList;
 	}
 	
@@ -169,37 +169,5 @@ public class ScheduleService implements InterScheduleService{
 		int n = dao.delOneResv(usermtrno);
 		return n;
 	}
-	
-	
-
-	
-
-	
-	
-	
-
-	
-
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-
-	
-
-	
-	
-	
-
-	
-
-	
 	
 }

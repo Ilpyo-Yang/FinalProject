@@ -34,7 +34,7 @@ public interface InterScheduleService {
 	int delScd(String scdno);
 	
 	// 일정 풀캘린더에 보여주기
-	List<Map<String, String>> showScd(String userid);
+	List<Map<String, String>> showScd(Map<String, String> paraMap);
 	
 	// 모든 일정 삭제하기
 	int delAll();
