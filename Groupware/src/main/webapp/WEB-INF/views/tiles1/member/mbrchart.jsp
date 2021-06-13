@@ -70,7 +70,7 @@
 						}
 					});
 					
-					$.each(json, function(index, item){ // 팀원 node 연결(팀장 기준 순서대로 3명)						
+					$.each(json, function(index, item){ 				
 						if(item.id.indexOf('팀원')!='-1'){
 							$("p.highcharts-description").append("<div class='memberName'>"+item.name+"</div>");
 						}
