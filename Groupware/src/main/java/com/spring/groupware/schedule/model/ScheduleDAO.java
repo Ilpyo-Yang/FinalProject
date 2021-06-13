@@ -69,8 +69,8 @@ public class ScheduleDAO implements InterScheduleDAO {
 	
 	// 캘린더에 일정 보여주기
 	@Override
-	public List<Map<String, String>> showScd(String userid) {
-		List<Map<String, String>> scdList = sqlsession.selectList("schedule.showScd", userid);
+	public List<Map<String, String>> showScd(Map<String, String> paraMap) {
+		List<Map<String, String>> scdList = sqlsession.selectList("schedule.showScd", paraMap);
 		return scdList;
 	}
 	

@@ -65,11 +65,21 @@
 		<result property="scdenddate" column="scdenddate" javaType="String"/>
 	</resultMap>
 	
-	<select id="showScd" parameterType="String" resultMap="showScdMap">
+	<select id="showScd" parameterType="HashMap" resultMap="showScdMap">
 		select scdno, fk_scdno2, scdsubject, scdstartdate, scdenddate
+		from
+		(select scdno, fk_scdno2, scdsubject, scdstartdate, scdenddate
 		from tbl_schedule S join tbl_mbr M
 		on S.fk_mbr_seq = M.mbr_seq
 		where mbr_id = #{userid}
+		or fk_scdno2 = 0 or fk_scdno2 = 1
+		minus
+		select scdno, fk_scdno2, scdsubject, scdstartdate, scdenddate
+		from tbl_schedule S join tbl_mbr M
+		on S.fk_mbr_seq = M.mbr_seq
+		join tbl_dept D
+		on M.fk_dept_no = D.dept_no
+		where D.dept_detail != #{dept_detail} and fk_scdno2 = 1) T
 	</select>
 	
 	<!-- === 모든 일정 삭제하기 === -->

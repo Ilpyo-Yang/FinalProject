@@ -159,6 +159,8 @@
 					<td id="title">일정구분</td>
 					<td id="content">
 						<input type="hidden" name="scdno" value="${requestScope.schedulevo.scdno}"/>
+						<input type="hidden" name="fk_mbr_seq" value="${requestScope.schedulevo.fk_mbr_seq}" />
+						<c:if test="${requestScope.schedulevo.fk_scdno2 eq 0}">전체일정</c:if>
 						<c:if test="${requestScope.schedulevo.fk_scdno2 eq 1}">부서일정</c:if> 
 						<c:if test="${requestScope.schedulevo.fk_scdno2 eq 2}">개인일정</c:if>
 					</td>
@@ -205,8 +207,10 @@
 	</c:if>
 	
 		<div align="right" id="btns">
+			
 			<button type="button" class="btn modify" onclick="javascript:location.href='<%=ctxPath%>/editScd.opis?scdno=${requestScope.schedulevo.scdno}'">수정</button>
 			<button type="button" class="btn del" onclick="goDelScd()">삭제</button>
+			
 			<button type="button" class="btn return" onclick="javascript:location.href='<%=ctxPath%>/scd_register.opis'"><img id="returnimg" src="<%=ctxPath%>/resources/images/return.png"/></button>
 			<button type="button" class="btn close" onclick="goClose()">닫기</button> 
 		</div>
