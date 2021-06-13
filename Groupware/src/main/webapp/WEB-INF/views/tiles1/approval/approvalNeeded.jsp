@@ -131,10 +131,10 @@
 		</div>
 		
 		<br>
-		<input type="text" name="word" value="" />
-		<input type="text" name="writer" value="" />
-		<input type="text" name="submitStartDate" value="" />
-		<input type="text" name="submitEndDate" value="" />
+		<input type="hidden" name="word" value="" />
+		<input type="hidden" name="writer" value="" />
+		<input type="hidden" name="submitStartDate" value="" />
+		<input type="hidden" name="submitEndDate" value="" />
 
 		
 	</div>

@@ -281,18 +281,19 @@ div#searchOption > td:nth-child(2n) {
 	padding: 5px 15px;
 }
 button.formBtn4 {
-	height: 12px;
+	height: 20px;
 	width: 150px;
 	padding: 0 5px;
 	vertical-align: middle;
 	line-height: 20px;
 	font-size: 10pt;
 	font-weight: bold;
+	float: right;
 }
 .searchInput {
 	margin: 5px 10px;
 	padding-left: 10px;
-	width: 20%;
+	width: 30%;
 	height: 25px;
 	display: inline-block;
 }

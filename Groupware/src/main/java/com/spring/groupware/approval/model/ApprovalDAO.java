@@ -56,16 +56,7 @@ public class ApprovalDAO implements InterApprovalDAO {
 	// 결재대기 문서 가져오기
 	@Override
 	public List<ApprovalVO> getApprovalNeededList(Map<String, String> paraMap) {
-		Map<String, String> newMap = new HashMap<>();
-		newMap.put("managePerson", "인사팀 팀장 관리자");
-		newMap.put("word", "기안");	
-		newMap.put("writer", "리");
-		newMap.put("submitStartDate", "2021-06-10");
-		newMap.put("submitEndDate", "2021-06-15");
-		newMap.put("startRno", String.valueOf(1));
-		newMap.put("endRno", String.valueOf(10));
-		System.out.println(newMap);
-		List<ApprovalVO> approvalList = sqlsession.selectList("approval.getApprovalNeededList", newMap);		
+		List<ApprovalVO> approvalList = sqlsession.selectList("approval.getApprovalNeededList", paraMap);		
 		return approvalList;
 	}
 
