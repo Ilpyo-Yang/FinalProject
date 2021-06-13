@@ -11,6 +11,7 @@
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="<%=ctxPath%>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 
 <jsp:include page="./workmanage_sidebar.jsp" />
 
@@ -29,6 +30,9 @@ div#diplayList {
 </style>
 
 <script type="text/javascript">
+	
+	var obj = [];	// 스마트에디터 전역변수
+
 	$(document).ready(function(){
 		
 		$("#datepicker_deadline").datepicker({
@@ -116,6 +120,21 @@ div#diplayList {
 	        }
 		});
 		
+		 // == 스마트에디터 구현 프레임생성 == //
+		nhn.husky.EZCreator.createInIFrame({
+	          oAppRef: obj,
+	          elPlaceHolder: "contents",
+	          sSkinURI: "<%=ctxPath%>/resources/smarteditor/SmartEditor2Skin.html",
+	          htParams : {
+	              // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+	              bUseToolbar : true,            
+	              // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+	              bUseVerticalResizer : true,    
+	              // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+	              bUseModeChanger : true,
+	          }
+		});
+		
 	});
 	
 	// == 업무 요청, 업무 보고 일 경우에만 담당자, 참조자  input 보여주기 == //
@@ -145,6 +164,24 @@ div#diplayList {
 			alert("업무기한을 입력하세요");
 			return;
 		}
+		// == 스마트 에디터 검사하기 == //
+		//id가 content인 textarea에 에디터에서 대입
+		obj.getById["contents"].exec("UPDATE_CONTENTS_FIELD", []);
+
+		// 글내용 유효성 검사
+		var contentval = $("#contents").val();		
+		if (contentval == "" || contentval == "<p>&nbsp;</p>") {
+			alert("글내용을 입력하세요!!");
+			return;
+		}
+
+		// 스마트에디터 사용시 무의미하게 생기는 p태그 제거하기
+		contentval = $("#contents").val().replace(/<p><br><\/p>/gi, "<br>"); 	//<p><br></p> -> <br>로 변환
+		contentval = contentval.replace(/<\/p><p>/gi, "<br>"); 					//</p><p> -> <br>로 변환  
+		contentval = contentval.replace(/(<\/p><br>|<p><br>)/gi, "<br><br>"); 	//</p><br>, <p><br> -> <br><br>로 변환 
+		contentval = contentval.replace(/(<p>|<\/p>)/gi, ""); 					//<p> 또는 </p> 모두 제거시
+
+		$("#contents").val(contentval);
 		
 		
 		var fk_wtno = ${requestScope.workvo.fk_wtno};
@@ -214,7 +251,7 @@ div#diplayList {
 				</tr>
 				<tr>
 					<td>내용</td>
-					<td><textarea name="contents" cols="60" rows="10">${requestScope.workvo.contents}</textarea></td>
+					<td><textarea name="contents" id="contents" rows="10" cols="100" style="width: 95%;">${requestScope.workvo.contents}</textarea></td>
 				</tr>
 				<tr>
 					<td>파일</td>
