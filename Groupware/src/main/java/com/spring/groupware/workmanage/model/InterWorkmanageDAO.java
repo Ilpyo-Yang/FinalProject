@@ -92,4 +92,16 @@ public interface InterWorkmanageDAO {
 	// 페이징 처리한 글 목록 가져오기(검색이 있든지, 없든지 모두 다) - todo 테이블
 	List<TodoVO> todoListSearchWithPaging(Map<String, Object> paraMap);
 
+	// 마감일자지난 업무상태 변경
+	int updateWorkStatusByTime_todo();
+
+	// 첨부파일 정보 가져오기 - todo
+	List<WorkFileVO> getWorkFile_todo(Map<String, String> paraMap);
+
+	// 첨부파일 등록하기 -todo
+	int workAddFile_todo(WorkFileVO filevo);
+
+	// 할일 번호 채번하기
+	String getTodono();
+
 }

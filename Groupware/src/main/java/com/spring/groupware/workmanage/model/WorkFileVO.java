@@ -13,7 +13,8 @@ public class WorkFileVO {
 	private String orgFilename; // 진짜 파일명(강아지.png) // 사용자가 파일을 업로드 하거나 파일을 다운로드 할때 사용되어지는 파일명
 	private String fileSize; // 파일크기
 
-	private String fk_wmno; // 부모 번호
+	private String fk_wmno; // 부모 번호 - 업무
+	private String fk_tdno; // 부모 번호 - 할일
 	
 	// 첨부 파일 관련 ------------------------------
 
@@ -63,6 +64,14 @@ public class WorkFileVO {
 
 	public void setFileSize(String fileSize) {
 		this.fileSize = fileSize;
+	}
+
+	public String getFk_tdno() {
+		return fk_tdno;
+	}
+
+	public void setFk_tdno(String fk_tdno) {
+		this.fk_tdno = fk_tdno;
 	}
 
 }

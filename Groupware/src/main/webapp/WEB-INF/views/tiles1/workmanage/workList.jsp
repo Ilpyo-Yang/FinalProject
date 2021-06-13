@@ -288,7 +288,7 @@ button.readCheck {
 			</select>
 		</li>
 
-		<li>전체 <span>3</span></li>
+		<li>전체 <span>${requestScope.totalCount}</span></li>
 		
 		<!-- 검색 바 열 맞추기 위해서 히든으로 숨겨둠 -->
 		<li style="width: 50px;">

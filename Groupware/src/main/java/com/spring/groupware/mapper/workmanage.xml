@@ -5,12 +5,19 @@
 
 <!-- ==== 루트 엘리먼트 & 네임스페이스 설정 ==== -->
 <mapper namespace="workmanage">
-	
+
+	<!-- === todo 정보 등록 트랜잭션 처리 시작 -->
 	<!-- == 업무등록 페이지에서 나의 할일 등록하기 == -->
 	<insert id="workAddTodoEnd" parameterType="com.spring.groupware.workmanage.model.TodoVO">
 		insert into tbl_todolist(tdno, fk_mbr_seq, subject, contents, deadline)
-		values(seq_todolist_tdno.nextval, to_number(#{fk_mbr_seq}), #{subject}, #{contents}, to_date(#{deadline}))
+		values(#{tdno}, to_number(#{fk_mbr_seq}), #{subject}, #{contents}, to_date(#{deadline}))
 	</insert>
+	<!-- 첨부 파일이 있을 경우 파일 추가하는 부분 -->
+	<insert id="workAddFile_todo" parameterType="com.spring.groupware.workmanage.model.WorkFileVO">
+		insert into tbl_tdaddfile (fileno, fk_tdno, fileName, orgFilename, fileSize)
+		values (seq_tdaddfile_fileno.nextval, #{fk_tdno}, #{fileName}, #{orgFilename}, #{fileSize})
+	</insert>
+	<!-- === todo 정보 등록 트랜잭션 처리 끝-->
 
 	<!-- == 나의 할일 리스트 페이지 보여주기 (전체) == -->
 	<select id="todoList" parameterType="String" resultType="com.spring.groupware.workmanage.model.TodoVO">
@@ -28,6 +35,12 @@
 		    , to_char(deadline, 'yyyy-mm-dd') as deadline
 		from tbl_todolist
 		where tdno = #{tdno} and fk_mbr_seq = #{fk_mbr_seq}
+	</select>
+	
+	<!-- 할일 번호 채번해오기 -->
+	<select id="getTodono" resultType="String">
+		select seq_todolist_tdno.nextval as tdno
+		from dual
 	</select>
 	
 	<!-- 업무 번호 채번해오기 -->
@@ -133,7 +146,7 @@
 		</if>
 	</select>
 	
-	
+	<!-- 사원정보 가져오기 -->
 	<select id="memberSearchShow"  parameterType="HashMap" resultType="com.spring.groupware.member.model.MemberVO">
 		select mbr_seq, mbr_name
 		from tbl_mbr
@@ -144,7 +157,13 @@
 	<!-- 마감일자지난 업무상태 변경 -->
 	<update id="updateWorkStatusByTime" parameterType="HashMap">
 		update tbl_workmanage set fk_statno = 0
-		where to_date(to_char(deadline, 'yyyy-mm-dd')) &lt; to_date(to_char(sysdate, 'yyyy-mm-dd'))
+		where fk_statno = 1 and to_date(to_char(deadline, 'yyyy-mm-dd')) &lt; to_date(to_char(sysdate, 'yyyy-mm-dd'))
+	</update>
+	
+	<!-- 마감일자지난 업무상태 변경 todo -->
+	<update id="updateWorkStatusByTime_todo" parameterType="HashMap">
+		update tbl_todolist set fk_statno = 0
+		where fk_statno = 1 and to_date(to_char(deadline, 'yyyy-mm-dd')) &lt; to_date(to_char(sysdate, 'yyyy-mm-dd'))
 	</update>
 
 	<!-- 담당자들의 업무 정보 가져오기  -->	
@@ -252,6 +271,13 @@
 		select fileno, fk_wmno, fileName, orgFilename, fileSize
 		from tbl_wmaddfile
 		where fk_wmno = #{wmno}
+	</select>
+	
+	<!-- 첨부파일 가져오기 todo -->
+	<select id="getWorkFile_todo" parameterType="HashMap" resultType="com.spring.groupware.workmanage.model.WorkFileVO">
+		select fileno, fk_tdno, fileName, orgFilename, fileSize
+		from tbl_tdaddfile
+		where fk_tdno = #{tdno}
 	</select>
 	
 	<!-- 담당자들의 읽음확인 정보 가져오기 -->

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	   
+<% String ctxPath = request.getContextPath(); %>   
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
@@ -8,14 +9,26 @@
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="<%=ctxPath%>/resources/js/workmanage.js"></script>
 
 <jsp:include page="./workmanage_sidebar.jsp" />
 
 <style type="text/css">
 </style>
 
+<script type="text/javascript">
+	$(document).ready(function(){
+		// 버튼 색상 적용하는 js 함수 호출
+		$("button.workStatus").each(function(index, item){
+			var delayday = $(item).prev().val();
+			
+			setworkStatusBtn(item, delayday);
+		});	
+	});
+</script>
+
 <div class="container workcontainer">
-	<h3>업무조회</h3>
+	<h3>업무 조회</h3>
 
 	<br>
 	
@@ -26,17 +39,8 @@
 				<td>${tdvo.subject}</td>
 				<td>상태</td>
 				<td>
-					<c:choose>
-						<c:when test="${tdvo.fk_statno == 0}">
-							<button type="button" class="workStatus" style="background-color: #ff3300;">지연<span>+2</span></button>		
-						</c:when>
-						<c:when test="${tdvo.fk_statno == 1}">
-							<button type="button" class="workStatus" style="background-color: #66ccff;">미완료</button>
-						</c:when>
-						<c:when test="${tdvo.fk_statno == 2}">
-							<button type="button" class="workStatus" style="background-color: white; border: 1px solid black; color: black;">완료</button>
-						</c:when>
-					</c:choose>
+					<input type="hidden" value="${tdvo.delayday}"/>
+					<button type="button" class="workStatus" value="${tdvo.fk_statno}"></button>
 				</td>
 			</tr>
 			<tr>
@@ -49,10 +53,22 @@
 			</tr>
 			<tr>
 				<td>첨부파일</td>
-				<td colspan="3"></td>
+				<td colspan="3">
+					<c:forEach var="file" items="${requestScope.fileList}" varStatus="status">
+						<c:if test="${sessionScope.loginuser != null}">
+							<a href="<%=ctxPath%>/download.opis?orgFilename=${file.orgFilename}&fileName=${file.fileName}">${file.orgFilename}</a>
+						</c:if>
+						<br>
+					</c:forEach>
+				</td>
 			</tr>
 		</tbody>
 	</table>
-
+	
+	<div align="right">
+		<button type="button" class="workEditBtn btn btn-success" onclick="goWorkEdit();">수정</button>
+		<button type="button" class="workDeleteBtn btn btn-danger" onclick="goWorkDel();">삭제</button>
+		<button type="button" class="workListBtn btn btn-default" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
+	</div>
 </div>
 

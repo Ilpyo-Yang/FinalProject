@@ -55,14 +55,16 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 			showOn : "button",
 			buttonImage : "<%=request.getContextPath()%>/resources/images/icon_calendar.png",
 			buttonImageOnly : true,
-			buttonText : "Select date"
+			buttonText : "Select date",
+			dateFormat: 'yy-mm-dd'
 		});
 		
 		$("#datepicker_dead").datepicker({
 			showOn : "button",
 			buttonImage : "<%=request.getContextPath()%>/resources/images/icon_calendar.png",
 			buttonImageOnly : true,
-			buttonText : "Select date"
+			buttonText : "Select date",
+			dateFormat: 'yy-mm-dd'
 		});
 		
 		// 버튼 색상 적용하는 js 함수 호출
@@ -146,7 +148,6 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 		$("input[name=workStatus]").val(str_searchWorkStatus);
 		
 		var frm = document.searchFrm;
-		frm.method = "get";
 		frm.action = "<%=ctxPath%>/workList.opis";
 		frm.submit();
 	}
@@ -165,20 +166,21 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 
 	<hr>
 
+	<form name="searchFrm">
 	<ul id="todoSelectCondition">
 		<li>
-			<select id="selectViewCount">
-				<option value="3" selected>3줄</option>
+			<select id="selectViewCount" name="sizePerPage" onchange="goSearch();">
+				<option value="3">3줄</option>
 				<option value="5">5줄</option>
 				<option value="10">10줄</option>
 			</select>
 		</li>
 
-		<li>전체 <span>3</span></li>
+		<li>전체 <span>${requestScope.totalCount}</span></li>
 
 		<li style="width: 50px;">
-			<label for="checkImp">중요</label>
-			<input type="checkbox" id="checkImp" />
+			<!-- <label for="checkImp">중요</label>
+			<input type="checkbox" id="checkImp" /> -->
 		</li>
 
 		<li>
@@ -188,29 +190,38 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 				<label for="complete">완료</label>
 			</div>
 			<div class="checkWorkStatus">
-				<input type="checkbox" id="delay" /> 
-				<input type="checkbox" id="noncomplete" />
-				<input type="checkbox" id="complete" />
+				<input type="checkbox" id="delay" class="searchWorkStatus" value="0"/> 
+				<input type="checkbox" id="noncomplete" class="searchWorkStatus" value="1"/>
+				<input type="checkbox" id="complete" class="searchWorkStatus" value="2"/>
 			</div>
 		</li>
 
 		<li>
-			<input type="text" id="datepicker_reg" /> ~ 
-			<input type="text" id="datepicker_dead" />
+			<input type="text" id="datepicker_reg" name="registerday"/> ~ 
+			<input type="text" id="datepicker_dead" name="deadline" />
 		</li>
-
+		
 		<li>
-			<input type="text" id="search" />
-			<img class="searchImg" src="<%=request.getContextPath()%>/resources/images/icon_search.png" alt="searchImg" />
+			<select id="searchType" name="searchType" >
+				<option value="subject">제목</option>
+				<option value="contents">내용</option>
+			</select>
+		</li>
+		
+		<li>
+			<input type="text" id="searchWord" name="searchWord" />
+			<button type="button" onclick="goSearch();" >검색</button>
 		</li>
 	</ul>
-
+	<input type="hidden" name="workStatus"/>
+	</form>
+	
 	<table class="table table-striped tdtable">
 		<thead>
 			<tr>
-				<th><input type="checkbox" /></th>
+				<th><input type="checkbox" id="allCheckbox" onclick="clickAllCheckbox();" /></th>
 				<th>번호</th>
-				<th>중요</th>
+				<!-- <th>중요</th> -->
 				<th>제목</th>
 				<th>등록일</th>
 				<th>마감일</th>
@@ -220,15 +231,15 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 		<tbody>
 			<c:forEach var="todo" items="${requestScope.todoList}" varStatus="status">
 				<tr>
-					<td><input type="checkbox" /></td>
+					<td><input type="checkbox" class="oneCheckbox" value="${todo.tdno}" onclick="clickOneCheckbox(this);"/></td>
 					<td>${status.count}</td>
-					<td><img src="" alt="" /></td>
+					<!-- <td><img src="" alt="" /></td> -->
 					<td><span class="todoSubject" onclick="goDetailTodo('${todo.tdno}')" style="cursor: pointer;">${todo.subject}</span></td>
 					<td>${todo.registerday}</td>
 					<td>${todo.deadline}</td>
 					<td>
-					<input type="hidden" value="${todo.delayday}"/>
-					<button type="button" class="workStatus" value="${todo.fk_statno}"></button>
+						<input type="hidden" value="${todo.delayday}"/>
+						<button type="button" class="workStatus" value="${todo.fk_statno}"></button>
 					</td>	
 				</tr>
 			</c:forEach>
@@ -238,6 +249,13 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 	<!-- 페이지바 보여주기 -->
 	<div align="center" style="width:70%; border:solid 0px gray; margin:20px auto;">
 		${requestScope.pageBar}
+	</div>
+	
+	<!-- 업무 관련 버튼 -->
+	<div align="right">
+		<button type="button" class="workEditBtn btn btn-success" onclick="javascript:location.href='<%=ctxPath%>/workAdd.opis'">업무등록</button>
+		<button type="button" class="workListBtn btn btn-default" onclick="goWorkComplete();">업무완료</button>
+		<button type="button" class="workDeleteBtn btn btn-danger" onclick="goWorkDel();">삭제</button>
 	</div>
 	
 </div>

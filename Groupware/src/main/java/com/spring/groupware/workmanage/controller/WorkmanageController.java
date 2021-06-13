@@ -93,14 +93,59 @@ public class WorkmanageController {
 
 	// == 업무 등록 중 나의 할일 등록하기 == //
 	@RequestMapping(value = "/workAddTodoEnd.opis", method = { RequestMethod.POST })
-	public ModelAndView workAddTodoEnd(ModelAndView mav, TodoVO tdvo) {
-
-		/*
-		 * >> 추가로 해야할 일 - 내용(contens) 등록할 때 inject처리, 개행문자 처리 => 추후 스마트 에디터 사용 예정 -
-		 * 첨부파일(addfile) 등록처리
-		 */
-
-		int n = service.workAddTodoEnd(tdvo);
+	public ModelAndView workAddTodoEnd(ModelAndView mav, TodoVO tdvo, MultipartHttpServletRequest mrequest) {
+		
+		String tdno = service.getTodono();
+		tdvo.setTdno(tdno);
+		
+		// 첨부파일이 있을 경우 첨부파일 테이블에 넣어줄 것들
+		List<MultipartFile> attachList = mrequest.getFiles("attach");
+		List<WorkFileVO> fileList = null;
+		
+		if (attachList.size() > 0) {
+			fileList = new ArrayList<>();
+			
+			for (MultipartFile attach : attachList) {
+				WorkFileVO filevo = new WorkFileVO();
+				
+				filevo.setFk_tdno(tdno);
+				filevo.setAttach(attach);
+				
+				// WAS의 webapp 의 절대경로 알아오기
+				HttpSession session = mrequest.getSession();
+				String root = session.getServletContext().getRealPath("/");
+				String path = root+"resources"+File.separator+"files"; // File.separator 는 운영체제에서 사용하는 폴더와 파일의 구분자
+				
+				String newFileName = ""; // WAS(톰캣)의 디스크에 저장될 파일명 
+				byte[] bytes = null; // 첨부파일의 내용을 담는 것
+				long fileSize = 0; // 첨부파일의 크기
+				
+				try {
+					bytes = attach.getBytes(); // 첨부파일의 내용물을 읽기
+					String originalFilename = attach.getOriginalFilename(); // originalFilename ==> "강아지.png"
+					
+					newFileName = fileManager.doFileUpload(bytes, originalFilename, path);
+					
+					filevo.setFileName(newFileName);	
+					// WAS(톰캣)에 저장될 파일명(20210603123943385139567592900.png)
+					
+					filevo.setOrgFilename(originalFilename);
+					// 게시판 페이지에서 첨부된 파일(강아지.png)을 보여줄 때 사용.
+		            // 또한 사용자가 파일을 다운로드 할때 사용되어지는 파일명으로 사용.
+					
+					fileSize = attach.getSize(); // 첨부파일의 크기(단위는 byte)
+					filevo.setFileSize(String.valueOf(fileSize));
+					
+					fileList.add(filevo);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
+		int n = service.workAddTodoEnd(tdvo, fileList);
 
 		if (n == 1) {
 			mav.setViewName("redirect:/todoList.opis");
@@ -148,14 +193,21 @@ public class WorkmanageController {
 		// tbl_todolist 테이블에서 업무고유 번호에 해당하는 값 가져오기
 		String tdno = request.getParameter("tdno");
 		String fk_mbr_seq = request.getParameter("mbr_seq");
+		String gobackURL = request.getParameter("gobackURL");
 
 		Map<String, String> paraMap = new HashedMap<>();
 		paraMap.put("tdno", tdno);
 		paraMap.put("fk_mbr_seq", fk_mbr_seq);
+		paraMap.put("gobackURL", gobackURL);
 
+		// 선택한 나의할일 정보 가져오기
 		TodoVO tdvo = service.showDetailTodo(paraMap);
-
 		mav.addObject("tdvo", tdvo);
+		
+		// 첨부파일 정보 가져오기
+		List<WorkFileVO> fileList = service.getWorkFile(paraMap);
+		mav.addObject("fileList", fileList);
+
 		mav.setViewName("workmanage/showDetailTodo.tiles1");
 		return mav;
 	}
@@ -300,9 +352,12 @@ public class WorkmanageController {
 		
 		boolean isTodo = false;
 		// 나의 할일로 넘어온 경우
-		if (fk_wtno == null) {
+		if (fk_wtno == null || "".equals(fk_wtno) || fk_wrno == null || "".equals(fk_wrno)) {
 			paraMap.put("todo", true);
 			isTodo = true;
+			
+			fk_wtno = "";
+			fk_wrno = "";
 		}
 		
 		// 검색어를 통한 리스트 조회가 아닐 경우
@@ -394,6 +449,7 @@ public class WorkmanageController {
 		paraMap.put("startRno", String.valueOf(startRno));
 		paraMap.put("endRno", String.valueOf(endRno));
 		mav.addObject("sizePerPage", String.valueOf(sizePerPage));
+		mav.addObject("totalCount", String.valueOf(totalCount));
 		
 		// 할일 테이블과 구분하여 리스트 가져오기
 		if (!isTodo) {

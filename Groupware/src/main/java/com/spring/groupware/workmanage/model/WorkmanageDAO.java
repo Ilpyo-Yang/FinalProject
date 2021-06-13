@@ -222,6 +222,34 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		List<TodoVO> todoList = sqlsession.selectList("workmanage.todoListSearchWithPaging", paraMap);
 		return todoList;
 	}
+
+	// 마감일자지난 todo 업무상태 변경
+	@Override
+	public int updateWorkStatusByTime_todo() {
+		int n = sqlsession.update("workmanage.updateWorkStatusByTime_todo");
+		return n;
+	}
+
+	// 첨부파일 정보 가져오기 - todo
+	@Override
+	public List<WorkFileVO> getWorkFile_todo(Map<String, String> paraMap) {
+		List<WorkFileVO> fileList = sqlsession.selectList("workmanage.getWorkFile_todo", paraMap);
+		return fileList;
+	}
+
+	// 첨부파일 등록하기 - todo
+	@Override
+	public int workAddFile_todo(WorkFileVO filevo) {
+		int n = sqlsession.insert("workmanage.workAddFile_todo", filevo);
+		return n;
+	}
+
+	// 할일 번호 채번하기
+	@Override
+	public String getTodono() {
+		String tdno = sqlsession.selectOne("workmanage.getTodono");
+		return tdno;
+	}
 	
 
 }

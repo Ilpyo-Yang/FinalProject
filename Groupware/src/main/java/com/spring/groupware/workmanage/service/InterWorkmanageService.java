@@ -13,7 +13,7 @@ import com.spring.groupware.workmanage.model.WorkVO;
 public interface InterWorkmanageService {
 
 	// 업무 등록 페이지에서 나의 할일 등록하기 
-	int workAddTodoEnd(TodoVO tdvo);
+	int workAddTodoEnd(TodoVO tdvo, List<WorkFileVO> fileList);
 
 	// 나의 할일 리스트 페이지 보여주기 (전체) 
 	List<TodoVO> todoList(String fk_mbr_seq);
@@ -83,4 +83,7 @@ public interface InterWorkmanageService {
 
 	// 페이징 처리한 글 목록 가져오기(검색이 있든지, 없든지 모두 다) - todo 테이블
 	List<TodoVO> todoListSearchWithPaging(Map<String, Object> paraMap);
+
+	// 할일 번호 채번하기
+	String getTodono();
 }

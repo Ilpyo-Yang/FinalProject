@@ -10,6 +10,7 @@
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="<%=ctxPath%>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 
 <jsp:include page="./workmanage_sidebar.jsp" />
 <jsp:include page="../approval/selectMemberModal.jsp" />  
@@ -68,6 +69,8 @@ ul#referrersUl li.referrerName:hover {
 </style>
 
 <script type="text/javascript">
+	var obj = [];	// 스마트에디터 전역변수
+	
 	$(document).ready(function(){
 		
 		$("input[name=fk_wtno]").each(function(index, item){
@@ -166,6 +169,22 @@ ul#referrersUl li.referrerName:hover {
 	            $("div#attachedFile").append('<span>'+file.name+'&nbsp;&nbsp;</span><br>');
 	        }
 		});
+		   
+	    // == 스마트에디터 구현 프레임생성 == //
+		nhn.husky.EZCreator.createInIFrame({
+	          oAppRef: obj,
+	          elPlaceHolder: "contents",
+	          sSkinURI: "<%=ctxPath%>/resources/smarteditor/SmartEditor2Skin.html",
+	          htParams : {
+	              // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+	              bUseToolbar : true,            
+	              // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+	              bUseVerticalResizer : true,    
+	              // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+	              bUseModeChanger : true,
+	          }
+		});
+	    
 		
 	});
 	
@@ -213,7 +232,24 @@ ul#referrersUl li.referrerName:hover {
 			}
 		}
 		
-		//$("input[name=fk_wtno]").val(fk_wtno); // DB 컬럼명이랑 맞추기
+		// == 스마트 에디터 검사하기 == //
+		//id가 content인 textarea에 에디터에서 대입
+		obj.getById["contents"].exec("UPDATE_CONTENTS_FIELD", []);
+
+		// 글내용 유효성 검사
+		var contentval = $("#contents").val();		
+		if (contentval == "" || contentval == "<p>&nbsp;</p>") {
+			alert("글내용을 입력하세요!!");
+			return;
+		}
+
+		// 스마트에디터 사용시 무의미하게 생기는 p태그 제거하기
+		contentval = $("#contents").val().replace(/<p><br><\/p>/gi, "<br>"); 	//<p><br></p> -> <br>로 변환
+		contentval = contentval.replace(/<\/p><p>/gi, "<br>"); 					//</p><p> -> <br>로 변환  
+		contentval = contentval.replace(/(<\/p><br>|<p><br>)/gi, "<br><br>"); 	//</p><br>, <p><br> -> <br><br>로 변환 
+		contentval = contentval.replace(/(<p>|<\/p>)/gi, ""); 					//<p> 또는 </p> 모두 제거시
+
+		$("#contents").val(contentval);
 		
 		if (fk_wtno == 1) {
 			$("input[name=fk_statno]").val("1");
@@ -343,12 +379,12 @@ ul#referrersUl li.referrerName:hover {
 				</tr>
 				<tr>
 					<td>내용</td>
-					<td><textarea name="contents" cols="60" rows="10"></textarea></td>
+					<td><textarea name="contents" id="contents" rows="10" cols="100" style="width: 95%;"></textarea></td>
 				</tr>
 				<tr id="workRegBtn">
 					<td colspan="2">
-						<button type="button" onclick="checkStar()">저장</button>
-						<button type="button" >취소</button>
+						<button type="button" onclick="checkStar()" class="btn btn-success">저장</button>
+						<button type="button" onclick="javascript:location.href='<%=ctxPath%>/workList.opis'" class="btn btn-default">취소</button>
 					</td>
 				</tr>
 			</tbody>
@@ -356,6 +392,7 @@ ul#referrersUl li.referrerName:hover {
 		<input type="hidden" name="requester" value="${sessionScope.loginuser.mbr_name}"/><input type="hidden" name="requesterSeq" value="${sessionScope.loginuser.mbr_seq}"/>
 		<input type="hidden" name="receivers" id="receivers"/><input type="hidden" name="receiverSeqs" id="receiverSeqs"/>
 		<input type="hidden" name="referrers" id="referrers"/><input type="hidden" name="referrerSeqs" id="referrerSeqs"/>
+		<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}"/>
 		<input type="hidden" name="fk_wrno" value="1"/>
 		<!-- <input type="hidden" name="fk_wtno" /> -->
 		<input type="hidden" name="fk_statno" />

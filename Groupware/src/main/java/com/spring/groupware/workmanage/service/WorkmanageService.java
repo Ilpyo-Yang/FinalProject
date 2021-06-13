@@ -26,10 +26,22 @@ public class WorkmanageService implements InterWorkmanageService {
 	@Autowired
 	private InterWorkmanageDAO dao;
 	
-	// == 업무 등록 페이지에서 나의 할일 등록하기 == // 
+	// == 업무 등록 페이지에서 나의 할일 등록하기 (트랜잭션 처리)== // 
 	@Override
-	public int workAddTodoEnd(TodoVO tdvo) {
-		int n = dao.workAddTodoEnd(tdvo);
+	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.READ_COMMITTED, rollbackFor= {Throwable.class})
+	public int workAddTodoEnd(TodoVO tdvo, List<WorkFileVO> fileList) {
+		// todo 테이블에 정보 insert
+		int n = dao.workAddTodoEnd(tdvo); 
+		int m = 0;
+		
+		// 첨부파일이 있을 때 첨부파일 테이블에 파일 insert
+		if (n != 0 && fileList.get(0).getFileName() != null) {
+			for (WorkFileVO filevo : fileList) {
+				m = dao.workAddFile_todo(filevo);
+				
+				if (m == 0) break;
+			}
+		}
 		return n;
 	}
 
@@ -189,7 +201,17 @@ public class WorkmanageService implements InterWorkmanageService {
 	// 첨부파일 정보 가져오기
 	@Override
 	public List<WorkFileVO> getWorkFile(Map<String, String> paraMap) {
-		List<WorkFileVO> fileList = dao.getWorkFile(paraMap);
+		String todoNo = paraMap.get("tdno");
+		List<WorkFileVO> fileList;
+		
+		// todo 와 work 첨부파일 구분하기
+		if (todoNo == null || "".equals(todoNo)) {
+			fileList = dao.getWorkFile(paraMap);
+		}
+		else {
+			fileList = dao.getWorkFile_todo(paraMap);
+		}
+		
 		return fileList;
 	}
 
@@ -217,9 +239,11 @@ public class WorkmanageService implements InterWorkmanageService {
 	// 마감 지난 업무상태 변경하기
 	@Override
 	@Scheduled(cron="0 0 0 * * ?")
+//	@Scheduled(cron="*/10 * * * * *") // 10초마다변경
 	public void updateWorkStatusByTime() { // 스케줄러로 사용되어지는 메소드는 반드시 파라미터가 없어야 함
-		
+
 		dao.updateWorkStatusByTime(); // 마감 지난 업무상태 변경하기
+		dao.updateWorkStatusByTime_todo(); // 마감 지난 업무상태 변경하기
 	}
 
 	// 사원 정보 가져오기
@@ -241,5 +265,12 @@ public class WorkmanageService implements InterWorkmanageService {
 	public List<TodoVO> todoListSearchWithPaging(Map<String, Object> paraMap) {
 		List<TodoVO> todoList = dao.todoListSearchWithPaging(paraMap);
 		return todoList;
+	}
+
+	// 할일 번호 채번하기
+	@Override
+	public String getTodono() {
+		String tdno = dao.getTodono();
+		return tdno;
 	}
 }
