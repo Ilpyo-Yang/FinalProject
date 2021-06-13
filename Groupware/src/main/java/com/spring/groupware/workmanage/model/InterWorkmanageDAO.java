@@ -110,4 +110,7 @@ public interface InterWorkmanageDAO {
 	// 할일 삭제하기
 	int todoDel(Map<String, Object> paraMap);
 
+	// 할일 수정하기
+	int todoEditEnd(TodoVO todovo);
+
 }

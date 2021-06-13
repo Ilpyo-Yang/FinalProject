@@ -208,6 +208,10 @@ public class WorkmanageController {
 		// 첨부파일 정보 가져오기
 		List<WorkFileVO> fileList = service.getWorkFile(paraMap);
 		mav.addObject("fileList", fileList);
+		
+		// 업무처리에서 해당 페이지로 다시 돌아오기 위해
+		String gobackWorkDetilURL = MyUtil.getCurrentURL(request);
+		mav.addObject("gobackWorkDetilURL", gobackWorkDetilURL);
 
 		mav.setViewName("workmanage/showDetailTodo.tiles1");
 		return mav;
@@ -625,14 +629,28 @@ public class WorkmanageController {
 	public ModelAndView requiredLogin_workEdit(HttpServletRequest request, HttpServletResponse response,
 			ModelAndView mav) {
 
-		String wmno = request.getParameter("wmno"); // 업무고유 번호 받아오기
 		Map<String, String> paraMap = new HashedMap<>();
-		paraMap.put("wmno", wmno);
-
-		// 업무 기본 정보가져오기
-		WorkVO workvo = service.showDetailWork(paraMap);
-		mav.addObject("workvo", workvo);
 		
+		String tdno = request.getParameter("tdno"); // 업무고유 번호 받아오기
+		String wmno = request.getParameter("wmno"); // 업무고유 번호 받아오기
+		
+		if (tdno != null && !"".equals(tdno)) {	// 할일
+			paraMap.put("tdno", tdno);			
+
+			// 할일 기본 정보가져오기
+			TodoVO todovo = service.showDetailTodo(paraMap);
+			mav.addObject("todovo", todovo);
+			mav.addObject("isTodo", true);
+		}
+		else {	// 업무
+			paraMap.put("wmno", wmno);
+
+			// 업무 기본 정보가져오기
+			WorkVO workvo = service.showDetailWork(paraMap);
+			mav.addObject("workvo", workvo);
+			mav.addObject("isTodo", false);
+		}
+
 		// 첨부파일 정보 가져오기
 		List<WorkFileVO> fileList = service.getWorkFile(paraMap);
 		mav.addObject("fileList", fileList);
@@ -735,6 +753,89 @@ public class WorkmanageController {
 
 		return mav;
 	}
+	
+	// 할일 수정하기 마지막
+	@RequestMapping(value = "todoEditEnd.opis", method = { RequestMethod.POST })
+	public ModelAndView todoEditEnd(ModelAndView mav, TodoVO todovo, MultipartHttpServletRequest mrequest) {
+		
+		String tdno = todovo.getTdno();
+		String gobackWorkDetilURL = mrequest.getParameter("gobackWorkDetilURL"); 
+		
+		// 첨부파일이 있을 경우 첨부파일 테이블에 넣어줄 것들
+		List<MultipartFile> attachList = mrequest.getFiles("attach");
+		List<WorkFileVO> fileList = null;
+		
+		if (attachList.size() > 0) {
+			fileList = new ArrayList<>();
+			
+			for (MultipartFile attach : attachList) {
+				WorkFileVO filevo = new WorkFileVO();
+				
+				filevo.setFk_tdno(tdno);
+				filevo.setAttach(attach);
+				
+				// WAS의 webapp 의 절대경로 알아오기
+				HttpSession session = mrequest.getSession();
+				String root = session.getServletContext().getRealPath("/");
+				String path = root+"resources"+File.separator+"files"; // File.separator 는 운영체제에서 사용하는 폴더와 파일의 구분자
+				
+				String newFileName = ""; // WAS(톰캣)의 디스크에 저장될 파일명 
+				byte[] bytes = null; // 첨부파일의 내용을 담는 것
+				long fileSize = 0; // 첨부파일의 크기
+				
+				try {
+					bytes = attach.getBytes(); // 첨부파일의 내용물을 읽기
+					String originalFilename = attach.getOriginalFilename(); // originalFilename ==> "강아지.png"
+					
+					newFileName = fileManager.doFileUpload(bytes, originalFilename, path);
+					
+					filevo.setFileName(newFileName);	
+					// WAS(톰캣)에 저장될 파일명(20210603123943385139567592900.png)
+					
+					filevo.setOrgFilename(originalFilename);
+					// 게시판 페이지에서 첨부된 파일(강아지.png)을 보여줄 때 사용.
+		            // 또한 사용자가 파일을 다운로드 할때 사용되어지는 파일명으로 사용.
+					
+					fileSize = attach.getSize(); // 첨부파일의 크기(단위는 byte임)
+					filevo.setFileSize(String.valueOf(fileSize));
+					
+					fileList.add(filevo);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		// 사용자 시퀀스번호
+		String userId = null;
+		HttpSession session = mrequest.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		if (loginuser != null) {
+			userId = String.valueOf(loginuser.getMbr_seq());
+			todovo.setFk_mbr_seq(userId);
+		}
+		
+		// 업무 수정하기 및 수정일자 업데이트 하기
+		int n = service.todoEditEnd(todovo, fileList);
+
+		if (n == 1) {
+			
+			mav.setViewName("redirect:/"+gobackWorkDetilURL);
+		} else {
+			String message = "업무 수정에 실패하였습니다. 다시 시도하세요";
+			String loc = "javascript:history.back()";
+
+			mav.addObject("message", message);
+			mav.addObject("loc", loc);
+
+			mav.setViewName("msg");
+		}
+
+		return mav;
+	}
+
 
 	// 업무 삭제하기
 	@RequestMapping(value = "workDel.opis", method = { RequestMethod.POST })

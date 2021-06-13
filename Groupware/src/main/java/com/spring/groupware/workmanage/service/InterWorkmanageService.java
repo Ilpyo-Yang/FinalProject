@@ -86,4 +86,7 @@ public interface InterWorkmanageService {
 
 	// 할일 번호 채번하기
 	String getTodono();
+
+	// 할일 수정하기
+	int todoEditEnd(TodoVO todovo, List<WorkFileVO> fileList);
 }

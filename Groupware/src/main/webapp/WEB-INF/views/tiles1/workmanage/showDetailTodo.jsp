@@ -39,6 +39,14 @@
 		frm.action = "<%=ctxPath%>/workDel.opis";
 		frm.submit();
 	}
+	
+	// 할일 수정하기
+	function goTodoEdit() {
+		var frm = document.editFrm;
+		frm.method = "post";
+		frm.action = "<%=ctxPath%>/workEdit.opis";
+		frm.submit();
+	}
 </script>
 
 <div class="container workcontainer">
@@ -82,11 +90,17 @@
 	<!-- 삭제할 업무 번호 폼 -->
 	<form name="delFrm">
 		<input type="hidden" name="tdnoStr" value="${tdvo.tdno}"/>
-		<input type="text" name="gobackURL" value="${requestScope.paraMap.gobackURL}"/>
+		<input type="hidden" name="gobackURL" value="${requestScope.paraMap.gobackURL}"/>
+	</form>
+	
+	<!-- 수정할 업무 번호 폼 -->
+	<form name="editFrm">
+		<input type="hidden" name="tdno" value="${tdvo.tdno}"/>
+		<input type="hidden" name="gobackWorkDetilURL" value="${gobackWorkDetilURL}"/>
 	</form>
 	
 	<div align="right">
-		<button type="button" class="workEditBtn btn btn-success" onclick="goWorkEdit();">수정</button>
+		<button type="button" class="workEditBtn btn btn-success" onclick="goTodoEdit();">수정</button>
 		<button type="button" class="workDeleteBtn btn btn-danger" onclick="goTodoDel();">삭제</button>
 		<button type="button" class="workListBtn btn btn-default" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
 	</div>

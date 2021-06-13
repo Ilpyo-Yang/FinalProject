@@ -183,18 +183,18 @@ div#diplayList {
 
 		$("#contents").val(contentval);
 		
-		
-		var fk_wtno = ${requestScope.workvo.fk_wtno};
-		
-		if (fk_wtno == 0) submitTodoRegFrm(); 
-		else submitWorkRegFrm();
+		var isTodo = ${requestScope.isTodo};
+		if (isTodo == true) 
+			submitTodoRegFrm();
+		else 
+			submitWorkRegFrm();
 	}
 	
 	// == ToDo 정보 폼 전송하기 == //
 	function submitTodoRegFrm() {
 		var frm = document.workRegFrm;
 		
-		frm.action = "<%=ctxPath%>/workAddTodoEnd.opis";
+		frm.action = "<%=ctxPath%>/todoEditEnd.opis";
 		frm.method = "post";
 		frm.submit();
 	}
@@ -224,6 +224,8 @@ div#diplayList {
 	<form name="workRegFrm" enctype="multipart/form-data">
 		<table class="table table-striped workRegtable">
 			<tbody>
+				<!-- 업무 수정 -->
+				<c:if test="${not empty requestScope.workvo}">
 				<tr>
 					<td>업무형태</td>
 					<td>
@@ -253,6 +255,33 @@ div#diplayList {
 					<td>내용</td>
 					<td><textarea name="contents" id="contents" rows="10" cols="100" style="width: 95%;">${requestScope.workvo.contents}</textarea></td>
 				</tr>
+				<input type="hidden" name="wmno" value="${requestScope.workvo.wmno}"/>
+				<input type="hidden" name="fk_wrno" value="1"/>
+				<input type="hidden" name="fk_wtno" value="${requestScope.workvo.fk_wtno}"/>
+				</c:if>
+				
+				<!-- 할일 수정 -->
+				<c:if test="${not empty requestScope.todovo}">
+				<tr>
+					<td>업무형태</td>
+					<td>나의 할일</td>
+				</tr>
+				<tr>
+					<td style="width: 10%;"><span class="star">*</span>제목</td>
+					<td style="width: 70%;"><input name="subject" value="${requestScope.todovo.subject}"/></td>
+				</tr>
+				<tr>
+					<td><span class="star">*</span>업무기한</td>
+					<td><input type="text" name="deadline" id="datepicker_deadline" value="${requestScope.todovo.deadline}"/></td>
+				</tr>
+				<tr>
+					<td>내용</td>
+					<td><textarea name="contents" id="contents" rows="10" cols="100" style="width: 95%;">${requestScope.todovo.contents}</textarea></td>
+				</tr>
+				<input type="hidden" name="tdno" value="${requestScope.todovo.tdno}"/>
+				</c:if>
+				
+				<!-- 첨부파일관련 -->
 				<tr>
 					<td>파일</td>
 					<td>
@@ -279,9 +308,7 @@ div#diplayList {
 				</tr>
 			</tbody>
 		</table>	
-		<input type="hidden" name="wmno" value="${requestScope.workvo.wmno}"/>
-		<input type="hidden" name="fk_wrno" value="1"/>
-		<input type="hidden" name="fk_wtno" value="${requestScope.workvo.fk_wtno}"/>
+		
 		<input type="hidden" name="gobackWorkDetilURL" value="${requestScope.gobackWorkDetilURL}"/>
 	</form>
 </div>

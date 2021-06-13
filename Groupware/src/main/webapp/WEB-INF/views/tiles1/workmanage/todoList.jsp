@@ -268,6 +268,7 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 		
 		<li>
 			<select id="searchType" name="searchType" >
+				<option value="">선택</option>
 				<option value="subject">제목</option>
 				<option value="contents">내용</option>
 			</select>
@@ -327,7 +328,7 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 	<!-- 상세한 업무 내용 보내기 폼 -->
 	<form name="detailFrm">
 		<input type="hidden" name="tdno" />
-		<input type="hidden" name="mbr_seq" value="${sessionScope.loginuser.mbr_seq}"/>
+		<input type="hidden" name="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}"/>
 		<input type="hidden" name="searchType" />
       	<input type="hidden" name="searchWord" />
 		<input type="hidden" name="gobackURL" value="${requestScope.gobackURL}" />

@@ -288,4 +288,24 @@ public class WorkmanageService implements InterWorkmanageService {
 		String tdno = dao.getTodono();
 		return tdno;
 	}
+
+	// 할일 수정하기
+	@Override
+	public int todoEditEnd(TodoVO todovo, List<WorkFileVO> fileList) {
+		int n = dao.todoEditEnd(todovo);
+		int m = 1;
+		
+		if (n == 1) {
+			// 첨부파일이 있을 때 첨부파일 테이블에 파일 insert
+			if (fileList.get(0).getFileName() != null) {
+				for (WorkFileVO filevo : fileList) {
+					m = dao.workAddFile_todo(filevo);
+					
+					if (m == 0) break;
+				}
+			}
+		}
+		
+		return n*m;
+	}
 }
