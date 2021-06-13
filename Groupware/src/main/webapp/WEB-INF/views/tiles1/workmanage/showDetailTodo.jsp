@@ -49,7 +49,7 @@
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td colspan="3">${tdvo.contents}</td>
+				<td colspan="3"><div style="height:120px; overflow: auto;">${tdvo.contents}</div></td>
 			</tr>
 			<tr>
 				<td>첨부파일</td>

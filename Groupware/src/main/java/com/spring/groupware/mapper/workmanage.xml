@@ -241,6 +241,7 @@
 		    )
 		)
 		where rno between #{startRno} and #{endRno}
+		order by wmno desc
 	</select>
 	
 	<!-- 수신자, 참조자가 읽었을 때 읽음확인 업데이트 하기  -->
@@ -355,5 +356,6 @@
 		    )
 		)
 		where rno between #{startRno} and #{endRno}		
+		order by tdno desc
 	</select>
 </mapper>

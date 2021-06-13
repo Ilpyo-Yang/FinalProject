@@ -226,7 +226,7 @@
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td colspan="3">${workvo.contents}</td>
+				<td colspan="3"><div style="height:120px; overflow: auto;">${workvo.contents}</div></td>
 			</tr>
 			<tr>
 				<td>첨부파일</td>

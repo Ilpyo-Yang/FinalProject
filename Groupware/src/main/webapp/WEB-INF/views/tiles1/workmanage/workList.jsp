@@ -392,8 +392,12 @@ button.readCheck {
 	
 	<!-- 업무 관련 버튼 -->
 	<div align="right">
-		<button type="button" class="workEditBtn btn btn-success" onclick="javascript:location.href='<%=ctxPath%>/workAdd.opis'">업무등록</button>
-		<button type="button" class="workListBtn btn btn-default" onclick="goWorkComplete();">업무완료</button>
+		<c:if test="${fk_wrno == 1}">
+			<button type="button" class="workEditBtn btn btn-success" onclick="javascript:location.href='<%=ctxPath%>/workAdd.opis'">업무등록</button>
+			<button type="button" class="workListBtn btn btn-default" onclick="goWorkComplete();">업무완료</button>
+		</c:if>
+		<c:if test="${fk_wrno == 2}"><button type="button" class="workListBtn btn btn-success" onclick="goWorkComplete();">업무처리</button></c:if>
+		<c:if test="${fk_wrno == 3}"><button type="button" class="workListBtn btn btn-default" onclick="goWorkComplete();">읽음처리</button></c:if>
 		<button type="button" class="workDeleteBtn btn btn-danger" onclick="goWorkDel();">삭제</button>
 	</div>
 	
