@@ -1,6 +1,4 @@
 
-<%@page import="java.util.List"%>
-<%@page import="com.spring.groupware.workmanage.model.WorkFileVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -224,11 +222,11 @@
 			</tr>
 			<tr>
 				<td>참조자</td>
-				<td colspan="3"></td>
+				<td colspan="3">${workvo.referrers}</td>
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td colspan="3">${workvo.contents}</td>
+				<td colspan="3"><div style="height:120px; overflow: auto;">${workvo.contents}</div></td>
 			</tr>
 			<tr>
 				<td>첨부파일</td>
@@ -250,6 +248,7 @@
 		<input type="hidden" name="wmnoStr" value="${workvo.wmno}"/>
 		<input type="hidden" name="fk_wtno" value="${fk_wtno}"/>
 		<input type="hidden" name="fk_wrno" value="${fk_wrno}"/>
+		<input type="hidden" name="gobackURL" value="${requestScope.paraMap.gobackURL}"/>
 	</form>
 	
 	<!-- 수정할 업무 번호 폼 -->
@@ -275,12 +274,12 @@
 			<button type="button" class="recworkEditBtn btn btn-success" onclick="goRecworkEdit();" hidden>처리내역수정하기</button>
 			<button type="button" class="recworkAddEndBtn btn btn-success" onclick="goRecworkAddEnd();" hidden>처리</button>
 			<button type="button" class="recworkEditEndBtn btn btn-success" onclick="goRecworkEditEnd();" hidden>수정</button>
-			<button type="button" class="workListBtn btn " onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
+			<button type="button" class="workListBtn btn btn-default" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
 		</c:if>
 		
 		<c:if test="${requestScope.fk_wrno eq 3}">
-			<button type="button" class="workDeleteBtn btn btn-success" onclick="goWorkDel();">삭제</button>
-			<button type="button" class="workListBtn btn btn-success" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
+			<button type="button" class="workDeleteBtn btn btn-danger" onclick="goWorkDel();">삭제</button>
+			<button type="button" class="workListBtn btn btn-default" onclick="javascript:location.href='${requestScope.paraMap.gobackURL}'">목록</button>
 		</c:if>
 	</div>
 	
