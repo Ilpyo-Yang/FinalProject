@@ -246,7 +246,7 @@
 									<input type="text" class="form-control formDetail" name="vacationStartDate" id="datepicker"/>
 									<span class="space">-</span>
 									<input type="text" class="form-control formDetail" name="vacationEndDate" id="datepicker2"/>
-									<span class="space">총<span class="space" id="dateDiff" style="color:red;"></span>${remainBreak} 일간</span>
+									<span class="space">총<span class="space" id="dateDiff" style="color:red;"></span> 일간</span>
 								</td>
 							</tr>
 							<tr>
@@ -256,7 +256,7 @@
 										<option>연차</option>
 										<option>반차</option>
 									</select>
-									<span class="space">(남은 연차:<span class="space" id="remainBreak" style="color:red;"></span>/<span class="space"></span>)</span>
+									<span class="space">(남은 연차:<span class="space" id="remainBreak" style="color:red;"></span>/<span class="space" >${sessionScope.loginuser.mbr_remainBreak} 일</span>)</span>
 								</td>
 							</tr>
 							<tr>
