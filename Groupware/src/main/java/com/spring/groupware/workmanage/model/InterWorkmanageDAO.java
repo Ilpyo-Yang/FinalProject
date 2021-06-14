@@ -113,4 +113,10 @@ public interface InterWorkmanageDAO {
 	// 할일 수정하기
 	int todoEditEnd(TodoVO todovo);
 
+	// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
+	int workPercentChangeToComplete(Map<String, Object> paraMap);
+
+	// 일괄 읽음 처리하기
+	int updateReadcheckdate_many(Map<String, Object> paraMap);
+
 }

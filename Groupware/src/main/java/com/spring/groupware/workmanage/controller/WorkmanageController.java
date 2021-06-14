@@ -1085,4 +1085,96 @@ public class WorkmanageController {
 		return mav;
 	}
 	
+	
+	
+	// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
+	@RequestMapping(value = "workPercentChangeToComplete.opis", method = { RequestMethod.POST })
+	public ModelAndView requiredLogin_workPercentChangeToComplete(HttpServletRequest request, HttpServletResponse response,
+			ModelAndView mav) {
+		
+		Map<String, Object> paraMap = new HashedMap<>();
+		
+		String gobackURL = request.getParameter("gobackURL");
+		String wmnoStr = request.getParameter("wmnoStr"); // 업무번호들
+		String fk_wrno = request.getParameter("fk_wrno"); // 사용자의 역할
+		String fk_wtno = request.getParameter("fk_wtno");
+		
+		// 업무요청, 업무보고일 경우
+		if (wmnoStr != null && !"".equals(wmnoStr)) {
+			String[] wmnoList = wmnoStr.split(",");
+			paraMap.put("wmnoList", wmnoList);
+			paraMap.put("fk_wrno", fk_wrno);
+		}
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		paraMap.put("fk_mbr_seq", loginuser.getMbr_seq());
+
+		// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
+		int n = service.workPercentChangeToComplete(paraMap);
+
+		if (n >= 1) {
+			if (gobackURL != null) {
+				mav.setViewName("redirect:/" + gobackURL);
+			} else {
+				mav.setViewName("redirect:/workList.opis?fk_wtno=" + fk_wtno + "&fk_wrno=" + fk_wrno);
+			}
+		} else {
+			String message = "업무 완료 처리에 실패하였습니다. 다시 시도하세요";
+			String loc = "javascript:history.back()";
+
+			mav.addObject("message", message);
+			mav.addObject("loc", loc);
+
+			mav.setViewName("msg");
+		}
+		
+		return mav;
+	}
+	
+	
+	// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
+	@RequestMapping(value = "workReadCheckChangeToComplete.opis", method = { RequestMethod.POST })
+	public ModelAndView requiredLogin_workReadCheckChangeToComplete(HttpServletRequest request, HttpServletResponse response,
+			ModelAndView mav) {
+		
+		Map<String, Object> paraMap = new HashedMap<>();
+		
+		String gobackURL = request.getParameter("gobackURL");
+		String wmnoStr = request.getParameter("wmnoStr"); // 업무번호들
+		String fk_wrno = request.getParameter("fk_wrno"); // 사용자의 역할
+		String fk_wtno = request.getParameter("fk_wtno");
+		
+		// 업무요청, 업무보고일 경우
+		if (wmnoStr != null && !"".equals(wmnoStr)) {
+			String[] wmnoList = wmnoStr.split(",");
+			paraMap.put("wmnoList", wmnoList);
+			paraMap.put("fk_wrno", fk_wrno);
+		}
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		paraMap.put("fk_mbr_seq", loginuser.getMbr_seq());
+
+		// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
+		int n = service.workReadCheckChangeToComplete(paraMap);
+
+		if (n >= 1) {
+			if (gobackURL != null) {
+				mav.setViewName("redirect:/" + gobackURL);
+			} else {
+				mav.setViewName("redirect:/workList.opis?fk_wtno=" + fk_wtno + "&fk_wrno=" + fk_wrno);
+			}
+		} else {
+			String message = "읽음 처리에 실패하였습니다. 다시 시도하세요";
+			String loc = "javascript:history.back()";
+
+			mav.addObject("message", message);
+			mav.addObject("loc", loc);
+
+			mav.setViewName("msg");
+		}
+		
+		return mav;
+	}
 }

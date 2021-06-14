@@ -308,4 +308,25 @@ public class WorkmanageService implements InterWorkmanageService {
 		
 		return n*m;
 	}
+
+	// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
+	@Override
+	public int workPercentChangeToComplete(Map<String, Object> paraMap) {
+		int n = dao.workPercentChangeToComplete(paraMap);
+		return n;
+	}
+
+	// 일괄 읽음 처리하기
+	@Override
+	public int workReadCheckChangeToComplete(Map<String, Object> paraMap) {
+		int n =  0;
+		
+		// 수신함에 있는 업무를 클릭해서 보게될 경우 읽은 날짜로 업데이트 해주기 
+		String fk_wrno = (String) paraMap.get("fk_wrno");
+		if ("2".equals(fk_wrno) || "3".equals(fk_wrno)) {
+			n = dao.updateReadcheckdate_many(paraMap);
+		}
+		
+		return n;
+	}
 }
