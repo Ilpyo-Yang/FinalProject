@@ -4,6 +4,7 @@
 <% String ctxPath = request.getContextPath(); %>    
 
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />		
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardButtons.css">
 
 <style type="text/css">
 
@@ -81,10 +82,6 @@
                <input type="text" name="ctitle" id="ctitle" class="long" value="${requestScope.cnoticevo.ctitle}" />       
             </td>
          </tr>
-<!--          <tr>
-         	<th scope="row">첨부파일</th>
-            <td><input type="file" id="files[0]" name="files[0]" value=""></td>
-         </tr>   -->
          <tr>
             <th>내용</th>
             <td>
@@ -95,8 +92,8 @@
       </table>
       
       <div style="margin: 10px;">
-         <button type="button" id="btnUpdate">완료</button>
-         <button type="button" onclick="javascript:history.back()">취소</button>
+         <button type="button" id="btnUpdate" class="btn-ok">완료</button>
+         <button type="button" class="btn-basic" onclick="javascript:history.back()">취소</button>
       </div>
    </form>
    

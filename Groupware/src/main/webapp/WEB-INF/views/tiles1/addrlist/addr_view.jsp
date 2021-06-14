@@ -2,12 +2,11 @@
     pageEncoding="UTF-8"%>
 <% String ctxPath = request.getContextPath(); %>
     
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
+
 <title>주소록 상세</title>
-<style>
+
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardButtons.css">
+<style type="text/css">
 
 #content {
     width: 80%;
@@ -56,8 +55,6 @@ function goDelete(addr_seq){
 }
 
 </script>
-</head>
-<body>
 
 <div style="width: 1460px;">
 
@@ -114,11 +111,9 @@ function goDelete(addr_seq){
 		</table>
 		
 		<div style="margin-left: 350px;">
-			<button type="button" class="btnaddr" onclick="javascript:location.href='<%=ctxPath%>/totaladdrlist.opis'">목록보기</button>
-		    <button type="button" class="btnaddr" onclick="javascript:location.href='<%=ctxPath%>/addr_edit.opis?addr_seq=${requestScope.addrvo.addr_seq}'">수정</button>
-		    <button type="button" class="btnaddr" onclick="goDelete(${requestScope.addrvo.addr_seq})">삭제</button>
+			<button type="button" class="btnaddr btn-basic" onclick="javascript:location.href='<%=ctxPath%>/totaladdrlist.opis'">목록</button>
+		    <button type="button" class="btnaddr btn-ok" onclick="javascript:location.href='<%=ctxPath%>/addr_edit.opis?addr_seq=${requestScope.addrvo.addr_seq}'">수정</button>
+		    <button type="button" class="btnaddr btn-basic" onclick="goDelete(${requestScope.addrvo.addr_seq})">삭제</button>
 	  	</div>
 	</div>
 </div>
-</body>
-</html>

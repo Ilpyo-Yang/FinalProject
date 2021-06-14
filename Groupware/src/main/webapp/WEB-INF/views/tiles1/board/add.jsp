@@ -5,6 +5,7 @@
 <% String ctxPath = request.getContextPath(); %>  
   
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />		
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardButtons.css">
 
 <style type="text/css">
 
@@ -150,8 +151,8 @@
       </table>
       
       <div style="margin: 10px;">
-         <button type="button" id="btnWrite">등록</button>
-         <button type="button" onclick="javascript:history.back()">취소</button>
+         <button type="button" class="btn-ok" id="btnWrite">등록</button>
+         <button type="button" class="btn-basic" onclick="javascript:history.back()">취소</button>
       </div>
          
    </form>
