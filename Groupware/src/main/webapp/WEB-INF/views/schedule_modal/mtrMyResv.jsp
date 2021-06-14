@@ -137,8 +137,7 @@
 				html += "</table>"
 				
 				$("div#resvList").html(html);
-				
-				page();
+	
 			},
 			error:function(request, status, error) {
 				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);

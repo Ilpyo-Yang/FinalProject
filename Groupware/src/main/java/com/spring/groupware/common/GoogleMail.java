@@ -56,7 +56,7 @@ public class GoogleMail {
         msg.addRecipient(Message.RecipientType.TO, toAddr);
         
         // 메시지 본문의 내용과 형식, 캐릭터 셋 설정
-        msg.setContent(": <span style='font-size:14pt;'>"+contents+"</span>", "text/html;charset=UTF-8");
+        msg.setContent("<span style='font-size:14pt;'>"+contents+"</span>", "text/html;charset=UTF-8");
         
         // 메일 발송하기
         Transport.send(msg);
