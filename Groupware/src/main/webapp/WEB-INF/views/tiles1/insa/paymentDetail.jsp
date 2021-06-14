@@ -19,7 +19,6 @@
 	
 	button.paymentInfoBtn{
 	  display:inline-block;
- 	  margin-left: 20px;
 	  padding: 10px 20px;
 	  font-size: 10px;
 	  text-align: center;
@@ -39,17 +38,7 @@
 	}
 	button.btnSmall{
 	  display:inline-block;
- 	  margin-left: 10px;
-	  padding: 5px 10px;
-	  font-size: 7px;
-	  text-align: center;
-	  cursor: pointer;
-	  outline: none;
-	  color: #fff;
-	  background-color: #04AA6D;
-	  border: none;
-	  border-radius: 10px;
-	  box-shadow: 0 5px #999;
+	  font-size: 8pt;
 	}
 	table#paymentDetailBaseInfo{
 		border-collapse: collapse;
@@ -163,7 +152,7 @@
 	  padding: 20px;
 	  border: 1px solid #888;
 	  width: 60%; /* Could be more or less, depending on screen size */
-	  height: 50%;
+	  height: 60%;
 	  overflow: auto; /* Enable scroll if needed */
 	  background-color: #fefefe; /* Black w/ opacity */
 	  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
@@ -376,7 +365,7 @@
 				   });	
 				   
 				   var html = "";
-					 html = '<button id="payModiBackBtn" class="paymentInfoBtn" onclick="goModiBack()" type="button">돌아가기</button>';
+					 html = '<button id="payModiBackBtn" class="paymentInfoBtn" onclick="goModiBack()" type="button">완료</button>';
 							
 						   
 			       html = html + '<table id="paymentInfo" class="paymentTbl table table-striped tdtable">'+
@@ -388,7 +377,7 @@
 										
 					
 						for(var i=0; i<payList.length; i++){
-							html += '<th style="text-align:center;"><span style="display: inline-block; width:110px;"><button class="btnSmall" onclick="goPayModi('+payList[i].paymonth+')" type="button">수정</button><button class="btnSmall" onclick="goPayDel('+payList[i].paymonth+')" type="button">삭제</button></span>';
+							html += '<th style="text-align:center;"><span style="display: inline-block; width:110px;"><button class="btnSmall" onclick="goPayModi('+payList[i].paymonth+')" type="button">수정</button>&nbsp;<button class="btnSmall" onclick="goPayDel('+payList[i].paymonth+')" type="button">삭제</button></span>';
 							html +=	'<br><br><span style="display: inline-block; width: 100px;">'+payList[i].paymonth+'월</span></th>';
 						}
 						html = html +
@@ -733,12 +722,12 @@
 				<input id="hiddenSearchWord" type="hidden" value="${searchWord}" />
 			</div>
 			<div class="paymentInfoDiv" style="vertical-align: top; float: left;">
-				<button id="closeBtn" class="paymentInfoBtn" onclick="goBackPayment()">급여목록으로</button>
+				<button id="closeBtn" style="background-color: gray; " class="paymentInfoBtn" onclick="goBackPayment()">급여목록으로</button>
 			</div>
 
 			<div id='paymentInfoBorder' class='paymentBorder' style="margin-top: 30px;" >
-				<button id="payRegiBtn" class="paymentInfoBtn"  type="button">급여 추가</button>
-				<button id="payModiBtn" class="paymentInfoBtn" type="button" onclick="goModiPage()">수정</button>
+				<button id="payRegiBtn"  type="button">급여 추가</button>
+				<button id="payModiBtn" type="button" onclick="goModiPage()">수정</button>
 								
 				<table id='paymentInfo' class='paymentTbl table table-striped tdtable'>
 					<thead>

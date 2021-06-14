@@ -1,5 +1,8 @@
 package com.spring.groupware.member.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.*;
+import com.spring.groupware.common.AES256;
 import com.spring.groupware.member.model.*;
 import com.spring.groupware.member.service.InterMemberService;
 
@@ -19,7 +23,10 @@ public class MemberController {
 
    @Autowired // Type에 따라 알아서 Bean 을 주입해준다.
    private InterMemberService service;
-      
+
+	// 암호화 하기
+	@Autowired
+	private AES256 aes;
    
 	   // === 로그인 메인에 회사명 띄우기 === //
 	   @RequestMapping(value="/login.opis")
@@ -33,25 +40,26 @@ public class MemberController {
    
    	  // === 로그인 확인하기 === //
       @RequestMapping(value="/loginCheck.opis", method= {RequestMethod.POST})
-      public ModelAndView loginCheck(HttpServletRequest request, ModelAndView mav) {
+      public ModelAndView loginCheck(HttpServletRequest request, ModelAndView mav) throws Exception {
     	  String id = request.getParameter("idInput");
     	  String pwd = request.getParameter("pwdInput");
     	  String ip = request.getRemoteAddr();
     	  
     	  Map<String, String> paraMap = new HashMap<>();
     	  paraMap.put("id", id);
-    	  paraMap.put("pwd", pwd);
+    	  paraMap.put("pwd", aes.encrypt(pwd));
     	  paraMap.put("ip", ip);
     	  
-    	  MemberVO loginuser = service.loginCheck(paraMap);    	     	
-		  
+    	  MemberVO loginuser = service.loginCheck(paraMap);    	     
+    	  
     	  if(loginuser==null) {		// 일치하는 멤버가 없을 때
     		  mav.addObject("loginuser", loginuser);
     	      mav.setViewName("redirect:/login.opis");
     	  }
     	  else {	// 일치하는 멤버가 있을 때
     		  if(Integer.parseInt(loginuser.getPwdChangeGap())>5) {	// 비밀번호 변경한지 6개월이 넘은 경우 
-    			  HttpSession session = request.getSession();
+    			  HttpSession session = request.getSession();	
+    			  loginuser.setMbr_pwd(aes.decrypt(loginuser.getMbr_pwd()));
         		  session.setAttribute("loginuser", loginuser);
         		  mav.setViewName("pwdChange.tiles1");
         	  }

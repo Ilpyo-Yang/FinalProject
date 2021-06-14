@@ -4,6 +4,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import com.spring.groupware.insa.service.InterInsaService;
+import com.spring.groupware.common.AES256;
 import com.spring.groupware.common.MyUtil;
 import com.spring.groupware.insa.model.CertiVO;
 import com.spring.groupware.insa.model.EduVO;
@@ -32,6 +36,9 @@ public class InsaController {
 		@Autowired   // Type에 따라 알아서 Bean 을 주입해준다.
 		private InterInsaService service;
 
+		// 암호화 하기
+		@Autowired
+		private AES256 aes;
 
 	   // === insa 페이지 요청 === //
 	   @RequestMapping(value="/insa.opis")
@@ -211,12 +218,14 @@ public class InsaController {
 	   }
 	   // === insa1 등록완료페이지 요청 === //
 	   @RequestMapping(value="/insaRegister1End.opis", method= {RequestMethod.POST})
-	   public ModelAndView insaRegister1End(ModelAndView mav, HttpServletRequest request, InsaVO insavo) {
+	   public ModelAndView insaRegister1End(ModelAndView mav, HttpServletRequest request, InsaVO insavo) throws Exception{
 	   //   System.out.println("인사끝");
 		   
 		   int seq = service.getSequence();
 		      insavo.setMbr_seq(seq);
-		      int n = service.insaRegister1End(insavo);
+		      insavo.setMbr_pwd( aes.encrypt(insavo.getMbr_pwd()) );
+		      
+		   int n = service.insaRegister1End(insavo);
 
 
 		      if(n==1) {
@@ -410,7 +419,7 @@ public class InsaController {
 
 			   // === insa view1페이지 요청 === //
 			   @RequestMapping(value="/insaView1.opis")
-			   public ModelAndView insaView1(ModelAndView mav, HttpServletRequest request) {
+			   public ModelAndView insaView1(ModelAndView mav, HttpServletRequest request) throws Exception {
 			       String category = request.getParameter("category");
 			       String seq = request.getParameter("seq");
 			       String searchType = request.getParameter("searchType");
@@ -428,7 +437,7 @@ public class InsaController {
 			       if(searchWord == null) {
 			    	   searchWord="";
 				       }
-			      
+			      insavo.setMbr_pwd( aes.decrypt(insavo.getMbr_pwd()) );
 			      mav.addObject("insavo", insavo);
 	   		      mav.addObject("seq", seq);
 			      mav.addObject("category", category);

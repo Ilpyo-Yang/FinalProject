@@ -86,8 +86,6 @@
 		     $("input#retire_y").prop("checked",true);
 		     $("input#retire_n").prop("checked",false);
 		
-				
-          
 		}
 		if(retireYN != 0){
 			$("tr#retireDayTr").hide();

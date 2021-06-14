@@ -35,9 +35,6 @@ public class InsaDAO implements InterInsaDAO {
 	// 멤버정보 불러오기
 	@Override
 	public List<InsaVO> getInsaList(Map<String, String> paraMap) {
-		System.out.println("1. " + paraMap.get("category"));
-		System.out.println("2. " + paraMap.get("searchType"));
-		System.out.println("3. " + paraMap.get("searchWord"));
 		List<InsaVO> insaList= sqlsession.selectList("insa.insaList",paraMap);
 		return insaList;
 	}

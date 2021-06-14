@@ -260,8 +260,8 @@
 							</c:if>
 							<td>${edu.school}<input type="hidden" value="${edu.edu_seq}" /></td>
 							<td>${edu.major}
-								<button class="registerBtnSmall" type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaEduModi.opis?edu_seq=${edu.edu_seq}&seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">수정</button>
-								<button class="registerBtnSmall"  type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaEduDel.opis?edu_seq=${edu.edu_seq}&seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">삭제</button>
+								<button type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaEduModi.opis?edu_seq=${edu.edu_seq}&seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">수정</button>
+								<button type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaEduDel.opis?edu_seq=${edu.edu_seq}&seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">삭제</button>
 							</td>
 						</tr>
 					</c:forEach>
@@ -283,20 +283,23 @@
 								  	</select>
 							</td>
 							<td><input id="school" class="school" name="school" style="width: 100px;" /></td>
-							<td><input id="major" name="major" style="width: 80px;" /></td>
+							<td>
+								<input id="major" name="major" style="width: 80px;" />
+								&nbsp;&nbsp;
+								<c:if test="${insaType == 1 }">
+									<button id="registerBtn1"  type="button">등록</button>
+								</c:if>
+							</td>
 						</tr>
 				</c:if>
 						
 					</tbody>
 		   		</table>
-		   		<c:if test="${insaType == 1 }">
-					<button class="registerBtnSmall" id="registerBtn1"  type="button">등록</button>
-				</c:if>
 				</form>
 			</div>
 			
 			
-			<div class="insaDetailDiv" style="width: 50%;">
+			<div class="insaDetailDiv" style="width: 53%;">
 			  <form name="insaRegister2CertiFrm">
 				<table id="insaDetail2" class="table table-striped tdtable">
 					<thead>
@@ -306,7 +309,7 @@
 						<tr>
 							<th>자격증명</th>
 							<th>점수/급수</th>
-							<th>취득일자</th>
+							<th style="display: inline-block; width: 350px;">취득일자</th>
 						</tr>
 					</thead>
 					<tbody id="insaDetail2tbody">
@@ -319,8 +322,8 @@
 							<td>${certi.certification}</td>
 							<td>${certi.certiLevel}</td>
 							<td>${certi.certiDate}<input type="hidden" value="${certi.certi_seq}" />
-								<button class="registerBtnSmall" type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaCertiModi.opis?certi_seq=${certi.certi_seq}&seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">수정</button>
-								<button class="registerBtnSmall"  type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaCertiDel.opis?certi_seq=${certi.certi_seq}&seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">삭제</button>
+								<button type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaCertiModi.opis?certi_seq=${certi.certi_seq}&seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">수정</button>
+								<button type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaCertiDel.opis?certi_seq=${certi.certi_seq}&seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">삭제</button>
 							</td>
 						</tr>
 						</c:forEach>
@@ -343,15 +346,16 @@
 						           			<option class = "certidd" value="${count.count}">${count.count}</option>
 						           		</c:forEach>
 				        		</select>일 
-			        			 <div id="certiDiv"></div>	
+								&nbsp;&nbsp;
+								<c:if test="${insaType == 2 }">
+									<button id="registerBtn2"  type="button">등록</button>	
+								</c:if>
+			        			<div id="certiDiv"></div>	
 							</td>
 						</tr>
 					</c:if>
 					</tbody>
 				</table>
-				<c:if test="${insaType == 2 }">
-					<button class="registerBtnSmall" id="registerBtn2"  type="button">등록</button>	
-				</c:if>
 			  </form>
 			</div>
 			<input id="hiddenSeq" type="hidden" value="${seq}"/>

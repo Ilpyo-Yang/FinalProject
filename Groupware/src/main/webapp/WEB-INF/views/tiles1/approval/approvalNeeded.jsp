@@ -91,19 +91,19 @@
 			<table>
 				<tr>
 					<td>기안자</td>
-					<td><input type="text" class="form-control searchInput" style="width: 50%;" id="searchWriter"/></td>
+					<td><input type="text" class="form-control searchInput" style="width: 50%;" id="searchWriter" value=""/></td>
 					<td>기안일</td>
 					<td>
-						<input type="text" class="form-control searchInput" id="datepicker"/>
+						<input type="text" class="form-control searchInput" id="datepicker" value=""/>
 						<span>-</span>
-						<input type="text" class="form-control searchInput" id="datepicker2"/>
+						<input type="text" class="form-control searchInput" id="datepicker2" value=""/>
 					</td>
 				</tr>
 				<tr>
 					<td>문서내용</td>
 					<td colspan="3">
-						<input type="text" class="form-control searchInput" id="search"/>
-						<button type="button" class="btn formBtn4" id="searchWord">조회하기</button>
+						<input type="text" class="form-control searchInput" id="search" value=""/>
+						<button type="button" class="btn formBtn4" id="search">조회하기</button>
 					</td>
 				</tr>
 			</table>

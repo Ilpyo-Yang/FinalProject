@@ -44,7 +44,7 @@ public class ApprovalController {
 	  
 	  // === 일반결의서 === //
 	  @RequestMapping(value="/approvalForm1.opis")
-	  public ModelAndView approvalForm1(ModelAndView mav) {
+	  public ModelAndView requiredLogin_approvalForm1(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		 String today = MyUtil.getToday();
 		 String fileNo = service.getFileNo(); 
 		 List<MemberVO> memberList = service.getMemberList(); 
@@ -59,7 +59,7 @@ public class ApprovalController {
 	  
 	  // === 지출결의서 === //
 	  @RequestMapping(value="/approvalForm2.opis")
-	  public ModelAndView approvalForm2(ModelAndView mav) { 
+	  public ModelAndView requiredLogin_approvalForm2(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) { 
 		 String today = MyUtil.getToday();
 		 String fileNo = service.getFileNo(); 
 		 List<MemberVO> memberList = service.getMemberList(); 
@@ -74,7 +74,7 @@ public class ApprovalController {
 	  
 	  // === 휴가계획서 === //
 	  @RequestMapping(value="/approvalForm3.opis")
-	  public ModelAndView approvalForm3(ModelAndView mav) {   	  
+	  public ModelAndView requiredLogin_approvalForm3(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {   	  
 		 String today = MyUtil.getToday();
 		 String fileNo = service.getFileNo(); 
 		 List<MemberVO> memberList = service.getMemberList(); 
@@ -209,74 +209,73 @@ public class ApprovalController {
 		
 	  }
 	  
-	  
-
+	 
 	  // === 결재대기문서  === //
 	  @RequestMapping(value="/approvalNeeded.opis")
 	  public ModelAndView requiredLogin_approvalNeeded(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {    	  
 		 mav.setViewName("approval/approvalNeeded.tiles1");
 		 return mav;
 	  }
-	  
-	  // === 결재대기문서 리스트 가져오기 === //
-	  @ResponseBody
-	  @RequestMapping(value="/approvalNeededList.opis", produces="text/plain;charset=UTF-8")
-	  public String approvalNeededList(HttpServletRequest request) { 	
-		 String managePerson = request.getParameter("managePerson");
-		 String s_listCnt = request.getParameter("listCnt").substring(0,request.getParameter("listCnt").indexOf('개'));
-		 String writer = request.getParameter("writer");
-		 String submitStartDate = request.getParameter("submitStartDate");
-		 String submitEndDate = request.getParameter("submitEndDate");
-		 String word = request.getParameter("word");
-		 
-		 int totalCount = 0;         // 총 게시물 건수
-		 int currentShowPageNo = 1;  // 현재 보여주는 페이지 번호 
-		 int startRno = 0;           // 시작 행번호
-		 int endRno = 0;             // 끝 행번호 
-		 int totalPage = 0;
-		 int listCnt = Integer.parseInt(s_listCnt);
-		 
-		 startRno = ((currentShowPageNo - 1 ) * listCnt) + 1;
-		 endRno = startRno + listCnt - 1;
 		  
-		 Map<String, String> paraMap = new HashMap<>();
-		 paraMap.put("managePerson", managePerson);
-		 paraMap.put("writer", writer);
-		 paraMap.put("submitStartDate", submitStartDate);
-		 paraMap.put("submitEndDate", submitEndDate);
-		 paraMap.put("word", word);	 
-		 paraMap.put("startRno", String.valueOf(startRno));
-		 paraMap.put("endRno", String.valueOf(endRno));
-		
-		 
-		 List<ApprovalVO> approvalList = service.getApprovalNeededList(paraMap); 
-		 totalCount = approvalList.size();
-		 totalPage = (int) Math.ceil((double)totalCount/listCnt); 
-			
-		 JSONArray jsonArr = new JSONArray(); 
-		 
-		 if(approvalList.size() != 0) {
-		     for(ApprovalVO avo : approvalList) {
-		    	 	JSONObject jsonObj = new JSONObject();	
-					jsonObj.put("apform_name", avo.getApform_name());
-					jsonObj.put("ap_title", avo.getAp_title());
-					jsonObj.put("mbr_name", avo.getMbr_name());
-					jsonObj.put("ap_dept", avo.getAp_dept());
-					jsonObj.put("ap_start_day", avo.getAp_start_day());
-
-					jsonArr.put(jsonObj);
-		      }
-		  } 
-		  return jsonArr.toString(); 
-	  }
-
+	 // === 결재대기문서 리스트 가져오기 === //
+	 @ResponseBody
+	 @RequestMapping(value="/approvalNeededList.opis", produces="text/plain;charset=UTF-8")
+	 public String approvalNeededList(HttpServletRequest request) { 	
+	 String managePerson = request.getParameter("managePerson");
+	 String s_listCnt = request.getParameter("listCnt").substring(0,request.getParameter("listCnt").indexOf('개'));
+	 String writer = request.getParameter("writer");
+	 String submitStartDate = request.getParameter("submitStartDate");
+	 String submitEndDate = request.getParameter("submitEndDate");
+	 String word = request.getParameter("word");
+	 
+	 int totalCount = 0;         // 총 게시물 건수
+	 int currentShowPageNo = 1;  // 현재 보여주는 페이지 번호 
+	 int startRno = 0;           // 시작 행번호
+	 int endRno = 0;             // 끝 행번호 
+	 int totalPage = 0;
+	 int listCnt = Integer.parseInt(s_listCnt);
+	 
+	 startRno = ((currentShowPageNo - 1 ) * listCnt) + 1;
+	 endRno = startRno + listCnt - 1;
 	  
-	  // === 결재요청한 문서  === //
-	  @RequestMapping(value="/approvalSubmit.opis")
-	  public ModelAndView requiredLogin_approvalSubmit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {    	  
-		 mav.setViewName("approval/approvalSubmit.tiles1");
-		 return mav;
-	  }
+	 Map<String, String> paraMap = new HashMap<>();
+	 paraMap.put("managePerson", managePerson);
+	 paraMap.put("writer", writer);
+	 paraMap.put("submitStartDate", submitStartDate);
+	 paraMap.put("submitEndDate", submitEndDate);
+	 paraMap.put("word", word);	 
+	 paraMap.put("startRno", String.valueOf(startRno));
+	 paraMap.put("endRno", String.valueOf(endRno));
+	
+	 
+	 List<ApprovalVO> approvalList = service.getApprovalNeededList(paraMap); 
+	 totalCount = approvalList.size();
+	 totalPage = (int) Math.ceil((double)totalCount/listCnt); 
+		
+	 JSONArray jsonArr = new JSONArray(); 
+	 
+	 if(approvalList.size() != 0) {
+	     for(ApprovalVO avo : approvalList) {
+	    	 	JSONObject jsonObj = new JSONObject();	
+				jsonObj.put("apform_name", avo.getApform_name());
+				jsonObj.put("ap_title", avo.getAp_title());
+				jsonObj.put("mbr_name", avo.getMbr_name());
+				jsonObj.put("ap_dept", avo.getAp_dept());
+				jsonObj.put("ap_start_day", avo.getAp_start_day());
+
+				jsonArr.put(jsonObj);
+	      }
+	  } 
+	  return jsonArr.toString(); 
+  }
+
+  
+  // === 결재요청한 문서  === //
+  @RequestMapping(value="/approvalSubmit.opis")
+  public ModelAndView requiredLogin_approvalSubmit(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {    	  
+	 mav.setViewName("approval/approvalSubmit.tiles1");
+	 return mav;
+  }
 	  
 	  // === 결재요청한 문서 리스트 가져오기 === //
 	  @ResponseBody

@@ -71,7 +71,7 @@
 		        and <![CDATA[ ap_start_day >= to_date(#{submitStartDate}, 'YYYY-MM-DD' ) ]]>
 		    </if>
 		    <if test='submitEndDate!=""'>
-		        and <![CDATA[ ap_start_day <= to_date(#{submitEndDate}, 'YYYY-MM-DD']]>
+		        and <![CDATA[ ap_start_day <= to_date(#{submitEndDate}, 'YYYY-MM-DD') ]]>
 		    </if>
 		    order by ap_start_day desc
 		)C
@@ -113,7 +113,7 @@
 		        and <![CDATA[ ap_start_day >= to_date(#{submitStartDate}, 'YYYY-MM-DD' ) ]]>
 		    </if>
 		    <if test='submitEndDate!=""'>
-		        and <![CDATA[ ap_start_day <= to_date(#{submitEndDate}, 'YYYY-MM-DD']]>
+		        and <![CDATA[ ap_start_day <= to_date(#{submitEndDate}, 'YYYY-MM-DD' )]]>
 		    </if>
 		    order by ap_start_day desc
 		)C
@@ -152,10 +152,20 @@
 		        and <![CDATA[ ap_start_day >= to_date(#{submitStartDate}, 'YYYY-MM-DD' ) ]]>
 		    </if>
 		    <if test='submitEndDate!=""'>
-		        and <![CDATA[ ap_start_day <= to_date(#{submitEndDate}, 'YYYY-MM-DD']]>
+		        and <![CDATA[ ap_start_day <= to_date(#{submitEndDate}, 'YYYY-MM-DD' )]]>
 		    </if>
 		    order by ap_start_day desc
 		)C
 		where rno between #{startRno} and #{endRno}
 	</select>
+	
+	
+	<!-- 결재 작성내용 불러오기 -->
+	<select id="getApproval" parameterType="String" resultType="com.spring.groupware.approval.model.ApprovalVO">	
+		select mbr_name, rank_detail, dept_detail
+		from tbl_approval
+		where ap_seq=#{ap_seq}
+	</select>
+	
+	
 </mapper>

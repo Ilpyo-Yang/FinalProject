@@ -11,7 +11,6 @@
 <style>
 	
 	.modifyBtn{
- 	  margin-left: 20px;
 	  padding: 10px 20px;
 	  font-size: 15px;
 	  text-align: center;
@@ -21,7 +20,7 @@
 	  background-color: #04AA6D;
 	  border: none;
 	  border-radius: 15px;
-	  box-shadow: 0 9px #999;
+	  box-shadow: 0 5px #999;
 	}
 	.modifyBtn:hover{ background-color: #3e8e41 !important;}
 	.modifyBtn:active{
@@ -37,11 +36,11 @@
 	}
 	table#insaDetail2{
 		margin-left: 20px;
-		width: 40%;
+		width: 45%;
 		display: inline-block;
 	    vertical-align: top;
 	}
-	table td{
+	table.table td{
 		width: 300px;
 	}
 </style>
@@ -67,7 +66,9 @@
 		</tr>
 		</table> 
 
-	
+		<button id="modifyBtn" type="submit" style="display: inline-block; vertical-align: top;" onclick="javascript:location.href='<%=ctxPath%>/insaModify1.opis?seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">수정하기</button>
+		<br><br>	
+			
 	
 			<table id="insaDetail1" class="table table-striped tdtable">
 				<tr>
@@ -192,7 +193,6 @@
 					</c:if>
 				</tr>
 			</table>
-			<button class="modifyBtn"  id="modifyBtn" type="submit" style="display: inline-block; vertical-align: top;" onclick="javascript:location.href='<%=ctxPath%>/insaModify1.opis?seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">수정</button>
 			
 			<input id="hiddenSeq" type="hidden" value="${seq}"/>
 			<input id="hiddenCategory" type="hidden" value="${category}" />
