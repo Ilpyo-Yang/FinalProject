@@ -6,6 +6,8 @@
 <title>주소록 상세</title>
 
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardButtons.css">
+<script src="https://kit.fontawesome.com/16816a49c3.js" crossorigin="anonymous"></script>
+
 <style type="text/css">
 
 #content {
@@ -80,7 +82,7 @@ function goDelete(addr_seq){
 			</tr>
 			<tr>
 				<th class="title">이메일</th>
-				<td>${requestScope.addrvo.mbr_email}</td>
+				<td>${requestScope.addrvo.mbr_email}&nbsp;&nbsp;<a href="mailto:'${requestScope.addrvo.mbr_email}'"><i class="far fa-paper-plane fa-2x" style="font-size: 14px; "></i></a></td>
 			</tr>
 			<tr>
 				<th class="title">부서</th>
