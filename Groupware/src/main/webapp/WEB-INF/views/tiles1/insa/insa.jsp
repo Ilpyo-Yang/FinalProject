@@ -4,7 +4,6 @@
 <% String ctxPath = request.getContextPath(); %>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />	
 <link rel="stylesheet" href="/resources/demos/style.css">	
 
 <jsp:include page="./insa_sidebar.jsp" />

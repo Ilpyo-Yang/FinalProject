@@ -4,7 +4,6 @@
 <% String ctxPath = request.getContextPath(); %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />	
 
 <jsp:include page="./insa_sidebar.jsp" />
 
@@ -179,6 +178,32 @@
 		var searchWord = $("input#hiddenSearchWord").val();
 
 		
+		$("button#payUpdateBtn").click(function(){
+
+			var seq = $("td#mbr_seqTd").text();
+			
+			location.href='<%=ctxPath%>/payment.opis?category='+category+'&seq='+seq+'&searchType='+searchType+'&searchWord='+searchWord;  
+
+			$.ajax({
+					url:"<%=ctxPath%>/payUpdate.opis",
+					type:"get",
+					data:{"seq":seq},
+					dataType:"json",
+					success:function(json){
+							if(json==1){
+								alert("업데이트 성공");
+							}
+							else{
+
+								alert("업데이트 실패");
+							}
+					},
+					error: function(request, status, error){
+		            	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		            }
+			});	
+		});
+		
 		//// [계] 값 등록하기 시작 //////
 		
 		var basePaySum = 0;
@@ -306,25 +331,20 @@
 			
 			
 			var bflag = true;
-
-			var basePay = $("input[name=basePay]").val();
-			if(basePay.trim()==""){
-				bflag = false;
-			}
 			var spePay = $("input[name=spePay]").val();
-			if(spePay.trim()==""){
+			if(spePay == null){
 				bflag = false;
 			}
 			var breakPay = $("input[name=breakPay]").val();
-			if(breakPay.trim()==""){
+			if(breakPay == null){
 				bflag = false;
 			}
 			var mealPay = $("input[name=mealPay]").val();
-			if(mealPay.trim()==""){
+			if(mealPay == null){
 				bflag = false;
 			}
 			var timePay = $("input[name=timePay]").val();
-			if(timePay.trim()==""){
+			if(timePay == null){
 				bflag = false;
 			}				
 
@@ -488,7 +508,7 @@
 							'<table id="paymentInfo" class="paymentTbl table table-striped tdtable">'+
 								'<thead>'+
 									'<tr>'+
-										'<th class="thNum"><span style="display: inline-block; width: 40px;"><br><br>s순번</span></th>'+
+										'<th class="thNum"><span style="display: inline-block; width: 40px;"><br><br>순번</span></th>'+
 										'<th><br><br><span class="sort">항목명</span></th>';
 					
 										
@@ -515,12 +535,8 @@
 
 
 						for(var i=0; i<payList.length; i++){
-							if(payList[i].paymonth != month){
 								html +=	'<td><span style="display: inline-block; width: 100px;">'+payList[i].basePay+'</span></td>';
-								}
-							else{
-								html +=	'<td><span style="display: inline-block; width: 100px;"><input name = "basePay" style="display: inline-block; width: 80px;" value="'+payList[i].basePay+'"/></span></td>';
-							}
+					
 						}				
 						
 						html = html +			
@@ -616,24 +632,20 @@
 		
 		var bflag = true;
 
-		var basePay = $("input[name=basePay]").val();
-		if(basePay.trim()==""){
-			bflag = false;
-		}
 		var spePay = $("input[name=spePay]").val();
-		if(spePay.trim()==""){
+		if(spePay == null){
 			bflag = false;
 		}
 		var breakPay = $("input[name=breakPay]").val();
-		if(breakPay.trim()==""){
+		if(breakPay == null){
 			bflag = false;
 		}
 		var mealPay = $("input[name=mealPay]").val();
-		if(mealPay.trim()==""){
+		if(mealPay == null){
 			bflag = false;
 		}
 		var timePay = $("input[name=timePay]").val();
-		if(timePay.trim()==""){
+		if(timePay == null){
 			bflag = false;
 		}				
 
@@ -807,9 +819,6 @@
 			       	   </select><a>월</a>
 					  
 					  <table id="payRegiTbl" class="table table-striped tdtable">
-					    <tr>
-					    	<td>기본급</td><td><input name="basePay" /></td>
-					    </tr>
 					    <tr>
 					    	<td>상여</td><td><input name="spePay" /></td>
 					    </tr>

@@ -103,6 +103,18 @@ public interface InterInsaService {
 	// 총 게시물 건수(totalCount)
 	int getTotalCount(Map<String, String> paraMap);
 
+	// 개인별 월별 근무시간 가져오기
+	int getWorkHours(Map<String, String> paraMap);
+
+	// 개인별 급여 기본급 수정하기  
+	void updateBasePay(Map<String, String> paraMap);
+
+	// 기본급 등록되어있는지 알아보기
+	int checkPayMonthExist(Map<String, String> paraMap);
+
+    // 개인별 급여 기본급 등록하기  
+	void insertBasePay(Map<String, String> paraMap);
+
 
 
 

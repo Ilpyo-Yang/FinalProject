@@ -304,6 +304,43 @@ public class InsaService implements InterInsaService {
 
 
 
+	// 개인별 월별 근무시간 가져오기
+	@Override
+	public int getWorkHours(Map<String, String> paraMap) {
+		int n = idao.getWorkHours(paraMap);
+		return n;
+	}
+
+
+
+	// 개인별 급여 기본급 수정하기  
+	@Override
+	public void updateBasePay(Map<String, String> paraMap) {
+		idao.updateBasePay(paraMap);
+		
+	}
+
+
+
+	// 기본급 등록되어있는지 알아보기
+	@Override
+	public int checkPayMonthExist(Map<String, String> paraMap) {
+		int n = idao.checkPayMonthExist(paraMap);
+		return n;
+	}
+
+
+
+	// 개인별 급여 기본급 등록하기  
+	@Override
+	public void insertBasePay(Map<String, String> paraMap) {
+		idao.insertBasePay(paraMap);
+		
+	}
+
+
+
+
 
 	
 	
