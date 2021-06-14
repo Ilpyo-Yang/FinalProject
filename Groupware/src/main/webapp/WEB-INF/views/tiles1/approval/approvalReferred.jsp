@@ -56,12 +56,12 @@
 			success: function(json){		
 				if(json.length>0){
 					$.each(json, function(index, item){
-						html += "<tr id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+
-								"<td>"+item.apform_name+"</td>"+
-								"<td>"+item.ap_title+"</td>"+
-								"<td>"+item.mbr_name+"</td>"+
-								"<td>"+item.ap_dept+"</td>"+
-								"<td>"+item.ap_start_day+"</td>"+
+						html += "<tr>"+
+								"<td id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+item.apform_name+"</td>"+
+								"<td id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+item.ap_title+"</td>"+
+								"<td id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+item.mbr_name+"</td>"+
+								"<td id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+item.ap_dept+"</td>"+
+								"<td id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+item.ap_start_day+"</td>"+
 							    "</tr>";
 					});
 				}
