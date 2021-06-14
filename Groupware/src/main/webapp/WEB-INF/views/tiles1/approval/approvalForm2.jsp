@@ -48,7 +48,11 @@
 			$("td#dept_detail").html("${avo.ap_dept}");
 			$("span#selectedMember").html("${avo.ap_referrer}");
 			$("input#ap_title").val("${avo.ap_title}");
-			$("textarea").html("${avo.ap_contents}");
+			
+			var contentsArr = "${avo.ap_contents}".split("%%%");
+			$("input#payDate").val(contentsArr[0]);
+			$("input#payAmount").val(contentsArr[1]);
+			$("textarea").html(contentsArr[2]);
 			
 			var arr = "${avo.ap_contents}".split(",");
 			
@@ -56,6 +60,16 @@
 				html += "<td class='sign'>"+arr[i]+"</td>";		
 			}
 			
+			var arr2 = "${avo.ap_approver}".split(",");
+			var html2="";
+			for (var i=0; i<arr2.length; i++) {
+				html2 += "<td class='sign'>"+arr[i].substr(4)+"</td>";		
+			}
+			$("tr#sign").html(html2);
+			
+			var newWidth = arr2.length*90;	
+			$('div#signTitle').css({'width':newWidth})
+			$('table#sign').css({'width':newWidth})
 			
 		}
 		
@@ -121,6 +135,10 @@
 	        	alert("결재라인을 선택해주세요!");
 		        return;
 	        }
+	        
+	        var textarea = $("textarea").val();
+	        textarea = textarea.replace(/<script/gi, "&lt;script"); // 스크립트 공격을 막기
+	        $("textarea").val(textarea);
 	        
 	        // 폼 전송하기
 	        var frm = document.approvalSubmitForm;

@@ -94,8 +94,8 @@
 	        }
 		});
         
-		
-		$("button#approvalSubmit").click(function(){	// 결제요청 버튼을 누른 경우
+		// 결제요청 버튼을 누른 경우
+		$("button#approvalSubmit").click(function(){	
 			// 유효성 검사
 	        if($("input#ap_title").val().trim() == "") {
 	           alert("문서제목을 입력해주세요!");
@@ -110,6 +110,10 @@
 		        return;
 	        }
 	        
+	        var textarea = $("textarea").val();
+	        textarea = textarea.replace(/<script/gi, "&lt;script"); // 스크립트 공격을 막기
+	        $("textarea").val(textarea);
+            
 	        // 폼 전송하기
 	        var frm = document.approvalSubmitForm;
 	        frm.method = "POST";

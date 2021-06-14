@@ -65,13 +65,13 @@
 							ap_progress+="<span style='color:red;'>반려</span>";
 						}
 						
-						html += "<tr id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+
-								"<td>"+item.apform_name+"</td>"+
-								"<td>"+item.ap_title+"</td>"+
-								"<td>"+item.ap_start_day+"</td>"+
-								"<td>"+ap_manage_approver.substr(6)+"</td>"+
-								"<td>"+item.ap_end_day+"</td>"+
-								"<td>"+ap_progress+"</td>"+
+						html += "<tr>"+
+								"<td id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+item.apform_name+"</td>"+
+								"<td id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+item.ap_title+"</td>"+
+								"<td id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+item.ap_start_day+"</td>"+
+								"<td id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+ap_manage_approver.substr(6)+"</td>"+
+								"<td id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+item.ap_end_day+"</td>"+
+								"<td id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+ap_progress+"</td>"+
 							    "</tr>";
 					});
 				}
