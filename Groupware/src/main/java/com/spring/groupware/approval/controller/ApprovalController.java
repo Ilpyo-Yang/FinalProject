@@ -44,11 +44,15 @@ public class ApprovalController {
 	  
 	  // === 일반결의서 === //
 	  @RequestMapping(value="/approvalForm1.opis")
-	  public ModelAndView approvalForm1(ModelAndView mav) {
+	  public ModelAndView requiredLogin_approvalForm1(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		 String ap_seq = request.getParameter("ap_seq");
+		 ApprovalVO approval = service.getApproval("ap_seq"); 
+		 
 		 String today = MyUtil.getToday();
 		 String fileNo = service.getFileNo(); 
 		 List<MemberVO> memberList = service.getMemberList(); 
 		 
+		 mav.addObject("approval",approval);
 		 mav.addObject("today",today);
 		 mav.addObject("fileNo",fileNo);
 		 mav.addObject("memberList",memberList);
@@ -59,7 +63,7 @@ public class ApprovalController {
 	  
 	  // === 지출결의서 === //
 	  @RequestMapping(value="/approvalForm2.opis")
-	  public ModelAndView approvalForm2(ModelAndView mav) { 
+	  public ModelAndView requiredLogin_approvalForm2(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) { 
 		 String today = MyUtil.getToday();
 		 String fileNo = service.getFileNo(); 
 		 List<MemberVO> memberList = service.getMemberList(); 
@@ -74,7 +78,7 @@ public class ApprovalController {
 	  
 	  // === 휴가계획서 === //
 	  @RequestMapping(value="/approvalForm3.opis")
-	  public ModelAndView approvalForm3(ModelAndView mav) {   	  
+	  public ModelAndView requiredLogin_approvalForm3(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {   	  
 		 String today = MyUtil.getToday();
 		 String fileNo = service.getFileNo(); 
 		 List<MemberVO> memberList = service.getMemberList(); 
@@ -214,16 +218,10 @@ public class ApprovalController {
 	  // === 결재대기문서  === //
 	  @RequestMapping(value="/approvalNeeded.opis")
 	  public ModelAndView requiredLogin_approvalNeeded(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {    	  
-		 mav.setViewName("approval/approvalNeeded.tiles1");
-		 return mav;
-	  }
-	  
-	  // === 결재대기문서 리스트 가져오기 === //
-	  @ResponseBody
-	  @RequestMapping(value="/approvalNeededList.opis", produces="text/plain;charset=UTF-8")
-	  public String approvalNeededList(HttpServletRequest request) { 	
-		 String managePerson = request.getParameter("managePerson");
+		 
+	     String managePerson = request.getParameter("managePerson");
 		 String s_listCnt = request.getParameter("listCnt").substring(0,request.getParameter("listCnt").indexOf('개'));
+		 
 		 String writer = request.getParameter("writer");
 		 String submitStartDate = request.getParameter("submitStartDate");
 		 String submitEndDate = request.getParameter("submitEndDate");
@@ -247,27 +245,13 @@ public class ApprovalController {
 		 paraMap.put("word", word);	 
 		 paraMap.put("startRno", String.valueOf(startRno));
 		 paraMap.put("endRno", String.valueOf(endRno));
-		
 		 
 		 List<ApprovalVO> approvalList = service.getApprovalNeededList(paraMap); 
 		 totalCount = approvalList.size();
 		 totalPage = (int) Math.ceil((double)totalCount/listCnt); 
 			
-		 JSONArray jsonArr = new JSONArray(); 
-		 
-		 if(approvalList.size() != 0) {
-		     for(ApprovalVO avo : approvalList) {
-		    	 	JSONObject jsonObj = new JSONObject();	
-					jsonObj.put("apform_name", avo.getApform_name());
-					jsonObj.put("ap_title", avo.getAp_title());
-					jsonObj.put("mbr_name", avo.getMbr_name());
-					jsonObj.put("ap_dept", avo.getAp_dept());
-					jsonObj.put("ap_start_day", avo.getAp_start_day());
-
-					jsonArr.put(jsonObj);
-		      }
-		  } 
-		  return jsonArr.toString(); 
+		 mav.setViewName("approval/approvalNeeded.tiles1");
+		 return mav;
 	  }
 
 	  

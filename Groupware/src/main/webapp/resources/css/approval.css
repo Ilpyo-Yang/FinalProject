@@ -289,6 +289,7 @@ button.formBtn4 {
 	font-size: 10pt;
 	font-weight: bold;
 	float: right;
+	margin-top: 10px;
 }
 .searchInput {
 	margin: 5px 10px;
