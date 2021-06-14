@@ -12,8 +12,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/content.css" />  
+  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
   
   <jsp:include page="./board_sidebar.jsp" />
 	<script type="text/javascript">
@@ -104,15 +107,13 @@
 </head>
 <body>
 
-<div style="width: 1460px"> 
-	
-	<!-- 게시판제목 -->
-	<div style="padding: 15px; font-size: 25px; font-weight: 600; height: 60px; width: 100%; background-color: #f2f2f2; color: #555;">
-	&nbsp;&nbsp;전체 공지사항
-	</div>
-	
 	<!-- 본문(게시판) -->
-	<div class="container" style="float: right; width: 80%; margin-top: 50px;">        
+	<div class="container commoncontainer">
+		<!-- 게시판제목 -->
+		<div style="padding: 15px; font-size: 25px; font-weight: 600; height: 60px; width: 100%; background-color: #f2f2f2; color: #555;">
+		&nbsp;&nbsp;전체 공지사항
+		</div>
+	        
 	  <table class="table table-striped">
 	    <thead>
 	      <tr>
@@ -157,7 +158,5 @@
 
   	</div>	  	
 	
-	
-</div>
 </body>
 </html>
