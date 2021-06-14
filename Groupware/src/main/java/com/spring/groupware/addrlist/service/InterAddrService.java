@@ -54,6 +54,8 @@ public interface InterAddrService {
 	// 각 주소록 그룹의 주소록 개수
 	int getmyAddrTotalCount(Map<String, String> paraMap);
 
+	// 주소록 그룹 내 검색 
+	List<String> mywordSearchShow(Map<String, String> paraMap);
 	
 	/*
 	 	개인 주소록 관리
@@ -70,6 +72,7 @@ public interface InterAddrService {
 
 	// 주소록 그룹 삭제
 	int delAddrgroup(Map<String, String> paraMap);
+
 
 
 

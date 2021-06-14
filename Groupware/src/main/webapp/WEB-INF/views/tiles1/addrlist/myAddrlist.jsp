@@ -3,6 +3,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath = request.getContextPath(); %>
+<% String addrgroup_seq = request.getParameter("addrgroup_seq"); %>
 
   <jsp:include page="./addr_sidebar.jsp" />
 
@@ -28,10 +29,11 @@
 			}
 			else{
 				$.ajax({
-					url:"<%= ctxPath%>/wordSearchShow.opis",
+					url:"<%= ctxPath%>/mywordSearchShow.opis",
 					type:"get",
 					data:{"searchType":$("select#searchType").val()
-						 ,"searchWord":$("input#searchWord").val()},
+						 ,"searchWord":$("input#searchWord").val()
+						 ,"addrgroup_seq":<%=addrgroup_seq%>},
 					dataType:"json",
 					success:function(json){
 						   if(json.length > 0){
@@ -108,7 +110,7 @@
 	         <option value="mbr_name">이름</option>
 	      </select>
 	      <input type="text" name="searchWord" id="searchWord" size="30" autocomplete="off" /> 
-	      <button type="button" onclick="goSearch()">검색</button>
+	      <button type="button" onclick="goSearch('${requestScope.myAddrlist}')">검색</button>
 	   	</form>
 	   
 	    <div id="displayList" style="border:solid 1px gray; width:170px; height: 100px; border-top: 0px; margin-left: 49px; overflow: auto; padding-top: 2px;"> 	
