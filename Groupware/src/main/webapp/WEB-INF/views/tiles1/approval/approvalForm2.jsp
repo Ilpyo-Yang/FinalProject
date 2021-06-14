@@ -26,6 +26,38 @@
 		});
 		
 		$("input[name=attach]").hide();
+		$("button#confirm").hide();
+		$("button#delete").hide();
+		$("button#reject").hide();
+		
+		// 특정 결재문서를 조회하는 경우
+		var checkURL = document.location.href;
+		if(checkURL.indexOf("?")!="-1"){
+			$("button#approvalSubmit").hide();
+			$("button#confirm").show();
+			$("button#reject").show();
+			
+			if("${sessionScope.loginuser.mbr_seq}"=="${avo.fk_mbr_seq}"){
+				$("button#delete").show();
+				$("button#reject").hide();
+			}
+			
+			$("td#fileNo").html("${avo.ap_seq}");
+			$("td#today").html("${avo.ap_start_day}");
+			$("td#mbr_name").html("${avo.mbr_name}");
+			$("td#dept_detail").html("${avo.ap_dept}");
+			$("span#selectedMember").html("${avo.ap_referrer}");
+			$("input#ap_title").val("${avo.ap_title}");
+			$("textarea").html("${avo.ap_contents}");
+			
+			var arr = "${avo.ap_contents}".split(",");
+			
+			for (var i=0; i<arr.length; i++) {
+				html += "<td class='sign'>"+arr[i]+"</td>";		
+			}
+			
+			
+		}
 		
 		// 결재라인 모달창 열기
 		$("button#approvalMember").click(function(){			

@@ -274,4 +274,43 @@
 		</if>
 		
 	</select>
+	
+	
+	
+	<select id="checkPayMonthExist" parameterType="HashMap" resultType="int">
+		select count(*)
+		from tbl_payment 
+		where paymonth = #{paymonth} and mbr_seq=#{seq}
+	</select>
+	
+	
+	<!-- 기본시간  가져오기 -->
+	<select id="getWorkHours" parameterType="HashMap"  resultType="int">
+		select nvl(sum(max_day),0)
+		from
+		(
+		select trunc(to_number(to_date(max(login_sec),'yyyy-mm-dd hh24:mi:ss')- to_date(min(login_sec),'yyyy-mm-dd hh24:mi:ss'))*24) AS Max_day, login_day
+		from(
+		select to_char(login_day, 'yyyy-mm-dd hh24:mi:ss') AS login_sec, to_char(login_day, 'yyyy-mm-dd') AS login_day
+		from tbl_loginhistory
+		where fk_mbr_seq=#{seq} and to_char(login_day, 'mm') = #{paymonth}
+		)
+		group by login_day
+		order by login_day
+		)
+	</select>
+	
+	
+	<!-- 기본급 업데이트 -->
+	<update id="updateBasePay" parameterType="HashMap" >
+		update tbl_payment set basePay = ${basePay}
+		where paymonth = #{paymonth} and mbr_seq=#{seq}
+	</update>
+	
+	
+	<!-- 기본급 등록 -->
+	<insert id="insertBasePay" parameterType="HashMap">
+		insert into tbl_payment(mbr_seq, paymonth, basePay,totalPay)
+	    values (#{seq}, #{paymonth}, #{basePay}, #{basePay})
+	</insert>
 </mapper>

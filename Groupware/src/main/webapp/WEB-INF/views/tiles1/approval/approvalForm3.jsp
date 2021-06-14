@@ -31,6 +31,38 @@
 		});
 		
 		$("input[name=attach]").hide();
+		$("button#confirm").hide();
+		$("button#delete").hide();
+		$("button#reject").hide();
+		
+		// 특정 결재문서를 조회하는 경우
+		var checkURL = document.location.href;
+		if(checkURL.indexOf("?")!="-1"){
+			$("button#approvalSubmit").hide();
+			$("button#confirm").show();
+			$("button#reject").show();
+			
+			if("${sessionScope.loginuser.mbr_seq}"=="${avo.fk_mbr_seq}"){
+				$("button#delete").show();
+				$("button#reject").hide();
+			}
+			
+			$("td#fileNo").html("${avo.ap_seq}");
+			$("td#today").html("${avo.ap_start_day}");
+			$("td#mbr_name").html("${avo.mbr_name}");
+			$("td#dept_detail").html("${avo.ap_dept}");
+			$("span#selectedMember").html("${avo.ap_referrer}");
+			$("input#ap_title").val("${avo.ap_title}");
+			$("textarea").html("${avo.ap_contents}");
+			
+			var arr = "${avo.ap_contents}".split(",");
+			
+			for (var i=0; i<arr.length; i++) {
+				html += "<td class='sign'>"+arr[i]+"</td>";		
+			}
+			
+			
+		}
 		
 		// 결재라인 모달창 열기
 		$("button#approvalMember").click(function(){			
@@ -54,6 +86,54 @@
 		
 		var fileCnt = document.getElementById("attach").files.length;
 		$("input[name=file]").val(fileCnt);
+		
+		
+		// 휴일기간 알려주기
+		var startDate, endDate, startDateArr, endDateArrdateDiff;
+		$("input#datepicker").change(function(){
+			if(this.value!=null && $("input#datepicker2").val()!=null) {
+				start = this.value;
+				end = $("input#datepicker2").val();
+				console.log(start);
+				console.log(end);
+				
+				startDateArr = start.split('-');
+				endDateArr = end.split('-');
+				
+				startDate = new Date(startDateArr[0], startDateArr[1], startDateArr[2]);
+				endDate = new Date(endDateArr[0], endDateArr[1], endDateArr[2]);
+				
+				dateDiff = Math.ceil((endDate.getTime()-startDate.getTime())/(1000*3600*24))+1;
+			 
+			}  else if(this.value!=null && $("input#datepicker2").val()==null) {
+				dateDiff = 2;
+			} else if(this.value==null && $("input#datepicker2").val()!=null) {
+				dateDiff = 2;
+			}
+			
+			$("span#dateDiff").html(dateDiff);
+		});
+		$("input#datepicker2").change(function(){
+			if(this.value!=null && $("input#datepicker").val()!=null) {				
+				start = $("input#datepicker").val();
+				end = this.value;
+				console.log(start);
+				console.log(end);
+				startDateArr = start.split('-');
+				endDateArr = end.split('-');
+				
+				startDate = new Date(startDateArr[0], startDateArr[1], startDateArr[2]);
+				endDate = new Date(endDateArr[0], endDateArr[1], endDateArr[2]);
+				
+				dateDiff = Math.ceil((endDate.getTime()-startDate.getTime())/(1000*3600*24))+1;
+			} else if(this.value!=null && $("input#datepicker").val()==null) {
+				dateDiff = 2;
+			} else if(this.value==null && $("input#datepicker").val()!=null) {
+				dateDiff = 2;
+			}
+			$("span#dateDiff").html(dateDiff);
+		});
+		
 		
 		// 첨부파일 목록 보여주기
 		$("input[type=file]").change(function(){
@@ -166,7 +246,7 @@
 									<input type="text" class="form-control formDetail" name="vacationStartDate" id="datepicker"/>
 									<span class="space">-</span>
 									<input type="text" class="form-control formDetail" name="vacationEndDate" id="datepicker2"/>
-									<span class="space">총<span class="space"></span>일간</span>
+									<span class="space">총<span class="space" id="dateDiff" style="color:red;"></span>${remainBreak} 일간</span>
 								</td>
 							</tr>
 							<tr>
@@ -176,14 +256,13 @@
 										<option>연차</option>
 										<option>반차</option>
 									</select>
-									<span class="space">(남은 연차:<span class="space"></span>/<span class="space"></span>)</span>
+									<span class="space">(남은 연차:<span class="space" id="remainBreak" style="color:red;"></span>/<span class="space"></span>)</span>
 								</td>
 							</tr>
 							<tr>
 								<td>인수인계자</td>
 								<td colspan="3">
 									<input type="text" class="form-control formDetail" name="takeover" autocomplete="off"/>
-									<button type="button" class="btn formBtn2" id="selectMember">선택하기</button>
 								</td>
 							</tr>
 						</tbody>

@@ -80,6 +80,7 @@ public class ApprovalDAO implements InterApprovalDAO {
 		ApprovalVO approval = sqlsession.selectOne("approval.getApproval", ap_seq);
 		return approval;
 	}
-	
+
+
 
 }

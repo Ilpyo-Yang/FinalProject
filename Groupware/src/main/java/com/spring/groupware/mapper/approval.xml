@@ -9,7 +9,7 @@
 		FROM user_sequences 
 		WHERE sequence_name = 'SEQ_APPROVAL'
 	</select>
-
+	
 	
 	<!-- 모달창에 입력될 전체 사원명 가져오기 -->
 	<select id="getMemberList" resultType="com.spring.groupware.member.model.MemberVO">	
@@ -162,8 +162,12 @@
 	
 	<!-- 결재 작성내용 불러오기 -->
 	<select id="getApproval" parameterType="String" resultType="com.spring.groupware.approval.model.ApprovalVO">	
-		select mbr_name, rank_detail, dept_detail
-		from tbl_approval
+		select ap_seq, fk_apform_no, fk_mbr_seq, ap_progress, ap_title, ap_contents ,ap_approver, ap_manage_approver, ap_referrer, ap_start_day, ap_dept, mbr_name
+		from
+			(select ap_seq, fk_apform_no, fk_mbr_seq, ap_progress, ap_title, ap_contents ,ap_approver, ap_manage_approver, ap_referrer, ap_start_day, ap_dept
+			from tbl_approval) V
+			left join tbl_mbr
+			on fk_mbr_seq = mbr_seq
 		where ap_seq=#{ap_seq}
 	</select>
 	

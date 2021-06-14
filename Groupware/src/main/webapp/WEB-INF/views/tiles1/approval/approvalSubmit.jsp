@@ -65,14 +65,14 @@
 							ap_progress+="<span style='color:red;'>반려</span>";
 						}
 						
-						html += "<tr id='"+item.ap_seq+"'>"+
-						"<td>"+item.apform_name+"</td>"+
-						"<td>"+item.ap_title+"</td>"+
-						"<td>"+item.ap_start_day+"</td>"+
-						"<td>"+ap_manage_approver.substr(6)+"</td>"+
-						"<td>"+item.ap_end_day+"</td>"+
-						"<td>"+ap_progress+"</td>"+
-					    "</tr>";
+						html += "<tr id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+
+								"<td>"+item.apform_name+"</td>"+
+								"<td>"+item.ap_title+"</td>"+
+								"<td>"+item.ap_start_day+"</td>"+
+								"<td>"+ap_manage_approver.substr(6)+"</td>"+
+								"<td>"+item.ap_end_day+"</td>"+
+								"<td>"+ap_progress+"</td>"+
+							    "</tr>";
 					});
 				}
 				else {
@@ -87,6 +87,19 @@
 		});
 	}// end of function showList() ------------------------------------------------
 	
+	// 세부 결재내용 보여주기
+	function func_show(id){
+		var arr = id.split(" ");
+		
+		if(arr[1]=='일반기안서'){
+			location.href="<%= ctxPath%>/approvalForm1.opis?ap_seq="+arr[0];
+		} else if(arr[1]=='지출결의서'){
+			location.href="<%= ctxPath%>/approvalForm2.opis?ap_seq="+arr[0];
+		} else {
+			location.href="<%= ctxPath%>/approvalForm3.opis?ap_seq="+arr[0];
+		}
+		
+	}
 </script>
 </head>
 <body>

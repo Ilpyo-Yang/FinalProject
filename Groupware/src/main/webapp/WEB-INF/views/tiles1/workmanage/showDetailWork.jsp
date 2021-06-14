@@ -40,12 +40,12 @@
 	
 	// 담당자별 업무처리 확인하기 
 	function mbrWorkStatusChange() {
-		var workmbr_seq = $("select#mbrListSelect").val();
+		var fk_mbr_seq = $("select#mbrListSelect").val();
 		
 		$.ajax({
 			url:"<%=ctxPath%>/oneMbrWorkStatus.opis",
 			data:{
-				"workmbr_seq": workmbr_seq,
+				"fk_mbr_seq": fk_mbr_seq,
 				"fk_wmno": "${workvo.wmno}",
 				"fk_wrno":2},
 			dataType:"json",
@@ -54,6 +54,9 @@
 				$("td#lasteditdate").html(json.lasteditdate);
 				$("span#workPercent").html(json.workPercent);
 				$("textarea.contents").html(json.contents);
+				
+				if (json.workPercent == null) $("span#workPercent").html("");
+				if (json.contents == null) $("textarea.contents").html("");
 			},
 			error: function(request, status, error){
                	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -189,6 +192,7 @@
 
 	<br>
 	
+	<div style="height:630px; overflow: auto; padding-right: 10px;">
 	<table class="table table-striped workShowtable">
 		<tbody>
 			<tr>
@@ -260,6 +264,7 @@
 	<!-- 처리내역 테이블 페이지 -->
 	<c:if test="${requestScope.fk_wrno ne 2}"><jsp:include page="./readDetail.jsp" /></c:if>
 	<c:if test="${requestScope.fk_wrno eq 2}"><jsp:include page="./writeDetail.jsp" /></c:if>
+	</div>
 	
 	<!-- 업무 관련 버튼 -->
 	<div align="right">

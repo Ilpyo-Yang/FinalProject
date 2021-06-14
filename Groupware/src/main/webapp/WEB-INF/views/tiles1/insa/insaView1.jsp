@@ -4,8 +4,6 @@
 <% String ctxPath = request.getContextPath(); %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
-<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />	
 <link rel="stylesheet" href="/resources/demos/style.css">	
 <jsp:include page="./insa_sidebar.jsp" />
 <style>

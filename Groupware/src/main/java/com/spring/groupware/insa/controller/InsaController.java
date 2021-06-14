@@ -1062,14 +1062,44 @@ public class InsaController {
 			       if(searchWord == null) {
 			    	   searchWord="";
 				       }
-			       
-			       Map<String,String> paraMap = new HashMap<>();
-			       paraMap.put("category", category);
-			       paraMap.put("searchType", searchType);
-			       paraMap.put("searchWord", searchWord);
 
+		       
+
+			   // 개인별 급여 기본급 등록하기    
+		       
+		       for(int i =1; i<13; i++) {
+		    	   String paymonth = String.valueOf(i);
+		    	   if(i<10) {
+		    		   paymonth = "0"+i;
+		    	   }
+			       Map<String,String> paraMap = new HashMap<>();
+			       paraMap.put("seq", seq);
+			       paraMap.put("paymonth", paymonth);
+		    	   // 기본급 등록되어있는지 알아보기
+		    	   int check = service.checkPayMonthExist(paraMap);
+		    	   System.out.println("check => "+check);
+		    	   
+
+	    		   // 개인별 월별 근무시간 가져오기
+	    		   int basePay = service.getWorkHours(paraMap)*10000;
+	    		   System.out.println(i+"월 : "+basePay+"원");
+			       paraMap.put("basePay", String.valueOf(basePay));
+		    	   
+		    	   
+		    	   // 등록되어 있는 경우
+		    	   if(check == 1) {
+					   // 개인별 급여 기본급 수정하기  
+		    		   service.updateBasePay(paraMap);
+		    	   }
+		    	   else { // 등록 안된 경우
+					   // 개인별 급여 기본급 등록하기  
+		    		   service.insertBasePay(paraMap);
+		    	   }
+		       }
+
+		       	
 		       // 개인별 급여 상세 리스트 가져오기
-		       List <PaymentVO> paymentList = service.getPaymentList(seq);
+		       List <PaymentVO> paymentList = service.getPaymentList(seq); 
 		       
 		       // 개인 인사정보 가져오기
 		       InsaVO insavo = service.getInsaView1(seq);
@@ -1418,5 +1448,6 @@ public class InsaController {
 	 			
  			return mav;
  		}
- 	 				    	  
+ 	 			
+		
 	}
