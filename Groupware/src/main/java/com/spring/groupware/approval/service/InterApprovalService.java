@@ -33,6 +33,9 @@ public interface InterApprovalService {
 	// 결재 승인하기
 	int approvalConfirm(Map<String, String> paraMap);
 
+	// 결재 삭제하기
+	int approvalDelete(String ap_seq);
+
 	
 
 

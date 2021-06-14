@@ -88,6 +88,13 @@ public class ApprovalDAO implements InterApprovalDAO {
 		return n;
 	}
 
+	// 결재삭제하기
+	@Override
+	public int approvalDelete(String ap_seq) {
+		int n = sqlsession.delete("approval.approvalDelete", ap_seq);
+		return n;
+	}
+
 
 
 }

@@ -181,7 +181,7 @@
 			dataType:"json",
 			data:{ap_seq:"${avo.ap_seq}",ap_progress:ap_progress, ap_next_approver:ap_next_approver},
 			success: function(json){	
-				if(json.n){
+				if(json.n=="1"){
 					history.back();
 				}
 			},
@@ -190,6 +190,23 @@
             }
 		}); 	
 	}// end of function func_confirm() ------------------------------------------
+	
+	
+	function func_delete() {
+		$.ajax({
+			url:"<%=ctxPath%>/approvalDelete.opis",
+			dataType:"json",
+			data:{ap_seq:"${avo.ap_seq}"},
+			success: function(json){	
+				if(json.n=="1"){
+					history.back();
+				}
+			},
+			error: function(request, status, error){
+                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+            }
+		}); 	
+	}// end of function func_delete() ------------------------------------------
 	
 	
 </script>
@@ -207,7 +224,7 @@
 					<button type="button" class="btn btn-success formBtn3" id="approvalSubmit">결재요청</button>
 					<button type="button" class="btn btn-success formBtn3" id="confirm">결재승인</button>
 					<button type="button" class="btn btn-success formBtn3" id="reject">결재반려</button>
-					<button type="button" class="btn btn-success formBtn3" id="delete">결재삭제</button>
+					<button type="button" class="btn btn-success formBtn3" id="delete" onclick="func_delete()">결재삭제</button>
 					<button type="button" class="btn btn-default formBtn3" onclick="location.href='<%=ctxPath%>/approvalMain.opis';">취소</button>
 					<br>
 					<div id="signTitle">결재라인</div><br><br>

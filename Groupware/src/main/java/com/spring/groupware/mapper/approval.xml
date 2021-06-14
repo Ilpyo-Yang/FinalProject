@@ -179,9 +179,16 @@
 			where ap_seq=#{ap_seq}
 	    </if>
 	    <if test='ap_progress=="1"'>
-	        update tbl_approval set (ap_progress,ap_end_day)=(#{ap_progress},sysdate)
+	        update tbl_approval set ap_progress=#{ap_progress}, ap_end_day=sysdate
 			where ap_seq=#{ap_seq}
 	    </if>
 	</update>
+	
+	
+	<!-- 결재삭제하기 -->
+	<delete id="approvalDelete" parameterType="String">
+		delete from tbl_approval
+		where ap_seq=#{ap_seq}
+	</delete>	
 	
 </mapper>

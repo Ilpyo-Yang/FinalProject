@@ -448,6 +448,19 @@ public class ApprovalController {
 	  }
 	  
 	  
+	  // === 결재삭제하기 === //
+	  @ResponseBody
+	  @RequestMapping(value="/approvalDelete.opis", produces="text/plain;charset=UTF-8")
+	  public String approvalDelete(HttpServletRequest request) {
+		 String ap_seq = request.getParameter("ap_seq");		
+		 int n = service.approvalDelete(ap_seq); 	
+		 JSONObject jsonObj = new JSONObject();
+		 jsonObj.put("n", n);
+		 
+		 return jsonObj.toString(); 
+	  }
+		  
+	  
 	  // === 서명관리 === //
 	  @RequestMapping(value="/sign.opis")
 	  public ModelAndView sign(ModelAndView mav) {   	  
