@@ -30,6 +30,24 @@
 		
 		showList();	// 결재대기 문서 리스트 가져오기
 		
+		
+		// 모두 선택 체크박스 처리
+		$("input#alllList").click(function(){	
+			if($("input#alllList").is(":checked")){
+				$("input.approvalList").prop("checked",true);
+			} else {
+				$("input.approvalList").prop("checked",false);
+			}			
+		});
+		$("input.approvalList").click(function(){	
+			if($("input.approvalList:checked").length == $("input.approvalList").length){ 
+				$("input#alllList").prop("checked",true);
+			} else {
+				$("input#alllList").prop("checked",false);
+			}	
+		});
+		
+		
 		// 조회하기 버튼을 클릭한 경우
 		$("button#search").click(function(){	
 			$("input[name=writer]").val("$('input#searchWriter').val()");
@@ -61,13 +79,13 @@
 					$.each(json, function(index, item){
 						if(index==0) $("div#pageBar").append(item.pageBar);
 						
-						html += "<tr id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+
+						html += "<tr>"+
 								"<td><input type='checkbox' class='approvalList' /></td>"+
-								"<td>"+item.apform_name+"</td>"+
-								"<td>"+item.ap_title+"</td>"+
-								"<td>"+item.mbr_name+"</td>"+
-								"<td>"+item.ap_dept+"</td>"+
-								"<td>"+item.ap_start_day+"</td>"+
+								"<td id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+item.apform_name+"</td>"+
+								"<td id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+item.ap_title+"</td>"+
+								"<td id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+item.mbr_name+"</td>"+
+								"<td id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+item.ap_dept+"</td>"+
+								"<td id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+item.ap_start_day+"</td>"+
 							    "</tr>";
 					});
 					
