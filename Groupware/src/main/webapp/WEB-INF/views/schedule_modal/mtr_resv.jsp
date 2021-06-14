@@ -51,6 +51,7 @@
 		vertical-align: bottom;
 		height:22px;
 		border-radius:1pt;
+		cursor: pointer;
 	}
 	
 	#cancelResv {
@@ -71,7 +72,6 @@
 	
 	$(document).ready(function(){
 		
-		func_datepicker();
 		func_resvList();
 		
 		$("button#btnResv").click(function(){
@@ -83,16 +83,10 @@
 		});
 		
 		$("button#search").click(function(){
-			func_datepicker();
-			func_resvList();
+			
 		});
 		
-	});// end of $(document).ready(function(){
-	
-	function func_datepicker(){	
-	 $(function() {
-	       //input을 datepicker로 선언
-	       $("#datepicker").datepicker({
+		$("#datepicker").datepicker({
 	           dateFormat: 'yy-mm-dd' //달력 날짜 형태
 	           ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
 	           ,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
@@ -109,8 +103,10 @@
 	       
 	       //초기값을 오늘 날짜로 설정해줘야 합니다.
 	       $('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
-	   });	
-	}// end of function func_datepicker(){}-----------------------------------------------------------
+	   
+		
+	});// end of $(document).ready(function(){
+	
 	
 	function func_resvList(){
 		
@@ -123,7 +119,6 @@
 	    		var date = document.getElementById('datepicker').value;
 	    		$.each(json,function(index,item){
 	    			var starttime = item.starttime.substring(0,10);
-	    			console.log(starttime);
 	    			
 	    			if(starttime == date){
 	    				var startyear = item.starttime.substring(0,4);
