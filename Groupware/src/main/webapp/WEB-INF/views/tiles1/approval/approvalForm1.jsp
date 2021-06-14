@@ -4,7 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath = request.getContextPath(); %>
 
-
 <jsp:include page="./approval_sidebar.jsp" />  
 <jsp:include page="./approvalMemberModal.jsp" /> 
 <jsp:include page="./selectMemberModal.jsp" />  
@@ -14,6 +13,43 @@
 	$(document).ready(function(){
 		
 		$("input[name=attach]").hide();
+		$("button#confirm").hide();
+		$("button#delete").hide();
+		$("button#reject").hide();
+		
+		// 특정 결재문서를 조회하는 경우
+		var checkURL = document.location.href;
+		if(checkURL.indexOf("?")!="-1"){
+			$("button#approvalSubmit").hide();
+			$("button#confirm").show();
+			$("button#reject").show();
+			
+			if("${sessionScope.loginuser.mbr_seq}"=="${avo.fk_mbr_seq}"){
+				$("button#delete").show();
+				$("button#reject").hide();
+			}
+			
+			$("td#fileNo").html("${avo.ap_seq}");
+			$("td#today").html("${avo.ap_start_day}");
+			$("td#mbr_name").html("${avo.mbr_name}");
+			$("td#dept_detail").html("${avo.ap_dept}");
+			$("span#selectedMember").html("${avo.ap_referrer}");
+			$("input#ap_title").val("${avo.ap_title}");
+			$("textarea").html("${avo.ap_contents}");
+			
+			var arr = "${avo.ap_approver}".split(",");
+			var html="";
+			for (var i=0; i<arr.length; i++) {
+				html += "<td class='sign'>"+arr[i].substr(4)+"</td>";		
+			}
+			$("tr#sign").html(html);
+			
+			var newWidth = arr.length*90;	
+			$('div#signTitle').css({'width':newWidth})
+			$('table#sign').css({'width':newWidth})
+			
+		}
+
 		
 		// 결재라인 모달창 열기
 		$("button#approvalMember").click(function(){			
@@ -108,6 +144,9 @@
 				<div id="top">
 					<button type="button" class="btn btn-success formBtn3" id="approvalMember">결재선</button>
 					<button type="button" class="btn btn-success formBtn3" id="approvalSubmit">결재요청</button>
+					<button type="button" class="btn btn-success formBtn3" id="confirm">결재승인</button>
+					<button type="button" class="btn btn-success formBtn3" id="reject">결재반려</button>
+					<button type="button" class="btn btn-success formBtn3" id="delete">결재삭제</button>
 					<button type="button" class="btn btn-default formBtn3" onclick="location.href='<%=ctxPath%>/approvalMain.opis';">취소</button>
 					<br>
 					<div id="signTitle">결재라인</div><br><br>
@@ -124,15 +163,15 @@
 						<tbody>
 							<tr>
 								<td>문서번호</td>
-								<td>${fileNo}</td>
+								<td id="fileNo">${fileNo}</td>
 								<td>기안일자</td>
-								<td>${today}</td>
+								<td id="today">${today}</td>
 							</tr>
 							<tr>
 								<td>기안자</td>
-								<td>${sessionScope.loginuser.mbr_name}</td>
+								<td id="mbr_name">${sessionScope.loginuser.mbr_name}</td>
 								<td>기안부서</td>
-								<td>${sessionScope.loginuser.dept_detail}</td>
+								<td id="dept_detail">${sessionScope.loginuser.dept_detail}</td>
 							</tr>
 							<tr>
 								<td>참조자</td>
@@ -140,7 +179,7 @@
 									<span id="selectedMember"></span>
 									<button type="button" class="btn formBtn2" id="selectMember">선택하기</button>
 								</td>
-								<td>알림여부</td>
+								<td></td>
 								<td></td>
 							</tr>
 							<tr>

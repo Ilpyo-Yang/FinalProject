@@ -81,8 +81,8 @@ public class ScheduleService implements InterScheduleService{
 	
 	// 모든 일정 삭제하기
 	@Override
-	public int delAll() {
-		int n = dao.delAll();
+	public int delAll(int mbr_seq) {
+		int n = dao.delAll(mbr_seq);
 		return n;
 	}
 	
