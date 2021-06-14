@@ -19,7 +19,6 @@ public class MemberVO {
 	private String mbr_birthday;
 	private String mbr_registerday;
 	private String mbr_retireday;
-	private String mbr_photo;
 	private String mbr_remainBreak;
 	private String mbr_pwd_changeday;
 	private String mbr_photo;
