@@ -45,6 +45,14 @@ public class ApprovalController {
 	  // === 일반결의서 === //
 	  @RequestMapping(value="/approvalForm1.opis")
 	  public ModelAndView requiredLogin_approvalForm1(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		 String ap_seq = "";
+		 if(request.getParameter("ap_seq")!=null) {
+			 ap_seq = request.getParameter("ap_seq");
+			 ApprovalVO avo = service.getApproval(ap_seq);	 // 결재 작성내용 불러오기
+			 mav.addObject("avo",avo);
+		 }
+		
+		
 		 String today = MyUtil.getToday();
 		 String fileNo = service.getFileNo(); 
 		 List<MemberVO> memberList = service.getMemberList(); 
@@ -60,6 +68,13 @@ public class ApprovalController {
 	  // === 지출결의서 === //
 	  @RequestMapping(value="/approvalForm2.opis")
 	  public ModelAndView requiredLogin_approvalForm2(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) { 
+		 String ap_seq = "";
+		 if(request.getParameter("ap_seq")!=null) {
+			 ap_seq = request.getParameter("ap_seq");
+			 ApprovalVO avo = service.getApproval(ap_seq);	 // 결재 작성내용 불러오기
+			 mav.addObject("avo",avo);
+		 }
+		 
 		 String today = MyUtil.getToday();
 		 String fileNo = service.getFileNo(); 
 		 List<MemberVO> memberList = service.getMemberList(); 
@@ -75,6 +90,13 @@ public class ApprovalController {
 	  // === 휴가계획서 === //
 	  @RequestMapping(value="/approvalForm3.opis")
 	  public ModelAndView requiredLogin_approvalForm3(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {   	  
+		 String ap_seq = "";
+		 if(request.getParameter("ap_seq")!=null) {
+			 ap_seq = request.getParameter("ap_seq");
+			 ApprovalVO avo = service.getApproval(ap_seq);	 // 결재 작성내용 불러오기
+			 mav.addObject("avo",avo);
+		 }
+		 
 		 String today = MyUtil.getToday();
 		 String fileNo = service.getFileNo(); 
 		 List<MemberVO> memberList = service.getMemberList(); 
@@ -254,9 +276,10 @@ public class ApprovalController {
 			 totalPage = (int) Math.ceil((double)totalCount/listCnt); 
 			 String pageBar = "";
 			 
-			 if(totalPage > 0) { // 댓글이 있는 경우 
+			 /*
+			 if(totalPage > 0) { 
 				 
-				pageBar = "<ul style='list-style: none;'>";
+				pageBar = "<ul class='pagination pagination-sm'>";
 				
 				int blockSize = 5;
 				int loop = 1;
@@ -264,7 +287,7 @@ public class ApprovalController {
 				int pageNo = (int) (Math.floor((currentPage - 1)/listCnt) * listCnt + 1);
 				
 				if(pageNo != 1) {
-					pageBar += "<li <a href='javascript:approvalNeeded(\""+(pageNo-1)+"\")'>[이전]</a></li>";
+					pageBar += "<li><a href='javascript:approvalNeeded(\""+(pageNo-1)+"\")'>[이전]</a></li>";
 				}
 			
 				while( !(loop > blockSize || pageNo > totalPage) ) {
@@ -285,7 +308,8 @@ public class ApprovalController {
 				}			
 				pageBar += "</ul>";		    
 			 }	
-
+			 */
+			 
 			 JSONArray jsonArr = new JSONArray(); 
 			 
 			 if(approvalList.size() != 0) {
@@ -298,6 +322,7 @@ public class ApprovalController {
 						jsonObj.put("mbr_name", avo.getMbr_name());
 						jsonObj.put("ap_dept", avo.getAp_dept());
 						jsonObj.put("ap_start_day", avo.getAp_start_day());
+						jsonObj.put("ap_seq", avo.getAp_seq());
 		
 						if(n==0) {
 							jsonObj.put("pageBar", pageBar);
@@ -363,6 +388,8 @@ public class ApprovalController {
 					jsonObj.put("ap_title", avo.getAp_title());
 					jsonObj.put("ap_start_day", avo.getAp_start_day());
 					jsonObj.put("ap_manage_approver", avo.getAp_manage_approver());
+					jsonObj.put("ap_seq", avo.getAp_seq());
+					
 					if(avo.getAp_end_day()==null) {
 						jsonObj.put("ap_end_day", "");
 					}
@@ -428,6 +455,7 @@ public class ApprovalController {
 					jsonObj.put("ap_title", avo.getAp_title());
 					jsonObj.put("mbr_name", avo.getMbr_name());
 					jsonObj.put("ap_dept", avo.getAp_dept());
+					jsonObj.put("ap_seq", avo.getAp_seq());
 					jsonObj.put("ap_start_day", avo.getAp_start_day());
 
 					jsonArr.put(jsonObj);
