@@ -19,6 +19,7 @@ public class MemberVO {
 	private String mbr_birthday;
 	private String mbr_registerday;
 	private String mbr_retireday;
+	private String mbr_photo;
 	private String mbr_remainBreak;
 	private String mbr_pwd_changeday;	
 	private String mbr_status; 			// 사원퇴사유무   1: 사용가능(가입중) / 0:사용불능(탈퇴)
