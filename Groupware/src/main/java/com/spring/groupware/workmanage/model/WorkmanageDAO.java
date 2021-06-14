@@ -271,6 +271,27 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		int n = sqlsession.update("workmanage.todoEditEnd", todovo);
 		return n;
 	}
+
+	// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
+	@Override
+	public int workPercentChangeToComplete(Map<String, Object> paraMap) {
+		int n = sqlsession.update("workmanage.workPercentChangeToComplete", paraMap);
+		return n;
+	}
+
+	// 일괄 읽음 처리하기
+	@Override
+	public int updateReadcheckdate_many(Map<String, Object> paraMap) {
+		int n = sqlsession.update("workmanage.updateReadcheckdate_many", paraMap);
+		return n;
+	}
+
+	// 반려처리하기
+	@Override
+	public int workStatusChangeToBack(Map<String, Object> paraMap) {
+		int n = sqlsession.update("workmanage.workStatusChangeToBack", paraMap);
+		return n;
+	}
 	
 
 }

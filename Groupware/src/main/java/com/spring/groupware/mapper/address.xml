@@ -130,6 +130,14 @@
    	 	</if>
    	 </select>
    	 
+   	 <!-- === 검색하기 === -->
+     <select id="myaddrWordSearchShow" parameterType="HashMap" resultType="String">
+	   	select ${searchType}
+		from tbl_address
+		where fk_addrgroup_seq=#{fk_addrgroup_seq}
+			and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
+		order by addr_seq desc
+  	 </select>
 <!-- ============================ 개인 주소록 관리 ============================ -->   
 
    	 <!-- === 페이징 처리한 주소록 그룹 목록 가져오기 -->  

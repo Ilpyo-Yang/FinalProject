@@ -212,7 +212,7 @@
 	
 	<!-- 담당자 한명의 업무 정보 가져오기 -->
 	<select id="oneMbrWorkStatus" parameterType="HashMap" resultType="com.spring.groupware.workmanage.model.WorkMemberVO">
-		select workmbr_seq, fk_mbr_seq, mbr_name, fk_wrno, nvl(workPercent,0) workPercent, contents, lasteditdate
+		select workmbr_seq, fk_mbr_seq, mbr_name, fk_wrno, nvl(workPercent,0) as workPercent, nvl(contents, '') as contents, nvl(lasteditdate, '') as lasteditdate
 		from (select workmbr_seq, fk_mbr_seq, fk_wrno, workPercent, contents
 		    		, to_char(lasteditdate, 'yyyy-mm-dd hh24:mi:ss') as lasteditdate 
 			from tbl_workmbr left join tbl_workreceiver on workmbr_seq = fk_workmbr_seq
@@ -255,8 +255,8 @@
 				<if test='deadline != ""'>
 				and deadline &lt;= #{deadline}
 				</if>
+				order by wmno desc
 		    )
-		    order by wmno desc
 		)
 		where rno between #{startRno} and #{endRno}
 	</select>
@@ -379,9 +379,42 @@
 				<if test='deadline != ""'>
 				and deadline &lt;= #{deadline}
 				</if>
+				order by tdno desc
 		    )
-		    order by tdno desc
 		)
 		where rno between #{startRno} and #{endRno}		
 	</select>
+	
+	<!-- 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기 -->
+	<update id="workPercentChangeToComplete" parameterType="HashMap">
+		update tbl_workreceiver set workpercent = 100
+		where fk_workmbr_seq in (
+		    select workmbr_seq
+		    from tbl_workmbr
+		    where fk_wrno = #{fk_wrno} and fk_mbr_seq = #{fk_mbr_seq} 
+		    and fk_wmno in 
+		    <foreach collection="wmnoList" item="wmno" separator="," open="(" close=")">
+				#{wmno}
+			</foreach>
+		)		
+	</update>
+	
+	<!-- 수신자, 참조자가 읽었을 때 읽음확인 업데이트 하기  -->
+	<update id="updateReadcheckdate_many" parameterType="HashMap">
+		update tbl_workmbr set readcheckdate = sysdate
+		where fk_wrno = #{fk_wrno} and fk_mbr_seq = #{fk_mbr_seq} and readcheckdate is null
+		and fk_wmno in 
+	    <foreach collection="wmnoList" item="wmno" separator="," open="(" close=")">
+			#{wmno}
+		</foreach>
+	</update>
+	
+	<!-- 반려처리하기 -->
+	<update id="workStatusChangeToBack" parameterType="HashMap">
+		update tbl_workmanage set fk_statno = 5
+		where wmno in 
+		<foreach collection="wmnoList" item="wmno" separator="," open="(" close=")">
+			#{wmno}
+		</foreach>
+	</update>
 </mapper>
