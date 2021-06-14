@@ -182,7 +182,7 @@
 			var member = movedMember2[i];
 			chooseMemberName2.push(member.substr(7));
 		}
-		$('span#selectedMember').html(chooseMemberName2.toString());
+		$('span#selectedMember').html(movedMember2.toString());
 		$('span#selectedMember').append("&nbsp;");
 		
 		// form 으로 넘길 input 값 저장

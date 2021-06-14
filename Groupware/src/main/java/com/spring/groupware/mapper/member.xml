@@ -41,11 +41,11 @@
 	<!-- 로그인페이지 - 로그인 정보 확인하기, session에 남길 로그인 정보 가져오기 -->
 	<select id="loginCheck" parameterType="HashMap" resultType="com.spring.groupware.member.model.MemberVO">
 		select mbr_seq, mbr_id, mbr_name, mbr_email, mbr_com_number, mbr_phone_number, mbr_birthday, mbr_stsmsg, mbr_stsconnect, mbr_img
-		     , trunc((mbr_pwd_changeday-mbr_registerday)/30) as pwdChangeGap, nvl(mbr_photo,'0'), nvl(mbr_sign,'0'), rank_detail, power_detail, dept_detail
+		     , trunc((mbr_pwd_changeday-mbr_registerday)/30) as pwdChangeGap, mbr_remainBreak, nvl(mbr_sign,'0'), rank_detail, power_detail, dept_detail
 		from 
 		(        
 		select mbr_seq, mbr_id, mbr_name, fk_power_no, fk_rank_no, fk_dept_no, mbr_email, mbr_com_number, mbr_phone_number, mbr_stsmsg, mbr_stsconnect, mbr_img
-		     , mbr_birthday, mbr_pwd_changeday, mbr_photo, mbr_sign, mbr_pwd, mbr_status, mbr_registerday
+		     , mbr_birthday, mbr_pwd_changeday, mbr_remainBreak, mbr_sign, mbr_pwd, mbr_status, mbr_registerday
 		from tbl_mbr
 		)A left join tbl_dept B
 		on fk_dept_no = dept_no

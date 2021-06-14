@@ -30,6 +30,8 @@ public interface InterApprovalService {
 	// 결재 작성내용 불러오기
 	ApprovalVO getApproval(String ap_seq);
 
+	
+
 
 
 	
