@@ -263,7 +263,7 @@
    	</div>
       
       <div id="btns">
-        <button type="button" class="btn-basic" id="btnEdit">등록</button>
+        <button type="button" class="btn-ok" id="btnEdit">등록</button>
         <button type="button" class="btn-basic" onclick="javascript:history.back()" class="btn btn-cancel">취소</button>
       </div>
   

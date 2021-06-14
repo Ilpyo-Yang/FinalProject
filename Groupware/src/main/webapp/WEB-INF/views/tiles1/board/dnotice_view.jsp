@@ -92,7 +92,7 @@
    
 	   <button type="button" class="btn-basic" onclick="javascript:location.href='<%=ctxPath%>/dnotice_list.opis'">목록</button>
 	   <c:if test="${sessionScope.loginuser.mbr_id eq requestScope.dnoticevo.fk_mbr_id || sessionScope.loginuser.mbr_id eq 'admin'}">
-	   		<button type="button" class="btn-basic" onclick="javascript:location.href='<%=ctxPath%>/dnotice_edit.opis?dnotice_seq=${requestScope.dnoticevo.dnotice_seq}'">수정</button>
+	   		<button type="button" class="btn-ok" onclick="javascript:location.href='<%=ctxPath%>/dnotice_edit.opis?dnotice_seq=${requestScope.dnoticevo.dnotice_seq}'">수정</button>
 	   		<button type="button" class="btn-basic" onclick="goDelete(${requestScope.dnoticevo.dnotice_seq})">삭제</button>
    	   </c:if>
    

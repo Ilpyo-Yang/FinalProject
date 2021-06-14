@@ -92,7 +92,7 @@
       </table>
       
       <div style="margin: 10px;">
-         <button type="button" id="btnUpdate" class="btn-basic">완료</button>
+         <button type="button" id="btnUpdate" class="btn-ok">완료</button>
          <button type="button" class="btn-basic" onclick="javascript:history.back()">취소</button>
       </div>
    </form>

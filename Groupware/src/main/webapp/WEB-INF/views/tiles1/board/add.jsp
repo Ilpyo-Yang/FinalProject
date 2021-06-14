@@ -151,7 +151,7 @@
       </table>
       
       <div style="margin: 10px;">
-         <button type="button" class="btn-basic" id="btnWrite">등록</button>
+         <button type="button" class="btn-ok" id="btnWrite">등록</button>
          <button type="button" class="btn-basic" onclick="javascript:history.back()">취소</button>
       </div>
          

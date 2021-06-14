@@ -121,7 +121,7 @@ td#name{
 	
 	</table>	
 	<div align="center">
-		<button type="button" class="btn-basic btnaddr" onclick="addMbrAddr()">확인</button>
+		<button type="button" class="btn-ok btnaddr" onclick="addMbrAddr()">확인</button>
 	   	<button type="button" class="btn-basic btnaddr" onclick="window.close()">취소</button>
 	</div>
 </div>

@@ -102,7 +102,7 @@
 
 	<!-- 게시판제목 -->
 	<div style="padding: 15px; font-size: 25px; font-weight: 600; height: 60px; width: 100%; background-color: #f2f2f2; color: #555;">
-	&nbsp;&nbsp;${sessionScope.loginuser.dept_detail}&nbsp;부서 공지사항
+	&nbsp;&nbsp;<span style="color: #04AA6D;">${sessionScope.loginuser.dept_detail}</span>&nbsp;부서 공지사항
 	</div>
 	
 	<!-- 본문(게시판) -->       

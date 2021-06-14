@@ -275,7 +275,7 @@
 	   
       <!-- Modal footer -->
     <div class="modal-footer">
-      <button type="button" id="btnRegister" class="btn-basic" onclick="goRegister()">등록</button>
+      <button type="button" id="btnRegister" class="btn-ok" onclick="goRegister()">등록</button>
       <button type="button" class="btn-secondary btn-basic" data-dismiss="modal">닫기</button>
     </div>
 	</form>

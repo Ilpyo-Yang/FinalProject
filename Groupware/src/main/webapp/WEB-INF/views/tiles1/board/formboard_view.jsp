@@ -102,7 +102,7 @@
 	   
 	 <button type="button"class="btn-basic"  onclick="javascript:location.href='<%=ctxPath%>/formboard_list.opis'">목록</button>
 	 <c:if test="${sessionScope.loginuser.power_detail ne '사원'}">
-		 <button type="button" class="btn-basic" onclick="javascript:location.href='<%=ctxPath%>/formboard_edit.opis?form_seq=${requestScope.formboardvo.form_seq}'">수정</button>
+		 <button type="button" class="btn-ok" onclick="javascript:location.href='<%=ctxPath%>/formboard_edit.opis?form_seq=${requestScope.formboardvo.form_seq}'">수정</button>
 		 <button type="button" class="btn-basic" onclick="goDelete(${requestScope.formboardvo.form_seq})">삭제</button>
 	 </c:if> 
 	 
