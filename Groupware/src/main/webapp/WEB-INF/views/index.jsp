@@ -31,7 +31,7 @@
 
 <body>
 
-<div class="icon-bar" style="height: 100%; position: fixed; top:0; width: 60px;">
+<div class="icon-bar">
   <a class="active" href="<%=ctxPath%>/index.opis"><i class="fab fa-pinterest-square"></i></a> 
   <a id="login" href="<%=ctxPath%>/login.opis"><i class="fas fa-user-alt"></i></a> 
   <a id="logout" href="<%=ctxPath%>/logout.opis"><i class="fas fa-user-slash"></i></a> 
