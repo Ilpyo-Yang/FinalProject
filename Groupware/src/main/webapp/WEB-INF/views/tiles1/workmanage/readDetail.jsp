@@ -44,7 +44,7 @@
 				<th colspan="4">담당자 확인내역&nbsp;
 					<select id="mbrListSelect" onchange="mbrWorkStatusChange();">
 					<c:forEach var="workmbr" items="${requestScope.workmbrList}" varStatus="status">
-						<option value="${workmbr.fk_mbr_seq}">${workmbr.mbr_name}</option>
+						<option value="${workmbr.workmbr_seq}">${workmbr.mbr_name}</option>
 					</c:forEach>	
 					</select>
 				</th>
