@@ -169,7 +169,7 @@
 			<td id="title">시간</td>
 			<td id="contents">
 				<select id="time1" name="scdstartTm">
-				<c:forEach var="i" begin="9" end="18">
+				<c:forEach var="i" begin="9" end="17">
 					<c:set var="startTm" value="${i>9?i:'0'}${i>9?'':i}"/>
 					<option value="${i>9?i:'0'}${i>9?'':i}:00" <c:if test="${data.startDispTm eq startTm}">selected</c:if>>${i>9?i:'0'}${i>9?'':i}:00</option>
 				</c:forEach>

@@ -12,8 +12,9 @@
 	
 	#resvList {
 		margin-top:30px;
-		width:630px;
-		height:180px;
+		overflow: auto;
+		width:650px;
+		height:160px;
 	}
 	
 	table, tr, th, td {
@@ -21,9 +22,8 @@
 		text-align:center !important;
 	}
 	
-	table {margin-left:5px;}
-	
 	#mtrBtns {
+		margin-top: 30px;
 		text-align:right;
 		padding-right: 20px;
 	}
@@ -69,11 +69,13 @@
 			checkArr.push($(this).val());
 		});
 		
+		var totalCnt = checkArr.length;
 		
 		$.ajax({
 			url:"<%=ctxPath%>/delMtrResv.opis",
 		//	type:"post",
-			data: {"checkArr":checkArr},
+			data: {"checkArr":checkArr,
+				   "totalCnt":totalCnt},
 			dataType:"json",
 			success:function(json) {
 				if(json.m==1){
