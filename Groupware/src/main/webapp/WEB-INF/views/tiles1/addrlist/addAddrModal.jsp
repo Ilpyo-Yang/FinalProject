@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <% String ctxPath = request.getContextPath(); %>
 
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardButtons.css">
 <script type="text/javascript">
 
 	$(document).ready(function(){
@@ -182,7 +183,7 @@
 			<th>사원번호</th>
 	   		<td>
 	   			<input type="text" name="mbr_seq" id="mbrSeq" placeholder="사원번호" class="short"/>
-	   			&nbsp;&nbsp;<a onclick="searchMbr()"><button type="button">검색</button></a>
+	   			&nbsp;&nbsp;<a onclick="searchMbr()"><button type="button" class="btn-search" style="height: 20px;">검색</button></a>
 	   		</td>		
 	   </tr>      
 	   <tr>
@@ -227,7 +228,7 @@
 	    	<td style="width: 80%; text-align: left;">
 	       <input type="text" id="postcode" name="postcode" size="6" maxlength="5" />&nbsp;&nbsp;
 	       <%-- 우편번호 찾기 --%>
-	       <button type="button" id="zipcodeSearch" style="vertical-align: middle;"> 우편번호 검색 </button>
+	       <button type="button" id="zipcodeSearch" class="btn-search" style="vertical-align: middle; width:80px; height:20px;"> 우편번호 검색 </button>
 	       <span class="error">우편번호 형식이 아닙니다.</span>
 	    </tr>
 	    <tr>
@@ -249,7 +250,7 @@
       <!-- Modal footer -->
     <div class="modal-footer">
       <button type="button" id="btnRegister" onclick="goRegister()">등록</button>
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+      <button type="button" class="btn btn-secondary btn-cancel" data-dismiss="modal">닫기</button>
     </div>
 	</form>
 

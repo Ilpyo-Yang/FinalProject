@@ -41,27 +41,41 @@ public class AddrController {
    
    // === 주소록 추가 === //
    @RequestMapping(value="/addr_addEnd.opis", method= {RequestMethod.POST})
-   public ModelAndView addEnd(HttpServletRequest request, ModelAndView mav, AddrVO addrvo) {
+   public ModelAndView requiredLogin_addEnd(HttpServletRequest request, HttpServletResponse response, ModelAndView mav, AddrVO addrvo) {
  
+ 	  HttpSession session = request.getSession();
+	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+	  
 	  String hp1 = request.getParameter("hp1"); 
 	  String hp2 = request.getParameter("hp2"); 
 	  String hp3 = request.getParameter("hp3");
 	  
 	  String mbr_phone_number = hp1 + hp2 + hp3;
-	  int fk_mbr_seq = Integer.parseInt(request.getParameter("mbr_seq"));
 	  
 	  addrvo.setMbr_phone_number(mbr_phone_number);
- 	  addrvo.setFk_mbr_seq(fk_mbr_seq);
+	  
+	  int fk_mbr_seq = Integer.parseInt(request.getParameter("mbr_seq"));
+	  addrvo.setFk_mbr_seq(fk_mbr_seq);
 
- 	  int n = service.add(addrvo);
- 	  
- 	  if(n==1) {
- 		  mav.setViewName("redirect:/totaladdrlist.opis");
- 		  
- 	  }
- 	  else {
- 		  mav.setViewName("board/error/add_error.tiles1");
- 	  }
+ 	  if( "사원".equals(loginuser.getPower_detail()) ) {
+          String message = "관리자 외 주소록 추가는 불가능합니다.";
+          String loc = "javascript:history.back()";
+          
+          mav.addObject("message", message);
+          mav.addObject("loc", loc);
+          mav.setViewName("msg");
+       }
+       else {	
+	 	  int n = service.add(addrvo);
+	 	  
+	 	  if(n==1) {
+	 		  mav.setViewName("redirect:/totaladdrlist.opis");
+	 		  
+	 	  }
+	 	  else {
+	 		  mav.setViewName("board/error/add_error.tiles1");
+	 	  }
+       }
  	  
  	  return mav;
    }

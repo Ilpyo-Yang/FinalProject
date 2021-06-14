@@ -4,7 +4,7 @@
 <% String ctxPath = request.getContextPath(); %>    
 
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />		
-
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardButtons.css">
 <style type="text/css">
 
    table, th, td, input, textarea {border: solid gray 1px;}
@@ -96,7 +96,7 @@
       
       <div style="margin: 10px;">
          <button type="button" id="btnUpdate">완료</button>
-         <button type="button" onclick="javascript:history.back()">취소</button>
+         <button type="button" onclick="javascript:history.back()" class="btn btn-cancel">취소</button>
       </div>
    </form>
    

@@ -2,11 +2,10 @@
     pageEncoding="UTF-8"%>
 <% String ctxPath = request.getContextPath(); %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
+
 <title>주소록 정보 수정</title>
+
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardButtons.css">
 <style type="text/css">
 
 #editForm{
@@ -187,8 +186,6 @@
    
 </script>
 
-</head>
-<body>
 
 	<!-- 게시판 제목 -->
 	<div style="padding: 15px; font-size: 25px; font-weight: 600; height: 60px; width: 100%; background-color: #f2f2f2; color: #555;">
@@ -267,12 +264,9 @@
       
       <div id="btns">
         <button type="button" id="btnEdit">등록</button>
-        <button type="button" onclick="javascript:history.back()">취소</button>
+        <button type="button" onclick="javascript:history.back()" class="btn btn-cancel">취소</button>
       </div>
   
   </form>
 
 </div>
-
-</body>
-</html>

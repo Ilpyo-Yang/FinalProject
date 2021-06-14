@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
 <style type="text/css">
 
 #searchMbr_table{
@@ -120,6 +121,6 @@ td#name{
 	</table>	
 	<div align="center">
 		<button type="button" class="btnaddr" onclick="addMbrAddr()">확인</button>
-	   	<button type="button" class="btnaddr" onclick="window.close()">취소</button>
+	   	<button type="button" class="btn btn-cancel btnaddr" onclick="window.close()">취소</button>
 	</div>
 </div>
