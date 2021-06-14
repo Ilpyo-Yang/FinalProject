@@ -40,12 +40,12 @@
 	
 	// 담당자별 업무처리 확인하기 
 	function mbrWorkStatusChange() {
-		var fk_mbr_seq = $("select#mbrListSelect").val();
+		var workmbr_seq = $("select#mbrListSelect").val();
 		
 		$.ajax({
 			url:"<%=ctxPath%>/oneMbrWorkStatus.opis",
 			data:{
-				"fk_mbr_seq": fk_mbr_seq,
+				"workmbr_seq": workmbr_seq,
 				"fk_wmno": "${workvo.wmno}",
 				"fk_wrno":2},
 			dataType:"json",
