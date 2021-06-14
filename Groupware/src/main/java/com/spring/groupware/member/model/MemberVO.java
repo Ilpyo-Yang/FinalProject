@@ -260,6 +260,14 @@ public class MemberVO {
 	public void setMbr_remainBreak(String mbr_remainBreak) {
 		this.mbr_remainBreak = mbr_remainBreak;
 	}
+
+	public String getMbr_photo() {
+		return mbr_photo;
+	}
+
+	public void setMbr_photo(String mbr_photo) {
+		this.mbr_photo = mbr_photo;
+	}
 	
 	
 
