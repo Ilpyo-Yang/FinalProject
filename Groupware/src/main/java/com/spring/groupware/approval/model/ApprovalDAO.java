@@ -81,6 +81,13 @@ public class ApprovalDAO implements InterApprovalDAO {
 		return approval;
 	}
 
+	// 결재승인하기
+	@Override
+	public int approvalConfirm(Map<String, String> paraMap) {
+		int n = sqlsession.update("approval.approvalConfirm", paraMap);
+		return n;
+	}
+
 
 
 }

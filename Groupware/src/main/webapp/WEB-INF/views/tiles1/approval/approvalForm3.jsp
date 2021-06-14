@@ -38,12 +38,23 @@
 		// 특정 결재문서를 조회하는 경우
 		var checkURL = document.location.href;
 		if(checkURL.indexOf("?")!="-1"){
-			$("button#approvalSubmit").hide();
-			$("button#confirm").show();
-			$("button#reject").show();
+			var ap_manage_approver = "${avo.ap_manage_approver}".split(" ");
 			
-			if("${sessionScope.loginuser.mbr_seq}"=="${avo.fk_mbr_seq}"){
+			// 결재를 해야하는 사용자일 때
+			if("${sessionScope.loginuser.mbr_name}"==ap_manage_approver[2]
+			&& "${sessionScope.loginuser.mbr_seq}"!="${avo.fk_mbr_seq}" ){	
+				$("button#approvalSubmit").hide();
+				$("button#delete").hide();
+				$("button#confirm").show();
+				$("button#reject").show();
+			}
+			
+			// 결재를 작성한 자일때
+			if("${sessionScope.loginuser.mbr_seq}"=="${avo.fk_mbr_seq}" 
+			&& "${sessionScope.loginuser.mbr_name}"==ap_manage_approver[2]){	
+				$("button#approvalSubmit").hide();
 				$("button#delete").show();
+				$("button#confirm").show();
 				$("button#reject").hide();
 			}
 			

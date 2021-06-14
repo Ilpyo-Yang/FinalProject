@@ -76,6 +76,13 @@ public class ApprovalService implements InterApprovalService {
 		return approval;
 	}
 
+	// 결재승인하기
+	@Override
+	public int approvalConfirm(Map<String, String> paraMap) {
+		int n = adao.approvalConfirm(paraMap);
+		return n;
+	}
+
 
 
 

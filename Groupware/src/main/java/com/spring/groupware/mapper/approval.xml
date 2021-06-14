@@ -172,4 +172,16 @@
 	</select>
 	
 	
+	<!-- 결재승인하기 -->
+	<update id="approvalConfirm" parameterType="HashMap">
+		<if test='ap_progress=="0"'>
+	        update tbl_approval set ap_manage_approver=#{ap_next_approver}
+			where ap_seq=#{ap_seq}
+	    </if>
+	    <if test='ap_progress=="1"'>
+	        update tbl_approval set (ap_progress,ap_end_day)=(#{ap_progress},sysdate)
+			where ap_seq=#{ap_seq}
+	    </if>
+	</update>
+	
 </mapper>

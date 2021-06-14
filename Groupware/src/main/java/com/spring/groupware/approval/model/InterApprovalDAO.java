@@ -31,6 +31,9 @@ public interface InterApprovalDAO {
 	// 결재 작성내용 불러오기
 	ApprovalVO getApproval(String ap_seq);
 
+	// 결재 승인하기
+	int approvalConfirm(Map<String, String> paraMap);
+
 
 
 }

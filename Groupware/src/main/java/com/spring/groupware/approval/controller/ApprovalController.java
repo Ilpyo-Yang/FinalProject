@@ -425,7 +425,27 @@ public class ApprovalController {
 		  } 
 		  return jsonArr.toString(); 
 	  }
-		
+	
+	  
+	  // === 결재승인하기 === //
+	  @ResponseBody
+	  @RequestMapping(value="/approvalConfirm.opis", produces="text/plain;charset=UTF-8")
+	  public String approvalConfirm(HttpServletRequest request) {
+		 String ap_seq = request.getParameter("ap_seq");
+		 String ap_progress = request.getParameter("ap_progress");
+		 String ap_next_approver = request.getParameter("ap_next_approver");
+
+		 Map<String, String> paraMap = new HashMap<>();
+		 paraMap.put("ap_seq", ap_seq);
+		 paraMap.put("ap_progress", ap_progress);
+		 paraMap.put("ap_next_approver", ap_next_approver);
+		 
+		 int n = service.approvalConfirm(paraMap); 	
+		 JSONObject jsonObj = new JSONObject();
+		 jsonObj.put("n", n);
+		 
+		 return jsonObj.toString(); 
+	  }
 	  
 	  
 	  // === 서명관리 === //
