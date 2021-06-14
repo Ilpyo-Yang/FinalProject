@@ -64,6 +64,18 @@
 	
 	#sendBtn {padding-left: 40px;}
 	
+	#btnSendMail {
+		border: none;
+		height: 30px;
+		width: 100px;
+		border-radius: 2pt;
+		box-shadow: 1pt 1pt 1pt gray;
+		font-weight:bold;
+		background:  #2eb82e;
+		color: white;
+		font-size: 12px;
+	}
+	
 </style>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -148,7 +160,7 @@
 </script>
 
 <div id="container">
-<h3 style="margin-top:20px; margin-left:20px;">주소록</h3>
+<h3 style="margin-top:20px; margin-left:20px; font-weight:bold;">주소록</h3>
 <hr>
 	
 	<div id="search">	
@@ -194,8 +206,8 @@
 
 <form name="pInfoFrm">
 	<div id="sendBtn">
-		<input type="text" name="mbr_email" class="getEmail" id="getEmail"/>&nbsp;
-		<button type="button" onclick="sendMail()">초대메일 전송</button>
+		<input type="hidden" name="mbr_email" class="getEmail" id="getEmail"/>&nbsp;
+		<button type="button" id="btnSendMail" onclick="sendMail()">초대메일 발송</button>
 	</div>
 	
 	<input type="hidden" class="getName" id="mbr_name" name="mbr_name" />
