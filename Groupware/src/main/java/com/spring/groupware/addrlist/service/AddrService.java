@@ -111,6 +111,16 @@ public class AddrService implements InterAddrService {
 		int n = adao.getmyAddrTotalCount(paraMap);
 		return n;
 	}	
+	
+	// === 주소록 그룹 내 검색  === //
+	@Override
+	public List<String> mywordSearchShow(Map<String, String> paraMap) {
+		List<String> mywordList = adao.mywordSearchShow(paraMap);
+		return mywordList;
+	}
+
+	
+	
 	/*
 		개인 주소록 관리
 	*/
@@ -145,10 +155,5 @@ public class AddrService implements InterAddrService {
 		return n;
 	}
 
-
-
-
-
-	
 	
 }

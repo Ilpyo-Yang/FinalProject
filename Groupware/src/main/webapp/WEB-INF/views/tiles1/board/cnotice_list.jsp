@@ -5,12 +5,7 @@
 <% String ctxPath = request.getContextPath(); %>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
   <title>전체공지</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -103,8 +98,6 @@
 	} // end of goSearch(){}------------------------------------------------------------
 	
 </script>
-</head>
-<body>
 
 <div style="width: 1460px"> 
 
@@ -158,7 +151,7 @@
     <div id="displayList" style="border:solid 1px gray; width:250px; height: 100px; border-top: 0px; margin-left: 71px; overflow: auto; padding-top: 2px;"> 	
     </div>
 
-  	</div>	  	
-</div>	
-</body>
-</html>
+
+  </div>	  	
+  
+</div>

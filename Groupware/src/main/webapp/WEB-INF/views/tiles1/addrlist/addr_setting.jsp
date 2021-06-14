@@ -6,9 +6,10 @@
 
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script src="https://kit.fontawesome.com/16816a49c3.js" crossorigin="anonymous"></script>
+
   
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://kit.fontawesome.com/16816a49c3.js" crossorigin="anonymous"></script> 
   <jsp:include page="./addr_sidebar.jsp" />
   
 	<script type="text/javascript">
@@ -43,11 +44,6 @@
 		
 	}// end of function goAdd()----------------------------------------	
 	
-	function goEditGroup(addrgroup_seq){
-		
-		
-		
-	}// end of function goEditGroup(addrgroup_seq)---------------------
 	
 	function goDelete(addrgroup_seq){
 		if(confirm("정말로 삭제하시겠습니까? 삭제한 주소록은 복구 불가능합니다.")==true){
@@ -81,7 +77,7 @@
 		      <tr style="text-align: center;">
 		        <th style="width: 7%;">그룹명</th>
 		        <th style="width: 20%;">그룹설명</th>
-		        <th style="width: 5%;">수정/삭제</th>
+		        <th style="width: 5%;">삭제</th>
 		      </tr>
 		    </thead>
 		    <tbody>
@@ -98,7 +94,6 @@
 							<span class="detail" style="text-align: left;">${addrgroupvo.groupdetail}</span>
 						</td>  
 						<td style="text-align: center;">
-							<button type="button" onclick="goEditGroup('${addrgroupvo.addrgroup_seq}')">수정</button>
 							<button type="button" onclick="goDelete('${addrgroupvo.addrgroup_seq}')">삭제</button>
 						</td>	
 			      	</tr>		
@@ -108,7 +103,7 @@
 		</table>
 		
 		<!-- 페이지바 -->  
-		<div align="center" style="width: 70%; border: solid 0px gray; margin: 20px auto;">
+		<div id="pageBar" align="center" style="width: 70%; border: solid 0px gray; margin: 20px auto; color: gray;">
 	   		${requestScope.pageBar}
 	    </div>
 

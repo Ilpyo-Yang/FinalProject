@@ -120,6 +120,12 @@ public class AddrDAO implements InterAddrDAO {
 		return n;
 	}
 	
+	// === 주소록 그룹 내 검색 === //
+	@Override
+	public List<String> mywordSearchShow(Map<String, String> paraMap) {
+		List<String> mysearchList = sqlsession.selectList("address.myaddrWordSearchShow", paraMap);
+		return mysearchList;
+	}
 	
 	/*
 		개인 주소록 관리
@@ -152,6 +158,7 @@ public class AddrDAO implements InterAddrDAO {
 		int n = sqlsession.delete("address.delAddrgroup", paraMap);		
 		return n;
 	}
+
 
 
 

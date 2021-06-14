@@ -179,7 +179,7 @@ public class AddrController {
  	  while(!(loop > blockSize || pageNo > totalPage )) {
  		
  		  if(pageNo == currentShowPageNo) {
- 			  pageBar += "<li style='display:inline-block; width:30px; font-size:12pt; border:solid 1px gray; color:red; padding:2px 4px;'>"+pageNo+"</li>";
+ 			  pageBar += "<li style='display:inline-block; width:30px; font-size:12pt; background-color: #F2F2F2; border-radius: 15px; color:red; padding:2px 4px;'>"+pageNo+"</li>";
  		  }
  		  else {
  			  pageBar += "<li style='display:inline-block; width:30px; font-size:12pt;'><a href='"+url+"?searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
@@ -216,11 +216,11 @@ public class AddrController {
 	   
  	  String searchType = request.getParameter("searchType");
  	  String searchWord = request.getParameter("searchWord");
- 	  
+
  	  Map<String,String> paraMap = new HashMap<>();
  	  paraMap.put("searchType",searchType);
  	  paraMap.put("searchWord",searchWord);
- 	  
+ 	  	  
  	  List<String> wordList = service.wordSearchShow(paraMap);
  	  
  	  JSONArray jsonArr = new JSONArray();
@@ -464,7 +464,7 @@ public class AddrController {
  	  while(!(loop > blockSize || pageNo > totalPage )) {
  		
  		  if(pageNo == currentShowPageNo) {
- 			  pageBar += "<li style='display:inline-block; width:30px; font-size:12pt; border:solid 1px gray; color:red; padding:2px 4px;'>"+pageNo+"</li>";
+ 			  pageBar += "<li style='display:inline-block; width:30px; font-size:12pt; background-color: #F2F2F2; border-radius: 15px; color:red; padding:2px 4px;'>"+pageNo+"</li>";
  		  }
  		  else {
  			  pageBar += "<li style='display:inline-block; width:30px; font-size:12pt;'><a href='"+url+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
@@ -493,7 +493,39 @@ public class AddrController {
  	  return mav;
    }
    
+   // === 주소록 그룹 내 검색 === //
+   @ResponseBody
+   @RequestMapping(value="/mywordSearchShow.opis", produces="text/plain;charset=UTF-8")
+   public String mywordSearchShow(HttpServletRequest request) {
+	   
+ 	  String searchType = request.getParameter("searchType");
+ 	  String searchWord = request.getParameter("searchWord");
+ 	  String addrgroup_seq = request.getParameter("addrgroup_seq");
 
+// 	  System.out.println("확인용 : "+addrgroup_seq);
+ 	  
+ 	  
+ 	  Map<String,String> paraMap = new HashMap<>();
+ 	  paraMap.put("searchType", searchType);
+ 	  paraMap.put("searchWord", searchWord);	
+ 	  paraMap.put("addrgroup_seq", addrgroup_seq);
+  	  
+ 	  List<String> mywordList = service.mywordSearchShow(paraMap);
+ 	  
+ 	  JSONArray jsonArr = new JSONArray();
+ 	  
+ 	  if(mywordList != null) {
+ 		  for(String word : mywordList) {
+ 			  JSONObject jsonObj = new JSONObject();
+ 			  jsonObj.put("word", word); 
+ 			  
+ 			  jsonArr.put(jsonObj);
+ 		  }
+ 	  }
+ 	  
+ 	  return jsonArr.toString();
+   }
+   
    // ============================ 개인 주소록 관리 ============================ //
    // === 주소록 목록 === //
    @RequestMapping(value="/addr_setting.opis")
@@ -565,7 +597,7 @@ public class AddrController {
  	  while(!(loop > blockSize || pageNo > totalPage )) {
  		
  		  if(pageNo == currentShowPageNo) {
- 			  pageBar += "<li style='display:inline-block; width:30px; font-size:12pt; border:solid 1px gray; color:red; padding:2px 4px;'>"+pageNo+"</li>";
+ 			  pageBar += "<li style='display:inline-block; width:30px; font-size:12pt; background-color: #F2F2F2; border-radius: 15px; color:red; padding:2px 4px;'>"+pageNo+"</li>";
  		  }
  		  else {
  			  pageBar += "<li style='display:inline-block; width:30px; font-size:12pt;'><a href='"+url+"?currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
