@@ -453,12 +453,12 @@ public class AddrController {
  	  int pageNo = ((currentShowPageNo - 1)/blockSize) * blockSize + 1;
 
  	  String pageBar = "<ul style='list-style: none;'>";
- 	  String url = "myAddrlist.opis";
+ 	  String url = "myAddrlist.opis?addrgroup_seq="+addrgroup_seq;
  	  
  	  // === [맨처음][이전] 만들기 ===
  	  if(pageNo != 1) {
- 		  pageBar += "<li style='display:inline-block; width:70px; font-size:12pt;'><a href='"+url+"?addrgroup_seq="+addrgroup_seq+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo=1'>[맨처음]</a></li>";
- 		  pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='"+url+"?addrgroup_seq="+addrgroup_seq+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
+ 		  pageBar += "<li style='display:inline-block; width:70px; font-size:12pt;'><a href='"+url+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo=1'>[맨처음]</a></li>";
+ 		  pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='"+url+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+(pageNo-1)+"'>[이전]</a></li>";
  	  }
  	  
  	  while(!(loop > blockSize || pageNo > totalPage )) {
@@ -467,7 +467,7 @@ public class AddrController {
  			  pageBar += "<li style='display:inline-block; width:30px; font-size:12pt; background-color: #F2F2F2; border-radius: 15px; color:red; padding:2px 4px;'>"+pageNo+"</li>";
  		  }
  		  else {
- 			  pageBar += "<li style='display:inline-block; width:30px; font-size:12pt;'><a href='"+url+"?addrgroup_seq="+addrgroup_seq+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
+ 			  pageBar += "<li style='display:inline-block; width:30px; font-size:12pt;'><a href='"+url+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>"+pageNo+"</a></li>";
  		  }
  		  
  		  loop++;
@@ -476,8 +476,8 @@ public class AddrController {
  	  
  	  // === [다음][마지막] 만들기 ===
  	  if(pageNo <= totalPage) {
- 		  pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='"+url+"?addrgroup_seq="+addrgroup_seq+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
- 		  pageBar += "<li style='display:inline-block; width:70px; font-size:12pt;'><a href='"+url+"?addrgroup_seq="+addrgroup_seq+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+totalPage+"'>[마지막]</a></li>";
+ 		  pageBar += "<li style='display:inline-block; width:50px; font-size:12pt;'><a href='"+url+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+pageNo+"'>[다음]</a></li>";
+ 		  pageBar += "<li style='display:inline-block; width:70px; font-size:12pt;'><a href='"+url+"&searchType="+searchType+"&searchWord="+searchWord+"&currentShowPageNo="+totalPage+"'>[마지막]</a></li>";
  	  }
  	  
  	  pageBar += "</ul>";
@@ -501,15 +501,14 @@ public class AddrController {
  	  String searchType = request.getParameter("searchType");
  	  String searchWord = request.getParameter("searchWord");
  	  String addrgroup_seq = request.getParameter("addrgroup_seq");
- 	  String fk_addrgroup_seq = addrgroup_seq;
- 	  System.out.println("확인용 : "+addrgroup_seq+" / "+fk_addrgroup_seq);
+
+// 	  System.out.println("확인용 : "+addrgroup_seq);
  	  
  	  
  	  Map<String,String> paraMap = new HashMap<>();
  	  paraMap.put("searchType", searchType);
  	  paraMap.put("searchWord", searchWord);	
  	  paraMap.put("addrgroup_seq", addrgroup_seq);
-  	  paraMap.put("fk_addrgroup_seq", fk_addrgroup_seq);
   	  
  	  List<String> mywordList = service.mywordSearchShow(paraMap);
  	  

@@ -110,7 +110,8 @@
 	         <option value="mbr_name">이름</option>
 	      </select>
 	      <input type="text" name="searchWord" id="searchWord" size="30" autocomplete="off" /> 
-	      <button type="button" onclick="goSearch('${requestScope.myAddrlist}')">검색</button>
+	      <input type="hidden" name="addrgroup_seq" id="addrgroup_seq" value="<%=addrgroup_seq%>" />
+	      <button type="submit" onclick="goSearch()">검색</button>
 	   	</form>
 	   
 	    <div id="displayList" style="border:solid 1px gray; width:170px; height: 100px; border-top: 0px; margin-left: 49px; overflow: auto; padding-top: 2px;"> 	
