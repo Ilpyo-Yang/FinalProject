@@ -91,14 +91,16 @@ public class ScheduleService implements InterScheduleService{
 	public void invitedListEmailSending(Map<String, String> paraMap) throws Exception {
 		
 		String emailList = paraMap.get("emailList");
-		String nameList = paraMap.get("");
+		String nameList = paraMap.get("mbrName");
 		
 		if( emailList != null && !"".equals(emailList)) {
 			String[] emailArr = emailList.split(",");
+			String[] nameArr = nameList.split(",");
 			
 			for(int i=0; i<emailArr.length; i++) {
-				String contents = paraMap.get("mbrName") + " 님, " + paraMap.get("myName") + " 님께서 회의에 초대하셨습니다."
-								+ "<br>";
+				String contents = "<span style='color:#002db3; font-weight:bold;'>"+nameArr[i] + "</span>&nbsp;님, " + paraMap.get("myName") + " 님께서 회의에 초대하셨습니다."
+								+ "<br>&nbsp;<span style='font-weight:bold;'>주최자 :</span> " + paraMap.get("myName")
+								+ "<br>&nbsp;<span style='font-weight:bold;'>참석자 :</span> " + nameList;
 				mail.sendmail(emailArr[i], contents);
 			}
 		}

@@ -80,7 +80,12 @@ public class ScheduleController {
 		try {
 			service.invitedListEmailSending(paraMap);
 		} catch (Exception e) {
-			
+			String message = "메일전송에 실패하였습니다.";
+			String loc = "javascript:history.back()";
+	        
+	        mav.addObject("message", message);
+	        mav.addObject("loc",loc);
+	        mav.setViewName("error");
 		}
 		
 		mav.addObject("emailList",emailList);
@@ -467,8 +472,6 @@ public class ScheduleController {
 				m = n/totalCnt;
 			}
 		}
-		
-		
 		jsonObj.put("m", m);
 		
 		return jsonObj.toString();

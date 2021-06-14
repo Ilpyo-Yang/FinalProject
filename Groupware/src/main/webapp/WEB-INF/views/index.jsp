@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
 <% String ctxPath = request.getContextPath();   %>
@@ -11,17 +14,8 @@
 <script type="text/javascript">
 	$(function(){
 		
-		if("${sessionScope.loginuser}"!=null){	// Ã«Â¡ÂÃªÂ·Â¸Ã¬ÂÂ¸Ã­ÂÂ Ã¬ÂÂÃ­ÂÂ
-			$("a#login").hide();
-			$("a#logout").show();
-		}
-		else {	// Ã«Â¡ÂÃªÂ·Â¸Ã¬ÂÂÃ¬ÂÂ Ã¬ÂÂÃ­ÂÂ
-			$("a#logout").hide();
-			$("a#login").show();
-		}
-		
 		$("a#snsmain").click(function(){
-			window.open("<%=ctxPath%>/sns/snsmain.opis","ë©ì ì ","width=401, height=601, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+			window.open("<%=ctxPath%>/sns/snsmain.opis","Ã«Â©ÂÃ¬ÂÂ Ã¬Â Â","width=401, height=601, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
 		});
 		
 	});// end of $(function(){ -------------------------------------
@@ -31,15 +25,13 @@
 
 <body>
 
-<div class="icon-bar" style="height: 100%; position: fixed; top:0; width: 60px;">
+<div class="icon-bar">
   <a class="active" href="<%=ctxPath%>/index.opis"><i class="fab fa-pinterest-square"></i></a> 
-  <a id="login" href="<%=ctxPath%>/login.opis"><i class="fas fa-user-alt"></i></a> 
   <a id="logout" href="<%=ctxPath%>/logout.opis"><i class="fas fa-user-slash"></i></a> 
   <a href="<%=ctxPath%>/mainPage.opis"><i class="fa fa-home"></i></a> 
   <a id="snsmain" href="#"><i class="fas fa-comments"></i></a> 
   <a href="<%=ctxPath%>/personalInfo.opis"><i class="fas fa-user-circle"></i></a> 
 </div>
-  
 
 </body>
 </html> 

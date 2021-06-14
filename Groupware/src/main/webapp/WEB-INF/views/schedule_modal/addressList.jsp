@@ -62,7 +62,7 @@
 		color: white;
 	}
 	
-	#sendBtn {padding-left: 40px;}
+	#sendBtn {padding-left: 20px;}
 	
 	#btnSendMail {
 		border: none;

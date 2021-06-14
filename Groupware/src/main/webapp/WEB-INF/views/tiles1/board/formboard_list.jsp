@@ -6,7 +6,6 @@
 
   <title>공통서식</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/content.css" />  
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -99,13 +98,16 @@
 	
 </script>
 
+<div style="width: 1460px;"> 
+
+	<!-- 게시판제목 -->
+	<div style="padding: 15px; font-size: 25px; font-weight: 600; height: 60px; width: 100%; background-color: #f2f2f2; color: #555;">
+	&nbsp;&nbsp;공통서식
+	</div>
+
 	<!-- 본문(게시판) -->
-	<div class="container commoncontainer">
-		<!-- 게시판제목 -->
-		<div style="padding: 15px; font-size: 25px; font-weight: 600; height: 60px; width: 100%; background-color: #f2f2f2; color: #555;">
-		&nbsp;&nbsp;공통서식
-		</div>
-		        
+	<div class="container" style="float: right; width: 80%; margin-top: 50px;">   
+
 	  <table class="table table-striped">
 	    <thead>
 	      <tr>
@@ -155,3 +157,5 @@
 
 	</div>	  	  	
 	
+</div>	  	  	
+
