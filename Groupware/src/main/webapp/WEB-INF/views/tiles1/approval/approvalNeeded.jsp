@@ -120,6 +120,31 @@
 	}
 	
 	
+	function func_allApproval() {
+		var ap_seqArr=[];
+		
+		console.log();
+		for (var i=0; i<$("input.approvalList").length; i++) {
+			$("input.approvalList:checked").id
+			ap_seqArr.push();
+		}
+		
+		$.ajax({
+			url:"<%=ctxPath%>/allApproval.opis",
+			dataType:"json",
+			data:{},
+			success: function(json){	
+				if(json.n=="1"){
+					history.back();
+				}
+			},
+			error: function(request, status, error){
+                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+            }
+		}); 	
+	}// end of function func_allApproval() ------------------------------------------
+	
+	
 </script>
 </head>
 <body>
@@ -154,7 +179,7 @@
 				<option>8개</option>
 				<option>4개</option>
 			</select>
-			<button type="button" class="btn btn-success formBtn4" id="approval">일괄결재</button>
+			<button type="button" class="btn btn-success formBtn4" id="approval" onclick="func_allApproval">일괄결재</button>
 			<table class="table table-striped">
 				<thead>
 					<tr>

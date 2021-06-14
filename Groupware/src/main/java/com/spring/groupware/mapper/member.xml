@@ -96,4 +96,11 @@
 		<if test="value eq ''"></if>
 	</select>
 	
+	
+	<!-- 비밀번호 변경하기 -->
+	<insert id="changePwd" parameterType="HashMap">
+		update tbl_mbr set mbr_pwd=#{newPwd1}, mbr_pwd_changeday=sysdate
+		where mbr_seq=#{mbr_seq}
+	</insert>
+	
 </mapper>

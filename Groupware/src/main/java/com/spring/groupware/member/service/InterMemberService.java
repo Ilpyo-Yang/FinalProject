@@ -29,6 +29,9 @@ public interface InterMemberService {
 	// 조직도용 정보 가져오기
 	List<Map<String, String>> getChartInfo(String chartStyle);
 
+	// 비밀번호 변경하기
+	int changePwd(String newPwd1, String mbr_seq);
+
 
 
 	

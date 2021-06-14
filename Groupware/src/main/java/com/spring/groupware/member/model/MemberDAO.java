@@ -3,6 +3,7 @@ package com.spring.groupware.member.model;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,6 +72,14 @@ public class MemberDAO implements InterMemberDAO {
 	public List<Map<String, String>> getChartInfo(String chartStyle) {
 		List<Map<String, String>> chartInfoList = sqlsession.selectList("member.getChartInfo",chartStyle);	
 		return chartInfoList;
+	}
+
+	// 비밀번호 변경하기
+	@Override
+	public int changePwd(String newPwd1, String mbr_seq) {
+		Map<String, String> paraMap = new HashMap<>();
+		int n = sqlsession.update("member.changePwd",paraMap);
+		return n;
 	}
 
 }

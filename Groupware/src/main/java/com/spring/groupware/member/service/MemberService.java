@@ -74,6 +74,13 @@ public class MemberService implements InterMemberService {
 		return chartInfoList;
 	}
 
+	// 비밀번호 변경하기
+	@Override
+	public int changePwd(String newPwd1, String mbr_seq) {
+		int n = mdao.changePwd(newPwd1,mbr_seq);
+		return n;
+	}
+
 	
 	
 	

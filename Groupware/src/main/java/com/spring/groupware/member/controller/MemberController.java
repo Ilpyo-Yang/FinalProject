@@ -165,5 +165,18 @@ public class MemberController {
   		  }
   		return new Gson().toJson(jsonArr);
   	}
+  	  
+  	  
+  	// === 비밀번호 변경하기 === //
+    @RequestMapping(value="/changePwd.opis")
+    public ModelAndView changePwd(HttpServletRequest request, ModelAndView mav) {  
+      String newPwd1 = request.getParameter("newPwd1");	
+      String mbr_seq = request.getParameter("mbr_seq");	
+    
+      int n = service.changePwd(newPwd1, mbr_seq);
+    
+      mav.setViewName("changePwd.tiles1");
+      return mav;
+    }  
 
 }

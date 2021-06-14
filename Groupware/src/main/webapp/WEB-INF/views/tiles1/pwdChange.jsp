@@ -31,14 +31,14 @@
 				$("input#real_id").val(real_id);  
 
 				var frm = document.changePwdFrm;
-				frm.action="changePwd.opis";
+				frm.action="<%= ctxPath%>/changePwd.opis";
 				frm.method="POST";
 				frm.submit();
 			}	
 		});
 		
 		$("button#laterChangePwd").click(function(){	
-			location.href = "<%=ctxPath%>/home.opis";
+			location.href = "<%=ctxPath%>/mainPage.opis";
 		});
 	});// end of $(function() ------------------------------------------------------------
 	
@@ -52,7 +52,7 @@
 			$("div#currentPwd").html("현재 비밀번호를 입력해주세요.");
 			b_check=false;
 			return;
-		} else if(currentPwd!="${sessionScope.pwd}"){
+		} else if(currentPwd!="${sessionScope.loginuser.mbr_pwd}"){
 				$("div#currentPwd").show();
 				$("div#currentPwd").html("현재 비밀번호와 다릅니다. 다시 입력해주세요.");
 				b_check=false;
@@ -70,7 +70,7 @@
 			b_check=false;
 			return;
 		} else {
-			if(newPwd1=="${sessionScope.pwd}"){
+			if(newPwd1=="${sessionScope.loginuser.mbr_pwd}"){
 				$("div#newPwd1").show();
 				$("div#newPwd1").html("현재 비밀번호 같은 비밀번호로 변경은 불가합니다.");
 				b_check=false;
@@ -122,14 +122,15 @@
 	  	   	<input type="password" name="currentPwd" id="currentPwd" class="loginWidth" placeholder="현재 비밀번호"/>
 	  	   	<div id="currentPwd" class="confirm"></div><br>
 	  	   	<label for="newPwd" id="letter">변경 비밀번호</label>
-		    <input type="password" name="newPwd" id="newPwd1" class="loginWidth" placeholder="변경 비밀번호"/>
+		    <input type="password" name="newPwd1" id="newPwd1" class="loginWidth" placeholder="변경 비밀번호"/>
 		    <div id="newPwd1" class="confirm"></div><br>
 		    <label for="newPwd" id="letter">변경 비밀번호 확인</label>
 		    <input type="password" name="newPwd2" id="newPwd2" class="loginWidth" placeholder="변경 비밀번호 확인"/> 
 		    <div id="newPwd2" class="confirm"></div><br>	 	      	 	
 	  	    <button type="button" name="changePwd" id="changePwd" class="btn btn-success loginWidth changePwd" >비밀번호 변경하기</button><br>
 	  	    <button type="button" name="changePwd" id="laterChangePwd" class="btn btn-outline-secondary loginWidth changePwd" >다음에 변경하기</button> 
-	   </div> 	
+	   </div> 
+	   <input type="hidden" name="mbr_seq" value="${sessionScope.loginuser.mbr_seq}"/>	
 	</form>        	   
 </div>   
  
