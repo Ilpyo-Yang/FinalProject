@@ -27,10 +27,18 @@
 		      changeYear: true
 		});	   
 	
-		 var frm = document.listForm;
-         frm.action = "<%= ctxPath%>/approvalNeeded.opis";
-         frm.submit();  
-         
+		
+		showList();	// 결재대기 문서 리스트 가져오기
+		
+		// 조회하기 버튼을 클릭한 경우
+		$("button#search").click(function(){	
+			$("input[name=writer]").val("$('input#searchWriter').val()");
+			$("input[name=submitStartDate]").val("$('input#datepicker').val()");
+			$("input[name=submitEndDate]").val("$('input#datepicker2').val()");
+			$("input[name=word]").val("$('input#searchWord').val()");			
+			showList();
+		});
+		
 	}); // end of $(document).ready(function(){})---------------------------------------
 	
 	
@@ -50,7 +58,7 @@
 				if(json.length>0){	
 					$.each(json, function(index, item){
 						/* console.log(item); */
-						html += "<tr id='item.ap_seq item.apform_name' style='cursor:pointer;' onclick='func_show(this.id)' >"+
+						html += "<tr id='"+item.ap_seq+"' style='cursor:pointer;'>"+
 								"<td><input type='checkbox' class='approvalList' /></td>"+
 								"<td>"+item.apform_name+"</td>"+
 								"<td>"+item.ap_title+"</td>"+
@@ -72,50 +80,30 @@
 		}); 
 	}// end of function showList() ---------------------------------------
 	
-	
-	function func_show(id) {
-		var index = id.indexOf(" ");
-		var apform_name = id.substr(index);
-		var ap_seq = id.substr(0,index);
-		
-		console.log(index);
-		if(apform_name=="일반기안서"){
-			location.href="<%= ctxPath%>/approvalForm1.opis?ap_seq="+ap_seq;
-		} else if (apform_name=="지출결의서") {
-			location.href="<%= ctxPath%>/approvalForm2.opis?ap_seq="+ap_seq;
-		} else {
-			location.href="<%= ctxPath%>/approvalForm3.opis?ap_seq="+ap_seq;
-		}
-		
-	}// end of function func_show() -----------------------------------------
-	
-	
 </script>
 </head>
 <body>
 
 	<div id="approvalContainer">
 		<span class="subtitle">결재 대기중인 문서</span>
-		<hr> 
-		<form name="listForm">	
+		<hr> 	
 		<div id="searchOption">
-			
 			<table>
 				<tr>
 					<td>기안자</td>
-					<td><input type="text" class="form-control searchInput" style="width: 50%;" id="searchWriter" name="writer" value=""/></td>
+					<td><input type="text" class="form-control searchInput" style="width: 50%;" id="searchWriter" value=""/></td>
 					<td>기안일</td>
 					<td>
-						<input type="text" class="form-control searchInput" id="datepicker" name="submitStartDate" value=""/>
+						<input type="text" class="form-control searchInput" id="datepicker" value=""/>
 						<span>-</span>
-						<input type="text" class="form-control searchInput" id="datepicker2" name="submitEndDate" value=""/>
+						<input type="text" class="form-control searchInput" id="datepicker2" value=""/>
 					</td>
 				</tr>
 				<tr>
 					<td>문서내용</td>
 					<td colspan="3">
-						<input type="text" class="form-control searchInput" id="search" name="word" value=""/>
-						<button type="button" class="btn formBtn4" id="searchWord">조회하기</button>
+						<input type="text" class="form-control searchInput" id="search" value=""/>
+						<button type="button" class="btn formBtn4" id="search">조회하기</button>
 					</td>
 				</tr>
 			</table>
@@ -141,10 +129,13 @@
 				<tbody id="list" ></tbody>
 			</table> 					
 		</div>
-		<input type="text" name="managePerson" value="${sessionScope.loginuser.dept_detail} ${sessionScope.loginuser.rank_detail} ${sessionScope.loginuser.mbr_name}"/>
-		</form>
-		<br>
 		
+		<br>
+		<input type="hidden" name="word" value="" />
+		<input type="hidden" name="writer" value="" />
+		<input type="hidden" name="submitStartDate" value="" />
+		<input type="hidden" name="submitEndDate" value="" />
+
 		
 	</div>
 

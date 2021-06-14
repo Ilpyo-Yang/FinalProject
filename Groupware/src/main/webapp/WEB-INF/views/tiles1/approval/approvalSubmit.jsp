@@ -99,7 +99,7 @@
 				<tr>
 					<td>진행상황</td>
 					<td>
-						<select name="status" class="form-control searchInput" id="status">
+						<select name="status" class="form-control searchInput selectCommon" id="status" style="height: 28px;" >
 							<option value="">전체</option>
 							<option value="0">진행중</option>
 							<option value="1">완료</option>

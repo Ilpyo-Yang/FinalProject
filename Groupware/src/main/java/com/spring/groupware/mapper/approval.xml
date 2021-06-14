@@ -71,7 +71,7 @@
 		        and <![CDATA[ ap_start_day >= to_date(#{submitStartDate}, 'YYYY-MM-DD' ) ]]>
 		    </if>
 		    <if test='submitEndDate!=""'>
-		        and <![CDATA[ ap_start_day <= to_date(#{submitEndDate}, 'YYYY-MM-DD']]>
+		        and <![CDATA[ ap_start_day <= to_date(#{submitEndDate}, 'YYYY-MM-DD') ]]>
 		    </if>
 		    order by ap_start_day desc
 		)C
@@ -113,7 +113,7 @@
 		        and <![CDATA[ ap_start_day >= to_date(#{submitStartDate}, 'YYYY-MM-DD' ) ]]>
 		    </if>
 		    <if test='submitEndDate!=""'>
-		        and <![CDATA[ ap_start_day <= to_date(#{submitEndDate}, 'YYYY-MM-DD']]>
+		        and <![CDATA[ ap_start_day <= to_date(#{submitEndDate}, 'YYYY-MM-DD' )]]>
 		    </if>
 		    order by ap_start_day desc
 		)C
@@ -152,7 +152,7 @@
 		        and <![CDATA[ ap_start_day >= to_date(#{submitStartDate}, 'YYYY-MM-DD' ) ]]>
 		    </if>
 		    <if test='submitEndDate!=""'>
-		        and <![CDATA[ ap_start_day <= to_date(#{submitEndDate}, 'YYYY-MM-DD']]>
+		        and <![CDATA[ ap_start_day <= to_date(#{submitEndDate}, 'YYYY-MM-DD' )]]>
 		    </if>
 		    order by ap_start_day desc
 		)C
