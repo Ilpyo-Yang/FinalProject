@@ -104,19 +104,19 @@
 	  		<div class="myTeam">내소속</div>
 	  		<div id="teamName">
 				<c:choose>
-					<c:when test="${sessionScope.loginuser.fk_dept_no eq 0}">
+					<c:when test="${sessionScope.loginuser.dept_detail == '영업팀'}">
 						영업팀
 					</c:when>
-					<c:when test="${sessionScope.loginuser.fk_dept_no eq 1}">
+					<c:when test="${sessionScope.loginuser.dept_detail == '인사팀'}">
 						인사팀
 					</c:when>
-					<c:when test="${sessionScope.loginuser.fk_dept_no eq 2}">
+					<c:when test="${sessionScope.loginuser.dept_detail == '홍보팀'}">
 						홍보팀
 					</c:when>
-					<c:when test="${sessionScope.loginuser.fk_dept_no eq 3}">
+					<c:when test="${sessionScope.loginuser.dept_detail == 'IT팀'}">
 						IT팀
 					</c:when>
-					<c:when test="${sessionScope.loginuser.fk_dept_no eq 4}">
+					<c:when test="${sessionScope.loginuser.dept_detail == '회계팀'}">
 						회계팀
 					</c:when>
 					<c:otherwise>

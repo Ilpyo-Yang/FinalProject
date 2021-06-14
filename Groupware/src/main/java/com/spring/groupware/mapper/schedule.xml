@@ -83,8 +83,9 @@
 	</select>
 	
 	<!-- === 모든 일정 삭제하기 === -->
-	<delete id="delAll">
+	<delete id="delAll" parameterType="int">
 		delete from tbl_schedule
+		where fk_mbr_seq = #{mbr_seq}
 	</delete>
 	
 	<!-- === 나의 일정 개수 확인하기 === -->
