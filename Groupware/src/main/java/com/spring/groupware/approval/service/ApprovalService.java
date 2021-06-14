@@ -69,6 +69,13 @@ public class ApprovalService implements InterApprovalService {
 		return approvalList;
 	}
 
+	// 결재 작성내용 불러오기
+	@Override
+	public ApprovalVO getApproval(String ap_seq) {
+		ApprovalVO approval = adao.getApproval(ap_seq);
+		return approval;
+	}
+
 
 	
 	
