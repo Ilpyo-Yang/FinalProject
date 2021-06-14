@@ -180,6 +180,10 @@
 		        return;
 	        }
 	        
+	        var textarea = $("textarea").val();
+	        textarea = textarea.replace(/<script/gi, "&lt;script"); // 스크립트 공격을 막기
+	        $("textarea").val(textarea);
+	        
 	        // 폼 전송하기
 	        var frm = document.approvalSubmitForm;
 	        frm.method = "POST";
