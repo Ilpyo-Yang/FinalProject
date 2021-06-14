@@ -127,6 +127,13 @@ public class AddrDAO implements InterAddrDAO {
 		return mysearchList;
 	}
 	
+	// === 주소록 그룹에서 제거 === //
+	@Override
+	public int delmyAddr(String addrSeqArr) {
+		int n = sqlsession.update("address.delmyAddr", addrSeqArr);
+		return n;
+	}
+	
 	/*
 		개인 주소록 관리
 	*/
@@ -158,6 +165,7 @@ public class AddrDAO implements InterAddrDAO {
 		int n = sqlsession.delete("address.delAddrgroup", paraMap);		
 		return n;
 	}
+
 
 
 
