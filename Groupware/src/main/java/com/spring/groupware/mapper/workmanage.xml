@@ -255,8 +255,8 @@
 				<if test='deadline != ""'>
 				and deadline &lt;= #{deadline}
 				</if>
+				order by wmno desc
 		    )
-		    order by wmno desc
 		)
 		where rno between #{startRno} and #{endRno}
 	</select>
@@ -379,12 +379,13 @@
 				<if test='deadline != ""'>
 				and deadline &lt;= #{deadline}
 				</if>
+				order by tdno desc
 		    )
-		    order by tdno desc
 		)
 		where rno between #{startRno} and #{endRno}		
 	</select>
 	
+	<!-- 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기 -->
 	<update id="workPercentChangeToComplete" parameterType="HashMap">
 		update tbl_workreceiver set workpercent = 100
 		where fk_workmbr_seq in (
@@ -404,6 +405,15 @@
 		where fk_wrno = #{fk_wrno} and fk_mbr_seq = #{fk_mbr_seq} and readcheckdate is null
 		and fk_wmno in 
 	    <foreach collection="wmnoList" item="wmno" separator="," open="(" close=")">
+			#{wmno}
+		</foreach>
+	</update>
+	
+	<!-- 반려처리하기 -->
+	<update id="workStatusChangeToBack" parameterType="HashMap">
+		update tbl_workmanage set fk_statno = 5
+		where wmno in 
+		<foreach collection="wmnoList" item="wmno" separator="," open="(" close=")">
 			#{wmno}
 		</foreach>
 	</update>

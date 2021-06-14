@@ -119,4 +119,7 @@ public interface InterWorkmanageDAO {
 	// 일괄 읽음 처리하기
 	int updateReadcheckdate_many(Map<String, Object> paraMap);
 
+	// 반려처리
+	int workStatusChangeToBack(Map<String, Object> paraMap);
+
 }

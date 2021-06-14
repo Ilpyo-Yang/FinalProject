@@ -285,6 +285,13 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		int n = sqlsession.update("workmanage.updateReadcheckdate_many", paraMap);
 		return n;
 	}
+
+	// 반려처리하기
+	@Override
+	public int workStatusChangeToBack(Map<String, Object> paraMap) {
+		int n = sqlsession.update("workmanage.workStatusChangeToBack", paraMap);
+		return n;
+	}
 	
 
 }

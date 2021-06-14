@@ -329,4 +329,11 @@ public class WorkmanageService implements InterWorkmanageService {
 		
 		return n;
 	}
+
+	// 반려처리하기
+	@Override
+	public int workStatusChangeToBack(Map<String, Object> paraMap) {
+		int n = dao.workStatusChangeToBack(paraMap);
+		return n;
+	}
 }

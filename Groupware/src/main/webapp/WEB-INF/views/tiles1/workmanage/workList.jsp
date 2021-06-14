@@ -324,6 +324,38 @@ button.readCheck {
 		frm.action = "<%=ctxPath%>/workReadCheckChangeToComplete.opis";
 		frm.submit();
 	}
+	
+	function goWorkStatusChangeToBack() {
+		var wmnoArr = []; // 체크박스에 선택된 업무 리스트 담기
+		$("input.oneCheckbox").each(function(index, item){
+			if ($(item).prop("checked") == true) {
+				var wmno = $(item).val();
+				wmnoArr.push(wmno);	
+			}
+		});
+		
+		// 업무 선택을 하나도 하지 않았을 경우 경고
+		if (wmnoArr.length == 0) {
+			alert("하나 이상의 업무를 선택해주세요!");
+			return; 
+		}
+		
+		// 업무 리스트 담기
+		var wmnoStr = wmnoArr.join();
+		$("input[name=wmnoStr]").val(wmnoStr);
+		
+		// 업무완료 재확인
+		var check = confirm("반려 처리 하시겠습니까?");
+		if (!check) {
+			return; // 취소시 함수 종료
+		}
+		
+		// 수정할 업무 리스트 전송하기 (POST 방식)
+		var frm = document.workInfoFrm;
+		frm.method = "post";
+		frm.action = "<%=ctxPath%>/workStatusChangeToBack.opis";
+		frm.submit();
+	}
 </script>
 
 <div class="container commoncontainer">
@@ -464,7 +496,7 @@ button.readCheck {
 			<button type="button" class="workListBtn btn btn-default" onclick="goWorkComplete();">업무완료</button>
 		</c:if>
 		<c:if test="${fk_wrno == 2 and fk_wtno == 1}"><button type="button" class="workListBtn btn btn-success" onclick="goWorkPercentComplete()">업무처리</button></c:if>
-		<c:if test="${fk_wrno == 2 and fk_wtno == 2}"><button type="button" class="workListBtn btn btn-success" onclick="">반려처리</button></c:if>
+		<c:if test="${fk_wrno == 2 and fk_wtno == 2}"><button type="button" class="workListBtn btn btn-success" onclick="goWorkStatusChangeToBack()">반려처리</button></c:if>
 		<c:if test="${fk_wrno == 2 or fk_wrno == 3}"><button type="button" class="workListBtn btn btn-default" onclick="goReadCheckComplete()">읽음처리</button></c:if>
 		<button type="button" class="workDeleteBtn btn btn-danger" onclick="goWorkDel();">삭제</button>
 	</div>

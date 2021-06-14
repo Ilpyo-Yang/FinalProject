@@ -95,4 +95,7 @@ public interface InterWorkmanageService {
 
 	// 일괄 읽음 처리하기
 	int workReadCheckChangeToComplete(Map<String, Object> paraMap);
+
+	// 반려처리하기
+	int workStatusChangeToBack(Map<String, Object> paraMap);
 }

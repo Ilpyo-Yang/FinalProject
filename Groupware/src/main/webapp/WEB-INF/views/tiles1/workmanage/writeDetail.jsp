@@ -73,6 +73,7 @@
 	</table>
 	<input type="hidden" name="workPercent" />
 	<input type="hidden" name="workmbr_seq"/>
+	<input type="hidden" name="fk_wtno" value="${fk_wtno}"/>
 	<input type="hidden" name="gobackWorkDetilURL" value="${requestScope.gobackWorkDetilURL}"/>
 </form>
 

@@ -45,6 +45,10 @@ function setworkStatusMbrBtn() {
 			$(item).css({"background-color":"white", "border":"1px solid black", "color":"black"});
 			$(item).text('완료');
 		}
+		else if (percent == -1) {
+			$(item).css({"background-color":"white", "border":"1px solid black", "color":"black"});
+			$(item).text('확인');
+		}
 		else {
 			$(item).css({"background-color":"#ff3300"});
 			$(item).text('처리중 '+percent+'%');

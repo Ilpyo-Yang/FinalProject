@@ -37,7 +37,7 @@
 		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/cnotice_list.opis';">
 			<i class="fas fa-chalkboard fa-3x icon"></i>게시판
 		</div>
-		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/todoList.opis';">
+		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/workList.opis';">
 			<i class="fas fa-business-time fa-3x icon"></i>업무관리
 		</div>
 		<div class="menu" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/myscd.opis';">
