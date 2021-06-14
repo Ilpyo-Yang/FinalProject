@@ -45,14 +45,10 @@ public class ApprovalController {
 	  // === 일반결의서 === //
 	  @RequestMapping(value="/approvalForm1.opis")
 	  public ModelAndView requiredLogin_approvalForm1(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-		 String ap_seq = request.getParameter("ap_seq");
-		 ApprovalVO approval = service.getApproval("ap_seq"); 
-		 
 		 String today = MyUtil.getToday();
 		 String fileNo = service.getFileNo(); 
 		 List<MemberVO> memberList = service.getMemberList(); 
 		 
-		 mav.addObject("approval",approval);
 		 mav.addObject("today",today);
 		 mav.addObject("fileNo",fileNo);
 		 mav.addObject("memberList",memberList);
