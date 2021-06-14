@@ -6,7 +6,7 @@
 <title>주소록 상세</title>
 
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardButtons.css">
-<style>
+<style type="text/css">
 
 #content {
     width: 80%;
@@ -111,9 +111,9 @@ function goDelete(addr_seq){
 		</table>
 		
 		<div style="margin-left: 350px;">
-			<button type="button" class="btnaddr" onclick="javascript:location.href='<%=ctxPath%>/totaladdrlist.opis'">목록보기</button>
-		    <button type="button" class="btnaddr" onclick="javascript:location.href='<%=ctxPath%>/addr_edit.opis?addr_seq=${requestScope.addrvo.addr_seq}'">수정</button>
-		    <button type="button" class="btnaddr btn btn-cancel" onclick="goDelete(${requestScope.addrvo.addr_seq})">삭제</button>
+			<button type="button" class="btnaddr btn-basic" onclick="javascript:location.href='<%=ctxPath%>/totaladdrlist.opis'">목록</button>
+		    <button type="button" class="btnaddr btn-basic" onclick="javascript:location.href='<%=ctxPath%>/addr_edit.opis?addr_seq=${requestScope.addrvo.addr_seq}'">수정</button>
+		    <button type="button" class="btnaddr btn-basic" onclick="goDelete(${requestScope.addrvo.addr_seq})">삭제</button>
 	  	</div>
 	</div>
 </div>

@@ -81,10 +81,6 @@
                <input type="text" name="dtitle" id="dtitle" class="long" value="${requestScope.dnoticevo.dtitle}" />       
             </td>
          </tr>
-<!--          <tr>
-         	<th scope="row">첨부파일</th>
-            <td><input type="file" id="files[0]" name="files[0]" value=""></td>
-         </tr>   -->
          <tr>
             <th>내용</th>
             <td>
@@ -95,8 +91,8 @@
       </table>
       
       <div style="margin: 10px;">
-         <button type="button" id="btnUpdate">완료</button>
-         <button type="button" onclick="javascript:history.back()" class="btn btn-cancel">취소</button>
+         <button type="button" id="btnUpdate" class="btn-basic">완료</button>
+         <button type="button" onclick="javascript:history.back()" class="btn-basic">취소</button>
       </div>
    </form>
    

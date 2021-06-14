@@ -6,7 +6,7 @@
 
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
+  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardButtons.css">
   
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="https://kit.fontawesome.com/16816a49c3.js" crossorigin="anonymous"></script> 
@@ -68,7 +68,7 @@
 		  <input type="hidden" name="fk_mbr_seq" id="fk_mbr_seq" value="${sessionScope.loginuser.mbr_seq}" />
 	      <input type="text" name="groupname" id="groupname" size="20" placeholder="그룹명" /> 
 	      <input type="text" name="groupdetail" id="groupdetail" size="40" placeholder="그룹 설명" /> 
-	      <button type="button" id="addAddrGr" onclick="goAdd()">추가</button>
+	      <button type="button" id="addAddrGr" class="btn-basic" onclick="goAdd()">추가</button>
 	   	</form>
 	   
 		<!-- 본문(게시판) -->
@@ -94,7 +94,7 @@
 							<span class="detail" style="text-align: left;">${addrgroupvo.groupdetail}</span>
 						</td>  
 						<td style="text-align: center;">
-							<button type="button" onclick="goDelete('${addrgroupvo.addrgroup_seq}')">삭제</button>
+							<button type="button" class="btn-basic" onclick="goDelete('${addrgroupvo.addrgroup_seq}')">삭제</button>
 						</td>	
 			      	</tr>		
 			      	</c:if>

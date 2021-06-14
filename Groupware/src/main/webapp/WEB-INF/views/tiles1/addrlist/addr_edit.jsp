@@ -242,7 +242,7 @@
 	      	<td style="width: 80%; text-align: left;">
     	    <input type="text" id="postcode" name="postcode" size="6" maxlength="5" value="${requestScope.addrvo.postcode}"/>&nbsp;&nbsp;
         	<%-- 우편번호 찾기 --%>
-         	<button type="button" id="zipcodeSearch" style="vertical-align: middle;"> 우편번호 검색 </button>
+         	<button type="button" id="zipcodeSearch" class="btn-basic" style="vertical-align: middle;"> 우편번호 검색 </button>
          <span class="error">우편번호 형식이 아닙니다.</span>
 	      </tr>
 	      <tr>
@@ -263,8 +263,8 @@
    	</div>
       
       <div id="btns">
-        <button type="button" id="btnEdit">등록</button>
-        <button type="button" onclick="javascript:history.back()" class="btn btn-cancel">취소</button>
+        <button type="button" class="btn-basic" id="btnEdit">등록</button>
+        <button type="button" class="btn-basic" onclick="javascript:history.back()" class="btn btn-cancel">취소</button>
       </div>
   
   </form>
