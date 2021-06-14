@@ -60,6 +60,16 @@
 				html += "<td class='sign'>"+arr[i]+"</td>";		
 			}
 			
+			var arr2 = "${avo.ap_approver}".split(",");
+			var html2="";
+			for (var i=0; i<arr2.length; i++) {
+				html2 += "<td class='sign'>"+arr[i].substr(4)+"</td>";		
+			}
+			$("tr#sign").html(html2);
+			
+			var newWidth = arr2.length*90;	
+			$('div#signTitle').css({'width':newWidth})
+			$('table#sign').css({'width':newWidth})
 			
 		}
 		
