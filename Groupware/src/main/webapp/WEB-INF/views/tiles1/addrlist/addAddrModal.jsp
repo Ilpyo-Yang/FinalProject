@@ -5,9 +5,6 @@
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardButtons.css">
 <style type="text/css">
 
-#tblAddr tr {
-	margin-bottom: 10px;
-}
 
 .error{
 	color: red;
@@ -186,7 +183,7 @@
 	        frm.submit();	   
 		}
 		else{
-			alert("미입력 항목이 있어 등록이 불가능합니다.")
+			alert("미입력 항목이 있어 등록이 불가능합니다.");
 		}
 		
 	}// end of function goRegister(){}----------------------------------------------------------

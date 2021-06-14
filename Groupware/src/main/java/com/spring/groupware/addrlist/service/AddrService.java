@@ -119,7 +119,12 @@ public class AddrService implements InterAddrService {
 		return mywordList;
 	}
 
-	
+	// === 개인 주소록에서 제거 === //
+	@Override
+	public int delmyAddr(AddrVO addrvo) {
+		int n = adao.delmyAddr(addrvo);
+		return n;
+	}
 	
 	/*
 		개인 주소록 관리
