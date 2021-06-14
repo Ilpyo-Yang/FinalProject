@@ -60,7 +60,7 @@
 <div style="width: 1460px"> 
 	
 	<!-- 게시판 제목 -->
-	<div style="padding: 15px; font-size: 25px; font-weight: 600; height: 60px; width: 100%; background-color: #f2f2f2; color: #555; margin-left: 300px;">
+	<div style="padding: 15px; font-size: 25px; font-weight: 600; height: 60px; width: 100%; background-color: #f2f2f2; color: #555;">
 	&nbsp;&nbsp;개인 주소록 관리
 	</div>
 	

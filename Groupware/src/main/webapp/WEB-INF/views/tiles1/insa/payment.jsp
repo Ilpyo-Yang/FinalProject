@@ -5,7 +5,6 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />	
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/content.css" />   
 
 <jsp:include page="./insa_sidebar.jsp" />
 
@@ -486,7 +485,7 @@
 	}
 </script>
 
-<div id="insa" style="width: 80%; display: inline-block; margin-top: 70px; padding-left: 30px;" class="commoncontainer">
+<div id="insa" style="width: 80%; display: inline-block; margin-top: 70px; padding-left: 30px;" >
 			<table style="margin-bottom: 30px;">
 				<tr>
 					<td>

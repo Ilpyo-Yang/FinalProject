@@ -31,12 +31,8 @@
 /* side 메뉴 */
 
  #sideMenu {
-	width: 250px;
-	/* height:755px; */
-	height: 100%;
-	position: fixed;
-	top: 0;
-	margin-left: 60px;
+	width: 20%;
+	height:755px;
  	background-color: #f2f2f2;
    	display: inline-block;
    	float:left;
