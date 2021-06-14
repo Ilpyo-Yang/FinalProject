@@ -66,7 +66,6 @@ public class MemberController {
         	  else {
         		  HttpSession session = request.getSession();
         		  session.setAttribute("loginuser", loginuser);
-        		  
     		  	  String goBackURL = (String) session.getAttribute("goBackURL");
 				 
 				  if(goBackURL != null) {
