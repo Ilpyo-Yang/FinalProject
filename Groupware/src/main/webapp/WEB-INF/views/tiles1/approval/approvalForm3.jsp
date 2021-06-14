@@ -90,6 +90,9 @@
 		
 		// 휴일기간 알려주기
 		var startDate, endDate, startDateArr, endDateArrdateDiff;
+		var dateDiff=0;
+		var remainBreak = Number("${sessionScope.loginuser.mbr_remainBreak}");
+		
 		$("input#datepicker").change(function(){
 			if(this.value!=null && $("input#datepicker2").val()!=null) {
 				start = this.value;
@@ -112,6 +115,7 @@
 			}
 			
 			$("span#dateDiff").html(dateDiff);
+			$("span#remainBreak").html(remainBreak-dateDiff);
 		});
 		$("input#datepicker2").change(function(){
 			if(this.value!=null && $("input#datepicker").val()!=null) {				
@@ -132,6 +136,14 @@
 				dateDiff = 2;
 			}
 			$("span#dateDiff").html(dateDiff);
+			$("span#remainBreak").html(remainBreak-dateDiff);
+		});
+		
+		
+		// 반차 선택시 차감일수변경
+		$("select#vacationType").change(function(){
+			if(dateDiff!=0 && this.value=="반차")	$("span#remainBreak").html(remainBreak-dateDiff+0.5);
+			if(dateDiff!=0 && this.value=="연차")	$("span#remainBreak").html(remainBreak-dateDiff);
 		});
 		
 		
@@ -253,8 +265,8 @@
 								<td>구분</td>
 								<td colspan="3">
 									<select class="selectCommon" id="vacationType" name="vacationType" style="margin: 0">
-										<option>연차</option>
-										<option>반차</option>
+										<option val="연차">연차</option>
+										<option val="반차">반차</option>
 									</select>
 									<span class="space">(남은 연차:<span class="space" id="remainBreak" style="color:red;"></span>/<span class="space" >${sessionScope.loginuser.mbr_remainBreak} 일</span>)</span>
 								</td>

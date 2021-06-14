@@ -271,46 +271,10 @@ public class ApprovalController {
 			 paraMap.put("word", word);	 
 			 paraMap.put("startRno", String.valueOf(startRno));
 			 paraMap.put("endRno", String.valueOf(endRno));
-			
 			 
 			 List<ApprovalVO> approvalList = service.getApprovalNeededList(paraMap); 
 			 totalCount = approvalList.size();
 			 totalPage = (int) Math.ceil((double)totalCount/listCnt); 
-			 String pageBar = "";
-			 
-			 /*
-			 if(totalPage > 0) { 
-				 
-				pageBar = "<ul class='pagination pagination-sm'>";
-				
-				int blockSize = 5;
-				int loop = 1;
-				
-				int pageNo = (int) (Math.floor((currentPage - 1)/listCnt) * listCnt + 1);
-				
-				if(pageNo != 1) {
-					pageBar += "<li><a href='javascript:approvalNeeded(\""+(pageNo-1)+"\")'>[이전]</a></li>";
-				}
-			
-				while( !(loop > blockSize || pageNo > totalPage) ) {
-				
-					if(pageNo == currentPage) {
-						pageBar += "<li>"+pageNo+"</li>";
-					}
-					else {
-						pageBar += "<li><a href='javascript:approvalNeeded(\""+pageNo+"\")'>"+pageNo+"</a></li>";
-					}
-					
-					loop++;
-					pageNo++;
-				}		
-			
-				if(pageNo <= totalPage) {
-					pageBar += "<li><a href='javascript:approvalNeeded(\""+pageNo+"\")'>[다음]</a></li>";
-				}			
-				pageBar += "</ul>";		    
-			 }	
-			 */
 			 
 			 JSONArray jsonArr = new JSONArray(); 
 			 
@@ -326,10 +290,6 @@ public class ApprovalController {
 						jsonObj.put("ap_start_day", avo.getAp_start_day());
 						jsonObj.put("ap_seq", avo.getAp_seq());
 		
-						if(n==0) {
-							jsonObj.put("pageBar", pageBar);
-						}
-						
 						jsonArr.put(jsonObj);
 						
 						if(n==0) n=n+1;

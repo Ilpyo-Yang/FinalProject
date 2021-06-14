@@ -151,7 +151,6 @@
 				<tbody id="list" ></tbody>
 			</table> 					
 		</div>
-		<div id="pageBar"></div>
 		<br>
 		<input type="hidden" name="word" value="" />
 		<input type="hidden" name="writer" value="" />
