@@ -95,6 +95,7 @@ public class MemberController {
     	  HttpSession session = request.getSession();
     	  
     	  MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+
     	  int mbr_seq = loginuser.getMbr_seq();
     	  
     	  service.logout(mbr_seq);    	     	
