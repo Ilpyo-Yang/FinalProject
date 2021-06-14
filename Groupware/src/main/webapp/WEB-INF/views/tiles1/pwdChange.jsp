@@ -31,14 +31,14 @@
 				$("input#real_id").val(real_id);  
 				
 				var frm = document.changePwdFrm;
-				frm.action="changePwd.to";
+				frm.action="changePwd.opis";
 				frm.method="POST";
 				frm.submit();
 			}	
 		});
 		
 		$("button#laterChangePwd").click(function(){	
-			location.href = "<%=ctxPath%>/home.to";
+			location.href = "<%=ctxPath%>/home.opis";
 		});
 	});// end of $(function() ------------------------------------------------------------
 	
@@ -52,7 +52,7 @@
 			$("div#currentPwd").html("현재 비밀번호를 입력해주세요.");
 			b_check=false;
 			return;
-		} else if(currentPwd!="${sessionScope.loginuser.mbr_pwd}"){
+		} else if(currentPwd!="${sessionScope.pwd}"){
 				$("div#currentPwd").show();
 				$("div#currentPwd").html("현재 비밀번호와 다릅니다. 다시 입력해주세요.");
 				b_check=false;
@@ -70,7 +70,7 @@
 			b_check=false;
 			return;
 		} else {
-			if(newPwd1=="${sessionScope.loginuser.mbr_pwd}"){
+			if(newPwd1=="${sessionScope.pwd}"){
 				$("div#newPwd1").show();
 				$("div#newPwd1").html("현재 비밀번호 같은 비밀번호로 변경은 불가합니다.");
 				b_check=false;

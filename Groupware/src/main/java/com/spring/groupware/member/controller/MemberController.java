@@ -59,8 +59,8 @@ public class MemberController {
     	  else {	// 일치하는 멤버가 있을 때
     		  if(Integer.parseInt(loginuser.getPwdChangeGap())>5) {	// 비밀번호 변경한지 6개월이 넘은 경우 
     			  HttpSession session = request.getSession();	
-    			  loginuser.setMbr_pwd(aes.decrypt(loginuser.getMbr_pwd()));
         		  session.setAttribute("loginuser", loginuser);
+        		  session.setAttribute("pwd", aes.decrypt(loginuser.getMbr_pwd()));
         		  mav.setViewName("pwdChange.tiles1");
         	  }
         	  else {
@@ -83,7 +83,7 @@ public class MemberController {
       
      // === 비밀번호 변경요청 === //
       @RequestMapping(value="/pwdChange.opis")
-      public ModelAndView pwdChange(ModelAndView mav) {   	  
+      public ModelAndView pwdChange(ModelAndView mav)  {  
     	 mav.setViewName("pwdChange.tiles1");
     	 return mav;
       }
