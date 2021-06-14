@@ -780,7 +780,7 @@ public class InsaController {
 			   
 			   // === insa1 수정완료페이지 요청 === //
 			   @RequestMapping(value="/insaModify1End.opis", method= {RequestMethod.POST})
-			   public ModelAndView insaModify1End(ModelAndView mav, HttpServletRequest request, InsaVO insavo) {
+			   public ModelAndView insaModify1End(ModelAndView mav, HttpServletRequest request, InsaVO insavo) throws Exception {
 
 				   String category = request.getParameter("category");
 			       String seq = request.getParameter("seq");
@@ -803,6 +803,8 @@ public class InsaController {
 			       if(insavo.getMbr_status() == "1") {
 			    	   insavo.setMbr_retireday("");
 			       }
+			       
+			       insavo.setMbr_pwd(aes.encrypt(insavo.getMbr_pwd()));
 			       
 			       // 인사정보 수정 등록하기
 				      int n = service.insaModify1End(insavo);

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <% String ctxPath = request.getContextPath(); %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -25,6 +27,7 @@
 	  box-shadow: 0 5px #666;
 	  transform: translateY(4px);
 	}
+
 	table#insaDetail1{
 		display: inline;
 		width: 45%;
@@ -44,14 +47,17 @@
 		 margin-right: 60px;
 	}
 </style>
+
 <script type="text/javascript">
 	$(document).ready(function(){
+
 		var searchType = $("input#hiddenSearchType").val();
 		var searchWord= $("input#hiddenSearchWord").val();
 		var seq = $("input#hiddenSeq").val();
 		var category = $("input#hiddenCategory").val();
 		
 		
+
 		var htmlYear = "";
 		for(var i=1950;i<2050;i++){
 			htmlYear += '<option class="enteryy" id="enteryy">'+i+'</option><br>';
@@ -76,6 +82,7 @@
 		var retireYN = $("input#hiddenRetire").val();
 		if(retireYN == 0){
 			$("tr#retireDayTr").show();
+
 		     $("input#retire_y").prop("checked",true);
 		     $("input#retire_n").prop("checked",false);
 		
@@ -117,6 +124,7 @@
 		
 				}
             });
+
 		     $("input:radio[name=fk_power_no]").each(function(){
 		    
 				if($(this).val() == "${insavo.fk_power_no}"){
@@ -149,6 +157,7 @@
 							$(this).prop("selected",true);
 				
 						}
+
 	            });
 		     var entermm_0 = enterdate.substr(5,2);
 		     $("option.entermm").each(function(){
@@ -168,6 +177,7 @@
 	            });
 		     var enterdd_0 = enterdate.substr(8,2);
 		     $("option.enterdd").each(function(){
+
 		    	 	if($(this).val()<10){
 						if("0"+$(this).val() == enterdd_0){
 							$(this).prop("selected",true);
@@ -177,7 +187,7 @@
 		    	 	else{
 						if($(this).val() == enterdd_0){
 							$(this).prop("selected",true);
-							
+				
 						}
 		    	 	}
 	            });
@@ -194,6 +204,7 @@
 							$(this).prop("selected",true);
 				
 						}
+
 	            });
 		     var quitmm_0 = quitdate.substr(5,2);
 		     $("option.quitmm").each(function(){
@@ -213,6 +224,7 @@
 	            });
 		     var quitdd_0 = quitdate.substr(8,2);
 		     $("option.quitdd").each(function(){
+
 		    	 	if($(this).val()<10){
 						if("0"+$(this).val() == quitdd_0){
 							$(this).prop("selected",true);
@@ -238,6 +250,7 @@
 							$(this).prop("selected",true);
 				
 						}
+
 	            });
 		     var birthmm_0 = birthdate.substr(5,2);
 		     $("option.birthmm").each(function(){
@@ -257,6 +270,7 @@
 	            });
 		     var birthdd_0 = birthdate.substr(8,2);
 		     $("option.birthdd").each(function(){
+
 		    	 	if($(this).val()<10){
 						if("0"+$(this).val() == birthdd_0){
 							$(this).prop("selected",true);
@@ -293,6 +307,7 @@
 			var htmlEnter =  '<input name = "mbr_registerday" type="hidden" value="'+enter+'"/>';
 			$("div#enterDiv").html(htmlEnter);
 			
+
 		 	var quityy = $("#quityy option:selected").val();
 			var quitmm = $("#quitmm option:selected").val();
 			var quitdd = $("#quitdd option:selected").val();
@@ -305,6 +320,9 @@
 			var quit = quityy+"-"+quitmm+"-"+quitdd;
 			var htmlQuit =  '<input name = "mbr_retireday" type="hidden" value="'+quit+'"/>';
 			$("div#quitDiv").html(htmlQuit);
+
+
+
 		 	var birthyy = $("#birthyy option:selected").val();
 			var birthmm = $("#birthmm option:selected").val();
 			var birthdd = $("#birthdd option:selected").val();
@@ -321,6 +339,7 @@
 			
 			
 			var bflag = true;
+
 			var name = $("input[name=mbr_name]").val();
 				if(name.trim()==""){
 					bflag = false;
@@ -345,6 +364,7 @@
 				if(email.trim()==""){
 					bflag = false;
 				}				
+
 			if(!bflag){
 				alert("모든 항목을 입력하세요!!");
 			}
@@ -360,7 +380,11 @@
 		
 	});
 </script>
+
+
+
 <div id="insa" style="width: 80%; display: inline-block; margin-top: 70px; padding-left: 30px;">
+
 		<form name="insaModify1Frm">
 		<table style="margin-bottom: 50px;">
 		<tr id="insaDetailButton">
@@ -369,6 +393,7 @@
 			<td><button class="registerBtn" style="background-color: gray;">돌아가기</button></td>
 		</tr>
 		</table> 
+
 	
 	
 			<table id="insaDetail1" class="table table-striped tdtable">
@@ -521,4 +546,6 @@
 			<input id="hiddenSearchWord" type="hidden" value="${searchWord}" />
 	
 </div>
-							
+
+
+
