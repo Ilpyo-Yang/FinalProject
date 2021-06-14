@@ -148,7 +148,7 @@ public class WorkmanageController {
 		int n = service.workAddTodoEnd(tdvo, fileList);
 
 		if (n == 1) {
-			mav.setViewName("redirect:/todoList.opis");
+			mav.setViewName("redirect:/workList.opis");
 		} else {
 			String message = "일정 등록에 실패하였습니다. 다시 시도하세요";
 			String loc = "javascript:history.back()";
@@ -1008,7 +1008,7 @@ public class WorkmanageController {
 		
 		String fk_wtno = request.getParameter("fk_wtno");
 		if ("2".equals(fk_wtno)) {
-			workmbrvo.setWorkPercent("-1");
+			workmbrvo.setWorkPercent("100");
 		}
 		
 		int n = service.receiverWorkAdd(workmbrvo);

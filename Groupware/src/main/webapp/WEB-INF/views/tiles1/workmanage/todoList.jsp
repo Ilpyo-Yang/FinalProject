@@ -243,11 +243,6 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 
 		<li>전체 <span>${requestScope.totalCount}</span></li>
 
-		<li style="width: 50px;">
-			<!-- <label for="checkImp">중요</label>
-			<input type="checkbox" id="checkImp" /> -->
-		</li>
-
 		<li>
 			<div class="checkWorkStatus">
 				<label for="delay">지연</label> 
@@ -299,7 +294,7 @@ div.checkWorkStatus>label, div.checkWorkStatus>input {
 			<c:forEach var="todo" items="${requestScope.todoList}" varStatus="status">
 				<tr>
 					<td><input type="checkbox" class="oneCheckbox" value="${todo.tdno}" onclick="clickOneCheckbox(this);"/></td>
-					<td>${status.count}</td>
+					<td>${todo.rno}</td>
 					<!-- <td><img src="" alt="" /></td> -->
 					<td><span class="todoSubject" onclick="goDetailTodo('${todo.tdno}')" style="cursor: pointer;">${todo.subject}</span></td>
 					<td>${todo.registerday}</td>

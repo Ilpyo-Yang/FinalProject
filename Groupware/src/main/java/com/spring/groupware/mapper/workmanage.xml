@@ -9,8 +9,8 @@
 	<!-- === todo 정보 등록 트랜잭션 처리 시작 -->
 	<!-- == 업무등록 페이지에서 나의 할일 등록하기 == -->
 	<insert id="workAddTodoEnd" parameterType="com.spring.groupware.workmanage.model.TodoVO">
-		insert into tbl_todolist(tdno, fk_mbr_seq, subject, contents, deadline)
-		values(#{tdno}, to_number(#{fk_mbr_seq}), #{subject}, #{contents}, to_date(#{deadline}))
+		insert into tbl_todolist(tdno, fk_mbr_seq, subject, contents, deadline, fk_statno)
+		values(#{tdno}, to_number(#{fk_mbr_seq}), #{subject}, #{contents}, to_date(#{deadline}), #{fk_statno})
 	</insert>
 	<!-- 첨부 파일이 있을 경우 파일 추가하는 부분 -->
 	<insert id="workAddFile_todo" parameterType="com.spring.groupware.workmanage.model.WorkFileVO">

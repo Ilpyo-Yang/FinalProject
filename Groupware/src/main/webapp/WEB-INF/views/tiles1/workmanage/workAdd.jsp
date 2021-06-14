@@ -251,10 +251,9 @@ ul#referrersUl li.referrerName:hover {
 
 		$("#contents").val(contentval);
 		
-		if (fk_wtno == 1) {
-			$("input[name=fk_statno]").val("1");
-		}
-		else if (fk_wtno == 2) {
+		$("input[name=fk_statno]").val("1");
+		
+		if (fk_wtno == 2) {
 			$("input[name=fk_statno]").val("3");
 		}
 		

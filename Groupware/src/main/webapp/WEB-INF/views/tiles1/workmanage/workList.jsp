@@ -388,12 +388,6 @@ button.readCheck {
 
 		<li>전체 <span>${requestScope.totalCount}</span></li>
 		
-		<!-- 검색 바 열 맞추기 위해서 히든으로 숨겨둠 -->
-		<li style="width: 50px;">
-			<label for="checkImp" hidden>중요</label>
-			<input type="checkbox" id="checkImp" hidden/>
-		</li>
-
 		<li>
 			<div class="checkWorkStatus">
 				<label for="delay">지연</label> 
@@ -456,7 +450,7 @@ button.readCheck {
 			<c:forEach var="work" items="${requestScope.workList}" varStatus="status">
 				<tr>
 					<td><input type="checkbox" class="oneCheckbox" value="${work.wmno}" onclick="clickOneCheckbox(this);"/></td>
-					<td>${status.count}</td>
+					<td>${work.rno}</td>
 					<td><span class="workSubject" onclick="goDetailWork('${work.wmno}')" style="cursor: pointer;">${work.subject}</span></td>
 					
 					<c:if test="${fk_wrno == 1}"><td>${work.receivers}</td></c:if>

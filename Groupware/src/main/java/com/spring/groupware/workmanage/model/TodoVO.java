@@ -1,6 +1,7 @@
 package com.spring.groupware.workmanage.model;
 
 public class TodoVO {
+	private String rno;			
 	private String tdno;		// 할일리스트 고유번호
 	private String fk_mbr_seq;	// 사원번호
 	private String subject;		// 제목
@@ -16,9 +17,10 @@ public class TodoVO {
 	
 	public TodoVO() {}
 	
-	public TodoVO(String tdno, String fk_mbr_seq, String subject, String contents, String registerday, String deadline,
+	public TodoVO(String rno, String tdno, String fk_mbr_seq, String subject, String contents, String registerday, String deadline,
 			String important, String fk_statno) {
 		super();
+		this.rno = rno;
 		this.tdno = tdno;
 		this.fk_mbr_seq = fk_mbr_seq;
 		this.subject = subject;
@@ -27,6 +29,14 @@ public class TodoVO {
 		this.deadline = deadline;
 		this.important = important;
 		this.fk_statno = fk_statno;
+	}
+
+	public String getRno() {
+		return rno;
+	}
+
+	public void setRno(String rno) {
+		this.rno = rno;
 	}
 
 	public String getTdno() {
