@@ -385,32 +385,7 @@ public class AddrController {
    		
    }
    
-   //=== 개인 주소록에서 삭제 === //
-   @RequestMapping(value="/delmyAddr.opis")
-   public ModelAndView delmyAddr(HttpServletRequest request, ModelAndView mav) {
-   	
-	   String[] checkAddrSeq = request.getParameterValues("checkAddrSeq");
-	   String[] addrSeqArr = checkAddrSeq[0].toString().split(","); // 가져온 addr_seq 분리해서 배열에 담기
-	   int checkCnt = Integer.parseInt(request.getParameter("checkCnt")); // 총 체크개수 가져오기
-	   String addrgroup_seq = request.getParameter("addrgroup_seq"); // 선택한 주소록 그룹 번호 가져오기
 
- 	   int n = 0,i = 0;
- 	   for(i=0; i<checkCnt; i++) { // 선택한 주소록 번호 맵에 넣고 추가하기
-   			n = service.delmyAddr(addrSeqArr[i]);
- 	   }
- 	   
-// 	   System.out.println("확인용 N : "+n+"확인용 i :"+i+"확인용 checkCnt : "+checkCnt);
-   		
-	   	if(n==1 && i==checkCnt) { // n값이 1 이고 총 반복횟수가 체크개수와 같다면 성공
-	   		mav.setViewName("redirect:/myAddrlist.opis?addrgroup_seq="+addrgroup_seq);  
-	   	}
-	   	else {
-	   	    mav.setViewName("board/error/add_error.tiles1");
-	   	}
-	   	  
-	   	return mav;
-   		
-   }
    
    // ============================ 개인 주소록 ============================ //  
    // === 주소록 목록 === //
@@ -565,6 +540,36 @@ public class AddrController {
  	  }
  	  
  	  return jsonArr.toString();
+   }
+   
+   //=== 개인 주소록에서 삭제 === //
+   @RequestMapping(value="/delmyAddr.opis")
+   public ModelAndView delmyAddr(HttpServletRequest request, AddrVO addrvo, ModelAndView mav) {
+   	
+	   String[] checkAddrSeq = request.getParameterValues("checkAddrSeq");
+	   String[] addrSeqArr = checkAddrSeq[0].toString().split(","); // 가져온 addr_seq 분리해서 배열에 담기
+	   int checkCnt = Integer.parseInt(request.getParameter("checkCnt")); // 총 체크개수 가져오기
+	   String addrgroup_seq = request.getParameter("addrgroup_seq"); // 선택한 주소록 그룹 번호 가져오기
+
+ 	   int n = 0,i = 0;
+ 	   for(i=0; i<checkCnt; i++) { // 선택한 주소록 번호 맵에 넣고 추가하기
+ 		   int addr_seq = Integer.parseInt(addrSeqArr[i]);
+ 		   
+ 		   addrvo.setAddr_seq(addr_seq);
+   		   n = service.delmyAddr(addrvo);
+ 	   }
+ 	   
+// 	   System.out.println("확인용 N : "+n+"확인용 i :"+i+"확인용 checkCnt : "+checkCnt);
+   		
+	   	if(n==1 && i==checkCnt) { // n값이 1 이고 총 반복횟수가 체크개수와 같다면 성공
+	   		mav.setViewName("redirect:/myAddrlist.opis?addrgroup_seq="+addrgroup_seq);  
+	   	}
+	   	else {
+	   	    mav.setViewName("board/error/add_error.tiles1");
+	   	}
+	   	  
+	   	return mav;
+   		
    }
    
    // ============================ 개인 주소록 관리 ============================ //

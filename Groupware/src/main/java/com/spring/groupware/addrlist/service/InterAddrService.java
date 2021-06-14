@@ -58,7 +58,7 @@ public interface InterAddrService {
 	List<String> mywordSearchShow(Map<String, String> paraMap);
 
 	// 개인 주소록에서 제거
-	int delmyAddr(String addrSeqArr);
+	int delmyAddr(AddrVO addrvo);
 
 	
 	/*

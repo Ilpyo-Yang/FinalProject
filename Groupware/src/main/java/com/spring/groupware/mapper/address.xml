@@ -55,7 +55,7 @@
    	 
    	 <!-- === 검색하기 === -->
      <select id="addrWordSearchShow" parameterType="HashMap" resultType="String">
-	   	select distinct ${searchType}
+	   	select ${searchType}
 		from tbl_address
 		where lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
 		order by addr_seq desc
@@ -132,7 +132,7 @@
    	 
    	 <!-- === 검색하기 === -->
      <select id="myaddrWordSearchShow" parameterType="HashMap" resultType="String">
-	   	select distinct ${searchType}
+	   	select ${searchType}
 		from tbl_address
 		where fk_addrgroup_seq=#{fk_addrgroup_seq}
 			and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
@@ -140,9 +140,9 @@
   	 </select>
   	 
   	 <!-- === 개인 주소혹에서 제거 === -->
-  	 <update id="delMyAddr" parameterType="String">
+  	 <update id="delmyAddr" parameterType="com.spring.groupware.addrlist.model.AddrVO">
 		update tbl_address set fk_addrgroup_seq = ''
-		where fk_mbr_seq = #{addrSeqArr}	 
+		where addr_seq = #{addr_seq}	 
   	 </update>
   	 
   	 

@@ -121,8 +121,8 @@ public class AddrService implements InterAddrService {
 
 	// === 개인 주소록에서 제거 === //
 	@Override
-	public int delmyAddr(String addrSeqArr) {
-		int n = adao.delmyAddr(addrSeqArr);
+	public int delmyAddr(AddrVO addrvo) {
+		int n = adao.delmyAddr(addrvo);
 		return n;
 	}
 	

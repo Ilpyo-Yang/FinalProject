@@ -129,8 +129,8 @@ public class AddrDAO implements InterAddrDAO {
 	
 	// === 주소록 그룹에서 제거 === //
 	@Override
-	public int delmyAddr(String addrSeqArr) {
-		int n = sqlsession.update("address.delmyAddr", addrSeqArr);
+	public int delmyAddr(AddrVO addrvo) {
+		int n = sqlsession.update("address.delmyAddr", addrvo);
 		return n;
 	}
 	

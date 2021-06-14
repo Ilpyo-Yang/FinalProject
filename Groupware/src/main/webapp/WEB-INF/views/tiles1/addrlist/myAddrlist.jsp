@@ -129,7 +129,7 @@
 	}// end of function clickOneCheckbox(target)-------------------------
 	
 	// 개인 주소록에서 제거
-	function delmyAddr(){
+	function delmyAddr(addrgroup_seq){
 		
 		var check = $("input[name=checkAddrSeq]");
 		var len = check.length;
@@ -165,24 +165,10 @@
 	&nbsp;&nbsp;개인 주소록
 	</div>
 	
-	<div class="container" style="float: right; width: 80%; margin-top: 50px;">        
-
-  		<!-- 검색 -->
-		<form name="searchFrm" style="margin-bottom: 20px;">
-	      <select name="searchType" id="searchType" style="height: 26px;">
-	         <option value="dept_name">부서</option>
-	         <option value="mbr_name">이름</option>
-	      </select>
-	      <input type="text" name="searchWord" id="searchWord" size="30" autocomplete="off" /> 
-	      <input type="hidden" name="addrgroup_seq" id="addrgroup_seq" value="<%=addrgroup_seq%>" />
-	      <button type="submit" onclick="goSearch()" class="btn-search">검색</button>
-	   	</form>
-	   
-	    <div id="displayList" style="border:solid 1px gray; width:170px; height: 100px; border-top: 0px; margin-left: 49px; overflow: auto; padding-top: 2px;"> 	
-	    </div>
+	<div class="container" style="float: right; width: 80%; margin-top: 30px;">        
 	    
 	    <!-- 개인 주소혹에서 삭제 -->
-	    <button type="button" class="btn-basic" style="float:right; margin-right: 5%; width:80px;" onclick="delmyAddr()">
+	    <button type="button" class="btn-basic" style="float:right; margin: 0 30px 30px 0; width:150px; font-size: 11px;" onclick="delmyAddr(<%=addrgroup_seq%>)">
 	          주소록에서 삭제
 	    </button>
 
@@ -229,6 +215,20 @@
 		   		${requestScope.pageBar}
 		    </div>
 		</c:if>
+		
+		<!-- 검색 -->
+		<form name="searchFrm" style="margin-bottom: 20px;">
+	      <select name="searchType" id="searchType" style="height: 26px;">
+	         <option value="dept_name">부서</option>
+	         <option value="mbr_name">이름</option>
+	      </select>
+	      <input type="text" name="searchWord" id="searchWord" size="30" autocomplete="off" /> 
+	      <input type="hidden" name="addrgroup_seq" id="addrgroup_seq" value="<%=addrgroup_seq%>" />
+	      <button type="submit" onclick="goSearch()" class="btn-search">검색</button>
+	   	</form>
+	   
+	    <div id="displayList" style="border:solid 1px gray; width:170px; height: 100px; border-top: 0px; margin-left: 49px; overflow: auto; padding-top: 2px;"> 	
+	    </div>
 	
 	</div>	  	
 	
