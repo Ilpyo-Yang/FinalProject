@@ -453,19 +453,21 @@ public class ScheduleController {
 	@RequestMapping(value="/delMtrResv.opis", method= {RequestMethod.GET})
 	public String delMtrResv(HttpServletRequest request, @RequestParam(value="checkArr[]") List<String> checkArr ) {
 		
+		int totalCnt = Integer.parseInt(request.getParameter("totalCnt"));
+		
 		JSONObject jsonObj = new JSONObject();	
 		
-		int cnt = 0;
+		int m = 0;
 		
 		for(int i=0; i<checkArr.size(); i++) {
 			String usermtrno = checkArr.get(i);
 			int n = service.delOneResv(usermtrno);
 			
 			if(n==1) {
-				cnt++;
+				m = n/totalCnt;
 			}
 		}
-		int m = cnt/cnt;
+		
 		
 		jsonObj.put("m", m);
 		

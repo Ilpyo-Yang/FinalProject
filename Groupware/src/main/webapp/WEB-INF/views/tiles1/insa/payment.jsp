@@ -497,7 +497,7 @@ tr.memberInfo:hover{
 	}
 </script>
 
-<div id="insa" style="width: 80%; display: inline-block; margin-top: 70px; padding-left: 30px;">
+<div id="insa" style="width: 80%; display: inline-block; margin-top: 70px; padding-left: 30px;" >
 			<table style="margin-bottom: 30px;">
 				<tr>
 					<td>

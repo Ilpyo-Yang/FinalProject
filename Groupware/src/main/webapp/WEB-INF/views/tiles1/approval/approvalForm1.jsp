@@ -13,7 +13,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		
-		$("input[name=attach]").show();
+		$("input[name=attach]").hide();
 		
 		// 결재라인 모달창 열기
 		$("button#approvalMember").click(function(){			

@@ -12,6 +12,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
   
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/menu.css" />
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/content.css" />    
 <link href='<%=ctxPath%>/resources/fullcalendar-5.7.0/lib/main.css' rel='stylesheet' />
 
 <jsp:include page="./myscd_sidebar.jsp" />
@@ -105,7 +106,7 @@
 </head>
 <body>
 
-<div class="commoncontainer" style="width:105% !important;">
+<div class="commoncontainer" style="width:86% !important;">
    
 	<div id="headerInfo">
 		<table>
