@@ -32,4 +32,5 @@ public interface InterApprovalDAO {
 	ApprovalVO getApproval(String ap_seq);
 
 
+
 }

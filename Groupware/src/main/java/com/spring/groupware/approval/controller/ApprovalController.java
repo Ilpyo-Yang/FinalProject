@@ -52,13 +52,12 @@ public class ApprovalController {
 			 mav.addObject("avo",avo);
 		 }
 		
-		
 		 String today = MyUtil.getToday();
 		 String fileNo = service.getFileNo(); 
 		 List<MemberVO> memberList = service.getMemberList(); 
 		 
 		 mav.addObject("today",today);
-		 mav.addObject("fileNo",fileNo);
+		 mav.addObject("fileNo",fileNo);	// 문서번호 가져오기
 		 mav.addObject("memberList",memberList);
 		 mav.setViewName("approval/approvalForm1.tiles1");
 		 return mav;
@@ -76,7 +75,7 @@ public class ApprovalController {
 		 }
 		 
 		 String today = MyUtil.getToday();
-		 String fileNo = service.getFileNo(); 
+		 String fileNo = service.getFileNo(); 	// 문서번호 가져오기
 		 List<MemberVO> memberList = service.getMemberList(); 
 		 
 		 mav.addObject("today",today);
@@ -90,6 +89,9 @@ public class ApprovalController {
 	  // === 휴가계획서 === //
 	  @RequestMapping(value="/approvalForm3.opis")
 	  public ModelAndView requiredLogin_approvalForm3(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {   	  
+		 HttpSession session = request.getSession();
+		 MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		 
 		 String ap_seq = "";
 		 if(request.getParameter("ap_seq")!=null) {
 			 ap_seq = request.getParameter("ap_seq");
@@ -98,7 +100,7 @@ public class ApprovalController {
 		 }
 		 
 		 String today = MyUtil.getToday();
-		 String fileNo = service.getFileNo(); 
+		 String fileNo = service.getFileNo(); 	// 문서번호 가져오기
 		 List<MemberVO> memberList = service.getMemberList(); 
 		 
 		 mav.addObject("today",today);

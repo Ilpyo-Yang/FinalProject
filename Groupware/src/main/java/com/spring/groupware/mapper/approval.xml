@@ -9,7 +9,7 @@
 		FROM user_sequences 
 		WHERE sequence_name = 'SEQ_APPROVAL'
 	</select>
-
+	
 	
 	<!-- 모달창에 입력될 전체 사원명 가져오기 -->
 	<select id="getMemberList" resultType="com.spring.groupware.member.model.MemberVO">	

@@ -87,6 +87,54 @@
 		var fileCnt = document.getElementById("attach").files.length;
 		$("input[name=file]").val(fileCnt);
 		
+		
+		// 휴일기간 알려주기
+		var startDate, endDate, startDateArr, endDateArrdateDiff;
+		$("input#datepicker").change(function(){
+			if(this.value!=null && $("input#datepicker2").val()!=null) {
+				start = this.value;
+				end = $("input#datepicker2").val();
+				console.log(start);
+				console.log(end);
+				
+				startDateArr = start.split('-');
+				endDateArr = end.split('-');
+				
+				startDate = new Date(startDateArr[0], startDateArr[1], startDateArr[2]);
+				endDate = new Date(endDateArr[0], endDateArr[1], endDateArr[2]);
+				
+				dateDiff = Math.ceil((endDate.getTime()-startDate.getTime())/(1000*3600*24))+1;
+			 
+			}  else if(this.value!=null && $("input#datepicker2").val()==null) {
+				dateDiff = 2;
+			} else if(this.value==null && $("input#datepicker2").val()!=null) {
+				dateDiff = 2;
+			}
+			
+			$("span#dateDiff").html(dateDiff);
+		});
+		$("input#datepicker2").change(function(){
+			if(this.value!=null && $("input#datepicker").val()!=null) {				
+				start = $("input#datepicker").val();
+				end = this.value;
+				console.log(start);
+				console.log(end);
+				startDateArr = start.split('-');
+				endDateArr = end.split('-');
+				
+				startDate = new Date(startDateArr[0], startDateArr[1], startDateArr[2]);
+				endDate = new Date(endDateArr[0], endDateArr[1], endDateArr[2]);
+				
+				dateDiff = Math.ceil((endDate.getTime()-startDate.getTime())/(1000*3600*24))+1;
+			} else if(this.value!=null && $("input#datepicker").val()==null) {
+				dateDiff = 2;
+			} else if(this.value==null && $("input#datepicker").val()!=null) {
+				dateDiff = 2;
+			}
+			$("span#dateDiff").html(dateDiff);
+		});
+		
+		
 		// 첨부파일 목록 보여주기
 		$("input[type=file]").change(function(){
 			fileCnt = document.getElementById("attach").files.length;
@@ -198,7 +246,7 @@
 									<input type="text" class="form-control formDetail" name="vacationStartDate" id="datepicker"/>
 									<span class="space">-</span>
 									<input type="text" class="form-control formDetail" name="vacationEndDate" id="datepicker2"/>
-									<span class="space">총<span class="space"></span>일간</span>
+									<span class="space">총<span class="space" id="dateDiff" style="color:red;"></span>${remainBreak} 일간</span>
 								</td>
 							</tr>
 							<tr>
@@ -208,7 +256,7 @@
 										<option>연차</option>
 										<option>반차</option>
 									</select>
-									<span class="space">(남은 연차:<span class="space"></span>/<span class="space"></span>)</span>
+									<span class="space">(남은 연차:<span class="space" id="remainBreak" style="color:red;"></span>/<span class="space"></span>)</span>
 								</td>
 							</tr>
 							<tr>
