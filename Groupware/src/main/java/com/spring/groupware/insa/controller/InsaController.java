@@ -1077,23 +1077,22 @@ public class InsaController {
 			       paraMap.put("paymonth", paymonth);
 		    	   // 기본급 등록되어있는지 알아보기
 		    	   int check = service.checkPayMonthExist(paraMap);
-		    	   System.out.println("check => "+check);
-		    	   
 
 	    		   // 개인별 월별 근무시간 가져오기
 	    		   int basePay = service.getWorkHours(paraMap)*10000;
-	    		   System.out.println(i+"월 : "+basePay+"원");
-			       paraMap.put("basePay", String.valueOf(basePay));
-		    	   
+			       paraMap.put("basePay", String.valueOf(basePay));		    	   
 		    	   
 		    	   // 등록되어 있는 경우
 		    	   if(check == 1) {
 					   // 개인별 급여 기본급 수정하기  
 		    		   service.updateBasePay(paraMap);
 		    	   }
-		    	   else { // 등록 안된 경우
+		    	   else if(check == 0 && basePay != 0){ // 등록 안된 경우
 					   // 개인별 급여 기본급 등록하기  
 		    		   service.insertBasePay(paraMap);
+		    	   }
+		    	   else {
+		    		   
 		    	   }
 		       }
 

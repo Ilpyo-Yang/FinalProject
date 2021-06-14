@@ -76,8 +76,8 @@ public class ScheduleDAO implements InterScheduleDAO {
 	
 	// 모든 일정 삭제하기
 	@Override
-	public int delAll() {
-		int n = sqlsession.delete("schedule.delAll");
+	public int delAll(int mbr_seq) {
+		int n = sqlsession.delete("schedule.delAll", mbr_seq);
 		return n;
 	}
 	

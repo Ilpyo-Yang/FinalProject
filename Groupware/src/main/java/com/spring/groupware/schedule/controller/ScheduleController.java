@@ -294,7 +294,7 @@ public class ScheduleController {
 		// 나의 일정 개수 확인하기
 		int totalCnt = service.cntMyTotalScd(mbr_seq);
 		
-		int n = service.delAll();
+		int n = service.delAll(mbr_seq);
 		
 		if(n == totalCnt) {
 			mav.setViewName("schedule/myscd.tiles1");
