@@ -5,13 +5,9 @@
 <% String ctxPath = request.getContextPath(); %>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
   <title>전체 주소록</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardButtons.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   
@@ -166,8 +162,6 @@
 	}// end of function goAddmyAddr(fk_mbr_seq)---------------------------
 	
 </script>
-</head>
-<body>
 
 <div style="width: 1460px"> 
 	
@@ -232,15 +226,12 @@
          <option value="mbr_name">이름</option>
       </select>
       <input type="text" name="searchWord" id="searchWord" size="30" style="height: 26px;" autocomplete="off" /> 
-      <button type="button" onclick="goSearch()">검색</button>
+      <button type="button" onclick="goSearch()" class="btn-search">검색</button>
    	</form>
 	   
     <div id="displayList" style="border:solid 1px gray; width:171px; height: 100px; border-top: 0px; margin-left: 53px; overflow: auto; padding-top: 2px;"> 	
     </div>
 
   	</div>	  	
-	
-	
+		
 </div>
-</body>
-</html>

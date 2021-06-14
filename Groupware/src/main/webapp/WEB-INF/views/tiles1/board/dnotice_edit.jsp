@@ -4,7 +4,7 @@
 <% String ctxPath = request.getContextPath(); %>    
 
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />		
-
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardButtons.css">
 <style type="text/css">
 
    table, th, td, input, textarea {border: solid gray 1px;}
@@ -81,10 +81,6 @@
                <input type="text" name="dtitle" id="dtitle" class="long" value="${requestScope.dnoticevo.dtitle}" />       
             </td>
          </tr>
-<!--          <tr>
-         	<th scope="row">첨부파일</th>
-            <td><input type="file" id="files[0]" name="files[0]" value=""></td>
-         </tr>   -->
          <tr>
             <th>내용</th>
             <td>
@@ -95,8 +91,8 @@
       </table>
       
       <div style="margin: 10px;">
-         <button type="button" id="btnUpdate">완료</button>
-         <button type="button" onclick="javascript:history.back()">취소</button>
+         <button type="button" id="btnUpdate" class="btn-ok">완료</button>
+         <button type="button" onclick="javascript:history.back()" class="btn-basic">취소</button>
       </div>
    </form>
    

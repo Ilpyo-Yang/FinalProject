@@ -2,11 +2,10 @@
     pageEncoding="UTF-8"%>
 <% String ctxPath = request.getContextPath(); %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
+
 <title>주소록 정보 수정</title>
+
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardButtons.css">
 <style type="text/css">
 
 #editForm{
@@ -187,8 +186,6 @@
    
 </script>
 
-</head>
-<body>
 
 	<!-- 게시판 제목 -->
 	<div style="padding: 15px; font-size: 25px; font-weight: 600; height: 60px; width: 100%; background-color: #f2f2f2; color: #555;">
@@ -245,7 +242,7 @@
 	      	<td style="width: 80%; text-align: left;">
     	    <input type="text" id="postcode" name="postcode" size="6" maxlength="5" value="${requestScope.addrvo.postcode}"/>&nbsp;&nbsp;
         	<%-- 우편번호 찾기 --%>
-         	<button type="button" id="zipcodeSearch" style="vertical-align: middle;"> 우편번호 검색 </button>
+         	<button type="button" id="zipcodeSearch" class="btn-basic" style="vertical-align: middle;"> 우편번호 검색 </button>
          <span class="error">우편번호 형식이 아닙니다.</span>
 	      </tr>
 	      <tr>
@@ -266,13 +263,10 @@
    	</div>
       
       <div id="btns">
-        <button type="button" id="btnEdit">등록</button>
-        <button type="button" onclick="javascript:history.back()">취소</button>
+        <button type="button" class="btn-ok" id="btnEdit">등록</button>
+        <button type="button" class="btn-basic" onclick="javascript:history.back()" class="btn btn-cancel">취소</button>
       </div>
   
   </form>
 
 </div>
-
-</body>
-</html>

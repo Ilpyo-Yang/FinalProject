@@ -2,6 +2,20 @@
     pageEncoding="UTF-8"%>
 <% String ctxPath = request.getContextPath(); %>
 
+<link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardButtons.css">
+<style type="text/css">
+
+#tblAddr tr {
+	margin-bottom: 10px;
+}
+
+.error{
+	color: red;
+}
+
+</style>
+
+
 <script type="text/javascript">
 
 	$(document).ready(function(){
@@ -30,7 +44,7 @@
 	      }); // end of $("input#name").blur(function(){}--------------------------
 	      
 	   	  // ========== 이메일 검사 ========== // 
-	      $("input#email").blur(function(){
+	      $("input#mbr_email").blur(function(){
 	           $("span#emailCheckResult").html("");
 	            var regExp = new RegExp(/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i);
 	         
@@ -38,7 +52,7 @@
 	            
 	            if(!bool) {
 	               // 이메일이 정규표현식에 위배된 경우
-	               $("table#tblAddr :input").prop("disabled",true);
+	               $("table#tblAddr:input").prop("disabled",true);
 	               $(this).prop("disabled",false);
 	            
 	               $(this).parent().find(".error").show();
@@ -46,7 +60,7 @@
 	            }
 	            else {
 	               // 이메일이 정규표현식에 맞는 경우
-	               $("table#tblAddr :input").prop("disabled",false);
+	               $("table#tblAddr:input").prop("disabled",false);
 	               $(this).parent().find(".error").hide();
 	            }
 	            
@@ -131,7 +145,7 @@
 		                   } else {
 		                       document.getElementById("extraAddress").value = '';
 		                   }
-		                   document.getElementById('postcode').value = data.zonecode;
+		                   document.getElementById("postcode").value = data.zonecode;
 		                   document.getElementById("address").value = addr;
 		                   document.getElementById("detailaddress").focus();
 		               }
@@ -150,19 +164,32 @@
 		var mbr_seq = $("input#mbrSeq").val();
 		var url = "<%=ctxPath%>/searchMbr.opis?mbr_seq="+mbr_seq;
 		
-		var popup = window.open(url,'searchMbr','top=100, left=500, width=450px, height=400px, scrollbars=yes');
-
+		if(mbr_seq != ""){
+			var popup = window.open(url,'searchMbr','top=100, left=500, width=450px, height=400px, scrollbars=yes');
+		}
+		else{
+			alert("사원번호를 입력하세요!");
+		}
 		
 	}// end of function searchMbr()-----------------------------------------------------
 	
 	
     // 주소록 등록
     function goRegister(){
-	    var frm = document.addFrm;
-        frm.method = "POST";
-        frm.action = "<%=ctxPath%>/addr_addEnd.opis";
-        frm.submit();	   
-    }// end of function goRegister(){}----------------------------------------------------------
+		
+    	var frm = document.addFrm;
+    	
+		if($("input#mbrSeq").val()!="" && $("input#mbr_name").val()!=""){
+		    
+	        frm.method = "POST";
+	        frm.action = "<%=ctxPath%>/addr_addEnd.opis";
+	        frm.submit();	   
+		}
+		else{
+			alert("미입력 항목이 있어 등록이 불가능합니다.")
+		}
+		
+	}// end of function goRegister(){}----------------------------------------------------------
    
 </script>	
 	
@@ -177,18 +204,18 @@
 <div class="modal-body" align="center">
   <form name="addFrm" id="addFrm" > 
 
-	<table id="table tblAddr">
+	<table id="tblAddr">
 	   <tr>
 			<th>사원번호</th>
 	   		<td>
-	   			<input type="text" name="mbr_seq" id="mbrSeq" placeholder="사원번호" class="short"/>
-	   			&nbsp;&nbsp;<a onclick="searchMbr()"><button type="button">검색</button></a>
+	   			<input type="text" name="mbr_seq" id="mbrSeq" placeholder="사원번호" class="short" required="required" autofocus="autofocus" />
+	   			&nbsp;&nbsp;<a onclick="searchMbr()"><button type="button" class="btn-search" style="height: 20px;">검색</button></a>
 	   		</td>		
 	   </tr>      
 	   <tr>
 	    	<th>이름</th>
 	       <td>
-	           <input type="text" name="mbr_name" id="mbr_name" placeholder="이름" class="short" value=""/>
+	           <input type="text" name="mbr_name" id="mbr_name" placeholder="이름" class="short" value="" required="required"/>
 	           <span class="error">이름은 필수입력 사항입니다.</span>
 	       </td>
 	    </tr>		
@@ -227,16 +254,16 @@
 	    	<td style="width: 80%; text-align: left;">
 	       <input type="text" id="postcode" name="postcode" size="6" maxlength="5" />&nbsp;&nbsp;
 	       <%-- 우편번호 찾기 --%>
-	       <button type="button" id="zipcodeSearch" style="vertical-align: middle;"> 우편번호 검색 </button>
+	       <button type="button" id="zipcodeSearch" class="btn-search" style="vertical-align: middle; width:80px; height:20px;"> 우편번호 검색 </button>
 	       <span class="error">우편번호 형식이 아닙니다.</span>
 	    </tr>
 	    <tr>
-	    <td style="width: 20%; font-weight: bold;">주소</td>
-	    <td style="width: 80%; text-align: left;">
-	        <input type="text" id="address" name="address" size="40" placeholder="주소" /><br><br>
-	        <input type="text" id="detailaddress" name="detailaddress" size="36" placeholder="상세주소" />&nbsp;<input type="text" id="extraAddress" name="extraAddress" size="35" placeholder="참고항목" /> 
-	        <span class="error">주소를 입력하세요</span>
-	     </td>
+		    <td style="width: 20%; font-weight: bold;">주소</td>
+		    <td style="width: 80%; text-align: left;">
+		        <input type="text" id="address" name="address" size="40" placeholder="주소" /><br><br>
+		        <input type="text" id="detailaddress" name="detailaddress" size="36" placeholder="상세주소" />&nbsp;<input type="text" id="extraAddress" name="extraAddress" size="35" placeholder="참고항목" /> 
+		        <span class="error">주소를 입력하세요</span>
+		     </td>
 	  	</tr>
 	     <tr>
 	     	<th>메모</th>
@@ -248,8 +275,8 @@
 	   
       <!-- Modal footer -->
     <div class="modal-footer">
-      <button type="button" id="btnRegister" onclick="goRegister()">등록</button>
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+      <button type="button" id="btnRegister" class="btn-ok" onclick="goRegister()">등록</button>
+      <button type="button" class="btn-secondary btn-basic" data-dismiss="modal">닫기</button>
     </div>
 	</form>
 

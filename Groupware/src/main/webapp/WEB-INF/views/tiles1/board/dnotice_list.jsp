@@ -6,7 +6,7 @@
 
   <title>부서공지사항</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  
+  <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardButtons.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   
@@ -102,7 +102,7 @@
 
 	<!-- 게시판제목 -->
 	<div style="padding: 15px; font-size: 25px; font-weight: 600; height: 60px; width: 100%; background-color: #f2f2f2; color: #555;">
-	&nbsp;&nbsp;${sessionScope.loginuser.dept_detail}&nbsp;부서 공지사항
+	&nbsp;&nbsp;<span style="color: #04AA6D;">${sessionScope.loginuser.dept_detail}</span>&nbsp;부서 공지사항
 	</div>
 	
 	<!-- 본문(게시판) -->       
@@ -144,7 +144,7 @@
          <option value="dtitle">글제목</option>
       </select>
       <input type="text" name="searchWord" id="searchWord" size="30" autocomplete="off" /> 
-      <button type="button" onclick="goSearch()">검색</button>
+      <button type="button" class="btn-search" onclick="goSearch()">검색</button>
    	</form>
    
     <div id="displayList" style="border:solid 1px gray; width:250px; height: 100px; border-top: 0px; margin-left: 71px; overflow: auto; padding-top: 2px;"> 	
