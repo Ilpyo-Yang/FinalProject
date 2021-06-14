@@ -20,7 +20,8 @@ public class MemberVO {
 	private String mbr_registerday;
 	private String mbr_retireday;
 	private String mbr_remainBreak;
-	private String mbr_pwd_changeday;	
+	private String mbr_pwd_changeday;
+	private MultipartFile mbr_photo;
 	private String mbr_status; 			// 사원퇴사유무   1: 사용가능(가입중) / 0:사용불능(탈퇴)
 	
 	private String mbr_sign;
@@ -259,6 +260,16 @@ public class MemberVO {
 	public void setMbr_remainBreak(String mbr_remainBreak) {
 		this.mbr_remainBreak = mbr_remainBreak;
 	}
+
+	public MultipartFile getMbr_photo() {
+		return mbr_photo;
+	}
+
+	public void setMbr_photo(MultipartFile mbr_photo) {
+		this.mbr_photo = mbr_photo;
+	}
+
+	
 	
 	
 
