@@ -12,7 +12,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
 <style type="text/css">
 	
@@ -88,7 +88,7 @@
 	
 	function goCancelResv() {
 		var url = "<%=ctxPath%>/CancelResv.opis";
-		window.open(url, "goCancel","left=350px, top=100px, width=650px, height=320px");
+		window.open(url, "goCancel","left=350px, top=100px, width=675px, height=360px");
 	}
 	
 </script>

@@ -4,7 +4,7 @@
 /* ============ approvalMain.jsp ============== */
 	
 div#approvalContainer {
-	margin: 2% auto;
+	margin: 1% auto;
 	width: 80%;
 	float: right;
 }
@@ -15,7 +15,7 @@ span.subtitle {
 	margin-left: 30px;
 }
 div#approvalForm {
-	margin: 7% auto;
+	margin: 5% auto;
 	padding-left: 20%;
 }
 div.menu {
@@ -50,11 +50,11 @@ div.menu {
     width: 50%; 
     height: 70%;               
 }
-div.memberModel {
-	width: 40%;
-	font-weight: bold;
-	font-size: 12pt;
-	padding: 5%;
+div.memberModal {
+	width: 40%;  
+	height: 90%; 
+	margin: 0 10px; 
+	display: inline-block;
 }
 div#memberMove {
 	display: inline-block;
@@ -131,6 +131,15 @@ button.formBtn2 {
 	font-size: 7pt;
 	font-weight: bold;
 }
+button.formBtn3 {
+	height: 20px;
+	padding: 0 5px;
+	vertical-align: middle;
+	line-height: 20px;
+	font-size: 10pt;
+	font-weight: bold;
+	margin-right: 10px;
+}
 div#signTitle {
 	margin: 15px 10px 0 0;
     text-align: center;
@@ -141,7 +150,7 @@ div#signTitle {
 table#sign {
 	margin-right: 10px;
 	width: 70px;
-	height: 60px;
+	height: 50px;
 	float: right;
 }
 td.sign {
@@ -152,15 +161,19 @@ td.sign {
 	text-align: center;	
 }
 div#center {
-	margin-top: 7%; 
+	margin-top: 5%; 
 	text-align: center;	
 }
 span#subject {
 	font-weight: bold;
-	font-size: 20pt;
+	font-size: 16pt;
+}
+hr.hr {
+	margin-top: 20px;
+	margin-bottom: 5px;
 }
 table#approvalForm {
-	margin-top: 5%;
+	margin-top: 20px;
 	width: 95%;
 	height: 50%;
 }
@@ -188,11 +201,15 @@ input#formTitle {
 	height: 30px;
 	display: inline-block;
 }
-input#reason {
-	width: 70px;
+input.size1 {
+	width: 70%;
+}
+input.size2 {
+	width: 20%;
+	display:inline-block;
 }
 div#bottom {
-	margin: 40px 0 0 20px;
+	margin: 20px 0 0 20px;
 }
 button#attachBtn {
 	float: left;
@@ -214,15 +231,12 @@ input.formDetail {
 }
 
 
-/* ============ approvalForm2.jsp ============== */
+/* ============ approvalForm3.jsp ============== */
 span.space {
 	margin:0 15px;
 	font-size: 8pt;
 	color: gray;
 	font-weight: bold;
-}
-select#vacationType {
-	width: 100px;
 }
 
 
@@ -245,19 +259,42 @@ i#basicImg {
 }
 
 
-/* ============ approvalProcess.jsp ============== */
+/* ============ approvalNeeded.jsp ============== */
 div#searchOption {
-	background-color: #f2f2f2;
+	border-top: solid 1px gray;
+	border-bottom: solid 1px gray;
 	width: 90%;
-	margin: 3% auto;
+	margin: 2%;
 }
 div#searchOption > table {
-	width: 80%;
-	margin: 3% auto;
+	width: 90%;
+	margin: 1% auto;
 }
-input.searchInput {
-	padding-left: 10px;
+div#searchOption > td:nth-child(2n+1) {
 	width: 20%;
+	height: 30px;
+	font-weight: bold;
+}
+div#searchOption > td:nth-child(2n) {
+	width: 30%;
+	text-align: left;
+	padding: 5px 15px;
+}
+button.formBtn4 {
+	height: 20px;
+	width: 150px;
+	padding: 0 5px;
+	vertical-align: middle;
+	line-height: 20px;
+	font-size: 10pt;
+	font-weight: bold;
+	float: right;
+	margin-top: 10px;
+}
+.searchInput {
+	margin: 5px 10px;
+	padding-left: 10px;
+	width: 30%;
 	height: 25px;
 	display: inline-block;
 }
@@ -271,14 +308,28 @@ button#search {
 	display: inline-block;
 	height: 30px;
 	margin-left: 50px;
+	float: right;
+}
+select.selectCommon {
+	margin-bottom: 15px;
+	padding-left: 10px;
+	width: 80px;
+	height: 25px;
+	text-align: center;
+}
+select#selectProcess {
+	width: 80px;
+	height: 25px;
+	text-align: center;
+	padding: 0;
 }
 div#searchList {
 	width: 90%;
-	margin: 3% auto;
+	margin: auto;
 }
 div#searchList > table {
-	width: 80%;
-	margin: 3% auto;
+	width: 95%;
+	maring-top: 5%;
 }
 div#searchList > table > tr > td {
 	line-height: 30px;
@@ -287,5 +338,5 @@ div#searchList > table > tr > td {
 button#approval {
 	float: right;
 	height: 30px;
-	margin-right: 10%;
+	margin-right: 25px;
 }

@@ -42,13 +42,26 @@
 	
 	<update id="infochange" parameterType="com.spring.groupware.member.model.MemberVO" >
 		update tbl_mbr 
-		set mbr_name=#{mbr_name}, mbr_stsmsg= #{mbr_stsmsg, jdbcType=VARCHAR}	                
+		set mbr_name=#{mbr_name}, mbr_stsmsg= #{mbr_stsmsg, jdbcType=VARCHAR}            
 		where mbr_id = #{mbr_id}
 	</update>
 	
 	<update id="statuschange" parameterType="com.spring.groupware.member.model.MemberVO">
 		update tbl_mbr 
 		set mbr_stsconnect=#{mbr_stsconnect}              
+		where mbr_id = #{mbr_id}
+	</update>
+	
+	<!-- <select id="getTalkroomlist" parameterType="HashMap" resultType="com.spring.groupware.sns.model.TalkroomVO">
+		select room_name, room_seq
+		from tbl_talkroom M join tbl_talkroom_mbr R
+		on M.room_seq = R.fk_room_seq
+		where R.fk_mbr_id = #{fk_mbr_id}
+	</select> -->
+	
+	<update id="onlinestatus" parameterType="com.spring.groupware.member.model.MemberVO">
+		update tbl_mbr 
+		set mbr_stsconnect= 1	                
 		where mbr_id = #{mbr_id}
 	</update>
 	

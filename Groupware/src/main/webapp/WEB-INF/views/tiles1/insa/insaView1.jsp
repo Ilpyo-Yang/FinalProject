@@ -11,7 +11,6 @@
 <style>
 	
 	.modifyBtn{
- 	  margin-left: 20px;
 	  padding: 10px 20px;
 	  font-size: 15px;
 	  text-align: center;
@@ -21,7 +20,7 @@
 	  background-color: #04AA6D;
 	  border: none;
 	  border-radius: 15px;
-	  box-shadow: 0 9px #999;
+	  box-shadow: 0 5px #999;
 	}
 	.modifyBtn:hover{ background-color: #3e8e41 !important;}
 	.modifyBtn:active{
@@ -37,9 +36,12 @@
 	}
 	table#insaDetail2{
 		margin-left: 20px;
-		width: 40%;
+		width: 45%;
 		display: inline-block;
 	    vertical-align: top;
+	}
+	table.table td{
+		width: 300px;
 	}
 </style>
 
@@ -58,13 +60,15 @@
 		<tr id="insaDetailButton">
 			<td><button class="modifyBtn">인적사항</button></td>
 			<td style="width: 10px;"></td>
-			<td><button class="modifyBtn" style="background-color: #e6e6e6; " onclick="javascript:location.href='<%=ctxPath%>/insaView2.opis?seq=${insavo.mbr_seq}'">서류정보</button></td>
+			<td><button class="modifyBtn" style="background-color: #e6e6e6; " onclick="javascript:location.href='<%=ctxPath%>/insaView2.opis?seq=${insavo.mbr_seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">서류정보</button></td>
 			<td style="width: 580px;"></td>
-			<td><button class="modifyBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis'">회원목록으로</button></td>
+			<td><button class="modifyBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis?seq=${insavo.mbr_seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">회원목록으로</button></td>
 		</tr>
 		</table> 
 
-	
+		<button id="modifyBtn" type="submit" style="display: inline-block; vertical-align: top;" onclick="javascript:location.href='<%=ctxPath%>/insaModify1.opis?seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">수정하기</button>
+		<br><br>	
+			
 	
 			<table id="insaDetail1" class="table table-striped tdtable">
 				<tr>
@@ -130,9 +134,13 @@
 					<td>${insavo.mbr_registerday}</td>
 				</tr>
 				<tr>
+				<c:if test="${insavo.mbr_status == 0}">
+				<tr>
 					<td>퇴사일자</td>
 					<td>${insavo.mbr_retireday}</td>
 				</tr>
+				</c:if>
+			
 				<tr>
 					<td>학력</td>
 					<c:if test="${insavo.eduLevel == 0}">
@@ -185,10 +193,13 @@
 					</c:if>
 				</tr>
 			</table>
-			<button class="modifyBtn"  id="modifyBtn" type="submit" style="display: inline-block; vertical-align: top;" onclick="javascript:location.href='<%=ctxPath%>/insaModify1.opis'">수정</button>
 			
+			<input id="hiddenSeq" type="hidden" value="${seq}"/>
+			<input id="hiddenCategory" type="hidden" value="${category}" />
+			<input id="hiddenSearchType" type="hidden" value="${searchType}" />
+			<input id="hiddenSearchWord" type="hidden" value="${searchWord}" />
+
 	
-	</div>
 </div>
 
 

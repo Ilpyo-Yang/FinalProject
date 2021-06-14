@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.net.InetAddress"%>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String ctxPath = request.getContextPath();
 
@@ -10,6 +11,7 @@
 	// 서버 포트 번호 알아오기
 	int portnumber = request.getServerPort();
 	String serverName = "http://"+serverIP+":"+portnumber; 
+	System.out.println("serverName : " + serverName);
 %>
 
 <!DOCTYPE html>
@@ -93,25 +95,18 @@ button.btn-success {
 	$(document).ready(function(){  
 	   var url = window.location.host; // 웹브라우저의 주소창의 포트까지 가져옴 
 	   var pathname = window.location.pathname; // '/'부터 오른쪽에 있는 모든 경로
-	   var appCtx = pathname.substring(0, pathname.lastIndexOf("/"));  // "전체 문자열".lastIndexOf("검사할 문자");   
+	   var appCtx = pathname.substring(0, pathname.lastIndexOf("/"));  // "전체 문자열".lastIndexOf("검사할 문자"); 
 	   var root = url+appCtx;
-	   var wsUrl = "ws://"+root+"/multichatstart.action";  
-	   // 웹소켓통신을 하기위해서는 http:// 을 사용하는 것이 아니라 ws:// 을 사용해야 한다. 
+	   var wsUrl = "ws://"+root+"/talkroomstart.opis"; 
+	   alert(wsUrl);
+	 
 	   var websocket = new WebSocket(wsUrl);
-	 // /WEB-INF/web.xml 에 가서 appServlet 의 contextConfigLocation 을 수정한다.  	
+	
 	    
-	   var messageObj = {}; // 자바스크립트 객체 생성함.
+	   var messageObj = {}; 
 	    
-	    // === 웹소켓에 최초로 연결이 되었을 경우에 실행되어지는 콜백함수 정의하기 ===  
 	   websocket.onopen = function(){
-	 	  $("div#talk").text("정보 : 웹소켓에 연결이 성공됨!!");
-	 	  
-	 	  messageObj = {  message : "채팅방에 <span style='color: red;'>입장</span>했습니다"
-			     	        , type : "all"
-			     	        , to : "all" }; // 자바스크립트에서 객체의 데이터값 초기화
-			     	        
-	 	  websocket.send(JSON.stringify(messageObj));   	        
-	 	 // JSON.stringify(자바객체) 는 자바객체를 JSON 표기법의 문자열(String)로 변환한다
+		  	        
 	    };
 	    
 	    
@@ -157,7 +152,7 @@ button.btn-success {
 	             websocket.send(JSON.stringify(messageObj));
 	             // JSON.stringify() 는 값을 그 값을 나타내는 JSON 표기법의 문자열로 변환한다
 	             
-	             $("div#talk").append("<span style='color:navy; font-weight:bold;'>[나] ▷ " + messageVal + "</span><br/>");
+	             $("div#talk").append("<span style='color: black; font-weight:bold; float: right; margin-right: 5px;'>" + messageVal + "</span><br/>");
 	             $("div#talk").scrollTop(99999999);
 	              
 	             $("textarea#talkuser").val("");
@@ -180,12 +175,12 @@ button.btn-success {
 			<img class=mainuserimg src="<%= ctxPath%>/resources/images/nomaluserimg.png" style="margin-top: 20px; margin-left: 20px;"/>			
 		</div>
 		<div class=userinfotop style="height: 79px;">
-			<span class=username >새로운 대화방1</span>
+			<span class=username >Opistachio</span>
 			<img src="<%= ctxPath%>/resources/images/search.png" style="width: 20px; height: 20px; float: right; margin-right:  10px;"/>
 			<img src="<%= ctxPath%>/resources/images/bell.png" style="width: 20px; height: 20px; float: right; margin-right:  10px;"/>
 			<img src="<%= ctxPath%>/resources/images/pencel.png" style="width: 20px; height: 20px; float: right; margin-right:  60px;"/>
-			 <input type="text" class="inputsearch" placeholder="대화내용 검색" name="Search">
-	     	<button class="btn btn-default" type="submit" style="margin-top: 20px; margin-right: 80px;"><i class="glyphicon glyphicon-search"></i></button>
+			 <!-- <input type="text" class="inputsearch" placeholder="대화내용 검색" name="Search">
+	     	<button class="btn btn-default" type="submit" style="margin-top: 20px; margin-right: 80px;"><i class="glyphicon glyphicon-search"></i></button> -->
 	    </div>
 	    
 

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>	
 <% String ctxPath = request.getContextPath(); %>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -10,6 +11,7 @@
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="<%=ctxPath%>/resources/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 
 <jsp:include page="./workmanage_sidebar.jsp" />
 
@@ -28,6 +30,9 @@ div#diplayList {
 </style>
 
 <script type="text/javascript">
+	
+	var obj = [];	// 스마트에디터 전역변수
+
 	$(document).ready(function(){
 		
 		$("#datepicker_deadline").datepicker({
@@ -99,6 +104,37 @@ div#diplayList {
 			goSearch();
 		});
 		
+		// 파일첨부 숨기기
+		$("input[name=attach]").hide();
+		
+		// 첨부파일 목록 보여주기
+		$("input[type=file]").change(function(){
+			var files = document.getElementById("attach").files;
+	        var file;
+	        
+	        $("div#attachedFile").html("");
+	        
+	        for (var i=0; i<files.length; i++) { 
+	            file = files[i];
+	            $("div#attachedFile").append('<span>'+file.name+'&nbsp;&nbsp;</span><br>');
+	        }
+		});
+		
+		 // == 스마트에디터 구현 프레임생성 == //
+		nhn.husky.EZCreator.createInIFrame({
+	          oAppRef: obj,
+	          elPlaceHolder: "contents",
+	          sSkinURI: "<%=ctxPath%>/resources/smarteditor/SmartEditor2Skin.html",
+	          htParams : {
+	              // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+	              bUseToolbar : true,            
+	              // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+	              bUseVerticalResizer : true,    
+	              // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+	              bUseModeChanger : true,
+	          }
+		});
+		
 	});
 	
 	// == 업무 요청, 업무 보고 일 경우에만 담당자, 참조자  input 보여주기 == //
@@ -128,19 +164,37 @@ div#diplayList {
 			alert("업무기한을 입력하세요");
 			return;
 		}
+		// == 스마트 에디터 검사하기 == //
+		//id가 content인 textarea에 에디터에서 대입
+		obj.getById["contents"].exec("UPDATE_CONTENTS_FIELD", []);
+
+		// 글내용 유효성 검사
+		var contentval = $("#contents").val();		
+		if (contentval == "" || contentval == "<p>&nbsp;</p>") {
+			alert("글내용을 입력하세요!!");
+			return;
+		}
+
+		// 스마트에디터 사용시 무의미하게 생기는 p태그 제거하기
+		contentval = $("#contents").val().replace(/<p><br><\/p>/gi, "<br>"); 	//<p><br></p> -> <br>로 변환
+		contentval = contentval.replace(/<\/p><p>/gi, "<br>"); 					//</p><p> -> <br>로 변환  
+		contentval = contentval.replace(/(<\/p><br>|<p><br>)/gi, "<br><br>"); 	//</p><br>, <p><br> -> <br><br>로 변환 
+		contentval = contentval.replace(/(<p>|<\/p>)/gi, ""); 					//<p> 또는 </p> 모두 제거시
+
+		$("#contents").val(contentval);
 		
-		
-		var fk_wtno = ${requestScope.workvo.fk_wtno};
-		
-		if (fk_wtno == 0) submitTodoRegFrm(); 
-		else submitWorkRegFrm();
+		var isTodo = ${requestScope.isTodo};
+		if (isTodo == true) 
+			submitTodoRegFrm();
+		else 
+			submitWorkRegFrm();
 	}
 	
 	// == ToDo 정보 폼 전송하기 == //
 	function submitTodoRegFrm() {
 		var frm = document.workRegFrm;
 		
-		frm.action = "<%=ctxPath%>/workAddTodoEnd.opis";
+		frm.action = "<%=ctxPath%>/todoEditEnd.opis";
 		frm.method = "post";
 		frm.submit();
 	}
@@ -153,6 +207,13 @@ div#diplayList {
 		frm.method = "post";
 		frm.submit();
 	}
+	
+	// 파일업로드 버튼클릭시
+	function func_attach() {
+		 $("input[name=attach]").click();	
+	}
+	
+	
 </script>
 
 <div class="container commoncontainer">
@@ -160,9 +221,11 @@ div#diplayList {
 	
 	<br>
 	
-	<form name="workRegFrm">
+	<form name="workRegFrm" enctype="multipart/form-data">
 		<table class="table table-striped workRegtable">
 			<tbody>
+				<!-- 업무 수정 -->
+				<c:if test="${not empty requestScope.workvo}">
 				<tr>
 					<td>업무형태</td>
 					<td>
@@ -190,23 +253,63 @@ div#diplayList {
 				</tr>
 				<tr>
 					<td>내용</td>
-					<td><textarea name="contents" cols="60" rows="10">${requestScope.workvo.contents}</textarea></td>
+					<td><textarea name="contents" id="contents" rows="10" cols="100" style="width: 95%;">${requestScope.workvo.contents}</textarea></td>
+				</tr>
+				<input type="hidden" name="wmno" value="${requestScope.workvo.wmno}"/>
+				<input type="hidden" name="fk_wrno" value="1"/>
+				<input type="hidden" name="fk_wtno" value="${requestScope.workvo.fk_wtno}"/>
+				</c:if>
+				
+				<!-- 할일 수정 -->
+				<c:if test="${not empty requestScope.todovo}">
+				<tr>
+					<td>업무형태</td>
+					<td>나의 할일</td>
 				</tr>
 				<tr>
-					<td>파일 업로드</td>
-					<td><button name="addfile" type="button">파일추가</button></td>
+					<td style="width: 10%;"><span class="star">*</span>제목</td>
+					<td style="width: 70%;"><input name="subject" value="${requestScope.todovo.subject}"/></td>
+				</tr>
+				<tr>
+					<td><span class="star">*</span>업무기한</td>
+					<td><input type="text" name="deadline" id="datepicker_deadline" value="${requestScope.todovo.deadline}"/></td>
+				</tr>
+				<tr>
+					<td>내용</td>
+					<td><textarea name="contents" id="contents" rows="10" cols="100" style="width: 95%;">${requestScope.todovo.contents}</textarea></td>
+				</tr>
+				<input type="hidden" name="tdno" value="${requestScope.todovo.tdno}"/>
+				</c:if>
+				
+				<!-- 첨부파일관련 -->
+				<tr>
+					<td>파일</td>
+					<td>
+						<c:forEach var="file" items="${requestScope.fileList}" varStatus="status">
+							<c:if test="${sessionScope.loginuser != null}">
+								<a href="<%=ctxPath%>/download.opis?orgFilename=${file.orgFilename}&fileName=${file.fileName}">${file.orgFilename}</a>&nbsp;
+							</c:if>
+						</c:forEach>
+					</td>
+				</tr>
+				<tr>
+					<td>추가파일 업로드</td>
+					<td>
+						<input type="file" name="attach" id="attach" name="attach" multiple />
+						<button type="button" class="btn btn-success formBtn" id="attachBtn" onclick="func_attach()" >파일업로드</button>			
+						<div id="attachedFile"></div>
+					</td>
 				</tr>
 				<tr id="workRegBtn">
 					<td colspan="2">
-						<button type="button" onclick="checkStar()">수정</button>
-						<button type="button" >취소</button>
+						<button type="button" class="btn btn-success" onclick="checkStar()">수정</button>
+						<button type="button" class="btn btn-danger" onclick="javascript:location.href='<%=ctxPath%>/${requestScope.gobackWorkDetilURL}'">취소</button>
 					</td>
 				</tr>
 			</tbody>
 		</table>	
-		<input type="hidden" name="wmno" value="${requestScope.workvo.wmno}"/>
-		<input type="hidden" name="fk_wrno" value="1"/>
-		<input type="hidden" name="fk_wtno" value="${requestScope.workvo.fk_wtno}"/>
+		
+		<input type="hidden" name="gobackWorkDetilURL" value="${requestScope.gobackWorkDetilURL}"/>
 	</form>
 </div>
 

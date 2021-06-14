@@ -64,7 +64,7 @@ String ctxPath = request.getContextPath();
 		  <label for="usr" class="lform">프로필사진: </label>
 		  <input type="file" class="form-control" id="file" name="mbr_photo">
 		</div>
-		<div class="form-group" >
+		<div class="form-group" style="padding-left: 100px;" >
 		  <button type="button" class="btn btn-success" onclick="goinfochangeend()" >수정하기</button>
 		  <button type="button" class="btn btn-danger" onclick="javascript:location.href='<%= ctxPath%>/sns/snsmain.opis'" >수정취소</button>
 		</div>

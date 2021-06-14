@@ -124,7 +124,7 @@
 		
 		// 수정해야할 부분
 		$(document).on("cilck", "input.checkedMember", function(){	// 결재라인이 모두 선택된 경우 모두 선택/해제 체크박스 체크설정하기
-			console.log("하하");
+			
 			if($("input.checkedMember:checked").length == $("input.checkedMember").length){ 
 				$("input#allRightCheckbox").prop("checked",true);
 			} else {
@@ -216,15 +216,14 @@
        
        <div id="modal" style="line-height: 1.5;">
        
-		   <div class="memberModal" id="memberModal1" 
-		        style="width: 40%;  height: 90%; margin: 0 10px; display: inline-block;">
+		   <div class="memberModal" id="memberModal1">
 		   		<label><input type="checkbox" id="allLeftCheckbox"/>&nbsp;&nbsp;모두 선택/해제하기</label>
 		   		<hr style="margin: 0 0 15px 0;"> 	
 		   		
 		   		<div style="border: solid 1px #f2f2f2; padding: 2%; overflow: scroll; height: 380px;" >	   
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq 'CEO'}">
-				        	<label><input type="checkbox" class="rightCheckbox memberCheckbox" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}" />
+				        	<label><input type="checkbox" class="rightCheckbox memberCheckbox" value="${memberVO.dept_detail} ${memberVO.rank_detail} ${memberVO.mbr_name}" />
 				        		&nbsp;&nbsp;${memberVO.dept_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
@@ -234,7 +233,7 @@
 			   		<label><input type="checkbox" class="rightCheckbox" id="salesCheckbox"/>&nbsp;&nbsp;영업팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq '영업팀'}">
-				        	<label><input type="checkbox" class="rightCheckbox salesMemberCheckbox memberCheckbox" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
+				        	<label><input type="checkbox" class="rightCheckbox salesMemberCheckbox memberCheckbox" value="${memberVO.dept_detail} ${memberVO.rank_detail} ${memberVO.mbr_name}"/>
 				        		&nbsp;&nbsp;└─&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
@@ -244,7 +243,7 @@
 			   		<label><input type="checkbox" class="rightCheckbox" id="HRCheckbox"/>&nbsp;&nbsp;인사팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq '인사팀'}">
-				        	<label><input type="checkbox" class="rightCheckbox HRMemberCheckbox memberCheckbox" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
+				        	<label><input type="checkbox" class="rightCheckbox HRMemberCheckbox memberCheckbox" value="${memberVO.dept_detail} ${memberVO.rank_detail} ${memberVO.mbr_name}"/>
 				        		&nbsp;&nbsp;└─&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
@@ -254,7 +253,7 @@
 			   		<label><input type="checkbox" class="rightCheckbox" id="PRCheckbox"/>&nbsp;&nbsp;홍보팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq '홍보팀'}">
-				        	<label><input type="checkbox" class="rightCheckbox PRMemberCheckbox memberCheckbox" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
+				        	<label><input type="checkbox" class="rightCheckbox PRMemberCheckbox memberCheckbox" value="${memberVO.dept_detail} ${memberVO.rank_detail} ${memberVO.mbr_name}"/>
 				        		&nbsp;&nbsp;└─&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
@@ -264,7 +263,7 @@
 			   		<label><input type="checkbox" class="rightCheckbox" id="ITCheckbox"/>&nbsp;&nbsp;IT팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq 'IT팀'}">
-				        	<label><input type="checkbox" class="rightCheckbox ITMemberCheckbox memberCheckbox" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
+				        	<label><input type="checkbox" class="rightCheckbox ITMemberCheckbox memberCheckbox" value="${memberVO.dept_detail} ${memberVO.rank_detail} ${memberVO.mbr_name}"/>
 				        		&nbsp;&nbsp;└─&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
@@ -274,7 +273,7 @@
 			   		<label><input type="checkbox" class="rightCheckbox" id="accountCheckbox"/>&nbsp;&nbsp;회계팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq '회계팀'}">
-				        	<label><input type="checkbox" class="rightCheckbox accountMemberCheckbox memberCheckbox" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
+				        	<label><input type="checkbox" class="rightCheckbox accountMemberCheckbox memberCheckbox" value="${memberVO.dept_detail} ${memberVO.rank_detail} ${memberVO.mbr_name}"/>
 				        		&nbsp;&nbsp;└─&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
@@ -284,12 +283,12 @@
 		   
 		   <%-- 사원선택해서 이동하기 --%>
 		   <div id="memberMove" 
-		        style="width: 10%;  height: 90%; display: inline-block; text-align: center; align-items: center; border: solid 1px black;">
-		   		<i class="fas fa-arrow-right fa-2x" id="rightMove" onclick="func_rightMove()"></i><br>
+		        style="width: 10%;  height: 90%; display: inline-block; text-align: center; align-items: center;">
+		   		<i class="fas fa-arrow-right fa-2x" id="rightMove" onclick="func_rightMove()"></i>
+		   		<div style="height: 180px;"></div><br>
 		   </div>
 		   
-		   <div class="memberModal" id="memberModal2" 
-		   		style="width: 40%;  height: 90%; margin: 0 10px; display: inline-block;">
+		   <div class="memberModal" id="memberModal2">
 		   		<label><input type="checkbox" id="allRightCheckbox" />&nbsp;&nbsp;결재라인 모두 선택/해제하기</label>
 		   		<hr style="margin: 0 0 15px 0;"> 	
 		   		

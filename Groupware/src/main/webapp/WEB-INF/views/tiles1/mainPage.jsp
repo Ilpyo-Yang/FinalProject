@@ -27,7 +27,6 @@
 		}
 		
 	});
-
 </script>
 
 <div id="mainPageContainer">
@@ -61,7 +60,3 @@
 		</div>
 	</div>   
 </div>   
-
-
-
- 

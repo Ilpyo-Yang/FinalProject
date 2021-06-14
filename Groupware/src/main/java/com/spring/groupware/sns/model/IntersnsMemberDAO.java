@@ -3,8 +3,6 @@ package com.spring.groupware.sns.model;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import com.spring.groupware.member.model.MemberVO;
 
 public interface IntersnsMemberDAO {
@@ -20,6 +18,13 @@ public interface IntersnsMemberDAO {
 
 	// 상태수정하기
 	int statuschange(MemberVO membervo);
+
+	/*
+	 * // 채팅방리스트 가져오기 List<TalkroomVO> getTalkroomlist(String fk_mbr_id);
+	 */
+
+	// 접속시 유저 온라인 상태로 만들기
+	int onlinestatus(MemberVO membervo);
 
 
 

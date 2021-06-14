@@ -3,6 +3,8 @@
 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <% String ctxPath = request.getContextPath(); %>
 
 <meta charset="utf-8">
@@ -11,10 +13,11 @@
 <style type="text/css">
 
 	#listup {
+		overflow:auto;
 		margin: 10px;
-		overflow: hidden;
 		height: 270px;
-		width: 550px;
+		width: 560px;
+		margin-left:30px;
 	}
 	
 	table, th, td, tr {
@@ -22,8 +25,6 @@
 		border-collapse: collapse;
 		font-size: 11pt;
 	}
-	
-	table {margin-left:20px;}
 	
 	th {padding: 10px;}
 	
@@ -73,38 +74,55 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
-		$("input:checkbox[name=email]").click(function() {
-			var emailArr = [];
-			var nameArr = [];
-			var bool = $(this).prop("checked");
-
-			if (bool) {
-				emailArr.push($(this).val());
-				nameArr.push($(this).parent().next().next().text());
-			} 
+		
+		$("input:checkbox[name=email]").click(function(){
 			
-			var emailList = emailArr.join();
-			var nameList = nameArr.join();
+			var emailList = "";
+			var nameList= "";
 			
-			console.log(emailList);
-			console.log(nameList);
+			$("input[name=email]:checked").each(function() {
+				
+				emailList += $(this).val();
+				nameList += $(this).parent().next().next().text();
+				
+				emailList += ",";
+				nameList += ",";
+			});
 			
-			$("input.getEmail").val(emailList);
-			$("input.getName").val(nameList);
+			emailLists = emailList.substr(0, emailList.length-1);
+			nameLists = nameList.substr(0, nameList.length-1);
 			
+			$("input.getEmail").val(emailLists);
+			$("input.getName").val(nameLists);
 			
-		});
+		});// end of $("input:checkbox[name=email]").click(function(){}---------------------
 		
 		$("input#searchWord").bind("keydown", function(){
 			if(event.keyCode == 13) {
 				goSearch();
 			}
-		});
+		});// end of $("input#searchWord").bind("keydown", function(){}---------------------
+		
+		// 체크박스의 체크 유지 시키기		
+		var chkedEmails = '${requestScope.emailList}';
+		
+		if(chkedEmails != "") {
+			var chkedEmailArr = chkedEmails.split(",");
+			
+			$("input:checkbox[name=email]").each(function(index, item){
+				for(var i=0; i<chkedEmailArr.length; i++) {
+					if($(item).val() == chkedEmailArr[i]) {
+						$(item).prop("checked",true);
+						break;
+					}
+				}
+			});
+		}
 		
 		// 검색시 검색조건 및 검색어 값 유지시키기
-		if(${not empty requestScope.paraMap}){
-			$("select#searchType").val("${requestScope.paraMap.searchType}");
-			$("input#searchWord").val("${requestScope.paraMap.searchWord}");
+		if(${requestScope.searchType != null} && ${requestScope.searchWord != null}){
+			$("select#searchType").val("${requestScope.searchType}");
+			$("input#searchWord").val("${requestScope.searchWord}");
 		}
 		
 	});// end of $(document).ready(function() {}---------------------------------- 
@@ -117,6 +135,14 @@
 			
 	function sendtoParent() {
 		opener.document.getElementById("attendance").value = document.getElementById("mbr_name").value;
+		window.close();
+	}
+	
+	function sendMail() {
+		var frm = document.pInfoFrm;
+		frm.method = "POST";
+		frm.action = "show_addresslist.opis";
+		frm.submit();
 	}
 	
 </script>
@@ -148,6 +174,7 @@
 				<th>이메일</th>
 				<th>전화번호</th>
 			</tr>	
+			
 			<c:forEach var="address" items="${requestScope.addrList}">
 				<tr>
 					<td><input type="checkbox" id="chkbox" name="email" value="${address.mbr_email}" /></td>
@@ -155,24 +182,28 @@
 					<td>${address.mbr_name}</td>
 					<td>${address.dept_name}</td>
 					<td>${address.mbr_email}</td>
-					<td id="phonenum">${address.mbr_phone_number}</td>
+					<td id="phonenum">
+						<fmt:formatNumber var="phoneNum" value="${address.mbr_phone_number}" pattern="###,####,####"/>
+						0<c:out value="${fn:replace(phoneNum, ',', '-')}" />
+					</td>
 				</tr>
 			</c:forEach>
 		</table>
 	</div>
 </div>	
-	
+
+<form name="pInfoFrm">
 	<div id="sendBtn">
 		<input type="text" name="mbr_email" class="getEmail" id="getEmail"/>&nbsp;
 		<button type="button" onclick="sendMail()">초대메일 전송</button>
 	</div>
 	
+	<input type="hidden" class="getName" id="mbr_name" name="mbr_name" />
+	<input type="hidden" name="myName" id="myName" value="${sessionScope.loginuser.mbr_name}"/>
+</form>
+	
 	<div id="btns">
 		<button type="button" class="cbtn ok" onclick="sendtoParent()">확인</button>
 		<button type="button" class="cbtn" onclick="javascript:window.close();">닫기</button>
 	</div>
-
-<form name="nameListFrm">
-	<input type="hidden" class="getName" id="mbr_name" name="mbr_name" />
-</form>
 	

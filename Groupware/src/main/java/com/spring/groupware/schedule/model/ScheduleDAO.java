@@ -69,8 +69,8 @@ public class ScheduleDAO implements InterScheduleDAO {
 	
 	// 캘린더에 일정 보여주기
 	@Override
-	public List<Map<String, String>> showScd(String userid) {
-		List<Map<String, String>> scdList = sqlsession.selectList("schedule.showScd", userid);
+	public List<Map<String, String>> showScd(Map<String, String> paraMap) {
+		List<Map<String, String>> scdList = sqlsession.selectList("schedule.showScd", paraMap);
 		return scdList;
 	}
 	
@@ -81,11 +81,11 @@ public class ScheduleDAO implements InterScheduleDAO {
 		return n;
 	}
 	
-	// 초대메일 발송할 사람 목록 가져오기
+	// 나의 일정 개수 확인하기
 	@Override
-	public List<Map<String, String>> getRsvpList() {
-		List<Map<String, String>> rsvpList = sqlsession.selectList("schedule.getRsvpList");
-		return rsvpList;
+	public int cntMyTotalScd(int mbr_seq) {
+		int totalCnt = sqlsession.selectOne("schedule.cntMyTotalScd", mbr_seq);
+		return totalCnt;
 	}
 	
 	///////////////////////////////////////////////////////////////////
@@ -147,7 +147,7 @@ public class ScheduleDAO implements InterScheduleDAO {
 	}
 	
 	
-
+	
 
 	
 	

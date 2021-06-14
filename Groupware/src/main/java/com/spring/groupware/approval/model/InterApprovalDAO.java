@@ -17,6 +17,19 @@ public interface InterApprovalDAO {
 	int submitApproval(ApprovalVO avo);
 	
 	// 첨부파일 정보 결재요청
-	int submitAttachedApproval(FileVO fvo);
+	int submitAttachedApproval(List<Map<String, String>> fileInfoList);
+
+	// 결재대기 문서 가져오기
+	List<ApprovalVO> getApprovalNeededList(Map<String, String> paraMap);
+
+	// 결재요청한 문서 가져오기
+	List<ApprovalVO> getApprovalSubmitList(Map<String, String> paraMap);
+
+	// 결재참조된 문서 가져오기
+	List<ApprovalVO> getApprovalReferredList(Map<String, String> paraMap);
+
+	// 결재 작성내용 불러오기
+	ApprovalVO getApproval(String ap_seq);
+
 
 }

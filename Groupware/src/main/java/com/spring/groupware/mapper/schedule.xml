@@ -16,6 +16,7 @@
 	<select id="getAddrList" parameterType="String" resultType="com.spring.groupware.addrlist.model.AddrVO">
 		select addr_seq, mbr_name, mbr_email, dept_name, mbr_phone_number
 		from tbl_address
+		order by addr_seq
 	</select>
 	
 	<!-- === 검색한 주소 목록 보여주기 === -->
@@ -64,18 +65,34 @@
 		<result property="scdenddate" column="scdenddate" javaType="String"/>
 	</resultMap>
 	
-	<select id="showScd" parameterType="String" resultMap="showScdMap">
+	<select id="showScd" parameterType="HashMap" resultMap="showScdMap">
 		select scdno, fk_scdno2, scdsubject, scdstartdate, scdenddate
+		from
+		(select scdno, fk_scdno2, scdsubject, scdstartdate, scdenddate
 		from tbl_schedule S join tbl_mbr M
 		on S.fk_mbr_seq = M.mbr_seq
 		where mbr_id = #{userid}
+		or fk_scdno2 = 0 or fk_scdno2 = 1
+		minus
+		select scdno, fk_scdno2, scdsubject, scdstartdate, scdenddate
+		from tbl_schedule S join tbl_mbr M
+		on S.fk_mbr_seq = M.mbr_seq
+		join tbl_dept D
+		on M.fk_dept_no = D.dept_no
+		where D.dept_detail != #{dept_detail} and fk_scdno2 = 1) T
 	</select>
 	
 	<!-- === 모든 일정 삭제하기 === -->
-	<delete id="delAll" parameterType="int">
+	<delete id="delAll">
 		delete from tbl_schedule
 	</delete>
 	
+	<!-- === 나의 일정 개수 확인하기 === -->
+	<select id="cntMyTotalScd" parameterType="int" resultType="int">
+		select count(*)
+		from tbl_schedule
+		where fk_mbr_seq = #{mbr_seq}
+	</select>
 	
 	
 	<!-- ========================================================================================================== -->

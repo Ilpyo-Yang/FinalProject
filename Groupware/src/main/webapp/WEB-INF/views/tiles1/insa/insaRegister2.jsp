@@ -84,6 +84,14 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 			
+
+		var searchType = $("input#hiddenSearchType").val();
+		var searchWord= $("input#hiddenSearchWord").val();
+		var seq = $("input#hiddenSeq").val();
+		var category = $("input#hiddenCategory").val();
+		
+		var bflag = true;
+		
 		var yearOptionHtml = "";
 		for(var i=1950; i<2050; i++){
 			if(i==2021){
@@ -95,87 +103,84 @@
 		}
 		$("select.certiyy").html(yearOptionHtml);
 		
-	         var bflag = true;
+		
+		
+		
+		$("button#registerBtn1").click(function(){
+			bflag = true;
 			
-			// 등록하기1
-			$("button#registerBtn1").click(function(){
-				var eduLevel = $(".eduLevel option:selected").val();
-				if(eduLevel==""){
-					bflag = false;
-				}
+			var eduLevel = $(".eduLevel option:selected").val();
+			if(eduLevel==""){
+				alert("먼저 모든 항목을 입력하세요!!");
+		        bflag = false;
+				  return;
+			}
+			var school = $("#school").val();
+			if(school.trim()==""){
+				alert("먼저 모든 항목을 입력하세요!!");
+		        bflag = false;
+				  return;
+			}
 
-				var school = $("#school").val();
-				if(school.trim()==""){
-						bflag = false;
-				}
-
-				var major = $("#major").val();
-					if(major.trim()==""){
-						bflag = false;
-					}
-
-				if(!bflag){
+			var major = $("#major").val();
+				if(major.trim()==""){
 					alert("먼저 모든 항목을 입력하세요!!");
+			        bflag = false;
+					  return;
 				}
-				else{
 
-					var frm = document.insaRegister2EduFrm;
-					frm.method = "POST";
-					frm.action = "<%=ctxPath%>/insaRegister2EduEnd.opis?eduLevel="+eduLevel+"&school="+school+"&major="+major+"&seq="+${seq};
-					frm.submit(); 
-				}
+			var frm = document.insaRegister2EduFrm;
+			frm.method = "POST";
+			frm.action = "<%=ctxPath%>/insaRegister2EduEnd.opis?seq="+seq+"&searchType="+searchType+"&searchWord="+searchWord+"&category="+category;  
+			frm.submit(); 
 			
-				
-			});
-			
-			
-			
-			
-			// 등록하기2
-			$("button#registerBtn2").click(function(){
-				
-				var certification = $("input#certification").val();
-				if(certification==" "){
-						bflag = false;
-					}
-				
-				
-				
-				var certiLevel = $("input#certiLevel").val();
-				
-				if( certiLevel==" "){
-						bflag = false;
-					}
-				
+		});
 
-				var certiyy = $(".certiyy option:selected").val();
-					if(certiyy=="선택"){
-						bflag = false;
-					}
+		
+		$("button#registerBtn2").click(function(){
+			bflag = true;
+			
+			var certification = $("input#certification").val();
+			if(certification==" "){
+				alert("먼저 모든 항목을 입력하세요!!");
+		        bflag = false;
+				  return;
+			}
+			var certiLevel = $("input#certiLevel").val();
+			
+			if( certiLevel==" "){
+				alert("먼저 모든 항목을 입력하세요!!");
+		        bflag = false;
+				  return;
+			}
+			
 
-				var certimm = $(".certimm option:selected").val();
-					if(certimm=="선택"){
-						bflag = false;
-					}
+		 	var certiyy = $("#certiyy option:selected").val();
+			var certimm = $("#certimm option:selected").val();
+			var certidd = $("#certidd option:selected").val();
+			if(certimm <10){
+				certimm = "0"+certimm;
+			}
+			if(certidd <10){
+				certidd = "0"+certidd;
+			}
+			var certi = certiyy+"-"+certimm+"-"+certidd;
+			var htmlCerti =  '<input name = "certiDate" type="hidden" value="'+certi+'"/>';
+			$("div#certiDiv").html(htmlCerti);
+			
+			
+		
+			var frm = document.insaRegister2CertiFrm;
+			frm.method = "POST";
+				
+			frm.action = "<%=ctxPath%>/insaRegister2CertiEnd.opis?seq="+seq+"&category="+category+"&searchType="+searchType+"&searchWord="+searchWord;
+			frm.submit();
 
-
-				var certidd = $(".certidd option:selected").val();
-					if(certidd=="선택"){
-						bflag = false;
-					}					
-	
-				if(!bflag){
-					alert("먼저 모든 항목을 입력하세요!!");
-				}
-				else{
-					
-					var frm = document.insaRegister2CertiFrm;
-					frm.method = "POST";
-					frm.action = "<%=ctxPath%>/insaRegister2CertiEnd.opis?certification="+certification+"&certiLevel="+certiLevel+"&certiyy="+certiyy+"&certimm="+certimm+"&certidd="+certidd+"&seq="+${seq};
-					frm.submit(); 
-				}
-			});
+			
+		});
 	});
+	
+
 </script>
 
 
@@ -184,11 +189,11 @@
 
 <table style="margin-bottom: 50px;">
 		<tr id="insaDetailButton">
-			<td><button class="registerBtn" style="background-color: #e6e6e6; " onclick="javascript:location.href='<%=ctxPath%>/insaView1.opis?seq=${seq}'">인적사항</button></td>
+			<td><button class="registerBtn" style="background-color: #e6e6e6; " onclick="javascript:location.href='<%=ctxPath%>/insaView1.opis?seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">인적사항</button></td>
 			<td style="width: 10px;"></td>
 			<td><button class="registerBtn" >서류정보</button></td>
 			<td style="width: 360px;"></td>
-			<td><button class="registerBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis'">회원목록으로</button></td>
+			<td><button class="registerBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis?seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">회원목록으로</button></td>
 		</tr>
 		</table> 
 			<div>
@@ -202,7 +207,7 @@
 					<thead>
 						<tr>
 							<th>최종학력</th>
-							<c:if test="${maxEduLevel == null }">
+							<c:if test="${maxEduLevel == null || maxEduLevel ==7}">
 								<th colspan="2">미입력</th>
 							</c:if>
 							<c:if test="${maxEduLevel == 0 }">
@@ -255,10 +260,9 @@
 							</c:if>
 							<td>${edu.school}<input type="hidden" value="${edu.edu_seq}" /></td>
 							<td>${edu.major}
-								<button class="registerBtnSmall" id="registerBtn1"  type="submit">수정</button>
-								<button class="registerBtnSmall" id="registerBtn1"  type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaEduDel.opis?edu_seq=${edu.edu_seq}&seq=${seq}'">삭제</button>
+								<button type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaEduModi.opis?edu_seq=${edu.edu_seq}&seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">수정</button>
+								<button type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaEduDel.opis?edu_seq=${edu.edu_seq}&seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">삭제</button>
 							</td>
-						</td>
 						</tr>
 					</c:forEach>
 				</c:if>
@@ -269,30 +273,33 @@
 				      <tr class="eduTr">
 							<td>
 						 			<select name="eduLevel" class="eduLevel" id="eduLevel">
-								    	<option value="6" >대학원(박사)</option>
-								    	<option value="5" >대학원(석사)</option>
-								    	<option value="4" selected="selected">대학교(학사)</option>
-								    	<option value="3" >전문대학원</option>
-								    	<option value="2" >고등학교</option>
-								    	<option value="1" >중학교</option>
-								    	<option value="0" >초등학교</option>
+								    	<option class="eduLevel" value="6" >대학원(박사)</option>
+								    	<option class="eduLevel" value="5" >대학원(석사)</option>
+								    	<option class="eduLevel" value="4" selected="selected">대학교(학사)</option>
+								    	<option class="eduLevel" value="3" >전문대학원</option>
+								    	<option class="eduLevel" value="2" >고등학교</option>
+								    	<option class="eduLevel" value="1" >중학교</option>
+								    	<option class="eduLevel" value="0" >초등학교</option>
 								  	</select>
 							</td>
-							<td><input id="school" class="school" style="width: 100px;" /></td>
-							<td><input id="major" style="width: 80px;" /></td>
+							<td><input id="school" class="school" name="school" style="width: 100px;" /></td>
+							<td>
+								<input id="major" name="major" style="width: 80px;" />
+								&nbsp;&nbsp;
+								<c:if test="${insaType == 1 }">
+									<button id="registerBtn1"  type="button">등록</button>
+								</c:if>
+							</td>
 						</tr>
 				</c:if>
 						
 					</tbody>
 		   		</table>
-		   		<c:if test="${insaType == 1 }">
-					<button class="registerBtnSmall" id="registerBtn1"  type="submit">등록</button>
-				</c:if>
 				</form>
 			</div>
 			
 			
-			<div class="insaDetailDiv" style="width: 50%;">
+			<div class="insaDetailDiv" style="width: 53%;">
 			  <form name="insaRegister2CertiFrm">
 				<table id="insaDetail2" class="table table-striped tdtable">
 					<thead>
@@ -302,7 +309,7 @@
 						<tr>
 							<th>자격증명</th>
 							<th>점수/급수</th>
-							<th>취득일자</th>
+							<th style="display: inline-block; width: 350px;">취득일자</th>
 						</tr>
 					</thead>
 					<tbody id="insaDetail2tbody">
@@ -315,42 +322,46 @@
 							<td>${certi.certification}</td>
 							<td>${certi.certiLevel}</td>
 							<td>${certi.certiDate}<input type="hidden" value="${certi.certi_seq}" />
-								<button class="registerBtnSmall" id="registerBtn2"  type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaEduModi.opis?edu_seq=${edu.edu_seq}&seq=${seq}'">수정</button>
-								<button class="registerBtnSmall" id="registerBtn2"  type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaCertiDel.opis?certi_seq=${certi.certi_seq}&seq=${seq}'">삭제</button>
+								<button type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaCertiModi.opis?certi_seq=${certi.certi_seq}&seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">수정</button>
+								<button type="submit" onclick="javascript:location.href='<%=ctxPath%>/insaCertiDel.opis?certi_seq=${certi.certi_seq}&seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">삭제</button>
 							</td>
 						</tr>
 						</c:forEach>
 					</c:if>
 				    <c:if test="${insaType == 2 }">
 						<tr>
-							<td><input id="certification" class="certiInput" style="width: 80px;" /></td>
-							<td><input id="certiLevel" class="certiInput" style="width: 70px;" /></td>
+							<td><input id="certification" name="certification" class="certiInput" style="width: 80px;" /></td>
+							<td><input id="certiLevel" name="certiLevel" class="certiInput" style="width: 70px;" /></td>
 							<td style="width: 270px;">
 								<select class = "certiyy" id="certiyy" name="certiyy" style="width: 75px; padding: 4px;">
 				           			
 					            </select>년
 								<select class = "certimm" id="certimm" name="certimm" style="margin-left: 2%; width: 55px; padding: 4px;">
-					           		<option class = "certimm" value="0">선택</option>
 					           		<c:forEach begin="1" end="12" varStatus="count" >
 					           			<option class = "certimm" value="${count.count}">${count.count}</option>
 					           		</c:forEach>
 					            </select>월
 					            <select class = "certidd" id="certidd" name="certidd" style="margin-left: 2%; width: 55px; padding: 4px;">
-					            			<option class = "certidd" value="0">선택</option>
-						            	<c:forEach begin="1" end="31" varStatus="count" >
+					            		<c:forEach begin="1" end="31" varStatus="count" >
 						           			<option class = "certidd" value="${count.count}">${count.count}</option>
 						           		</c:forEach>
 				        		</select>일 
+								&nbsp;&nbsp;
+								<c:if test="${insaType == 2 }">
+									<button id="registerBtn2"  type="button">등록</button>	
+								</c:if>
+			        			<div id="certiDiv"></div>	
 							</td>
 						</tr>
 					</c:if>
 					</tbody>
 				</table>
-				<c:if test="${insaType == 2 }">
-					<button class="registerBtnSmall" id="registerBtn2"  type="submit">등록</button>	
-				</c:if>
 			  </form>
 			</div>
+			<input id="hiddenSeq" type="hidden" value="${seq}"/>
+			<input id="hiddenCategory" type="hidden" value="${category}" />
+			<input id="hiddenSearchType" type="hidden" value="${searchType}" />
+			<input id="hiddenSearchWord" type="hidden" value="${searchWord}" />
 		
 </div>
 

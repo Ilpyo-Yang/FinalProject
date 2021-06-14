@@ -14,7 +14,7 @@ public class WorkVO {
 	private String important;			// 중요여부 (0 or 1)
 	private String fk_statno;  			// 업무상태번호
 	
-	private String delayday;  			// 마감일자 지난 일 수 
+	private String delayday;  		// 마감일자 지난 일 수 
 	private String lasteditdate; 	// 마지막으로 수정한 날짜
 	
 	

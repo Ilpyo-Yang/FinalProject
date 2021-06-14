@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Component;
@@ -43,6 +42,22 @@ public class snsMemberDAO implements IntersnsMemberDAO {
 	@Override
 	public int statuschange(MemberVO membervo) {
 		int n = sqlsession.update("sns.statuschange",membervo);
+		return n;
+	}
+
+	/*
+	 * // 채팅방 리스트 불러오기
+	 * 
+	 * @Override public List<TalkroomVO> getTalkroomlist(String fk_mbr_id) {
+	 * List<TalkroomVO> talkroomlist =
+	 * sqlsession.selectList("sns.getTalkroomlist",fk_mbr_id); return talkroomlist;
+	 * }
+	 */
+
+	// 접속시 유저 온라인 상태로 만들기
+	@Override
+	public int onlinestatus(MemberVO membervo) {
+		int n = sqlsession.update("sns.onlinestatus", membervo);
 		return n;
 	}
 

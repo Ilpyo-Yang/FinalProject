@@ -5,11 +5,23 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />	
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/content.css" />   
 
 <jsp:include page="./insa_sidebar.jsp" />
 
 
 <style>
+
+	
+select:hover{
+	cursor: pointer;
+}
+tr.memberInfo:hover{
+	cursor: pointer;
+}
+
+
+
 	/* Dropdown Button */
 	.dropbtn {
 	  background-color: #68b658;
@@ -132,7 +144,7 @@
 	}
 	div.paymentBorder{
 		display: inline-block;
-		border: solid 3px #68b658;
+		border: solid 3px gray;
 		background-color: white;
 		width: 50%;
 		height: 450px;
@@ -176,6 +188,7 @@
 	});
 	
 	function memberInfoView(seq){
+		
 		$("div#registerDiv").hide();
 
 		$("tr.clickMemberPay").children().removeClass("green");
@@ -194,13 +207,11 @@
 			data:{"seq":seq},
 			dataType:"json",
 			success:function(json){
-			
-				
 				if (json.status == 1){
 					html = 	'<div class="paymentInfoDiv" style="width: 100%; ">'+
 								'<div id="buttons" style="float: right; margin-right: 15px;">'+
-								'<button id="payModiBtn" class="paymentInfoBtn" onclick="goModifyPayment()" type="button">수정</button>'+
-								'<button id="payDelBtn" class="paymentInfoBtn" onclick="goPaymentDel()" type="button">삭제</button>'+
+								'<button id="payModiBtn" onclick="goModifyPayment()" type="button">수정</button>&nbsp;&nbsp;'+
+								'<button id="payDelBtn" onclick="goPaymentDel()" type="button">삭제</button>'+
 								'<br><br>'+
 								'</div>'+
 								'<table id="paymentInfo" class="paymentTbl" style="clear: both;">'+
@@ -222,8 +233,8 @@
 								'</table>'+
 							'</div>'+
 							'<div class="paymentInfoDiv" style="margin-top: 15px;">'+
-								'<button id="closeBtn" class="paymentInfoBtn" onclick="goBackPayment()">닫기</button>'+
-								'<button id="payDetailBtn" class="paymentInfoBtn" onclick="goPaymentDetail()">자세히</button>'+
+								'<button id="closeBtn" onclick="goBackPayment()">닫기</button>&nbsp;&nbsp;'+
+								'<button id="payDetailBtn" onclick="goPaymentDetail()">자세히</button>'+
 							'</div>';	
 					
 					var parameter = json.idNo + "," + json.basePay + "," + json.spePay + "," + json.bank + "," + json.accountNo + "," + json.mbr_name;
@@ -232,8 +243,8 @@
 				}
 				else{
 						html = 	'<div class="paymentInfoDiv" style="width: 100%; ">'+
-						'<div id="buttons" style="float: right; margin-right: 15px;">'+
-						'<button id="payModiBtn" class="paymentInfoBtn" onclick="goPaymentRegister()" type="button">등록</button>'+
+						'<div id="buttons" style="float: right; margin-right: 15px;">&nbsp;&nbsp;'+
+						'<button id="payModiBtn" onclick="goPaymentRegister()" type="button">등록</button>'+
 						'<br><br>'+
 						'</div>'+
 						'<table id="paymentInfo" class="paymentTbl" style="clear: both;">'+
@@ -255,8 +266,8 @@
 						'</table>'+
 					'</div>'+
 					'<div class="paymentInfoDiv" style="margin-top: 15px;">'+
-						'<button id="closeBtn" class="paymentInfoBtn" onclick="goBackPayment()">닫기</button>'+
-						'<button id="payDetailBtn" class="paymentInfoBtn" onclick="goPaymentDetail()">자세히</button>'+
+						'<button id="closeBtn" onclick="goBackPayment()">닫기</button>&nbsp;&nbsp;'+
+						'<button id="payDetailBtn" onclick="goPaymentDetail()">자세히</button>'+
 					'</div>';	
 				}
 
@@ -276,49 +287,79 @@
 	}
 	function goBackPaymentInfo(){
 		$("div#registerDiv").hide();
+		$("div#registerModiDiv").hide();
 		$("div#paymentInfoBorder").show();
 	}
 	function goPaymentDetail(){
 		var seq = $("input#hiddenSeq").text();
 		var category = $("input#hiddenCategory").val();
-		location.href='<%=ctxPath%>/paymentDetail.opis?category='+category+'&seq='+seq;
+		var searchType = $("input#hiddenSearchType").val();
+		var searchWord = $("input#hiddenSearchWord").val();
+		location.href='<%=ctxPath%>/paymentDetail.opis?category='+category+'&seq='+seq+'&searchType='+searchType+'&searchWord='+searchWord; 
 	}
 	function goRegisterEnd(){
 		var seq = $("input#hiddenSeq").text();
 
+		var bflag = true;
 		
-		$.ajax({
-			url:"<%=ctxPath%>/payRegisterEnd.opis",
-			type:"get",
-			data:{"seq":seq,
-				  "idNo":$("input#idNo").val(),
-				  "accountNo":$("input#accountNo").val(),
-				  "bank":$("input#bank").val(),
-				  },
-			dataType:"json",
-			success:function(json){
-				if(json == 1){
-					$("div#registerDiv").hide();
-					$("div#paymentInfoBorder").show();
-					alert("등록성공!!");
-				}
-				else{
-					alert("등록실패!!");
-				}
-			},
-			error: function(request, status, error){
-            	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-            }
-		});
+		var idNo = $("input#idNo").val();
+		var accountNo = $("input#accountNo").val();
+		var bank = $("input#bank").val();
 		
-		memberInfoView(seq);
+		if(idNo.trim()==""){
+			bflag = false;
+		}
+		if(accountNo.trim()==""){
+			bflag = false;
+		}
+		if(bank.trim()==""){
+			bflag = false;
+		}
+		
+
+		if(!bflag){
+			alert("모든 항목을 입력하세요!!");
+		}
+		else{
+			$.ajax({
+				url:"<%=ctxPath%>/payRegisterEnd.opis",
+				type:"get",
+				data:{"seq":seq,
+					  "idNo":idNo,
+					  "accountNo":accountNo,
+					  "bank":bank
+					  },
+				dataType:"json",
+				success:function(json){
+
+					if(json == 1){
+						$("div#registerDiv").hide();
+						$("div#paymentInfoBorder").show();
+						alert("등록성공!!");
+
+						memberInfoView(seq);
+					}
+					else{
+						alert("등록실패!!");
+						
+
+						memberInfoView(seq);
+					}
+				},
+				error: function(request, status, error){
+	            	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	            }
+			});			
+		}
+		
+
 		
 	}
 	
 	function goPaymentRegister(){
 		$("div#paymentInfoBorder").hide();
 		var html = 	'<div class="paymentInfoDiv" style="width: 100%; ">'+
-						'<button id="payRegisterEndBtn" class="paymentInfoBtn" type="button" onClick="goRegisterEnd()">저장</button>'+
+						'<button id="payRegisterEndBtn" type="button" onClick="goRegisterEnd()">저장</button>'+
 						'<br><br>'+
 						'</div>'+
 						'<table id="paymentInfo" class="paymentTbl" style="clear: both;">'+
@@ -340,7 +381,7 @@
 						'</table>'+
 					  '</div>'+
 					  '<div class="paymentInfoDiv" style="margin-top: 15px;">'+
-						'<button id="closeBtn" class="paymentInfoBtn" onclick="goBackPaymentInfo()">닫기</button>'+
+						'<button id="closeBtn" onclick="goBackPaymentInfo()">닫기</button>'+
 					  '</div>';
 		$("div#registerDiv").html(html);
 		$("div#registerDiv").show();
@@ -357,7 +398,7 @@
 		
 				
 		var html = 	'<div class="paymentInfoDiv" style="width: 100%; ">'+
-						'<button id="payModifyEndBtn" class="paymentInfoBtn" type="button" onClick="goModifyEnd()">저장</button>'+
+						'<button id="payModifyEndBtn" type="button" onClick="goModifyEnd()">저장</button>'+
 						'<br><br>'+
 						'</div>'+
 						'<table id="paymentInfo" class="paymentTbl" style="clear: both;">'+
@@ -379,7 +420,7 @@
 						'</table>'+
 					  '</div>'+
 					  '<div class="paymentInfoDiv" style="margin-top: 15px;">'+
-						'<button id="closeBtn" class="paymentInfoBtn" onclick="goBackPaymentInfo()">닫기</button>'+
+						'<button id="closeBtn" onclick="goBackPaymentInfo()">닫기</button>'+
 					  '</div>';
 		$("div#registerModiDiv").html(html);
 		$("div#registerModiDiv").show();
@@ -405,9 +446,11 @@
 					$("div#registerModiDiv").hide();
 					$("div#paymentInfoBorder").show();
 					alert("수정성공!!");
+					memberInfoView(seq);
 				}
 				else{
 					alert("수정실패!!");
+					memberInfoView(seq);
 				}
 			},
 			error: function(request, status, error){
@@ -415,7 +458,6 @@
             }
 		});
 		
-		memberInfoView(seq);
 	}
 	
 	
@@ -431,34 +473,57 @@
 				success:function(json){
 					if(json == 1){
 						alert("삭제성공!!");
+						memberInfoView(seq);
 					}
 					else{
 						alert("삭제실패!!");
+						memberInfoView(seq);
 					}
 				},
 				error: function(request, status, error){
 	            	alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 	            }
 			});
-			
-			memberInfoView(seq);		
+					
 	}
 	
+	function goSearch(){
+
+		var searchType = $(".searchType option:selected").val();
+		var searchWord= $("input.searchWord").val();
+		var seq = $("input#hiddenSeq").text();
+		var category = $("input#hiddenCategory").val();
+
+		location.href='<%=ctxPath%>/payment.opis?category='+category+'&seq='+seq+'&searchType='+searchType+'&searchWord='+searchWord; 
+	}
 </script>
 
-<div id="insa" style="width: 80%; display: inline-block; margin-top: 70px; padding-left: 30px;">
+<div id="insa" style="width: 80%; display: inline-block; margin-top: 70px; padding-left: 30px;" class="commoncontainer">
 			<table style="margin-bottom: 30px;">
 				<tr>
 					<td>
-						<form name="form1" id="form1" action="/action_page.php">
-				 			<select name="subject" id="subject">
-						    	<option value="" selected="selected">사원번호</option>
-						    	<option value="" selected="selected">사원명</option>
-						    	<option value="" selected="selected">부서명</option>
+				 			<select name="searchType" class="searchType" id="subject">
+				 				<c:if test="${searchType == 'mbr_seq' }" >
+							    	<option value="mbr_seq" selected="selected">사원번호</option>
+							    	<option value="mbr_name">사원명</option>
+				 				</c:if>
+				 				<c:if test="${searchType == 'mbr_name' }" >
+							    	<option value="mbr_seq">사원번호</option>
+							    	<option value="mbr_name" selected="selected">사원명</option>
+				 				</c:if>
+				 				<c:if test="${searchType == '' }" >
+							    	<option value="mbr_seq" selected="selected">사원번호</option>
+							    	<option value="mbr_name">사원명</option>
+				 				</c:if>
 						  	</select>
-						  	<input type="text" placeholder="Search.." name="search" style="height: 20px;">
-						 	<input type="submit" value="검색">
-						</form>
+						  	
+			 				<c:if test="${searchWord != '' }" >
+			 					<input type="text" class="searchWord" placeholder="Search.." value="${searchWord}" name="search" style="height: 20px;">
+						 	</c:if>
+			 				<c:if test="${searchWord == '' }" >
+						 		<input type="text" class="searchWord" placeholder="Search.." name="search" style="height: 20px;">
+						 	</c:if>
+								<input type="submit" onclick="goSearch()" value="검색">
 
 					</td>
 				</tr>
@@ -475,7 +540,7 @@
 					</thead>
 					<tbody>
 					<c:forEach var="insaList" items="${requestScope.insaList}">
-					<tr class="clickMemberPay" onclick="memberInfoView(${insaList.mbr_seq})" >
+					<tr class="clickMemberPay memberInfo" onclick="memberInfoView(${insaList.mbr_seq})">
 						<td class="seq">${insaList.mbr_seq}</td>
 						<td>${insaList.mbr_name}</td>
 						<c:if test="${insaList.fk_dept_no == 0}">
@@ -510,11 +575,19 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			<input id="hiddenSeq" type="hidden""/>
+			
+		   <br>
+	    <div align="center" style="width: 80%; border: solid 0px gray; margin-right: 20px;">
+	    	${requestScope.pageBar}
+	    </div>
+			<input id="hiddenSeq" type="hidden"/>
 			<input id="hiddenSeqVal" type="hidden" value="${seq}"/>
 			<input id="hiddenCategory" type="hidden" value="${category}" />
+			<input id="hiddenSearchType" type="hidden" value="${searchType}" />
+			<input id="hiddenSearchWord" type="hidden" value="${searchWord}" />
 			<input id="hiddenParameter" type="hidden" />
 			</div>
+			&nbsp;&nbsp;
 			<div id='paymentInfoBorder' class='paymentBorder' >
 
 			</div>
@@ -524,6 +597,7 @@
 			
 			<div id="registerModiDiv" class="paymentBorder">
 			</div>
+	   
 	
 </div>
 

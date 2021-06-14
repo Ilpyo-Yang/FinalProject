@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.spring.groupware.addrlist.model.AddrVO;
+import com.spring.groupware.common.GoogleMail;
 import com.spring.groupware.schedule.model.InterScheduleDAO;
 import com.spring.groupware.schedule.model.MtrHistoryVO;
 import com.spring.groupware.schedule.model.ScheduleVO;
@@ -18,6 +19,9 @@ public class ScheduleService implements InterScheduleService{
 	// === 의존객체 주입하기(DI: Dependency Injection) ===
 	@Autowired
 	private InterScheduleDAO dao;
+	
+	@Autowired
+    private GoogleMail mail;
 	
 	// 일정번호 채번해오기
 	@Override
@@ -70,8 +74,8 @@ public class ScheduleService implements InterScheduleService{
 	
 	// 캘린더에 일정 보여주기
 	@Override
-	public List<Map<String, String>> showScd(String userid) {
-		List<Map<String, String>> scdList = dao.showScd(userid);
+	public List<Map<String, String>> showScd(Map<String, String> paraMap) {
+		List<Map<String, String>> scdList = dao.showScd(paraMap);
 		return scdList;
 	}
 	
@@ -82,30 +86,31 @@ public class ScheduleService implements InterScheduleService{
 		return n;
 	}
 	
-	// 회의 초대 메일 보내기
+	// 선택한 사람에게 회의 초대 메일 보내기
 	@Override
-	public void scdEmailSending() throws Exception {
+	public void invitedListEmailSending(Map<String, String> paraMap) throws Exception {
 		
-		List<Map<String, String>> rsvpList = dao.getRsvpList();
+		String emailList = paraMap.get("emailList");
+		String nameList = paraMap.get("");
 		
-		if(rsvpList != null && rsvpList.size() > 0) {
+		if( emailList != null && !"".equals(emailList)) {
+			String[] emailArr = emailList.split(",");
 			
-			for(int i=0; i<rsvpList.size(); i++) {
-				String contents = "회원 ID: " + rsvpList.get(i).get("");
-				
-			//	 = rsvpList.get(i).get(key);
-				
-			}// end of for-----------------------
-			
-			Map<String, String[]> paraMap = new HashMap<>();
-			// paraMap.putIfAbsent("", );
-			
-			
-		//	dao.SendMailNCheck(paraMap);
-			
+			for(int i=0; i<emailArr.length; i++) {
+				String contents = paraMap.get("mbrName") + " 님, " + paraMap.get("myName") + " 님께서 회의에 초대하셨습니다."
+								+ "<br>";
+				mail.sendmail(emailArr[i], contents);
+			}
 		}
-		
 	}
+	
+	// 나의 일정 개수 확인하기
+	@Override
+	public int cntMyTotalScd(int mbr_seq) {
+		int totalCnt = dao.cntMyTotalScd(mbr_seq);
+		return totalCnt;
+	}
+
 	
 	///////////////////////////////////////////////////////////일정끝
 	
@@ -164,31 +169,5 @@ public class ScheduleService implements InterScheduleService{
 		int n = dao.delOneResv(usermtrno);
 		return n;
 	}
-	
-	
-
-	
-
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-
-	
-
-	
-	
-	
-
-	
-
-	
 	
 }

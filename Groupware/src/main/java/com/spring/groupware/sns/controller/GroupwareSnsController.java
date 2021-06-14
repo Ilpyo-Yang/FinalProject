@@ -9,17 +9,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.groupware.common.FileManager;
 import com.spring.groupware.member.model.MemberVO;
+import com.spring.groupware.sns.model.TalkroomVO;
 import com.spring.groupware.sns.service.IntersnsMemberService;
 
 
@@ -40,9 +44,7 @@ public class GroupwareSnsController {
 		
 		List<MemberVO> memberList = null;
 		
-		
 		String searchWord = request.getParameter("searchWord");
-		
 		
 		if(searchWord == null || "".equals(searchWord) || searchWord.trim().isEmpty()) {
 			searchWord = "";
@@ -53,7 +55,6 @@ public class GroupwareSnsController {
 				
 		memberList = service.memberListSearch(paraMap);
 		
-		// 아래는 검색대상 컬럼과 검색어를 유지시키기 위한 것임.
 		if(!"".equals(searchWord)) {
 			mav.addObject("paraMap", paraMap);
 		}
@@ -74,7 +75,7 @@ public class GroupwareSnsController {
 		return mav;
 	}
 	
-	// 글 수정 페이지 요청하기
+	// 유저정보 수정 페이지 요청하기
 	@RequestMapping(value="/sns/infochange.opis")
 	public ModelAndView requiredLogin_infochange(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
@@ -82,7 +83,7 @@ public class GroupwareSnsController {
 		return mav;
 	}
 	
-	// 글 수정 완료하기
+	// 유저정보 수정 완료하기
 	@RequestMapping(value="/infochangeend.opis", method= {RequestMethod.POST})
 	public ModelAndView editEnd(ModelAndView mav, MemberVO membervo, MultipartHttpServletRequest mrequest) {
 	
@@ -97,7 +98,7 @@ public class GroupwareSnsController {
 				mbr_img = fileManager.doFileUpload(bytes, originalFilename, path);
 				membervo.setMbr_photo(mbr_photo);
 				membervo.setMbr_img(mbr_img);
-
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -111,8 +112,6 @@ public class GroupwareSnsController {
 				MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 				loginuser.setMbr_name(membervo.getMbr_name());
 				loginuser.setMbr_stsmsg(membervo.getMbr_stsmsg());
-				loginuser.setMbr_img(membervo.getMbr_img());
-				loginuser.setMbr_photo(membervo.getMbr_photo());
 				
 				mav.setViewName("redirect:/sns/snsmain.opis");
 		
@@ -147,5 +146,55 @@ public class GroupwareSnsController {
 		   
 		   return "/sns/talkroom";
 	   }
+	  
+		/*
+		 * // 채팅방 리스트 출력하기 ajax
+		 * 
+		 * @ResponseBody
+		 * 
+		 * @RequestMapping(value="/talkroomlist.opis", method= {RequestMethod.GET},
+		 * produces="text/plain;charset=UTF-8") public String
+		 * talkroomlist(HttpServletRequest request) {
+		 * 
+		 * String fk_mbr_id = request.getParameter("fk_mbr_id");
+		 * 
+		 * List<TalkroomVO> talkroomlist = service.getTalkroomlist(fk_mbr_id);
+		 * 
+		 * JSONArray jsonArr = new JSONArray();
+		 * 
+		 * if(talkroomlist != null) { for(TalkroomVO troomvo : talkroomlist ) {
+		 * JSONObject jsonObj = new JSONObject(); jsonObj.put("room_name",
+		 * troomvo.getRoom_name()); jsonObj.put("room_seq", troomvo.getRoom_seq());
+		 * 
+		 * jsonArr.put(jsonObj); } }
+		 * 
+		 * return jsonArr.toString(); }
+		 */
+	  
+	  
+		/*
+		 * // 채팅방 삭제하고 리스트 출력하기 ajax
+		 * 
+		 * @ResponseBody
+		 * 
+		 * @RequestMapping(value="/talkroomlistDel.opis", method= {RequestMethod.GET},
+		 * produces="text/plain;charset=UTF-8") public String
+		 * talkroomlistDel(HttpServletRequest request) {
+		 * 
+		 * String fk_mbr_id = request.getParameter("fk_mbr_id");
+		 * 
+		 * List<TalkroomVO> talkroomlist = service.delTalkroomlist(fk_mbr_id);
+		 * 
+		 * JSONArray jsonArr = new JSONArray();
+		 * 
+		 * if(talkroomlist != null) { for(TalkroomVO troomvo : talkroomlist ) {
+		 * JSONObject jsonObj = new JSONObject(); jsonObj.put("room_name",
+		 * troomvo.getRoom_name()); jsonObj.put("room_seq", troomvo.getRoom_seq());
+		 * 
+		 * jsonArr.put(jsonObj); } }
+		 * 
+		 * return jsonArr.toString(); }
+		 */
+	  
 }	
 

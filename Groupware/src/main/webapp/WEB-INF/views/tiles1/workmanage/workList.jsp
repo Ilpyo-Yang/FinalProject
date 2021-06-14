@@ -127,6 +127,7 @@ button.readCheck {
 		}
 	});
 	
+	// 업무 상세보기 함수
 	function goDetailWork(wmno) {
 		<%-- location.href="<%=request.getContextPath()%>/showDetailWork.opis?fk_wtno="+${fk_wtno}+"&fk_wrno="+${fk_wrno}+"&wmno="+wmno; --%>
 		var frm = document.detailFrm;
@@ -139,7 +140,7 @@ button.readCheck {
 		frm.submit();
 	}
 	
-	// 업무 삭제하기 
+	// 업무 삭제하기 힘수
 	function goWorkDel() {
 		var delcheck = confirm("삭제하시겠습니까?");
 		if (!delcheck) {
@@ -157,9 +158,42 @@ button.readCheck {
 		$("input[name=wmnoStr]").val(wmnoStr);
 		
 		// 삭제할 업무 리스트 전송하기 (POST 방식)
-		var frm = document.delFrm;
+		var frm = document.workInfoFrm;
 		frm.method = "post";
 		frm.action = "<%=ctxPath%>/workDel.opis";
+		frm.submit();
+	}
+	
+	// 업무 완료 버튼 클릭시 업무 상태 변경하는 함수
+	function goWorkComplete() {
+		var wmnoArr = []; // 체크박스에 선택된 업무 리스트 담기
+		$("input.oneCheckbox").each(function(index, item){
+			if ($(item).prop("checked") == true) {
+				var wmno = $(item).val();
+				wmnoArr.push(wmno);	
+			}
+		});
+		
+		// 업무 선택을 하나도 하지 않았을 경우 경고
+		if (wmnoArr.length == 0) {
+			alert("하나 이상의 업무를 선택해주세요!");
+			return; 
+		}
+		
+		// 업무 리스트 담기
+		var wmnoStr = wmnoArr.join();
+		$("input[name=wmnoStr]").val(wmnoStr);
+		
+		// 업무완료 재확인
+		var check = confirm("업무 완료 하시겠습니까?");
+		if (!check) {
+			return; // 취소시 함수 종료
+		}
+		
+		// 수정할 업무 리스트 전송하기 (POST 방식)
+		var frm = document.workInfoFrm;
+		frm.method = "post";
+		frm.action = "<%=ctxPath%>/workStatusChangeToComplete.opis";
 		frm.submit();
 	}
 	
@@ -199,6 +233,7 @@ button.readCheck {
 		}
 	}
 	
+	// 검색 조건을 가지고 검색하러 가는 함수 
 	function goSearch() {
 		// 업무 검색을 위한 체크박스 중 선택한 것들 담기
 		var searchWorkStatusArr = []; 
@@ -217,6 +252,7 @@ button.readCheck {
 	}
 	
 	
+	// 검색된 조건들 고정시키는 함수 
 	function setSearchInfo() {
 		// 페이지 당 만들기
 		var sizePerPage = "${requestScope.sizePerPage}";
@@ -252,7 +288,7 @@ button.readCheck {
 			</select>
 		</li>
 
-		<li>전체 <span>3</span></li>
+		<li>전체 <span>${requestScope.totalCount}</span></li>
 		
 		<!-- 검색 바 열 맞추기 위해서 히든으로 숨겨둠 -->
 		<li style="width: 50px;">
@@ -280,6 +316,7 @@ button.readCheck {
 		
 		<li>
 			<select id="searchType" name="searchType" >
+				<option value="">선택</option>
 				<option value="subject">제목</option>
 				<option value="contents">내용</option>
 			</select>
@@ -356,9 +393,14 @@ button.readCheck {
 	
 	<!-- 업무 관련 버튼 -->
 	<div align="right">
-		<button type="button" class="workEditBtn" onclick="javascript:location.href='<%=ctxPath%>/workAdd.opis?fk_wtno=${fk_wtno}'">업무등록</button>
-		<button type="button" class="workListBtn" onclick="javascript:location.href='<%=ctxPath%>/workList.opis?'">업무완료</button>
-		<button type="button" class="workDeleteBtn" onclick="goWorkDel();">삭제</button>
+		<c:if test="${fk_wrno == 1}">
+			<button type="button" class="workEditBtn btn btn-success" onclick="javascript:location.href='<%=ctxPath%>/workAdd.opis'">업무등록</button>
+			<button type="button" class="workListBtn btn btn-default" onclick="goWorkComplete();">업무완료</button>
+		</c:if>
+		<c:if test="${fk_wrno == 2 and fk_wtno == 1}"><button type="button" class="workListBtn btn btn-success" onclick="">업무처리</button></c:if>
+		<c:if test="${fk_wrno == 2 and fk_wtno == 2}"><button type="button" class="workListBtn btn btn-success" onclick="">반려처리</button></c:if>
+		<c:if test="${fk_wrno == 2 or fk_wrno == 3}"><button type="button" class="workListBtn btn btn-default" onclick="">읽음처리</button></c:if>
+		<button type="button" class="workDeleteBtn btn btn-danger" onclick="goWorkDel();">삭제</button>
 	</div>
 	
 	<!-- 상세한 업무 내용 보내기 폼 -->
@@ -371,8 +413,8 @@ button.readCheck {
 		<input type="hidden" name="gobackURL" value="${requestScope.gobackURL}" />
 	</form>	
 	
-	<!-- 삭제할 업무 번호 폼 -->
-	<form name="delFrm">
+	<!-- 삭제버튼, 완료버튼 클릭시 전송할 업무 번호 폼 -->
+	<form name="workInfoFrm">
 		<input type="hidden" name="wmnoStr" />
 		<input type="hidden" name="fk_wtno" value="${fk_wtno}"/>
 		<input type="hidden" name="fk_wrno" value="${fk_wrno}"/>

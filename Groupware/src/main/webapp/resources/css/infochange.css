@@ -8,7 +8,7 @@ div.snsmaincontainer {
 }
 
 div.form-group {
-	border: 1px solid red;
+	border: 0px solid red;
 	width: 400px;
 	height: 100px;
 }

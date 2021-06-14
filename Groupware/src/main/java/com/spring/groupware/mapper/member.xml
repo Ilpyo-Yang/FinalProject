@@ -79,6 +79,7 @@
 	</resultMap>
 	
 
+	<!-- 참조자, 결재라인  - 전체 사원정보 가져오기 -->
 	<select id="getChartInfo" parameterType="String" resultMap="getChartInfoMap">
 	    select mbr_seq, mbr_name, dept_detail, rank_detail
 		from 

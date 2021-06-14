@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <% String ctxPath = request.getContextPath(); %>
     
 <meta charset="utf-8">
@@ -10,8 +11,6 @@
 <style>
 	
 	#resvList {
-		position: relative;
-		overflow:hidden;
 		margin-top:30px;
 		width:630px;
 		height:180px;
@@ -44,6 +43,8 @@
 		background:#737373;
 		color: white;
 	}
+	
+
 	
 </style>
 
@@ -93,12 +94,14 @@
 	function func_select(){
 		
 		$("div#resvList").empty();
+		var today = new Date();
 		
 		$.ajax({
 			url:"<%=ctxPath%>/showMtrResv.opis",
 			dataType:"json",
 			success:function(json) {
 				var html = 	"<table class='table table-striped'>" +
+							"<thead>" +
 							"<tr>" +
 							"<th>선택</th>" +
 							"<th>회의실명</th>" +
@@ -106,25 +109,34 @@
 							"<th>예약명</th>" +
 							"<th>시작시간</th>" +
 							"<th>종료시간</th>" +
-							"</tr>";
+							"</tr>" +
+							"</thead>";
 				
 				$.each(json,function(index, item){
 					var starttime = item.starttime.substring(0,16);
 					var endtime = item.endtime.substring(0,16);
 					
-					html += "<tr>"+
+					var endTm = new Date(item.endtime);
+					
+					if(today <= endTm){
+					html += "<tbody id='listBody'>" +
+							"<tr>"+
 							"<td><input type='checkbox' name='usemtrno' id='usemtrno' value='"+item.usemtrno+"'/></td>"+
 							"<td>"+item.mtrname+"</td>"+
 							"<td>"+item.booker+"</td>"+
 							"<td>"+item.mtrsubject+"</td>"+
 							"<td>"+starttime+"</td>"+
 							"<td>"+endtime+"</td>"+
-							"</tr>";
+							"</tr>" +
+							"</tbody>";
+					}
 				});
 				
 				html += "</table>"
 				
 				$("div#resvList").html(html);
+				
+				page();
 			},
 			error:function(request, status, error) {
 				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -132,13 +144,12 @@
 		});
 	}// end of function func_select(){}------------------------
 	 
-
+	
 </script>
 
 <div id="container" class="container">
 <h3 style="font-weight:bold;">${sessionScope.loginuser.mbr_name} 님의 예약내역</h3>
 <hr>
-
 	<div id="resvList"></div>
 </div>
 

@@ -65,6 +65,25 @@ public class ScheduleController {
 		// 주소록 리스트 가져오기
 		List<AddrVO> addrList = service.getAddrList();
 		
+		String emailList = request.getParameter("mbr_email");
+		String mbrName = request.getParameter("mbr_name");
+		String myName = request.getParameter("myName");
+		
+		Map<String, String> paraMap = new HashMap<>();
+		
+		if(emailList != null && !"".equals(emailList)) {
+			paraMap.put("emailList", emailList);
+			paraMap.put("mbrName", mbrName);
+			paraMap.put("myName", myName);
+		}
+		
+		try {
+			service.invitedListEmailSending(paraMap);
+		} catch (Exception e) {
+			
+		}
+		
+		mav.addObject("emailList",emailList);
 		mav.addObject("addrList", addrList);
 		mav.setViewName("schedule_modal/addressList");
 		
@@ -97,7 +116,8 @@ public class ScheduleController {
 		
 		// 아래는 검색대상 컬럼과 검색어를 유지시키기 위한 것임.
 		if(!"".equals(searchType) && !"".equals(searchWord)) {
-			mav.addObject("paraMap", paraMap);
+			mav.addObject("searchType", searchType);
+			mav.addObject("searchWord", searchWord);
 		}
 		
 		mav.addObject("addrList",addrList);
@@ -105,6 +125,7 @@ public class ScheduleController {
 		
 		return mav;
 	}
+	
 	// 일정 등록하기
 	@RequestMapping(value="/scdRegEnd.opis", method = {RequestMethod.POST})
 	public ModelAndView requiredLogin_scdRegEnd(HttpServletRequest request, HttpServletResponse response, ModelAndView mav, ScheduleVO schedulevo) {
@@ -136,17 +157,9 @@ public class ScheduleController {
 		
 		ScheduleVO schedulevo = service.getViewScd(scdno);
 		
-		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		mav.addObject("schedulevo", schedulevo);
+		mav.setViewName("schedule_modal/scdDetail");
 		
-		if(loginuser.getMbr_seq() == Integer.parseInt(schedulevo.getFk_mbr_seq())) {
-			mav.addObject("schedulevo", schedulevo);
-			mav.setViewName("schedule_modal/scdDetail");
-		}
-		else {
-			mav.addObject("message","잘못된 접근입니다.");
-			mav.setViewName("msg");
-		}
 		return mav;
 	}
 	
@@ -181,17 +194,18 @@ public class ScheduleController {
 	@RequestMapping(value="/editEndScd.opis", method={RequestMethod.POST})
 	public ModelAndView requiredLogin_editEndScd(HttpServletRequest request, HttpServletResponse response, ModelAndView mav, ScheduleVO schedulevo) {
 		
-		int n = service.editScd(schedulevo);
 		
-		if(n == 1) {
-			mav.addObject("schedulevo", schedulevo);
-			mav.setViewName("schedule_modal/scdDetail");
-		}
-		else {
-			mav.addObject("message", "일정 수정 실패");
-			mav.addObject("loc","javascript:history.back()");
-			mav.setViewName("msg");
-		}
+			int n = service.editScd(schedulevo);
+			
+			if(n == 1) {
+				mav.addObject("schedulevo", schedulevo);
+				mav.setViewName("schedule_modal/scdDetail");
+			}
+			else {
+				mav.addObject("message", "일정 수정 실패");
+				mav.addObject("loc","javascript:history.back()");
+				mav.setViewName("msg");
+			}
 		
 		return mav;
 	}
@@ -201,19 +215,31 @@ public class ScheduleController {
 	public ModelAndView delScd(HttpServletRequest request, ModelAndView mav, ScheduleVO schedulevo) {
 		
 		String scdno = request.getParameter("scdno");
+		String fk_mbr_seq = request.getParameter("fk_mbr_seq");
 		
-		int n = service.delScd(scdno);
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
-		if(n==1) {
-			mav.setViewName("redirect:/scd_register.opis");
+		if(loginuser.getMbr_seq() == Integer.parseInt(fk_mbr_seq)) {
+			int n = service.delScd(scdno);
+			
+			if(n==1) {
+				mav.setViewName("redirect:/scd_register.opis");
+			}
+			else {
+				String message = "일정 삭제에 실패하였습니다.";
+		        mav.addObject("message", message);
+		        mav.setViewName("msg");
+			}
 		}
 		else {
-			String message = "일정 삭제에 실패하였습니다.";
+			String message = "다른 사용자의 일정은 삭제가 불가합니다.";
+	        String loc = "javascript:history.back()";
 	        
 	        mav.addObject("message", message);
+	        mav.addObject("loc", loc);
 	        mav.setViewName("msg");
 		}
-		
 		return mav;
 	}
 	
@@ -226,8 +252,13 @@ public class ScheduleController {
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
 		String userid = loginuser.getMbr_id();
+		String dept_detail = loginuser.getDept_detail();
 		
-		List<Map<String, String>> scdList = service.showScd(userid);
+		Map<String, String> paraMap = new HashMap<>();
+		paraMap.put("userid", userid);
+		paraMap.put("dept_detail", dept_detail);
+		
+		List<Map<String, String>> scdList = service.showScd(paraMap);
 		
 		JsonArray jsonArr = new JsonArray();
 		
@@ -250,9 +281,17 @@ public class ScheduleController {
 	@RequestMapping(value="/delAll.opis")
 	public ModelAndView requiredLogin_delAll(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		int mbr_seq = loginuser.getMbr_seq();
+		
+		// 나의 일정 개수 확인하기
+		int totalCnt = service.cntMyTotalScd(mbr_seq);
+		
 		int n = service.delAll();
 		
-		if(n==1) {
+		if(n == totalCnt) {
 			mav.setViewName("schedule/myscd.tiles1");
 		}
 		else {
@@ -295,6 +334,11 @@ public class ScheduleController {
 		int usemtrno = service.getNum(); // 채번하기
 		
 		mtrhvo.setUsemtrno(String.valueOf(usemtrno));
+		
+		if(mtrhvo.getFk_scdno() == null) {
+			String fk_scdno = "";
+			mtrhvo.setFk_scdno(fk_scdno);
+ 		}
 		
 		int n = service.resvMtrEnd(mtrhvo);
 		
@@ -349,7 +393,7 @@ public class ScheduleController {
 		
 		int n = service.delMtrReg(usemtrno);
 		
-		System.out.println(usemtrno);
+		// System.out.println(usemtrno);
 		
 		if(n==1) {
 			mav.setViewName("redirect:/mtr_resv.opis");
@@ -369,8 +413,10 @@ public class ScheduleController {
 	
 	// 회의실 예약 취소 페이지 보여주기
 	@RequestMapping(value="/CancelResv.opis")
-	public String requiredLogin_cancelResv(HttpServletRequest request, HttpServletResponse response) {
-		return "schedule_modal/mtrMyResv";
+	public ModelAndView requiredLogin_cancelResv(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+		
+		mav.setViewName("schedule_modal/mtrMyResv");
+		return mav;
 	}
 	
 	// 내 회의실 예약 내역 가져오기
@@ -405,7 +451,7 @@ public class ScheduleController {
 	// 선택된 예약 건 취소하기
 	@ResponseBody
 	@RequestMapping(value="/delMtrResv.opis", method= {RequestMethod.GET})
-	public String delMtrResv(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="checkArr[]") List<String> checkArr ) {
+	public String delMtrResv(HttpServletRequest request, @RequestParam(value="checkArr[]") List<String> checkArr ) {
 		
 		JSONObject jsonObj = new JSONObject();	
 		
@@ -425,4 +471,6 @@ public class ScheduleController {
 		
 		return jsonObj.toString();
 	}
+	
+	
 }

@@ -170,7 +170,7 @@
 	
 	function goCancelResv() {
 		var url = "<%=ctxPath%>/CancelResv.opis";
-		window.open(url, "goCancel","left=350px, top=100px, width=650px, height=320px");
+		window.open(url, "goCancel","left=350px, top=100px, width=675px, height=360px");
 	}
 	
 	
@@ -219,12 +219,12 @@
 				<td>
 					<select name="fk_mtrno">
 						<option>회의실 선택</option>
-						<option value="1">회의실1</option>
-						<option value="2">회의실2</option>
-						<option value="3">회의실3</option>
-						<option value="4">회의실4</option>
-						<option value="5">회의실5</option>
-						<option value="6">회의실6</option>
+						<option value="1">마포룸</option>
+						<option value="2">강서룸</option>
+						<option value="3">송파룸</option>
+						<option value="4">구로룸</option>
+						<option value="5">용산룸</option>
+						<option value="6">영등포룸</option>
 					</select>
 				</td>
 			</tr>

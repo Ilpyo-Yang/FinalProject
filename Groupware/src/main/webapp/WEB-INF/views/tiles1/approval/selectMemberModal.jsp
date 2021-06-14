@@ -207,15 +207,14 @@
        
        <div id="modal" style="line-height: 1.5;">
        
-		   <div class="memberModal" id="memberModal1" 
-		        style="width: 40%;  height: 90%; margin: 0 10px; display: inline-block;">
+		   <div class="memberModal" id="memberModal1" >
 		   		<label><input type="checkbox" id="allLeftCheckbox2"/>&nbsp;&nbsp;모두 선택/해제하기</label>
 		   		<hr style="margin: 0 0 15px 0;"> 	
 		   		
 		   		<div style="border: solid 1px #f2f2f2; padding: 2%; overflow: scroll; height: 380px;" >	   
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq 'CEO'}">
-				        	<label><input type="checkbox" class="rightCheckbox2 memberCheckbox2" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}" />
+				        	<label><input type="checkbox" class="rightCheckbox2 memberCheckbox2" value="${memberVO.dept_detail} ${memberVO.rank_detail} ${memberVO.mbr_name}" />
 				        		&nbsp;&nbsp;${memberVO.dept_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
@@ -225,7 +224,7 @@
 			   		<label><input type="checkbox" class="rightCheckbox2" id="salesCheckbox2"/>&nbsp;&nbsp;영업팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq '영업팀'}">
-				        	<label><input type="checkbox" class="rightCheckbox2 salesmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
+				        	<label><input type="checkbox" class="rightCheckbox2 salesmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail} ${memberVO.rank_detail} ${memberVO.mbr_name}"/>
 				        		&nbsp;&nbsp;└─&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
@@ -235,7 +234,7 @@
 			   		<label><input type="checkbox" class="rightCheckbox2" id="HRCheckbox2"/>&nbsp;&nbsp;인사팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq '인사팀'}">
-				        	<label><input type="checkbox" class="rightCheckbox2 HRmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
+				        	<label><input type="checkbox" class="rightCheckbox2 HRmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail} ${memberVO.rank_detail} ${memberVO.mbr_name}"/>
 				        		&nbsp;&nbsp;└─&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
@@ -245,7 +244,7 @@
 			   		<label><input type="checkbox" class="rightCheckbox2" id="PRCheckbox2"/>&nbsp;&nbsp;홍보팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq '홍보팀'}">
-				        	<label><input type="checkbox" class="rightCheckbox2 PRmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
+				        	<label><input type="checkbox" class="rightCheckbox2 PRmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail} ${memberVO.rank_detail} ${memberVO.mbr_name}"/>
 				        		&nbsp;&nbsp;└─&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
@@ -255,7 +254,7 @@
 			   		<label><input type="checkbox" class="rightCheckbox2" id="ITCheckbox2"/>&nbsp;&nbsp;IT팀</label><br>		   		
 			   		<c:forEach var="memberVO" items="${memberList}" varStatus="status">
 			   			<c:if test="${memberVO.dept_detail eq 'IT팀'}">
-				        	<label><input type="checkbox" class="rightCheckbox2 ITmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail}&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}"/>
+				        	<label><input type="checkbox" class="rightCheckbox2 ITmemberCheckbox22 memberCheckbox2" value="${memberVO.dept_detail} ${memberVO.rank_detail} ${memberVO.mbr_name}"/>
 				        		&nbsp;&nbsp;└─&nbsp;${memberVO.rank_detail}&nbsp;${memberVO.mbr_name}
 				        	</label><br>
 			   			</c:if>
@@ -275,12 +274,12 @@
 		   
 		   <%-- 사원선택해서 이동하기 --%>
 		   <div id="memberMove" 
-		        style="width: 10%;  height: 90%; display: inline-block; text-align: center; align-items: center; border: solid 1px black;">
+		        style="width: 10%;  height: 90%; display: inline-block; text-align: center; align-items: center;">
 		   		<i class="fas fa-arrow-right fa-2x" id="rightMove" onclick="func_rightMove2()"></i><br>
+		   		<div style="height: 180px;"></div><br>
 		   </div>
 		   
-		   <div class="memberModal" id="memberModal2" 
-		   		style="width: 40%;  height: 90%; margin: 0 10px; display: inline-block;">
+		   <div class="memberModal" id="memberModal2" >
 		   		<label><input type="checkbox" id="allrightCheckbox2" />&nbsp;&nbsp;참조자 모두 선택/해제하기</label>
 		   		<hr style="margin: 0 0 15px 0;"> 	
 		   		

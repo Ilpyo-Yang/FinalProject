@@ -84,6 +84,12 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 			
+
+		var searchType = $("input#hiddenSearchType").val();
+		var searchWord= $("input#hiddenSearchWord").val();
+		var seq = $("input#hiddenSeq").val();
+		var category = $("input#hiddenCategory").val();
+		
 		var yearOptionHtml = "";
 		for(var i=1950; i<2050; i++){
 			if(i == ${certiyy}){
@@ -101,6 +107,7 @@
 				
 				// 등록하기2
 				$("button#modifyBtn2").click(function(){
+					bflag = true;
 					
 					var certification = $("input#certification").val();
 					if(certification==" "){
@@ -114,23 +121,19 @@
 					if( certiLevel==" "){
 							bflag = false;
 						}
-					
 
-					var certiyy = $(".certiyy option:selected").val();
-						if(certiyy=="선택"){
-							bflag = false;
-						}
-
-					var certimm = $(".certimm option:selected").val();
-						if(certimm=="선택"){
-							bflag = false;
-						}
-
-
-					var certidd = $(".certidd option:selected").val();
-						if(certidd=="선택"){
-							bflag = false;
-						}					
+				 	var certiyy = $("#certiyy option:selected").val();
+					var certimm = $("#certimm option:selected").val();
+					var certidd = $("#certidd option:selected").val();
+					if(certimm <10){
+						certimm = "0"+certimm;
+					}
+					if(certidd <10){
+						certidd = "0"+certidd;
+					}
+					var certi = certiyy+"-"+certimm+"-"+certidd;
+					var htmlCerti =  '<input name = "certiDate" type="hidden" value="'+certi+'"/>';
+					$("div#certiDiv").html(htmlCerti);		
 		
 					if(!bflag){
 						alert("먼저 모든 항목을 입력하세요!!");
@@ -139,7 +142,7 @@
 						
 						var frm = document.certiModifyFrm;
 						frm.method = "POST";
-						frm.action = "<%=ctxPath%>/certiModifyEnd.opis?certification="+certification+"&certiLevel="+certiLevel+"&certiyy="+certiyy+"&certimm="+certimm+"&certidd="+certidd+"&seq="+${seq}+"&certi_seq="+${certi_seq};
+						frm.action = "<%=ctxPath%>/certiModifyEnd.opis?certification="+certification+"&certiLevel="+certiLevel+"&certiyy="+certiyy+"&certimm="+certimm+"&certidd="+certidd+"&certi_seq="+${certi_seq}+"&seq="+seq+"&searchType="+searchType+"&searchWord="+searchWord+"&category="+category; 
 						frm.submit(); 
 					}
 				});
@@ -157,11 +160,11 @@
 
 <table style="margin-bottom: 50px;">
 		<tr id="insaDetailButton">
-			<td><button class="registerBtn" style="background-color: #e6e6e6; " onclick="javascript:location.href='<%=ctxPath%>/insaView1.opis?seq=${seq}'">인적사항</button></td>
+			<td><button class="registerBtn" style="background-color: #e6e6e6; " onclick="javascript:location.href='<%=ctxPath%>/insaView1.opis?seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">인적사항</button></td>
 			<td style="width: 10px;"></td>
 			<td><button class="registerBtn" >서류정보</button></td>
 			<td style="width: 360px;"></td>
-			<td><button class="registerBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis'">회원목록으로</button></td>
+			<td><button class="registerBtn" style="background-color: gray; " onclick="javascript:location.href='<%=ctxPath%>/insa.opis?seq=${seq}&category=${category}&searchType=${searchType}&searchWord=${searchWord}'">회원목록으로</button></td>
 		</tr>
 		</table> 
 			<div>
@@ -268,7 +271,6 @@
 				           			
 					            </select>년
 								<select class = "certimm" id="certimm" name="certimm" style="margin-left: 2%; width: 55px; padding: 4px;">
-					           		<option class = "certimm" value="0">선택</option>
 					           		<c:forEach begin="1" end="12" varStatus="count" >
 					           			<c:if test="${count.count == certimm}">
 					           			<option class = "certimm" selected="selected" value="${count.count}">${count.count}</option>
@@ -279,7 +281,6 @@
 					           		</c:forEach>
 					            </select>월
 					            <select class = "certidd" id="certidd" name="certidd" style="margin-left: 2%; width: 55px; padding: 4px;">
-					            		<option class = "certidd" value="0">선택</option>
 						            	<c:forEach begin="1" end="31" varStatus="count" >
 					           			<c:if test="${count.count == certidd}">
 						           			<option class = "certidd" selected="selected" value="${count.count}">${count.count}</option>
@@ -289,7 +290,8 @@
 						           		</c:if>
 						           		</c:forEach>
 				        		</select>일 
-				        		<button class="modifyBtnSmall" id="modifyBtn2"  type="submit">수정완료</button>
+			        			 <div id="certiDiv"></div>	
+				        		<button class="modifyBtnSmall" id="modifyBtn2"  type="button">수정완료</button>
 							</td>
 						</tr>
 						</c:if>
@@ -299,6 +301,10 @@
 				</table>
 				</form>
 			</div>
+			<input id="hiddenSeq" type="hidden" value="${seq}"/>
+			<input id="hiddenCategory" type="hidden" value="${category}" />
+			<input id="hiddenSearchType" type="hidden" value="${searchType}" />
+			<input id="hiddenSearchWord" type="hidden" value="${searchWord}" />
 		
 </div>
 

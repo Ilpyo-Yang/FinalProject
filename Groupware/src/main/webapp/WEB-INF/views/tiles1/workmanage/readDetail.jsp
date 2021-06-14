@@ -26,11 +26,11 @@
 			</tr>
 			<tr>
 				<td>진척률</td>
-				<td colspan="3" id="mbr_workPercent">%</td>
+				<td colspan="3"><span id="workPercent"></span>%</td>
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td colspan="3"></td>
+				<td colspan="3"><textarea cols="70" rows="5" class="contents" readonly="readonly"></textarea></td>
 			</tr>
 		</tbody>
 	</table>
@@ -44,7 +44,7 @@
 				<th colspan="4">담당자 확인내역&nbsp;
 					<select id="mbrListSelect" onchange="mbrWorkStatusChange();">
 					<c:forEach var="workmbr" items="${requestScope.workmbrList}" varStatus="status">
-						<option value="${workmbr.fk_mbr_seq}">${workmbr.mbr_name}</option>
+						<option value="${workmbr.workmbr_seq}">${workmbr.mbr_name}</option>
 					</c:forEach>	
 					</select>
 				</th>
@@ -60,7 +60,7 @@
 			</tr>
 			<tr>
 				<td>의견</td>
-				<td colspan="3"></td>
+				<td colspan="3"><textarea cols="70" rows="5" class="contents" readonly="readonly"></textarea></td>
 			</tr>
 		</tbody>
 	</table>

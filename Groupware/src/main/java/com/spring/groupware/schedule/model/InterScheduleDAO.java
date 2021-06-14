@@ -29,13 +29,13 @@ public interface InterScheduleDAO {
 	int delScd(String scdno);
 	
 	// 캘린더에 일정 보여주기
-	List<Map<String, String>> showScd(String userid);
+	List<Map<String, String>> showScd(Map<String, String> paraMap);
 	
 	// 모든 일정 삭제하기
 	int delAll();
 	
-	// 초대메일 발송할 사람 목록 가져오기
-	List<Map<String, String>> getRsvpList();
+	// 나의 일정 개수 확인하기
+	int cntMyTotalScd(int mbr_seq);
 	
 	//////////////////////////////////////////////////////
 	
@@ -62,6 +62,8 @@ public interface InterScheduleDAO {
 	
 	// 체크된 예약 내역 삭제하기
 	int delOneResv(String usermtrno);
+	
+	
 	
 	
 	

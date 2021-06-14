@@ -10,6 +10,10 @@ public class TodoVO {
 	private String important;	// 중요여부 (0 or 1)
 	private String fk_statno; 	// 상태  
 	
+	private String delayday;  		// 마감일자 지난 일 수 
+	private String lasteditdate; 	// 마지막으로 수정한 날짜
+	
+	
 	public TodoVO() {}
 	
 	public TodoVO(String tdno, String fk_mbr_seq, String subject, String contents, String registerday, String deadline,
@@ -87,6 +91,22 @@ public class TodoVO {
 
 	public void setFk_statno(String fk_statno) {
 		this.fk_statno = fk_statno;
+	}
+
+	public String getDelayday() {
+		return delayday;
+	}
+
+	public void setDelayday(String delayday) {
+		this.delayday = delayday;
+	}
+
+	public String getLasteditdate() {
+		return lasteditdate;
+	}
+
+	public void setLasteditdate(String lasteditdate) {
+		this.lasteditdate = lasteditdate;
 	}
 	
 	

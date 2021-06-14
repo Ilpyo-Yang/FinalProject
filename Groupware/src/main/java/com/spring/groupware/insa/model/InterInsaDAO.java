@@ -1,6 +1,7 @@
 package com.spring.groupware.insa.model;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface InterInsaDAO {
@@ -9,7 +10,7 @@ public interface InterInsaDAO {
 	int insaRegister1End(InsaVO insavo);
 
 	// 멤버 리스트 가져오기
-	List<InsaVO> getInsaList(String category);
+	List<InsaVO> getInsaList(Map<String, String> paraMap);
 
 	// 시퀀스 가져오기
 	int getSequence();
@@ -79,6 +80,24 @@ public interface InterInsaDAO {
 
     // 개인 급여 정보 삭제하기
 	int payDel(String seq);
+
+    // 개인별 급여 상세 등록하기
+	int paymentRegiEnd(PaymentVO pavo);
+
+     // 개인 월별 급여정보 가져오기
+	List<PaymentVO> payModiGetInfo(String seq);
+
+	// 급여 내역 수정하기
+	int paymentModiEnd(PaymentVO pavo);
+
+    // 인사정보 수정 등록하기
+	int insaModify1End(InsaVO insavo);
+
+	// 급여 내역 삭제하기
+	int paymentDelEnd(PaymentVO pavo);
+
+	// 총 게시물 건수(totalCount)
+	int getTotalCount(Map<String, String> paraMap);
 
 
 }

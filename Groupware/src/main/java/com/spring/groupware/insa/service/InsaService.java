@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.spring.groupware.insa.model.CertiVO;
 import com.spring.groupware.insa.model.EduVO;
-import com.spring.groupware.insa.model.InsaDAO;
 import com.spring.groupware.insa.model.InterInsaDAO;
 import com.spring.groupware.insa.model.PayInfoVO;
 import com.spring.groupware.insa.model.PaymentVO;
@@ -40,8 +39,8 @@ public class InsaService implements InterInsaService {
 
 
 	@Override
-	public List<InsaVO> getInsaList(String category) {
-		List<InsaVO> InsaList = idao.getInsaList(category);
+	public List<InsaVO> getInsaList(Map<String, String> paraMap) {
+		List<InsaVO> InsaList = idao.getInsaList(paraMap);
 		return InsaList;
 	}
 
@@ -246,6 +245,63 @@ public class InsaService implements InterInsaService {
 		int n = idao.payDel(seq);
 		return n;
 	}
+
+
+
+    // 개인별 급여 상세 등록하기
+	@Override
+	public int paymentRegiEnd(PaymentVO pavo) {
+		int n = idao.paymentRegiEnd(pavo);
+		return n;
+				
+	}
+
+
+
+     // 개인 월별 급여정보 가져오기
+	@Override
+	public List<PaymentVO> payModiGetInfo(String seq) {
+		List<PaymentVO> payList = idao.payModiGetInfo(seq);
+		return payList;
+	}
+
+
+
+	// 급여 내역 수정하기
+	@Override
+	public int paymentModiEnd(PaymentVO pavo) {
+		int n = idao.paymentModiEnd(pavo);
+		return n;
+	}
+
+
+
+    // 인사정보 수정 등록하기
+	@Override
+	public int insaModify1End(InsaVO insavo) {
+		int n = idao.insaModify1End(insavo);
+		return n;
+	}
+
+
+
+	// 급여 내역 삭제하기
+	@Override
+	public int paymentDelEnd(PaymentVO pavo) {
+		int n = idao.paymentDelEnd(pavo);
+		return n;
+	}
+
+
+
+	// 총 게시물 건수(totalCount)
+	@Override
+	public int getTotalCount(Map<String, String> paraMap) {
+		int n = idao.getTotalCount(paraMap);
+		return n;
+	}
+
+
 
 
 

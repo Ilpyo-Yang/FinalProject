@@ -47,9 +47,9 @@
 	<div class="lside">
 		<button class="sideBtn">진행상황</button>
 		<ul class="sideUl">
-			<li><a href="<%=ctxPath%>/approvalProgress.opis?ap_progress=1">결재대기문서</a></li>
-			<li><a href="<%=ctxPath%>/approvalProgress.opis?ap_progress=2">결재요청문서</a></li>
-			<li><a href="<%=ctxPath%>/approvalProgress.opis?ap_progress=3">결재참조문서</a></li>
+			<li><a href="<%=ctxPath%>/approvalNeeded.opis">결재 대기중인 문서</a></li>
+			<li><a href="<%=ctxPath%>/approvalSubmit.opis">결재요청한 문서</a></li>
+			<li><a href="<%=ctxPath%>/approvalReferred.opis">결재참조된 문서</a></li>
 		</ul>
 	</div>
 	<div class="lside">

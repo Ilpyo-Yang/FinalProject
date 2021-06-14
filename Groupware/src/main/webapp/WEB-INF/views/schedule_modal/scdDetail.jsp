@@ -103,6 +103,7 @@
 		var sdate = startdate.substring(0,16);
 		var edate = enddate.substring(0,16);
 		
+		
 		$("span#sTime").html(sdate);
 		$("span#eTime").html(edate);
 		
@@ -158,6 +159,8 @@
 					<td id="title">일정구분</td>
 					<td id="content">
 						<input type="hidden" name="scdno" value="${requestScope.schedulevo.scdno}"/>
+						<input type="hidden" name="fk_mbr_seq" value="${requestScope.schedulevo.fk_mbr_seq}" />
+						<c:if test="${requestScope.schedulevo.fk_scdno2 eq 0}">전체일정</c:if>
 						<c:if test="${requestScope.schedulevo.fk_scdno2 eq 1}">부서일정</c:if> 
 						<c:if test="${requestScope.schedulevo.fk_scdno2 eq 2}">개인일정</c:if>
 					</td>
@@ -168,7 +171,16 @@
 				</tr>
 				<tr>
 					<td id="title">일자</td>
-					<td id="content"><span id="sTime"></span>&nbsp;~&nbsp;<span id="eTime"></span></td>
+					<td id="content">
+						<c:choose>
+							<c:when test="${requestScope.schedulevo.scdstartTm != null and requestScope.schedulevo.scdendTm != null}">
+								${requestScope.schedulevo.scdstartdate}&nbsp;${requestScope.schedulevo.scdstartTm} ~ ${requestScope.schedulevo.scdenddate}&nbsp;${requestScope.schedulevo.scdendTm}
+							</c:when>
+							<c:otherwise>
+								<span id="sTime"></span>&nbsp;~&nbsp;<span id="eTime"></span>
+							</c:otherwise>
+						</c:choose>
+					</td>
 				</tr>
 				<tr>	
 					<td id="title">위치</td>
@@ -195,8 +207,10 @@
 	</c:if>
 	
 		<div align="right" id="btns">
+			
 			<button type="button" class="btn modify" onclick="javascript:location.href='<%=ctxPath%>/editScd.opis?scdno=${requestScope.schedulevo.scdno}'">수정</button>
 			<button type="button" class="btn del" onclick="goDelScd()">삭제</button>
+			
 			<button type="button" class="btn return" onclick="javascript:location.href='<%=ctxPath%>/scd_register.opis'"><img id="returnimg" src="<%=ctxPath%>/resources/images/return.png"/></button>
 			<button type="button" class="btn close" onclick="goClose()">닫기</button> 
 		</div>

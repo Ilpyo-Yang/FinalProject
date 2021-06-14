@@ -1,5 +1,6 @@
 package com.spring.groupware.workmanage.model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,7 +65,14 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 	// == 페이징 처리 - 총 게시물 건수 가져오기 == //
 	@Override
 	public int getTotalCount(Map<String, Object> paraMap) {
-		int n = sqlsession.selectOne("workmanage.getTotalCount", paraMap);
+		int n = 0;
+		
+		if (paraMap.get("todo") != null) {
+			n = sqlsession.selectOne("workmanage.getTotalCount_todo", paraMap);
+		}
+		else {
+			n = sqlsession.selectOne("workmanage.getTotalCount", paraMap);
+		}
 		return n;
 	}
 
@@ -98,8 +106,8 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 
 	// 마감일자지난 업무상태 변경
 	@Override
-	public int updateWorkStatusByTime(Map<String, String> paraMap) {
-		int n = sqlsession.update("workmanage.updateWorkStatusByTime", paraMap);
+	public int updateWorkStatusByTime() {
+		int n = sqlsession.update("workmanage.updateWorkStatusByTime");
 		return n;
 	}
 
@@ -159,8 +167,110 @@ public class WorkmanageDAO implements InterWorkmanageDAO {
 		return n;
 	}
 
+	// 업무완료 클릭시 선택한 업무의 상태 완료로 변경하기
+	@Override
+	public int workStatusChangeToComplete(Map<String, Object> paraMap) {
+		int n = sqlsession.update("workmanage.workStatusChangeToComplete", paraMap);
+		return n;
+	}
+
+	// 첨부파일 정보 가져오기
+	@Override
+	public List<WorkFileVO> getWorkFile(Map<String, String> paraMap) {
+		List<WorkFileVO> fileList = sqlsession.selectList("workmanage.getWorkFile", paraMap);
+		return fileList;
+	}
+
+	// 담당자들의 읽음확인 정보 가져오기
+	@Override
+	public List<WorkMemberVO> workmbrReadcheckdate(String wmno) {
+		List<WorkMemberVO> workmbrList = sqlsession.selectList("workmanage.workmbrReadcheckdate", wmno);
+		return workmbrList;
+	}
+
+	// 수신자 업무 처리내역 등록하기
+	@Override
+	public int receiverWorkAdd(WorkMemberVO workmbrvo) {
+		int n = sqlsession.insert("workmanage.receiverWorkAdd", workmbrvo);
+		return n;
+	}
+
+	// 수신자 업무 처리내역 수정하기
+	@Override
+	public int receiverWorkEdit(WorkMemberVO workmbrvo) {
+		int n = sqlsession.insert("workmanage.receiverWorkEdit", workmbrvo);
+		return n;
+	}
+
+	// 사원 정보 가져오기
+	@Override
+	public List<MemberVO> getMemberList(Map<String, String> paraMap) {
+		List<MemberVO> memberList = sqlsession.selectList("workmanage.getMemberList", paraMap);
+		return memberList;
+	}
 	
-	
+	// 부서 정보 가져오기
+	@Override
+	public List<HashMap<String, String>> getDeptList() {
+		List<HashMap<String, String>> deptList = sqlsession.selectList("workmanage.getDeptList");
+		return deptList;
+	}
+
+	// 페이징 처리한 글 목록 가져오기(검색이 있든지, 없든지 모두 다) - todo 테이블
+	@Override
+	public List<TodoVO> todoListSearchWithPaging(Map<String, Object> paraMap) {
+		List<TodoVO> todoList = sqlsession.selectList("workmanage.todoListSearchWithPaging", paraMap);
+		return todoList;
+	}
+
+	// 마감일자지난 todo 업무상태 변경
+	@Override
+	public int updateWorkStatusByTime_todo() {
+		int n = sqlsession.update("workmanage.updateWorkStatusByTime_todo");
+		return n;
+	}
+
+	// 첨부파일 정보 가져오기 - todo
+	@Override
+	public List<WorkFileVO> getWorkFile_todo(Map<String, String> paraMap) {
+		List<WorkFileVO> fileList = sqlsession.selectList("workmanage.getWorkFile_todo", paraMap);
+		return fileList;
+	}
+
+	// 첨부파일 등록하기 - todo
+	@Override
+	public int workAddFile_todo(WorkFileVO filevo) {
+		int n = sqlsession.insert("workmanage.workAddFile_todo", filevo);
+		return n;
+	}
+
+	// 할일 번호 채번하기
+	@Override
+	public String getTodono() {
+		String tdno = sqlsession.selectOne("workmanage.getTodono");
+		return tdno;
+	}
+
+	// 할일완료 클릭시 선택한 할일의 상태를 완료로 변경하기
+	@Override
+	public int workStatusChangeToComplete_todo(Map<String, Object> paraMap) {
+		int n = sqlsession.update("workmanage.workStatusChangeToComplete_todo", paraMap);
+		return n;
+	}
+
+	// 할일 삭제하기
+	@Override
+	public int todoDel(Map<String, Object> paraMap) {
+		int n = sqlsession.update("workmanage.todoDel", paraMap);
+		return n;
+	}
+
+	// 할일 수정하기
+	@Override
+	public int todoEditEnd(TodoVO todovo) {
+		int n = sqlsession.update("workmanage.todoEditEnd", todovo);
+		return n;
+	}
 	
 
 }
