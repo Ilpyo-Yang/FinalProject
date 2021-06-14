@@ -56,6 +56,10 @@ public interface InterAddrService {
 
 	// 주소록 그룹 내 검색 
 	List<String> mywordSearchShow(Map<String, String> paraMap);
+
+	// 개인 주소록에서 제거
+	int delmyAddr(AddrVO addrvo);
+
 	
 	/*
 	 	개인 주소록 관리
@@ -73,10 +77,6 @@ public interface InterAddrService {
 	// 주소록 그룹 삭제
 	int delAddrgroup(Map<String, String> paraMap);
 
-
-
-
-	
 
 	
 }

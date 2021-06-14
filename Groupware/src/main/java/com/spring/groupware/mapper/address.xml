@@ -138,6 +138,14 @@
 			and lower(${searchType}) like '%' || lower(#{searchWord}) || '%'
 		order by addr_seq desc
   	 </select>
+  	 
+  	 <!-- === 개인 주소혹에서 제거 === -->
+  	 <update id="delmyAddr" parameterType="com.spring.groupware.addrlist.model.AddrVO">
+		update tbl_address set fk_addrgroup_seq = ''
+		where addr_seq = #{addr_seq}	 
+  	 </update>
+  	 
+  	 
 <!-- ============================ 개인 주소록 관리 ============================ -->   
 
    	 <!-- === 페이징 처리한 주소록 그룹 목록 가져오기 -->  

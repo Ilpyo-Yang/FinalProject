@@ -92,6 +92,69 @@
 		frm.submit();
 		
 	} // end of goSearch(){}------------------------------------------------------------
+
+	// 전체선택 체크 박스를 클릭했을 때 
+	function clickAllCheckbox() {
+		// input#allCheckbox ==> 전체선택 체크박스  id="allCheckbox"
+		// input.oneCheckbox ==> 하위선택 체크박스  class="oneCheckbox"
+		
+		var stat = $("input#allCheckbox").prop("checked");
+		
+		$("input.oneCheckbox").each(function(index, item){
+			$(item).prop("checked", stat);
+		});
+	}// end of function clickAllCheckbox()----------------------------
+	
+	// 하위 체크박스를 클릭했을 때
+	function clickOneCheckbox(target) {
+		// onclick="clickOneCheckbox(this)";
+		
+		var stat = $(target).prop("checked");
+		
+		if (!stat) { // 체크가 풀린 경우라면
+			$("input#allCheckbox").prop("checked", false);
+		}
+		else {
+			var check; // 다른 하위 체크박스 검사
+			$("input.oneCheckbox").each(function(index, item){
+				check = $(item).prop("checked");
+				if (check == false) {
+					return false;
+				}
+			});
+			if (check) { // 전부 true 일 때
+				$("input#allCheckbox").prop("checked", true);	
+			}
+		}
+	}// end of function clickOneCheckbox(target)-------------------------
+	
+	// 개인 주소록에서 제거
+	function delmyAddr(addrgroup_seq){
+		
+		var check = $("input[name=checkAddrSeq]");
+		var len = check.length;
+		var checkCnt = 0;
+		
+		// 체크된 총 개수 구하기
+		for(var i=0; i<len; i++){
+			if(check[i].checked == true){
+				checkCnt++;
+			}
+		}
+		
+		if(checkCnt == 0){ // 체크된 값이 없을때
+			alert("체크된 항목이 없습니다.");
+			return false;
+		}
+		
+		var checkAddrSeq = [];
+		$("input[name=checkAddrSeq]:checked").each(function(){
+			checkAddrSeq.push($(this).val());
+		});
+			
+		location.href="<%=ctxPath%>/delmyAddr.opis?addrgroup_seq="+addrgroup_seq+"&checkCnt="+checkCnt+"&checkAddrSeq="+checkAddrSeq;
+		
+	}// end of function delmyAddr()---------------------------
 	
 </script>
 
@@ -102,44 +165,37 @@
 	&nbsp;&nbsp;개인 주소록
 	</div>
 	
-	<div class="container" style="float: right; width: 80%; margin-top: 50px;">        
-
-  		<!-- 검색 -->
-		<form name="searchFrm" style="margin-top: 20px;">
-	      <select name="searchType" id="searchType" style="height: 26px;">
-	         <option value="dept_name">부서</option>
-	         <option value="mbr_name">이름</option>
-	      </select>
-	      <input type="text" name="searchWord" id="searchWord" size="30" autocomplete="off" /> 
-	      <input type="hidden" name="addrgroup_seq" id="addrgroup_seq" value="<%=addrgroup_seq%>" />
-	      <button type="submit" onclick="goSearch()" class="btn-search">검색</button>
-	   	</form>
-	   
-	    <div id="displayList" style="border:solid 1px gray; width:170px; height: 100px; border-top: 0px; margin-left: 49px; overflow: auto; padding-top: 2px;"> 	
-	    </div>
+	<div class="container" style="float: right; width: 80%; margin-top: 30px;">        
+	    
+	    <!-- 개인 주소혹에서 삭제 -->
+	    <button type="button" class="btn-basic" style="float:right; margin: 0 30px 30px 0; width:150px; font-size: 11px;" onclick="delmyAddr(<%=addrgroup_seq%>)">
+	          주소록에서 삭제
+	    </button>
 
 		<!-- 본문(게시판) -->
-		<table class="table table-striped" style="font-size: 14px;">
+		<table class="table table-striped" style="font-size: 14px; text-align: center;">
 		  <thead>
 		    <tr>
-		      <th style="width: 7%;  text-align: center;">이름</th>
-		      <th style="width: 13%; text-align: center;">전화번호</th>
-		      <th style="width: 13%;  text-align: center;">이메일</th>
-		      <th style="width: 7%; text-align: center;">부서</th>
-		      <th style="width: 7%;  text-align: center;">직책</th>
+		      <th style="width: 1%;"><input type="checkbox" id="allCheckbox" onclick="clickAllCheckbox();" /></th>		    
+		      <th style="width: 7%;">이름</th>
+		      <th style="width: 10%;">전화번호</th>
+		      <th style="width: 10%;">이메일</th>
+		      <th style="width: 7%;">부서</th>
+		      <th style="width: 7%;">직책</th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		  	<c:if test="${not empty requestScope.myAddrlist}">	    	
 		     		<c:forEach var="addrvo" items="${requestScope.myAddrlist}" varStatus="status">
-		      	<tr>
-					<td align="center">
+		      	<tr align="center">
+   		      		<td><input type="checkbox" class="oneCheckbox" name="checkAddrSeq" value="${addrvo.addr_seq}" onclick="clickOneCheckbox(this);"/></td>   		      	
+					<td>
 						<span class="name" onclick="goView('${addrvo.addr_seq}')">${addrvo.mbr_name}</span>
 					</td>
-					<td align="left">${addrvo.mbr_phone_number}</td>
-					<td align="center">${addrvo.mbr_email}</td>
-					<td align="center">${addrvo.dept_name}</td>
-					<td align="center">${addrvo.position_name}</td>
+					<td>${addrvo.mbr_phone_number}</td>
+					<td>${addrvo.mbr_email}</td>
+					<td>${addrvo.dept_name}</td>
+					<td>${addrvo.position_name}</td>
 		      	</tr>		      
 		     	</c:forEach>
 		     </c:if>
@@ -159,6 +215,20 @@
 		   		${requestScope.pageBar}
 		    </div>
 		</c:if>
+		
+		<!-- 검색 -->
+		<form name="searchFrm" style="margin-bottom: 20px;">
+	      <select name="searchType" id="searchType" style="height: 26px;">
+	         <option value="dept_name">부서</option>
+	         <option value="mbr_name">이름</option>
+	      </select>
+	      <input type="text" name="searchWord" id="searchWord" size="30" autocomplete="off" /> 
+	      <input type="hidden" name="addrgroup_seq" id="addrgroup_seq" value="<%=addrgroup_seq%>" />
+	      <button type="submit" onclick="goSearch()" class="btn-search">검색</button>
+	   	</form>
+	   
+	    <div id="displayList" style="border:solid 1px gray; width:170px; height: 100px; border-top: 0px; margin-left: 49px; overflow: auto; padding-top: 2px;"> 	
+	    </div>
 	
 	</div>	  	
 	
