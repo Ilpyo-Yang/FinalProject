@@ -29,7 +29,7 @@
 			if(b_check) {
 				var real_id = "${sessionScope.loginuser.mbr_id}";
 				$("input#real_id").val(real_id);  
-				
+
 				var frm = document.changePwdFrm;
 				frm.action="changePwd.opis";
 				frm.method="POST";
