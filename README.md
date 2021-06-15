@@ -13,7 +13,7 @@
 
 ### 개발환경
 ***
-<img src="https://user-images.githubusercontent.com/67682215/118840705-9c66fb80-b902-11eb-87fd-62a2367ceb0e.png" />
+<img src="https://user-images.githubusercontent.com/67682215/121983577-826aec80-cdcc-11eb-995a-0b57239c90af.png" />
 
 <br>   
  
