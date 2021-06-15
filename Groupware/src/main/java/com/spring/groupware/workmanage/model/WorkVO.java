@@ -1,6 +1,7 @@
 package com.spring.groupware.workmanage.model;
 
 public class WorkVO {
+	private String rno; 
 	private String wmno; 				//업무관리고유번호
 	private String fk_wtno; 			// 업무분류번호
 	private String requester; 			// 요청자
@@ -20,10 +21,10 @@ public class WorkVO {
 	
 	public WorkVO() {}
 	
-	public WorkVO(String wmno, String fk_wtno, String requester, String receivers, String referrers, String subject,
+	public WorkVO(String rno, String wmno, String fk_wtno, String requester, String receivers, String referrers, String subject,
 			String contents, String registerday, String deadline, String checkstatus, String important, String lasteditdate,
 			String fk_statno) {
-	
+		this.rno = rno;
 		this.wmno = wmno;
 		this.fk_wtno = fk_wtno;
 		this.requester = requester;
@@ -37,6 +38,14 @@ public class WorkVO {
 		this.checkstatus = checkstatus;
 		this.important = important;
 		this.fk_statno = fk_statno;
+	}
+
+	public String getRno() {
+		return rno;
+	}
+
+	public void setRno(String rno) {
+		this.rno = rno;
 	}
 
 	public String getWmno() {
