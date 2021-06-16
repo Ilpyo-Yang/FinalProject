@@ -27,32 +27,80 @@
 
 	<!-- 제목 -->
 	<div style="padding: 15px; font-size: 25px; font-weight: 600; height: 60px; width: 100%; background-color: #f2f2f2; color: #555;">
-	&nbsp;&nbsp;근태관리
+	&nbsp;&nbsp;근태관리(0615)
 	</div>
 
 	<!-- 본문(게시판) -->
-	<div class="container" style="float: right; width: 75%; margin-top: 50px;"> 
+	<div class="container" style="float: right; width: 80%; margin-top: 50px;"> 
 	        
 	  <table class="table table-striped">
 	    <thead>
 	      <tr>
 	        <th style="width: 7%; text-align: center;">사원ID</th>
-	        <th style="width: 7%;  text-align: center;">출근시간</th>
-	        <th style="width: 7%; text-align: center;">퇴근시간</th>
+	        <th style="width: 7%;  text-align: center;">출근일자</th>
+	        <th style="width: 7%; text-align: center;">퇴근일자</th>
 	        <th style="width: 7%;  text-align: center;">출근상태</th>
 	        <th style="width: 7%;  text-align: center;">퇴근상태</th>
 	      </tr>
 	    </thead>
 	    <tbody>
-	    <c:forEach var="cmtList" items="${requestScope.cmtList}" varStatus="status">    
-	      	<tr>
-				<td align="center">${cmtList.mbr_id}</td>
-				<td align="center">${cmtList.login_day}</td>
-				<td align="center">${cmtList.logout_day}</td>
+	    	<tr>
+				<td align="center">admin</td>
+				<td align="center">20210615</td>
+				<td align="center"></td>
 				<td align="center">정상</td>
-				<td align="center">정상</td>      	
-	      	</tr>		
-		 </c:forEach> 	    
+				<td align="center">미등록</td>      	
+	      	</tr>
+	      	<tr>
+				<td align="center">test</td>
+				<td align="center">20210615</td>
+				<td align="center"></td>
+				<td align="center">정상</td>
+				<td align="center">미등록</td>      	
+	      	</tr>
+	      	<tr>
+				<td align="center">test2</td>
+				<td align="center">20210615</td>
+				<td align="center"></td>
+				<td align="center">정상</td>
+				<td align="center">미등록</td>      	
+	      	</tr>
+	      	<tr>
+				<td align="center">test3</td>
+				<td align="center">20210615</td>
+				<td align="center"></td>
+				<td align="center">정상</td>
+				<td align="center">미등록</td>      	
+	      	</tr>
+	      	<tr>
+				<td align="center">test4</td>
+				<td align="center">20210615</td>
+				<td align="center"></td>
+				<td align="center">정상</td>
+				<td align="center">미등록</td>      	
+	      	</tr>
+	      	<tr>
+				<td align="center">member</td>
+				<td align="center">20210615</td>
+				<td align="center"></td>
+				<td align="center">정상</td>
+				<td align="center">미등록</td>      	
+	      	</tr>
+	      	<tr>
+				<td align="center">member2</td>
+				<td align="center">20210615</td>
+				<td align="center"></td>
+				<td align="center">정상</td>
+				<td align="center">미등록</td>      	
+	      	</tr>
+	      	<tr>
+				<td align="center">member3</td>
+				<td align="center">20210615</td>
+				<td align="center"></td>
+				<td align="center">정상</td>
+				<td align="center">미등록</td>      	
+	      	</tr>
+	      		    
 	    </tbody>
 	  </table>
 	  

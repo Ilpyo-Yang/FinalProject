@@ -20,14 +20,14 @@
 
 <div id="sideMenu">
 	<div id="menuTitle">근태 관리</div>
-	<div id="btnDiv">
-		<button type="button" id="btnReg">등록</button>
-	</div>
 
-	<div class="lside">
+	<div class="lside" style="margin-top: 30px;">
 		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/mngCommute.opis'">출퇴근관리</button>
 	</div>
 	<div class="lside">
 		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/totalCommute.opis'">출퇴근조회</button>
+	</div>
+	<div class="lside">
+		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/addCommute.opis'">누락자 등록</button>
 	</div>
 </div>

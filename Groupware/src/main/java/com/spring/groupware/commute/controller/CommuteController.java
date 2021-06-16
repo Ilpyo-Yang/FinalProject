@@ -27,18 +27,27 @@ public class CommuteController {
 
    @Autowired // Type에 따라 알아서 Bean 을 주입해준다.
    private InterCommuteService service;
+
+   @RequestMapping(value="/mngCommute.opis")
+   public String mngCommute() {
+	   
+	   return "commute/mngCommute.tiles1";
+   }
+
    
+/*   
    @RequestMapping(value="/mngCommute.opis")
    public ModelAndView requiredLogin_mngCommute(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
-
-	   	  List<String> cmtList = null;	
+*/
+//	   	  List<String> cmtList = null;	
+	   	  
 /*	   
 	   	  Calendar cal = Calendar.getInstance();
 	   	  SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		  String sysdate = sdf.format(cal.getTime());
 		  System.out.println(sysdate);
 */
-	   	  String sysdate="20210601";
+//	   	  String sysdate="20210601";
 //  	  String str_currentShowPageNo = request.getParameter("currentShowPageNo");
   
 /* 	  
@@ -76,7 +85,7 @@ public class CommuteController {
 	      paraMap.put("startRno", String.valueOf(startRno));
 	      paraMap.put("endRno", String.valueOf(endRno));
 */	       
-	 	  cmtList = service.cmtListWithPaging(sysdate);
+//	 	  cmtList = service.cmtListWithPaging(sysdate);
 	 	  // 페이징 처리한 주소록 목록 가져오기(검색이 있든지, 검색이 없든지 모두 다 포함한 것)
 		   
 /*
@@ -117,15 +126,15 @@ public class CommuteController {
 	 	  
 	 	  mav.addObject("pageBar", pageBar);
 */	 	  
-	 	  String gobackURL = MyUtil.getCurrentURL(request);
+/*	 	  String gobackURL = MyUtil.getCurrentURL(request);
 
 	 	  mav.addObject("gobackURL", gobackURL);
 	 	  mav.addObject("cmtList", cmtList);
-	 	  mav.setViewName("addrlist/mngCommute.tiles1");
+	 	  mav.setViewName("commute/mngCommute.tiles1");
 	 	 
 	 	  return mav;
    }
-   
+*/   
    
    
 }
