@@ -44,63 +44,7 @@
 	      </tr>
 	    </thead>
 	    <tbody>
-	    	<tr>
-				<td align="center">admin</td>
-				<td align="center">20210615</td>
-				<td align="center"></td>
-				<td align="center">정상</td>
-				<td align="center">미등록</td>      	
-	      	</tr>
-	      	<tr>
-				<td align="center">test</td>
-				<td align="center">20210615</td>
-				<td align="center"></td>
-				<td align="center">정상</td>
-				<td align="center">미등록</td>      	
-	      	</tr>
-	      	<tr>
-				<td align="center">test2</td>
-				<td align="center">20210615</td>
-				<td align="center"></td>
-				<td align="center">정상</td>
-				<td align="center">미등록</td>      	
-	      	</tr>
-	      	<tr>
-				<td align="center">test3</td>
-				<td align="center">20210615</td>
-				<td align="center"></td>
-				<td align="center">정상</td>
-				<td align="center">미등록</td>      	
-	      	</tr>
-	      	<tr>
-				<td align="center">test4</td>
-				<td align="center">20210615</td>
-				<td align="center"></td>
-				<td align="center">정상</td>
-				<td align="center">미등록</td>      	
-	      	</tr>
-	      	<tr>
-				<td align="center">member</td>
-				<td align="center">20210615</td>
-				<td align="center"></td>
-				<td align="center">정상</td>
-				<td align="center">미등록</td>      	
-	      	</tr>
-	      	<tr>
-				<td align="center">member2</td>
-				<td align="center">20210615</td>
-				<td align="center"></td>
-				<td align="center">정상</td>
-				<td align="center">미등록</td>      	
-	      	</tr>
-	      	<tr>
-				<td align="center">member3</td>
-				<td align="center">20210615</td>
-				<td align="center"></td>
-				<td align="center">정상</td>
-				<td align="center">미등록</td>      	
-	      	</tr>
-	      		    
+	    	<!-- 내용 수정부분 -->
 	    </tbody>
 	  </table>
 	  
