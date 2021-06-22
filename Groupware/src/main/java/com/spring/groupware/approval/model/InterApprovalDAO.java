@@ -37,6 +37,8 @@ public interface InterApprovalDAO {
 	// 결재삭제하기
 	int approvalDelete(String ap_seq);
 
+	int approvalReject(String ap_seq);
+
 
 
 }

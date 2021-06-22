@@ -36,6 +36,10 @@ public interface InterApprovalService {
 	// 결재 삭제하기
 	int approvalDelete(String ap_seq);
 
+	int approvalReject(String ap_seq);
+
+	
+
 	
 
 

@@ -159,6 +159,28 @@
 				
 		});// end of $("button#confirm").click(function() -----------------------------------		
         
+		
+				
+		// 결제반려 버튼을 누른 경우
+		$("button#reject").click(function(){	
+			var ap_approverArr = "${avo.ap_approver}".split(",");
+			var ap_manage_approver = "${avo.ap_manage_approver}";
+			var ap_process="";
+			
+			
+			// 결재라인에서 어디까지 왔는지 확인하기
+			for (var i=0; i<ap_approverArr.length; i++) {
+				if(ap_manage_approver==ap_approverArr[i] && ap_approverArr.length==i+1){
+					ap_progress="1";
+				} else if(ap_manage_approver==ap_approverArr[i] && ap_approverArr.length!=i+1){
+					ap_progress="0";
+				}
+			}
+			
+			func_reject(ap_progress);
+				
+		});// end of $("button#confirm").click(function() -----------------------------------
+				
 				
 	}); // end of $(document).ready(function(){})---------------------------------------
 	
@@ -208,6 +230,23 @@
 		}); 	
 	}// end of function func_delete() ------------------------------------------
 	
+	
+	function func_reject(ap_progress) {
+		$.ajax({
+			url:"<%=ctxPath%>/approvalReject.opis",
+			dataType:"json",
+			data:{ap_seq:"${avo.ap_seq}",ap_progress:ap_progress},
+			success: function(json){	
+				if(json.n=="1"){
+					history.back();
+				}
+			},
+			error: function(request, status, error){
+                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+            }
+		}); 	
+	}// end of function func_reject() ---------------------------------------
+		
 	
 </script>
 </head>
