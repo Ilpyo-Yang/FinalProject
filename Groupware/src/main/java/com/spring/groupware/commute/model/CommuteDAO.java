@@ -25,14 +25,6 @@ public class CommuteDAO implements InterCommuteDAO {
 	@Resource
 	private SqlSessionTemplate sqlsession3; // 로컬 DB에 hr로 연결
 
-	@Override
-	public List<String> cmtList(String sysdate) {
-		List<String> cmtList = sqlsession.selectList("commute.cmtListWithPaging", sysdate);		
-		return cmtList;
-	}
-
-	
-
 
 
 }

@@ -17,12 +17,5 @@ public class CommuteService implements InterCommuteService {
 	@Autowired
 	private InterCommuteDAO cdao;
 
-	@Override
-	public List<String> cmtListWithPaging(String sysdate) {
-		List<String> cmtList = cdao.cmtList(sysdate);
-	    return cmtList;
-	}
-	
-
 	
 }
