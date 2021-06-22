@@ -28,8 +28,8 @@
 	
 	<!-- 첨부파일 없는 결재요청 -->
 	<insert id="submitApproval" parameterType="com.spring.groupware.approval.model.ApprovalVO" >
-		insert into tbl_approval(ap_seq, fk_apform_no, fk_mbr_seq, ap_title, ap_contents, ap_approver, ap_manage_approver, ap_referrer)
-		values(seq_approval.nextval, to_number(#{fk_apform_no}), #{fk_mbr_seq}, #{ap_title}, #{ap_contents}, #{ap_approver}, #{ap_manage_approver}, #{ap_referrer})
+		insert into tbl_approval(ap_seq, fk_apform_no, fk_mbr_seq, ap_title, ap_contents, ap_approver, ap_manage_approver, ap_referrer, ap_dept)
+		values(seq_approval.nextval, to_number(#{fk_apform_no}), #{fk_mbr_seq}, #{ap_title}, #{ap_contents}, #{ap_approver}, #{ap_manage_approver}, #{ap_referrer}, #{ap_dept})
 	</insert>
 	
 	
@@ -73,7 +73,7 @@
 		    <if test='submitEndDate!=""'>
 		        and <![CDATA[ ap_start_day <= to_date(#{submitEndDate}, 'YYYY-MM-DD') ]]>
 		    </if>
-		    order by ap_start_day desc
+		    order by ap_start_day desc, ap_seq desc
 		)C
 		where rno between #{startRno} and #{endRno}
 	</select>
@@ -115,7 +115,7 @@
 		    <if test='submitEndDate!=""'>
 		        and <![CDATA[ ap_start_day <= to_date(#{submitEndDate}, 'YYYY-MM-DD' )]]>
 		    </if>
-		    order by ap_start_day desc
+		    order by ap_start_day desc, ap_seq desc
 		)C
 		where rno between #{startRno} and #{endRno}
 	</select>
@@ -154,7 +154,7 @@
 		    <if test='submitEndDate!=""'>
 		        and <![CDATA[ ap_start_day <= to_date(#{submitEndDate}, 'YYYY-MM-DD' )]]>
 		    </if>
-		    order by ap_start_day desc
+		    order by ap_start_day desc, ap_seq desc
 		)C
 		where rno between #{startRno} and #{endRno}
 	</select>
@@ -190,5 +190,12 @@
 		delete from tbl_approval
 		where ap_seq=#{ap_seq}
 	</delete>	
+	
+	
+	<!-- 결재반려하기 -->
+	<update id="approvalReject" parameterType="String">
+        update tbl_approval set ap_progress=2, ap_end_day=sysdate
+		where ap_seq=#{ap_seq}
+	</update>
 	
 </mapper>

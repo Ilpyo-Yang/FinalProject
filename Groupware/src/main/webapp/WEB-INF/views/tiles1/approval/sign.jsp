@@ -24,12 +24,15 @@
 			 	
 			<div id="signImg">현재 등록된 서명 이미지
 				<hr>
+				<i class="fas fa-file-signature fa-5x icon" id="basicImg"></i>
+				<%--
 				<c:if test="${sessionScope.loginuser.mbr_sign}==null">
 					<i class="fas fa-file-signature fa-5x icon" id="basicImg"></i>
 				</c:if>
 				<c:if test="${sessionScope.loginuser.mbr_sign}!=null">
 					<img src="<%= ctxPath%>/resources/images/sign/${sessionScope.loginuser.mbr_sign}"/>
-				</c:if>
+				</c:if> 
+				--%>
 				<button type="button" class="btn btn-success signBtn">서명 변경하기</button>
 				<hr>
 			</div>

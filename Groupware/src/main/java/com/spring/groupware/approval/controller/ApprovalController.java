@@ -461,6 +461,20 @@ public class ApprovalController {
 	  }
 		  
 	  
+	  // === 결재반려하기 === //
+	  @ResponseBody
+	  @RequestMapping(value="/approvalReject.opis", produces="text/plain;charset=UTF-8")
+	  public String approvalReject(HttpServletRequest request) {
+		 String reject_ap_seq = request.getParameter("ap_seq");
+		 
+		 int n = service.approvalReject(reject_ap_seq); 	
+		 JSONObject jsonObj = new JSONObject();
+		 jsonObj.put("n", n);
+		 
+		 return jsonObj.toString(); 
+	  }
+	  
+	  
 	  // === 서명관리 === //
 	  @RequestMapping(value="/sign.opis")
 	  public ModelAndView sign(ModelAndView mav) {   	  

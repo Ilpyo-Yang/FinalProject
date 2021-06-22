@@ -56,7 +56,8 @@ public class ApprovalDAO implements InterApprovalDAO {
 	// 결재대기 문서 가져오기
 	@Override
 	public List<ApprovalVO> getApprovalNeededList(Map<String, String> paraMap) {
-		List<ApprovalVO> approvalList = sqlsession.selectList("approval.getApprovalNeededList", paraMap);		
+		List<ApprovalVO> approvalList = sqlsession.selectList("approval.getApprovalNeededList", paraMap);	
+
 		return approvalList;
 	}
 
@@ -92,6 +93,12 @@ public class ApprovalDAO implements InterApprovalDAO {
 	@Override
 	public int approvalDelete(String ap_seq) {
 		int n = sqlsession.delete("approval.approvalDelete", ap_seq);
+		return n;
+	}
+
+	@Override
+	public int approvalReject(String ap_seq) {
+		int n = sqlsession.update("approval.approvalReject", ap_seq);
 		return n;
 	}
 

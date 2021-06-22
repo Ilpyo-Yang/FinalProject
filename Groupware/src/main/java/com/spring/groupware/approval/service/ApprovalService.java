@@ -87,7 +87,13 @@ public class ApprovalService implements InterApprovalService {
 	@Override
 	public int approvalDelete(String ap_seq) {
 		int n = adao.approvalDelete(ap_seq);
-		return 0;
+		return n;
+	}
+
+	@Override
+	public int approvalReject(String ap_seq) {
+		int n = adao.approvalReject(ap_seq);
+		return n;
 	}
 
 

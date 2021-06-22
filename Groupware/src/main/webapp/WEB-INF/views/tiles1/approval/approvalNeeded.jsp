@@ -57,6 +57,18 @@
 			showList();
 		});
 		
+		/* var checkedList=[];
+		if(${"input.approvalList"}).click(function(){
+			if(this.prop("checked")){
+				var idArr = this.id.split(" ");
+				checkedList.push("ap_seq",idArr[1]);
+			}
+			else {
+				int n = checkedList.indexOf(idArr[1]);
+				checkedList.splice(n, 1);
+			}
+		}); */
+		
 		
 	}); // end of $(document).ready(function(){})---------------------------------------
 	
@@ -80,7 +92,7 @@
 						if(index==0) $("div#pageBar").append(item.pageBar);
 						
 						html += "<tr>"+
-								"<td><input type='checkbox' class='approvalList' /></td>"+
+								"<td><input type='checkbox' class='approvalList' id='"+item.ap_seq+"'/></td>"+
 								"<td id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+item.apform_name+"</td>"+
 								"<td id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+item.ap_title+"</td>"+
 								"<td id='"+item.ap_seq+" "+item.apform_name+"' style='cursor:pointer;' onclick='func_show(this.id)'>"+item.mbr_name+"</td>"+
@@ -122,8 +134,7 @@
 	
 	function func_allApproval() {
 		var ap_seqArr=[];
-		
-		console.log();
+
 		for (var i=0; i<$("input.approvalList").length; i++) {
 			$("input.approvalList:checked").id
 			ap_seqArr.push();
@@ -179,7 +190,7 @@
 				<option>8개</option>
 				<option>4개</option>
 			</select>
-			<button type="button" class="btn btn-success formBtn4" id="approval" onclick="func_allApproval">일괄결재</button>
+			<!-- <button type="button" class="btn btn-success formBtn4" id="approval" onclick="func_allApproval">일괄결재</button> -->
 			<table class="table table-striped">
 				<thead>
 					<tr>
