@@ -34,7 +34,11 @@ public class CommuteController {
 	   return "commute/manageCmt.tiles1";
    }
 
-   
+   @RequestMapping(value="/checkCmt.opis")
+   public String checkCmt() {
+	   
+	   return "commute/checkCmt.tiles1";
+   }   
 /*   
    @RequestMapping(value="/mngCommute.opis")
    public ModelAndView requiredLogin_mngCommute(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
