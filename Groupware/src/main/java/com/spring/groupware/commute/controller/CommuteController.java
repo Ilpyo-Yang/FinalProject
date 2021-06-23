@@ -1,12 +1,5 @@
 package com.spring.groupware.commute.controller;
 
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,10 +7,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-
-import com.spring.groupware.common.MyUtil;
+import com.spring.groupware.commute.model.CommuteVO;
 import com.spring.groupware.commute.service.InterCommuteService;
 import com.spring.groupware.member.model.MemberVO;
 
@@ -34,11 +27,50 @@ public class CommuteController {
 	   return "commute/manageCmt.tiles1";
    }
 
+   // === 개별 근태관리 화면 연결 === //
    @RequestMapping(value="/checkCmt.opis")
-   public String checkCmt() {
+   public String requiredLogin_checkCmt(HttpServletRequest request, HttpServletResponse response) {
 	   
 	   return "commute/checkCmt.tiles1";
-   }   
+   } 
+   
+   // === 개별 출근 등록 === //
+   @RequestMapping(value="/startWork.opis", method= {RequestMethod.POST})
+   public ModelAndView startWork(HttpServletRequest request, ModelAndView mav, CommuteVO cmtvo) {
+	   
+	   HttpSession session = request.getSession();
+ 	   MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+ 	  
+ 	   String startstatus = request.getParameter("startstatus");
+ 	   String login_mbrseq = null;
+ 	  
+ 	   if(loginuser != null) {
+ 		  login_mbrseq = String.valueOf(loginuser.getMbr_seq());
+ 	   } 
+ 	  
+ 	   System.out.println("확인용 사원번호 : "+login_mbrseq+" / 확인용 상태 : "+startstatus);
+ 	   
+ 	   cmtvo.setFk_mbr_seq(login_mbrseq);
+ 	   cmtvo.setStartstatus(startstatus);
+ 	   
+ 	   int n = service.startWork(cmtvo);
+
+ 	   if(n==1) {
+		  mav.setViewName("redirect:/checkCmt.opis");		  
+	   }
+	   else {
+		  mav.setViewName("board/error/add_error.tiles1");
+	   }
+	  
+	   return mav;
+   }  
+   
+   // === 개별 퇴근 등록 === //
+   @RequestMapping(value="/endWork.opis")
+   public String endWork() {
+	   
+	   return "commute/endWork.tiles1";
+   }  
 /*   
    @RequestMapping(value="/mngCommute.opis")
    public ModelAndView requiredLogin_mngCommute(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {

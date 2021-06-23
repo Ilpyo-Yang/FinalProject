@@ -25,6 +25,13 @@ public class CommuteDAO implements InterCommuteDAO {
 	@Resource
 	private SqlSessionTemplate sqlsession3; // 로컬 DB에 hr로 연결
 
+	// === 출근 등록 === //
+	@Override
+	public int startWork(CommuteVO cmtvo) {
+		int n = sqlsession.insert("commute.startWork", cmtvo);
+		return n;
+	}
+
 
 
 }

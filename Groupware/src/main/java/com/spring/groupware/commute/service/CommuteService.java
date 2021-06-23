@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-
+import com.spring.groupware.commute.model.CommuteVO;
 import com.spring.groupware.commute.model.InterCommuteDAO;
 
 @Component
@@ -16,6 +16,13 @@ public class CommuteService implements InterCommuteService {
 
 	@Autowired
 	private InterCommuteDAO cdao;
+
+	// 출근 등록
+	@Override
+	public int startWork(CommuteVO cmtvo) {
+		int n = cdao.startWork(cmtvo);
+		return n;
+	}
 
 	
 }

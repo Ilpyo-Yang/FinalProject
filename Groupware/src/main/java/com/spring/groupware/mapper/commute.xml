@@ -4,6 +4,15 @@
 
 <mapper namespace="commute">
 
+    <!-- ========================= 개별 근태관리 ============================== -->  
+	
+	<!-- === 출근 등록 === -->
+	<insert id="startWork" parameterType="com.spring.groupware.commute.model.CommuteVO">
+		insert into tbl_commute(fk_mbr_seq, starttime, startstatus)
+		values(#{fk_mbr_seq}, sysdate, #{startstatus})
+	</insert>
+	
+	
 	<!-- === 날짜로 조회 === -->
 <!-- 	<select id="cmtListWithPaging" parameterType="String" resultType="String">
 		select M.mbr_id, L.login_day, L.logout_day

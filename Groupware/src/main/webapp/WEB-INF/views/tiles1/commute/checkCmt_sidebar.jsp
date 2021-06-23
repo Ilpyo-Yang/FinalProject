@@ -18,8 +18,71 @@
 
 	$(document).ready(function(){
 		
-		$("button#startWork").click(function(){
-			location.href="<%=ctxPath%>/startWork.opis";
+		var now = new Date();   	//현재시간
+        
+		var year = now.getFullYear();   //현재시간 중 4자리 연도
+		var month = now.getMonth()+1;   //현재시간 중 달 
+		if((month+"").length < 2){
+		    month="0"+month;   		//달의 숫자가 1자리면 앞에 0을 붙임.
+		}
+		
+		var date = now.getDate();     	//현재 시간 중 날짜
+		if((date+"").length < 2){
+		    date="0"+date;      
+		}
+		
+		var hour = now.getHours();   	//현재 시간 중 시간
+		if((hour+"").length < 2){
+			hour="0"+hour;      
+		}
+		
+		var minutes = now.getMinutes();	// 현재 시간 중 분
+		if((minutes+"").length < 2){
+			minutes="0"+minutes;      
+		}
+		
+		$("button#startWork").click(function(){			
+			
+			var status = null;
+			
+			if(hour == '09'){
+				if(minutes <= '10'){
+					status = '정상';
+				} else{
+					status = '지각';
+				}
+			} else if (hour < '09'){
+				if(hour >= '07'){
+					status = '정상';
+				}
+				else{
+					alert("출근 등록이 불가능한 시간입니다.");
+				}
+			} else{
+				status = '지각';
+			}
+			
+			if(status != null){
+				$.ajax({
+					type:"POST",
+					url:"<%=ctxPath%>/startWork.opis",
+					data:{"startstatus" : status},
+					dataType:"String",
+					success: function(json){
+						var n = json.n;  
+						
+						if(n==0){
+							alert("출근 등록을 실패했습니다.");
+						}
+						else{
+							location.reload();
+						}
+					},
+					error: function(request, status, error){
+		                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		            }		
+				});
+			}
 		});
 		
 		$("button#endWork").click(function(){
