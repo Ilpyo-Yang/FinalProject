@@ -55,7 +55,7 @@
 		<div class="menu insa" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/insa.opis';">
 			<i class="fas fa-users fa-3x icon"></i>인사관리
 		</div>
-		<div class="menu insa" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/mngCommute.opis';">
+		<div class="menu insa" style="cursor: pointer;" onclick="location.href='<%=ctxPath%>/manageCmt.opis';">
 			<i class="fas fa-user-clock fa-3x icon"></i>근태관리
 		</div>
 	</div>   

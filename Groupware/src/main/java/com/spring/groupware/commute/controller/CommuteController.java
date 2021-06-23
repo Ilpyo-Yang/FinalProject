@@ -28,10 +28,10 @@ public class CommuteController {
    @Autowired // Type에 따라 알아서 Bean 을 주입해준다.
    private InterCommuteService service;
 
-   @RequestMapping(value="/mngCommute.opis")
+   @RequestMapping(value="/manageCmt.opis")
    public String mngCommute() {
 	   
-	   return "commute/mngCommute.tiles1";
+	   return "commute/manageCmt.tiles1";
    }
 
    
