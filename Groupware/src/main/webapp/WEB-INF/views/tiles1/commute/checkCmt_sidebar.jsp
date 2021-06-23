@@ -16,19 +16,31 @@
 
 <script type="text/javascript">
 
+	$(document).ready(function(){
+		
+		$("button#startWork").click(function(){
+			location.href="<%=ctxPath%>/startWork.opis";
+		});
+		
+		$("button#endWork").click(function(){
+			location.href="<%=ctxPath%>/endWork.opis";
+		});
+		
+	}); // end of $(document).ready(function(){})---------------------------------------
+	
 </script>
 
 
 <div id="sideMenu">
-	<div id="menuTitle">근태 관리</div>
+	<div id="menuTitle">개인 근태 관리</div>
 
-	<div class="lside" style="margin-top: 30px;">
-		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/mngCommute.opis'">출퇴근관리</button>
+	<div style="margin-top: 30px; text-align: center;">
+		<i class="far fa-smile fa-5x"></i><br><br>
+		<span style="color: blue; font-size: 20px;">${sessionScope.loginuser.mbr_name}</span> 님 환영합니다.
 	</div>
-	<div class="lside">
-		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/totalCommute.opis'">출퇴근조회</button>
-	</div>
-	<div class="lside">
-		<button class="sideBtn" onclick="javascript:location.href='<%=ctxPath%>/addCommute.opis'">누락자 등록</button>
+	
+	<div class="lside" style="margin-top: 20px; text-align: center;">
+		<button type="button" class="btn-ok" style="margin-right: 10px;" id="startWork">출근</button>
+		<button type="button" class="btn-basic" id="endWork">퇴근</button>
 	</div>
 </div>

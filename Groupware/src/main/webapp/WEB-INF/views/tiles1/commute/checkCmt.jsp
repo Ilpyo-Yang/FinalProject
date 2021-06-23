@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/content.css" /> 
     <link href='<%=ctxPath%>/resources/fullcalendar-5.7.0/lib/main.css' rel='stylesheet' />
     <script src='<%=ctxPath%>/resources/fullcalendar-5.7.0/lib/main.js'></script>
+    <jsp:include page="./checkCmt_sidebar.jsp" />
     <script>
 
       document.addEventListener('DOMContentLoaded', function() {
@@ -38,6 +39,8 @@
     </script>
   </head>
   <body>
-    <div id='calendar' style="padding:20px 20px;"></div>
+
+
+    <div id='calendar' style="padding:3% 3%;"></div>
   </body>
 </html>
