@@ -6,7 +6,7 @@ public class CommuteVO {
 	String starttime;		// 출근시간
 	String startstatus;		// 출근상태
 	String endtime;			// 퇴근시간
-	String endstauts;		// 퇴근상태
+	String endstatus;		// 퇴근상태
 		
 	
 	public String getFk_mbr_seq() {
@@ -41,12 +41,12 @@ public class CommuteVO {
 		this.endtime = endtime;
 	}
 	
-	public String getEndstauts() {
-		return endstauts;
+	public String getEndstatus() {
+		return endstatus;
 	}
 	
-	public void setEndstauts(String endstauts) {
-		this.endstauts = endstauts;
+	public void setEndstatus(String endstatus) {
+		this.endstatus = endstatus;
 	}
 	
 	

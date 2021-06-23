@@ -32,6 +32,20 @@ public class CommuteDAO implements InterCommuteDAO {
 		return n;
 	}
 
+	// === 퇴근 등록 === //
+	@Override
+	public int endWork(CommuteVO cmtvo) {
+		int n = sqlsession.update("commute.endWork", cmtvo);
+		return n;
+	}
+
+	// === 출근상태 조회 === //
+	@Override
+	public CommuteVO getCmtStatus(String fk_mbr_seq) {
+		CommuteVO cmtvo = sqlsession.selectOne("commute.getCmtStatus", fk_mbr_seq);
+		return cmtvo;
+	}
+
 
 
 }

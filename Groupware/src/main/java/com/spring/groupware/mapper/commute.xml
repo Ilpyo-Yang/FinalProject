@@ -12,6 +12,22 @@
 		values(#{fk_mbr_seq}, sysdate, #{startstatus})
 	</insert>
 	
+	<!-- === 퇴근 등록 === -->
+	<update id="endWork" parameterType="com.spring.groupware.commute.model.CommuteVO">
+		update tbl_commute set endtime = sysdate, 
+							   endstatus = #{endstatus}
+		where fk_mbr_seq = #{fk_mbr_seq}
+			  and to_char(starttime, 'yyyy-mm-dd') = to_char(sysdate, 'yyyy-mm-dd')
+	</update>
+	
+	<!-- === 출근상태 조회 === -->
+	<select id="getCmtStatus" parameterType="String" resultType="com.spring.groupware.commute.model.CommuteVO">
+		select fk_mbr_seq, starttime
+		from tbl_commute
+		where fk_mbr_seq = #{fk_mbr_seq}
+			  and to_char(starttime, 'yyyy-mm-dd') = to_char(sysdate, 'yyyy-mm-dd')	
+	</select>
+	
 	
 	<!-- === 날짜로 조회 === -->
 <!-- 	<select id="cmtListWithPaging" parameterType="String" resultType="String">

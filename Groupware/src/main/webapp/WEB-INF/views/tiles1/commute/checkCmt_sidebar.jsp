@@ -2,14 +2,9 @@
     pageEncoding="UTF-8"%>
 <% String ctxPath = request.getContextPath(); %>
 
-
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/menu.css" />
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/resources/css/boardButtons.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
@@ -19,17 +14,6 @@
 	$(document).ready(function(){
 		
 		var now = new Date();   	//현재시간
-        
-		var year = now.getFullYear();   //현재시간 중 4자리 연도
-		var month = now.getMonth()+1;   //현재시간 중 달 
-		if((month+"").length < 2){
-		    month="0"+month;   		//달의 숫자가 1자리면 앞에 0을 붙임.
-		}
-		
-		var date = now.getDate();     	//현재 시간 중 날짜
-		if((date+"").length < 2){
-		    date="0"+date;      
-		}
 		
 		var hour = now.getHours();   	//현재 시간 중 시간
 		if((hour+"").length < 2){
@@ -41,6 +25,7 @@
 			minutes="0"+minutes;      
 		}
 		
+		// 출근 버튼 클릭시
 		$("button#startWork").click(function(){			
 			
 			var status = null;
@@ -75,6 +60,7 @@
 							alert("출근 등록을 실패했습니다.");
 						}
 						else{
+							alert("출근 등록을 완료했습니다.");
 							location.reload();
 						}
 					},
@@ -83,11 +69,42 @@
 		            }		
 				});
 			}
-		});
+		}); // end of $("button#startWork").click(function(){})-------------------------
 		
+		// 퇴근 버튼 클릭시
 		$("button#endWork").click(function(){
-			location.href="<%=ctxPath%>/endWork.opis";
-		});
+			
+			var status = null;
+			
+			if(hour == '18'){
+				status = '정상';				
+			} else if (hour < '18'){
+				status = '조퇴';
+			} 
+			
+			if(status != null){
+				$.ajax({
+					type:"POST",
+					url:"<%=ctxPath%>/endWork.opis",
+					data:{"endstatus" : status},
+					success: function(json){
+						var n = json.n;  
+						
+						if(n==0){
+							alert("퇴근 등록을 실패했습니다.");
+						}
+						else{
+							alert("퇴근 등록을 완료했습니다.");
+							location.reload();
+						}
+					},
+					error: function(request, status, error){
+		                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		            }		
+				});
+			}
+		
+		}); // end of $("button#endWork").click(function(){})---------------------------
 		
 	}); // end of $(document).ready(function(){})---------------------------------------
 	

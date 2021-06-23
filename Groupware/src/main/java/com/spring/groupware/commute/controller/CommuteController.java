@@ -48,7 +48,7 @@ public class CommuteController {
  		  login_mbrseq = String.valueOf(loginuser.getMbr_seq());
  	   } 
  	  
- 	   System.out.println("확인용 사원번호 : "+login_mbrseq+" / 확인용 상태 : "+startstatus);
+// 	   System.out.println("확인용 사원번호 : "+login_mbrseq+" / 확인용 상태 : "+startstatus);
  	   
  	   cmtvo.setFk_mbr_seq(login_mbrseq);
  	   cmtvo.setStartstatus(startstatus);
@@ -66,10 +66,42 @@ public class CommuteController {
    }  
    
    // === 개별 퇴근 등록 === //
-   @RequestMapping(value="/endWork.opis")
-   public String endWork() {
+   @RequestMapping(value="/endWork.opis", method= {RequestMethod.POST})
+   public ModelAndView endWork(ModelAndView mav, CommuteVO cmtvo, HttpServletRequest request) {
 	   
-	   return "commute/endWork.tiles1";
+	   String endstatus = request.getParameter("endstatus");
+	   
+	   HttpSession session = request.getSession();
+       MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+       
+       String fk_mbr_seq = String.valueOf(loginuser.getMbr_seq());
+       cmtvo = service.getCmtStatus(fk_mbr_seq);
+       cmtvo.setEndstatus(endstatus);
+       
+//      System.out.println("확인용 상태 : "+endstatus+" / "+cmtvo.getFk_mbr_seq()+" ? "+loginuser.getMbr_seq()+" ! "+cmtvo.getStarttime());
+       
+       
+	   if(cmtvo.getStarttime() != null) {
+	
+		   int n = service.endWork(cmtvo);
+		   
+		   if(n == 0) {
+		         mav.addObject("message", "퇴근 등록을 실패했습니다.");
+	       }
+	       else {
+	    	   	 mav.addObject("message", "퇴근 등록을 완료했습니다.");
+	       }
+
+	   }
+	   else {
+		   mav.addObject("message", "출근 기록이 조회되지 않습니다.");          
+	   }
+	   
+	   mav.addObject("loc", request.getContextPath()+"/checkCmt.opis");
+       mav.setViewName("msg");
+   
+	   
+	   return mav;
    }  
 /*   
    @RequestMapping(value="/mngCommute.opis")
