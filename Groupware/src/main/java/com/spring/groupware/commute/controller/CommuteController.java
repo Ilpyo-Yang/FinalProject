@@ -93,9 +93,6 @@ public class CommuteController {
 	       }
 
 	   }
-	   else {
-		   mav.addObject("message", "출근 기록이 조회되지 않습니다.");          
-	   }
 	   
 	   mav.addObject("loc", request.getContextPath()+"/checkCmt.opis");
        mav.setViewName("msg");
