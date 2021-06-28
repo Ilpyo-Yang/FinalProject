@@ -1,46 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <% String ctxPath = request.getContextPath(); %>
 
-<!DOCTYPE html>
-<html lang='en'>
-  <head>
-    <meta charset='utf-8' />
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/menu.css" />
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/content.css" /> 
-    <link href='<%=ctxPath%>/resources/fullcalendar-5.7.0/lib/main.css' rel='stylesheet' />
-    <script src='<%=ctxPath%>/resources/fullcalendar-5.7.0/lib/main.js'></script>
-    <jsp:include page="./checkCmt_sidebar.jsp" />
-    <script>
-
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-          timeZone:'local',
-      	  headerToolbar: {
-	        	  left: 'prev,next today',
-	        	  center: 'title',
-	          	  right: 'dayGridMonth,timeGridWeek,timeGridDay'
-      	  },
-      	  editable: true,
-      	  allDaySlot: false,
-			  contentHeight: 600,
-      	  weekNumbers:true,
-      	  businessHours: {
-      		    daysOfWeek: [ 1, 2, 3, 4, 5 ], // 월 - 금
-				startTime: '09:00',
-      		    endTime: '18:00',
-      	  }
-        });
-        calendar.render();
-      });
-
-    </script>
-  </head>
-  <body>
+ <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/resources/css/menu.css" />
+ <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/content.css" /> 
+ <jsp:include page="./checkCmt_sidebar.jsp" />
 
 
-    <div id='calendar' style="padding:3% 3%;"></div>
-  </body>
-</html>
+ <div style="width: 1460px"> 
+ 
+<c:if test="${not empty requestScope.cmtList}">
+ 	<div>${requestScope.cmtList.starttime}</div>
+ 	<div>${requestScope.cmtList.startstatus}</div>
+ 	<div>${requestScope.cmtList.endtime}</div>
+ 	<div>${requestScope.cmtList.endstatus}</div>
+</c:if>
+<c:if test="${empty requestScope.cmtList}">
+ 	등록된 출퇴근 사항이 없습니다.
+</c:if>
+
+ </div>

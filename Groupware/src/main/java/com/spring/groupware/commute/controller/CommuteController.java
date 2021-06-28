@@ -1,5 +1,9 @@
 package com.spring.groupware.commute.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.groupware.common.MyUtil;
 import com.spring.groupware.commute.model.CommuteVO;
 import com.spring.groupware.commute.service.InterCommuteService;
 import com.spring.groupware.member.model.MemberVO;
@@ -29,9 +34,27 @@ public class CommuteController {
 
    // === 개별 근태관리 화면 연결 === //
    @RequestMapping(value="/checkCmt.opis")
-   public String requiredLogin_checkCmt(HttpServletRequest request, HttpServletResponse response) {
+   public ModelAndView requiredLogin_checkCmt(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 	   
-	   return "commute/checkCmt.tiles1";
+	   List<CommuteVO> cmtList = null;
+	   
+	   HttpSession session = request.getSession();
+ 	   MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+ 	  
+ 	   int fk_mbr_seq = loginuser.getMbr_seq();
+ 	   
+ 	   Map<String,String> paraMap = new HashMap<>(); 
+ 	   paraMap.put("fk_mbr_seq", String.valueOf(fk_mbr_seq));
+ 	  
+ 	   cmtList = service.cmtList(paraMap);
+ 	   
+ 	   String gobackURL = MyUtil.getCurrentURL(request);
+
+ 	   mav.addObject("gobackURL", gobackURL);
+ 	   mav.addObject("cmtList", cmtList);
+ 	   mav.setViewName("commute/checkCmt.tiles1");
+
+ 	   return mav;
    } 
    
    // === 개별 출근 등록 === //
