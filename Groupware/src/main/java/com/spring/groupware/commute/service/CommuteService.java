@@ -1,9 +1,6 @@
 package com.spring.groupware.commute.service;
 
 
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -37,12 +34,6 @@ public class CommuteService implements InterCommuteService {
 	public CommuteVO getCmtStatus(String fk_mbr_seq) {
 		CommuteVO cmtvo = cdao.getCmtStatus(fk_mbr_seq);
 		return cmtvo;
-	}
-
-	@Override
-	public List<CommuteVO> cmtList(Map<String, String> paraMap) {
-		List<CommuteVO> cmtList = cdao.cmtList(paraMap);
-		return cmtList;
 	}
 
 	

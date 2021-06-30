@@ -20,21 +20,14 @@
 			  and to_char(starttime, 'yyyy-mm-dd') = to_char(sysdate, 'yyyy-mm-dd')
 	</update>
 	
-	<!-- === 출근상태 조회 === -->
+	<!-- === 출퇴근 현황 조회 === -->
 	<select id="getCmtStatus" parameterType="String" resultType="com.spring.groupware.commute.model.CommuteVO">
-		select fk_mbr_seq, starttime
+		select fk_mbr_seq, starttime, startstatus, endtime, endstatus
 		from tbl_commute
 		where fk_mbr_seq = #{fk_mbr_seq}
 			  and to_char(starttime, 'yyyy-mm-dd') = to_char(sysdate, 'yyyy-mm-dd')	
 	</select>
 	
-	<!-- === 출퇴근 현황 조회 === -->
-	<select id="getCmtList" parameterType="HashMap" resultType="com.spring.groupware.commute.model.CommuteVO">
-		select fk_mbr_seq, starttime, startstatus, endtime, endstatus
-		from tbl_commute
-		where fk_mbr_seq = #{fk_mbr_seq}
-			  and to_char(starttime, 'yyyy-mm-dd') = to_char(sysdate, 'yyyy-mm-dd')	
-	</select>	
 	
 	<!-- === 날짜로 조회 === -->
 <!-- 	<select id="cmtListWithPaging" parameterType="String" resultType="String">

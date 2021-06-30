@@ -1,16 +1,11 @@
 package com.spring.groupware.commute.model;
 
-import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Resource;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import com.spring.groupware.addrlist.model.AddrGroupVO;
-import com.spring.groupware.member.model.MemberVO;
 
 @Component
 @Repository
@@ -45,13 +40,7 @@ public class CommuteDAO implements InterCommuteDAO {
 		CommuteVO cmtvo = sqlsession.selectOne("commute.getCmtStatus", fk_mbr_seq);
 		return cmtvo;
 	}
-	
-	// === 출퇴근현황 조회 === //
-	@Override
-	public List<CommuteVO> cmtList(Map<String, String> paraMap) {
-		List<CommuteVO> cmtList = sqlsession.selectList("commute.getCmtList", paraMap);
-		return cmtList;
-	}
+
 
 
 
