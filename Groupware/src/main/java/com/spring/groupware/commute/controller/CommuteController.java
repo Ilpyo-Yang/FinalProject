@@ -1,12 +1,5 @@
 package com.spring.groupware.commute.controller;
 
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,10 +7,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-
 import com.spring.groupware.common.MyUtil;
+import com.spring.groupware.commute.model.CommuteVO;
 import com.spring.groupware.commute.service.InterCommuteService;
 import com.spring.groupware.member.model.MemberVO;
 
@@ -28,13 +22,100 @@ public class CommuteController {
    @Autowired // Type에 따라 알아서 Bean 을 주입해준다.
    private InterCommuteService service;
 
-   @RequestMapping(value="/mngCommute.opis")
+   @RequestMapping(value="/manageCmt.opis")
    public String mngCommute() {
 	   
-	   return "commute/mngCommute.tiles1";
+	   return "commute/manageCmt.tiles1";
    }
 
+   // === 개별 근태관리 화면 연결 === //
+   @RequestMapping(value="/checkCmt.opis")
+   public ModelAndView requiredLogin_checkCmt(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+	   
+	   CommuteVO cmtvo = null;
+	  
+	   HttpSession session = request.getSession();
+ 	   MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+ 	  
+ 	   String fk_mbr_seq = String.valueOf(loginuser.getMbr_seq());
+ 	   
+ 	   cmtvo = service.getCmtStatus(fk_mbr_seq);
+ 	   
+ 	   String gobackURL = MyUtil.getCurrentURL(request);
+
+ 	   mav.addObject("gobackURL", gobackURL);
+ 	   mav.addObject("cmtvo", cmtvo);
+ 	   mav.setViewName("commute/checkCmt.tiles1");
+
+ 	   return mav;
+   } 
    
+   // === 개별 출근 등록 === //
+   @RequestMapping(value="/startWork.opis", method= {RequestMethod.POST})
+   public ModelAndView startWork(HttpServletRequest request, ModelAndView mav, CommuteVO cmtvo) {
+	   
+	   HttpSession session = request.getSession();
+ 	   MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+ 	  
+ 	   String startstatus = request.getParameter("startstatus");
+ 	   String login_mbrseq = null;
+ 	  
+ 	   if(loginuser != null) {
+ 		  login_mbrseq = String.valueOf(loginuser.getMbr_seq());
+ 	   } 
+ 	  
+// 	   System.out.println("확인용 사원번호 : "+login_mbrseq+" / 확인용 상태 : "+startstatus);
+ 	   
+ 	   cmtvo.setFk_mbr_seq(login_mbrseq);
+ 	   cmtvo.setStartstatus(startstatus);
+ 	   
+ 	   int n = service.startWork(cmtvo);
+
+ 	   if(n==1) {
+		  mav.setViewName("redirect:/checkCmt.opis");		  
+	   }
+	   else {
+		  mav.setViewName("board/error/add_error.tiles1");
+	   }
+	  
+	   return mav;
+   }  
+   
+   // === 개별 퇴근 등록 === //
+   @RequestMapping(value="/endWork.opis", method= {RequestMethod.POST})
+   public ModelAndView endWork(ModelAndView mav, CommuteVO cmtvo, HttpServletRequest request) {
+	   
+	   String endstatus = request.getParameter("endstatus");
+	   
+	   HttpSession session = request.getSession();
+       MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+       
+       String fk_mbr_seq = String.valueOf(loginuser.getMbr_seq());
+       cmtvo = service.getCmtStatus(fk_mbr_seq);
+       cmtvo.setEndstatus(endstatus);
+       
+//      System.out.println("확인용 상태 : "+endstatus+" / "+cmtvo.getFk_mbr_seq()+" ? "+loginuser.getMbr_seq()+" ! "+cmtvo.getStarttime());
+       
+       
+	   if(cmtvo.getStarttime() != null) {
+	
+		   int n = service.endWork(cmtvo);
+		   
+		   if(n == 0) {
+		         mav.addObject("message", "퇴근 등록을 실패했습니다.");
+	       }
+	       else {
+	    	   	 mav.addObject("message", "퇴근 등록을 완료했습니다.");
+	       }
+
+	   }
+	   
+	   mav.addObject("loc", request.getContextPath()+"/checkCmt.opis");
+       mav.setViewName("msg");
+   
+	   
+	   return mav;
+   }  
 /*   
    @RequestMapping(value="/mngCommute.opis")
    public ModelAndView requiredLogin_mngCommute(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {

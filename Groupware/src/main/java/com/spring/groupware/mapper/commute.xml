@@ -4,6 +4,31 @@
 
 <mapper namespace="commute">
 
+    <!-- ========================= 개별 근태관리 ============================== -->  
+	
+	<!-- === 출근 등록 === -->
+	<insert id="startWork" parameterType="com.spring.groupware.commute.model.CommuteVO">
+		insert into tbl_commute(fk_mbr_seq, starttime, startstatus)
+		values(#{fk_mbr_seq}, sysdate, #{startstatus})
+	</insert>
+	
+	<!-- === 퇴근 등록 === -->
+	<update id="endWork" parameterType="com.spring.groupware.commute.model.CommuteVO">
+		update tbl_commute set endtime = sysdate, 
+							   endstatus = #{endstatus}
+		where fk_mbr_seq = #{fk_mbr_seq}
+			  and to_char(starttime, 'yyyy-mm-dd') = to_char(sysdate, 'yyyy-mm-dd')
+	</update>
+	
+	<!-- === 출퇴근 현황 조회 === -->
+	<select id="getCmtStatus" parameterType="String" resultType="com.spring.groupware.commute.model.CommuteVO">
+		select fk_mbr_seq, starttime, startstatus, endtime, endstatus
+		from tbl_commute
+		where fk_mbr_seq = #{fk_mbr_seq}
+			  and to_char(starttime, 'yyyy-mm-dd') = to_char(sysdate, 'yyyy-mm-dd')	
+	</select>
+	
+	
 	<!-- === 날짜로 조회 === -->
 <!-- 	<select id="cmtListWithPaging" parameterType="String" resultType="String">
 		select M.mbr_id, L.login_day, L.logout_day
